@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eyes on Palestine: A Record of Injustice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Use Inter as the default font, a clean sans-serif similar to Apple's UI font */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212; /* A slightly softer black for the background */
+        }
+        
+        /* Define the Palestinian flag colors for easy use in Tailwind config */
+        :root {
+            --pal-red: #EE2A35;
+            --pal-green: #009736;
+            --pal-black: #000000;
+            --pal-white: #FFFFFF;
+        }
+
+        /* Custom styles for a modern look and feel */
+        .hero-gradient-text {
+            background: linear-gradient(to right, var(--pal-white), #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            overflow: hidden; /* Ensures the image corner rounding is visible */
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            border-color: #555;
+        }
+
+        .tag-green {
+            background-color: rgba(0, 151, 54, 0.1);
+            color: #22c55e; /* Tailwind's green-500 */
+            border: 1px solid rgba(0, 151, 54, 0.2);
+        }
+
+        .tag-red {
+            background-color: rgba(238, 42, 53, 0.1);
+            color: #ef4444; /* Tailwind's red-500 */
+            border: 1px solid rgba(238, 42, 53, 0.2);
+        }
+
+        .tag-gray {
+            background-color: rgba(156, 163, 175, 0.1);
+            color: #9ca3af; /* Tailwind's gray-400 */
+            border: 1px solid rgba(156, 163, 175, 0.2);
+        }
+        
+        /* Scrollbar styling for a more modern look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #777;
+        }
+    </style>
+</head>
+<body class="text-white">
+
+    <!-- Header Section -->
+    <header class="border-b border-gray-800 sticky top-0 bg-black/50 backdrop-blur-lg z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-tight">
+                <span class="text-green-500">Eyes</span> on <span class="text-red-500">Palestine</span>
+            </h1>
+            <nav>
+                <a href="#archive" class="text-gray-300 hover:text-white transition-colors duration-300">View Archive</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="text-center py-20 md:py-32 bg-black">
+            <div class="container mx-auto px-6">
+                <h2 class="text-5xl md:text-7xl font-extrabold leading-tight tracking-tighter hero-gradient-text mb-4">
+                    A Record of Injustice
+                </h2>
+                <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-400 mb-8">
+                    An archive documenting alleged war crimes, crimes against humanity, and systematic aggressions committed by the state of Israel against Palestinians since October 7, 2023. This is a living record in the pursuit of truth and accountability.
+                </p>
+                <a href="#archive" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
+                    Explore the Archive
+                </a>
+            </div>
+        </section>
+
+        <!-- Article Archive Section -->
+        <section id="archive" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-center mb-12">The Archive</h3>
+                <!-- The grid where article cards will be injected by JavaScript -->
+                <div id="article-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Article cards will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-gray-800 py-12">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p class="mb-2">Eyes on Palestine</p>
+            <p class="text-sm">This website serves as a public archive and is intended for informational and educational purposes. The content compiled here is from publicly available sources. Reader discretion is advised due to the sensitive and graphic nature of the material.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- HOW TO UPDATE THIS WEBSITE ---
+        // To add a new article, simply copy the object format below and add a new entry to the 'articles' array.
+        // - `title`: The headline of the article.
+        // - `summary`: A short, one-sentence description.
+        // - `link`: The direct URL to the source article.
+        // - `imageUrl`: The URL for the thumbnail image. Use high-quality images.
+        // - `category`: A tag for the content. Options: 'War Crime', 'Humanitarian Crisis', 'Forced Displacement', etc.
+        // - `categoryColor`: 'red', 'green', or 'gray'.
+        // - `source`: The name of the publication or organization (e.g., 'Al Jazeera', 'UN Report').
+        //
+        // Example:
+        // {
+        //     title: "New Article Title",
+        //     summary: "Brief summary of the new article's content.",
+        //     link: "https://example.com/new-article-link",
+        //     imageUrl: "https://placehold.co/600x400/000000/FFFFFF?text=New+Article",
+        //     category: "New Category",
+        //     categoryColor: 'green',
+        //     source: "News Source"
+        // },
+
+        const articles = [
+            {
+                title: "Gaza's largest hospital, Al-Shifa, besieged and raided",
+                summary: "Reports from multiple sources detail the siege and subsequent raid on Al-Shifa Hospital, where thousands of patients and displaced Palestinians were sheltering.",
+                link: "https://www.aljazeera.com/news/2023/11/15/israeli-forces-raid-al-shifa-hospital-in-gaza-live-updates",
+                imageUrl: "https://placehold.co/600x400/333333/FFFFFF?text=Al-Shifa+Hospital",
+                category: "Targeting Healthcare",
+                categoryColor: 'red',
+                source: "Al Jazeera"
+            },
+            {
+                title: "The Jabalia refugee camp airstrikes",
+                summary: "Multiple airstrikes on one of the most densely populated refugee camps in Gaza resulted in hundreds of casualties and widespread destruction.",
+                link: "https://www.ohchr.org/en/press-releases/2023/11/un-experts-say-israels-airstrikes-jabalia-refugee-camp-are-brazen-violation",
+                imageUrl: "https://placehold.co/600x400/333333/FFFFFF?text=Jabalia+Camp",
+                category: "Civilian Casualties",
+                categoryColor: 'red',
+                source: "UN Human Rights"
+            },
+            {
+                title: "Forced displacement orders for over 1 million people in northern Gaza",
+                summary: "The Israeli military ordered the evacuation of over 1.1 million Palestinians from northern Gaza to the south, an act condemned as a potential war crime of forcible transfer.",
+                link: "https://www.doctorswithoutborders.org/latest/israels-24-hour-evacuation-order-northern-gaza-outrageous-and-unacceptable",
+                imageUrl: "https://placehold.co/600x400/333333/FFFFFF?text=Forced+Displacement",
+                category: "Forced Displacement",
+                categoryColor: 'gray',
+                source: "Doctors Without Borders"
+            },
+            {
+                title: "Use of white phosphorus in Gaza and Lebanon",
+                summary: "Human Rights Watch verified the use of white phosphorus munitions by Israeli forces in densely populated areas, a weapon that causes severe burns and long-term suffering.",
+                link: "https://www.hrw.org/news/2023/10/12/israel-white-phosphorus-used-gaza-lebanon",
+                imageUrl: "https://placehold.co/600x400/333333/FFFFFF?text=White+Phosphorus",
+                category: "Illegal Weaponry",
+                categoryColor: 'red',
+                source: "Human Rights Watch"
+            },
+            {
+                title: "Attacks on journalists and their families",
+                summary: "A significant number of journalists have been killed by Israeli strikes, with organizations like CPJ and Reporters Without Borders raising alarms about deliberate targeting.",
+                link: "https://cpj.org/2024/02/journalist-casualties-in-the-israel-gaza-war/",
+                imageUrl: "https://placehold.co/600x400/333333/FFFFFF?text=Journalists+Under+Attack",
+                category: "Targeting Press",
+                categoryColor: 'gray',
+                source: "CPJ"
+            },
+            {
+                title: "Humanitarian catastrophe: severe shortages of food, water, and medicine",
+                summary: "The blockade on Gaza has led to a catastrophic humanitarian situation, with the UN and other aid agencies warning of widespread famine and the collapse of the health system.",
+                link: "https://www.un.org/unispal/document/un-chief-warns-of-epic-humanitarian-catastrophe-in-gaza-amid-calls-for-humanitarian-ceasefire-and-unhindered-aid-access/",
+                imageUrl: "https://placehold.co/600x400/333333/FFFFFF?text=Humanitarian+Crisis",
+                category: "Humanitarian Crisis",
+                categoryColor: 'green',
+                source: "United Nations"
+            },
+        ];
+
+        // Function to render the article cards into the grid
+        function renderArticles() {
+            const grid = document.getElementById('article-grid');
+            if (!grid) return; // Exit if the grid element isn't found
+
+            let gridHTML = '';
+
+            for (const article of articles) {
+                const tagClass = {
+                    red: 'tag-red',
+                    green: 'tag-green',
+                    gray: 'tag-gray'
+                }[article.categoryColor] || 'tag-gray';
+
+                gridHTML += `
+                    <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg">
+                        <div class="relative">
+                            <img src="${article.imageUrl}" 
+                                 alt="${article.title}" 
+                                 class="w-full h-48 object-cover"
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-semibold px-2 py-1 rounded-full ${tagClass}">
+                                    ${article.category}
+                                </span>
+                                <span class="text-xs text-gray-500">${article.source}</span>
+                            </div>
+                            <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight">${article.title}</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">${article.summary}</p>
+                        </div>
+                    </a>
+                `;
+            }
+
+            grid.innerHTML = gridHTML;
+        }
+
+        // Render the articles when the page content is loaded
+        document.addEventListener('DOMContentLoaded', renderArticles);
+    </script>
+</body>
+</html>
