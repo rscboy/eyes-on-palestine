@@ -1393,13 +1393,13 @@ const films = [
             const grid = document.getElementById('article-grid');
             if (!grid) return;
             const sortedArticles = [...articles].sort((a, b) => {
-                const dateA = new Date(a.date);
-                const dateB = new Date(b.date);
+                const dateA = new Date(a.date + 'T00:00:00');
+                const dateB = new Date(b.date + 'T00:00:00');
                 return currentSortOrder === 'newest' ? dateB - dateA : dateA - dateB;
             });
             grid.innerHTML = sortedArticles.map(article => {
                 const tagClass = { red: 'tag-red', green: 'tag-green', gray: 'tag-gray' }[article.categoryColor] || 'tag-gray';
-                const formattedDate = new Date(article.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                const formattedDate = new Date(article.date + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
                 return `
                     <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col">
                         <div class="relative"><img src="${article.imageUrl}" alt="${article.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';"></div>
