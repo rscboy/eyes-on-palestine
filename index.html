@@ -6,7 +6,7 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R5DZ6CC2Z8"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
         gtag('config', 'G-R5DZ6CC2Z8');
@@ -20,6 +20,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Use Inter as the default font, a clean sans-serif similar to Apple's UI font */
         html {
@@ -97,8 +98,10 @@
         }
 
         .tag-purple {
-            background-color: rgba(128, 0, 128, 0.1); /* A subtle purple background */
-            color: #a78bfa; /* Tailwind's violet-400 or a similar shade */
+            background-color: rgba(128, 0, 128, 0.1);
+            /* A subtle purple background */
+            color: #a78bfa;
+            /* Tailwind's violet-400 or a similar shade */
             border: 1px solid rgba(128, 0, 128, 0.2);
         }
 
@@ -147,6 +150,85 @@
         .filter-checkbox {
             margin-right: 0.5rem;
         }
+
+        /* Loading spinner styles */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #1a1a1a;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        #casualty-chart-container {
+            position: relative;
+        }
+
+        #chart-tooltip {
+            position: absolute;
+            background: rgba(42, 42, 42, 0.9);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            border: 1px solid #444;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 
@@ -158,17 +240,37 @@
                 <span class="text-green-500">Echoes</span> of <span class="text-red-500">Gaza</span>
             </a>
             <nav class="hidden md:flex items-center space-x-6">
-
-                <a href="#articles" class="text-gray-300
-hover:text-white transition-colors duration-300">Articles</a>
+                <a href="#articles" class="text-gray-300 hover:text-white transition-colors duration-300">Articles</a>
                 <a href="#videos" class="text-gray-300 hover:text-white transition-colors duration-300">Videos</a>
                 <a href="#books" class="text-gray-300 hover:text-white transition-colors duration-300">Books</a>
                 <a href="#films" class="text-gray-300 hover:text-white transition-colors duration-300">Films</a>
+                <div class="relative">
+                    <button id="more-menu-button" class="text-gray-300 hover:text-white transition-colors duration-300 flex items-center">
+                        More
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="more-menu-dropdown" class="absolute right-0 mt-2 w-56 bg-[#1a1a1a] border border-gray-700 rounded-md shadow-lg z-50 hidden">
+                        <a href="#quotes" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Quotes & Resources</a>
+                        <a href="#faq" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">FAQ</a>
+                    </div>
+                </div>
             </nav>
         </div>
     </header>
 
     <main>
+        <!-- Journalist Counter Section -->
+        <section id="journalist-counter-section" class="bg-red-600 text-white py-2 text-center">
+            <div class="container mx-auto px-6">
+                <p class="text-lg font-semibold">
+                    Journalists killed by Israel since Oct 7, 2023: 
+                    <a href="https://stopmurderingjournalists.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300">
+                        <span id="journalist-count" class="font-bold text-2xl align-middle">...</span>
+                    </a>
+                </p>
+            </div>
+        </section>
+
         <section class="text-center py-20 md:py-32 bg-black">
             <div class="container mx-auto px-6">
                 <h2 class="text-5xl md:text-7xl font-extrabold leading-tight tracking-tighter hero-gradient-text mb-4">
@@ -180,25 +282,51 @@ hover:text-white transition-colors duration-300">Articles</a>
                     living record in the pursuit of truth and accountability.
                 </p>
                 <a href="#articles" id="explore-button"
-
-                    class="bg-red-600 hover:bg-red-700 text-white
-font-bold py-3 px-8 rounded-full transition-all duration-300 transform
-hover:scale-105">
+                    class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
                     Explore the Archive
                 </a>
             </div>
         </section>
 
-        <!-- Double Standard Button Section -->
-        <section class="py-12 bg-[#1a1a1a] border-y border-gray-800">
+        <!-- Controls Section -->
+        <section class="py-12 bg-black border-y border-gray-800">
             <div class="container mx-auto px-6 text-center">
-                <h3 class="text-2xl font-bold mb-3">A Note on Bias & Double Standards</h3>
-                <p class="max-w-3xl mx-auto text-gray-400 mb-6">
-                    This button swaps several terms in the article titles below to test for bias. "Israel" and "Israeli" are swapped with "Hamas", and "Palestinian" is swapped with "Israeli". The purpose is to help readers introspect and examine whether their reaction to a headline changes based on the actor involved. If you react differently, it suggests that you value Palestinian life and Israeli life differently, revealing an inherent racist bias.
-                </p>
-                <button id="double-standard-btn" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-md transition-colors duration-300">
-                    Toggle Double Standard View
-                </button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                    <!-- Toggle Graph Control -->
+                    <div class="text-center md:text-left border-b md:border-b-0 md:border-r border-gray-800 pb-8 md:pb-0 md:pr-6">
+                         <h3 class="text-2xl font-bold mb-3">Casualty Timeline</h3>
+                        <p class="max-w-xl mx-auto md:mx-0 text-gray-400 mb-6">
+                            Click to view an interactive timeline of the estimated cumulative death toll in Gaza since October 7, 2023.
+                        </p>
+                        <button id="toggle-graph-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition-colors duration-300">
+                            Show Timeline
+                        </button>
+                    </div>
+    
+                    <!-- Double Standard Control -->
+                    <div class="text-center md:text-left">
+                        <h3 class="text-2xl font-bold mb-3">A Note on Bias</h3>
+                        <p class="max-w-xl mx-auto md:mx-0 text-gray-400 mb-6">
+                           Swap terms in article titles to confront racist biases in how Palestinian and Israeli lives are valued.
+                        </p>
+                        <button id="double-standard-btn" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-md transition-colors duration-300">
+                            Toggle Double Standard View
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Casualty Graph Section (hidden by default) -->
+        <section id="casualty-graph" class="py-16 md:py-24 bg-[#1a1a1a] border-b border-gray-800 hidden">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-center mb-3">Palestinian Casualties in Gaza</h3>
+                <p class="text-center text-gray-400 mb-8">October 7, 2023 - October 18, 2025</p>
+                <div id="casualty-chart-container" class="max-w-6xl mx-auto">
+                    <canvas id="casualtyChart"></canvas>
+                    <div id="chart-tooltip"></div>
+                </div>
+                <p class="text-center text-xs text-gray-500 mt-4">Click on a data point to jump to articles from that month. Source: Gaza Ministry of Health, UN, The Lancet.</p>
             </div>
         </section>
 
@@ -213,6 +341,8 @@ hover:scale-105">
                             class="control-button active text-sm font-medium py-2 px-4 rounded-md">Newest</button>
                         <button id="sort-oldest"
                             class="control-button text-sm font-medium py-2 px-4 rounded-md">Oldest</button>
+                        <button id="toggle-filter-btn"
+                            class="control-button text-sm font-medium py-2 px-4 rounded-md">Toggle Filters</button>
                     </div>
                 </div>
 
@@ -240,9 +370,7 @@ hover:scale-105">
                     </div>
                     <div class="mt-6 border-t border-gray-700 pt-6 flex items-center space-x-4">
                         <button id="filter-button"
-
-                            class="control-button bg-green-600
-hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md">
+                            class="control-button bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md">
                             Apply Filters
                         </button>
                         <button id="clear-button" class="control-button py-2 px-6 rounded-md">
@@ -252,6 +380,10 @@ hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md">
                 </div>
 
                 <div id="article-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+                <!-- Loading Spinner -->
+                <div id="loading-spinner" class="hidden flex justify-center items-center py-10">
+                    <div class="spinner"></div>
                 </div>
             </div>
         </section>
@@ -279,6 +411,83 @@ hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md">
                 </div>
             </div>
         </section>
+        
+        <section id="quotes" class="py-16 md:py-24 bg-[#1a1a1a]">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-center mb-12">Quotes & Resources</h3>
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <!-- Card 1: Is It Genocide? -->
+                    <div class="bg-gray-800 p-6 rounded-lg flex flex-col items-center hover:bg-gray-700 transition-colors duration-300">
+                        <h4 class="font-bold text-xl mb-3 text-white">Statements on Genocide</h4>
+                        <p class="text-gray-400 text-sm mb-4 flex-grow">A collection of statements from Israeli leaders and officials that demonstrate genocidal intent.</p>
+                        <a href="https://isitgenocide.com/" target="_blank" rel="noopener noreferrer" class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition-colors duration-300">
+                            View Quotes
+                        </a>
+                    </div>
+                    <!-- Card 2: Zionism Observer -->
+                    <div class="bg-gray-800 p-6 rounded-lg flex flex-col items-center hover:bg-gray-700 transition-colors duration-300">
+                        <h4 class="font-bold text-xl mb-3 text-white">Searchable Database</h4>
+                        <p class="text-gray-400 text-sm mb-4 flex-grow">A searchable database of quotes from public figures regarding Zionism and the occupation of Palestine.</p>
+                        <a href="https://zionism.observer/" target="_blank" rel="noopener noreferrer" class="mt-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md transition-colors duration-300">
+                            Search Quotes
+                        </a>
+                    </div>
+                    <!-- Card 3: Zionism or Nazism Quiz -->
+                    <div class="bg-gray-800 p-6 rounded-lg flex flex-col items-center hover:bg-gray-700 transition-colors duration-300">
+                        <h4 class="font-bold text-xl mb-3 text-white">Zionist or Nazi?</h4>
+                        <p class="text-gray-400 text-sm mb-4 flex-grow">A quiz that challenges you to distinguish between quotes from Zionist leaders and Nazi officials.</p>
+                        <a href="https://zionism.wtf/#zionist-or-nazi" target="_blank" rel="noopener noreferrer" class="mt-auto bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-md transition-colors duration-300">
+                            Take the Quiz
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="py-16 md:py-24 bg-black">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-center mb-12">Frequently Asked Questions (FAQ)</h3>
+                <div class="max-w-3xl mx-auto space-y-8">
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">What is Echoes of Gaza?</h4>
+                        <p class="text-gray-400">Echoes of Gaza is a digital historical archive dedicated to documenting the ongoing occupation, displacement, and genocide of the Palestinian people. It serves as a meticulously curated and publicly accessible repository of verified articles, reports, and media evidence, built to resist erasure and preserve truth.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">Why was this project created?</h4>
+                        <p class="text-gray-400">Echoes of Gaza was born from the recognition that history is too often written by those in power, erasing the voices and suffering of the oppressed. The project exists to create a permanent record of events in Gaza and across Palestine, one that cannot be rewritten or denied.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">What is the goal of Echoes of Gaza?</h4>
+                        <p class="text-gray-400">The archive exists to preserve evidence, promote accountability, and humanize the Palestinian struggle. It provides researchers, journalists, and the public with verifiable documentation that exposes patterns of occupation, displacement, and systemic injustice.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">How is the archive maintained?</h4>
+                        <p class="text-gray-400">The archive is updated daily. Each entry is carefully verified and cataloged with details such as title, author, publication date, and source. The aim is to ensure accuracy, transparency, and reliability for those using the collection for research, reporting, or advocacy.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">How does Echoes of Gaza promote accountability?</h4>
+                        <p class="text-gray-400">By creating a centralized and timestamped record of events, the archive makes it impossible for atrocities to be hidden or denied. It provides an evidentiary foundation for journalists, human rights investigators, and legal experts seeking to document war crimes and systemic abuse.</p>
+                        <p class="text-gray-400 mt-2">Accountability begins with preservation—once truth is recorded, it cannot be erased.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">How does the project address systemic prejudice and racism?</h4>
+                        <p class="text-gray-400">Echoes of Gaza reveals how racism, dehumanization, and colonial bias shape global responses to Palestinian suffering. By placing daily atrocities alongside decades of political betrayal, media distortion, and ignored international law, the archive shows that what is happening in Gaza is not an isolated tragedy, but the result of a broader system of racialized injustice.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">Who is the archive for?</h4>
+                        <p class="text-gray-400">It is intended for journalists, educators, researchers, students, and advocates seeking an accurate and human-centered account of what is happening in Gaza. Above all, it is for anyone committed to truth, justice, and memory.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">Can I use the materials for research or media?</h4>
+                        <p class="text-gray-400">Yes. All materials are freely available for educational, journalistic, and humanitarian use. Please cite the archive as:<br>Echoes of Gaza - A Digital Historical Record (bit.ly/stopgenocide937)</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">Why is this important now?</h4>
+                        <p class="text-gray-400">Because silence and distortion are weapons. When records disappear, justice becomes impossible. By preserving evidence and testimony in real time, Echoes of Gaza ensures that the historical record remains intact, and that the truth endures long after headlines fade.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
     </main>
 
@@ -292,8 +501,35 @@ hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md">
         </div>
     </footer>
 
-    <script>
-        // --- 1. DATA FOR THE WEBSITE ---
+    <!-- Custom Modal Structure -->
+    <div id="custom-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <p id="modal-message" class="text-gray-200 text-center text-lg"></p>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase Imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, doc, setLogLevel, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Configuration ---
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        setLogLevel('debug'); // Set log level for Firebase debugging
+
+        let userId = null;
+        let isAuthReady = false;
+
+        // --- INITIAL DATA (to seed Firestore if empty) ---
         const articles = [
             
         {
@@ -5189,13 +5425,108 @@ source: "Haaretz"
 
         }, ];
 
+   const casualtyData = [
+            { month: "Oct '23", year: 2023, deaths: 9000, notes: "Highest intensity period" },
+            { month: "Nov '23", year: 2023, deaths: 19000, notes: "Continued high-intensity bombardment" },
+            { month: "Dec '23", year: 2023, deaths: 22000, notes: "Cumulative total by end of year" },
+            { month: "Jan '24", year: 2024, deaths: 26000, notes: "Intensity decreased" },
+            { month: "Feb '24", year: 2024, deaths: 30000, notes: "Continued operations" },
+            { month: "Mar '24", year: 2024, deaths: 33000, notes: "Operations expanded to Khan Younis" },
+            { month: "Apr '24", year: 2024, deaths: 35000, notes: "Decrease in daily casualties" },
+            { month: "May '24", year: 2024, deaths: 37000, notes: "Continued lower intensity" },
+            { month: "Jun '24", year: 2024, deaths: 39000, notes: "Escalation in Rafah and Khan Younis" },
+            { month: "Jul '24", year: 2024, deaths: 41000, notes: "Ongoing operations" },
+            { month: "Aug '24", year: 2024, deaths: 43000, notes: "Official MoH count: 40,000+" },
+            { month: "Sep '24", year: 2024, deaths: 44000, notes: "Operations continued" },
+            { month: "Oct '24", year: 2024, deaths: 46000, notes: "One year since conflict began" },
+            { month: "Nov '24", year: 2024, deaths: 48000, notes: "Continued hostilities" },
+            { month: "Dec '24", year: 2024, deaths: 50000, notes: "Operations ongoing" },
+            { month: "Jan '25", year: 2025, deaths: 51000, notes: "Ceasefire began Jan 19" },
+            { month: "Feb '25", year: 2025, deaths: 52000, notes: "Limited ceasefire period" },
+            { month: "Mar '25", year: 2025, deaths: 55000, notes: "Israel resumed operations" },
+            { month: "Apr '25", year: 2025, deaths: 57000, notes: "Continued operations" },
+            { month: "May '25", year: 2025, deaths: 59000, notes: "Ongoing conflict" },
+            { month: "Jun '25", year: 2025, deaths: 61000, notes: "Operations continued" },
+            { month: "Jul '25", year: 2025, deaths: 63000, notes: "Sustained bombardment" },
+            { month: "Aug '25", year: 2025, deaths: 65000, notes: "Major Gaza City offensive" },
+            { month: "Sep '25", year: 2025, deaths: 66000, notes: "Total exceeded 65,000" },
+            { month: "Oct '25", year: 2025, deaths: 68000, notes: "Official count: ~67,000 by Oct 7" },
+        ];
 
-// --- 2. GLOBAL STATE VARIABLES ---
+        // --- GLOBAL STATE VARIABLES (now populated by Firestore) ---
+        let articles = [];
+        let videos = [];
+        let books = [];
+        let films = [];
+
         let currentSortOrder = 'newest';
-        let currentlyDisplayedArticles = [...articles];
-        let titlesSwapped = false;
+        let currentlyDisplayedArticles = [];
+        let titlesSwapped = false; // Controls the double standard view
 
-        // --- 3. RENDER FUNCTIONS ---
+        // --- UTILITY FUNCTIONS ---
+        function showLoadingSpinner() {
+            document.getElementById('loading-spinner').classList.remove('hidden');
+            document.getElementById('loading-spinner').classList.add('flex');
+        }
+
+        function hideLoadingSpinner() {
+            document.getElementById('loading-spinner').classList.add('hidden');
+            document.getElementById('loading-spinner').classList.remove('flex');
+        }
+
+        function showModal(message) {
+            const modal = document.getElementById('custom-modal');
+            const modalMessage = document.getElementById('modal-message');
+            modalMessage.textContent = message;
+            modal.style.display = 'flex'; // Use flex to center the modal content
+        }
+
+        function hideModal() {
+            document.getElementById('custom-modal').style.display = 'none';
+        }
+
+        function getDisplayTitle(originalTitle) {
+            if (!titlesSwapped) {
+                return originalTitle;
+            }
+
+            // Using unique placeholders to prevent conflicts where one replacement is a substring of another.
+            let tempTitle = originalTitle
+                .replace(/Hamas/gi, '__1__')
+                .replace(/Israeli/gi, '__2__')
+                .replace(/Israel/gi, '__3__')
+                .replace(/Palestinian/gi, '__4__');
+
+            let finalTitle = tempTitle
+                .replace(/__2__/gi, 'Hamas')      // Israeli -> Hamas
+                .replace(/__3__/gi, 'Hamas')      // Israel -> Hamas
+                .replace(/__1__/gi, 'Israel')     // Hamas -> Israel
+                .replace(/__4__/gi, 'Israeli');   // Palestinian -> Israeli
+
+            return finalTitle;
+        }
+        
+        async function fetchJournalistCount() {
+            const countElement = document.getElementById('journalist-count');
+            try {
+                const response = await fetch('https://stopmurderingjournalists.com/api/v1/martyrs');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                const count = data.length;
+                if (countElement) {
+                    countElement.textContent = count;
+                }
+            } catch (error) {
+                console.error("Failed to fetch journalist count:", error);
+                if (countElement) {
+                    countElement.textContent = 'N/A'; // Show something if the fetch fails
+                }
+            }
+        }
+        
+        // --- RENDER FUNCTIONS ---
         function renderArticles(articlesToDisplay) {
             const grid = document.getElementById('article-grid');
             if (!grid) return;
@@ -5209,10 +5540,7 @@ source: "Haaretz"
 
             if (sortedArticles.length === 0) {
                 grid.innerHTML =
-
-                    `<p class="text-gray-400 md:col-span-2
-lg:col-span-3 text-center">No articles match the current
-filters.</p>`;
+                    `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center">No articles match the current filters.</p>`;
                 return;
             }
 
@@ -5223,7 +5551,7 @@ filters.</p>`;
                     gray: 'tag-gray',
                     blue: 'tag-blue',
                     orange: 'tag-orange',
-                    purple: 'tag-purple' // Added this
+                    purple: 'tag-purple'
                 };
                 const tagClass = tagClassMap[article.categoryColor] || 'tag-gray';
                 const formattedDate = new Date(article.date + 'T00:00:00').toLocaleDateString('en-US', {
@@ -5231,28 +5559,20 @@ filters.</p>`;
                     month: 'long',
                     day: 'numeric'
                 });
+                const displayTitle = getDisplayTitle(article.title); // Use the helper function for display
+
                 return `
-
-                        <a href="${article.link}" target="_blank"
-rel="noopener noreferrer" class="card block rounded-lg flex
-flex-col">
-
-                            <div class="relative"><img
-src="${article.imageUrl}" alt="${article.title}" class="w-full h-48
-object-cover"
-onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';"></div>
-
+                        <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col">
+                            <div class="relative">
+                                <img src="${article.imageUrl}" alt="${displayTitle}" class="w-full h-48 object-cover rounded-t-lg"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
+                            </div>
                             <div class="p-6 flex-grow flex flex-col">
                                 <div class="flex justify-between items-center mb-3">
-
-                                    <span class="text-xs
-font-semibold px-2 py-1 rounded-full
-${tagClass}">${article.category}</span>
+                                    <span class="text-xs font-semibold px-2 py-1 rounded-full ${tagClass}">${article.category}</span>
                                     <span class="text-xs text-gray-500">${formattedDate}</span>
                                 </div>
-
-                                <h4 class="font-bold text-lg
-text-gray-100 mb-2 leading-tight">${article.title}</h4>
+                                <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight">${displayTitle}</h4>
                                 <p class="text-gray-400 text-sm leading-relaxed flex-grow">${article.summary}</p>
                                 <div class="text-xs text-gray-500 mt-4">Source: ${article.source}</div>
                             </div>
@@ -5264,20 +5584,13 @@ text-gray-100 mb-2 leading-tight">${article.title}</h4>
             const grid = document.getElementById('video-grid');
             if (!grid) return;
             grid.innerHTML = videos.map(video => `
-
-                        <a href="${video.link}" target="_blank"
-rel="noopener noreferrer" class="card block rounded-lg flex
-flex-col">
-
-                            <div class="relative"><img
-src="${video.imageUrl}" alt="${video.title}" class="w-full h-48
-object-cover"
-onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';"></div>
-
+                        <a href="${video.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col">
+                            <div class="relative">
+                                <img src="${video.imageUrl}" alt="${video.title}" class="w-full h-48 object-cover rounded-t-lg"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
+                            </div>
                             <div class="p-6 flex-grow flex flex-col">
-
-                                <h4 class="font-bold text-lg text-gray-100
-mb-2 leading-tight flex-grow">${video.title}</h4>
+                                <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight flex-grow">${video.title}</h4>
                                 <div class="text-xs text-gray-500 mt-4">${video.creator} on ${video.platform}</div>
                             </div>
                         </a>
@@ -5289,16 +5602,11 @@ mb-2 leading-tight flex-grow">${video.title}</h4>
             const grid = document.getElementById('book-grid');
             if (!grid) return;
             grid.innerHTML = books.map(book => `
-
-                        <a href="${book.link}" target="_blank" rel="noopener
- noreferrer" class="card block rounded-lg flex flex-col text-center">
-
-
-                            <div class="relative"><img
-src="${book.imageUrl}" alt="${book.title}" class="w-full h-64
-object-cover"
-onerror="this.onerror=null;this.src='https://placehold.co/400x600/1a1a1a/555555?text=Cover+Not+Found';"></div>
-
+                        <a href="${book.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col text-center">
+                            <div class="relative">
+                                <img src="${book.imageUrl}" alt="${book.title}" class="w-full h-64 object-cover rounded-t-lg"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/400x600/1a1a1a/555555?text=Cover+Not+Found';">
+                            </div>
                             <div class="p-4 flex-grow flex flex-col justify-center">
                                 <h4 class="font-semibold text-sm text-gray-100 mb-1 leading-tight">${book.title}</h4>
                                 <p class="text-gray-400 text-xs">${book.author}</p>
@@ -5311,27 +5619,104 @@ onerror="this.onerror=null;this.src='https://placehold.co/400x600/1a1a1a/555555?
             const grid = document.getElementById('film-grid');
             if (!grid) return;
             grid.innerHTML = films.map(film => `
-
-                        <a href="${film.link}" target="_blank" rel="noopener
- noreferrer" class="card block rounded-lg flex flex-col">
-
-                            <div class="relative"><img
-src="${film.imageUrl}" alt="${film.title}" class="w-full h-56
-object-cover"
-onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';"></div>
-
+                        <a href="${film.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col">
+                            <div class="relative">
+                                <img src="${film.imageUrl}" alt="${film.title}" class="w-full h-56 object-cover rounded-t-lg"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
+                            </div>
                             <div class="p-6 flex-grow flex flex-col">
-
-                                <h4 class="font-bold text-lg text-gray-100
-mb-2 leading-tight flex-grow">${film.title} (${film.year})</h4>
-
+                                <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight flex-grow">${film.title} (${film.year})</h4>
                                 <p class="text-gray-400 text-sm">Directed by: ${film.director}</p>
                             </div>
                         </a>
                     `).join('');
         }
 
-        // --- 4. FILTER FUNCTIONS ---
+        function renderCasualtyChart(casualtyData) {
+            const ctx = document.getElementById('casualtyChart').getContext('2d');
+            const tooltipEl = document.getElementById('chart-tooltip');
+            
+            const casualtyChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: casualtyData.map(d => d.month),
+                    datasets: [{
+                        label: 'Cumulative Deaths',
+                        data: casualtyData.map(d => d.deaths),
+                        borderColor: 'rgba(238, 42, 53, 0.8)',
+                        backgroundColor: 'rgba(238, 42, 53, 0.2)',
+                        pointBackgroundColor: 'rgba(238, 42, 53, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(238, 42, 53, 1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        x: {
+                            ticks: { color: '#9ca3af' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#9ca3af' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            enabled: false, // Disable default tooltip
+                            external: function(context) {
+                                const tooltipModel = context.tooltip;
+                                if (tooltipModel.opacity === 0) {
+                                    tooltipEl.style.opacity = 0;
+                                    return;
+                                }
+
+                                const pointIndex = tooltipModel.dataPoints[0].dataIndex;
+                                const dataPoint = casualtyData[pointIndex];
+                                
+                                tooltipEl.innerHTML = `
+                                    <div class="font-bold">${dataPoint.month}</div>
+                                    <div><strong>Deaths:</strong> ${dataPoint.deaths.toLocaleString()}</div>
+                                    <div class="text-xs italic mt-1 text-gray-400">${dataPoint.notes}</div>
+                                `;
+
+                                const position = context.chart.canvas.getBoundingClientRect();
+                                tooltipEl.style.opacity = 1;
+                                tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+                                tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY - tooltipEl.offsetHeight - 10 + 'px';
+                            }
+                        }
+                    },
+                    onClick: (e) => {
+                        const points = casualtyChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+                        if (points.length) {
+                            const firstPoint = points[0];
+                            const data = casualtyData[firstPoint.index];
+                            const monthIndex = new Date(Date.parse(data.month.split(" ")[0] +" 1, 2022")).getMonth() + 1;
+                            const year = `20${data.month.split("'")[1]}`;
+                            
+                            const startDate = `${year}-${String(monthIndex).padStart(2, '0')}-01`;
+                            const endDate = new Date(year, monthIndex, 0).toISOString().split('T')[0];
+
+                            document.getElementById('start-date').value = startDate;
+                            document.getElementById('end-date').value = endDate;
+                            applyFilters();
+                            document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                }
+            });
+        }
+
+
+        // --- FILTER FUNCTIONS ---
 
         // Dynamically creates the checkbox filters from the articles data
         function populateFilters() {
@@ -5345,18 +5730,15 @@ mb-2 leading-tight flex-grow">${film.title} (${film.year})</h4>
 
             tagContainer.innerHTML = uniqueTags.map(tag => `
                         <label class="flex items-center text-gray-300">
-
                             <input type="checkbox" name="tag" value="${tag}"
-class="filter-checkbox bg-gray-700 border-gray-600 rounded">
+                                class="filter-checkbox bg-gray-700 border-gray-600 rounded">
                             ${tag}
                         </label>`).join('');
 
             sourceContainer.innerHTML = uniqueSources.map(source => `
                         <label class="flex items-center text-gray-300">
-
-                            <input type="checkbox" name="source"
-value="${source}" class="filter-checkbox bg-gray-700 border-gray-600
-rounded">
+                            <input type="checkbox" name="source" value="${source}"
+                                class="filter-checkbox bg-gray-700 border-gray-600 rounded">
                             ${source}
                         </label>`).join('');
         }
@@ -5366,12 +5748,10 @@ rounded">
             const startDate = document.getElementById('start-date').value;
             const endDate = document.getElementById('end-date').value;
 
-            const selectedTags = [...document.querySelectorAll('#tag-filters input:checked')].map(el => el
-                .value);
-            const selectedSources = [...document.querySelectorAll('#source-filters input:checked')].map(el =>
-                el.value);
+            const selectedTags = [...document.querySelectorAll('#tag-filters input:checked')].map(el => el.value);
+            const selectedSources = [...document.querySelectorAll('#source-filters input:checked')].map(el => el.value);
 
-            let filteredArticles = [...articles];
+            let filteredArticles = [...articles]; // Use the global articles array
 
             if (startDate) {
                 filteredArticles = filteredArticles.filter(article => article.date >= startDate);
@@ -5396,16 +5776,30 @@ rounded">
             document.getElementById('end-date').value = '';
             document.querySelectorAll('#tag-filters input:checked').forEach(el => el.checked = false);
             document.querySelectorAll('#source-filters input:checked').forEach(el => el.checked = false);
-            currentlyDisplayedArticles = [...articles];
+            currentlyDisplayedArticles = [...articles]; // Reset to all original articles
             renderArticles(currentlyDisplayedArticles);
         }
 
 
-        // --- 5. EVENT LISTENERS & INITIALIZATION ---
+        // --- EVENT LISTENERS & INITIALIZATION ---
 
         function setupEventListeners() {
             const sortNewestBtn = document.getElementById('sort-newest');
             const sortOldestBtn = document.getElementById('sort-oldest');
+            const toggleFilterBtn = document.getElementById('toggle-filter-btn');
+            const filterControls = document.getElementById('filter-controls');
+            const toggleGraphBtn = document.getElementById('toggle-graph-btn');
+            const casualtyGraphSection = document.getElementById('casualty-graph');
+
+            if (toggleGraphBtn && casualtyGraphSection) {
+                toggleGraphBtn.addEventListener('click', () => {
+                    const isHidden = casualtyGraphSection.classList.toggle('hidden');
+                    toggleGraphBtn.textContent = isHidden ? 'Show Timeline' : 'Hide Timeline';
+                    if (!isHidden) {
+                        casualtyGraphSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            }
 
             if (sortNewestBtn) {
                 sortNewestBtn.addEventListener('click', () => {
@@ -5424,6 +5818,13 @@ rounded">
                     sortNewestBtn.classList.remove('active');
                 });
             }
+
+            if (toggleFilterBtn) {
+                toggleFilterBtn.addEventListener('click', () => {
+                    filterControls.classList.toggle('hidden');
+                });
+            }
+
 
             const filterBtn = document.getElementById('filter-button');
             const clearBtn = document.getElementById('clear-button');
@@ -5451,7 +5852,7 @@ rounded">
                 });
             });
 
-            // --- MODIFICATION 3: Added event listener for the Explore button ---
+            // Added event listener for the Explore button
             const exploreBtn = document.getElementById('explore-button');
             if (exploreBtn) {
                 exploreBtn.addEventListener('click', (e) => {
@@ -5461,12 +5862,10 @@ rounded">
                     const articlesSection = document.getElementById('articles');
 
                     if (filterControls) {
-                        // Toggle visibility
-                        filterControls.classList.remove('hidden');
+                        filterControls.classList.remove('hidden'); // Show filters
                     }
 
                     if (articlesSection) {
-                        // Scroll to the articles section
                         articlesSection.scrollIntoView({ behavior: 'smooth' });
                     }
                 });
@@ -5476,48 +5875,133 @@ rounded">
             if (doubleStandardBtn) {
                 doubleStandardBtn.addEventListener('click', () => {
                     titlesSwapped = !titlesSwapped;
-
-                    articles.forEach(article => {
-                        if (titlesSwapped) {
-                             // Using unique placeholders (__1__, __2__, etc.) to prevent conflicts 
-                            // where one replacement is a substring of another.
-                            let tempTitle = article.originalTitle
-                                .replace(/Hamas/gi, '__1__')
-                                .replace(/Israeli/gi, '__2__')
-                                .replace(/Israel/gi, '__3__')
-                                .replace(/Palestinian/gi, '__4__');
-
-                            let finalTitle = tempTitle
-                                .replace(/__2__/gi, 'Hamas')      // Israeli -> Hamas
-                                .replace(/__3__/gi, 'Hamas')      // Israel -> Hamas
-                                .replace(/__1__/gi, 'Israel')     // Hamas -> Israel
-                                .replace(/__4__/gi, 'Israeli');   // Palestinian -> Israeli
-
-                            article.title = finalTitle;
-                        } else {
-                            article.title = article.originalTitle; // Revert to the original title
-                        }
-                    });
-
-                    renderArticles(currentlyDisplayedArticles); 
+                    renderArticles(currentlyDisplayedArticles); // Re-render with new title swap state
                 });
+            }
+
+            // New logic for the "More" dropdown
+            const moreMenuButton = document.getElementById('more-menu-button');
+            const moreMenuDropdown = document.getElementById('more-menu-dropdown');
+
+            if (moreMenuButton && moreMenuDropdown) {
+                moreMenuButton.addEventListener('click', (event) => {
+                    event.stopPropagation(); // Prevents the window click from closing it immediately
+                    moreMenuDropdown.classList.toggle('hidden');
+                });
+            }
+            
+            // Close modal and dropdown functionality
+            window.addEventListener('click', (event) => {
+                // Modal
+                const modal = document.getElementById('custom-modal');
+                if (event.target == modal) {
+                    hideModal();
+                }
+                
+                // Dropdown
+                if (moreMenuDropdown && !moreMenuDropdown.classList.contains('hidden')) {
+                    // Check if the click is outside the button and the dropdown itself
+                    if (!moreMenuButton.contains(event.target) && !moreMenuDropdown.contains(event.target)) {
+                        moreMenuDropdown.classList.add('hidden');
+                    }
+                }
+            });
+
+        }
+
+
+        // --- FIRESTORE DATA FETCHING AND REAL-TIME LISTENERS ---
+        async function fetchDataFromFirestore() {
+            showLoadingSpinner();
+
+            try {
+                // Authenticate user
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                userId = auth.currentUser?.uid || crypto.randomUUID();
+                isAuthReady = true;
+
+                // Setup real-time listeners for each collection
+                const collections = ['articles', 'videos', 'books', 'films'];
+                collections.forEach(collectionName => {
+                    const colRef = collection(db, `artifacts/${appId}/public/data/${collectionName}`);
+                    onSnapshot(colRef, (snapshot) => {
+                        // If the collection is empty, seed it with initial data
+                        if (snapshot.empty) {
+                            console.log(`No data found in ${collectionName}. Seeding initial data.`);
+                            const dataToSeed = {
+                                articles: initialArticles,
+                                videos: initialVideos,
+                                books: initialBooks,
+                                films: initialFilms,
+                            }[collectionName];
+
+                            if (dataToSeed) {
+                                seedData(collectionName, dataToSeed);
+                            }
+                            // The listener will be triggered again by seedData, so we can return here.
+                            return;
+                        }
+
+                        const data = [];
+                        snapshot.forEach(doc => {
+                            data.push({ id: doc.id, ...doc.data() });
+                        });
+
+                        // Update the corresponding global array
+                        if (collectionName === 'articles') {
+                            articles = data;
+                            currentlyDisplayedArticles = [...articles]; // Reset filtered articles too
+                            populateFilters(); // Re-populate filters with new data
+                            renderArticles(currentlyDisplayedArticles);
+                        } else if (collectionName === 'videos') {
+                            videos = data;
+                            renderVideos();
+                        } else if (collectionName === 'books') {
+                            books = data;
+                            renderBooks();
+                        } else if (collectionName === 'films') {
+                            films = data;
+                            renderFilms();
+                        }
+                    }, (error) => {
+                        console.error(`Error fetching ${collectionName}:`, error);
+                        showModal(`Error loading ${collectionName} data: ${error.message}`);
+                    });
+                });
+
+            } catch (error) {
+                console.error("Firebase authentication or data fetching error:", error);
+                showModal(`Failed to load data: ${error.message}`);
+            } finally {
+                hideLoadingSpinner();
             }
         }
 
+        // --- Function to seed initial data into Firestore ---
+        async function seedData(collectionName, dataArray) {
+            try {
+                const colRef = collection(db, `artifacts/${appId}/public/data/${collectionName}`);
+                for (const item of dataArray) {
+                    await addDoc(colRef, item);
+                }
+                console.log(`Successfully seeded ${collectionName} collection.`);
+            } catch (error) {
+                console.error(`Error seeding data for ${collectionName}:`, error);
+                showModal(`Failed to seed initial data: ${error.message}`);
+            }
+        }
+
+
         // This runs when the page is fully loaded
         document.addEventListener('DOMContentLoaded', () => {
-            // Store original titles before any manipulation
-            articles.forEach(article => article.originalTitle = article.title);
-            
-            // Set up the filter options first
-            populateFilters();
-            // Then render everything
-            renderArticles(currentlyDisplayedArticles);
-            renderVideos();
-            renderBooks();
-            renderFilms();
-            // Finally, attach the event listeners to the buttons
+            fetchDataFromFirestore();
+            fetchJournalistCount();
             setupEventListeners();
+            renderCasualtyChart(casualtyData);
         });
     </script>
 </body>
