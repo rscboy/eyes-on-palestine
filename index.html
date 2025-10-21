@@ -212,7 +212,7 @@
             text-decoration: none;
             cursor: pointer;
         }
-        
+
         #casualty-chart-container {
             position: relative;
         }
@@ -229,6 +229,17 @@
             border: 1px solid #444;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
+
+        /* Mobile Menu Styles */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        @media (max-width: 767px) {
+            #desktop-nav {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -239,32 +250,77 @@
             <a href="#" class="text-xl font-bold tracking-tight">
                 <span class="text-green-500">Echoes</span> of <span class="text-red-500">Gaza</span>
             </a>
-            <nav class="hidden md:flex items-center space-x-6">
+            <nav id="desktop-nav" class="hidden md:flex items-center space-x-6">
                 <a href="#articles" class="text-gray-300 hover:text-white transition-colors duration-300">Articles</a>
                 <a href="#videos" class="text-gray-300 hover:text-white transition-colors duration-300">Videos</a>
                 <a href="#books" class="text-gray-300 hover:text-white transition-colors duration-300">Books</a>
                 <a href="#films" class="text-gray-300 hover:text-white transition-colors duration-300">Films</a>
                 <div class="relative">
-                    <button id="more-menu-button" class="text-gray-300 hover:text-white transition-colors duration-300 flex items-center">
+                    <button id="more-menu-button"
+                        class="text-gray-300 hover:text-white transition-colors duration-300 flex items-center">
                         More
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
                     </button>
-                    <div id="more-menu-dropdown" class="absolute right-0 mt-2 w-56 bg-[#1a1a1a] border border-gray-700 rounded-md shadow-lg z-50 hidden">
-                        <a href="#quotes" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Quotes & Resources</a>
-                        <a href="#faq" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">FAQ</a>
+                    <div id="more-menu-dropdown"
+                        class="absolute right-0 mt-2 w-56 bg-[#1a1a1a] border border-gray-700 rounded-md shadow-lg z-50 hidden">
+                        <a href="#quotes"
+                            class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Quotes &
+                            Resources</a>
+                        <a href="#faq"
+                            class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">FAQ</a>
+                        <a href="https://zionism.wtf/#zionist-or-nazi" target="_blank" rel="noopener noreferrer"
+                            class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Zionism
+                            or Nazism Quiz</a>
                     </div>
                 </div>
             </nav>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu"
+        class="fixed top-0 left-0 w-full h-full bg-black/90 z-40 transform -translate-x-full md:hidden">
+        <div class="flex justify-end p-6">
+            <button id="close-mobile-menu" class="text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <nav class="flex flex-col items-center justify-center h-full space-y-8 text-2xl">
+            <a href="#articles" class="mobile-nav-link text-gray-300 hover:text-white">Articles</a>
+            <a href="#videos" class="mobile-nav-link text-gray-300 hover:text-white">Videos</a>
+            <a href="#books" class="mobile-nav-link text-gray-300 hover:text-white">Books</a>
+            <a href="#films" class="mobile-nav-link text-gray-300 hover:text-white">Films</a>
+            <a href="#quotes" class="mobile-nav-link text-gray-300 hover:text-white">Quotes</a>
+            <a href="#faq" class="mobile-nav-link text-gray-300 hover:text-white">FAQ</a>
+        </nav>
+    </div>
 
     <main>
         <!-- Journalist Counter Section -->
         <section id="journalist-counter-section" class="bg-red-600 text-white py-2 text-center">
             <div class="container mx-auto px-6">
                 <p class="text-lg font-semibold">
-                    Journalists killed by Israel since Oct 7, 2023: 
-                    <a href="https://stopmurderingjournalists.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300">
+                    Journalists killed by Israel since Oct 7, 2023:
+                    <a href="https://stopmurderingjournalists.com/" target="_blank" rel="noopener noreferrer"
+                        class="underline hover:text-gray-300">
                         <span id="journalist-count" class="font-bold text-2xl align-middle">...</span>
                     </a>
                 </p>
@@ -293,25 +349,34 @@
             <div class="container mx-auto px-6 text-center">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                     <!-- Toggle Graph Control -->
-                    <div class="text-center md:text-left border-b md:border-b-0 md:border-r border-gray-800 pb-8 md:pb-0 md:pr-6">
-                         <h3 class="text-2xl font-bold mb-3">Casualty Timeline</h3>
+                    <div
+                        class="text-center md:text-left border-b md:border-b-0 md:border-r border-gray-800 pb-8 md:pb-0 md:pr-6">
+                        <h3 class="text-2xl font-bold mb-3">Casualty Timeline</h3>
                         <p class="max-w-xl mx-auto md:mx-0 text-gray-400 mb-6">
-                            Click to view an interactive timeline of the estimated cumulative death toll in Gaza since October 7, 2023.
+                            Visualize the scale of violence with an interactive casualty timeline. Explore the data to
+                            understand the devastating human cost since October 7, 2023.
                         </p>
-                        <button id="toggle-graph-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition-colors duration-300">
+                        <button id="toggle-graph-btn"
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition-colors duration-300">
                             Show Timeline
                         </button>
                     </div>
-    
+
                     <!-- Double Standard Control -->
                     <div class="text-center md:text-left">
-                        <h3 class="text-2xl font-bold mb-3">A Note on Bias</h3>
+                        <h3 class="text-2xl font-bold mb-3">Swap the names. Expose the racism.</h3>
                         <p class="max-w-xl mx-auto md:mx-0 text-gray-400 mb-6">
-                           Swap terms in article titles to confront racist biases in how Palestinian and Israeli lives are valued.
+                            Confront genocide denial and Western hypocrisy.
+Swap “Israel” with “Hamas” in headlines to expose bias that sanitizes violence.
+A tool to test and reveal racial double standards.
                         </p>
-                        <button id="double-standard-btn" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-md transition-colors duration-300">
-                            Toggle Double Standard View
-                        </button>
+                        <div class="flex items-center justify-center md:justify-start space-x-3 mt-2">
+                            <label for="double-standard-toggle" class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" id="double-standard-toggle" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-500"></div>
+                            </label>
+                            <span class="text-sm font-medium text-gray-300">Double Standard View</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -326,7 +391,8 @@
                     <canvas id="casualtyChart"></canvas>
                     <div id="chart-tooltip"></div>
                 </div>
-                <p class="text-center text-xs text-gray-500 mt-4">Click on a data point to jump to articles from that month. Source: Gaza Ministry of Health, UN, The Lancet.</p>
+                <p class="text-center text-xs text-gray-500 mt-4">Click on a data point to jump to articles from that
+                    month. Source: Gaza Ministry of Health, UN, The Lancet.</p>
             </div>
         </section>
 
@@ -411,32 +477,41 @@
                 </div>
             </div>
         </section>
-        
+
         <section id="quotes" class="py-16 md:py-24 bg-[#1a1a1a]">
             <div class="container mx-auto px-6">
-                <h3 class="text-3xl font-bold text-center mb-12">Quotes & Resources</h3>
+                <h3 class="text-3xl font-bold text-center mb-12">Genocide Quotes & Resources</h3>
                 <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                     <!-- Card 1: Is It Genocide? -->
-                    <div class="bg-gray-800 p-6 rounded-lg flex flex-col items-center hover:bg-gray-700 transition-colors duration-300">
+                    <div
+                        class="bg-gray-800 p-6 rounded-lg flex flex-col items-center hover:bg-gray-700 transition-colors duration-300">
                         <h4 class="font-bold text-xl mb-3 text-white">Statements on Genocide</h4>
-                        <p class="text-gray-400 text-sm mb-4 flex-grow">A collection of statements from Israeli leaders and officials that demonstrate genocidal intent.</p>
-                        <a href="https://isitgenocide.com/" target="_blank" rel="noopener noreferrer" class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition-colors duration-300">
+                        <p class="text-gray-400 text-sm mb-4 flex-grow">A collection of statements from Israeli leaders
+                            and officials that demonstrate genocidal intent.</p>
+                        <a href="https://isitgenocide.com/" target="_blank" rel="noopener noreferrer"
+                            class="mt-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition-colors duration-300">
                             View Quotes
                         </a>
                     </div>
                     <!-- Card 2: Zionism Observer -->
-                    <div class="bg-gray-800 p-6 rounded-lg flex flex-col items-center hover:bg-gray-700 transition-colors duration-300">
+                    <div
+                        class="bg-gray-800 p-6 rounded-lg flex flex-col items-center hover:bg-gray-700 transition-colors duration-300">
                         <h4 class="font-bold text-xl mb-3 text-white">Searchable Database</h4>
-                        <p class="text-gray-400 text-sm mb-4 flex-grow">A searchable database of quotes from public figures regarding Zionism and the occupation of Palestine.</p>
-                        <a href="https://zionism.observer/" target="_blank" rel="noopener noreferrer" class="mt-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md transition-colors duration-300">
+                        <p class="text-gray-400 text-sm mb-4 flex-grow">A searchable database of quotes from public
+                            figures regarding Zionism and the occupation of Palestine.</p>
+                        <a href="https://zionism.observer/" target="_blank" rel="noopener noreferrer"
+                            class="mt-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md transition-colors duration-300">
                             Search Quotes
                         </a>
                     </div>
                     <!-- Card 3: Zionism or Nazism Quiz -->
-                    <div class="bg-gray-800 p-6 rounded-lg flex flex-col items-center hover:bg-gray-700 transition-colors duration-300">
+                    <div
+                        class="bg-gray-800 p-6 rounded-lg flex flex-col items-center hover:bg-gray-700 transition-colors duration-300">
                         <h4 class="font-bold text-xl mb-3 text-white">Zionist or Nazi?</h4>
-                        <p class="text-gray-400 text-sm mb-4 flex-grow">A quiz that challenges you to distinguish between quotes from Zionist leaders and Nazi officials.</p>
-                        <a href="https://zionism.wtf/#zionist-or-nazi" target="_blank" rel="noopener noreferrer" class="mt-auto bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-md transition-colors duration-300">
+                        <p class="text-gray-400 text-sm mb-4 flex-grow">A quiz that challenges you to distinguish
+                            between quotes from Zionist leaders and Nazi officials.</p>
+                        <a href="https://zionism.wtf/#zionist-or-nazi" target="_blank" rel="noopener noreferrer"
+                            class="mt-auto bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-md transition-colors duration-300">
                             Take the Quiz
                         </a>
                     </div>
@@ -450,40 +525,68 @@
                 <div class="max-w-3xl mx-auto space-y-8">
                     <div>
                         <h4 class="text-xl font-semibold mb-2">What is Echoes of Gaza?</h4>
-                        <p class="text-gray-400">Echoes of Gaza is a digital historical archive dedicated to documenting the ongoing occupation, displacement, and genocide of the Palestinian people. It serves as a meticulously curated and publicly accessible repository of verified articles, reports, and media evidence, built to resist erasure and preserve truth.</p>
+                        <p class="text-gray-400">Echoes of Gaza is a digital historical archive dedicated to documenting
+                            the ongoing occupation, displacement, and genocide of the Palestinian people. It serves as a
+                            meticulously curated and publicly accessible repository of verified articles, reports, and
+                            media evidence, built to resist erasure and preserve truth.</p>
                     </div>
                     <div>
                         <h4 class="text-xl font-semibold mb-2">Why was this project created?</h4>
-                        <p class="text-gray-400">Echoes of Gaza was born from the recognition that history is too often written by those in power, erasing the voices and suffering of the oppressed. The project exists to create a permanent record of events in Gaza and across Palestine, one that cannot be rewritten or denied.</p>
+                        <p class="text-gray-400">Echoes of Gaza was born from the recognition that history is too often
+                            written by those in power, erasing the voices and suffering of the oppressed. The project
+                            exists to create a permanent record of events in Gaza and across Palestine, one that cannot
+                            be rewritten or denied.</p>
                     </div>
                     <div>
                         <h4 class="text-xl font-semibold mb-2">What is the goal of Echoes of Gaza?</h4>
-                        <p class="text-gray-400">The archive exists to preserve evidence, promote accountability, and humanize the Palestinian struggle. It provides researchers, journalists, and the public with verifiable documentation that exposes patterns of occupation, displacement, and systemic injustice.</p>
+                        <p class="text-gray-400">The archive exists to preserve evidence, promote accountability, and
+                            humanize the Palestinian struggle. It provides researchers, journalists, and the public with
+                            verifiable documentation that exposes patterns of occupation, displacement, and systemic
+                            injustice.</p>
                     </div>
                     <div>
                         <h4 class="text-xl font-semibold mb-2">How is the archive maintained?</h4>
-                        <p class="text-gray-400">The archive is updated daily. Each entry is carefully verified and cataloged with details such as title, author, publication date, and source. The aim is to ensure accuracy, transparency, and reliability for those using the collection for research, reporting, or advocacy.</p>
+                        <p class="text-gray-400">The archive is updated daily. Each entry is carefully verified and
+                            cataloged with details such as title, author, publication date, and source. The aim is to
+                            ensure accuracy, transparency, and reliability for those using the collection for research,
+                            reporting, or advocacy.</p>
                     </div>
                     <div>
                         <h4 class="text-xl font-semibold mb-2">How does Echoes of Gaza promote accountability?</h4>
-                        <p class="text-gray-400">By creating a centralized and timestamped record of events, the archive makes it impossible for atrocities to be hidden or denied. It provides an evidentiary foundation for journalists, human rights investigators, and legal experts seeking to document war crimes and systemic abuse.</p>
-                        <p class="text-gray-400 mt-2">Accountability begins with preservation—once truth is recorded, it cannot be erased.</p>
+                        <p class="text-gray-400">By creating a centralized and timestamped record of events, the
+                            archive makes it impossible for atrocities to be hidden or denied. It provides an
+                            evidentiary foundation for journalists, human rights investigators, and legal experts
+                            seeking to document war crimes and systemic abuse.</p>
+                        <p class="text-gray-400 mt-2">Accountability begins with preservation—once truth is recorded, it
+                            cannot be erased.</p>
                     </div>
                     <div>
-                        <h4 class="text-xl font-semibold mb-2">How does the project address systemic prejudice and racism?</h4>
-                        <p class="text-gray-400">Echoes of Gaza reveals how racism, dehumanization, and colonial bias shape global responses to Palestinian suffering. By placing daily atrocities alongside decades of political betrayal, media distortion, and ignored international law, the archive shows that what is happening in Gaza is not an isolated tragedy, but the result of a broader system of racialized injustice.</p>
+                        <h4 class="text-xl font-semibold mb-2">How does the project address systemic prejudice and
+                            racism?</h4>
+                        <p class="text-gray-400">Echoes of Gaza reveals how racism, dehumanization, and colonial bias
+                            shape global responses to Palestinian suffering. By placing daily atrocities alongside
+                            decades of political betrayal, media distortion, and ignored international law, the archive
+                            shows that what is happening in Gaza is not an isolated tragedy, but the result of a
+                            broader system of racialized injustice.</p>
                     </div>
                     <div>
                         <h4 class="text-xl font-semibold mb-2">Who is the archive for?</h4>
-                        <p class="text-gray-400">It is intended for journalists, educators, researchers, students, and advocates seeking an accurate and human-centered account of what is happening in Gaza. Above all, it is for anyone committed to truth, justice, and memory.</p>
+                        <p class="text-gray-400">It is intended for journalists, educators, researchers, students, and
+                            advocates seeking an accurate and human-centered account of what is happening in Gaza. Above
+                            all, it is for anyone committed to truth, justice, and memory.</p>
                     </div>
                     <div>
                         <h4 class="text-xl font-semibold mb-2">Can I use the materials for research or media?</h4>
-                        <p class="text-gray-400">Yes. All materials are freely available for educational, journalistic, and humanitarian use. Please cite the archive as:<br>Echoes of Gaza - A Digital Historical Record (bit.ly/stopgenocide937)</p>
+                        <p class="text-gray-400">Yes. All materials are freely available for educational, journalistic,
+                            and humanitarian use. Please cite the archive as:<br>Echoes of Gaza - A Digital Historical
+                            Record (bit.ly/stopgenocide937)</p>
                     </div>
                     <div>
                         <h4 class="text-xl font-semibold mb-2">Why is this important now?</h4>
-                        <p class="text-gray-400">Because silence and distortion are weapons. When records disappear, justice becomes impossible. By preserving evidence and testimony in real time, Echoes of Gaza ensures that the historical record remains intact, and that the truth endures long after headlines fade.</p>
+                        <p class="text-gray-400">Because silence and distortion are weapons. When records disappear,
+                            justice becomes impossible. By preserving evidence and testimony in real time, Echoes of
+                            Gaza ensures that the historical record remains intact, and that the truth endures long
+                            after headlines fade.</p>
                     </div>
                 </div>
             </div>
@@ -510,29 +613,17 @@
     </div>
 
     <script type="module">
-        // Firebase Imports
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, doc, setLogLevel, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        // --- GLOBAL STATE & INITIAL DATA ---
+        let articles = [], videos = [], books = [], films = [];
+        let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
 
-        // --- Firebase Configuration ---
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        const casualtyData = [
+            { month: "Oct '23", year: 2023, deaths: 9000, notes: "Highest intensity period" }, { month: "Nov '23", year: 2023, deaths: 19000, notes: "Continued high-intensity bombardment" }, { month: "Dec '23", year: 2023, deaths: 22000, notes: "Cumulative total by end of year" }, { month: "Jan '24", year: 2024, deaths: 26000, notes: "Intensity decreased" }, { month: "Feb '24", year: 2024, deaths: 30000, notes: "Continued operations" }, { month: "Mar '24", year: 2024, deaths: 33000, notes: "Operations expanded to Khan Younis" }, { month: "Apr '24", year: 2024, deaths: 35000, notes: "Decrease in daily casualties" }, { month: "May '24", year: 2024, deaths: 37000, notes: "Continued lower intensity" }, { month: "Jun '24", year: 2024, deaths: 39000, notes: "Escalation in Rafah and Khan Younis" }, { month: "Jul '24", year: 2024, deaths: 41000, notes: "Ongoing operations" }, { month: "Aug '24", year: 2024, deaths: 43000, notes: "Official MoH count: 40,000+" }, { month: "Sep '24", year: 2024, deaths: 44000, notes: "Operations continued" }, { month: "Oct '24", year: 2024, deaths: 46000, notes: "One year since conflict began" }, { month: "Nov '24", year: 2024, deaths: 48000, notes: "Continued hostilities" }, { month: "Dec '24", year: 2024, deaths: 50000, notes: "Operations ongoing" }, { month: "Jan '25", year: 2025, deaths: 51000, notes: "Ceasefire began Jan 19" }, { month: "Feb '25", year: 2025, deaths: 52000, notes: "Limited ceasefire period" }, { month: "Mar '25", year: 2025, deaths: 55000, notes: "Israel resumed operations" }, { month: "Apr '25", year: 2025, deaths: 57000, notes: "Continued operations" }, { month: "May '25", year: 2025, deaths: 59000, notes: "Ongoing conflict" }, { month: "Jun '25", year: 2025, deaths: 61000, notes: "Operations continued" }, { month: "Jul '25", year: 2025, deaths: 63000, notes: "Sustained bombardment" }, { month: "Aug '25", year: 2025, deaths: 65000, notes: "Major Gaza City offensive" }, { month: "Sep '25", year: 2025, deaths: 66000, notes: "Total exceeded 65,000" }, { month: "Oct '25", year: 2025, deaths: 68000, notes: "Official count: ~67,000 by Oct 7" },
+        ];
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        setLogLevel('debug'); // Set log level for Firebase debugging
-
-        let userId = null;
-        let isAuthReady = false;
-
-        // --- INITIAL DATA (to seed Firestore if empty) ---
-        const articles = [
-            
-        {
+        const initialData = {
+            articles: [
+             {
         date: "2023-10-12",
         title: "Israel: White Phosphorus Used in Gaza, Lebanon",
         summary: "Human Rights Watch verified videos showing Israeli forces using white phosphorus over Gaza and Lebanon, exposing civilians to risk of serious and long-term injury.",
@@ -542,7 +633,7 @@
         categoryColor: 'red',
         source: "Human Rights Watch"
     },
-    {
+     {
         date: "2023-10-18",
         title: "Israeli strikes kill 33 people in Jabalia refugee camp in Gaza, medics say",
         summary: "Israel deepens military operations in northern Gaza with additional troop deployments as conflict intensifies.",
@@ -5145,504 +5236,168 @@ source: "Haaretz"
     "categoryColor": "orange",
     "source": "The Guardian"
   },
-        ];
+            ],
+            videos: [
+                { title: "MSNBC EXCLUSIVE: Full interview with Mahmoud Khalil and his wife, Dr. Noor Abdalla", creator: "MSNBC", link: "https://www.msnbc.com/", imageUrl: "https://media13.s-nbcnews.com/i/mpx/2704722219/2025_06/1751072250948_n_msnbc_mahmoud_khalil_noor_abdalla_gaza_250627_1920x1080-3kw5co.jpg", platform: "MSNBC" },
+                { title: "Mahmoud Khalil Is Free: Follow His Journey from ICE Jail Back to Gates of Columbia University", creator: "Democracy Now!", link: "https://www.democracynow.org/", imageUrl: "https://i.ytimg.com/vi/BWpRCoQ2wWE/maxresdefault.jpg", platform: "Democracy Now!" },
+                { title: "Israeli forces raided the cells of Palestinian captives after some allegedly expressed joy during rocket fire on Israel—part of Minister Ben Gvir's policy of punishing any show of Palestinian resistance or joy", creator: "DropSite News", link: "https://x.com/dropsitenews", imageUrl: "https://pbs.twimg.com/ext_tw_video_thumb/1934279968365662208/pu/img/XnWEXrPGt3Kc28V1.jpg", platform: "X (Twitter)" },
+                { title: "Israeli officials detail plans to seize all of Gaza and occupy it indefinitely, AP reports", creator: "CBS", link: "https://www.cbs.com/", imageUrl: "https://dims.apnews.com/dims4/default/7be1fea/2147483647/strip/true/crop/3070x2046+0+0/resize/599x399!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F2f%2Fb8%2F587422fe1fb2df6a5e1e55ec7f56%2Fa243f78be02e4bd595d740fc8841d116", platform: "CBS" },
+            ],
+            books: [
+                { title: "The Palestine Laboratory: How Israel Exports the Technology of Occupation Around the World", author: "Antony Loewenstein", link: "https://www.goodreads.com/book/show/59808887-the-palestine-laboratory", imageUrl: "https://m.media-amazon.com/images/I/814ovZ22woL._UF350,350_QL50_.jpg" },
+                { title: "Light in Gaza: Writings Born of Fire", author: "Jehad Abusalim, Jennifer Bing, and Michael Merryman-Lotze (editors)", link: "https://www.goodreads.com/book/show/60393394-light-in-gaza", imageUrl: "https://prodimage.images-bn.com/pimages/9781642596991_p0_v2_s1200x630.jpg" },
+                { title: "Except for Palestine: The Limits of Progressive Politics", author: "Marc Lamont Hill and Mitchell Plitnick", link: "https://www.goodreads.com/book/show/53318131-except-for-palestine", imageUrl: "https://m.media-amazon.com/images/I/61az64tUc-L.jpg" },
+                { title: "The Hundred Years' War on Palestine: A History of Settler Colonialism and Resistance, 1917-2017", author: "Rashid Khalidi", link: "https://www.goodreads.com/book/show/44157111-the-hundred-years-war-on-palestine", imageUrl: "https://m.media-amazon.com/images/I/818IOzWOBUL.jpg" },
+                { title: "The Holocaust Industry: Reflections on the Exploitation of Jewish Suffering", author: "Norman G. Finkelstein", link: "https://www.goodreads.com/book/show/106151.The_Holocaust_Industry", imageUrl: "https://m.media-amazon.com/images/I/61qkOqfsHhL._UF1000,1000_QL80_.jpg" },
+                { title: "The Battle for Justice in Palestine", author: "Ali Abunimah", link: "https://www.goodreads.com/book/show/18465566-the-battle-for-justice-in-palestine", imageUrl: "https://m.media-amazon.com/images/I/71Yx3Sb4caL.jpg" },
+                { title: "Israel/Palestine and the Queer International", author: "Sarah Schulman", link: "https://www.goodreads.com/book/show/13623481-israel-palestine-and-the-queer-international", imageUrl: "https://m.media-amazon.com/images/I/81B-+C9m0rL.jpg" },
+                { title: "The Ethnic Cleansing of Palestine", author: "Ilan Pappé", link: "https://www.goodreads.com/book/show/40691.The_Ethnic_Cleansing_of_Palestine", imageUrl: "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781851685554/the-ethnic-cleansing-of-palestine-9781851685554_hr.jpg" },
+                { title: "The Israel Lobby and U.S. Foreign Policy", author: "John J. Mearsheimer and Stephen M. Walt", link: "https://www.goodreads.com/book/show/224127.The_Israel_Lobby_and_U_S_Foreign_Policy", imageUrl: "https://m.media-amazon.com/images/I/71PxQ8c-VTL.jpg" },
+                { title: "The General's Son: Journey of an Israeli in Palestine", author: "Miko Peled", link: "https://www.goodreads.com/book/show/13330798-the-general-s-son", imageUrl: "https://m.media-amazon.com/images/I/71Lcx19cvsL._UF1000,1000_QL80_.jpg" },
+                { title: "Blaming the Victims: Spurious Scholarship and the Palestinian Question", author: "Edward W. Said and Christopher Hitchens (editors)", link: "https://www.goodreads.com/book/show/335291.Blaming_the_Victims", imageUrl: "https://m.media-amazon.com/images/I/71MbgN1Ll9L._UF1000,1000_QL80_.jpg" },
+                { title: "Perfect Victims: And the Politics of Appeal", author: "Mohammed El‑Kurd", link: "https://www.amazon.com/Perfect-Victims-Politics-Mohammed-El-Kurd/dp/B0D4PGSZ2V", imageUrl: "https://m.media-amazon.com/images/I/81YorJIx27L._UF1000,1000_QL80_.jpg" },
+                { title: "Heaven Looks Like Us: Palestinian Poetry", author: "Palestinian Poetry", link: "https://www.amazon.com/HEAVEN-LOOKS-LIKE-US-Palestinian/dp/B0D9JDCPGK", imageUrl: "https://cdn-ed.haymarketbooks.org/images/000007/967/9798888903650-728fba5da9c30ffc4efb57a20af98b67.jpg20250131-36-e4dh3y" },
+                { title: "Visualizing Palestine: A Chronicle of Colonialism and the Struggle for Liberation", author: "Yosra El Gazzar", link: "https://www.amazon.com/Visualizing-Palestine-Chronicle-Colonialism-Liberation/dp/B0CT8C7SMB", imageUrl: "https://m.media-amazon.com/images/I/8137OtV8YEL.jpg" },
+                { title: "Palestine in a World on Fire", author: "Katherine Natanel and Ilan Pappé", link: "https://www.amazon.com/Palestine-World-Fire-Katherine-Natanel/dp/B0D32GFGS3", imageUrl: "https://cdn-ed.haymarketbooks.org/images/000007/668/9798888902585-447f81722dbb56a154ff00f5cdb05e80.jpg20240613-34-uzu0ka" },
+                { title: "Being Jewish After the Destruction of Gaza: A Reckoning", author: "Peter Beinart", link: "https://www.amazon.com/Being-Jewish-After-Destruction-Gaza/dp/0593803892", imageUrl: "https://m.media-amazon.com/images/I/A1z2NzOTIPL.jpg" },
+                { title: "A Very Short History of the Israel‑Palestine Conflict", author: "Ilan Pappé", link: "https://www.amazon.com/dp/0861549716/?bestFormat=true&k=a%20very%20short%20history%20of%20the%20israel%20palestine%20conflict&ref_=nb_sb_ss_w_scx-ent-bk-ww_k0_1_53_de&crid=3B5TEWWS8AAQZ&sprefix=A%20Very%20Short%20History%20of%20the%20Israel%E2%80%91Palestine%20Conflict", imageUrl: "https://m.media-amazon.com/images/I/81VkYwPbPwL.jpg" },
+                { title: "Ten Myths About Israel", author: "Ilan Pappé", link: "https://www.amazon.com/Myths-About-Israel-Ilan-Pappe/dp/1786630192", imageUrl: "https://m.media-amazon.com/images/I/71xnHXhnWyL.jpg" },
+                { title: "On Palestine", author: "Ilan Pappé and Noam Chomsky", link: "https://www.amazon.com/Palestine-Noam-Chomsky/dp/1608464709", imageUrl: "https://m.media-amazon.com/images/I/61bPHGKy4iL.jpg" },
+                { title: "Can We Talk About Israel? A Guide for the Curious, Confused, and Conflicted", author: "Daniel Sokatch", link: "https://www.amazon.com/Can-Talk-About-Israel-Conflicted/dp/1635573874", imageUrl: "https://m.media-amazon.com/images/I/81Qzaf5pNPL._UF1000,1000_QL80_.jpg" },
+                { title: "A Genocide Foretold: Reporting on Survival and Resistance in Occupied Palestine", author: "Chris Hedges", link: "https://www.amazon.com/Genocide-Foretold-Reporting-Resistance-Palestine/dp/1644214857", imageUrl: "https://m.media-amazon.com/images/I/91W1q+z-lVL._UF1000,1000_QL80_.jpg" },
+                { title: "Gaza in Crisis: Reflections on Israel's War Against the Palestinians", author: "Ilan Pappé and Noam Chomsky", link: "https://www.amazon.com/Gaza-Crisis-Reflections-Israels-Palestinians/dp/1608460975", imageUrl: "https://m.media-amazon.com/images/I/81jOjtTxX7L._UF1000,1000_QL80_.jpg" },
+                { title: "The Message", author: "Ta‑Nehisi Coates", link: "https://www.amazon.com/Message-Ta-Nehisi-Coates/dp/0593230388", imageUrl: "https://m.media-amazon.com/images/I/91ZSMtvdM3L.jpg" },
+                { title: "Israeli Apartheid: A Beginner's Guide", author: "Ben White", link: "https://www.amazon.com/Israeli-Apartheid-Beginners-Ben-White/dp/0745328873", imageUrl: "https://m.media-amazon.com/images/I/71gt4eW7lmL._UF1000,1000_QL80_.jpg" },
+                { title: "Decolonizing Israel, Liberating Palestine: Zionism, Settler Colonialism, and the Case for One Democratic State", author: "Jeff Halper", link: "https://www.amazon.com/Decolonizing-Israel-Liberating-Palestine-Colonialism/dp/0745343392", imageUrl: "https://m.media-amazon.com/images/I/61UG9GrPhtL.jpg" },
+            ],
+            films: [
+                { title: "Louis Theroux: The Settlers", director: "Louis Theroux", link: "https://www.bbc.co.uk/programmes/m002bm1y", imageUrl: "https://m.media-amazon.com/images/M/MV5BMjBiMzU1NGItNzA0YS00MzY1LThkOGMtMDI5NzFkOWZkNzFhXkEyXkFqcGc@._V1_.jpg", year: "2025" },
+                { title: "Why Israel Has So Many Palestinian Prisoners", director: "Various", link: "https://www.youtube.com/watch?v=9boE53Z_lAg", imageUrl: "https://i.ytimg.com/vi/9boE53Z_lAg/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBSgtvU1SkzlxrrOIQsGkKtR6AmVQ", year: "2023" },
+                { title: "The Occupation of the American Mind", director: "Lorraine Levy and Sut Jhally", link: "https://www.youtube.com/watch?v=WmoYoiMgpWU", imageUrl: "https://upload.wikimedia.org/wikipedia/en/4/4e/The_Occupation_of_the_American_Mind_%28poster%29.jpg", year: "2016" },
+                { title: "5 Broken Cameras", director: "Emad Burnat and Guy Davidi", link: "https://therokuchannel.roku.com/watch/dba0bc104be854b28251ca4f05e4a4ff?source=google", imageUrl: "https://upload.wikimedia.org/wikipedia/en/0/05/5_Broken_Cameras.jpg", year: "2012" },
+                { title: "A World Not Ours", director: "Mahdi Fleifel", link: "https://weta.org/watch/shows/pov/world-not-ours", imageUrl: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSac3j9J9y-qQmk1cuSkM51EIyBCgYK8y5NFFfgNOY6HACQcG3_g_KijF5NdXGnnL-HGjE", year: "2012" },
+                { title: "Life in Occupied Palestine: Eyewitness Stories & Photos", director: "Various", link: "https://www.youtube.com/watch?v=t8KNNq6bb3E", imageUrl: "https://i.ebayimg.com/images/g/KVYAAOSw6KJe4q4K/s-l1200.jpg", year: "1997" },
+                { title: "‘Who Killed Shireen?’", director: "Various", link: "https://zeteo.com/p/who-killed-shireen-abu-akleh?gad_source=1&gad_campaignid=22623919903&gclid=Cj0KCQjwkILEBhDeARIsAL--pjwjrhkgcyMCpGnqNpxbF2cvuimIU_x1MSKIvEH77d2aYXpjJa6jSWQaAjhoEALw_wcB", imageUrl: "https://m.media-amazon.com/images/M/MV5BMjc0MTc1ZjEtNzEwNC00NTRlLTg4OWEtMjM2MzExMmQ2NDIyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg", year: "2025" },
+                { title: "No Other Land", director: "Various", link: "https://releasing.dogwoof.com/no-other-land", imageUrl: "https://s3.amazonaws.com/nightjarprod/content/uploads/sites/216/2025/01/25212539/s7XYieuZg9kMe07i9VI4bfGN4Pw.jpg", year: "2024" },
+                { title: "Armed settlers and segregation: Inside the West Bank", director: "Sky News", link: "https://www.youtube.com/watch?v=M-Ahyy6_aS8", imageUrl: "https://i.ytimg.com/vi/M-Ahyy6_aS8/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDXKaDp1Zxt7daZpnmqRDf62lsOpQ", year: "2025" },
+            ]
+        };
 
-     const videos = [{
-            title: "MSNBC EXCLUSIVE: Full interview with Mahmoud Khalil and his wife, Dr. Noor Abdalla",
-            creator: "MSNBC",
-            link: "https://www.msnbc.com/",
-            imageUrl: "https://media13.s-nbcnews.com/i/mpx/2704722219/2025_06/1751072250948_n_msnbc_mahmoud_khalil_noor_abdalla_gaza_250627_1920x1080-3kw5co.jpg",
-            platform: "MSNBC"
-        }, {
-            title: "Mahmoud Khalil Is Free: Follow His Journey from ICE Jail Back to Gates of Columbia University",
-            creator: "Democracy Now!",
-            link: "https://www.democracynow.org/",
-            imageUrl: "https://i.ytimg.com/vi/BWpRCoQ2wWE/maxresdefault.jpg",
-            platform: "Democracy Now!"
-        }, {
-            title: "Israeli forces raided the cells of Palestinian captives after some allegedly expressed joy during rocket fire on Israel—part of Minister Ben Gvir's policy of punishing any show of Palestinian resistance or joy",
-            creator: "DropSite News",
-            link: "https://x.com/dropsitenews",
-            imageUrl: "https://pbs.twimg.com/ext_tw_video_thumb/1934279968365662208/pu/img/XnWEXrPGt3Kc28V1.jpg",
-            platform: "X (Twitter)"
-        }, {
-            title: "Israeli officials detail plans to seize all of Gaza and occupy it indefinitely, AP reports",
-            creator: "CBS",
-            link: "https://www.cbs.com/",
-            imageUrl: "https://dims.apnews.com/dims4/default/7be1fea/2147483647/strip/true/crop/3070x2046+0+0/resize/599x399!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F2f%2Fb8%2F587422fe1fb2df6a5e1e55ec7f56%2Fa243f78be02e4bd595d740fc8841d116",
-            platform: "CBS"
-        },];
+        // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
 
-        const books = [{
-            title: "The Palestine Laboratory: How Israel Exports the Technology of Occupation Around the World",
-            author: "Antony Loewenstein",
-            link: "https://www.goodreads.com/book/show/59808887-the-palestine-laboratory",
-            imageUrl: "https://m.media-amazon.com/images/I/814ovZ22woL._UF350,350_QL50_.jpg"
-        }, {
-            title: "Light in Gaza: Writings Born of Fire",
-            author: "Jehad Abusalim, Jennifer Bing, and Michael Merryman-Lotze (editors)",
-            link: "https://www.goodreads.com/book/show/60393394-light-in-gaza",
-            imageUrl: "https://prodimage.images-bn.com/pimages/9781642596991_p0_v2_s1200x630.jpg"
-        }, {
-            title: "Except for Palestine: The Limits of Progressive Politics",
-            author: "Marc Lamont Hill and Mitchell Plitnick",
-            link: "https://www.goodreads.com/book/show/53318131-except-for-palestine",
-            imageUrl: "https://m.media-amazon.com/images/I/61az64tUc-L.jpg"
-        }, {
-            title: "The Hundred Years' War on Palestine: A History of Settler Colonialism and Resistance, 1917-2017",
-            author: "Rashid Khalidi",
-            link: "https://www.goodreads.com/book/show/44157111-the-hundred-years-war-on-palestine",
-            imageUrl: "https://m.media-amazon.com/images/I/818IOzWOBUL.jpg"
-        }, {
-            title: "The Holocaust Industry: Reflections on the Exploitation of Jewish Suffering",
-            author: "Norman G. Finkelstein",
-            link: "https://www.goodreads.com/book/show/106151.The_Holocaust_Industry",
-            imageUrl: "https://m.media-amazon.com/images/I/61qkOqfsHhL._UF1000,1000_QL80_.jpg"
-        }, {
-            title: "The Battle for Justice in Palestine",
-            author: "Ali Abunimah",
-            link: "https://www.goodreads.com/book/show/18465566-the-battle-for-justice-in-palestine",
-            imageUrl: "https://m.media-amazon.com/images/I/71Yx3Sb4caL.jpg"
-        }, {
-            title: "Israel/Palestine and the Queer International",
-            author: "Sarah Schulman",
-            link: "https://www.goodreads.com/book/show/13623481-israel-palestine-and-the-queer-international",
-            imageUrl: "https://m.media-amazon.com/images/I/81B-+C9m0rL.jpg"
-        }, {
-            title: "The Ethnic Cleansing of Palestine",
-            author: "Ilan Pappé",
-            link: "https://www.goodreads.com/book/show/40691.The_Ethnic_Cleansing_of_Palestine",
-            imageUrl: "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781851685554/the-ethnic-cleansing-of-palestine-9781851685554_hr.jpg"
-        }, {
-            title: "The Israel Lobby and U.S. Foreign Policy",
-            author: "John J. Mearsheimer and Stephen M. Walt",
-            link: "https://www.goodreads.com/book/show/224127.The_Israel_Lobby_and_U_S_Foreign_Policy",
-            imageUrl: "https://m.media-amazon.com/images/I/71PxQ8c-VTL.jpg"
-        }, {
-            title: "The General's Son: Journey of an Israeli in Palestine",
-            author: "Miko Peled",
-            link: "https://www.goodreads.com/book/show/13330798-the-general-s-son",
-            imageUrl: "https://m.media-amazon.com/images/I/71Lcx19cvsL._UF1000,1000_QL80_.jpg"
-        }, {
-            title: "Blaming the Victims: Spurious Scholarship and the Palestinian Question",
-            author: "Edward W. Said and Christopher Hitchens (editors)",
-            link: "https://www.goodreads.com/book/show/335291.Blaming_the_Victims",
-            imageUrl: "https://m.media-amazon.com/images/I/71MbgN1Ll9L._UF1000,1000_QL80_.jpg"
-        }, {
-            title: "Perfect Victims: And the Politics of Appeal",
-            author: "Mohammed El‑Kurd",
-            link: "https://www.amazon.com/Perfect-Victims-Politics-Mohammed-El-Kurd/dp/B0D4PGSZ2V",
-            imageUrl: "https://m.media-amazon.com/images/I/81YorJIx27L._UF1000,1000_QL80_.jpg"
-        }, {
-            title: "Heaven Looks Like Us: Palestinian Poetry",
-            author: "Palestinian Poetry",
-            link: "https://www.amazon.com/HEAVEN-LOOKS-LIKE-US-Palestinian/dp/B0D9JDCPGK",
-            imageUrl: "https://cdn-ed.haymarketbooks.org/images/000007/967/9798888903650-728fba5da9c30ffc4efb57a20af98b67.jpg20250131-36-e4dh3y"
-        }, {
-            title: "Visualizing Palestine: A Chronicle of Colonialism and the Struggle for Liberation",
-            author: "Yosra El Gazzar",
-            link: "https://www.amazon.com/Visualizing-Palestine-Chronicle-Colonialism-Liberation/dp/B0CT8C7SMB",
-            imageUrl: "https://m.media-amazon.com/images/I/8137OtV8YEL.jpg"
-        }, {
-            title: "Palestine in a World on Fire",
-            author: "Katherine Natanel and Ilan Pappé",
-            link: "https://www.amazon.com/Palestine-World-Fire-Katherine-Natanel/dp/B0D32GFGS3",
-            imageUrl: "https://cdn-ed.haymarketbooks.org/images/000007/668/9798888902585-447f81722dbb56a154ff00f5cdb05e80.jpg20240613-34-uzu0ka"
-        }, {
-            title: "Being Jewish After the Destruction of Gaza: A Reckoning",
-            author: "Peter Beinart",
-            link: "https://www.amazon.com/Being-Jewish-After-Destruction-Gaza/dp/0593803892",
-            imageUrl: "https://m.media-amazon.com/images/I/A1z2NzOTIPL.jpg"
-        }, {
-            title: "A Very Short History of the Israel‑Palestine Conflict",
-            author: "Ilan Pappé",
-            link: "https://www.amazon.com/dp/0861549716/?bestFormat=true&k=a%20very%20short%20history%20of%20the%20israel%20palestine%20conflict&ref_=nb_sb_ss_w_scx-ent-bk-ww_k0_1_53_de&crid=3B5TEWWS8AAQZ&sprefix=A%20Very%20Short%20History%20of%20the%20Israel%E2%80%91Palestine%20Conflict",
-            imageUrl: "https://m.media-amazon.com/images/I/81VkYwPbPwL.jpg"
-        }, {
-            title: "Ten Myths About Israel",
-            author: "Ilan Pappé",
-            link: "https://www.amazon.com/Myths-About-Israel-Ilan-Pappe/dp/1786630192",
-            imageUrl: "https://m.media-amazon.com/images/I/71xnHXhnWyL.jpg"
-        }, {
-            title: "On Palestine",
-            author: "Ilan Pappé and Noam Chomsky",
-            link: "https://www.amazon.com/Palestine-Noam-Chomsky/dp/1608464709",
-            imageUrl: "https://m.media-amazon.com/images/I/61bPHGKy4iL.jpg"
-        }, {
-            title: "Can We Talk About Israel? A Guide for the Curious, Confused, and Conflicted",
-            author: "Daniel Sokatch",
-            link: "https://www.amazon.com/Can-Talk-About-Israel-Conflicted/dp/1635573874",
-            imageUrl: "https://m.media-amazon.com/images/I/81Qzaf5pNPL._UF1000,1000_QL80_.jpg"
-        }, {
-            title: "A Genocide Foretold: Reporting on Survival and Resistance in Occupied Palestine",
-            author: "Chris Hedges",
-            link: "https://www.amazon.com/Genocide-Foretold-Reporting-Resistance-Palestine/dp/1644214857",
-            imageUrl: "https://m.media-amazon.com/images/I/91W1q+z-lVL._UF1000,1000_QL80_.jpg"
-        }, {
-            title: "Gaza in Crisis: Reflections on Israel's War Against the Palestinians",
-            author: "Ilan Pappé and Noam Chomsky",
-            link: "https://www.amazon.com/Gaza-Crisis-Reflections-Israels-Palestinians/dp/1608460975",
-            imageUrl: "https://m.media-amazon.com/images/I/81jOjtTxX7L._UF1000,1000_QL80_.jpg"
-        }, {
-            title: "The Message",
-            author: "Ta‑Nehisi Coates",
-            link: "https://www.amazon.com/Message-Ta-Nehisi-Coates/dp/0593230388",
-            imageUrl: "https://m.media-amazon.com/images/I/91ZSMtvdM3L.jpg"
-        }, {
-            title: "Israeli Apartheid: A Beginner's Guide",
-            author: "Ben White",
-            link: "https://www.amazon.com/Israeli-Apartheid-Beginners-Ben-White/dp/0745328873",
-            imageUrl: "https://m.media-amazon.com/images/I/71gt4eW7lmL._UF1000,1000_QL80_.jpg"
-        }, {
-            title: "Decolonizing Israel, Liberating Palestine: Zionism, Settler Colonialism, and the Case for One Democratic State",
-            author: "Jeff Halper",
-            link: "https://www.amazon.com/Decolonizing-Israel-Liberating-Palestine-Colonialism/dp/0745343392",
-            imageUrl: "https://m.media-amazon.com/images/I/61UG9GrPhtL.jpg"
-        },];
+        function showLoadingSpinner() { document.getElementById('loading-spinner').classList.remove('hidden'); document.getElementById('loading-spinner').classList.add('flex'); }
+        function hideLoadingSpinner() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('loading-spinner').classList.remove('flex'); }
+        function showModal(message) { const modal = document.getElementById('custom-modal'); modal.querySelector('#modal-message').textContent = message; modal.style.display = 'flex'; }
+        function hideModal() { document.getElementById('custom-modal').style.display = 'none'; }
 
-        const films = [{
-            title: "Louis Theroux: The Settlers",
-            director: "Louis Theroux",
-            link: "https://www..co.uk/programmes/m002bm1y",
-            imageUrl: "https://m.media-amazon.com/images/M/MV5BMjBiMzU1NGItNzA0YS00MzY1LThkOGMtMDI5NzFkOWZkNzFhXkEyXkFqcGc@._V1_.jpg",
-            year: "2025"
-        }, {
-            title: "Why Israel Has So Many Palestinian Prisoners",
-            director: "Various",
-            link: "https://www.youtube.com/watch?v=9boE53Z_lAg",
-            imageUrl: "https://i.ytimg.com/vi/9boE53Z_lAg/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBSgtvU1SkzlxrrOIQsGkKtR6AmVQ",
-            year: "2023"
-        }, {
-            title: "Gaza: Doctors Under Attack",
-            director: "Karim Shah",
-            link: "https://www.channel4.com/programmes/gaza-doctors-under-attack",
-            imageUrl: "https://substackcdn.com/image/fetch/$s_!fnjv!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F630b5330-f0ef-4e22-a454-c3087c631aaa_842x1190.jpeg",
-            year: "2023"
-        }, {
-            title: "Is Israel Weaponising Water in Palestine?",
-            director: "Various",
-            link: "https://www.youtube.com/watch?v=HSbnniboAXo",
-            imageUrl: "data:image/jpeg;base64,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",
+        function getSwappedText(text) {
+            if (!titlesSwapped) return text;
 
-        year: "2019"
+            const swapMap = {
+                'israelis': 'gazans',
+                'israeli': 'palestinian',
+                'israel': 'hamas',
+                'palestinian': 'israeli',
+                'palestinians': 'israelis',
+                'hamas': 'israel',
+                'gazans': 'israelis'
+            };
 
-    },
+            const regex = new RegExp(Object.keys(swapMap).join('|'), 'gi');
 
-    {
+            return text.replace(regex, (matched) => {
+                const lowerMatched = matched.toLowerCase();
+                const replacement = swapMap[lowerMatched];
+                if (!replacement) return matched;
 
-        title: "The Occupation of the American Mind",
-
-        director: "Lorraine Levy and Sut Jhally",
-
-        link: "https://www.youtube.com/watch?v=WmoYoiMgpWU",
-
-        imageUrl: "https://upload.wikimedia.org/wikipedia/en/4/4e/The_Occupation_of_the_American_Mind_%28poster%29.jpg",
-
-        year: "2016"
-
-    },
-
-    {
-
-        title: "5 Broken Cameras",
-
-        director: "Emad Burnat and Guy Davidi",
-
-        link: "https://therokuchannel.roku.com/watch/dba0bc104be854b28251ca4f05e4a4ff?source=google",
-
-        imageUrl: "https://upload.wikimedia.org/wikipedia/en/0/05/5_Broken_Cameras.jpg",
-
-        year: "2012"
-
-    },
-
-    {
-
-        title: "A World Not Ours",
-
-        director: "Mahdi Fleifel",
-
-        link: "https://weta.org/watch/shows/pov/world-not-ours",
-
-        imageUrl: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSac3j9J9y-qQmk1cuSkM51EIyBCgYK8y5NFFfgNOY6HACQcG3_g_KijF5NdXGnnfL-HGjE",
-
-        year: "2012"
-
-    },
-
-    {
-
-        title: "Life in Occupied Palestine: Eyewitness Stories & Photos",
-
-        director: "Various",
-
-        link: "https://www.youtube.com/watch?v=t8KNNq6bb3E",
-
-        imageUrl: "https://i.ebayimg.com/images/g/KVYAAOSw6KJe4q4K/s-l1200.jpg",
-
-        year: "1997"
-
-    },
-
-    {
-            title: "‘Who Killed Shireen?’",
-
-            director: "Various",
-
-            link: "https://zeteo.com/p/who-killed-shireen-abu-akleh?gad_source=1&gad_campaignid=22623919903&gclid=Cj0KCQjwkILEBhDeARIsAL--pjwjrhkgcyMCpGnqNpxbF2cvuimIU_x1MSKIvEH77d2aYXpjJa6jSWQaAjhoEALw_wcB",
-
-            imageUrl: "https://m.media-amazon.com/images/M/MV5BMjc0MTc1ZjEtNzEwNC00NTRlLTg4OWEtMjM2MzExMmQ2NDIyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-
-            year: "2025"
-
-        },
-
-        {
-
-            title: "No Other Land",
-
-            director: "Various",
-
-            link: "https://releasing.dogwoof.com/no-other-land",
-
-            imageUrl: "https://s3.amazonaws.com/nightjarprod/content/uploads/sites/216/2025/01/25212539/s7XYieuZg9kMe07i9VI4bfGN4Pw.jpg",
-
-            year: "2024"
-
-        },
-
-        {
-
-            title: "Armed settlers and segregation: Inside the West Bank",
-
-            director: "Sky News",
-
-            link: "https://www.youtube.com/watch?v=M-Ahyy6_aS8",
-
-            imageUrl: "https://i.ytimg.com/vi/M-Ahyy6_aS8/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDXKaDp1Zxt7daZpnmqRDf62lsOpQ",
-
-            year: "2025"
-
-        }, ];
-
-   const casualtyData = [
-            { month: "Oct '23", year: 2023, deaths: 9000, notes: "Highest intensity period" },
-            { month: "Nov '23", year: 2023, deaths: 19000, notes: "Continued high-intensity bombardment" },
-            { month: "Dec '23", year: 2023, deaths: 22000, notes: "Cumulative total by end of year" },
-            { month: "Jan '24", year: 2024, deaths: 26000, notes: "Intensity decreased" },
-            { month: "Feb '24", year: 2024, deaths: 30000, notes: "Continued operations" },
-            { month: "Mar '24", year: 2024, deaths: 33000, notes: "Operations expanded to Khan Younis" },
-            { month: "Apr '24", year: 2024, deaths: 35000, notes: "Decrease in daily casualties" },
-            { month: "May '24", year: 2024, deaths: 37000, notes: "Continued lower intensity" },
-            { month: "Jun '24", year: 2024, deaths: 39000, notes: "Escalation in Rafah and Khan Younis" },
-            { month: "Jul '24", year: 2024, deaths: 41000, notes: "Ongoing operations" },
-            { month: "Aug '24", year: 2024, deaths: 43000, notes: "Official MoH count: 40,000+" },
-            { month: "Sep '24", year: 2024, deaths: 44000, notes: "Operations continued" },
-            { month: "Oct '24", year: 2024, deaths: 46000, notes: "One year since conflict began" },
-            { month: "Nov '24", year: 2024, deaths: 48000, notes: "Continued hostilities" },
-            { month: "Dec '24", year: 2024, deaths: 50000, notes: "Operations ongoing" },
-            { month: "Jan '25", year: 2025, deaths: 51000, notes: "Ceasefire began Jan 19" },
-            { month: "Feb '25", year: 2025, deaths: 52000, notes: "Limited ceasefire period" },
-            { month: "Mar '25", year: 2025, deaths: 55000, notes: "Israel resumed operations" },
-            { month: "Apr '25", year: 2025, deaths: 57000, notes: "Continued operations" },
-            { month: "May '25", year: 2025, deaths: 59000, notes: "Ongoing conflict" },
-            { month: "Jun '25", year: 2025, deaths: 61000, notes: "Operations continued" },
-            { month: "Jul '25", year: 2025, deaths: 63000, notes: "Sustained bombardment" },
-            { month: "Aug '25", year: 2025, deaths: 65000, notes: "Major Gaza City offensive" },
-            { month: "Sep '25", year: 2025, deaths: 66000, notes: "Total exceeded 65,000" },
-            { month: "Oct '25", year: 2025, deaths: 68000, notes: "Official count: ~67,000 by Oct 7" },
-        ];
-
-        // --- GLOBAL STATE VARIABLES (now populated by Firestore) ---
-        let articles = [];
-        let videos = [];
-        let books = [];
-        let films = [];
-
-        let currentSortOrder = 'newest';
-        let currentlyDisplayedArticles = [];
-        let titlesSwapped = false; // Controls the double standard view
-
-        // --- UTILITY FUNCTIONS ---
-        function showLoadingSpinner() {
-            document.getElementById('loading-spinner').classList.remove('hidden');
-            document.getElementById('loading-spinner').classList.add('flex');
+                // Preserve original case
+                if (matched === matched.toUpperCase()) {
+                    return replacement.toUpperCase();
+                }
+                if (matched[0] === matched[0].toUpperCase()) {
+                    return replacement.charAt(0).toUpperCase() + replacement.slice(1);
+                }
+                return replacement;
+            });
         }
 
-        function hideLoadingSpinner() {
-            document.getElementById('loading-spinner').classList.add('hidden');
-            document.getElementById('loading-spinner').classList.remove('flex');
-        }
 
-        function showModal(message) {
-            const modal = document.getElementById('custom-modal');
-            const modalMessage = document.getElementById('modal-message');
-            modalMessage.textContent = message;
-            modal.style.display = 'flex'; // Use flex to center the modal content
-        }
-
-        function hideModal() {
-            document.getElementById('custom-modal').style.display = 'none';
-        }
-
-        function getDisplayTitle(originalTitle) {
-            if (!titlesSwapped) {
-                return originalTitle;
-            }
-
-            // Using unique placeholders to prevent conflicts where one replacement is a substring of another.
-            let tempTitle = originalTitle
-                .replace(/Hamas/gi, '__1__')
-                .replace(/Israeli/gi, '__2__')
-                .replace(/Israel/gi, '__3__')
-                .replace(/Palestinian/gi, '__4__');
-
-            let finalTitle = tempTitle
-                .replace(/__2__/gi, 'Hamas')      // Israeli -> Hamas
-                .replace(/__3__/gi, 'Hamas')      // Israel -> Hamas
-                .replace(/__1__/gi, 'Israel')     // Hamas -> Israel
-                .replace(/__4__/gi, 'Israeli');   // Palestinian -> Israeli
-
-            return finalTitle;
-        }
-        
         async function fetchJournalistCount() {
-            const countElement = document.getElementById('journalist-count');
+            const el = document.getElementById('journalist-count');
             try {
-                const response = await fetch('https://stopmurderingjournalists.com/api/v1/martyrs');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                const count = data.length;
-                if (countElement) {
-                    countElement.textContent = count;
-                }
+                const res = await fetch('https://stopmurderingjournalists.com/api/v1/martyrs');
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                const data = await res.json();
+                if (el) el.textContent = data.length;
             } catch (error) {
                 console.error("Failed to fetch journalist count:", error);
-                if (countElement) {
-                    countElement.textContent = 'N/A'; // Show something if the fetch fails
-                }
+                if (el) el.textContent = 'N/A';
             }
         }
-        
-        // --- RENDER FUNCTIONS ---
+
         function renderArticles(articlesToDisplay) {
             const grid = document.getElementById('article-grid');
             if (!grid) return;
 
-            // Sort the articles before rendering
-            const sortedArticles = [...articlesToDisplay].sort((a, b) => {
+            const sorted = [...articlesToDisplay].sort((a, b) => {
                 const dateA = new Date(a.date + 'T00:00:00');
                 const dateB = new Date(b.date + 'T00:00:00');
                 return currentSortOrder === 'newest' ? dateB - dateA : dateA - dateB;
             });
 
-            if (sortedArticles.length === 0) {
-                grid.innerHTML =
-                    `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center">No articles match the current filters.</p>`;
+            if (sorted.length === 0) {
+                grid.innerHTML = `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center">No articles match filters.</p>`;
                 return;
             }
 
-            grid.innerHTML = sortedArticles.map(article => {
-                const tagClassMap = {
-                    red: 'tag-red',
-                    green: 'tag-green',
-                    gray: 'tag-gray',
-                    blue: 'tag-blue',
-                    orange: 'tag-orange',
-                    purple: 'tag-purple'
-                };
-                const tagClass = tagClassMap[article.categoryColor] || 'tag-gray';
-                const formattedDate = new Date(article.date + 'T00:00:00').toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-                const displayTitle = getDisplayTitle(article.title); // Use the helper function for display
-
+            grid.innerHTML = sorted.map(article => {
+                const tagClasses = { red: 'tag-red', green: 'tag-green', gray: 'tag-gray', blue: 'tag-blue', orange: 'tag-orange', purple: 'tag-purple' };
+                const tagClass = tagClasses[article.categoryColor] || 'tag-gray';
+                const formattedDate = new Date(article.date + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
                 return `
-                        <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col">
-                            <div class="relative">
-                                <img src="${article.imageUrl}" alt="${displayTitle}" class="w-full h-48 object-cover rounded-t-lg"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
-                            </div>
-                            <div class="p-6 flex-grow flex flex-col">
-                                <div class="flex justify-between items-center mb-3">
-                                    <span class="text-xs font-semibold px-2 py-1 rounded-full ${tagClass}">${article.category}</span>
-                                    <span class="text-xs text-gray-500">${formattedDate}</span>
-                                </div>
-                                <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight">${displayTitle}</h4>
-                                <p class="text-gray-400 text-sm leading-relaxed flex-grow">${article.summary}</p>
-                                <div class="text-xs text-gray-500 mt-4">Source: ${article.source}</div>
-                            </div>
-                        </a>`;
+                <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col">
+                    <div class="relative overflow-hidden rounded-t-lg">
+                        <img src="${article.imageUrl}" alt="${getSwappedText(article.title)}" class="w-full h-48 object-cover transform transition-transform duration-300 hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-semibold px-2 py-1 rounded-full ${tagClass}">${article.category}</span>
+                            <span class="text-xs text-gray-500">${formattedDate}</span>
+                        </div>
+                        <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight">${getSwappedText(article.title)}</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed flex-grow">${getSwappedText(article.summary)}</p>
+                        <div class="text-xs text-gray-500 mt-4">Source: ${article.source}</div>
+                    </div>
+                </a>`;
             }).join('');
         }
 
         function renderVideos() {
             const grid = document.getElementById('video-grid');
             if (!grid) return;
-            grid.innerHTML = videos.map(video => `
-                        <a href="${video.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col">
-                            <div class="relative">
-                                <img src="${video.imageUrl}" alt="${video.title}" class="w-full h-48 object-cover rounded-t-lg"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
-                            </div>
-                            <div class="p-6 flex-grow flex flex-col">
-                                <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight flex-grow">${video.title}</h4>
-                                <div class="text-xs text-gray-500 mt-4">${video.creator} on ${video.platform}</div>
-                            </div>
-                        </a>
-                    `).join('');
+            grid.innerHTML = videos.map(v => `<a href="${v.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col"><div class="relative overflow-hidden rounded-t-lg"><img src="${v.imageUrl}" alt="${getSwappedText(v.title)}" class="w-full h-48 object-cover transform transition-transform duration-300 hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';"></div><div class="p-6 flex-grow flex flex-col"><h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight flex-grow">${getSwappedText(v.title)}</h4><div class="text-xs text-gray-500 mt-4">${v.creator} on ${v.platform}</div></div></a>`).join('');
         }
-
-
         function renderBooks() {
             const grid = document.getElementById('book-grid');
             if (!grid) return;
-            grid.innerHTML = books.map(book => `
-                        <a href="${book.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col text-center">
-                            <div class="relative">
-                                <img src="${book.imageUrl}" alt="${book.title}" class="w-full h-64 object-cover rounded-t-lg"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/400x600/1a1a1a/555555?text=Cover+Not+Found';">
-                            </div>
-                            <div class="p-4 flex-grow flex flex-col justify-center">
-                                <h4 class="font-semibold text-sm text-gray-100 mb-1 leading-tight">${book.title}</h4>
-                                <p class="text-gray-400 text-xs">${book.author}</p>
-                            </div>
-                        </a>
-                    `).join('');
+            grid.innerHTML = books.map(b => `<a href="${b.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col text-center"><div class="relative overflow-hidden rounded-t-lg"><img src="${b.imageUrl}" alt="${b.title}" class="w-full h-64 object-cover transform transition-transform duration-300 hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/400x600/1a1a1a/555555?text=Cover+Not+Found';"></div><div class="p-4 flex-grow flex flex-col justify-center"><h4 class="font-semibold text-sm text-gray-100 mb-1 leading-tight">${b.title}</h4><p class="text-gray-400 text-xs">${b.author}</p></div></a>`).join('');
         }
-
         function renderFilms() {
             const grid = document.getElementById('film-grid');
             if (!grid) return;
-            grid.innerHTML = films.map(film => `
-                        <a href="${film.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col">
-                            <div class="relative">
-                                <img src="${film.imageUrl}" alt="${film.title}" class="w-full h-56 object-cover rounded-t-lg"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
-                            </div>
-                            <div class="p-6 flex-grow flex flex-col">
-                                <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight flex-grow">${film.title} (${film.year})</h4>
-                                <p class="text-gray-400 text-sm">Directed by: ${film.director}</p>
-                            </div>
-                        </a>
-                    `).join('');
+            grid.innerHTML = films.map(f => `<a href="${f.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col"><div class="relative overflow-hidden rounded-t-lg"><img src="${f.imageUrl}" alt="${f.title}" class="w-full h-56 object-cover transform transition-transform duration-300 hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';"></div><div class="p-6 flex-grow flex flex-col"><h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight flex-grow">${f.title} (${f.year})</h4><p class="text-gray-400 text-sm">Directed by: ${f.director}</p></div></a>`).join('');
         }
 
-        function renderCasualtyChart(casualtyData) {
+        function renderCasualtyChart(chartData) {
             const ctx = document.getElementById('casualtyChart').getContext('2d');
             const tooltipEl = document.getElementById('chart-tooltip');
-            
-            const casualtyChart = new Chart(ctx, {
+            new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: casualtyData.map(d => d.month),
+                    labels: chartData.map(d => d.month),
                     datasets: [{
                         label: 'Cumulative Deaths',
-                        data: casualtyData.map(d => d.deaths),
+                        data: chartData.map(d => d.deaths),
                         borderColor: 'rgba(238, 42, 53, 0.8)',
                         backgroundColor: 'rgba(238, 42, 53, 0.2)',
                         pointBackgroundColor: 'rgba(238, 42, 53, 1)',
@@ -5670,340 +5425,141 @@ source: "Haaretz"
                     plugins: {
                         legend: { display: false },
                         tooltip: {
-                            enabled: false, // Disable default tooltip
-                            external: function(context) {
-                                const tooltipModel = context.tooltip;
-                                if (tooltipModel.opacity === 0) {
-                                    tooltipEl.style.opacity = 0;
-                                    return;
+                            enabled: false,
+                            external: function (c) {
+                                if (c.tooltip.opacity === 0) { tooltipEl.style.opacity = 0; return }
+                                const i = c.tooltip.dataPoints[0].dataIndex, d = chartData[i];
+                                tooltipEl.innerHTML = `<div class="font-bold">${d.month}</div><div><strong>Deaths:</strong> ${d.deaths.toLocaleString()}</div><div class="text-xs italic mt-1 text-gray-400">${d.notes}</div>`;
+                                const p = c.chart.canvas.getBoundingClientRect();
+                                tooltipEl.style.opacity = 1;
+                                // Position the tooltip more reliably
+                                let left = p.left + window.pageXOffset + c.tooltip.caretX;
+                                let top = p.top + window.pageYOffset + c.tooltip.caretY - tooltipEl.offsetHeight - 10;
+
+                                // Prevent tooltip from going off screen
+                                if (left + tooltipEl.offsetWidth > window.innerWidth) {
+                                    left = window.innerWidth - tooltipEl.offsetWidth - 20; // 20px padding from right
+                                }
+                                if (left < 0) {
+                                    left = 20; // 20px padding from left
+                                }
+                                if (top < 0) {
+                                    top = p.top + window.pageYOffset + c.tooltip.caretY + 10; // Position below caret if it goes above
                                 }
 
-                                const pointIndex = tooltipModel.dataPoints[0].dataIndex;
-                                const dataPoint = casualtyData[pointIndex];
-                                
-                                tooltipEl.innerHTML = `
-                                    <div class="font-bold">${dataPoint.month}</div>
-                                    <div><strong>Deaths:</strong> ${dataPoint.deaths.toLocaleString()}</div>
-                                    <div class="text-xs italic mt-1 text-gray-400">${dataPoint.notes}</div>
-                                `;
-
-                                const position = context.chart.canvas.getBoundingClientRect();
-                                tooltipEl.style.opacity = 1;
-                                tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
-                                tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY - tooltipEl.offsetHeight - 10 + 'px';
+                                tooltipEl.style.left = left + 'px';
+                                tooltipEl.style.top = top + 'px';
                             }
                         }
                     },
-                    onClick: (e) => {
-                        const points = casualtyChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
-                        if (points.length) {
-                            const firstPoint = points[0];
-                            const data = casualtyData[firstPoint.index];
-                            const monthIndex = new Date(Date.parse(data.month.split(" ")[0] +" 1, 2022")).getMonth() + 1;
-                            const year = `20${data.month.split("'")[1]}`;
-                            
-                            const startDate = `${year}-${String(monthIndex).padStart(2, '0')}-01`;
-                            const endDate = new Date(year, monthIndex, 0).toISOString().split('T')[0];
+                    onClick: (e, el) => {
+                        if (el.length > 0) {
+                            const d = chartData[el[0].index];
+                            const month = d.month.split(" ")[0]; // "Oct"
+                            const year = `20${d.month.split("'")[1]}`; // "2023"
+                            const monthIndex = new Date(Date.parse(month + " 1, 2000")).getMonth() + 1; // get 1-indexed month
+                            const formattedMonth = String(monthIndex).padStart(2, '0');
 
-                            document.getElementById('start-date').value = startDate;
-                            document.getElementById('end-date').value = endDate;
+                            document.getElementById('start-date').value = `${year}-${formattedMonth}-01`;
+                            document.getElementById('end-date').value = new Date(year, monthIndex, 0).toISOString().split('T')[0]; // last day of month
                             applyFilters();
                             document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
+                            document.getElementById('filter-controls').classList.remove('hidden'); // Show filters when clicking chart
                         }
                     }
                 }
             });
         }
 
-
-        // --- FILTER FUNCTIONS ---
-
-        // Dynamically creates the checkbox filters from the articles data
         function populateFilters() {
-            const tagContainer = document.getElementById('tag-filters');
-            const sourceContainer = document.getElementById('source-filters');
-
-            if (!tagContainer || !sourceContainer) return;
-
-            const uniqueTags = [...new Set(articles.map(article => article.category))].sort();
-            const uniqueSources = [...new Set(articles.map(article => article.source))].sort();
-
-            tagContainer.innerHTML = uniqueTags.map(tag => `
-                        <label class="flex items-center text-gray-300">
-                            <input type="checkbox" name="tag" value="${tag}"
-                                class="filter-checkbox bg-gray-700 border-gray-600 rounded">
-                            ${tag}
-                        </label>`).join('');
-
-            sourceContainer.innerHTML = uniqueSources.map(source => `
-                        <label class="flex items-center text-gray-300">
-                            <input type="checkbox" name="source" value="${source}"
-                                class="filter-checkbox bg-gray-700 border-gray-600 rounded">
-                            ${source}
-                        </label>`).join('');
+            const tags = [...new Set(articles.map(a => a.category))].sort();
+            const sources = [...new Set(articles.map(a => a.source))].sort();
+            document.getElementById('tag-filters').innerHTML = tags.map(t => `<label class="flex items-center text-gray-300"><input type="checkbox" name="tag" value="${t}" class="filter-checkbox bg-gray-700 border-gray-600 rounded">${t}</label>`).join('');
+            document.getElementById('source-filters').innerHTML = sources.map(s => `<label class="flex items-center text-gray-300"><input type="checkbox" name="source" value="${s}" class="filter-checkbox bg-gray-700 border-gray-600 rounded">${s}</label>`).join('');
         }
 
-        // Applies the selected filters to the articles list
         function applyFilters() {
-            const startDate = document.getElementById('start-date').value;
-            const endDate = document.getElementById('end-date').value;
+            const start = document.getElementById('start-date').value;
+            const end = document.getElementById('end-date').value;
+            const tags = [...document.querySelectorAll('#tag-filters input:checked')].map(el => el.value);
+            const sources = [...document.querySelectorAll('#source-filters input:checked')].map(el => el.value);
 
-            const selectedTags = [...document.querySelectorAll('#tag-filters input:checked')].map(el => el.value);
-            const selectedSources = [...document.querySelectorAll('#source-filters input:checked')].map(el => el.value);
+            currentlyDisplayedArticles = articles.filter(a => {
+                const articleDate = new Date(a.date);
+                const startDate = start ? new Date(start) : null;
+                const endDate = end ? new Date(end) : null;
 
-            let filteredArticles = [...articles]; // Use the global articles array
+                const dateMatch = (!startDate || articleDate >= startDate) && (!endDate || articleDate <= endDate);
+                const tagMatch = (tags.length === 0 || tags.includes(a.category));
+                const sourceMatch = (sources.length === 0 || sources.includes(a.source));
 
-            if (startDate) {
-                filteredArticles = filteredArticles.filter(article => article.date >= startDate);
-            }
-            if (endDate) {
-                filteredArticles = filteredArticles.filter(article => article.date <= endDate);
-            }
-            if (selectedTags.length > 0) {
-                filteredArticles = filteredArticles.filter(article => selectedTags.includes(article.category));
-            }
-            if (selectedSources.length > 0) {
-                filteredArticles = filteredArticles.filter(article => selectedSources.includes(article.source));
-            }
-
-            currentlyDisplayedArticles = filteredArticles;
+                return dateMatch && tagMatch && sourceMatch;
+            });
             renderArticles(currentlyDisplayedArticles);
         }
 
-        // Resets all filters to their default state
         function clearFilters() {
             document.getElementById('start-date').value = '';
             document.getElementById('end-date').value = '';
-            document.querySelectorAll('#tag-filters input:checked').forEach(el => el.checked = false);
-            document.querySelectorAll('#source-filters input:checked').forEach(el => el.checked = false);
-            currentlyDisplayedArticles = [...articles]; // Reset to all original articles
+            document.querySelectorAll('#tag-filters input:checked, #source-filters input:checked').forEach(el => el.checked = false);
+            currentlyDisplayedArticles = [...articles]; // Reset to all articles
             renderArticles(currentlyDisplayedArticles);
         }
 
-
-        // --- EVENT LISTENERS & INITIALIZATION ---
-
         function setupEventListeners() {
-            const sortNewestBtn = document.getElementById('sort-newest');
-            const sortOldestBtn = document.getElementById('sort-oldest');
-            const toggleFilterBtn = document.getElementById('toggle-filter-btn');
-            const filterControls = document.getElementById('filter-controls');
-            const toggleGraphBtn = document.getElementById('toggle-graph-btn');
-            const casualtyGraphSection = document.getElementById('casualty-graph');
+            document.getElementById('sort-newest').addEventListener('click', () => { currentSortOrder = 'newest'; renderArticles(currentlyDisplayedArticles); document.getElementById('sort-newest').classList.add('active'); document.getElementById('sort-oldest').classList.remove('active'); });
+            document.getElementById('sort-oldest').addEventListener('click', () => { currentSortOrder = 'oldest'; renderArticles(currentlyDisplayedArticles); document.getElementById('sort-oldest').classList.add('active'); document.getElementById('sort-newest').classList.remove('active'); });
+            document.getElementById('toggle-graph-btn').addEventListener('click', (e) => { const s = document.getElementById('casualty-graph'); const h = s.classList.toggle('hidden'); e.target.textContent = h ? 'Show Timeline' : 'Hide Timeline'; if (!h) s.scrollIntoView({ behavior: 'smooth' }); });
+            document.getElementById('explore-button').addEventListener('click', e => { e.preventDefault(); document.getElementById('filter-controls').classList.remove('hidden'); document.getElementById('articles').scrollIntoView({ behavior: 'smooth' }); });
+            document.getElementById('double-standard-toggle').addEventListener('change', (event) => {
+                titlesSwapped = event.target.checked;
+                renderArticles(currentlyDisplayedArticles);
+                renderVideos();
+            });
+            const moreBtn = document.getElementById('more-menu-button'), moreDropdown = document.getElementById('more-menu-dropdown');
+            moreBtn.addEventListener('click', e => { e.stopPropagation(); moreDropdown.classList.toggle('hidden'); });
 
-            if (toggleGraphBtn && casualtyGraphSection) {
-                toggleGraphBtn.addEventListener('click', () => {
-                    const isHidden = casualtyGraphSection.classList.toggle('hidden');
-                    toggleGraphBtn.textContent = isHidden ? 'Show Timeline' : 'Hide Timeline';
-                    if (!isHidden) {
-                        casualtyGraphSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            }
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeMobileMenuButton = document.getElementById('close-mobile-menu');
 
-            if (sortNewestBtn) {
-                sortNewestBtn.addEventListener('click', () => {
-                    currentSortOrder = 'newest';
-                    renderArticles(currentlyDisplayedArticles);
-                    sortNewestBtn.classList.add('active');
-                    sortOldestBtn.classList.remove('active');
-                });
-            }
-
-            if (sortOldestBtn) {
-                sortOldestBtn.addEventListener('click', () => {
-                    currentSortOrder = 'oldest';
-                    renderArticles(currentlyDisplayedArticles);
-                    sortOldestBtn.classList.add('active');
-                    sortNewestBtn.classList.remove('active');
-                });
-            }
-
-            if (toggleFilterBtn) {
-                toggleFilterBtn.addEventListener('click', () => {
-                    filterControls.classList.toggle('hidden');
-                });
-            }
-
-
-            const filterBtn = document.getElementById('filter-button');
-            const clearBtn = document.getElementById('clear-button');
-
-            if (filterBtn) filterBtn.addEventListener('click', applyFilters);
-            if (clearBtn) clearBtn.addEventListener('click', clearFilters);
-
-            const navLinks = document.querySelectorAll('header nav a, a[href^="#"]');
-            navLinks.forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    const href = this.getAttribute('href');
-                    if (href.startsWith('#')) {
-                        const targetId = href.substring(1);
-                        const targetElement = document.getElementById(targetId);
-                        // If it's the explore button, we handle it separately
-                        if (this.id === 'explore-button') return;
-
-                        e.preventDefault();
-                        if (targetElement) {
-                            targetElement.scrollIntoView({
-                                behavior: 'smooth'
-                            });
-                        }
-                    }
-                });
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.remove('-translate-x-full'));
+            closeMobileMenuButton.addEventListener('click', () => mobileMenu.classList.add('-translate-x-full'));
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('-translate-x-full'));
             });
 
-            // Added event listener for the Explore button
-            const exploreBtn = document.getElementById('explore-button');
-            if (exploreBtn) {
-                exploreBtn.addEventListener('click', (e) => {
-                    e.preventDefault(); // Stop the default jump
-
-                    const filterControls = document.getElementById('filter-controls');
-                    const articlesSection = document.getElementById('articles');
-
-                    if (filterControls) {
-                        filterControls.classList.remove('hidden'); // Show filters
-                    }
-
-                    if (articlesSection) {
-                        articlesSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            }
-
-            const doubleStandardBtn = document.getElementById('double-standard-btn');
-            if (doubleStandardBtn) {
-                doubleStandardBtn.addEventListener('click', () => {
-                    titlesSwapped = !titlesSwapped;
-                    renderArticles(currentlyDisplayedArticles); // Re-render with new title swap state
-                });
-            }
-
-            // New logic for the "More" dropdown
-            const moreMenuButton = document.getElementById('more-menu-button');
-            const moreMenuDropdown = document.getElementById('more-menu-dropdown');
-
-            if (moreMenuButton && moreMenuDropdown) {
-                moreMenuButton.addEventListener('click', (event) => {
-                    event.stopPropagation(); // Prevents the window click from closing it immediately
-                    moreMenuDropdown.classList.toggle('hidden');
-                });
-            }
-            
-            // Close modal and dropdown functionality
-            window.addEventListener('click', (event) => {
-                // Modal
-                const modal = document.getElementById('custom-modal');
-                if (event.target == modal) {
-                    hideModal();
-                }
-                
-                // Dropdown
-                if (moreMenuDropdown && !moreMenuDropdown.classList.contains('hidden')) {
-                    // Check if the click is outside the button and the dropdown itself
-                    if (!moreMenuButton.contains(event.target) && !moreMenuDropdown.contains(event.target)) {
-                        moreMenuDropdown.classList.add('hidden');
-                    }
-                }
+            window.addEventListener('click', e => {
+                if (!moreBtn.contains(e.target)) moreDropdown.classList.add('hidden');
+                if (e.target == document.getElementById('custom-modal')) hideModal();
             });
-
+            document.querySelector('.close-button').addEventListener('click', hideModal);
         }
 
-
-        // --- FIRESTORE DATA FETCHING AND REAL-TIME LISTENERS ---
-        async function fetchDataFromFirestore() {
-            showLoadingSpinner();
-
-            try {
-                // Authenticate user
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                userId = auth.currentUser?.uid || crypto.randomUUID();
-                isAuthReady = true;
-
-                // Setup real-time listeners for each collection
-                const collections = ['articles', 'videos', 'books', 'films'];
-                collections.forEach(collectionName => {
-                    const colRef = collection(db, `artifacts/${appId}/public/data/${collectionName}`);
-                    onSnapshot(colRef, (snapshot) => {
-                        // If the collection is empty, seed it with initial data
-                        if (snapshot.empty) {
-                            console.log(`No data found in ${collectionName}. Seeding initial data.`);
-                            const dataToSeed = {
-                                articles: initialArticles,
-                                videos: initialVideos,
-                                books: initialBooks,
-                                films: initialFilms,
-                            }[collectionName];
-
-                            if (dataToSeed) {
-                                seedData(collectionName, dataToSeed);
-                            }
-                            // The listener will be triggered again by seedData, so we can return here.
-                            return;
-                        }
-
-                        const data = [];
-                        snapshot.forEach(doc => {
-                            data.push({ id: doc.id, ...doc.data() });
-                        });
-
-                        // Update the corresponding global array
-                        if (collectionName === 'articles') {
-                            articles = data;
-                            currentlyDisplayedArticles = [...articles]; // Reset filtered articles too
-                            populateFilters(); // Re-populate filters with new data
-                            renderArticles(currentlyDisplayedArticles);
-                        } else if (collectionName === 'videos') {
-                            videos = data;
-                            renderVideos();
-                        } else if (collectionName === 'books') {
-                            books = data;
-                            renderBooks();
-                        } else if (collectionName === 'films') {
-                            films = data;
-                            renderFilms();
-                        }
-                    }, (error) => {
-                        console.error(`Error fetching ${collectionName}:`, error);
-                        showModal(`Error loading ${collectionName} data: ${error.message}`);
-                    });
-                });
-
-            } catch (error) {
-                console.error("Firebase authentication or data fetching error:", error);
-                showModal(`Failed to load data: ${error.message}`);
-            } finally {
-                hideLoadingSpinner();
-            }
-        }
-
-        // --- Function to seed initial data into Firestore ---
-        async function seedData(collectionName, dataArray) {
-            try {
-                const colRef = collection(db, `artifacts/${appId}/public/data/${collectionName}`);
-                for (const item of dataArray) {
-                    await addDoc(colRef, item);
-                }
-                console.log(`Successfully seeded ${collectionName} collection.`);
-            } catch (error) {
-                console.error(`Error seeding data for ${collectionName}:`, error);
-                showModal(`Failed to seed initial data: ${error.message}`);
-            }
-        }
-
-
-        // This runs when the page is fully loaded
         document.addEventListener('DOMContentLoaded', () => {
-            fetchDataFromFirestore();
-            fetchJournalistCount();
+            // Setup global state from the hardcoded initialData object
+            articles = initialData.articles;
+            videos = initialData.videos;
+            books = initialData.books;
+            films = initialData.films;
+            currentlyDisplayedArticles = [...articles];
+
+            // Render all content on the page
+            populateFilters();
+            renderArticles(currentlyDisplayedArticles);
+            renderVideos();
+            renderBooks();
+            renderFilms();
+            
+            // Setup event listeners and other functionality
             setupEventListeners();
+            fetchJournalistCount();
             renderCasualtyChart(casualtyData);
         });
     </script>
 </body>
 
 </html>
+
+
+
