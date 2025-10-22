@@ -624,11 +624,7 @@ A tool to test and reveal racial double standards.
                             class="control-button text-sm font-medium py-2 px-4 rounded-md">Oldest</button>
                         <button id="toggle-filter-btn"
                             class="control-button text-sm font-medium py-2 px-4 rounded-md">Toggle Filters</button>
-                        <!-- New Add Article Button -->
-                        <button id="add-article-btn"
-                            class="control-button text-sm font-medium py-2 px-4 rounded-md bg-green-600 hover:bg-green-700 text-white border-green-700">
-                            Add Article
-                        </button>
+    
                     </div>
                 </div>
 
@@ -829,65 +825,6 @@ A tool to test and reveal racial double standards.
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <p id="modal-message" class="text-gray-200 text-center text-lg"></p>
-        </div>
-    </div>
-
-    <!-- New Article Submission Modal -->
-    <div id="submission-modal" class="modal">
-        <div class="modal-content max-w-2xl w-full"> <!-- Use max-w-2xl for a wider form modal -->
-            <span id="close-submission-modal" class="close-button">&times;</span>
-            <h3 class="text-2xl font-bold mb-6 text-white">Suggest a New Article</h3>
-            <form id="article-submission-form" class="submission-form">
-                <p class="text-sm text-gray-400 mb-2">
-                    Found an article we're missing? Fill out the form below. Submitting will open a pre-filled GitHub
-                    issue in a new tab for you to review and submit.
-                </p>
-                
-                <div>
-                    <label for="article-url" class="form-label">Article URL (Required)</label>
-                    <input type="url" id="article-url" class="form-input" required>
-                </div>
-
-                <div>
-                    <label for="article-title" class="form-label">Article Title (Required)</label>
-                    <input type="text" id="article-title" class="form-input" required>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="article-source" class="form-label">Source (e.g., "The Guardian") (Required)</label>
-                        <input type="text" id="article-source" class="form-input" required>
-                    </div>
-                    <div>
-                        <label for="article-date" class="form-label">Publication Date (Required)</label>
-                        <input type="date" id="article-date" class="form-input" required
-                            style="color-scheme: dark;">
-                    </div>
-                </div>
-
-                <div>
-                    <label for="article-category" class="form-label">Suggested Category (Optional)</label>
-                    <input type="text" id="article-category" class="form-input"
-                        placeholder="e.g., Humanitarian, Conflict, Illegal Weaponry">
-                </div>
-
-                <div>
-                    <label for="article-summary" class="form-label">Summary (Optional)</label>
-                    <textarea id="article-summary" class="form-textarea"
-                        placeholder="A brief one or two-sentence summary."></textarea>
-                </div>
-
-                <div class="mt-4">
-                    <button type="submit" id="submit-to-github-btn" class="form-submit-btn w-full md:w-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                            viewBox="0 0 16 16" class="mr-2"> <!-- Added margin-right -->
-                            <path
-                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
-                        </svg>
-                        Submit via GitHub
-                    </button>
-                </div>
-            </form>
         </div>
     </div>
 
