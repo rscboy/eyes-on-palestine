@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -625,13 +625,6 @@ A tool to test and reveal racial double standards.
                         <button id="toggle-filter-btn"
                             class="control-button text-sm font-medium py-2 px-4 rounded-md">Toggle Filters</button>
                         
-                        <!-- START: Added Button -->
-                        <button id="add-article-btn"
-                            class="control-button bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 px-4 rounded-md flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                            Add Article
-                        </button>
-                        <!-- END: Added Button -->
                     </div>
                 </div>
 
@@ -837,42 +830,6 @@ A tool to test and reveal racial double standards.
 
     <!-- START: Added Submission Modal -->
     <!-- Submission Modal Structure -->
-    <div id="submission-modal" class="modal">
-        <div class="modal-content">
-            <span id="close-submission-modal" class="close-button">&times;</span>
-            <h3 class="text-2xl font-bold mb-6 text-center text-white">Submit a New Article</h3>
-            <form id="article-submission-form" class="submission-form">
-                <div>
-                    <label for="article-url" class="form-label">Article URL*</label>
-                    <input type="url" id="article-url" class="form-input" placeholder="https://example.com/article" required>
-                </div>
-                <div>
-                    <label for="article-title" class="form-label">Title*</label>
-                    <input type="text" id="article-title" class="form-input" placeholder="Article Title" required>
-                </div>
-                <div>
-                    <label for="article-source" class="form-label">Source*</label>
-                    <input type="text" id="article-source" class="form-input" placeholder="e.g., Al Jazeera, HRW" required>
-                </div>
-                <div>
-                    <label for="article-date" class="form-label">Publication Date*</label>
-                    <input type="date" id="article-date" class="form-input" required>
-                </div>
-                <div>
-                    <label for="article-category" class="form-label">Category (Optional)</label>
-                    <input type="text" id="article-category" class="form-input" placeholder="e.g., Targeting Healthcare">
-                </div>
-                <div>
-                    <label for="article-summary" class="form-label">Summary (Optional)</label>
-                    <textarea id="article-summary" class="form-textarea" placeholder="A brief summary..."></textarea>
-                </div>
-                <button type="submit" class="form-submit-btn">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                    Submit to GitHub
-                </button>
-            </form>
-        </div>
-    </div>
     <!-- END: Added Submission Modal -->
 
 
@@ -5709,78 +5666,13 @@ source: "Haaretz"
         };
 
      
-       // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
+              // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
 
         function showLoadingSpinner() { document.getElementById('loading-spinner').classList.remove('hidden'); document.getElementById('loading-spinner').classList.add('flex'); }
         function hideLoadingSpinner() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('loading-spinner').classList.remove('flex'); }
         // We still use the modal for fallback, but not for primary copy feedback.
         function showModal(message) { const modal = document.getElementById('custom-modal'); modal.querySelector('#modal-message').textContent = message; modal.style.display = 'flex'; }
         function hideModal() { document.getElementById('custom-modal').style.display = 'none'; }
-
-        // --- New Submission Modal Functions ---
-        function showSubmissionModal() {
-            document.getElementById('submission-modal').style.display = 'flex';
-        }
-        function hideSubmissionModal() {
-            document.getElementById('submission-modal').style.display = 'none';
-            document.getElementById('article-submission-form').reset(); // Reset form on close
-        }
-        function handleSubmission(event) {
-            event.preventDefault(); // Prevent form from submitting normally
-
-            // --- IMPORTANT: Update this with your project's GitHub repo URL ---
-            const GITHUB_REPO_URL = "https://github.com/rscboy/eyes-on-palestine";
-            // ---
-
-            const url = document.getElementById('article-url').value;
-            const title = document.getElementById('article-title').value;
-            const source = document.getElementById('article-source').value;
-            const date = document.getElementById('article-date').value;
-            const category = document.getElementById('article-category').value;
-            const summary = document.getElementById('article-summary').value;
-
-            // Simple validation
-            if (!url || !title || !source || !date) {
-                // Use your existing modal for alerts
-                showModal("Please fill out all required fields (URL, Title, Source, Date).");
-                // Find the first empty required field and focus it
-                if (!url) document.getElementById('article-url').focus();
-                else if (!title) document.getElementById('article-title').focus();
-                else if (!source) document.getElementById('article-source').focus();
-                else if (!date) document.getElementById('article-date').focus();
-                return;
-            }
-
-            const issueTitle = `New Article Submission: ${title}`;
-
-            const issueBody = `
-**New Article Submission**
-
-**URL:** ${url}
-**Title:** ${title}
-**Source:** ${source}
-**Publication Date:** ${date}
-
----
-
-**Suggested Category (Optional):**
-${category || "N/A"}
-
-**Suggested Summary (Optional):**
-${summary || "N/A"}
-
----
-*Submitted via the "Add Article" button on the website.*
-            `;
-
-            const githubUrl = `${GITHUB_REPO_URL}/issues/new?title=${encodeURIComponent(issueTitle)}&body=${encodeURIComponent(issueBody)}`;
-
-            // Open in new tab
-            window.open(githubUrl, '_blank', 'noopener,noreferrer');
-
-            // Close modal and reset form
-            hideSubmissionModal();
-        }
 
 
         // --- Share Functions ---
@@ -6175,13 +6067,6 @@ ${summary || "N/A"}
                 applyFilters(); // Re-run all filters (including search) as user types
             });
 
-            // --- New Article Submission Listeners ---
-            // This is the section that was causing the error. Now the elements exist.
-            document.getElementById('add-article-btn').addEventListener('click', showSubmissionModal);
-            document.getElementById('close-submission-modal').addEventListener('click', hideSubmissionModal);
-            document.getElementById('article-submission-form').addEventListener('submit', handleSubmission);
-            // ---
-
             // Filter buttons
             document.getElementById('toggle-filter-btn').addEventListener('click', () => {
                 document.getElementById('filter-controls').classList.toggle('hidden');
@@ -6223,11 +6108,6 @@ ${summary || "N/A"}
                 // Close alert modal
                 if (e.target == document.getElementById('custom-modal')) {
                     hideModal();
-                }
-
-                // --- New: Close submission modal ---
-                if (e.target == document.getElementById('submission-modal')) {
-                    hideSubmissionModal();
                 }
 
                 // --- New Share Popover Logic ---
