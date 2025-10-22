@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit an Article to Echoes of Gaza</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl">
+        
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">Submit an Article to Echoes of Gaza</h1>
+            <p class="text-gray-600 mt-2">
+                Thank you for contributing to the "Echoes of Gaza: A Historical Archive." 
+                Fill out the fields below and click "Submit" to create a new issue in the GitHub repository.
+            </p>
+        </div>
+
+        <!-- Submission Form -->
+        <form id="submissionForm">
+            <!-- Section 1: Required -->
+            <div class="border-b border-gray-200 pb-4 mb-6">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Article Details (All fields required)</h2>
+                <div class="space-y-4">
+                    <!-- Article Title -->
+                    <div>
+                        <label for="title" class="block text-sm font-medium text-gray-700">1. Article Title</label>
+                        <p class="text-xs text-gray-500 mb-1">Please paste the full, original title of the article.</p>
+                        <input type="text" id="title" name="title" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    
+                    <!-- Original Article URL -->
+                    <div>
+                        <label for="link" class="block text-sm font-medium text-gray-700">2. Original Article URL</label>
+                        <p class="text-xs text-gray-500 mb-1">The direct link (URL) to the full story.</p>
+                        <input type="url" id="link" name="link" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <!-- Source Name -->
+                    <div>
+                        <label for="source" class="block text-sm font-medium text-gray-700">3. Source Name</label>
+                        <p class="text-xs text-gray-500 mb-1">The name of the publication or organization (e.g., Al Jazeera, The Guardian, WAFA, B'Tselem).</p>
+                        <input type="text" id="source" name="source" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <!-- Original Publication Date -->
+                    <div>
+                        <label for="date" class="block text-sm font-medium text-gray-700">4. Original Publication Date</label>
+                        <input type="date" id="date" name="date" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <!-- Category -->
+                    <div>
+                        <label for="category" class="block text-sm font-medium text-gray-700">5. Category</label>
+                        <p class="text-xs text-gray-500 mb-1">Provide a brief category (e.g., News Report, Human Rights, Historical Analysis, Personal Story, Opinion).</p>
+                        <input type="text" id="category" name="category" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Optional -->
+            <div class="pb-4 mb-6">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Optional Information</h2>
+                <div class="space-y-4">
+                    <!-- Neutral Summary -->
+                    <div>
+                        <label for="summary" class="block text-sm font-medium text-gray-700">6. Neutral Summary</label>
+                        <p class="text-xs text-gray-500 mb-1">(Optional) Please provide 1-3 sentences that objectively and neutrally summarize the article's main point.</p>
+                        <textarea id="summary" name="summary" rows="3"
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+                    </div>
+
+                    <!-- Image URL -->
+                    <div>
+                        <label for="imageUrl" class="block text-sm font-medium text-gray-700">7. Image URL</label>
+                        <p class="text-xs text-gray-500 mb-1">(Optional) Direct link to a key image (must end in .jpg, .png, etc.)</p>
+                        <input type="url" id="imageUrl" name="imageUrl"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit"
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                    Submit to GitHub
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('submissionForm').addEventListener('submit', function(event) {
+            // Stop the form from submitting normally
+            event.preventDefault();
+
+            // Get values from the form
+            const title = document.getElementById('title').value;
+            const link = document.getElementById('link').value;
+            const source = document.getElementById('source').value;
+            const date = document.getElementById('date').value;
+            const category = document.getElementById('category').value;
+            const summary = document.getElementById('summary').value;
+            const imageUrl = document.getElementById('imageUrl').value;
+
+            // --- Build the GitHub Issue Title ---
+            // Format: [Source] Title
+            const issueTitle = `[${source}] ${title}`;
+
+            // --- Build the GitHub Issue Body ---
+            
+            // 1. Assign values or placeholders for the JSON
+            const summaryValue = summary || "<neutral summary>";
+            const imageUrlValue = imageUrl || "<mapped or placeholder>";
+
+            // 2. Create the JSON object
+            const articleData = {
+                date: date,
+                title: title,
+                summary: summaryValue,
+                link: link,
+                imageUrl: imageUrlValue,
+                category: category,
+                categoryColor: "<color>", // Placeholder as requested
+                source: source
+            };
+
+            // 3. Stringify the JSON with 2-space indentation
+            const jsonString = JSON.stringify(articleData, null, 2);
+
+            // 4. Create the issue body with the JSON in a Markdown code block
+            let issueBody = `
+**Submission for "Echoes of Gaza"**
+
+Please copy and paste the JSON block below to add the new article.
+
+\`\`\`json
+${jsonString}
+\`\`\`
+
+---
+**Quick Reference:**
+- **Submitted URL:** ${link}
+`;
+
+            // This is the base URL for new issues in your repository
+            const githubUrl = 'https://github.com/rscboy/eyes-on-palestine/issues/new';
+
+            // Encode the title and body to be safely put in a URL
+            const encodedTitle = encodeURIComponent(issueTitle);
+            const encodedBody = encodeURIComponent(issueBody);
+
+            // Create the final URL
+            const finalUrl = `${githubUrl}?title=${encodedTitle}&body=${encodedBody}`;
+
+            // Open the GitHub issue page in a new tab
+            window.open(finalUrl, '_blank');
+        });
+    </script>
+
+</body>
+</html>
+
