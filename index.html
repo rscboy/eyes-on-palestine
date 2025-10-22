@@ -4,7 +4,7 @@
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R5DZ6CC2Z8"></script>
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/197/197467.png" type="image/png">   
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/197/197467.png" type="image/png">
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
@@ -62,6 +62,133 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
             border-color: #555;
         }
+
+        .card-footer {
+            border-top: 1px solid #333;
+            /* Separator line */
+            padding: 0.75rem 1.5rem;
+            /* 12px 24px */
+            background-color: #1f1f1f;
+            /* Slightly different bg */
+            display: flex;
+            justify-content: flex-end;
+            /* Aligns the new share button to the right */
+            gap: 0.5rem;
+            /* 8px */
+            border-bottom-left-radius: 0.375rem;
+            /* 6px */
+            border-bottom-right-radius: 0.375rem;
+            /* 6px */
+        }
+
+        /* --- New Share Button & Popover Styles --- */
+        .share-container {
+            position: relative;
+        }
+
+        .share-button-new {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            /* 8px */
+            background-color: #333;
+            color: #a0a0a0;
+            border: 1px solid #444;
+            border-radius: 0.375rem;
+            /* 6px */
+            padding: 0.5rem 0.75rem;
+            /* 8px 12px */
+            font-size: 0.875rem;
+            /* 14px */
+            font-weight: 500;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            cursor: pointer;
+        }
+
+        .share-button-new:hover {
+            background-color: #444;
+            border-color: #555;
+            color: #fff;
+        }
+
+        .share-button-new svg {
+            width: 1rem;
+            /* 16px */
+            height: 1rem;
+            /* 16px */
+        }
+
+        .share-popover {
+            display: none;
+            position: absolute;
+            bottom: 125%;
+            /* Position above the button */
+            right: 0;
+            width: 200px;
+            background-color: rgba(42, 42, 42, 0.8);
+            /* Semi-transparent */
+            backdrop-filter: blur(5px);
+            /* Blur effect */
+            border: 1px solid #555;
+            border-radius: 0.5rem;
+            /* 8px */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            padding: 0.5rem;
+            /* 8px */
+        }
+
+        .share-popover.visible {
+            display: block;
+        }
+
+        /* Popover Arrow */
+        .share-popover::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            /* At the bottom of the popover */
+            right: 1.25rem;
+            /* 20px from the right, to align with button */
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(42, 42, 42, 0.8) transparent transparent transparent;
+            /* Points down */
+        }
+
+        .popover-action {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            /* 12px */
+            padding: 0.625rem 0.75rem;
+            /* 10px 12px */
+            font-size: 0.875rem;
+            /* 14px */
+            color: #d1d5db;
+            /* gray-300 */
+            border-radius: 0.375rem;
+            /* 6px */
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .popover-action:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .popover-action svg {
+            width: 1.125rem;
+            /* 18px */
+            height: 1.125rem;
+            /* 18px */
+            flex-shrink: 0;
+        }
+        /* --- End of New Share Styles --- */
+
 
         .tag-green {
             background-color: rgba(0, 151, 54, 0.1);
@@ -138,7 +265,7 @@
             color: #ffffff;
         }
 
-        /* Date input styling */
+        /* Date and Search input styling */
         input[type="date"] {
             background-color: #2a2a2a;
             border: 1px solid #444;
@@ -147,6 +274,11 @@
             border-radius: 0.375rem;
             color-scheme: dark;
         }
+
+        /* Removed CSS for input[type="search"] here.
+          It's handled by Tailwind classes on the input element itself,
+          and we're changing to type="text" to avoid default browser icons.
+        */
 
         .filter-checkbox {
             margin-right: 0.5rem;
@@ -185,14 +317,15 @@
             background-color: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
+            padding: 1rem; /* Add padding for small screens */
         }
 
         .modal-content {
             background-color: #1a1a1a;
             margin: auto;
-            padding: 20px;
+            padding: 2rem; /* Increased padding */
             border: 1px solid #888;
-            width: 80%;
+            width: 100%; /* Full width on mobile */
             max-width: 500px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -201,7 +334,9 @@
 
         .close-button {
             color: #aaa;
-            float: right;
+            position: absolute; /* Positioned relative to modal-content */
+            top: 0.75rem;
+            right: 1rem;
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
@@ -213,6 +348,67 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        /* Styles for the submission form */
+        .submission-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #d1d5db;
+            /* gray-300 */
+            margin-bottom: -0.5rem; /* Pull input closer */
+        }
+
+        .form-input,
+        .form-textarea {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            width: 100%;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            /* blue-500 */
+            box-shadow: 0 0 0 1px #3b82f6;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-submit-btn {
+            background-color: #16a34a;
+            /* green-600 */
+            color: #fff;
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .form-submit-btn:hover {
+            background-color: #15803d;
+            /* green-700 */
+        }
+
 
         #casualty-chart-container {
             position: relative;
@@ -400,9 +596,27 @@ A tool to test and reveal racial double standards.
 
         <section id="articles" class="py-16 md:py-24">
             <div class="container mx-auto px-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                    <h3 class="text-3xl font-bold mb-4 md:mb-0">Articles</h3>
-                    <div id="sort-controls" class="flex items-center space-x-2">
+                <h3 class="text-3xl font-bold mb-4">Articles</h3>
+
+                <!-- Controls Row: Contains Search and Sort/Filter buttons -->
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+
+                    <!-- Search Bar (Moved) -->
+                    <div class="relative w-full md:flex-1">
+                        <input type="text" id="article-search"
+                            class="w-full pl-10 pr-4 py-3 rounded-lg bg-[#1a1a1a] border border-[#333] text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                            placeholder="Search articles by title or summary...">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Sort and Filter Controls -->
+                    <div id="sort-controls" class="flex items-center space-x-2 flex-shrink-0">
                         <span class="text-sm text-gray-400">Sort by:</span>
                         <button id="sort-newest"
                             class="control-button active text-sm font-medium py-2 px-4 rounded-md">Newest</button>
@@ -410,6 +624,11 @@ A tool to test and reveal racial double standards.
                             class="control-button text-sm font-medium py-2 px-4 rounded-md">Oldest</button>
                         <button id="toggle-filter-btn"
                             class="control-button text-sm font-medium py-2 px-4 rounded-md">Toggle Filters</button>
+                        <!-- New Add Article Button -->
+                        <button id="add-article-btn"
+                            class="control-button text-sm font-medium py-2 px-4 rounded-md bg-green-600 hover:bg-green-700 text-white border-green-700">
+                            Add Article
+                        </button>
                     </div>
                 </div>
 
@@ -605,13 +824,73 @@ A tool to test and reveal racial double standards.
         </div>
     </footer>
 
-    <!-- Custom Modal Structure -->
+    <!-- Custom Modal Structure (for alerts) -->
     <div id="custom-modal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <p id="modal-message" class="text-gray-200 text-center text-lg"></p>
         </div>
     </div>
+
+    <!-- New Article Submission Modal -->
+    <div id="submission-modal" class="modal">
+        <div class="modal-content max-w-2xl w-full"> <!-- Use max-w-2xl for a wider form modal -->
+            <span id="close-submission-modal" class="close-button">&times;</span>
+            <h3 class="text-2xl font-bold mb-6 text-white">Suggest a New Article</h3>
+            <form id="article-submission-form" class="submission-form">
+                <p class="text-sm text-gray-400 mb-2">
+                    Found an article we're missing? Fill out the form below. Submitting will open a pre-filled GitHub
+                    issue in a new tab for you to review and submit.
+                </p>
+                
+                <div>
+                    <label for="article-url" class="form-label">Article URL (Required)</label>
+                    <input type="url" id="article-url" class="form-input" required>
+                </div>
+
+                <div>
+                    <label for="article-title" class="form-label">Article Title (Required)</label>
+                    <input type="text" id="article-title" class="form-input" required>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="article-source" class="form-label">Source (e.g., "The Guardian") (Required)</label>
+                        <input type="text" id="article-source" class="form-input" required>
+                    </div>
+                    <div>
+                        <label for="article-date" class="form-label">Publication Date (Required)</label>
+                        <input type="date" id="article-date" class="form-input" required
+                            style="color-scheme: dark;">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="article-category" class="form-label">Suggested Category (Optional)</label>
+                    <input type="text" id="article-category" class="form-input"
+                        placeholder="e.g., Humanitarian, Conflict, Illegal Weaponry">
+                </div>
+
+                <div>
+                    <label for="article-summary" class="form-label">Summary (Optional)</label>
+                    <textarea id="article-summary" class="form-textarea"
+                        placeholder="A brief one or two-sentence summary."></textarea>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" id="submit-to-github-btn" class="form-submit-btn w-full md:w-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            viewBox="0 0 16 16" class="mr-2"> <!-- Added margin-right -->
+                            <path
+                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                        </svg>
+                        Submit via GitHub
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 
     <script type="module">
         // --- GLOBAL STATE & INITIAL DATA ---
@@ -621,6 +900,7 @@ A tool to test and reveal racial double standards.
         const casualtyData = [
             { month: "Oct '23", year: 2023, deaths: 9000, notes: "Highest intensity period" }, { month: "Nov '23", year: 2023, deaths: 19000, notes: "Continued high-intensity bombardment" }, { month: "Dec '23", year: 2023, deaths: 22000, notes: "Cumulative total by end of year" }, { month: "Jan '24", year: 2024, deaths: 26000, notes: "Intensity decreased" }, { month: "Feb '24", year: 2024, deaths: 30000, notes: "Continued operations" }, { month: "Mar '24", year: 2024, deaths: 33000, notes: "Operations expanded to Khan Younis" }, { month: "Apr '24", year: 2024, deaths: 35000, notes: "Decrease in daily casualties" }, { month: "May '24", year: 2024, deaths: 37000, notes: "Continued lower intensity" }, { month: "Jun '24", year: 2024, deaths: 39000, notes: "Escalation in Rafah and Khan Younis" }, { month: "Jul '24", year: 2024, deaths: 41000, notes: "Ongoing operations" }, { month: "Aug '24", year: 2024, deaths: 43000, notes: "Official MoH count: 40,000+" }, { month: "Sep '24", year: 2024, deaths: 44000, notes: "Operations continued" }, { month: "Oct '24", year: 2024, deaths: 46000, notes: "One year since conflict began" }, { month: "Nov '24", year: 2024, deaths: 48000, notes: "Continued hostilities" }, { month: "Dec '24", year: 2024, deaths: 50000, notes: "Operations ongoing" }, { month: "Jan '25", year: 2025, deaths: 51000, notes: "Ceasefire began Jan 19" }, { month: "Feb '25", year: 2025, deaths: 52000, notes: "Limited ceasefire period" }, { month: "Mar '25", year: 2025, deaths: 55000, notes: "Israel resumed operations" }, { month: "Apr '25", year: 2025, deaths: 57000, notes: "Continued operations" }, { month: "May '25", year: 2025, deaths: 59000, notes: "Ongoing conflict" }, { month: "Jun '25", year: 2025, deaths: 61000, notes: "Operations continued" }, { month: "Jul '25", year: 2025, deaths: 63000, notes: "Sustained bombardment" }, { month: "Aug '25", year: 2025, deaths: 65000, notes: "Major Gaza City offensive" }, { month: "Sep '25", year: 2025, deaths: 66000, notes: "Total exceeded 65,000" }, { month: "Oct '25", year: 2025, deaths: 68000, notes: "Official count: ~67,000 by Oct 7" },
         ];
+
 
         const initialData = {
             articles: [
@@ -5288,7 +5568,7 @@ source: "Haaretz"
     "source": "Hind Rajab Foundation"
   },
   {
-    "date": "2025-10-22",
+    "date": "2025-10-21",
     "title": "Who are the 95 Palestinian healthcare workers held captive by Israel?",
     "summary": "An article by Al Jazeera reports that Israel is holding 95 Palestinian healthcare workers — 80 from Gaza and 15 from the occupied West Bank — including doctors, nurses and paramedics, raising concerns about the impact on medical care and international humanitarian law.",
     "link": "https://aje.io/3au4gq",
@@ -5306,16 +5586,6 @@ source: "Haaretz"
     "category": "Humanitarian",
     "categoryColor": "orange",
     "source": "PBS NewsHour"
-  },
-  {
-    "date": "2025-10-22",
-    "title": "ICJ: Israel has not backed up claims many UNRWA staff are Hamas",
-    "summary": "In a live‑blog entry, the Times of Israel reports that according to the ICJ the Israeli government has not submitted sufficient evidence to substantiate its allegations that a significant number of UNRWA employees are members of Hamas or other terrorist organisations.",
-    "link": "https://www.timesofisrael.com/liveblog_entry/icj-israel-has-not-backed-up-claims-many-unrwa-staff-are-hamas/",
-    "imageUrl": "https://play-lh.googleusercontent.com/5RXKeNxLAMc60xycN3PSvoxwEY8Pp9iiZH2stMxmh9YoL6YOa7wSYPMA-w1vpYM7rg",
-    "category": "Legal",
-    "categoryColor": "purple",
-    "source": "The Times of Israel"
   },
   {
     "date": "2025-10-20",
@@ -5454,12 +5724,176 @@ source: "Haaretz"
             ]
         };
 
+     
         // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
 
         function showLoadingSpinner() { document.getElementById('loading-spinner').classList.remove('hidden'); document.getElementById('loading-spinner').classList.add('flex'); }
         function hideLoadingSpinner() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('loading-spinner').classList.remove('flex'); }
+        // We still use the modal for fallback, but not for primary copy feedback.
         function showModal(message) { const modal = document.getElementById('custom-modal'); modal.querySelector('#modal-message').textContent = message; modal.style.display = 'flex'; }
         function hideModal() { document.getElementById('custom-modal').style.display = 'none'; }
+
+        // --- New Submission Modal Functions ---
+        function showSubmissionModal() {
+            document.getElementById('submission-modal').style.display = 'flex';
+        }
+        function hideSubmissionModal() {
+            document.getElementById('submission-modal').style.display = 'none';
+            document.getElementById('article-submission-form').reset(); // Reset form on close
+        }
+        function handleSubmission(event) {
+            event.preventDefault(); // Prevent form from submitting normally
+
+            // --- IMPORTANT: Update this with your project's GitHub repo URL ---
+            const GITHUB_REPO_URL = "https://github.com/rscboy/eyes-on-palestine";
+            // ---
+
+            const url = document.getElementById('article-url').value;
+            const title = document.getElementById('article-title').value;
+            const source = document.getElementById('article-source').value;
+            const date = document.getElementById('article-date').value;
+            const category = document.getElementById('article-category').value;
+            const summary = document.getElementById('article-summary').value;
+
+            // Simple validation
+            if (!url || !title || !source || !date) {
+                // Use your existing modal for alerts
+                showModal("Please fill out all required fields (URL, Title, Source, Date).");
+                // Find the first empty required field and focus it
+                if (!url) document.getElementById('article-url').focus();
+                else if (!title) document.getElementById('article-title').focus();
+                else if (!source) document.getElementById('article-source').focus();
+                else if (!date) document.getElementById('article-date').focus();
+                return;
+            }
+
+            const issueTitle = `New Article Submission: ${title}`;
+
+            const issueBody = `
+**New Article Submission**
+
+**URL:** ${url}
+**Title:** ${title}
+**Source:** ${source}
+**Publication Date:** ${date}
+
+---
+
+**Suggested Category (Optional):**
+${category || "N/A"}
+
+**Suggested Summary (Optional):**
+${summary || "N/A"}
+
+---
+*Submitted via the "Add Article" button on the website.*
+        `;
+
+            const githubUrl = `${GITHUB_REPO_URL}/issues/new?title=${encodeURIComponent(issueTitle)}&body=${encodeURIComponent(issueBody)}`;
+
+            // Open in new tab
+            window.open(githubUrl, '_blank', 'noopener,noreferrer');
+
+            // Close modal and reset form
+            hideSubmissionModal();
+        }
+
+
+        // --- Share Functions ---
+        function shareOnTwitter(url, title) {
+            const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+            window.open(twitterUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        function shareOnFacebook(url) {
+            const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            window.open(facebookUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        function copyLink(url, title, uniqueId) {
+            const textArea = document.createElement('textarea');
+            textArea.value = url;
+            textArea.style.position = 'fixed'; // Remove from view
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                
+                // --- New Feedback Logic ---
+                const actionEl = document.getElementById(`copy-link-${uniqueId}`);
+                const textEl = document.getElementById(`copy-text-${uniqueId}`);
+                const iconContainer = actionEl.querySelector('.copy-icon-wrapper');
+
+                if (actionEl && textEl && iconContainer) {
+                    textEl.textContent = 'Copied!';
+                    iconContainer.innerHTML = iconCheckmark; // Swap icon
+                    actionEl.style.pointerEvents = 'none'; // Disable button temporarily
+
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        textEl.textContent = 'Copy Link';
+                        iconContainer.innerHTML = iconLink; // Swap back to link icon
+                        actionEl.style.pointerEvents = 'auto'; // Re-enable
+                    }, 2000);
+                }
+                // --- End New Feedback Logic ---
+
+            } catch (err) {
+                console.error('Failed to copy link: ', err);
+                showModal('Failed to copy link.'); // Fallback modal
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // --- Attach to window to make them accessible from onclick attributes ---
+        window.shareOnTwitter = shareOnTwitter;
+        window.shareOnFacebook = shareOnFacebook;
+        window.copyLink = copyLink;
+
+        // --- SVG Icons for Buttons ---
+        const iconShare = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><path d="M16 6l-4-4-4 4"></path><path d="M12 2v14"></path></svg>`;
+        const iconTwitter = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"></path></svg>`;
+        const iconFacebook = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3v9h4v-9z"></path></svg>`;
+        const iconLink = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`;
+        const iconCheckmark = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>`;
+
+        // Renamed from generateShareButtons
+        function generateShareMenu(url, title) {
+            // Escape quotes in title for the onclick attribute
+            const escapedTitle = title.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            const escapedUrl = url.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            // Create a unique ID for this card's copy-link elements
+            const uniqueId = Math.random().toString(36).substring(2, 9);
+
+            return `
+                <div class="share-container">
+                    <!-- The new single share button -->
+                    <button class="share-button-new" aria-haspopup="true" title="Share">
+                        ${iconShare}
+                        <span>Share</span>
+                    </button>
+                    
+                    <!-- The hidden popover menu -->
+                    <div class="share-popover">
+                        <div class="popover-action" onclick="window.shareOnTwitter('${escapedUrl}', '${escapedTitle}')">
+                            ${iconTwitter}
+                            <span>Share on X</span>
+                        </div>
+                        <div class="popover-action" onclick="window.shareOnFacebook('${escapedUrl}')">
+                            ${iconFacebook}
+                            <span>Share on Facebook</span>
+                        </div>
+                        <div class="popover-action" id="copy-link-${uniqueId}" onclick="window.copyLink('${escapedUrl}', '${escapedTitle}', '${uniqueId}')">
+                            <span class="copy-icon-wrapper">${iconLink}</span>
+                            <span id="copy-text-${uniqueId}">Copy Link</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
 
         function getSwappedText(text) {
             if (!titlesSwapped) return text;
@@ -5517,7 +5951,7 @@ source: "Haaretz"
             });
 
             if (sorted.length === 0) {
-                grid.innerHTML = `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center">No articles match filters.</p>`;
+                grid.innerHTML = `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center">No articles match your search or filters.</p>`;
                 return;
             }
 
@@ -5525,38 +5959,100 @@ source: "Haaretz"
                 const tagClasses = { red: 'tag-red', green: 'tag-green', gray: 'tag-gray', blue: 'tag-blue', orange: 'tag-orange', purple: 'tag-purple' };
                 const tagClass = tagClasses[article.categoryColor] || 'tag-gray';
                 const formattedDate = new Date(article.date + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                const escapedTitle = getSwappedText(article.title).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                const escapedUrl = article.link.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
                 return `
-                <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col">
-                    <div class="relative overflow-hidden rounded-t-lg">
-                        <img src="${article.imageUrl}" alt="${getSwappedText(article.title)}" class="w-full h-48 object-cover transform transition-transform duration-300 hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
-                    </div>
-                    <div class="p-6 flex-grow flex flex-col">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-xs font-semibold px-2 py-1 rounded-full ${tagClass}">${article.category}</span>
-                            <span class="text-xs text-gray-500">${formattedDate}</span>
+                <div class="card rounded-lg flex flex-col">
+                    <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="block flex flex-col flex-grow hover:opacity-90 transition-opacity">
+                        <div class="relative overflow-hidden rounded-t-lg">
+                            <img src="${article.imageUrl}" alt="${getSwappedText(article.title)}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
                         </div>
-                        <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight">${getSwappedText(article.title)}</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed flex-grow">${getSwappedText(article.summary)}</p>
-                        <div class="text-xs text-gray-500 mt-4">Source: ${article.source}</div>
+                        <div class="p-6 flex-grow flex flex-col">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-semibold px-2 py-1 rounded-full ${tagClass}">${article.category}</span>
+                                <span class="text-xs text-gray-500">${formattedDate}</span>
+                            </div>
+                            <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight">${getSwappedText(article.title)}</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed flex-grow">${getSwappedText(article.summary)}</p>
+                            <div class="text-xs text-gray-500 mt-4">Source: ${article.source}</div>
+                        </div>
+                    </a>
+                    <div class="card-footer">
+                        ${generateShareMenu(escapedUrl, escapedTitle)}
                     </div>
-                </a>`;
+                </div>`;
             }).join('');
         }
 
         function renderVideos() {
             const grid = document.getElementById('video-grid');
             if (!grid) return;
-            grid.innerHTML = videos.map(v => `<a href="${v.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col"><div class="relative overflow-hidden rounded-t-lg"><img src="${v.imageUrl}" alt="${getSwappedText(v.title)}" class="w-full h-48 object-cover transform transition-transform duration-300 hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';"></div><div class="p-6 flex-grow flex flex-col"><h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight flex-grow">${getSwappedText(v.title)}</h4><div class="text-xs text-gray-500 mt-4">${v.creator} on ${v.platform}</div></div></a>`).join('');
+            grid.innerHTML = videos.map(v => {
+                const escapedTitle = getSwappedText(v.title).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                const escapedUrl = v.link.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                return `
+                <div class="card rounded-lg flex flex-col">
+                    <a href="${v.link}" target="_blank" rel="noopener noreferrer" class="block flex flex-col flex-grow hover:opacity-90 transition-opacity">
+                        <div class="relative overflow-hidden rounded-t-lg">
+                            <img src="${v.imageUrl}" alt="${getSwappedText(v.title)}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight flex-grow">${getSwappedText(v.title)}</h4>
+                            <div class="text-xs text-gray-500 mt-4">${v.creator} on ${v.platform}</div>
+                        </div>
+                    </a>
+                    <div class="card-footer">
+                        ${generateShareMenu(escapedUrl, escapedTitle)}
+                    </div>
+                </div>`;
+            }).join('');
         }
         function renderBooks() {
             const grid = document.getElementById('book-grid');
             if (!grid) return;
-            grid.innerHTML = books.map(b => `<a href="${b.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col text-center"><div class="relative overflow-hidden rounded-t-lg"><img src="${b.imageUrl}" alt="${b.title}" class="w-full h-64 object-cover transform transition-transform duration-300 hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/400x600/1a1a1a/555555?text=Cover+Not+Found';"></div><div class="p-4 flex-grow flex flex-col justify-center"><h4 class="font-semibold text-sm text-gray-100 mb-1 leading-tight">${b.title}</h4><p class="text-gray-400 text-xs">${b.author}</p></div></a>`).join('');
+            grid.innerHTML = books.map(b => {
+                const escapedTitle = b.title.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                const escapedUrl = b.link.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                return `
+                <div class="card rounded-lg flex flex-col text-center">
+                    <a href="${b.link}" target="_blank" rel="noopener noreferrer" class="block flex flex-col flex-grow hover:opacity-90 transition-opacity">
+                        <div class="relative overflow-hidden rounded-t-lg">
+                            <img src="${b.imageUrl}" alt="${b.title}" class="w-full h-64 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x600/1a1a1a/555555?text=Cover+Not+Found';">
+                        </div>
+                        <div class="p-4 flex-grow flex flex-col justify-center">
+                            <h4 class="font-semibold text-sm text-gray-100 mb-1 leading-tight">${b.title}</h4>
+                            <p class="text-gray-400 text-xs">${b.author}</p>
+                        </div>
+                    </a>
+                    <div class="card-footer">
+                        ${generateShareMenu(escapedUrl, escapedTitle)}
+                    </div>
+                </div>`;
+            }).join('');
         }
         function renderFilms() {
             const grid = document.getElementById('film-grid');
             if (!grid) return;
-            grid.innerHTML = films.map(f => `<a href="${f.link}" target="_blank" rel="noopener noreferrer" class="card block rounded-lg flex flex-col"><div class="relative overflow-hidden rounded-t-lg"><img src="${f.imageUrl}" alt="${f.title}" class="w-full h-56 object-cover transform transition-transform duration-300 hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';"></div><div class="p-6 flex-grow flex flex-col"><h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight flex-grow">${f.title} (${f.year})</h4><p class="text-gray-400 text-sm">Directed by: ${f.director}</p></div></a>`).join('');
+            grid.innerHTML = films.map(f => {
+                const escapedTitle = `${f.title} (${f.year})`.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                const escapedUrl = f.link.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                return `
+                <div class="card rounded-lg flex flex-col">
+                    <a href="${f.link}" target="_blank" rel="noopener noreferrer" class="block flex flex-col flex-grow hover:opacity-90 transition-opacity">
+                        <div class="relative overflow-hidden rounded-t-lg">
+                            <img src="${f.imageUrl}" alt="${f.title}" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https.placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight flex-grow">${f.title} (${f.year})</h4>
+                            <p class="text-gray-400 text-sm">Directed by: ${f.director}</p>
+                        </div>
+                    </a>
+                    <div class="card-footer">
+                        ${generateShareMenu(escapedUrl, escapedTitle)}
+                    </div>
+                </div>`;
+            }).join('');
         }
 
         function renderCasualtyChart(chartData) {
@@ -5654,6 +6150,7 @@ source: "Haaretz"
             const end = document.getElementById('end-date').value;
             const tags = [...document.querySelectorAll('#tag-filters input:checked')].map(el => el.value);
             const sources = [...document.querySelectorAll('#source-filters input:checked')].map(el => el.value);
+            const searchTerm = document.getElementById('article-search').value.toLowerCase(); // Get search term
 
             currentlyDisplayedArticles = articles.filter(a => {
                 const articleDate = new Date(a.date);
@@ -5664,7 +6161,13 @@ source: "Haaretz"
                 const tagMatch = (tags.length === 0 || tags.includes(a.category));
                 const sourceMatch = (sources.length === 0 || sources.includes(a.source));
 
-                return dateMatch && tagMatch && sourceMatch;
+                // Search match (check title and summary)
+                const searchMatch = (
+                    a.title.toLowerCase().includes(searchTerm) ||
+                    a.summary.toLowerCase().includes(searchTerm)
+                );
+
+                return dateMatch && tagMatch && sourceMatch && searchMatch; // Add searchMatch to the filter logic
             });
             renderArticles(currentlyDisplayedArticles);
         }
@@ -5672,23 +6175,47 @@ source: "Haaretz"
         function clearFilters() {
             document.getElementById('start-date').value = '';
             document.getElementById('end-date').value = '';
+            // Do not clear the search bar, as the user might want to keep it
+            // document.getElementById('article-search').value = ''; 
             document.querySelectorAll('#tag-filters input:checked, #source-filters input:checked').forEach(el => el.checked = false);
-            currentlyDisplayedArticles = [...articles]; // Reset to all articles
-            renderArticles(currentlyDisplayedArticles);
+            applyFilters(); // Re-apply filters (which will now just be the search term)
         }
 
         function setupEventListeners() {
+            // Sort buttons
             document.getElementById('sort-newest').addEventListener('click', () => { currentSortOrder = 'newest'; renderArticles(currentlyDisplayedArticles); document.getElementById('sort-newest').classList.add('active'); document.getElementById('sort-oldest').classList.remove('active'); });
             document.getElementById('sort-oldest').addEventListener('click', () => { currentSortOrder = 'oldest'; renderArticles(currentlyDisplayedArticles); document.getElementById('sort-oldest').classList.add('active'); document.getElementById('sort-newest').classList.remove('active'); });
-            document.getElementById('toggle-graph-btn').addEventListener('click', (e) => { const s = document.getElementById('casualty-graph'); const h = s.classList.toggle('hidden'); e.target.textContent = h ? 'Show Timeline' : 'Hide Timeline'; if (!h) s.scrollIntoView({ behavior: 'smooth' }); });
-            document.getElementById('explore-button').addEventListener('click', e => { e.preventDefault(); document.getElementById('filter-controls').classList.remove('hidden'); document.getElementById('articles').scrollIntoView({ behavior: 'smooth' }); });
+
+            // Search bar
+            document.getElementById('article-search').addEventListener('input', () => {
+                applyFilters(); // Re-run all filters (including search) as user types
+            });
+
+            // --- New Article Submission Listeners ---
+            document.getElementById('add-article-btn').addEventListener('click', showSubmissionModal);
+            document.getElementById('close-submission-modal').addEventListener('click', hideSubmissionModal);
+            document.getElementById('article-submission-form').addEventListener('submit', handleSubmission);
+            // ---
+
+            // Filter buttons
+            document.getElementById('toggle-filter-btn').addEventListener('click', () => {
+                document.getElementById('filter-controls').classList.toggle('hidden');
+            });
+            document.getElementById('filter-button').addEventListener('click', applyFilters);
+            document.getElementById('clear-button').addEventListener('click', clearFilters);
+
+            // Other page controls
+            document.getElementById('toggle-graph-btn').addEventListener('click', (e) => { const s = document.getElementById('casualty-graph'); const h = s.classList.toggle('hidden'); e.target.textContent = h ? 'Show Timeline' : 'Hide Timeline'; if (!h) s.scrollIntoView({ behavior: 'smooth' }); });
+            document.getElementById('explore-button').addEventListener('click', e => { e.preventDefault(); document.getElementById('articles').scrollIntoView({ behavior: 'smooth' }); });
             document.getElementById('double-standard-toggle').addEventListener('change', (event) => {
                 titlesSwapped = event.target.checked;
                 renderArticles(currentlyDisplayedArticles);
                 renderVideos();
             });
-            const moreBtn = document.getElementById('more-menu-button'), moreDropdown = document.getElementById('more-menu-dropdown');
-            moreBtn.addEventListener('click', e => { e.stopPropagation(); moreDropdown.classList.toggle('hidden'); });
+
+            // Menus (Desktop More & Mobile)
+            const moreBtn = document.getElementById('more-menu-button'), moreDropdown = document.getElementById('more-menu-dropdown');
+            moreBtn.addEventListener('click', e => { e.stopPropagation(); moreDropdown.classList.toggle('hidden'); });
 
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -5700,11 +6227,66 @@ source: "Haaretz"
                 link.addEventListener('click', () => mobileMenu.classList.add('-translate-x-full'));
             });
 
+            // --- New Global Click Listener for Popovers & Modal ---
             window.addEventListener('click', e => {
-                if (!moreBtn.contains(e.target)) moreDropdown.classList.add('hidden');
-                if (e.target == document.getElementById('custom-modal')) hideModal();
+                // Close desktop 'More' dropdown
+                if (!moreBtn.contains(e.target) && !moreDropdown.contains(e.target)) {
+                    moreDropdown.classList.add('hidden');
+                }
+                
+                // Close alert modal
+                if (e.target == document.getElementById('custom-modal')) {
+                    hideModal();
+                }
+
+                // --- New: Close submission modal ---
+                if (e.target == document.getElementById('submission-modal')) {
+                    hideSubmissionModal();
+                }
+
+                // --- New Share Popover Logic ---
+                const shareButton = e.target.closest('.share-button-new');
+                const popover = e.target.closest('.share-popover');
+
+                // If clicking *outside* a share button or its popover, close all popovers
+                if (!shareButton && !popover) {
+                    document.querySelectorAll('.share-popover.visible').forEach(p => {
+                        p.classList.remove('visible');
+                    });
+                    return; // Done
+                }
+
+                // If clicking *on* a share button
+                if (shareButton) {
+                    const popoverToToggle = shareButton.nextElementSibling;
+                    if (!popoverToToggle || !popoverToToggle.classList.contains('share-popover')) return;
+
+                    const isVisible = popoverToToggle.classList.contains('visible');
+
+                    // First, close all *other* popovers
+                    document.querySelectorAll('.share-popover.visible').forEach(p => {
+                        if (p !== popoverToToggle) p.classList.remove('visible');
+                    });
+
+                    // Then, toggle the one that was clicked
+                    popoverToToggle.classList.toggle('visible');
+                }
+
+                // If clicking *inside* a popover (on an action)
+                if (popover) {
+                    const action = e.target.closest('.popover-action');
+                    if (action) {
+                        // The onclick will handle the action, we just close the popover
+                        // (unless it's the copy button, which handles its own state)
+                        if (!action.id.startsWith('copy-link-')) {
+                             popover.classList.remove('visible');
+                        }
+                    }
+                }
+                // --- End New Share Popover Logic ---
             });
-            document.querySelector('.close-button').addEventListener('click', hideModal);
+            
+            document.querySelector('#custom-modal .close-button').addEventListener('click', hideModal);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -5721,7 +6303,7 @@ source: "Haaretz"
             renderVideos();
             renderBooks();
             renderFilms();
-            
+
             // Setup event listeners and other functionality
             setupEventListeners();
             fetchJournalistCount();
@@ -5731,5 +6313,3 @@ source: "Haaretz"
 </body>
 
 </html>
-
-
