@@ -37,6 +37,10 @@
         .btn-submit:hover {
             background-color: #006400; /* Darker green */
         }
+        .btn-submit:disabled {
+            background-color: #444;
+            cursor: not-allowed;
+        }
         .title-green {
             color: #008000;
         }
@@ -54,6 +58,25 @@
             border-left: 4px solid #D90000;
             padding: 0.75rem;
             border-radius: 0.25rem;
+        }
+        /* Success and Error Message Styles */
+        .alert-message {
+            display: none; /* Hidden by default */
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+        .alert-success {
+            background-color: #004d00; /* Dark green */
+            color: #90ee90; /* Light green text */
+            border: 1px solid #008000;
+        }
+        .alert-error {
+            background-color: #4d0000; /* Dark red */
+            color: #f08080; /* Light red text */
+            border: 1px solid #D90000;
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -141,13 +164,21 @@
                         </div>
                     </div>
 
-                    <!-- Submit Button -->
+                    <!-- Submit Button & Messages -->
                     <div>
+                        <!-- Submission Status Messages -->
+                        <div id="successMessage" class="alert-message alert-success">
+                            Thank you! Your submission has been received.
+                        </div>
+                        <div id="errorMessage" class="alert-message alert-error">
+                            Oops! Something went wrong. Please try again.
+                        </div>
+
                         <button type="button" id="submitButton" class="btn-submit w-full font-bold py-2 px-4 rounded-md shadow-md">
                             Submit Article
                         </button>
-                        <p class="text-xs text-center text-gray-500 mt-3">
-                            This will open GitHub. You will need to click "Create" there to finalize.
+                        <p id="submittingText" class="text-xs text-center text-gray-500 mt-3" style="display: none;">
+                            Submitting, please wait...
                         </p>
                     </div>
                 </form>
@@ -208,7 +239,6 @@
 
         /**
          * Simple hash function to get a consistent index from a string.
-         * This ensures the same category always gets the same color.
          */
         function simpleHash(str) {
             let hash = 0;
@@ -229,16 +259,26 @@
             return colors[index];
         }
 
+        // Get form elements
+        const form = document.getElementById('submissionForm');
+        const submitButton = document.getElementById('submitButton');
+        const submittingText = document.getElementById('submittingText');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
         // Handle form submission
-        document.getElementById('submitButton').addEventListener('click', function(event) {
-            const form = document.getElementById('submissionForm');
-            
+        submitButton.addEventListener('click', function(event) {
             // Manually check validity
             if (!form.checkValidity()) {
-                // Show native validation messages
                 form.reportValidity();
                 return;
             }
+
+            // Disable button and show loading text
+            submitButton.disabled = true;
+            submittingText.style.display = 'block';
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
 
             // Get form data
             const formData = new FormData(form);
@@ -247,11 +287,9 @@
             // Get the assigned color
             const categoryColor = getCategoryColor(data.category);
 
-            // Create GitHub issue title
-            const issueTitle = `[${data.source}] ${data.title}`;
-
-            // Create JSON object for the issue body
+            // Create JSON object for the Google Script
             const jsonObject = {
+                submitted_by: data.submitterName,
                 date: data.date,
                 title: data.title,
                 summary: data.summary || "",
@@ -262,27 +300,43 @@
                 source: data.source
             };
 
-            // Format the JSON block for the issue body
-            let issueBody = "";
+            // --- THIS IS THE UPDATED PART ---
+            // Your Google Apps Script Web App URL
+            const googleScriptWebAppUrl = 'https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec';
 
-            // Add submitter name (it's required, so data.submitterName will always exist)
-            issueBody += `**Submitted by:** ${data.submitterName}\n\n---\n\n`;
-
-            // Add the JSON block
-            issueBody += '```json\n' + JSON.stringify(jsonObject, null, 2) + '\n```';
-
-            // Encode for URL
-            const encodedTitle = encodeURIComponent(issueTitle);
-            const encodedBody = encodeURIComponent(issueBody);
-
-            // Create the GitHub issue URL
-            const repoUrl = 'https://github.com/rscboy/eyes-on-palestine/issues/new';
-            const finalUrl = `${repoUrl}?title=${encodedTitle}&body=${encodedBody}`;
-
-            // Open in a new tab
-            window.open(finalUrl, '_blank');
+            fetch(googleScriptWebAppUrl, {
+                method: 'POST',
+                // We send as text/plain, which Google Apps Script
+                // will receive in e.postData.contents
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8', 
+                },
+                body: JSON.stringify(jsonObject) // Send the JSON object as a string
+            })
+            .then(response => response.json()) // Google Script returns JSON
+            .then(data => {
+                if (data.result === 'success') {
+                    // Show success
+                    successMessage.style.display = 'block';
+                    form.reset();
+                } else {
+                    // Show error
+                    errorMessage.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                // Show error
+                console.error('Fetch Error:', error);
+                errorMessage.style.display = 'block';
+            })
+            .finally(() => {
+                // Re-enable button and hide loading text
+                submitButton.disabled = false;
+                submittingText.style.display = 'none';
+            });
         });
     </script>
 </body>
 </html>
+
 
