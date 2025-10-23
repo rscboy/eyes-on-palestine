@@ -88,12 +88,15 @@
     <div class="w-full max-w-2xl mx-auto">
         <!-- Header -->
         <div class="mb-6">
-            <h1 class="text-3xl font-bold">
-                <span class="title-green">Echoes</span>
-                <span class="title-white">of</span>
-                <span class="title-red">Gaza</span>:
-                <span class="text-2xl font-medium subtitle-gray">a historical archive</span>
-            </h1>
+            <!-- Updated: Title is now a link -->
+            <a href="https://rscboy.github.io/eyes-on-palestine/" class="no-underline hover:opacity-90" target="_blank" rel="noopener noreferrer">
+                <h1 class="text-3xl font-bold">
+                    <span class="title-green">Echoes</span>
+                    <span class="title-white">of</span>
+                    <span class="title-red">Gaza</span>:
+                    <span class="text-2xl font-medium subtitle-gray">a historical archive</span>
+                </h1>
+            </a>
         </div>
 
         <!-- Form Card -->
@@ -282,6 +285,7 @@
 
             // Get form data
             const formData = new FormData(form);
+_lat: 40.84000302484766
             const data = Object.fromEntries(formData.entries());
 
             // Get the assigned color
@@ -294,7 +298,7 @@
                 title: data.title,
                 summary: data.summary || "",
                 link: data.link,
-                imageUrl: data.imageUrl || "https://placehold.co/",
+                imageUrl: data.imageUrl || "https://placehold.co/600x400/2C2C2C/E0E0E0?text=No+Image", // Default placeholder
                 category: data.category,
                 categoryColor: categoryColor,
                 source: data.source
@@ -335,8 +339,12 @@
                 submittingText.style.display = 'none';
             });
         });
+
+        // Set default date to today
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+        });
     </script>
 </body>
 </html>
-
-
