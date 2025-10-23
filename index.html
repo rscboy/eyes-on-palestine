@@ -469,9 +469,13 @@
                             Resources</a>
                         <a href="#faq"
                             class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">FAQ</a>
+                        <!-- START: Removed Quiz Link -->
+                        <!--
                         <a href="https://zionism.wtf/#zionist-or-nazi" target="_blank" rel="noopener noreferrer"
                             class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Zionism
                             or Nazism Quiz</a>
+                        -->
+                        <!-- END: Removed Quiz Link -->
                     </div>
                 </div>
             </nav>
@@ -530,7 +534,7 @@
                     A Record of Genocide
                 </h2>
                 <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-400 mb-8">
-                    An archive documenting alleged war crimes, crimes against humanity, and systematic aggression
+                    An historical archive documenting alleged war crimes, crimes against humanity, and systematic aggression
                     committed by the state of Israel against Palestinian civilians since October 7, 2023. This is a
                     living record in the pursuit of truth and accountability.
                 </p>
@@ -839,8 +843,10 @@ A tool to test and reveal racial double standards.
         let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
 
         const casualtyData = [
-            { month: "Oct '23", year: 2023, deaths: 9000, notes: "Highest intensity period" }, { month: "Nov '23", year: 2023, deaths: 19000, notes: "Continued high-intensity bombardment" }, { month: "Dec '23", year: 2023, deaths: 22000, notes: "Cumulative total by end of year" }, { month: "Jan '24", year: 2024, deaths: 26000, notes: "Intensity decreased" }, { month: "Feb '24", year: 2024, deaths: 30000, notes: "Continued operations" }, { month: "Mar '24", year: 2024, deaths: 33000, notes: "Operations expanded to Khan Younis" }, { month: "Apr '24", year: 2024, deaths: 35000, notes: "Decrease in daily casualties" }, { month: "May '24", year: 2024, deaths: 37000, notes: "Continued lower intensity" }, { month: "Jun '24", year: 2024, deaths: 39000, notes: "Escalation in Rafah and Khan Younis" }, { month: "Jul '24", year: 2024, deaths: 41000, notes: "Ongoing operations" }, { month: "Aug '24", year: 2024, deaths: 43000, notes: "Official MoH count: 40,000+" }, { month: "Sep '24", year: 2024, deaths: 44000, notes: "Operations continued" }, { month: "Oct '24", year: 2024, deaths: 46000, notes: "One year since conflict began" }, { month: "Nov '24", year: 2024, deaths: 48000, notes: "Continued hostilities" }, { month: "Dec '24", year: 2024, deaths: 50000, notes: "Operations ongoing" }, { month: "Jan '25", year: 2025, deaths: 51000, notes: "Ceasefire began Jan 19" }, { month: "Feb '25", year: 2025, deaths: 52000, notes: "Limited ceasefire period" }, { month: "Mar '25", year: 2025, deaths: 55000, notes: "Israel resumed operations" }, { month: "Apr '25", year: 2025, deaths: 57000, notes: "Continued operations" }, { month: "May '25", year: 2025, deaths: 59000, notes: "Ongoing conflict" }, { month: "Jun '25", year: 2025, deaths: 61000, notes: "Operations continued" }, { month: "Jul '25", year: 2025, deaths: 63000, notes: "Sustained bombardment" }, { month: "Aug '25", year: 2025, deaths: 65000, notes: "Major Gaza City offensive" }, { month: "Sep '25", year: 2025, deaths: 66000, notes: "Total exceeded 65,000" }, { month: "Oct '25", year: 2025, deaths: 68000, notes: "Official count: ~67,000 by Oct 7" },
+            { month: "Oct '23", year: 2023, deaths: 9000, notes: "Highest intensity period" }, { month: "Nov '23", year: 2023, deaths: 19000, notes: "Continued high-intensity bombardment" }, { month: "Dec '23", year: 2023, deaths: 22000, notes: "Cumulative total by end of year" }, { month: "Jan '24", year: 2024, deaths: 26000, notes: "Intensity decreased" }, { month: "Feb '24", year: 2024, deaths: 30000, notes: "Continued operations" }, { month: "Mar '24", year: 2024, deaths: 33000, notes: "Operations expanded to Khan Younis" }, { month: "Apr '24", year: 2024, deaths: 35000, notes: "Decrease in daily casualties" }, { month: "May '24", year: 2024, deaths: 37000, notes: "Continued lower intensity" }, { month: "Jun '24", year: 2024, deaths: 39000, notes: "Escalation in Rafah and Khan Younis" }, { month: "Jul '24", year: 2024, deaths: 41000, notes: "Ongoing operations" }, { month: "Aug '24", year: 2024, deaths: 43000, notes: "Official MoH count: 40,000+" }, { month: "Sep '24", year: 2024, deaths: 44000, notes: "Operations continued" }, { month: "Oct '24", year: 2024, deaths: 46000, notes: "One year since conflict began" }, { month: "Nov '24",year: 2024, deaths: 48000, notes: "Continued hostilities" }, { month: "Dec '24", year: 2024, deaths: 50000, notes: "Operations ongoing" }, { month: "Jan '25", year: 2025, deaths: 51000, notes: "Ceasefire began Jan 19" }, { month: "Feb '25", year: 2025, deaths: 52000, notes: "Limited ceasefire period" }, { month: "Mar '25", year: 2025, deaths: 55000, notes: "Israel resumed operations" }, { month: "Apr '25", year: 2025, deaths: 57000, notes: "Continued operations" }, { month: "May '25", year: 2025, deaths: 59000, notes: "Ongoing conflict" }, { month: "Jun '25", year: 2025, deaths: 61000, notes: "Operations continued" }, { month: "Jul '25", year: 2025, deaths: 63000, notes: "Sustained bombardment" }, { month: "Aug '25", year: 2025, deaths: 65000, notes: "Major Gaza City offensive" }, { month: "Sep '25", year: 2025, deaths: 66000, notes: "Total exceeded 65,000" }, { month: "Oct '25", year: 2025, deaths: 68000, notes: "Official count: ~67,000 by Oct 7" },
         ];
+
+
 
 
         const initialData = {
@@ -5666,7 +5672,7 @@ source: "Haaretz"
         };
 
      
-              // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
+             // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
 
         function showLoadingSpinner() { document.getElementById('loading-spinner').classList.remove('hidden'); document.getElementById('loading-spinner').classList.add('flex'); }
         function hideLoadingSpinner() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('loading-spinner').classList.remove('flex'); }
@@ -6076,7 +6082,28 @@ source: "Haaretz"
 
             // Other page controls
             document.getElementById('toggle-graph-btn').addEventListener('click', (e) => { const s = document.getElementById('casualty-graph'); const h = s.classList.toggle('hidden'); e.target.textContent = h ? 'Show Timeline' : 'Hide Timeline'; if (!h) s.scrollIntoView({ behavior: 'smooth' }); });
-            document.getElementById('explore-button').addEventListener('click', e => { e.preventDefault(); document.getElementById('articles').scrollIntoView({ behavior: 'smooth' }); });
+            
+            // START: Updated Explore Button Listener
+            document.getElementById('explore-button').addEventListener('click', e => { 
+                e.preventDefault(); 
+                document.getElementById('articles').scrollIntoView({ behavior: 'smooth' }); 
+                // Show filters when explore button is clicked
+                document.getElementById('filter-controls').classList.remove('hidden'); 
+            });
+            // END: Updated Explore Button Listener
+
+            // START: Added smooth scroll for logo and back-to-top
+            document.querySelector('header a[href="#"]').addEventListener('click', e => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            document.querySelector('footer a[href="#"]').addEventListener('click', e => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            // END: Added smooth scroll
+
             document.getElementById('double-standard-toggle').addEventListener('change', (event) => {
                 titlesSwapped = event.target.checked;
                 renderArticles(currentlyDisplayedArticles);
