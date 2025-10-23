@@ -142,7 +142,7 @@
 
                     <!-- Submit Button -->
                     <div>
-                        <button type="submit" class="btn-submit w-full font-bold py-2 px-4 rounded-md shadow-md">
+                        <button type="button" id="submitButton" class="btn-submit w-full font-bold py-2 px-4 rounded-md shadow-md">
                             Submit Article
                         </button>
                         <p class="text-xs text-center text-gray-500 mt-3">
@@ -229,11 +229,18 @@
         }
 
         // Handle form submission
-        document.getElementById('submissionForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+        document.getElementById('submitButton').addEventListener('click', function(event) {
+            const form = document.getElementById('submissionForm');
+            
+            // Manually check validity
+            if (!form.checkValidity()) {
+                // Show native validation messages
+                form.reportValidity();
+                return;
+            }
 
             // Get form data
-            const formData = new FormData(event.T);
+            const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
 
             // Get the assigned color
@@ -277,3 +284,4 @@
     </script>
 </body>
 </html>
+
