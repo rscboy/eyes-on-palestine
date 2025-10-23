@@ -444,9 +444,11 @@
 
     <header class="border-b border-gray-800 sticky top-0 bg-black/70 backdrop-blur-lg z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- START: Modified Header Title -->
             <a href="#" class="text-xl font-bold tracking-tight">
                 <span class="text-green-500">Echoes</span> of <span class="text-red-500">Gaza</span>
             </a>
+            <!-- END: Modified Header Title -->
             <nav id="desktop-nav" class="hidden md:flex items-center space-x-6">
                 <a href="#articles" class="text-gray-300 hover:text-white transition-colors duration-300">Articles</a>
                 <a href="#videos" class="text-gray-300 hover:text-white transition-colors duration-300">Videos</a>
@@ -516,17 +518,20 @@
 
     <main>
         <!-- Journalist Counter Section -->
+        <!-- START: Modified Journalist Counter Section -->
         <section id="journalist-counter-section" class="bg-red-600 text-white py-2 text-center">
             <div class="container mx-auto px-6">
                 <p class="text-lg font-semibold">
                     Journalists killed by Israel since Oct 7, 2023:
                     <a href="https://stopmurderingjournalists.com/" target="_blank" rel="noopener noreferrer"
                         class="underline hover:text-gray-300">
-                        <span id="journalist-count" class="font-bold text-2xl align-middle">...</span>
+                        <!-- Removed text-2xl and align-middle classes to match parent font size -->
+                        <span id="journalist-count" class="font-bold">...</span>
                     </a>
                 </p>
             </div>
         </section>
+        <!-- END: Modified Journalist Counter Section -->
 
         <section class="text-center py-20 md:py-32 bg-black">
             <div class="container mx-auto px-6">
@@ -845,8 +850,6 @@ A tool to test and reveal racial double standards.
         const casualtyData = [
             { month: "Oct '23", year: 2023, deaths: 9000, notes: "Highest intensity period" }, { month: "Nov '23", year: 2023, deaths: 19000, notes: "Continued high-intensity bombardment" }, { month: "Dec '23", year: 2023, deaths: 22000, notes: "Cumulative total by end of year" }, { month: "Jan '24", year: 2024, deaths: 26000, notes: "Intensity decreased" }, { month: "Feb '24", year: 2024, deaths: 30000, notes: "Continued operations" }, { month: "Mar '24", year: 2024, deaths: 33000, notes: "Operations expanded to Khan Younis" }, { month: "Apr '24", year: 2024, deaths: 35000, notes: "Decrease in daily casualties" }, { month: "May '24", year: 2024, deaths: 37000, notes: "Continued lower intensity" }, { month: "Jun '24", year: 2024, deaths: 39000, notes: "Escalation in Rafah and Khan Younis" }, { month: "Jul '24", year: 2024, deaths: 41000, notes: "Ongoing operations" }, { month: "Aug '24", year: 2024, deaths: 43000, notes: "Official MoH count: 40,000+" }, { month: "Sep '24", year: 2024, deaths: 44000, notes: "Operations continued" }, { month: "Oct '24", year: 2024, deaths: 46000, notes: "One year since conflict began" }, { month: "Nov '24",year: 2024, deaths: 48000, notes: "Continued hostilities" }, { month: "Dec '24", year: 2024, deaths: 50000, notes: "Operations ongoing" }, { month: "Jan '25", year: 2025, deaths: 51000, notes: "Ceasefire began Jan 19" }, { month: "Feb '25", year: 2025, deaths: 52000, notes: "Limited ceasefire period" }, { month: "Mar '25", year: 2025, deaths: 55000, notes: "Israel resumed operations" }, { month: "Apr '25", year: 2025, deaths: 57000, notes: "Continued operations" }, { month: "May '25", year: 2025, deaths: 59000, notes: "Ongoing conflict" }, { month: "Jun '25", year: 2025, deaths: 61000, notes: "Operations continued" }, { month: "Jul '25", year: 2025, deaths: 63000, notes: "Sustained bombardment" }, { month: "Aug '25", year: 2025, deaths: 65000, notes: "Major Gaza City offensive" }, { month: "Sep '25", year: 2025, deaths: 66000, notes: "Total exceeded 65,000" }, { month: "Oct '25", year: 2025, deaths: 68000, notes: "Official count: ~67,000 by Oct 7" },
         ];
-
-
 
 
         const initialData = {
@@ -5672,7 +5675,7 @@ source: "Haaretz"
         };
 
      
-             // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
+        // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
 
         function showLoadingSpinner() { document.getElementById('loading-spinner').classList.remove('hidden'); document.getElementById('loading-spinner').classList.add('flex'); }
         function hideLoadingSpinner() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('loading-spinner').classList.remove('flex'); }
