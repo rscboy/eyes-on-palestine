@@ -433,9 +433,12 @@
         }
 
         @media (max-width: 767px) {
+            /* This style is no longer needed as the parent div handles hiding */
+            /*
             #desktop-nav {
                 display: none;
             }
+            */
         }
     </style>
 </head>
@@ -449,43 +452,59 @@
                 <span class="text-green-500">Echoes</span> of <span class="text-red-500">Gaza</span>
             </a>
             <!-- END: Modified Header Title -->
-            <nav id="desktop-nav" class="hidden md:flex items-center space-x-6">
-                <a href="#articles" class="text-gray-300 hover:text-white transition-colors duration-300">Articles</a>
-                <a href="#videos" class="text-gray-300 hover:text-white transition-colors duration-300">Videos</a>
-                <a href="#books" class="text-gray-300 hover:text-white transition-colors duration-300">Books</a>
-                <a href="#films" class="text-gray-300 hover:text-white transition-colors duration-300">Films</a>
-                <div class="relative">
-                    <button id="more-menu-button"
-                        class="text-gray-300 hover:text-white transition-colors duration-300 flex items-center">
-                        More
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
-                            </path>
-                        </svg>
-                    </button>
-                    <div id="more-menu-dropdown"
-                        class="absolute right-0 mt-2 w-56 bg-[#1a1a1a] border border-gray-700 rounded-md shadow-lg z-50 hidden">
-                        <!-- START: Added Social Media Link -->
-                        <a href="#socials"
-                            class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Social
-                            Media</a>
-                        <!-- END: Added Social Media Link -->
-                        <a href="#quotes"
-                            class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Quotes &
-                            Resources</a>
-                        <a href="#faq"
-                            class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">FAQ</a>
-                        <!-- START: Removed Quiz Link -->
-                        <!--
-                        <a href="https://zionism.wtf/#zionist-or-nazi" target="_blank" rel="noopener noreferrer"
-                            class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Zionism
-                            or Nazism Quiz</a>
-                        -->
-                        <!-- END: Removed Quiz Link -->
+
+            <!-- START: New parent wrapper for desktop nav and social icons -->
+            <div class="hidden md:flex items-center divide-x divide-gray-700">
+                <nav id="desktop-nav" class="flex items-center space-x-6 pr-6">
+                    <a href="#articles" class="text-gray-300 hover:text-white transition-colors duration-300">Articles</a>
+                    <a href="#videos" class="text-gray-300 hover:text-white transition-colors duration-300">Videos</a>
+                    <a href="#books" class="text-gray-300 hover:text-white transition-colors duration-300">Books</a>
+                    <a href="#films" class="text-gray-300 hover:text-white transition-colors duration-300">Films</a>
+                    <div class="relative">
+                        <button id="more-menu-button"
+                            class="text-gray-300 hover:text-white transition-colors duration-300 flex items-center">
+                            More
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div id="more-menu-dropdown"
+                            class="absolute right-0 mt-2 w-56 bg-[#1a1a1a] border border-gray-700 rounded-md shadow-lg z-50 hidden">
+                            <!-- START: Removed Social Media Link (now in header) -->
+                            <!--
+                            <a href="#socials"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Social
+                                Media</a>
+                            -->
+                            <!-- END: Removed Social Media Link -->
+                            <a href="#quotes"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Quotes &
+                                Resources</a>
+                            <a href="#faq"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">FAQ</a>
+                        </div>
                     </div>
+                </nav>
+
+                <!-- START: New Social Icons Div -->
+                <div class="flex items-center space-x-4 pl-6">
+                    <a href="https://www.instagram.com/echoesofgaza/?hl=en" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-white transition-colors" title="Instagram">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21 1.58.35-1.95.17-.48.39.84.77 1.22.38-.38.74-.6 1.22-.77.37-.14 1.93-.3 1.95-.35 1.06-.05 1.39-.06 4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">Instagram</span>
+                    </a>
                 </div>
-            </nav>
+                <!-- END: New Social Icons Div -->
+            </div>
+            <!-- END: New parent wrapper -->
+
+
             <!-- Mobile Menu Button -->
             <div class="md:hidden">
                 <button id="mobile-menu-button" class="text-white focus:outline-none">
@@ -501,7 +520,7 @@
 
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu"
-        class="fixed top-0 left-0 w-full h-full bg-black/90 z-40 transform -translate-x-full md:hidden">
+        class="fixed top-0 left-0 w-full h-full bg-black/90 z-40 transform -translate-x-full md:hidden flex flex-col"> <!-- Changed -->
         <div class="flex justify-end p-6">
             <button id="close-mobile-menu" class="text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -511,17 +530,32 @@
                 </svg>
             </button>
         </div>
-        <nav class="flex flex-col items-center justify-center h-full space-y-8 text-2xl">
+        <nav class="flex flex-col items-center justify-center flex-grow space-y-8 text-2xl"> <!-- Changed -->
             <a href="#articles" class="mobile-nav-link text-gray-300 hover:text-white">Articles</a>
             <a href="#videos" class="mobile-nav-link text-gray-300 hover:text-white">Videos</a>
             <a href="#books" class="mobile-nav-link text-gray-300 hover:text-white">Books</a>
             <a href="#films" class="mobile-nav-link text-gray-300 hover:text-white">Films</a>
             <a href="#quotes" class="mobile-nav-link text-gray-300 hover:text-white">Quotes</a>
             <a href="#faq" class="mobile-nav-link text-gray-300 hover:text-white">FAQ</a>
-            <!-- START: Added Social Media Link -->
-            <a href="#socials" class="mobile-nav-link text-gray-300 hover:text-white">Social Media</a>
-            <!-- END: Added Social Media Link -->
+            <!-- START: Removed Social Media Link -->
+            <!-- <a href="#socials" class="mobile-nav-link text-gray-300 hover:text-white">Social Media</a> -->
+            <!-- END: Removed Social Media Link -->
         </nav>
+
+        <!-- START: Added Social Icon to bottom of mobile menu -->
+        <div class="pb-12 pt-6 flex justify-center">
+            <a href="https://www.instagram.com/echoesofgaza/?hl=en" target="_blank" rel="noopener noreferrer"
+                class="text-gray-400 hover:text-white transition-colors" title="Instagram">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"> <!-- Made icon larger -->
+                    <path fill-rule="evenodd"
+                        d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89-.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21 1.58.35-1.95.17-.48.39.84.77 1.22.38-.38.74-.6 1.22-.77.37-.14 1.93-.3 1.95-.35 1.06-.05 1.39-.06 4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
+                        clip-rule="evenodd" />
+                </svg>
+                <span class="sr-only">Instagram</span>
+            </a>
+        </div>
+        <!-- END: Added Social Icon to bottom of mobile menu -->
+
     </div>
 
     <main>
@@ -965,20 +999,22 @@ A tool to test and reveal racial double standards.
             </div>
             <!-- END: Added Donation Section -->
 
-            <!-- START: Added Social Media Section -->
-            <div id="socials" class="mt-6 mb-4">
-                <p class="text-sm mb-2">Follow us on Social Media:</p>
-                <a href="https://www.instagram.com/echoesofgaza/?hl=en" target="_blank" rel="noopener noreferrer"
-                    class="inline-block text-gray-400 hover:text-white transition-colors" title="Instagram">
-                    <svg class="w-6 h-6 inline-block" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path fill-rule="evenodd"
-                            d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21-1.58.35-1.95.17-.48.39.84.77-1.22.38-.38.74-.6 1.22-.77.37-.14 1.93-.3 1.95-.35 1.06-.05 1.39-.06 4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <span class="sr-only">Instagram</span>
-                </a>
+            <!-- START: Modified Social Media Section -->
+            <div id="socials" class="mt-8 mb-6">
+                <h4 class="text-lg font-semibold text-gray-300 mb-4">Follow for Updates</h4>
+                <div class="flex justify-center items-center space-x-6">
+                    <a href="https://www.instagram.com/echoesofgaza/?hl=en" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-white transition-colors" title="Instagram">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21 1.58.35-1.95.17-.48.39.84.77 1.22.38-.38.74-.6 1.22-.77.37-.14 1.93-.3 1.95-.35 1.06-.05 1.39-.06 4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">Instagram</span>
+                    </a>
+                </div>
             </div>
-            <!-- END: Added Social Media Section -->
+            <!-- END: Modified Social Media Section -->
 
             <!-- START: Added Copyright Text -->
             <p class="text-sm mt-4">© 2025 Gaza & Palestine Timeline Project. This work is licensed under a <a
@@ -6532,7 +6568,7 @@ source: "Haaretz"
         };
 
      
-        // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
+          // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
 
         function showLoadingSpinner() { document.getElementById('loading-spinner').classList.remove('hidden'); document.getElementById('loading-spinner').classList.add('flex'); }
         function hideLoadingSpinner() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('loading-spinner').classList.remove('flex'); }
@@ -7007,7 +7043,7 @@ source: "Haaretz"
             // This listener is NO LONGER blocked by the script error.
             window.addEventListener('click', e => {
                 // Close desktop 'More' dropdown
-                if (!moreBtn.contains(e.target) && !moreDropdown.contains(e.target)) {
+                if (moreBtn && moreDropdown && !moreBtn.contains(e.target) && !moreDropdown.contains(e.target)) {
                     moreDropdown.classList.add('hidden');
                 }
                 
