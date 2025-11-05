@@ -466,6 +466,11 @@
                     </button>
                     <div id="more-menu-dropdown"
                         class="absolute right-0 mt-2 w-56 bg-[#1a1a1a] border border-gray-700 rounded-md shadow-lg z-50 hidden">
+                        <!-- START: Added Social Media Link -->
+                        <a href="#socials"
+                            class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Social
+                            Media</a>
+                        <!-- END: Added Social Media Link -->
                         <a href="#quotes"
                             class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Quotes &
                             Resources</a>
@@ -513,6 +518,9 @@
             <a href="#films" class="mobile-nav-link text-gray-300 hover:text-white">Films</a>
             <a href="#quotes" class="mobile-nav-link text-gray-300 hover:text-white">Quotes</a>
             <a href="#faq" class="mobile-nav-link text-gray-300 hover:text-white">FAQ</a>
+            <!-- START: Added Social Media Link -->
+            <a href="#socials" class="mobile-nav-link text-gray-300 hover:text-white">Social Media</a>
+            <!-- END: Added Social Media Link -->
         </nav>
     </div>
 
@@ -576,13 +584,21 @@
 Swap “Israel” with “Hamas” in headlines to expose bias that sanitizes violence.
 A tool to test and reveal racial double standards.
                         </p>
-                        <div class="flex items-center justify-center md:justify-start space-x-3 mt-2">
-                            <label for="double-standard-toggle" class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" value="" id="double-standard-toggle" class="sr-only peer">
-                                <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-500"></div>
-                            </label>
-                            <span class="text-sm font-medium text-gray-300">Double Standard View</span>
+                        <!-- START: Modified Layout for Toggle and Button -->
+                        <div class="flex flex-col md:flex-row items-center justify-center md:justify-start space-y-4 md:space-y-0 md:space-x-6">
+                            <div class="flex items-center space-x-3">
+                                <label for="double-standard-toggle" class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" value="" id="double-standard-toggle" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-500"></div>
+                                </label>
+                                <span class="text-sm font-medium text-gray-300">Double Standard View</span>
+                            </div>
+                            <button id="toggle-comparison-btn"
+                                class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-300 text-sm">
+                                See Examples
+                            </button>
                         </div>
+                        <!-- END: Modified Layout for Toggle and Button -->
                     </div>
                 </div>
             </div>
@@ -601,6 +617,104 @@ A tool to test and reveal racial double standards.
                     month. Source: Gaza Ministry of Health, UN, The Lancet.</p>
             </div>
         </section>
+
+        <!-- START: Added Headline Comparison Section -->
+        <section id="comparison-section" class="py-16 md:py-24 bg-black border-b border-gray-800 hidden">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-center mb-3">Lexicon of Conflict: Analysis of Narrative Disparity</h3>
+                <p class="text-center text-gray-400 mb-12 max-w-3xl mx-auto">
+                    Western media coverage is often characterized by a "fundamentally asymmetric" narrative that humanizes Israeli victims while sanitizing violence against Palestinians. The following examples deconstruct the linguistic tools used to create this disparity.
+                </p>
+                
+                <!-- START: Updated comparison grid with user's info -->
+                <div id="comparison-grid" class="max-w-5xl mx-auto space-y-12">
+                    
+                    <!-- Example Pair 1: Inverted Agency vs. Clear Blame -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                        <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
+                            <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                            <p class="text-xl text-gray-200">"Violent Protests Leave Dozens Dead, as Embassy Opens in Jerusalem"</p>
+                            <p class="text-gray-500 text-xs mt-1 italic">The New York Times, 2018</p>
+                            <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                <strong>Analysis:</strong> This headline uses an active voice to falsely imply the "Violent Protests" are the agent that "Leave... Dozens Dead." It grammatically transforms a "massacre by soldiers" into a murderous act by the victims themselves.
+                            </blockquote>
+                        </div>
+                        <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
+                            <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                            <p class="text-xl text-gray-200">"Israeli woman murdered in brutal terror attack"</p>
+                            <p class="text-gray-500 text-xs mt-1 italic">Common media framing</p>
+                            <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                <strong>Analysis:</strong> Agency is clear. Emotive, moral language ("murdered," "brutal," "terror") is used to frame the event as a visceral outrage. This lexicon is "reserved almost exclusively for Israelis."
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    <!-- Example Pair 2: Passive Voice vs. Active Agency -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                        <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
+                            <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                            <p class="text-xl text-gray-200">"A group of Palestinian men waving a white flag are shot at, killing 1"</p>
+                            <p class="text-gray-500 text-xs mt-1 italic">NBC News, 2024</p>
+                            <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                <strong>Analysis:</strong> The passive voice ("are shot at") "obfuscates responsibility." The reader is told a fact but not *who* did the shooting. Accountability is "altogether missing" from the "invisible executioner."
+                            </blockquote>
+                        </div>
+                        <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
+                            <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                            <p class="text-xl text-gray-200">"Two Israelis killed by Palestinian gunman"</p>
+                            <p class="text-gray-500 text-xs mt-1 italic">Common media framing</p>
+                            <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                <strong>Analysis:</strong> The active structure "killed by" clearly assigns agency and blame to the perpetrator. The agent is named and the act is unambiguous.
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    <!-- Example Pair 3: Agentless Object vs. Emotive Atrocity -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                        <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
+                            <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                            <p class="text-xl text-gray-200">"Missile at Beachside Gaza Cafe Finds Patrons Poised for World Cup"</p>
+                            <p class="text-gray-500 text-xs mt-1 italic">The New York Times, 2014</p>
+                            <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                <strong>Analysis:</strong> The agent is an inanimate object ("Missile") and the verb ("Finds") implies chance. This "agentless framing" erases the military that fired the missile, as if it acted "of its own volition."
+                            </blockquote>
+                        </div>
+                        <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
+                            <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                            <p class="text-xl text-gray-200">"‘Horrific massacre’: Dozens of Israelis slaughtered in 'brutal' assault"</p>
+                            <p class="text-gray-500 text-xs mt-1 italic">Typical headline synthesis</p>
+                            <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                <strong>Analysis:</strong> Data shows terms like "massacre," "slaughter," and "horrific" were used 180 times for Israeli deaths vs. 5 for Palestinians in one study. This "emotive lexicon" is applied asymmetrically.
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    <!-- Example Pair 4: Euphemism vs. Individualization -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                        <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
+                            <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                            <p class="text-xl text-gray-200">"Clashes erupt in West Bank, 3 Palestinians die"</p>
+                            <p class="text-gray-500 text-xs mt-1 italic">Common media framing</p>
+                            <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                <strong>Analysis:</strong> The euphemism "clashes" falsely implies an equal exchange, obscuring the "fundamentally asymmetric" power dynamic. The passive verb "die" obscures the cause of death.
+                            </blockquote>
+                        </div>
+                        <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
+                            <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                            <p class="text-xl text-gray-200">"A 25-year-old musician, a mother of two: The victims of the music festival massacre"</p>
+                            <p class="text-gray-500 text-xs mt-1 italic">Typical narrative framing</p>
+                            <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                <strong>Analysis:</strong> The "identifiable victim effect" is leveraged by providing "narrative depth, emotional detail, and prominence" to Israeli victims, humanizing them as unique individuals.
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    <p class="text-center text-gray-500 text-sm pt-6 border-t border-gray-700">Analysis synthesized from reporting by The Intercept, The New York Times, Current Affairs, and academic studies on media linguistics.</p>
+                </div>
+                <!-- END: Updated comparison grid -->
+            </div>
+        </section>
+        <!-- END: Added Headline Comparison Section -->
 
 
         <section id="articles" class="py-16 md:py-24">
@@ -638,7 +752,7 @@ A tool to test and reveal racial double standards.
                 </div>
 
                 <div id="filter-controls" class="mb-8 p-6 rounded-lg bg-[#1a1a1a] border border-[#333] hidden">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <h4 class="font-bold text-lg mb-3">Filter by Date</h4>
                             <div class="flex flex-col space-y-2">
@@ -658,6 +772,14 @@ A tool to test and reveal racial double standards.
                             <div id="source-filters" class="space-y-2 max-h-48 overflow-y-auto">
                             </div>
                         </div>
+                        <!-- START: Added Region Filter -->
+                        <div>
+                            <h4 class="font-bold text-lg mb-3">Filter by Region</h4>
+                            <div id="region-filters" class="space-y-2 max-h-48 overflow-y-auto">
+                                <!-- Region checkboxes will be populated here -->
+                            </div>
+                        </div>
+                        <!-- END: Added Region Filter -->
                     </div>
                     <div class="mt-6 border-t border-gray-700 pt-6 flex items-center space-x-4">
                         <button id="filter-button"
@@ -825,6 +947,44 @@ A tool to test and reveal racial double standards.
             <p class="text-sm">This website serves as a public archive and is intended for informational and
                 educational purposes. The content compiled here is from publicly available sources. Reader discretion
                 is advised due to the sensitive and graphic nature of the material.</p>
+
+            <!-- START: Added Donation Section -->
+            <div id="donations" class="mt-6 mb-4">
+                <p class="text-sm mb-3">Donations are used to support the work on this archive and the time it takes to
+                    research and update the archive.</p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <a href="https://buymeacoffee.com/echoesofgaza" target="_blank" rel="noopener noreferrer"
+                        class="inline-block bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-md transition-colors duration-300 text-sm w-full sm:w-auto">
+                        Individual Donation
+                    </a>
+                    <a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" rel="noopener noreferrer"
+                        class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md transition-colors duration-300 text-sm w-full sm:w-auto">
+                        Monthly Donation
+                    </a>
+                </div>
+            </div>
+            <!-- END: Added Donation Section -->
+
+            <!-- START: Added Social Media Section -->
+            <div id="socials" class="mt-6 mb-4">
+                <p class="text-sm mb-2">Follow us on Social Media:</p>
+                <a href="https://www.instagram.com/echoesofgaza/?hl=en" target="_blank" rel="noopener noreferrer"
+                    class="inline-block text-gray-400 hover:text-white transition-colors" title="Instagram">
+                    <svg class="w-6 h-6 inline-block" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21-1.58.35-1.95.17-.48.39.84.77-1.22.38-.38.74-.6 1.22-.77.37-.14 1.93-.3 1.95-.35 1.06-.05 1.39-.06 4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span class="sr-only">Instagram</span>
+                </a>
+            </div>
+            <!-- END: Added Social Media Section -->
+
+            <!-- START: Added Copyright Text -->
+            <p class="text-sm mt-4">© 2025 Gaza & Palestine Timeline Project. This work is licensed under a <a
+                    href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer"
+                    class="underline hover:text-white transition-colors">CC BY-NC-SA 4.0 license</a>.</p>
+            <!-- END: Added Copyright Text -->
             <a href="#" class="mt-4 inline-block text-gray-400 hover:text-white transition-colors">Back to Top</a>
         </div>
     </footer>
@@ -6259,13 +6419,75 @@ source: "Haaretz"
     "categoryColor": "blue",
     "source": "The Times of Israel"
   },
+    {
+    "date": "2025-11-04",
+    "title": "Torture in Israeli prisons rose sharply during war, says freed Palestinian author",
+    "summary": "A Palestinian author freed after more than 32 years in Israeli prisons reported that conditions dramatically worsened during the Gaza war — claiming prisons were treated as a “combat front” and that torture, beatings, starvation and deprivation became rampant.",
+    "link": "https://www.theguardian.com/world/2025/nov/04/freed-palestinian-author-nasser-abu-srour-israel-prisons-gaza-war",
+    "imageUrl": "https://assets-legacy.floridarrc.com/2023/01/the-guardian-logo.jpeg",
+    "category": "Conflict",
+    "categoryColor": "red",
+    "source": "The Guardian"
+  },
+  {
+    "date": "2025-11-05",
+    "title": "Catch‑up immunization campaign ‘a lifeline’ for Gaza’s children",
+    "summary": "The United Nations reported that a catch‑up immunisation campaign in Gaza aims to reach tens of thousands of children who missed routine vaccinations due to conflict, describing it as a critical lifeline amidst the humanitarian crisis.",
+    "link": "https://news.un.org/en/story/2025/11/1166278",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Flag_of_the_United_Nations.svg/1200px-Flag_of_the_United_Nations.svg.png",
+    "category": "Health",
+    "categoryColor": "green",
+    "source": "United Nations"
+  },
+  {
+    "date": "2025-11-04",
+    "title": "YouTube Quietly Erased More Than 700 Videos Documenting Israeli Human Rights Violations",
+    "summary": "According to reports, YouTube removed over 700 videos and shut channels belonging to three Palestinian human‑rights organisations, prompting accusations that footage documenting alleged Israeli rights violations was being censored.",
+    "link": "https://theintercept.com/2025/11/04/youtube-google-israel-palestine-human-rights-censorship/",
+    "imageUrl": "https://static1.squarespace.com/static/661663bd75b210143b87a2f6/6735fc684e719b044a6ae7ba/6810e00d83f9a510c9ebc02c/1746562406422/Screenshot+2025-04-29+at+4.32.00%E2%80%AFPM.png?format=1500w",
+    "category": "Technology",
+    "categoryColor": "gray",
+    "source": "The Intercept"
+  },
+ {
+    "date": "2025-11-04",
+    "title": "Not enough tents, food reaching Gaza as winter comes, aid agencies say",
+    "summary": "Humanitarian agencies warn that despite a ceasefire nearly four weeks in, aid flowing into the Gaza Strip is far below needs — old tents are wearing out, food supplies cover only about half of what’s required and hunger remains widespread as winter approaches.",
+    "link": "https://www.reuters.com/world/middle-east/not-enough-tents-food-reaching-gaza-winter-comes-aid-agencies-say-2025-11-04/",
+    "imageUrl": "https://i0.wp.com/janoberg.me/wp-content/uploads/2023/05/logo-Reuters.jpg?fit=5000%2C2435&ssl=1",
+    "category": "Humanitarian",
+    "categoryColor": "orange",
+    "source": "Reuters"
+  },
+  {
+    "date": "2025-11-04",
+    "title": "‘Race against time’: Palestinians suffer from hunger in Gaza despite truce",
+    "summary": "The United Nations World Food Programme and other aid groups say that while the truce between Gaza Strip and Israel has enabled more aid to enter, access remains severely restricted — and thousands still go hungry while winter looms and shelter is inadequate.",
+    "link": "https://www.aljazeera.com/news/2025/11/4/race-against-time-palestinians-suffer-from-hunger-in-gaza-despite-truce",
+    "imageUrl": "https://d10bt0812qicot.cloudfront.net/img/2a/df897cb5e34467bba62c7c6f85723d/640x360.png",
+    "category": "Humanitarian",
+    "categoryColor": "orange",
+    "source": "Al Jazeera"
+  },
+  {
+    "date": "2025-11-05",
+    "title": "Israel Continues Striking Gaza Despite U.S.-Brokered Ceasefire",
+    "summary": "Despite a ceasefire agreement brokered by the United States, Israeli forces are reportedly conducting artillery fire on residential and agricultural areas in eastern Khan Younis and Gaza City in the Gaza Strip.",
+    "link": "https://www.democracynow.org/2025/11/5/headlines/israel_continues_striking_gaza-despite-us-brokered-ceasefire",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/0/01/Democracy_Now%21_logo.svg/1200px-Democracy_Now%21_logo.svg.png",
+    "category": "Conflict",
+    "categoryColor": "red",
+    "source": "Democracy Now!"
+  },
             ],
+            // Videos are now loaded from data/videos.json
             videos: [
                 { title: "MSNBC EXCLUSIVE: Full interview with Mahmoud Khalil and his wife, Dr. Noor Abdalla", creator: "MSNBC", link: "https://www.msnbc.com/", imageUrl: "https://media13.s-nbcnews.com/i/mpx/2704722219/2025_06/1751072250948_n_msnbc_mahmoud_khalil_noor_abdalla_gaza_250627_1920x1080-3kw5co.jpg", platform: "MSNBC" },
                 { title: "Mahmoud Khalil Is Free: Follow His Journey from ICE Jail Back to Gates of Columbia University", creator: "Democracy Now!", link: "https://www.democracynow.org/", imageUrl: "https://i.ytimg.com/vi/BWpRCoQ2wWE/maxresdefault.jpg", platform: "Democracy Now!" },
                 { title: "Israeli forces raided the cells of Palestinian captives after some allegedly expressed joy during rocket fire on Israel—part of Minister Ben Gvir's policy of punishing any show of Palestinian resistance or joy", creator: "DropSite News", link: "https://x.com/dropsitenews", imageUrl: "https://pbs.twimg.com/ext_tw_video_thumb/1934279968365662208/pu/img/XnWEXrPGt3Kc28V1.jpg", platform: "X (Twitter)" },
                 { title: "Israeli officials detail plans to seize all of Gaza and occupy it indefinitely, AP reports", creator: "CBS", link: "https://www.cbs.com/", imageUrl: "https://dims.apnews.com/dims4/default/7be1fea/2147483647/strip/true/crop/3070x2046+0+0/resize/599x399!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F2f%2Fb8%2F587422fe1fb2df6a5e1e55ec7f56%2Fa243f78be02e4bd595d740fc8841d116", platform: "CBS" },
             ],
+            // Books are now loaded from data/books.json
             books: [
                 { title: "The Palestine Laboratory: How Israel Exports the Technology of Occupation Around the World", author: "Antony Loewenstein", link: "https://www.goodreads.com/book/show/59808887-the-palestine-laboratory", imageUrl: "https://m.media-amazon.com/images/I/814ovZ22woL._UF350,350_QL50_.jpg" },
                 { title: "Light in Gaza: Writings Born of Fire", author: "Jehad Abusalim, Jennifer Bing, and Michael Merryman-Lotze (editors)", link: "https://www.goodreads.com/book/show/60393394-light-in-gaza", imageUrl: "https://prodimage.images-bn.com/pimages/9781642596991_p0_v2_s1200x630.jpg" },
@@ -6293,6 +6515,7 @@ source: "Haaretz"
                 { title: "Israeli Apartheid: A Beginner's Guide", author: "Ben White", link: "https://www.amazon.com/Israeli-Apartheid-Beginners-Ben-White/dp/0745328873", imageUrl: "https://m.media-amazon.com/images/I/71gt4eW7lmL._UF1000,1000_QL80_.jpg" },
                 { title: "Decolonizing Israel, Liberating Palestine: Zionism, Settler Colonialism, and the Case for One Democratic State", author: "Jeff Halper", link: "https://www.amazon.com/Decolonizing-Israel-Liberating-Palestine-Colonialism/dp/0745343392", imageUrl: "https://m.media-amazon.com/images/I/61UG9GrPhtL.jpg" },
             ],
+            // Films are now loaded from data/films.json
             films: [
                 { title: "Louis Theroux: The Settlers", director: "Louis Theroux", link: "https://www.bbc.co.uk/programmes/m002bm1y", imageUrl: "https://m.media-amazon.com/images/M/MV5BMjBiMzU1NGItNzA0YS00MzY1LThkOGMtMDI5NzFkOWZkNzFhXkEyXkFqcGc@._V1_.jpg", year: "2025" },
                 { title: "Why Israel Has So Many Palestinian Prisoners", director: "Various", link: "https://www.youtube.com/watch?v=9boE53Z_lAg", imageUrl: "https://i.ytimg.com/vi/9boE53Z_lAg/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBSgtvU1SkzlxrrOIQsGkKtR6AmVQ", year: "2023" },
@@ -6660,8 +6883,11 @@ source: "Haaretz"
         function populateFilters() {
             const tags = [...new Set(articles.map(a => a.category))].sort();
             const sources = [...new Set(articles.map(a => a.source))].sort();
+            const regions = [...new Set(articles.map(a => a.region).filter(r => r))].sort(); // Filter out undefined/null
+
             document.getElementById('tag-filters').innerHTML = tags.map(t => `<label class="flex items-center text-gray-300"><input type="checkbox" name="tag" value="${t}" class="filter-checkbox bg-gray-700 border-gray-600 rounded">${t}</label>`).join('');
             document.getElementById('source-filters').innerHTML = sources.map(s => `<label class="flex items-center text-gray-300"><input type="checkbox" name="source" value="${s}" class="filter-checkbox bg-gray-700 border-gray-600 rounded">${s}</label>`).join('');
+            document.getElementById('region-filters').innerHTML = regions.map(r => `<label class="flex items-center text-gray-300"><input type="checkbox" name="region" value="${r}" class="filter-checkbox bg-gray-700 border-gray-600 rounded">${r}</label>`).join('');
         }
 
         function applyFilters() {
@@ -6669,6 +6895,7 @@ source: "Haaretz"
             const end = document.getElementById('end-date').value;
             const tags = [...document.querySelectorAll('#tag-filters input:checked')].map(el => el.value);
             const sources = [...document.querySelectorAll('#source-filters input:checked')].map(el => el.value);
+            const regions = [...document.querySelectorAll('#region-filters input:checked')].map(el => el.value); // Added
             const searchTerm = document.getElementById('article-search').value.toLowerCase(); // Get search term
 
             currentlyDisplayedArticles = articles.filter(a => {
@@ -6679,6 +6906,7 @@ source: "Haaretz"
                 const dateMatch = (!startDate || articleDate >= startDate) && (!endDate || articleDate <= endDate);
                 const tagMatch = (tags.length === 0 || tags.includes(a.category));
                 const sourceMatch = (sources.length === 0 || sources.includes(a.source));
+                const regionMatch = (regions.length === 0 || regions.includes(a.region)); // Added
 
                 // Search match (check title and summary)
                 const searchMatch = (
@@ -6686,7 +6914,7 @@ source: "Haaretz"
                     a.summary.toLowerCase().includes(searchTerm)
                 );
 
-                return dateMatch && tagMatch && sourceMatch && searchMatch; // Add searchMatch to the filter logic
+                return dateMatch && tagMatch && sourceMatch && regionMatch && searchMatch; // Added regionMatch
             });
             renderArticles(currentlyDisplayedArticles);
         }
@@ -6696,7 +6924,7 @@ source: "Haaretz"
             document.getElementById('end-date').value = '';
             // Do not clear the search bar, as the user might want to keep it
             // document.getElementById('article-search').value = ''; 
-            document.querySelectorAll('#tag-filters input:checked, #source-filters input:checked').forEach(el => el.checked = false);
+            document.querySelectorAll('#tag-filters input:checked, #source-filters input:checked, #region-filters input:checked').forEach(el => el.checked = false); // Added region-filters
             applyFilters(); // Re-apply filters (which will now just be the search term)
         }
 
@@ -6719,6 +6947,20 @@ source: "Haaretz"
 
             // Other page controls
             document.getElementById('toggle-graph-btn').addEventListener('click', (e) => { const s = document.getElementById('casualty-graph'); const h = s.classList.toggle('hidden'); e.target.textContent = h ? 'Show Timeline' : 'Hide Timeline'; if (!h) s.scrollIntoView({ behavior: 'smooth' }); });
+            
+            // START: Added Comparison Section Toggle
+            document.getElementById('toggle-comparison-btn').addEventListener('click', (e) => {
+                const s = document.getElementById('comparison-section');
+                const isHidden = s.classList.toggle('hidden');
+                e.target.textContent = isHidden ? 'See Examples' : 'Hide Examples';
+                if (!isHidden) {
+                    s.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    // Scroll back up to the button if we hide it
+                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+            // END: Added Comparison Section Toggle
             
             // START: Updated Explore Button Listener
             document.getElementById('explore-button').addEventListener('click', e => { 
