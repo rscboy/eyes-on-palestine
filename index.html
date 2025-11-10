@@ -187,6 +187,7 @@
             /* 18px */
             flex-shrink: 0;
         }
+
         /* --- End of New Share Styles --- */
 
 
@@ -265,6 +266,13 @@
             color: #ffffff;
         }
 
+        .control-button:disabled {
+            background-color: #222;
+            color: #555;
+            border-color: #333;
+            cursor: not-allowed;
+        }
+
         /* Date and Search input styling */
         input[type="date"] {
             background-color: #2a2a2a;
@@ -317,15 +325,18 @@
             background-color: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
-            padding: 1rem; /* Add padding for small screens */
+            padding: 1rem;
+            /* Add padding for small screens */
         }
 
         .modal-content {
             background-color: #1a1a1a;
             margin: auto;
-            padding: 2rem; /* Increased padding */
+            padding: 2rem;
+            /* Increased padding */
             border: 1px solid #888;
-            width: 100%; /* Full width on mobile */
+            width: 100%;
+            /* Full width on mobile */
             max-width: 500px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -334,7 +345,8 @@
 
         .close-button {
             color: #aaa;
-            position: absolute; /* Positioned relative to modal-content */
+            position: absolute;
+            /* Positioned relative to modal-content */
             top: 0.75rem;
             right: 1rem;
             font-size: 28px;
@@ -361,7 +373,8 @@
             font-size: 0.875rem;
             color: #d1d5db;
             /* gray-300 */
-            margin-bottom: -0.5rem; /* Pull input closer */
+            margin-bottom: -0.5rem;
+            /* Pull input closer */
         }
 
         .form-input,
@@ -433,6 +446,7 @@
         }
 
         @media (max-width: 767px) {
+
             /* This style is no longer needed as the parent div handles hiding */
             /*
             #desktop-nav {
@@ -456,10 +470,15 @@
             <!-- START: New parent wrapper for desktop nav and social icons -->
             <div class="hidden md:flex items-center divide-x divide-gray-700">
                 <nav id="desktop-nav" class="flex items-center space-x-6 pr-6">
-                    <a href="#articles" class="text-gray-300 hover:text-white transition-colors duration-300">Articles</a>
+                    <a href="#articles"
+                        class="text-gray-300 hover:text-white transition-colors duration-300">Articles</a>
                     <a href="#videos" class="text-gray-300 hover:text-white transition-colors duration-300">Videos</a>
                     <a href="#books" class="text-gray-300 hover:text-white transition-colors duration-300">Books</a>
                     <a href="#films" class="text-gray-300 hover:text-white transition-colors duration-300">Films</a>
+                    <!-- START: Added Victims Tab -->
+                    <a href="#victims"
+                        class="text-gray-300 hover:text-white transition-colors duration-300">Victims</a>
+                    <!-- END: Added Victims Tab -->
                     <div class="relative">
                         <button id="more-menu-button"
                             class="text-gray-300 hover:text-white transition-colors duration-300 flex items-center">
@@ -480,7 +499,8 @@
                             -->
                             <!-- END: Removed Social Media Link -->
                             <a href="#quotes"
-                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Quotes &
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Quotes
+                                &
                                 Resources</a>
                             <a href="#faq"
                                 class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">FAQ</a>
@@ -520,7 +540,8 @@
 
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu"
-        class="fixed top-0 left-0 w-full h-full bg-black/90 z-40 transform -translate-x-full md:hidden flex flex-col"> <!-- Changed -->
+        class="fixed top-0 left-0 w-full h-full bg-black/90 z-40 transform -translate-x-full md:hidden flex flex-col">
+        <!-- Changed -->
         <div class="flex justify-end p-6">
             <button id="close-mobile-menu" class="text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -535,6 +556,9 @@
             <a href="#videos" class="mobile-nav-link text-gray-300 hover:text-white">Videos</a>
             <a href="#books" class="mobile-nav-link text-gray-300 hover:text-white">Books</a>
             <a href="#films" class="mobile-nav-link text-gray-300 hover:text-white">Films</a>
+            <!-- START: Added Victims Tab -->
+            <a href="#victims" class="mobile-nav-link text-gray-300 hover:text-white">Victims</a>
+            <!-- END: Added Victims Tab -->
             <a href="#quotes" class="mobile-nav-link text-gray-300 hover:text-white">Quotes</a>
             <a href="#faq" class="mobile-nav-link text-gray-300 hover:text-white">FAQ</a>
             <!-- START: Removed Social Media Link -->
@@ -546,7 +570,8 @@
         <div class="pb-12 pt-6 flex justify-center">
             <a href="https://www.instagram.com/echoesofgaza/?hl=en" target="_blank" rel="noopener noreferrer"
                 class="text-gray-400 hover:text-white transition-colors" title="Instagram">
-                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"> <!-- Made icon larger -->
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <!-- Made icon larger -->
                     <path fill-rule="evenodd"
                         d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89-.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21 1.58.35-1.95.17-.48.39.84.77 1.22.38-.38.74-.6 1.22-.77.37-.14 1.93-.3 1.95-.35 1.06-.05 1.39-.06 4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
                         clip-rule="evenodd" />
@@ -581,7 +606,8 @@
                     A Record of Genocide
                 </h2>
                 <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-400 mb-8">
-                    An historical archive documenting alleged war crimes, crimes against humanity, and systematic aggression
+                    An historical archive documenting alleged war crimes, crimes against humanity, and systematic
+                    aggression
                     committed by the state of Israel against Palestinian civilians since October 7, 2023. This is a
                     living record in the pursuit of truth and accountability.
                 </p>
@@ -615,15 +641,19 @@
                         <h3 class="text-2xl font-bold mb-3">Swap the names. Expose the racism.</h3>
                         <p class="max-w-xl mx-auto md:mx-0 text-gray-400 mb-6">
                             Confront genocide denial and Western hypocrisy.
-Swap “Israel” with “Hamas” in headlines to expose bias that sanitizes violence.
-A tool to test and reveal racial double standards.
+                            Swap “Israel” with “Hamas” in headlines to expose bias that sanitizes violence.
+                            A tool to test and reveal racial double standards.
                         </p>
                         <!-- START: Modified Layout for Toggle and Button -->
-                        <div class="flex flex-col md:flex-row items-center justify-center md:justify-start space-y-4 md:space-y-0 md:space-x-6">
+                        <div
+                            class="flex flex-col md:flex-row items-center justify-center md:justify-start space-y-4 md:space-y-0 md:space-x-6">
                             <div class="flex items-center space-x-3">
-                                <label for="double-standard-toggle" class="relative inline-flex items-center cursor-pointer">
+                                <label for="double-standard-toggle"
+                                    class="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" value="" id="double-standard-toggle" class="sr-only peer">
-                                    <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-500"></div>
+                                    <div
+                                        class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-500">
+                                    </div>
                                 </label>
                                 <span class="text-sm font-medium text-gray-300">Double Standard View</span>
                             </div>
@@ -655,22 +685,28 @@ A tool to test and reveal racial double standards.
         <!-- START: Added Headline Comparison Section -->
         <section id="comparison-section" class="py-16 md:py-24 bg-black border-b border-gray-800 hidden">
             <div class="container mx-auto px-6">
-                <h3 class="text-3xl font-bold text-center mb-3">Lexicon of Conflict: Analysis of Narrative Disparity</h3>
+                <h3 class="text-3xl font-bold text-center mb-3">Lexicon of Conflict: Analysis of Narrative Disparity
+                </h3>
                 <p class="text-center text-gray-400 mb-12 max-w-3xl mx-auto">
-                    Western media coverage is often characterized by a "fundamentally asymmetric" narrative that humanizes Israeli victims while sanitizing violence against Palestinians. The following examples deconstruct the linguistic tools used to create this disparity.
+                    Western media coverage is often characterized by a "fundamentally asymmetric" narrative that
+                    humanizes Israeli victims while sanitizing violence against Palestinians. The following examples
+                    deconstruct the linguistic tools used to create this disparity.
                 </p>
-                
+
                 <!-- START: Updated comparison grid with user's info -->
                 <div id="comparison-grid" class="max-w-5xl mx-auto space-y-12">
-                    
+
                     <!-- Example Pair 1: Inverted Agency vs. Clear Blame -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                         <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
                             <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
-                            <p class="text-xl text-gray-200">"Violent Protests Leave Dozens Dead, as Embassy Opens in Jerusalem"</p>
+                            <p class="text-xl text-gray-200">"Violent Protests Leave Dozens Dead, as Embassy Opens in
+                                Jerusalem"</p>
                             <p class="text-gray-500 text-xs mt-1 italic">The New York Times, 2018</p>
                             <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
-                                <strong>Analysis:</strong> This headline uses an active voice to falsely imply the "Violent Protests" are the agent that "Leave... Dozens Dead." It grammatically transforms a "massacre by soldiers" into a murderous act by the victims themselves.
+                                <strong>Analysis:</strong> This headline uses an active voice to falsely imply the
+                                "Violent Protests" are the agent that "Leave... Dozens Dead." It grammatically transforms
+                                a "massacre by soldiers" into a murderous act by the victims themselves.
                             </blockquote>
                         </div>
                         <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
@@ -678,7 +714,9 @@ A tool to test and reveal racial double standards.
                             <p class="text-xl text-gray-200">"Israeli woman murdered in brutal terror attack"</p>
                             <p class="text-gray-500 text-xs mt-1 italic">Common media framing</p>
                             <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
-                                <strong>Analysis:</strong> Agency is clear. Emotive, moral language ("murdered," "brutal," "terror") is used to frame the event as a visceral outrage. This lexicon is "reserved almost exclusively for Israelis."
+                                <strong>Analysis:</strong> Agency is clear. Emotive, moral language ("murdered,"
+                                "brutal," "terror") is used to frame the event as a visceral outrage. This lexicon is
+                                "reserved almost exclusively for Israelis."
                             </blockquote>
                         </div>
                     </div>
@@ -687,10 +725,13 @@ A tool to test and reveal racial double standards.
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                         <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
                             <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
-                            <p class="text-xl text-gray-200">"A group of Palestinian men waving a white flag are shot at, killing 1"</p>
+                            <p class="text-xl text-gray-200">"A group of Palestinian men waving a white flag are shot
+                                at, killing 1"</p>
                             <p class="text-gray-500 text-xs mt-1 italic">NBC News, 2024</p>
                             <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
-                                <strong>Analysis:</strong> The passive voice ("are shot at") "obfuscates responsibility." The reader is told a fact but not *who* did the shooting. Accountability is "altogether missing" from the "invisible executioner."
+                                <strong>Analysis:</strong> The passive voice ("are shot at") "obfuscates
+                                responsibility." The reader is told a fact but not *who* did the shooting. Accountability
+                                is "altogether missing" from the "invisible executioner."
                             </blockquote>
                         </div>
                         <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
@@ -698,7 +739,8 @@ A tool to test and reveal racial double standards.
                             <p class="text-xl text-gray-200">"Two Israelis killed by Palestinian gunman"</p>
                             <p class="text-gray-500 text-xs mt-1 italic">Common media framing</p>
                             <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
-                                <strong>Analysis:</strong> The active structure "killed by" clearly assigns agency and blame to the perpetrator. The agent is named and the act is unambiguous.
+                                <strong>Analysis:</strong> The active structure "killed by" clearly assigns agency and
+                                blame to the perpetrator. The agent is named and the act is unambiguous.
                             </blockquote>
                         </div>
                     </div>
@@ -707,18 +749,24 @@ A tool to test and reveal racial double standards.
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                         <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
                             <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
-                            <p class="text-xl text-gray-200">"Missile at Beachside Gaza Cafe Finds Patrons Poised for World Cup"</p>
+                            <p class="text-xl text-gray-200">"Missile at Beachside Gaza Cafe Finds Patrons Poised for
+                                World Cup"</p>
                             <p class="text-gray-500 text-xs mt-1 italic">The New York Times, 2014</p>
                             <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
-                                <strong>Analysis:</strong> The agent is an inanimate object ("Missile") and the verb ("Finds") implies chance. This "agentless framing" erases the military that fired the missile, as if it acted "of its own volition."
+                                <strong>Analysis:</strong> The agent is an inanimate object ("Missile") and the verb
+                                ("Finds") implies chance. This "agentless framing" erases the military that fired the
+                                missile, as if it acted "of its own volition."
                             </blockquote>
                         </div>
                         <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
                             <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
-                            <p class="text-xl text-gray-200">"‘Horrific massacre’: Dozens of Israelis slaughtered in 'brutal' assault"</p>
+                            <p class="text-xl text-gray-200">"‘Horrific massacre’: Dozens of Israelis slaughtered in
+                                'brutal' assault"</p>
                             <p class="text-gray-500 text-xs mt-1 italic">Typical headline synthesis</p>
                             <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
-                                <strong>Analysis:</strong> Data shows terms like "massacre," "slaughter," and "horrific" were used 180 times for Israeli deaths vs. 5 for Palestinians in one study. This "emotive lexicon" is applied asymmetrically.
+                                <strong>Analysis:</strong> Data shows terms like "massacre," "slaughter," and "horrific"
+                                were used 180 times for Israeli deaths vs. 5 for Palestinians in one study. This
+                                "emotive lexicon" is applied asymmetrically.
                             </blockquote>
                         </div>
                     </div>
@@ -730,20 +778,27 @@ A tool to test and reveal racial double standards.
                             <p class="text-xl text-gray-200">"Clashes erupt in West Bank, 3 Palestinians die"</p>
                             <p class="text-gray-500 text-xs mt-1 italic">Common media framing</p>
                             <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
-                                <strong>Analysis:</strong> The euphemism "clashes" falsely implies an equal exchange, obscuring the "fundamentally asymmetric" power dynamic. The passive verb "die" obscures the cause of death.
+                                <strong>Analysis:</strong> The euphemism "clashes" falsely implies an equal exchange,
+                                obscuring the "fundamentally asymmetric" power dynamic. The passive verb "die" obscures
+                                the cause of death.
                             </blockquote>
                         </div>
                         <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
                             <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
-                            <p class="text-xl text-gray-200">"A 25-year-old musician, a mother of two: The victims of the music festival massacre"</p>
+                            <p class="text-xl text-gray-200">"A 25-year-old musician, a mother of two: The victims of
+                                the music festival massacre"</p>
                             <p class="text-gray-500 text-xs mt-1 italic">Typical narrative framing</p>
                             <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
-                                <strong>Analysis:</strong> The "identifiable victim effect" is leveraged by providing "narrative depth, emotional detail, and prominence" to Israeli victims, humanizing them as unique individuals.
+                                <strong>Analysis:</strong> The "identifiable victim effect" is leveraged by providing
+                                "narrative depth, emotional detail, and prominence" to Israeli victims, humanizing them
+                                as unique individuals.
                             </blockquote>
                         </div>
                     </div>
 
-                    <p class="text-center text-gray-500 text-sm pt-6 border-t border-gray-700">Analysis synthesized from reporting by The Intercept, The New York Times, Current Affairs, and academic studies on media linguistics.</p>
+                    <p class="text-center text-gray-500 text-sm pt-6 border-t border-gray-700">Analysis synthesized
+                        from reporting by The Intercept, The New York Times, Current Affairs, and academic studies on
+                        media linguistics.</p>
                 </div>
                 <!-- END: Updated comparison grid -->
             </div>
@@ -781,7 +836,7 @@ A tool to test and reveal racial double standards.
                             class="control-button text-sm font-medium py-2 px-4 rounded-md">Oldest</button>
                         <button id="toggle-filter-btn"
                             class="control-button text-sm font-medium py-2 px-4 rounded-md">Toggle Filters</button>
-                        
+
                     </div>
                 </div>
 
@@ -858,6 +913,63 @@ A tool to test and reveal racial double standards.
                 </div>
             </div>
         </section>
+
+        <!-- START: Added Victims Section -->
+        <section id="victims" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-center mb-12">Martyrs of Palestine</h3>
+
+                <!-- START: Added descriptive note -->
+                <p class="text-center text-gray-400 mb-10 max-w-3xl mx-auto">
+                    This list is sourced from official releases by the Gaza Ministry of Health and compiled by Tech for
+                    Palestine.
+                    <br> You can download the full list here:
+                    <a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-300 text-sm mt-3">
+                        Full JSON
+                    </a>
+                </p>
+                <!-- END: Added descriptive note -->
+
+                <!-- Controls for Victims Section -->
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                    <!-- Search Bar -->
+                    <div class="relative w-full md:flex-1">
+                        <input type="text" id="victim-search"
+                            class="w-full pl-10 pr-4 py-3 rounded-lg bg-[#1a1a1a] border border-[#333] text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                            placeholder="Search by name...">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Pagination -->
+                    <div id="victim-pagination-controls" class="flex items-center space-x-2 flex-shrink-0">
+                        <button id="victim-prev-btn"
+                            class="control-button text-sm font-medium py-2 px-4 rounded-md">&lt; Prev</button>
+                        <span id="victim-page-info" class="text-sm text-gray-400">Page 1 of 1</span>
+                        <button id="victim-next-btn"
+                            class="control-button text-sm font-medium py-2 px-4 rounded-md">Next &gt;</button>
+                    </div>
+                </div>
+
+                <!-- Loading Spinner for Victims -->
+                <div id="victim-loading-spinner" class="flex justify-center items-center py-10">
+                    <div class="spinner"></div>
+                </div>
+
+                <!-- Victim Grid -->
+                <div id="victim-grid"
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Victim cards will be populated here by JavaScript -->
+                </div>
+            </div>
+        </section>
+        <!-- END: Added Victims Section -->
 
         <section id="quotes" class="py-16 md:py-24 bg-[#1a1a1a]">
             <div class="container mx-auto px-6">
@@ -1040,11 +1152,17 @@ A tool to test and reveal racial double standards.
 
     <script type="module">
         // --- GLOBAL STATE & INITIAL DATA ---
-        let articles = [], videos = [], books = [], films = [];
+        let articles = [], videos = [], books = [], films = [], victimsData = []; // Added victimsData
         let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+        // START: Added victim pagination state
+        let victimCurrentPage = 1;
+        const victimPageSize = 28; // 4 columns * 7 rows
+        let totalVictimPages = 1;
+        let filteredVictims = [];
+        // END: Added victim pagination state
 
         const casualtyData = [
-            { month: "Oct '23", year: 2023, deaths: 9000, notes: "Highest intensity period" }, { month: "Nov '23", year: 2023, deaths: 19000, notes: "Continued high-intensity bombardment" }, { month: "Dec '23", year: 2023, deaths: 22000, notes: "Cumulative total by end of year" }, { month: "Jan '24", year: 2024, deaths: 26000, notes: "Intensity decreased" }, { month: "Feb '24", year: 2024, deaths: 30000, notes: "Continued operations" }, { month: "Mar '24", year: 2024, deaths: 33000, notes: "Operations expanded to Khan Younis" }, { month: "Apr '24", year: 2024, deaths: 35000, notes: "Decrease in daily casualties" }, { month: "May '24", year: 2024, deaths: 37000, notes: "Continued lower intensity" }, { month: "Jun '24", year: 2024, deaths: 39000, notes: "Escalation in Rafah and Khan Younis" }, { month: "Jul '24", year: 2024, deaths: 41000, notes: "Ongoing operations" }, { month: "Aug '24", year: 2024, deaths: 43000, notes: "Official MoH count: 40,000+" }, { month: "Sep '24", year: 2024, deaths: 44000, notes: "Operations continued" }, { month: "Oct '24", year: 2024, deaths: 46000, notes: "One year since conflict began" }, { month: "Nov '24",year: 2024, deaths: 48000, notes: "Continued hostilities" }, { month: "Dec '24", year: 2024, deaths: 50000, notes: "Operations ongoing" }, { month: "Jan '25", year: 2025, deaths: 51000, notes: "Ceasefire began Jan 19" }, { month: "Feb '25", year: 2025, deaths: 52000, notes: "Limited ceasefire period" }, { month: "Mar '25", year: 2025, deaths: 55000, notes: "Israel resumed operations" }, { month: "Apr '25", year: 2025, deaths: 57000, notes: "Continued operations" }, { month: "May '25", year: 2025, deaths: 59000, notes: "Ongoing conflict" }, { month: "Jun '25", year: 2025, deaths: 61000, notes: "Operations continued" }, { month: "Jul '25", year: 2025, deaths: 63000, notes: "Sustained bombardment" }, { month: "Aug '25", year: 2025, deaths: 65000, notes: "Major Gaza City offensive" }, { month: "Sep '25", year: 2025, deaths: 66000, notes: "Total exceeded 65,000" }, { month: "Oct '25", year: 2025, deaths: 68000, notes: "Official count: ~67,000 by Oct 7" },
+            { month: "Oct '23", year: 2023, deaths: 9000, notes: "Highest intensity period" }, { month: "Nov '23", year: 2023, deaths: 19000, notes: "Continued high-intensity bombardment" }, { month: "Dec '23", year: 2023, deaths: 22000, notes: "Cumulative total by end of year" }, { month: "Jan '24", year: 2024, deaths: 26000, notes: "Intensity decreased" }, { month: "Feb '24", year: 2024, deaths: 30000, notes: "Continued operations" }, { month: "Mar '24", year: 2024, deaths: 33000, notes: "Operations expanded to Khan Younis" }, { month: "Apr '24", year: 2024, deaths: 35000, notes: "Decrease in daily casualties" }, { month: "May '24", year: 2024, deaths: 37000, notes: "Continued lower intensity" }, { month: "Jun '24", year: 2024, deaths: 39000, notes: "Escalation in Rafah and Khan Younis" }, { month: "Jul '24", year: 2024, deaths: 41000, notes: "Ongoing operations" }, { month: "Aug '24", year: 2024, deaths: 43000, notes: "Official MoH count: 40,000+" }, { month: "Sep '24", year: 2024, deaths: 44000, notes: "Operations continued" }, { month: "Oct '24", year: 2024, deaths: 46000, notes: "One year since conflict began" }, { month: "Nov '24", year: 2024, deaths: 48000, notes: "Continued hostilities" }, { month: "Dec '24", year: 2024, deaths: 50000, notes: "Operations ongoing" }, { month: "Jan '25", year: 2025, deaths: 51000, notes: "Ceasefire began Jan 19" }, { month: "Feb '25", year: 2025, deaths: 52000, notes: "Limited ceasefire period" }, { month: "Mar '25", year: 2025, deaths: 55000, notes: "Israel resumed operations" }, { month: "Apr '25", year: 2025, deaths: 57000, notes: "Continued operations" }, { month: "May '25", year: 2025, deaths: 59000, notes: "Ongoing conflict" }, { month: "Jun '25", year: 2025, deaths: 61000, notes: "Operations continued" }, { month: "Jul '25", year: 2025, deaths: 63000, notes: "Sustained bombardment" }, { month: "Aug '25", year: 2025, deaths: 65000, notes: "Major Gaza City offensive" }, { month: "Sep '25", year: 2025, deaths: 66000, notes: "Total exceeded 65,000" }, { month: "Oct '25", year: 2025, deaths: 68000, notes: "Official count: ~67,000 by Oct 7" },
             // START: Added November 2025 data
             { month: "Nov '25", year: 2025, deaths: 69000, notes: "Reports indicate toll nears 70,000" },
             // END: Added November 2025 data
@@ -6743,7 +6861,7 @@ source: "Haaretz"
     "title": "Dozens of Gaza Medical Workers Are Still Disappeared in Israeli Detention",
     "summary": "More than 90 Palestinian healthcare workers from Gaza remain detained by Israeli authorities, many held without charge and some unaccounted for, exacerbating the collapse of Gaza’s medical system.",
     "link": "https://theintercept.com/2025/11/10/gaza-doctors-disappeared-israeli-prison/",
-    "imageUrl": "https://placeholder.com/image.jpg",
+    "imageUrl": "https://static1.squarespace.com/static/661663bd75b210143b87a2f6/6735fc684e719b044a6ae7ba/6810e00d83f9a510c9ebc02c/1746562406422/Screenshot+2025-04-29+at+4.32.00%E2%80%AFPM.png?format=1500w",
     "category": "Humanitarian",
     "categoryColor": "orange",
     "source": "The Intercept"
@@ -6801,7 +6919,7 @@ source: "Haaretz"
         };
 
      
-           // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
+    // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
 
         function showLoadingSpinner() { document.getElementById('loading-spinner').classList.remove('hidden'); document.getElementById('loading-spinner').classList.add('flex'); }
         function hideLoadingSpinner() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('loading-spinner').classList.remove('flex'); }
@@ -6831,7 +6949,7 @@ source: "Haaretz"
             textArea.select();
             try {
                 document.execCommand('copy');
-                
+
                 // --- New Feedback Logic ---
                 const actionEl = document.getElementById(`copy-link-${uniqueId}`);
                 const textEl = document.getElementById(`copy-text-${uniqueId}`);
@@ -7066,10 +7184,81 @@ source: "Haaretz"
             }).join('');
         }
 
+        // START: Added fetchVictimsData
+        async function fetchVictimsData() {
+            const spinner = document.getElementById('victim-loading-spinner');
+            try {
+                spinner.classList.remove('hidden');
+                spinner.classList.add('flex');
+                const response = await fetch('https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                victimsData = await response.json();
+                filteredVictims = [...victimsData]; // Initialize filtered list
+                renderVictims(); // Render the first page
+            } catch (error) {
+                console.error("Failed to fetch victims data:", error);
+                document.getElementById('victim-grid').innerHTML = `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center">Failed to load victim data. Please try again later.</p>`;
+            } finally {
+                spinner.classList.add('hidden');
+                spinner.classList.remove('flex');
+            }
+        }
+        // END: Added fetchVictimsData
+
+        // START: Added renderVictims
+        function renderVictims() {
+            const grid = document.getElementById('victim-grid');
+            const pageInfo = document.getElementById('victim-page-info');
+            const prevBtn = document.getElementById('victim-prev-btn');
+            const nextBtn = document.getElementById('victim-next-btn');
+            const searchTerm = document.getElementById('victim-search').value.toLowerCase();
+
+            if (!grid || !pageInfo || !prevBtn || !nextBtn) return;
+
+            // Apply search filter
+            filteredVictims = victimsData.filter(v =>
+                v.en_name.toLowerCase().includes(searchTerm) ||
+                v.ar_name.includes(searchTerm) // Also check Arabic name
+            );
+
+            // Calculate pagination
+            totalVictimPages = Math.ceil(filteredVictims.length / victimPageSize);
+            if (totalVictimPages === 0) totalVictimPages = 1; // Ensure at least 1 page
+            if (victimCurrentPage > totalVictimPages) victimCurrentPage = 1; // Reset page if out of bounds
+
+            const startIndex = (victimCurrentPage - 1) * victimPageSize;
+            const endIndex = victimCurrentPage * victimPageSize;
+            const paginatedItems = filteredVictims.slice(startIndex, endIndex);
+
+            // Update page info and buttons
+            pageInfo.textContent = `Page ${victimCurrentPage} of ${totalVictimPages}`;
+            prevBtn.disabled = (victimCurrentPage === 1);
+            nextBtn.disabled = (victimCurrentPage === totalVictimPages);
+
+            // Render cards
+            if (paginatedItems.length === 0) {
+                grid.innerHTML = `<p class="text-gray-400 md:col-span-2 lg:col-span-3 xl:col-span-4 text-center">No victims found matching your search.</p>`;
+                return;
+            }
+
+            grid.innerHTML = paginatedItems.map(victim => {
+                const sex = victim.sex ? victim.sex.charAt(0).toUpperCase() + victim.sex.slice(1) : 'Unknown';
+                return `
+                <div class="card rounded-lg flex flex-col p-4 text-center items-center justify-center h-32">
+                    <h4 class="font-bold text-lg text-gray-100 mb-2 leading-tight victim-name">${victim.en_name}</h4>
+                    <p class="text-gray-400 text-sm">Age: ${victim.age || 'Unknown'} | Sex: ${sex}</p>
+                </div>
+                `;
+            }).join('');
+        }
+        // END: Added renderVictims
+
         function renderCasualtyChart(chartData) {
             const ctx = document.getElementById('casualtyChart').getContext('2d');
             const tooltipEl = document.getElementById('chart-tooltip');
-            
+
             // Update the date range text
             const dateRangeEl = document.querySelector('#casualty-graph p.text-center.text-gray-400');
             if (dateRangeEl) {
@@ -7079,14 +7268,14 @@ source: "Haaretz"
                 const lastMonth = lastDataPoint.month.split(" ")[0]; // e.g., "Nov"
                 const lastYear = lastDataPoint.year;
                 const endDate = `${lastMonth} ${lastYear}`; // This will be dynamic
-                
+
                 // Get current date for display (e.g., November 9, 2025)
                 const today = new Date();
                 const displayEndDate = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
                 dateRangeEl.textContent = `${startDate} - ${displayEndDate}`;
             }
-            
+
             new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -7234,7 +7423,7 @@ source: "Haaretz"
 
             // Other page controls
             document.getElementById('toggle-graph-btn').addEventListener('click', (e) => { const s = document.getElementById('casualty-graph'); const h = s.classList.toggle('hidden'); e.target.textContent = h ? 'Show Timeline' : 'Hide Timeline'; if (!h) s.scrollIntoView({ behavior: 'smooth' }); });
-            
+
             // START: Added Comparison Section Toggle
             document.getElementById('toggle-comparison-btn').addEventListener('click', (e) => {
                 const s = document.getElementById('comparison-section');
@@ -7248,13 +7437,13 @@ source: "Haaretz"
                 }
             });
             // END: Added Comparison Section Toggle
-            
+
             // START: Updated Explore Button Listener
-            document.getElementById('explore-button').addEventListener('click', e => { 
-                e.preventDefault(); 
-                document.getElementById('articles').scrollIntoView({ behavior: 'smooth' }); 
+            document.getElementById('explore-button').addEventListener('click', e => {
+                e.preventDefault();
+                document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
                 // Show filters when explore button is clicked
-                document.getElementById('filter-controls').classList.remove('hidden'); 
+                document.getElementById('filter-controls').classList.remove('hidden');
             });
             // END: Updated Explore Button Listener
 
@@ -7297,7 +7486,7 @@ source: "Haaretz"
                 if (moreBtn && moreDropdown && !moreBtn.contains(e.target) && !moreDropdown.contains(e.target)) {
                     moreDropdown.classList.add('hidden');
                 }
-                
+
                 // Close alert modal
                 if (e.target == document.getElementById('custom-modal')) {
                     hideModal();
@@ -7338,14 +7527,37 @@ source: "Haaretz"
                         // The onclick will handle the action, we just close the popover
                         // (unless it's the copy button, which handles its own state)
                         if (!action.id.startsWith('copy-link-')) {
-                             popover.classList.remove('visible');
+                            popover.classList.remove('visible');
                         }
                     }
                 }
                 // --- End New Share Popover Logic ---
             });
-            
+
             document.querySelector('#custom-modal .close-button').addEventListener('click', hideModal);
+
+            // START: Added Victim Section Listeners
+            document.getElementById('victim-search').addEventListener('input', () => {
+                victimCurrentPage = 1; // Reset to first page on new search
+                renderVictims();
+            });
+
+            document.getElementById('victim-prev-btn').addEventListener('click', () => {
+                if (victimCurrentPage > 1) {
+                    victimCurrentPage--;
+                    renderVictims();
+                    document.getElementById('victims').scrollIntoView({ behavior: 'smooth' }); // Scroll to top of section
+                }
+            });
+
+            document.getElementById('victim-next-btn').addEventListener('click', () => {
+                if (victimCurrentPage < totalVictimPages) {
+                    victimCurrentPage++;
+                    renderVictims();
+                    document.getElementById('victims').scrollIntoView({ behavior: 'smooth' }); // Scroll to top of section
+                }
+            });
+            // END: Added Victim Section Listeners
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -7367,6 +7579,10 @@ source: "Haaretz"
             setupEventListeners();
             fetchJournalistCount();
             renderCasualtyChart(casualtyData);
+
+            // START: Fetch victim data
+            fetchVictimsData();
+            // END: Fetch victim data
         });
     </script>
 </body>
