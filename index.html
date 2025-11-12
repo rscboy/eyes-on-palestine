@@ -462,7 +462,8 @@
     <header class="border-b border-gray-800 sticky top-0 bg-black/70 backdrop-blur-lg z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <!-- START: Modified Header Title -->
-            <a href="#" class="text-xl font-bold tracking-tight">
+            <!-- Added inline-block and py-2 to increase tappable area on mobile -->
+            <a href="#" class="inline-block py-2 text-xl font-bold tracking-tight">
                 <span class="text-green-500">Echoes</span> of <span class="text-red-500">Gaza</span>
             </a>
             <!-- END: Modified Header Title -->
@@ -543,13 +544,16 @@
         class="fixed top-0 left-0 w-full h-full bg-black/90 z-40 transform -translate-x-full md:hidden flex flex-col">
         <!-- Changed -->
         <div class="flex justify-end p-6">
-            <button id="close-mobile-menu" class="text-white focus:outline-none">
+            <!-- START: Added padding and styling to close button for easier tapping -->
+            <button id="close-mobile-menu"
+                class="text-white focus:outline-none p-2 rounded-full hover:bg-gray-800 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
                     </path>
                 </svg>
             </button>
+            <!-- END: Added padding to close button -->
         </div>
         <nav class="flex flex-col items-center justify-center flex-grow space-y-8 text-2xl"> <!-- Changed -->
             <a href="#articles" class="mobile-nav-link text-gray-300 hover:text-white">Articles</a>
@@ -573,7 +577,7 @@
                 <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <!-- Made icon larger -->
                     <path fill-rule="evenodd"
-                        d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89-.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21 1.58.35-1.95.17-.48.39.84.77 1.22.38-.38.74-.6 1.22-.77.37-.14 1.93-.3 1.95-.35 1.06-.05 1.39-.06 4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
+                        d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21 1.58.35-1.95.17-.48.39.84.77 1.22.38-.38.74-.6 1.22-.77.37-.14 1.93-.3 1.95-.35 1.06-.05 1.39-.06 4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
                         clip-rule="evenodd" />
                 </svg>
                 <span class="sr-only">Instagram</span>
@@ -7079,7 +7083,7 @@ source: "Haaretz"
         };
 
      
-    // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
+ // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
 
         function showLoadingSpinner() { document.getElementById('loading-spinner').classList.remove('hidden'); document.getElementById('loading-spinner').classList.add('flex'); }
         function hideLoadingSpinner() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('loading-spinner').classList.remove('flex'); }
@@ -7635,6 +7639,17 @@ source: "Haaretz"
 
             mobileMenuButton.addEventListener('click', () => mobileMenu.classList.remove('-translate-x-full'));
             closeMobileMenuButton.addEventListener('click', () => mobileMenu.classList.add('-translate-x-full'));
+
+            // START: Added click overlay to close
+            // Close menu if user clicks on the background overlay (e.target)
+            // but not on its children (e.g., the nav links)
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.add('-translate-x-full');
+                }
+            });
+            // END: Added click overlay to close
+
             document.querySelectorAll('.mobile-nav-link').forEach(link => {
                 link.addEventListener('click', () => mobileMenu.classList.add('-translate-x-full'));
             });
