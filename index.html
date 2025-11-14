@@ -471,11 +471,52 @@
             <!-- START: New parent wrapper for desktop nav and social icons -->
             <div class="hidden md:flex items-center divide-x divide-gray-700">
                 <nav id="desktop-nav" class="flex items-center space-x-6 pr-6">
+
+                    <!-- START: Added Home Button -->
+                    <!-- <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a> -->
+                    <!-- END: Added Home Button (REMOVED) -->
+
+                    <!-- START: New Archives Dropdown -->
+                    <div class="relative">
+                        <button id="archives-menu-button"
+                            class="text-gray-300 hover:text-white transition-colors duration-300 flex items-center">
+                            Archives
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div id="archives-menu-dropdown"
+                            class="absolute left-0 mt-2 w-56 bg-[#1a1a1a] border border-gray-700 rounded-md shadow-lg z-50 hidden">
+                            <a href="#articles"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Articles</a>
+                            <a href="#videos"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Videos</a>
+                            <a href="#books"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Books</a>
+                            <a href="#films"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Films
+                                & Documentaries</a>
+                        </div>
+                    </div>
+                    <!-- END: New Archives Dropdown -->
+
+                    <!-- START: Old links removed
                     <a href="#articles"
                         class="text-gray-300 hover:text-white transition-colors duration-300">Articles</a>
                     <a href="#videos" class="text-gray-300 hover:text-white transition-colors duration-300">Videos</a>
                     <a href="#books" class="text-gray-300 hover:text-white transition-colors duration-300">Books</a>
                     <a href="#films" class="text-gray-300 hover:text-white transition-colors duration-300">Films</a>
+                    -->
+
+                    <!-- START: New Top-Level Links -->
+                    <a href="#geolocation"
+                        class="text-gray-300 hover:text-white transition-colors duration-300">Geolocation</a>
+                    <a href="#bias-tool-controls"
+                        class="text-gray-300 hover:text-white transition-colors duration-300">Tools</a>
+                    <!-- END: New Top-Level Links -->
+
                     <!-- START: Added Victims Tab -->
                     <a href="#victims"
                         class="text-gray-300 hover:text-white transition-colors duration-300">Victims</a>
@@ -492,6 +533,17 @@
                         </button>
                         <div id="more-menu-dropdown"
                             class="absolute right-0 mt-2 w-56 bg-[#1a1a1a] border border-gray-700 rounded-md shadow-lg z-50 hidden">
+
+                            <!-- START: Removed Videos, Books, Films
+                            <a href="#videos"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Videos</a>
+                            <a href="#books"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Books</a>
+                            <a href="#films"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Films</a>
+                            <div class="border-t border-gray-700 my-1"></div>
+                            -->
+                            <!-- END: Removed Videos, Books, Films -->
                             <!-- START: Removed Social Media Link (now in header) -->
                             <!--
                             <a href="#socials"
@@ -505,6 +557,9 @@
                                 Resources</a>
                             <a href="#faq"
                                 class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">FAQ</a>
+                            <!-- <div class="border-t border-gray-700 my-1"></div> --> <!-- Removed separator -->
+                            <a href="https://echoesofgaza.org/collab" target="_blank" rel="noopener noreferrer"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Submit</a>
                         </div>
                     </div>
                 </nav>
@@ -556,18 +611,37 @@
             <!-- END: Added padding to close button -->
         </div>
         <nav class="flex flex-col items-center justify-center flex-grow space-y-8 text-2xl"> <!-- Changed -->
+            <!-- START: Added Home Button -->
+            <!-- <a href="#" class="mobile-nav-link text-gray-300 hover:text-white">Home</a> -->
+            <!-- END: Added Home Button (REMOVED) -->
+            <a href="#articles" class="mobile-nav-link text-gray-300 hover:text-white">Archives</a>
+            <!-- START: Swapped Tools and Geolocation for mobile only -->
+            <a href="#bias-tool-controls" class="mobile-nav-link text-gray-300 hover:text-white">Tools</a>
+            <a href="#geolocation" class="mobile-nav-link text-gray-300 hover:text-white">Geolocation</a>
+            <!-- END: Swapped Tools and Geolocation -->
+            <a href="#victims" class="mobile-nav-link text-gray-300 hover:text-white">Victims</a>
+            <!-- START: New Mobile Nav Links (sub-items of archives) -->
+            <!--
+            <a href="#videos" class="mobile-nav-link text-gray-300 hover:text-white">Videos</a>
+            <a href="#books" class="mobile-nav-link text-gray-300 hover:text-white">Books</a>
+            <a href="#films" class="mobile-nav-link text-gray-300 hover:text-white">Films</a>
+            -->
+            <!-- END: New Mobile Nav Links (REMOVED) -->
+
+            <!-- START: Old links removed
             <a href="#articles" class="mobile-nav-link text-gray-300 hover:text-white">Articles</a>
             <a href="#videos" class="mobile-nav-link text-gray-300 hover:text-white">Videos</a>
             <a href="#books" class="mobile-nav-link text-gray-300 hover:text-white">Books</a>
             <a href="#films" class="mobile-nav-link text-gray-300 hover:text-white">Films</a>
-            <!-- START: Added Victims Tab -->
             <a href="#victims" class="mobile-nav-link text-gray-300 hover:text-white">Victims</a>
-            <!-- END: Added Victims Tab -->
+            -->
             <a href="#quotes" class="mobile-nav-link text-gray-300 hover:text-white">Quotes</a>
             <a href="#faq" class="mobile-nav-link text-gray-300 hover:text-white">FAQ</a>
             <!-- START: Removed Social Media Link -->
             <!-- <a href="#socials" class="mobile-nav-link text-gray-300 hover:text-white">Social Media</a> -->
             <!-- END: Removed Social Media Link -->
+            <a href="https://echoesofgaza.org/collab" target="_blank" rel="noopener noreferrer"
+                class="mobile-nav-link text-gray-300 hover:text-white">Submit</a>
         </nav>
 
         <!-- START: Added Social Icon to bottom of mobile menu -->
@@ -623,7 +697,7 @@
         </section>
 
         <!-- Controls Section -->
-        <section class="py-12 bg-black border-y border-gray-800">
+        <section id="bias-tool-controls" class="py-12 bg-black border-y border-gray-800">
             <div class="container mx-auto px-6 text-center">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                     <!-- Toggle Graph Control -->
@@ -699,6 +773,33 @@
 
                 <!-- START: Updated comparison grid with user's info -->
                 <div id="comparison-grid" class="max-w-5xl mx-auto space-y-12">
+
+                    <!-- START: New Example Pair: Terrorism vs. Settler Violence -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                        <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
+                            <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                            <p class="text-xl text-gray-200">"West Bank Mosque Is Burned as Israeli Settler Violence
+                                Surges"</p>
+                            <p class="text-gray-500 text-xs mt-1 italic">The New York Times, 2025</p>
+                            <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                <strong>Analysis:</strong> The act of burning a house of worship is framed using
+                                the sanitized, neutral term "settler violence." This minimizes the act, suggesting a
+                                property crime or vandalism rather than a targeted act of hate.
+                            </blockquote>
+                        </div>
+                        <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-700 h-full">
+                            <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                            <p class="text-xl text-gray-200">"British leader says ‘vile’ synagogue assailant ‘attacked
+                                Jews because they are Jews’... in a terrorist attack"</p>
+                            <p class="text-gray-500 text-xs mt-1 italic">Associated Press / PBS, 2025</p>
+                            <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                <strong>Analysis:</strong> An attack on a synagogue is immediately and correctly
+                                labeled "terrorism" and a "vile" hate crime. This moral and legal lexicon is "reserved
+                                almost exclusively for Israelis," highlighting a clear double standard.
+                            </blockquote>
+                        </div>
+                    </div>
+                    <!-- END: New Example Pair -->
 
                     <!-- Example Pair 1: Inverted Agency vs. Clear Blame -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
@@ -809,6 +910,10 @@
         </section>
         <!-- END: Added Headline Comparison Section -->
 
+        <!-- START: Geolocation Analysis Section (MOVED AND MADE COLLAPSIBLE) -->
+        <!-- This section is now moved to be before the #victims section -->
+        <!-- END: Geolocation Analysis Section -->
+
 
         <section id="articles" class="py-16 md:py-24">
             <div class="container mx-auto px-6">
@@ -917,6 +1022,34 @@
                 </div>
             </div>
         </section>
+
+        <!-- START: Geolocation Analysis Section -->
+        <section id="geolocation" class="py-16 md:py-24 bg-[#1a1a1a] border-b border-gray-800">
+            <div class="container mx-auto px-6">
+                <!-- Collapsible Header REMOVED -->
+                <h3 class="text-3xl font-bold text-center mb-12">Geolocation Analysis</h3>
+
+                <!-- Collapsible Content (now visible by default) -->
+                <div id="geolocation-content" class="mt-12">
+                    <p class="text-center text-gray-400 mb-10 max-w-3xl mx-auto">
+                        This section features critical geolocation analysis from researcher <strong>Abu
+                            Location</strong>.
+                        His work has been essential in verifying events and deconstructing false narratives
+                        propagated by the Israeli military during the conflict.
+                        <br>
+                        You can follow his ongoing analysis on
+                        <a href="https://x.com/AbuLocation" target="_blank" rel="noopener noreferrer"
+                            class="text-blue-400 hover:underline">X (Twitter)</a>.
+                    </p>
+                    <div class="w-full aspect-video border-4 border-gray-700 rounded-lg overflow-hidden bg-black">
+                        <iframe src="https://www.scribblemaps.com/maps/view/My-Map/RS3sBEB4ZU" width="100%"
+                            height="100%" frameborder="0" title="Geolocation Map"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: Geolocation Analysis Section -->
+
 
         <!-- START: Added Victims Section -->
         <section id="victims" class="py-16 md:py-24">
@@ -7254,7 +7387,7 @@ source: "Haaretz"
         };
 
      
- // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
+         // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
 
         function showLoadingSpinner() { document.getElementById('loading-spinner').classList.remove('hidden'); document.getElementById('loading-spinner').classList.add('flex'); }
         function hideLoadingSpinner() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('loading-spinner').classList.remove('flex'); }
@@ -7777,16 +7910,17 @@ source: "Haaretz"
             document.getElementById('explore-button').addEventListener('click', e => {
                 e.preventDefault();
                 document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
-                // Show filters when explore button is clicked
-                document.getElementById('filter-controls').classList.remove('hidden');
-            });
-            // END: Updated Explore Button Listener
+            }); // END: Updated Explore Button Listener
 
             // START: Added smooth scroll for logo and back-to-top
-            document.querySelector('header a[href="#"]').addEventListener('click', e => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Modified to select ALL header links pointing to '#'
+            document.querySelectorAll('header a[href="#"]').forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
             });
+
 
             document.querySelector('footer a[href="#"]').addEventListener('click', e => {
                 e.preventDefault();
@@ -7802,13 +7936,35 @@ source: "Haaretz"
 
             // Menus (Desktop More & Mobile)
             const moreBtn = document.getElementById('more-menu-button'), moreDropdown = document.getElementById('more-menu-dropdown');
-            moreBtn.addEventListener('click', e => { e.stopPropagation(); moreDropdown.classList.toggle('hidden'); });
+            const archivesBtn = document.getElementById('archives-menu-button'), archivesDropdown = document.getElementById('archives-menu-dropdown');
+
+            if (moreBtn && moreDropdown && archivesBtn && archivesDropdown) {
+                moreBtn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    const isHidden = moreDropdown.classList.toggle('hidden');
+                    if (!isHidden) { // If we just opened 'More', close 'Archives'
+                        archivesDropdown.classList.add('hidden');
+                    }
+                });
+
+                archivesBtn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    const isHidden = archivesDropdown.classList.toggle('hidden');
+                    if (!isHidden) { // If we just opened 'Archives', close 'More'
+                        moreDropdown.classList.add('hidden');
+                    }
+                });
+            }
+            // END: Modified listeners
 
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const closeMobileMenuButton = document.getElementById('close-mobile-menu');
 
-            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.remove('-translate-x-full'));
+            // mobileMenuButton.addEventListener('click', () => mobileMenu.classList.remove('-translate-x-full'));
+            // START: Changed to toggle
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('-translate-x-full'));
+            // END: Changed to toggle
             closeMobileMenuButton.addEventListener('click', () => mobileMenu.classList.add('-translate-x-full'));
 
             // START: Added click overlay to close
@@ -7825,13 +7981,32 @@ source: "Haaretz"
                 link.addEventListener('click', () => mobileMenu.classList.add('-translate-x-full'));
             });
 
+            /* START: Removed Geolocation Toggle Listener
+            const geoBtn = document.getElementById('toggle-geolocation-btn');
+            const geoContent = document.getElementById('geolocation');
+            const geoArrow = document.getElementById('geolocation-arrow');
+            if (geoBtn && geoContent && geoArrow) {
+                geoBtn.addEventListener('click', () => {
+                    const isHidden = geoContent.classList.toggle('hidden');
+                    geoArrow.classList.toggle('rotate-180', !isHidden); // Add rotate-180 if it's NOT hidden (i.e., open)
+                });
+            }
+            */
+            // END: Removed Geolocation Toggle Listener
+
+
             // --- New Global Click Listener for Popovers & Modal ---
-            // This listener is NO LONGER blocked by the script error.
             window.addEventListener('click', e => {
                 // Close desktop 'More' dropdown
                 if (moreBtn && moreDropdown && !moreBtn.contains(e.target) && !moreDropdown.contains(e.target)) {
                     moreDropdown.classList.add('hidden');
                 }
+
+                // START: Added close logic for new Archives dropdown
+                if (archivesBtn && archivesDropdown && !archivesBtn.contains(e.target) && !archivesDropdown.contains(e.target)) {
+                    archivesDropdown.classList.add('hidden');
+                }
+                // END: Added close logic
 
                 // Close alert modal
                 if (e.target == document.getElementById('custom-modal')) {
