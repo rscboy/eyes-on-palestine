@@ -513,8 +513,26 @@
                     <!-- START: New Top-Level Links -->
                     <a href="#bias-tool-controls"
                         class="text-gray-300 hover:text-white transition-colors duration-300">Tools</a>
-                      <a href="#geolocation"
-                        class="text-gray-300 hover:text-white transition-colors duration-300">Geolocation</a>
+                    <!-- START: New Maps Dropdown -->
+                    <div class="relative">
+                        <button id="maps-menu-button"
+                            class="text-gray-300 hover:text-white transition-colors duration-300 flex items-center">
+                            Maps
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div id="maps-menu-dropdown"
+                            class="absolute left-0 mt-2 w-56 bg-[#1a1a1a] border border-gray-700 rounded-md shadow-lg z-50 hidden">
+                            <a href="#geolocation"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Geolocation Analysis</a>
+                            <a href="#gaza-maps"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Gaza Displacement Map</a>
+                        </div>
+                    </div>
+                    <!-- END: New Maps Dropdown -->
                     <!-- END: New Top-Level Links -->
 
                     <!-- START: Added Victims Tab -->
@@ -570,7 +588,7 @@
                         class="text-gray-400 hover:text-white transition-colors" title="Instagram">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill-rule="evenodd"
-                                d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21 1.58.35-1.95.17-.48.39.84.77 1.22.38-.38.74-.6 1.22-.77.37-.14 1.93-.3 1.95-.35 1.06-.05 1.39-.06 4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
+                                d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21-1.58.35-1.95.17-.48.39-.84.77-1.22.38-.38.74-.6-1.22-.77.37-.14-1.93-.3-1.95-.35-1.06-.05-1.39-.06-4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
                                 clip-rule="evenodd" />
                         </svg>
                         <span class="sr-only">Instagram</span>
@@ -615,10 +633,10 @@
             <!-- <a href="#" class="mobile-nav-link text-gray-300 hover:text-white">Home</a> -->
             <!-- END: Added Home Button (REMOVED) -->
             <a href="#articles" class="mobile-nav-link text-gray-300 hover:text-white">Archives</a>
-            <!-- START: Swapped Tools and Geolocation for mobile only -->
+            <!-- START: Consolidated Maps link for mobile -->
             <a href="#bias-tool-controls" class="mobile-nav-link text-gray-300 hover:text-white">Tools</a>
-            <a href="#geolocation" class="mobile-nav-link text-gray-300 hover:text-white">Geolocation</a>
-            <!-- END: Swapped Tools and Geolocation -->
+            <a href="#geolocation" class="mobile-nav-link text-gray-300 hover:text-white">Maps</a>
+            <!-- END: Consolidated Maps link for mobile -->
             <a href="#victims" class="mobile-nav-link text-gray-300 hover:text-white">Victims</a>
             <!-- START: New Mobile Nav Links (sub-items of archives) -->
             <!--
@@ -651,7 +669,7 @@
                 <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <!-- Made icon larger -->
                     <path fill-rule="evenodd"
-                        d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21 1.58.35-1.95.17-.48.39.84.77 1.22.38-.38.74-.6 1.22-.77.37-.14 1.93-.3 1.95-.35 1.06-.05 1.39-.06 4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
+                        d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21-1.58.35-1.95.17-.48.39-.84.77-1.22.38-.38.74-.6-1.22-.77.37-.14-1.93-.3-1.95-.35-1.06-.05-1.39-.06-4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
                         clip-rule="evenodd" />
                 </svg>
                 <span class="sr-only">Instagram</span>
@@ -1051,6 +1069,85 @@
         <!-- END: Geolocation Analysis Section -->
 
 
+        <!-- START: New Gaza Maps Section -->
+        <section id="gaza-maps" class="py-16 md:py-24 bg-black border-b border-gray-800">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-center mb-4">Gaza Maps: Displacement & Kill Zones</h3>
+                <p class="text-center text-gray-400 mb-12 max-w-3xl mx-auto">
+                    This section features the interactive displacement map and data from
+                    <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Gaza Maps</a>,
+                    a project by Databases for Palestine.
+                </p>
+        
+                <!-- Stats Bar -->
+                <div class="mx-auto max-w-7xl">
+                    <dl class="grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4">
+                        <a href="https://gazamaps.com/kill-zone" target="_blank" rel="noopener noreferrer" class="flex flex-col bg-[#1a1a1a] p-4 md:p-5 lg:p-6 transition-colors hover:bg-gray-800 border border-gray-700">
+                            <dt class="text-sm/6 font-semibold text-gray-400">
+                                IDF designated kill zone
+                            </dt>
+                            <dd class="order-first lg:text-3xl text-xl font-semibold tracking-tight text-white">
+                                54% of Gaza
+                            </dd>
+                        </a>
+                        <a href="https://gazamaps.com?start=18%20March%202025&amp;end=14%20November%202025" target="_blank" rel="noopener noreferrer" class="flex flex-col bg-[#1a1a1a] p-4 md:p-5 lg:p-6 transition-colors hover:bg-gray-800 border border-gray-700">
+                            <dt class="text-sm/6 font-semibold text-gray-400">
+                                since 18 March
+                            </dt>
+                            <dd class="order-first lg:text-3xl text-xl font-semibold tracking-tight text-white">
+                                86 IDF Maps
+                            </dd>
+                        </a>
+                        <a href="https://gazamaps.com/displacement/164" target="_blank" rel="noopener noreferrer" class="flex flex-col bg-[#1a1a1a] p-4 md:p-5 lg:p-6 transition-colors hover:bg-gray-800 border border-gray-700">
+                            <dt class="text-sm/6 font-semibold text-gray-400">
+                                since last displacement order
+                            </dt>
+                            <dd class="order-first lg:text-3xl text-xl font-semibold tracking-tight text-white">
+                                26 Days
+                            </dd>
+                        </a>
+                        <div class="flex flex-col bg-[#1a1a1a] p-4 md:p-5 lg:p-6 border border-gray-700">
+                            <dt class="text-sm/6 font-semibold text-gray-400">
+                                of displacement orders
+                            </dt>
+                            <dd class="order-first lg:text-3xl text-xl font-semibold tracking-tight text-white">
+                                770 Days
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+        
+                <!-- Live Map -->
+                <div class="mt-12">
+                    <h4 class="text-2xl font-bold text-center mb-6">IDF Forced Displacement Map</h4>
+                    <div class="w-full aspect-video border-4 border-gray-700 rounded-lg overflow-hidden bg-black">
+                        <iframe allowfullscreen src="https://arcg.is/0TeG4L" class="w-full h-full" title="Gaza Maps IDF Forced Displacement"></iframe>
+                    </div>
+                    <p class="md:hidden text-center text-gray-400 mt-4">
+                        Map data sourced from <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">gazamaps.com</a>.
+                        <strong>This map is best viewed on a larger screen.</strong>
+                        Please use this link to
+                        <a href="https://arcg.is/0TeG4L" target="_blank" class="text-blue-400 hover:underline">visit the full-screen app</a>.
+                    </p>
+                    <p class="hidden md:block text-center text-gray-400 mt-4">
+                        Map data and information sourced from <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">gazamaps.com</a>.
+                        For the best experience, consider using the
+                        <a href="https://arcg.is/0TeG4L" target="_blank" class="text-blue-400 hover:underline">full-screen version</a>.
+                    </p>
+                </div>
+        
+                <!-- API Documentation (Collapsible) -->
+                <!-- SECTION REMOVED AS REQUESTED -->
+            </div>
+        </section>
+        <style>
+            details[open] .details-arrow {
+                transform: rotate(180deg);
+            }
+        </style>
+        <!-- END: New Gaza Maps Section -->
+
+
         <!-- START: Added Victims Section -->
         <section id="victims" class="py-16 md:py-24">
             <div class="container mx-auto px-6">
@@ -1256,7 +1353,7 @@
                         class="text-gray-400 hover:text-white transition-colors" title="Instagram">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill-rule="evenodd"
-                                d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21 1.58.35-1.95.17-.48.39.84.77 1.22.38-.38.74-.6 1.22-.77.37-.14 1.93-.3 1.95-.35 1.06-.05 1.39-.06 4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
+                                d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89.27-.67.44-1.44.49-2.54.05-1.09.06-1.42.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21-1.58.35-1.95.17-.48.39-.84.77-1.22.38-.38.74-.6-1.22-.77.37-.14-1.93-.3-1.95-.35-1.06-.05-1.39-.06-4.12-.06zm0 4.71c-2.28 0-4.12 1.85-4.12 4.12s1.85 4.12 4.12 4.12 4.12-1.85 4.12-4.12-1.85-4.12-4.12-4.12zm0 6.34c-1.23 0-2.22-1-2.22-2.22s1-2.22 2.22-2.22 2.22 1 2.22 2.22-1 2.22-2.22 2.22zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
                                 clip-rule="evenodd" />
                         </svg>
                         <span class="sr-only">Instagram</span>
@@ -1304,6 +1401,7 @@
             { month: "Nov '25", year: 2025, deaths: 69000, notes: "Reports indicate toll nears 70,000" },
             // END: Added November 2025 data
         ];
+
 
         const initialData = {
             articles: [
@@ -7490,7 +7588,7 @@ source: "Haaretz"
         };
 
      
-         // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
+        // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
 
         function showLoadingSpinner() { document.getElementById('loading-spinner').classList.remove('hidden'); document.getElementById('loading-spinner').classList.add('flex'); }
         function hideLoadingSpinner() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('loading-spinner').classList.remove('flex'); }
@@ -8040,13 +8138,16 @@ source: "Haaretz"
             // Menus (Desktop More & Mobile)
             const moreBtn = document.getElementById('more-menu-button'), moreDropdown = document.getElementById('more-menu-dropdown');
             const archivesBtn = document.getElementById('archives-menu-button'), archivesDropdown = document.getElementById('archives-menu-dropdown');
+            const mapsBtn = document.getElementById('maps-menu-button'), mapsDropdown = document.getElementById('maps-menu-dropdown'); // Added
 
-            if (moreBtn && moreDropdown && archivesBtn && archivesDropdown) {
+            // if (moreBtn && moreDropdown && archivesBtn && archivesDropdown) {
+            if (moreBtn && moreDropdown && archivesBtn && archivesDropdown && mapsBtn && mapsDropdown) { // Added maps
                 moreBtn.addEventListener('click', e => {
                     e.stopPropagation();
                     const isHidden = moreDropdown.classList.toggle('hidden');
                     if (!isHidden) { // If we just opened 'More', close 'Archives'
                         archivesDropdown.classList.add('hidden');
+                        mapsDropdown.classList.add('hidden'); // Added
                     }
                 });
 
@@ -8055,8 +8156,20 @@ source: "Haaretz"
                     const isHidden = archivesDropdown.classList.toggle('hidden');
                     if (!isHidden) { // If we just opened 'Archives', close 'More'
                         moreDropdown.classList.add('hidden');
+                        mapsDropdown.classList.add('hidden'); // Added
                     }
                 });
+
+                // START: Added Maps dropdown listener
+                mapsBtn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    const isHidden = mapsDropdown.classList.toggle('hidden');
+                    if (!isHidden) { // If we just opened 'Maps', close others
+                        moreDropdown.classList.add('hidden');
+                        archivesDropdown.classList.add('hidden');
+                    }
+                });
+                // END: Added Maps dropdown listener
             }
             // END: Modified listeners
 
@@ -8108,6 +8221,12 @@ source: "Haaretz"
                 // START: Added close logic for new Archives dropdown
                 if (archivesBtn && archivesDropdown && !archivesBtn.contains(e.target) && !archivesDropdown.contains(e.target)) {
                     archivesDropdown.classList.add('hidden');
+                }
+                // END: Added close logic
+
+                // START: Added close logic for new Maps dropdown
+                if (mapsBtn && mapsDropdown && !mapsBtn.contains(e.target) && !mapsDropdown.contains(e.target)) {
+                    mapsDropdown.classList.add('hidden');
                 }
                 // END: Added close logic
 
