@@ -286,7 +286,7 @@
         /* Removed CSS for input[type="search"] here.
            It's handled by Tailwind classes on the input element itself,
            and we're changing to type="text" to avoid default browser icons.
-         */
+          */
 
         .filter-checkbox {
             margin-right: 0.5rem;
@@ -1075,14 +1075,17 @@
                 <h3 class="text-3xl font-bold text-center mb-4">Gaza Maps: Displacement & Kill Zones</h3>
                 <p class="text-center text-gray-400 mb-12 max-w-3xl mx-auto">
                     This section features the interactive displacement map and data from
-                    <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Gaza Maps</a>,
+                    <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer"
+                        class="text-blue-400 hover:underline">Gaza Maps</a>,
                     a project by Databases for Palestine.
                 </p>
-        
+
                 <!-- Stats Bar -->
                 <div class="mx-auto max-w-7xl">
-                    <dl class="grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4">
-                        <a href="https://gazamaps.com/kill-zone" target="_blank" rel="noopener noreferrer" class="flex flex-col bg-[#1a1a1a] p-4 md:p-5 lg:p-6 transition-colors hover:bg-gray-800 border border-gray-700">
+                    <dl
+                        class="grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4">
+                        <a href="https://gazamaps.com/kill-zone" target="_blank" rel="noopener noreferrer"
+                            class="flex flex-col bg-[#1a1a1a] p-4 md:p-5 lg:p-6 transition-colors hover:bg-gray-800 border border-gray-700">
                             <dt class="text-sm/6 font-semibold text-gray-400">
                                 IDF designated kill zone
                             </dt>
@@ -1090,7 +1093,9 @@
                                 54% of Gaza
                             </dd>
                         </a>
-                        <a href="https://gazamaps.com?start=18%20March%202025&amp;end=14%20November%202025" target="_blank" rel="noopener noreferrer" class="flex flex-col bg-[#1a1a1a] p-4 md:p-5 lg:p-6 transition-colors hover:bg-gray-800 border border-gray-700">
+                        <a href="https://gazamaps.com?start=18%20March%202025&amp;end=14%20November%202025"
+                            target="_blank" rel="noopener noreferrer"
+                            class="flex flex-col bg-[#1a1a1a] p-4 md:p-5 lg:p-6 transition-colors hover:bg-gray-800 border border-gray-700">
                             <dt class="text-sm/6 font-semibold text-gray-400">
                                 since 18 March
                             </dt>
@@ -1098,7 +1103,8 @@
                                 86 IDF Maps
                             </dd>
                         </a>
-                        <a href="https://gazamaps.com/displacement/164" target="_blank" rel="noopener noreferrer" class="flex flex-col bg-[#1a1a1a] p-4 md:p-5 lg:p-6 transition-colors hover:bg-gray-800 border border-gray-700">
+                        <a href="https://gazamaps.com/displacement/164" target="_blank" rel="noopener noreferrer"
+                            class="flex flex-col bg-[#1a1a1a] p-4 md:p-5 lg:p-6 transition-colors hover:bg-gray-800 border border-gray-700">
                             <dt class="text-sm/6 font-semibold text-gray-400">
                                 since last displacement order
                             </dt>
@@ -1116,26 +1122,31 @@
                         </div>
                     </dl>
                 </div>
-        
+
                 <!-- Live Map -->
                 <div class="mt-12">
                     <h4 class="text-2xl font-bold text-center mb-6">IDF Forced Displacement Map</h4>
                     <div class="w-full aspect-video border-4 border-gray-700 rounded-lg overflow-hidden bg-black">
-                        <iframe allowfullscreen src="https://arcg.is/0TeG4L" class="w-full h-full" title="Gaza Maps IDF Forced Displacement"></iframe>
+                        <iframe allowfullscreen src="https://arcg.is/0TeG4L" class="w-full h-full"
+                            title="Gaza Maps IDF Forced Displacement"></iframe>
                     </div>
                     <p class="md:hidden text-center text-gray-400 mt-4">
-                        Map data sourced from <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">gazamaps.com</a>.
+                        Map data sourced from <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer"
+                            class="text-blue-400 hover:underline">gazamaps.com</a>.
                         <strong>This map is best viewed on a larger screen.</strong>
                         Please use this link to
-                        <a href="https://arcg.is/0TeG4L" target="_blank" class="text-blue-400 hover:underline">visit the full-screen app</a>.
+                        <a href="https://arcg.is/0TeG4L" target="_blank" class="text-blue-400 hover:underline">visit the
+                            full-screen app</a>.
                     </p>
                     <p class="hidden md:block text-center text-gray-400 mt-4">
-                        Map data and information sourced from <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">gazamaps.com</a>.
+                        Map data and information sourced from <a href="https://gazamaps.com/" target="_blank"
+                            rel="noopener noreferrer" class="text-blue-400 hover:underline">gazamaps.com</a>.
                         For the best experience, consider using the
-                        <a href="https://arcg.is/0TeG4L" target="_blank" class="text-blue-400 hover:underline">full-screen version</a>.
+                        <a href="https://arcg.is/0TeG4L" target="_blank" class="text-blue-400 hover:underline">full-screen
+                            version</a>.
                     </p>
                 </div>
-        
+
                 <!-- API Documentation (Collapsible) -->
                 <!-- SECTION REMOVED AS REQUESTED -->
             </div>
@@ -1197,8 +1208,7 @@
                 </div>
 
                 <!-- Victim Grid -->
-                <div id="victim-grid"
-                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div id="victim-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     <!-- Victim cards will be populated here by JavaScript -->
                 </div>
             </div>
@@ -7759,7 +7769,7 @@ source: "Haaretz"
         };
 
      
-        // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
+           // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
 
         function showLoadingSpinner() { document.getElementById('loading-spinner').classList.remove('hidden'); document.getElementById('loading-spinner').classList.add('flex'); }
         function hideLoadingSpinner() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('loading-spinner').classList.remove('flex'); }
@@ -7843,7 +7853,7 @@ source: "Haaretz"
                         ${iconShare}
                         <span>Share</span>
                     </button>
-                    
+                   
                     <!-- The hidden popover menu -->
                     <div class="share-popover">
                         <div class="popover-action" onclick="window.shareOnTwitter('${escapedUrl}', '${escapedTitle}')">
@@ -7931,9 +7941,13 @@ source: "Haaretz"
                 const escapedTitle = getSwappedText(article.title).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
                 const escapedUrl = article.link.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
+                // --- CHANGE: Create the archive link for the main card click ---
+                const archiveUrl = `https://archive.is/oldest/${article.link}`;
+                // ---------------------------------------------------------------
+
                 return `
                 <div class="card rounded-lg flex flex-col">
-                    <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="block flex flex-col flex-grow hover:opacity-90 transition-opacity">
+                    <a href="${archiveUrl}" target="_blank" rel="noopener noreferrer" class="block flex flex-col flex-grow hover:opacity-90 transition-opacity">
                         <div class="relative overflow-hidden rounded-t-lg">
                             <img src="${article.imageUrl}" alt="${getSwappedText(article.title)}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/555555?text=Image+Not+Found';">
                         </div>
