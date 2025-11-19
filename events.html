@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | Echoes of Gaza</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CORE BRANDING CSS --- */
+        :root {
+            --pal-red: #EE2A35;
+            --pal-green: #009736;
+            --pal-black: #000000;
+            --pal-white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212;
+            color: white;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #777; }
+
+        /* Hero Text Gradient */
+        .hero-gradient-text {
+            background: linear-gradient(to right, var(--pal-white), #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            border-color: #555;
+        }
+
+        /* Tags */
+        .tag-green { background: rgba(0, 151, 54, 0.1); color: #22c55e; border: 1px solid rgba(0, 151, 54, 0.2); }
+        .tag-red { background: rgba(238, 42, 53, 0.1); color: #ef4444; border: 1px solid rgba(238, 42, 53, 0.2); }
+        
+        /* Bullet Points Customization */
+        ul.custom-bullets li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        ul.custom-bullets li::before {
+            content: "•";
+            color: var(--pal-green);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="text-white flex flex-col min-h-screen">
+
+    <!-- HEADER -->
+    <header class="border-b border-gray-800 sticky top-0 bg-black/70 backdrop-blur-lg z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="https://echoesofgaza.org" class="inline-block py-2 text-xl font-bold tracking-tight">
+                <span class="text-green-500">Echoes</span> of <span class="text-red-500">Gaza</span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="https://echoesofgaza.org" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Back to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- HERO SECTION -->
+        <section class="py-20 bg-black text-center border-b border-gray-800">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl md:text-6xl font-extrabold hero-gradient-text mb-4">
+                    Speaker Series & Events
+                </h1>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg">
+                    Join us for conversations on history, law, and lived experience. We gather to listen, reflect, and turn empathy into concrete action.
+                </p>
+            </div>
+        </section>
+
+        <!-- CONTENT SECTION -->
+        <section class="py-16 bg-[#121212]">
+            <div class="container mx-auto px-6 max-w-5xl">
+                
+                <h2 class="text-2xl font-bold mb-8 border-l-4 border-green-600 pl-4">Upcoming Events</h2>
+
+                <!-- FEATURED EVENT CARD -->
+                <div class="card rounded-xl p-8 md:p-10 border border-gray-800 relative">
+                    <!-- Date Badge -->
+                    <div class="md:absolute top-10 right-10 bg-red-900/30 border border-red-800/50 text-red-400 px-4 py-2 rounded-lg text-center mb-6 md:mb-0 inline-block">
+                        <span class="block text-xs uppercase tracking-wider font-bold">Save the Date</span>
+                        <span class="block text-xl font-bold text-white">29 NOV</span>
+                        <span class="block text-xs">2025</span>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="md:pr-32">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="tag-green text-xs font-bold px-3 py-1 rounded-full">International Solidarity Day</span>
+                            <span class="text-gray-500 text-sm">Online Event</span>
+                        </div>
+
+                        <h3 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                            AWDA (عودة): Return & Hope <span class="text-2xl align-middle">🍉</span>
+                        </h3>
+
+                        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                            November 29 is the <strong>International Day of Solidarity with the Palestinian People</strong> — a moment to listen, reflect, and act. It’s a reminder of an unfinished struggle for rights and the universal longing for home, belonging, and justice.
+                        </p>
+
+                        <p class="text-gray-400 mb-8 leading-relaxed">
+                            This year, <strong>AWDA (عودة): RETURN & HOPE</strong> invites you to explore the Right of Return through stories, law, and lived experience — featuring Palestinian voices joining us from the West Bank, Baha from Bethlehem, and Dr Fauziah Hassan, Chairperson of the Asia Pacific Women’s Coalition for Al-Quds & Palestine (APWCQ).
+                        </p>
+
+                        <!-- What to Expect -->
+                        <div class="bg-[#222] rounded-lg p-6 border border-gray-700 mb-8">
+                            <h4 class="font-bold text-white mb-4">What to expect:</h4>
+                            <ul class="space-y-3 text-gray-300">
+                                <li class="flex items-start">
+                                    <span class="mr-3 mt-1">🌿</span>
+                                    <span>Hear personal accounts of displacement, resilience, and connection</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="mr-3 mt-1">🏡</span>
+                                    <span>Explore heritage, land, and living memory as evidence of continuity</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="mr-3 mt-1">🌏</span>
+                                    <span>Learn how local + regional solidarity can become meaningful action</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="mr-3 mt-1">✨</span>
+                                    <span>Leave with clear next steps to turn empathy into hope — and hope into action</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Event Details Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm">
+                            <div>
+                                <h5 class="text-gray-500 font-bold uppercase tracking-wider mb-1">Date & Time</h5>
+                                <p class="text-white font-medium">Saturday, 29 Nov 2025</p>
+                                <p class="text-gray-400">8:00 – 10:00 PM (SGT)</p>
+                            </div>
+                            <div>
+                                <h5 class="text-gray-500 font-bold uppercase tracking-wider mb-1">Location</h5>
+                                <p class="text-white font-medium">Google Meet</p>
+                                <p class="text-gray-400">Link sent via email by 28 Nov</p>
+                            </div>
+                            <div class="md:col-span-2">
+                                <h5 class="text-gray-500 font-bold uppercase tracking-wider mb-1">In Collaboration With</h5>
+                                <p class="text-gray-300 leading-relaxed">
+                                    Baha Hilo, Burj Al-Luqluq, Yulianna Frederika (Lepak Conversations Singapore), and Asia Pacific Women’s Coalition for Al-Quds & Palestine (APWCQ).
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Call to Action -->
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfY2PkxWk7mBJCcn9Xb855C4zcIKYvlb8vPp7GQSBFRnuYA_w/viewform" target="_blank" rel="noopener noreferrer" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-md transition-colors duration-300 text-center inline-flex items-center justify-center gap-2">
+                                Register for Event
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                            <p class="text-xs text-gray-500 mt-2 sm:mt-0 flex items-center">
+                                *Registration required to receive meeting link.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Placeholder for Past Events (Optional, keeps page balanced) -->
+                <div class="mt-16 opacity-50 pointer-events-none grayscale">
+                    <h2 class="text-xl font-bold mb-6 border-l-4 border-gray-600 pl-4">Past Events</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="card rounded-lg p-6 border border-gray-800">
+                            <span class="text-xs text-gray-500 mb-2 block">October 2025</span>
+                            <h3 class="text-lg font-bold mb-2">Archive Launch: Documenting Genocide</h3>
+                            <p class="text-sm text-gray-400">An internal team review of the archive structure and initial data ingestion.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 border-t border-gray-800 py-12 mt-auto">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p class="mb-2">Echoes of Gaza</p>
+            <p class="text-sm">© 2025 Echoes of Gaza Timeline Project.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
