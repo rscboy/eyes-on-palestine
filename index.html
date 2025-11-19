@@ -284,8 +284,8 @@
         }
 
         /* Removed CSS for input[type="search"] here.
-           It's handled by Tailwind classes on the input element itself,
-           and we're changing to type="text" to avoid default browser icons.
+            It's handled by Tailwind classes on the input element itself,
+            and we're changing to type="text" to avoid default browser icons.
           */
 
         .filter-checkbox {
@@ -578,6 +578,8 @@
                             <!-- <div class="border-t border-gray-700 my-1"></div> --> <!-- Removed separator -->
                             <a href="https://echoesofgaza.org/collab" target="_blank" rel="noopener noreferrer"
                                 class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Submit</a>
+                            <a href="https://echoesofgaza.org/events" target="_blank" rel="noopener noreferrer"
+                                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Events</a>
                         </div>
                     </div>
                 </nav>
@@ -660,6 +662,8 @@
             <!-- END: Removed Social Media Link -->
             <a href="https://echoesofgaza.org/collab" target="_blank" rel="noopener noreferrer"
                 class="mobile-nav-link text-gray-300 hover:text-white">Submit</a>
+            <a href="https://echoesofgaza.org/events" target="_blank" rel="noopener noreferrer"
+                class="mobile-nav-link text-gray-300 hover:text-white">Events</a>
         </nav>
 
         <!-- START: Added Social Icon to bottom of mobile menu -->
@@ -1411,7 +1415,6 @@
             { month: "Nov '25", year: 2025, deaths: 69000, notes: "Reports indicate toll nears 70,000" },
             // END: Added November 2025 data
         ];
-
 
         const initialData = {
             articles: [
@@ -7769,7 +7772,7 @@ source: "Haaretz"
         };
 
      
-           // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
+     // --- UTILITY AND RENDER FUNCTIONS (REMAINING) ---
 
         function showLoadingSpinner() { document.getElementById('loading-spinner').classList.remove('hidden'); document.getElementById('loading-spinner').classList.add('flex'); }
         function hideLoadingSpinner() { document.getElementById('loading-spinner').classList.add('hidden'); document.getElementById('loading-spinner').classList.remove('flex'); }
@@ -7853,7 +7856,7 @@ source: "Haaretz"
                         ${iconShare}
                         <span>Share</span>
                     </button>
-                   
+                    
                     <!-- The hidden popover menu -->
                     <div class="share-popover">
                         <div class="popover-action" onclick="window.shareOnTwitter('${escapedUrl}', '${escapedTitle}')">
@@ -8051,7 +8054,7 @@ source: "Haaretz"
                 victimsData = await response.json();
                 filteredVictims = [...victimsData]; // Initialize filtered list
                 renderVictims(); // Render the first page
-            } catch (error) {
+           } catch (error) {
                 console.error("Failed to fetch victims data:", error);
                 document.getElementById('victim-grid').innerHTML = `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center">Failed to load victim data. Please try again later.</p>`;
             } finally {
