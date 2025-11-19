@@ -73,6 +73,15 @@
             left: 0;
             font-weight: bold;
         }
+
+        /* Spotify Button Gradient */
+        .spotify-btn {
+            background: #1DB954;
+            transition: background 0.3s ease;
+        }
+        .spotify-btn:hover {
+            background: #1ed760;
+        }
     </style>
 </head>
 <body class="text-white flex flex-col min-h-screen">
@@ -109,7 +118,7 @@
                 <h2 class="text-2xl font-bold mb-8 border-l-4 border-green-600 pl-4">Upcoming Events</h2>
 
                 <!-- FEATURED EVENT CARD -->
-                <div class="card rounded-xl p-8 md:p-10 border border-gray-800 relative">
+                <div class="card rounded-xl p-8 md:p-10 border border-gray-800 relative mb-20">
                     <!-- Date Badge -->
                     <div class="md:absolute top-10 right-10 bg-red-900/30 border border-red-800/50 text-red-400 px-4 py-2 rounded-lg text-center mb-6 md:mb-0 inline-block">
                         <span class="block text-xs uppercase tracking-wider font-bold">Save the Date</span>
@@ -195,16 +204,85 @@
                     </div>
                 </div>
 
-                <!-- Placeholder for Past Events (Optional, keeps page balanced) -->
-                <div class="mt-16 opacity-50 pointer-events-none grayscale">
-                    <h2 class="text-xl font-bold mb-6 border-l-4 border-gray-600 pl-4">Past Events</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="card rounded-lg p-6 border border-gray-800">
-                            <span class="text-xs text-gray-500 mb-2 block">October 2025</span>
-                            <h3 class="text-lg font-bold mb-2">Archive Launch: Documenting Genocide</h3>
-                            <p class="text-sm text-gray-400">An internal team review of the archive structure and initial data ingestion.</p>
+                <!-- PAST EVENTS SECTION -->
+                <h2 class="text-2xl font-bold mb-8 border-l-4 border-gray-600 pl-4">Past Events</h2>
+                
+                <!-- Event 1: Watermelons Dreams -->
+                <div class="card rounded-xl p-6 md:p-8 border border-gray-800 mb-8">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <!-- Content Side -->
+                        <div class="flex-1">
+                            <span class="tag-red text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block">Music & Art</span>
+                            <h3 class="text-2xl font-bold text-white mb-2">Watermelons Dreams 🍉</h3>
+                            <p class="text-gray-400 mb-6">
+                                An event where we showcased Palestinian art and music as resistance. We gathered to witness creativity as a form of steadfastness (Sumud).
+                            </p>
+                            
+                            <div class="flex flex-wrap gap-3">
+                                <a href="https://open.spotify.com/playlist/5dYAs4w3haBn6KaokRO89Y" target="_blank" class="spotify-btn text-white font-bold py-2 px-4 rounded-full text-sm flex items-center gap-2 hover:shadow-lg transition-all">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 4.2-1.32 9.6-0.66 13.38 1.68.42.299.6.899.361 1.261zm.12-3.36C15.54 8.46 9.06 8.22 5.28 9.36c-.599.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.44-1.32 11.58-1.02 15.96 1.56.6.36.84 1.14.479 1.74-.359.6-1.139.84-1.739.48z"/></svg>
+                                    Event Playlist (Doorgift)
+                                </a>
+                                <a href="https://youtu.be/xcnmoVhJk-Y?si=viFSHaEqizXv179M" target="_blank" class="border border-gray-600 hover:border-white text-gray-300 hover:text-white font-bold py-2 px-4 rounded-full text-sm transition-colors">
+                                    View YouTube Playlist
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Video Side -->
+                        <div class="w-full md:w-1/2 lg:w-5/12">
+                            <div class="rounded-lg overflow-hidden border border-gray-800 bg-black aspect-video relative">
+                                <iframe 
+                                    width="100%" 
+                                    height="100%" 
+                                    src="https://www.youtube-nocookie.com/embed/xcnmoVhJk-Y" 
+                                    title="YouTube video player" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div class="flex justify-between items-start mt-2">
+                                <p class="text-xs text-gray-500">Featured: Tamer Nafar & Djam1l - Put Your Arm Around Me</p>
+                                <a href="https://www.youtube.com/watch?v=xcnmoVhJk-Y" target="_blank" class="text-xs text-green-500 hover:text-green-400 underline">Watch on YouTube</a>
+                            </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Grid for Smaller Past Events -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Event 2: Fragments of Memory -->
+                    <div class="card rounded-lg p-6 border border-gray-800 flex flex-col">
+                        <div class="mb-4">
+                             <span class="text-xs text-green-500 font-bold uppercase tracking-wider mb-1 block">Virtual Exhibition</span>
+                             <h3 class="text-xl font-bold text-white mb-2">Fragments of Memory: Resistance Through Art</h3>
+                             <span class="text-xs text-gray-500 block mb-4">October 7, 2025</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-6 flex-grow">
+                            A virtual art exhibition hosted on Artsteps and Padlet, exploring the role of memory and creativity in preserving Palestinian identity and resistance.
+                        </p>
+                        <div class="mt-auto">
+                             <div class="inline-flex items-center text-sm text-gray-500 italic">
+                                <span class="mr-2">🏛️</span> Hosted on Artsteps
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Event 3: Archive Launch (Existing Placeholder) -->
+                    <div class="card rounded-lg p-6 border border-gray-800 flex flex-col opacity-75 hover:opacity-100 transition-opacity">
+                        <div class="mb-4">
+                             <span class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1 block">Internal Review</span>
+                             <h3 class="text-xl font-bold text-white mb-2">Archive Launch: Documenting Genocide</h3>
+                             <span class="text-xs text-gray-500 block mb-4">October 2025</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-6 flex-grow">
+                            An internal team review of the archive structure and initial data ingestion to document the timeline of events.
+                        </p>
+                    </div>
+                    
                 </div>
 
             </div>
