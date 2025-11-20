@@ -3,7 +3,6 @@
 
 <head>
     <!-- Analytics removed for preview context -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-R5DZ6CC2Z8"></script> -->
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/197/197467.png" type="image/png">
 
     <meta charset="UTF-8">
@@ -60,8 +59,8 @@
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
             padding: 6px 12px !important;
             border-radius: 9999px !important; /* Rounded pill shape */
-            font-size: 0.875rem !important;
-            line-height: 1.25rem !important;
+            font-size: 0.75rem !important;
+            line-height: 1rem !important;
             display: inline-flex !important;
             align-items: center !important;
             transition: all 0.3s ease !important;
@@ -143,6 +142,7 @@
             backdrop-filter: blur(10px);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
+            cursor: pointer; /* Indicate clickability */
         }
 
         .card-modern:hover {
@@ -157,7 +157,7 @@
         }
 
         .card-modern:hover .card-content-link {
-            transform: scale(1.03);
+            transform: scale(1.01);
         }
 
         .card-modern:hover .card-content-link h4,
@@ -169,7 +169,6 @@
 
         /* Tag Badge */
         .tag-badge {
-            /* UPDATED: Removed gradient, set to solid black/dark gray */
             background: #000000;
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #e5e5e5;
@@ -239,8 +238,6 @@
             position: relative;
             display: inline-block;
         }
-
-        /* REMOVED .section-title::after rule to hide the little line */
 
         /* Stat Card */
         .stat-card {
@@ -386,6 +383,10 @@
             opacity: 0;
             transform: translateY(-20px);
             transition: all 0.4s ease-out;
+            
+            /* Fix for Mobile Modal Issue */
+            max-height: 85vh; 
+            overflow-y: auto;
         }
         
         .modal.is-visible .modal-content-article {
@@ -406,15 +407,19 @@
         }
 
         .close-button {
-            color: #aaa;
+            color: #fff;
             position: absolute;
             top: 15px;
             right: 25px;
-            font-size: 36px;
-            font-weight: 300;
+            font-size: 40px; /* Made larger */
+            font-weight: 700;
             cursor: pointer;
             z-index: 1010;
             line-height: 1;
+            background: rgba(0,0,0,0.5);
+            padding: 0 10px;
+            border-radius: 50%;
+            transition: all 0.2s;
         }
 
         .close-button:hover,
@@ -422,6 +427,7 @@
             color: var(--pal-red);
             text-decoration: none;
             cursor: pointer;
+            background: rgba(255,255,255,0.1);
         }
         
         /* Spinner */
@@ -480,9 +486,6 @@
                                 class="block px-4 py-2 text-sm hover:bg-white/10 transition">Events</a>
                         </div>
                     </div>
-
-                    <!-- Google Translate Element (Desktop) -->
-                    <div id="google_translate_element"></div>
                 </nav>
 
                 <!-- Submit Button -->
@@ -519,11 +522,8 @@
         </div>
         <nav class="flex flex-col items-center justify-center flex-grow space-y-8 text-2xl">
             <a href="#articles" class="mobile-nav-link text-gray-300 hover:text-white">Archive</a>
-            <!-- REMOVED TOOLS LINK ON MOBILE -->
-            <!-- <a href="#bias-tool-controls" class="mobile-nav-link text-gray-300 hover:text-white">Tools</a> -->
             <a href="#geolocation" class="mobile-nav-link text-gray-300 hover:text-white">Maps</a>
             <a href="#victims" class="mobile-nav-link text-gray-300 hover:text-white">Victims</a>
-            <!-- RENAMED QUOTES & RESOURCES TO JUST RESOURCES -->
             <a href="#quotes" class="mobile-nav-link text-gray-300 hover:text-white">Resources</a>
             <a href="#faq" class="mobile-nav-link text-gray-300 hover:text-white">FAQ</a>
             <a href="https://echoesofgaza.org/events" target="_blank" rel="noopener noreferrer"
@@ -532,7 +532,7 @@
                 class="mobile-nav-link btn-primary px-6 py-2 rounded-full text-lg font-semibold mt-8">Submit
                 Evidence</a>
             
-            <!-- Updated Bottom Widget (Instagram) - Text Removed, Correct Icon Used -->
+            <!-- Updated Bottom Widget (Instagram) -->
             <a href="https://www.instagram.com/echoesofgaza/?hl=en" target="_blank" rel="noopener noreferrer"
                 class="text-white hover:text-red-500 transition flex items-center justify-center mt-12 pt-6 border-t border-gray-700 w-full">
                 <div class="bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition border border-zinc-600">
@@ -545,11 +545,8 @@
     </div>
 
     <main>
-        <!-- Alert Banner REMOVED -->
-        <!-- <div class="alert-banner text-white py-3 text-center w-full z-40 mt-16"> ... </div> -->
-
-        <!-- Hero Section: Reduced top padding (md:pt-20) -->
-        <section class="hero-section pt-12 pb-8 md:pt-20 md:pb-20">
+        <!-- Hero Section: Increased top padding for mobile (pt-32) -->
+        <section class="hero-section pt-32 pb-8 md:pt-20 md:pb-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
                 <div class="text-center">
                     <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
@@ -677,7 +674,7 @@
                     <!-- Dynamic Preview -->
                     <div id="bias-tool-preview-container"
                         class="mt-12 pt-6 border-t border-gray-700/50 text-left">
-                        <p class="text-gray-500 text-sm mb-2">Live Preview (Recent Article Headline):</p>
+                        <p class="text-gray-500 text-sm mb-2">Live Preview (First Article Headline):</p>
                         <div class="text-xl font-medium text-gray-200 p-4 bg-gray-900 rounded-lg border border-gray-800">
                             <span id="preview-headline">...</span>
                         </div>
@@ -952,8 +949,9 @@
                 <p class="text-center text-gray-400 mb-10 max-w-3xl mx-auto">
                     This section features the interactive displacement map and data from <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Gaza Maps</a>.
                 </p>
-                <div class="w-full min-h-[400px] md:aspect-video border-4 border-gray-700 rounded-lg overflow-hidden card-modern">
-                    <iframe allowfullscreen src="https://arcg.is/0TeG4L" width="100%" height="100%" class="w-full h-full" title="Gaza Maps IDF Forced Displacement"></iframe>
+                <!-- Map Container optimized for mobile -->
+                <div class="w-full min-h-[50vh] md:aspect-video border-4 border-gray-700 rounded-lg overflow-hidden card-modern bg-[#1a1a1a]">
+                    <iframe allowfullscreen scrolling="no" frameborder="0" src="https://arcg.is/0TeG4L" width="100%" height="100%" class="w-full h-full" title="Gaza Maps IDF Forced Displacement"></iframe>
                 </div>
                 <p class="text-center text-gray-500 text-sm mt-4">Data sourced from Gaza Maps (arcg.is/0TeG4L).</p>
             </div>
@@ -1068,52 +1066,71 @@
     </main>
 
     <!-- Footer -->
-    <footer id="footer" class="border-t border-white/5 py-12 mt-12 bg-black">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+    <footer id="footer" class="bg-black border-t border-white/10 pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-8">
+            
+            <!-- Brand & Connect -->
+            <div class="md:w-1/3 space-y-4">
+                <a href="#" class="flex items-center space-x-2">
+                    <span class="text-xl font-bold">
+                        <span class="text-red-500">Echoes</span>
+                        <span class="text-white">of</span>
+                        <span class="text-green-500">Gaza</span>
+                    </span>
+                </a>
+                <p class="text-gray-500 text-sm max-w-xs">
+                    A digital historical archive documenting the ongoing crisis. Preserving truth, resisting erasure.
+                </p>
+                <div class="flex items-center space-x-4 pt-2">
+                    <a href="https://www.instagram.com/echoesofgaza/?hl=en" target="_blank" class="text-gray-400 hover:text-white transition">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg>
+                    </a>
+                    <!-- Translate Widget -->
+                    <div id="google_translate_element"></div>
+                </div>
+            </div>
+
+            <!-- Compact Links Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 md:w-2/3">
                 <div>
-                    <h4 class="font-bold mb-4">About</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
+                    <h4 class="font-bold text-white mb-3 text-sm uppercase tracking-wider">Archive</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#articles" class="hover:text-white transition">Articles</a></li>
+                        <li><a href="#geolocation" class="hover:text-white transition">Maps</a></li>
+                        <li><a href="#victims" class="hover:text-white transition">Martyrs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-3 text-sm uppercase tracking-wider">Resources</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#quotes" class="hover:text-white transition">Quotes</a></li>
                         <li><a href="#faq" class="hover:text-white transition">FAQ</a></li>
+                        <li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" class="hover:text-white transition">Raw Data</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h4 class="font-bold mb-4">Resources</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#articles" class="hover:text-white transition">Archive</a></li>
-                        <li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">Data</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4">Legal</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white transition">Privacy</a></li>
-                        <li><a href="#" class="hover:text-white transition">Terms</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4">Connect</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li>
-                            <a href="https://www.instagram.com/echoesofgaza/?hl=en" target="_blank" rel="noopener noreferrer" class="hover:text-white transition flex items-center space-x-2">
-                                <span>Instagram</span>
-                            </a>
-                        </li>
-                    </ul>
+                <div class="col-span-2 sm:col-span-1">
+                    <h4 class="font-bold text-white mb-3 text-sm uppercase tracking-wider">Support</h4>
+                    <div class="flex flex-col space-y-2">
+                        <a href="https://buymeacoffee.com/echoesofgaza" target="_blank" class="text-sm text-yellow-500 hover:text-yellow-400 transition flex items-center">
+                            <span>Donate Once</span>
+                            <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
+                        <a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" class="text-sm text-red-500 hover:text-red-400 transition flex items-center">
+                            <span>Monthly Support</span>
+                            <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="text-center pt-8 mt-8 border-t border-white/10">
-                <h4 class="font-bold mb-4 text-white">Support the Archive</h4>
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="https://buymeacoffee.com/echoesofgaza" target="_blank" rel="noopener noreferrer" class="px-8 py-3 rounded-full font-semibold transition bg-yellow-500 hover:bg-yellow-600 text-black shadow-none border-none">Individual Donation</a>
-                    <a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" rel="noopener noreferrer" class="px-8 py-3 rounded-full font-semibold transition btn-primary hover:bg-red-700">Monthly Donation</a>
-                </div>
-            </div>
-
-            <div class="border-t border-white/5 pt-8 text-center text-sm text-gray-500 mt-8">
-                <p>© 2025 Gaza & Palestine Timeline Project. Licensed under <a href="#" class="underline hover:text-white transition">CC BY-NC-SA 4.0</a></p>
-                <a href="#" class="mt-4 inline-block text-gray-400 hover:text-white transition-colors">Back to Top</a>
+        <!-- Bottom Bar -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 border-t border-white/5 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
+            <p>© 2025 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="underline hover:text-white transition">CC BY-NC-SA 4.0</a>.</p>
+            <div class="flex space-x-4 mt-2 md:mt-0">
+                <a href="#" class="hover:text-gray-400 transition">Privacy</a>
+                <a href="#" class="hover:text-gray-400 transition">Terms</a>
+                <a href="#" class="hover:text-gray-400 transition">Back to Top</a>
             </div>
         </div>
     </footer>
@@ -1128,7 +1145,7 @@
     
     <div id="random-article-modal" class="modal">
         <div class="modal-content-article">
-            <span class="close-button" onclick="document.getElementById('random-article-modal').classList.remove('is-visible')">&times;</span>
+            <span class="close-button text-4xl text-red-500 hover:text-white bg-black/50 rounded-full p-2" onclick="document.getElementById('random-article-modal').classList.remove('is-visible')">&times;</span>
             <div id="random-article-body"></div>
         </div>
     </div>
@@ -7582,7 +7599,7 @@ source: "Haaretz"
         year: "2024"
     }, ];
 
-     let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+         let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let victimCurrentPage = 1;
         const victimPageSize = 20;
         let totalVictimPages = 1;
@@ -7682,10 +7699,11 @@ source: "Haaretz"
             const uniqueId = type + '-' + Math.random().toString(36).substring(2, 9);
             const shareIcon = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>`;
 
+            // Note: e.stopPropagation() is used inline here to prevent article click
             return `
                 <div class="flex items-center justify-between pt-4 border-t border-white/5">
-                    <a href="#" class="text-sm font-semibold text-red-400 hover:text-red-300 transition">Read Full Report →</a>
-                    <div class="relative">
+                    <span class="text-sm font-semibold text-red-400 hover:text-red-300 transition">Read Full Report →</span>
+                    <div class="relative" onclick="event.stopPropagation()">
                         <button class="text-gray-400 hover:text-white transition" aria-haspopup="true" data-popover-target="popover-${uniqueId}">
                             ${shareIcon}
                         </button>
@@ -7703,8 +7721,10 @@ source: "Haaretz"
             const swapMap = {
                 'israelis': 'gazans', 'israeli': 'palestinian', 'israel': 'hamas', 'idf': 'military',
                 'palestinian': 'israeli', 'palestinians': 'israelis', 'hamas': 'israel', 'military': 'idf',
-                'gazans': 'israelis'
+                'gazans': 'israelis',
+                'gaza': 'israel', 'west bank': 'israel', 'jerusalem': 'gaza'
             };
+            // Expanded Regex to include gaza
             const regex = new RegExp(Object.keys(swapMap).join('|'), 'gi');
             return text.replace(regex, (matched) => {
                 const lowerMatched = matched.toLowerCase();
@@ -7736,9 +7756,12 @@ source: "Haaretz"
                 const formattedDate = new Date(article.date + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
                 const swappedTitle = getSwappedText(article.title);
                 const swappedSummary = getSwappedText(article.summary);
+                
+                // Use archive.is/oldest/ formula as requested
+                const archiveLink = `https://archive.is/oldest/${article.link}`;
 
                 return `
-                    <article class="card-modern rounded-2xl overflow-hidden group flex flex-col">
+                    <div onclick="window.open('${archiveLink}', '_blank')" class="card-modern rounded-2xl overflow-hidden group flex flex-col">
                         <div class="relative h-48 overflow-hidden">
                             <img src="${article.imageUrl}" alt="${swappedTitle}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=Image+Unavailable';">
                             <div class="image-overlay"></div>
@@ -7746,11 +7769,12 @@ source: "Haaretz"
                         </div>
                         <div class="p-6 flex-grow flex flex-col card-content-link">
                             <div class="text-xs text-gray-500 mb-2 uppercase tracking-wider">${formattedDate} • ${article.source}</div>
-                            <h3 class="text-xl font-bold mb-3 leading-tight transition flex-grow">${swappedTitle}</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed mb-4 transition">${swappedSummary}</p>
+                            <!-- Removed flex-grow from title to fix spacing issue -->
+                            <h3 class="text-xl font-bold mb-3 leading-tight transition">${swappedTitle}</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4 transition flex-grow">${swappedSummary}</p>
                             ${generateShareMenu(article.link, article.title, 'article')}
                         </div>
-                    </article>`;
+                    </div>`;
             }).join('');
         }
 
@@ -8005,7 +8029,7 @@ source: "Haaretz"
             if (!previewEl || !articleToPreview) return;
 
             const firstArticleTitle = articleToPreview.title;
-            const regex = /palestinian|israeli|israel|hamas|idf|military|gazans/gi;
+            const regex = /palestinian|israeli|israel|hamas|idf|military|gazans|gaza|west bank/gi;
             
             if (titlesSwapped) {
                 previewEl.innerHTML = getSwappedText(firstArticleTitle).replace(regex, match => `<span class="text-green-300 font-bold">${match}</span>`);
@@ -8015,9 +8039,36 @@ source: "Haaretz"
         }
 
         function setupEventListeners() {
-            document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu').classList.toggle('translate-x-full'));
-            document.getElementById('close-mobile-menu')?.addEventListener('click', () => document.getElementById('mobile-menu').classList.toggle('translate-x-full'));
-            document.querySelectorAll('.mobile-nav-link').forEach(link => link.addEventListener('click', () => document.getElementById('mobile-menu').classList.add('translate-x-full')));
+            document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('translate-x-full'));
+            
+            // Robust mobile nav logic: scroll first, then close menu
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // If it's an anchor link (starts with #)
+                    if (link.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href').substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        
+                        // Close menu immediately
+                        document.getElementById('mobile-menu').classList.add('translate-x-full');
+
+                        if (targetElement) {
+                            // Wait slightly for menu to clear to avoid layout shift jank
+                            setTimeout(() => {
+                                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 300);
+                        }
+                    } else {
+                        // For external links, just close the menu
+                        document.getElementById('mobile-menu').classList.add('translate-x-full');
+                    }
+                });
+            });
+            
+            document.getElementById('close-mobile-menu')?.addEventListener('click', () => {
+                 document.getElementById('mobile-menu').classList.add('translate-x-full');
+            });
 
             document.getElementById('sort-newest')?.addEventListener('click', (e) => {
                 currentSortOrder = 'newest'; renderArticles(currentlyDisplayedArticles);
