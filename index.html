@@ -35,7 +35,74 @@
             font-family: 'Inter', sans-serif;
             background-color: #1a1a1a;
             color: #e5e5e5;
+            /* Prevent Google Translate top bar from shifting body */
+            top: 0 !important;
         }
+
+        /* Hide Google Translate Top Bar */
+        .goog-te-banner-frame.skiptranslate {
+            display: none !important;
+        }
+
+        /* Custom Styling for Google Translate Widget to match Dark Theme */
+        #google_translate_element {
+            display: inline-block;
+        }
+        
+        .goog-te-gadget {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0 !important; /* Hide 'Powered by Google' text */
+            color: transparent !important;
+        }
+
+        .goog-te-gadget-simple {
+            background-color: rgba(10, 10, 10, 0.5) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            padding: 6px 12px !important;
+            border-radius: 9999px !important; /* Rounded pill shape */
+            font-size: 0.875rem !important;
+            line-height: 1.25rem !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            transition: all 0.3s ease !important;
+            cursor: pointer !important;
+        }
+
+        .goog-te-gadget-simple:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        .goog-te-gadget-simple a {
+            text-decoration: none !important;
+            color: #e5e5e5 !important;
+            font-weight: 500 !important;
+        }
+
+        .goog-te-gadget-simple a:hover {
+            text-decoration: none !important;
+            color: #ffffff !important;
+        }
+
+        .goog-te-gadget-simple span {
+            color: #e5e5e5 !important;
+        }
+
+        /* Hide the Google Icon inside the widget for cleaner look */
+        .goog-te-gadget-icon {
+            display: none !important;
+        }
+
+        /* Adjust dropdown arrow color */
+        .goog-te-menu-value span {
+            color: #a3a3a3 !important;
+            border-left: none !important; /* Remove divider */
+        }
+        .goog-te-menu-value {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+
 
         /* Hero Section Styling */
         .hero-section {
@@ -142,7 +209,20 @@
             transform: translateY(-1px);
         }
 
-        /* Light Green Button for Search Quotes */
+        /* Uniform Dark Button (For Quotes Section) */
+        .btn-dark-uniform {
+            background-color: #27272a; /* zinc-800 */
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .btn-dark-uniform:hover {
+            background-color: #3f3f46; /* zinc-700 */
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Light Green Button for Search Quotes (Legacy kept if needed, but replaced in Quotes) */
         .btn-light-green {
             background-color: var(--pal-green);
             color: white;
@@ -168,6 +248,11 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 12px;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         /* Alert Banner */
@@ -395,6 +480,9 @@
                                 class="block px-4 py-2 text-sm hover:bg-white/10 transition">Events</a>
                         </div>
                     </div>
+
+                    <!-- Google Translate Element (Desktop) -->
+                    <div id="google_translate_element"></div>
                 </nav>
 
                 <!-- Submit Button -->
@@ -431,10 +519,12 @@
         </div>
         <nav class="flex flex-col items-center justify-center flex-grow space-y-8 text-2xl">
             <a href="#articles" class="mobile-nav-link text-gray-300 hover:text-white">Archive</a>
-            <a href="#bias-tool-controls" class="mobile-nav-link text-gray-300 hover:text-white">Tools</a>
+            <!-- REMOVED TOOLS LINK ON MOBILE -->
+            <!-- <a href="#bias-tool-controls" class="mobile-nav-link text-gray-300 hover:text-white">Tools</a> -->
             <a href="#geolocation" class="mobile-nav-link text-gray-300 hover:text-white">Maps</a>
             <a href="#victims" class="mobile-nav-link text-gray-300 hover:text-white">Victims</a>
-            <a href="#quotes" class="mobile-nav-link text-gray-300 hover:text-white">Quotes & Resources</a>
+            <!-- RENAMED QUOTES & RESOURCES TO JUST RESOURCES -->
+            <a href="#quotes" class="mobile-nav-link text-gray-300 hover:text-white">Resources</a>
             <a href="#faq" class="mobile-nav-link text-gray-300 hover:text-white">FAQ</a>
             <a href="https://echoesofgaza.org/events" target="_blank" rel="noopener noreferrer"
                 class="mobile-nav-link text-gray-300 hover:text-white">Events</a>
@@ -442,31 +532,21 @@
                 class="mobile-nav-link btn-primary px-6 py-2 rounded-full text-lg font-semibold mt-8">Submit
                 Evidence</a>
             
+            <!-- Updated Bottom Widget (Instagram) - Text Removed, Correct Icon Used -->
             <a href="https://www.instagram.com/echoesofgaza/?hl=en" target="_blank" rel="noopener noreferrer"
-                class="text-gray-300 hover:text-red-500 transition flex items-center space-x-3 text-base mt-12 pt-6 border-t border-gray-700 w-auto">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fill-rule="evenodd"
-                        d="M12 2.25c-2.81 0-3.14.01-4.23.06-1.1.05-1.87.22-2.54.49-.68.27-1.28.63-1.89 1.23-.6.6-1 1.2-1.23 1.89-.27.67-.44 1.44-.49 2.54-.05 1.09-.06 1.42-.06 4.23s.01 3.14.06 4.23c.05 1.1.22 1.87.49 2.54.27.68.63 1.28 1.23 1.89.6.6 1.2 1 1.89 1.23.67.27 1.44.44 2.54.49 1.09.05 1.42.06 4.23.06 2.81 0 3.14-.01 4.23-.06 1.1-.05 1.87-.22 2.54-.49.68-.27 1.28-.63 1.89-1.23.6-.6 1-1.2 1.23-1.89-.27-.67-.44-1.44-.49-2.54-.05-1.09-.06-1.42-.06-4.23s-.01-3.14-.06-4.23c-.05-1.1-.22-1.87-.49-2.54-.27-.68-.63-1.28-1.23-1.89-.6-.6-1-1.2-1.23-1.89-.67-.27-1.44-.44-2.54-.49-1.09-.05-1.42-.06-4.23-.06zm0 1.9c2.73 0 3.06.01 4.12.06 1.02.05 1.58.21 1.95.35.48.17.84.39 1.22.77.38.38.6.74.77 1.22.14.37.3 1.93.35 1.95.05 1.06.06 1.39.06 4.12s-.01 3.06-.06 4.12c-.05 1.02-.21 1.58-.35 1.95-.17.48-.39.84-.77 1.22-.38.38-.74.6-1.22.77-.37.14-1.93.3-1.95.35-1.06.05-1.39.06-4.12.06s-3.06-.01-4.12-.06c-1.02-.05-1.58-.21-1.95-.35-.48-.17-.84-.39-1.22-.77-.38-.38-.6-.74-.77-1.22-.14-.37-.3-1.93-.35-1.95-.05-1.06-.06-1.39-.06-4.12s.01-3.06.06-4.12c.05-1.02.21-1.58.35-1.95.17-.48.39-.84.77-1.22.38-.38.74-.6-1.22-.77.37-.14-1.93-.3-1.95-.35-1.06-.05-1.39-.06-4.12-.06zM12 9.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5zm4.19-7.4c0 .59-.48 1.06-1.06 1.06s-1.06-.48-1.06-1.06.48-1.06 1.06-1.06 1.06.48 1.06 1.06z"
-                        clip-rule="evenodd" />
-                </svg>
-                <span>Follow on Instagram</span>
+                class="text-white hover:text-red-500 transition flex items-center justify-center mt-12 pt-6 border-t border-gray-700 w-full">
+                <div class="bg-zinc-800 p-3 rounded-full hover:bg-zinc-700 transition border border-zinc-600">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                         <path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" />
+                    </svg>
+                </div>
             </a>
         </nav>
     </div>
 
     <main>
-        <!-- Alert Banner -->
-        <div class="alert-banner text-white py-3 text-center w-full z-40 mt-16">
-            <div class="container mx-auto px-4">
-                <p class="text-sm sm:text-base lg:text-lg font-bold">
-                    <a href="https://stopmurderingjournalists.com/" target="_blank" rel="noopener noreferrer"
-                        class="text-white hover:underline transition">
-                        Journalists murdered by Israel since Oct 7, 2023:<span id="journalist-stat-banner"
-                            class="ml-1">327+</span>
-                    </a>
-                </p>
-            </div>
-        </div>
+        <!-- Alert Banner REMOVED -->
+        <!-- <div class="alert-banner text-white py-3 text-center w-full z-40 mt-16"> ... </div> -->
 
         <!-- Hero Section: Reduced top padding (md:pt-20) -->
         <section class="hero-section pt-12 pb-8 md:pt-20 md:pb-20">
@@ -488,22 +568,28 @@
 
                     <!-- Stats Grid -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12">
-                        <div class="stat-card p-4 sm:p-6 rounded-xl">
+                        <!-- Linked Casualty Card -->
+                        <a href="#victims" class="stat-card block p-4 sm:p-6 rounded-xl hover:bg-white/5 transition cursor-pointer">
                             <div id="casualty-stat" class="text-3xl font-bold text-red-400 mb-1">69,000+</div>
                             <div class="text-sm text-gray-400 uppercase tracking-wide">Casualties</div>
-                        </div>
-                        <div class="stat-card p-4 sm:p-6 rounded-xl">
+                        </a>
+                        
+                        <!-- Linked Journalist Card -->
+                        <a href="https://stopmurderingjournalists.com/" target="_blank" rel="noopener noreferrer" class="stat-card block p-4 sm:p-6 rounded-xl hover:bg-white/5 transition cursor-pointer">
                             <div id="journalist-stat" class="text-3xl font-bold text-red-400 mb-1">327+</div>
                             <div class="text-sm text-gray-400 uppercase tracking-wide">Journalists</div>
-                        </div>
+                        </a>
+                        
                         <div class="stat-card p-4 sm:p-6 rounded-xl">
                             <div id="days-stat-hero" class="text-3xl font-bold text-red-400 mb-1">...</div>
                             <div class="text-sm text-gray-400 uppercase tracking-wide">Days</div>
                         </div>
-                        <div class="stat-card p-4 sm:p-6 rounded-xl">
+                        
+                        <!-- Linked Kill Zone Card -->
+                        <a href="#gaza-displacement-maps" class="stat-card block p-4 sm:p-6 rounded-xl hover:bg-white/5 transition cursor-pointer">
                             <div class="text-3xl font-bold text-red-400 mb-1">54%</div>
                             <div class="text-sm text-gray-400 uppercase tracking-wide">Kill Zone</div>
-                        </div>
+                        </a>
                     </div>
 
                     <!-- CTA Buttons -->
@@ -611,7 +697,7 @@
                         class="overflow-hidden rounded-xl border border-white/10 shadow-2xl bg-gray-900/50">
                         <div id="carousel-track" class="flex transition-transform duration-500 ease-in-out">
 
-                            <!-- Example Pair 1 -->
+                            <!-- START: New Example Pair: Terrorism vs. Settler Violence -->
                             <div class="carousel-item flex-shrink-0 w-full p-8 md:p-12">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                                     <div class="card-modern p-6 rounded-lg h-full">
@@ -619,7 +705,7 @@
                                         <p class="text-xl text-gray-200">"West Bank Mosque Is Burned as Israeli Settler Violence Surges"</p>
                                         <p class="text-gray-500 text-xs mt-1 italic">The New York Times, 2025</p>
                                         <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
-                                            <strong>Analysis:</strong> The act of burning a house of worship is framed using the sanitized, neutral term "settler violence." This minimizes the act.
+                                            <strong>Analysis:</strong> The act of burning a house of worship is framed using the sanitized, neutral term "settler violence." This minimizes the act, suggesting a property crime or vandalism rather than a targeted act of hate.
                                         </blockquote>
                                     </div>
                                     <div class="card-modern p-6 rounded-lg h-full">
@@ -627,13 +713,14 @@
                                         <p class="text-xl text-gray-200">"British leader says ‘vile’ synagogue assailant ‘attacked Jews because they are Jews’... in a terrorist attack"</p>
                                         <p class="text-gray-500 text-xs mt-1 italic">Associated Press / PBS, 2025</p>
                                         <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
-                                            <strong>Analysis:</strong> An attack on a synagogue is immediately labeled "terrorism" and a "vile" hate crime.
+                                            <strong>Analysis:</strong> An attack on a synagogue is immediately and correctly labeled "terrorism" and a "vile" hate crime. This moral and legal lexicon is "reserved almost exclusively for Israelis," highlighting a clear double standard.
                                         </blockquote>
                                     </div>
                                 </div>
                             </div>
+                            <!-- END: New Example Pair -->
 
-                            <!-- Example Pair 2 -->
+                            <!-- Example Pair 1: Inverted Agency vs. Clear Blame -->
                             <div class="carousel-item flex-shrink-0 w-full p-8 md:p-12">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                                     <div class="card-modern p-6 rounded-lg h-full">
@@ -641,7 +728,7 @@
                                         <p class="text-xl text-gray-200">"Violent Protests Leave Dozens Dead, as Embassy Opens in Jerusalem"</p>
                                         <p class="text-gray-500 text-xs mt-1 italic">The New York Times, 2018</p>
                                         <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
-                                            <strong>Analysis:</strong> This headline uses an active voice to falsely imply the "Violent Protests" are the agent.
+                                            <strong>Analysis:</strong> This headline uses an active voice to falsely imply the "Violent Protests" are the agent that "Leave... Dozens Dead." It grammatically transforms a "massacre by soldiers" into a murderous act by the victims themselves.
                                         </blockquote>
                                     </div>
                                     <div class="card-modern p-6 rounded-lg h-full">
@@ -649,11 +736,78 @@
                                         <p class="text-xl text-gray-200">"Israeli woman murdered in brutal terror attack"</p>
                                         <p class="text-gray-500 text-xs mt-1 italic">Common media framing</p>
                                         <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
-                                            <strong>Analysis:</strong> Agency is clear. Emotive, moral language is used.
+                                            <strong>Analysis:</strong> Agency is clear. Emotive, moral language ("murdered," "brutal," "terror") is used to frame the event as a visceral outrage. This lexicon is "reserved almost exclusively for Israelis."
                                         </blockquote>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Example Pair 2: Passive Voice vs. Active Agency -->
+                            <div class="carousel-item flex-shrink-0 w-full p-8 md:p-12">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                                        <p class="text-xl text-gray-200">"A group of Palestinian men waving a white flag are shot at, killing 1"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">NBC News, 2024</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                            <strong>Analysis:</strong> The passive voice ("are shot at") "obfuscates responsibility." The reader is told a fact but not *who* did the shooting. Accountability is "altogether missing" from the "invisible executioner."
+                                        </blockquote>
+                                    </div>
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                                        <p class="text-xl text-gray-200">"Two Israelis killed by Palestinian gunman"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">Common media framing</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                            <strong>Analysis:</strong> The active structure "killed by" clearly assigns agency and blame to the perpetrator. The agent is named and the act is unambiguous.
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Example Pair 3: Agentless Object vs. Emotive Atrocity -->
+                            <div class="carousel-item flex-shrink-0 w-full p-8 md:p-12">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                                        <p class="text-xl text-gray-200">"Missile at Beachside Gaza Cafe Finds Patrons Poised for World Cup"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">The New York Times, 2014</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                            <strong>Analysis:</strong> The agent is an inanimate object ("Missile") and the verb ("Finds") implies chance. This "agentless framing" erases the military that fired the missile, as if it acted "of its own volition."
+                                        </blockquote>
+                                    </div>
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                                        <p class="text-xl text-gray-200">"‘Horrific massacre’: Dozens of Israelis slaughtered in 'brutal' assault"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">Typical headline synthesis</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                            <strong>Analysis:</strong> Data shows terms like "massacre," "slaughter," and "horrific" were used 180 times for Israeli deaths vs. 5 for Palestinians in one study. This "emotive lexicon" is applied asymmetrically.
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Example Pair 4: Euphemism vs. Individualization -->
+                            <div class="carousel-item flex-shrink-0 w-full p-8 md:p-12">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                                        <p class="text-xl text-gray-200">"Clashes erupt in West Bank, 3 Palestinians die"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">Common media framing</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                            <strong>Analysis:</strong> The euphemism "clashes" falsely implies an equal exchange, obscuring the "fundamentally asymmetric" power dynamic. The passive verb "die" obscures the cause of death.
+                                        </blockquote>
+                                    </div>
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                                        <p class="text-xl text-gray-200">"A 25-year-old musician, a mother of two: The victims of the music festival massacre"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">Typical narrative framing</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                            <strong>Analysis:</strong> The "identifiable victim effect" is leveraged by providing "narrative depth, emotional detail, and prominence" to Israeli victims, humanizing them as unique individuals.
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -798,7 +952,7 @@
                 <p class="text-center text-gray-400 mb-10 max-w-3xl mx-auto">
                     This section features the interactive displacement map and data from <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Gaza Maps</a>.
                 </p>
-                <div class="w-full aspect-video border-4 border-gray-700 rounded-lg overflow-hidden card-modern">
+                <div class="w-full min-h-[400px] md:aspect-video border-4 border-gray-700 rounded-lg overflow-hidden card-modern">
                     <iframe allowfullscreen src="https://arcg.is/0TeG4L" width="100%" height="100%" class="w-full h-full" title="Gaza Maps IDF Forced Displacement"></iframe>
                 </div>
                 <p class="text-center text-gray-500 text-sm mt-4">Data sourced from Gaza Maps (arcg.is/0TeG4L).</p>
@@ -848,19 +1002,19 @@
                 <h3 class="section-title text-3xl font-bold text-center mb-12 mx-auto">Genocide Quotes & Resources</h3>
                 <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                     <div class="card-modern p-6 rounded-xl flex flex-col items-center">
-                        <h4 class="font-bold text-xl mb-3 text-red-400">Statements on Genocide</h4>
+                        <h4 class="font-bold text-xl mb-3 text-white">Statements on Genocide</h4>
                         <p class="text-gray-400 text-sm mb-4 flex-grow">A collection of statements from Israeli leaders and officials.</p>
-                        <a href="https://isitgenocide.com/" target="_blank" rel="noopener noreferrer" class="mt-auto btn-primary py-2 px-6 rounded-full text-sm">View Quotes</a>
+                        <a href="https://isitgenocide.com/" target="_blank" rel="noopener noreferrer" class="mt-auto btn-dark-uniform py-2 px-6 rounded-full text-sm">View Quotes</a>
                     </div>
                     <div class="card-modern p-6 rounded-xl flex flex-col items-center">
-                        <h4 class="font-bold text-xl mb-3 text-green-400">Searchable Database</h4>
+                        <h4 class="font-bold text-xl mb-3 text-white">Searchable Database</h4>
                         <p class="text-gray-400 text-sm mb-4 flex-grow">A searchable database of quotes from public figures regarding Zionism.</p>
-                        <a href="https://zionism.observer/" target="_blank" rel="noopener noreferrer" class="mt-auto btn-light-green font-bold py-2 px-6 rounded-full text-sm">Search Quotes</a>
+                        <a href="https://zionism.observer/" target="_blank" rel="noopener noreferrer" class="mt-auto btn-dark-uniform font-bold py-2 px-6 rounded-full text-sm">Search Quotes</a>
                     </div>
                     <div class="card-modern p-6 rounded-xl flex flex-col items-center">
-                        <h4 class="font-bold text-xl mb-3 text-yellow-400">Zionist or Nazi?</h4>
+                        <h4 class="font-bold text-xl mb-3 text-white">Zionist or Nazi?</h4>
                         <p class="text-gray-400 text-sm mb-4 flex-grow">A quiz that challenges you to distinguish between quotes.</p>
-                        <a href="https://zionism.wtf/#zionist-or-nazi" target="_blank" rel="noopener noreferrer" class="mt-auto bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-full text-sm transition-colors">Take the Quiz</a>
+                        <a href="https://zionism.wtf/#zionist-or-nazi" target="_blank" rel="noopener noreferrer" class="mt-auto btn-dark-uniform font-bold py-2 px-6 rounded-full text-sm transition-colors">Take the Quiz</a>
                     </div>
                 </div>
             </div>
@@ -873,11 +1027,40 @@
                 <div class="max-w-3xl mx-auto space-y-8">
                     <div class="card-modern p-6 rounded-xl">
                         <h4 class="text-xl font-semibold mb-2 text-white">What is Echoes of Gaza?</h4>
-                        <p class="text-gray-400">Echoes of Gaza is a digital historical archive dedicated to documenting the ongoing occupation, displacement, and genocide of the Palestinian people.</p>
+                        <p class="text-gray-400">Echoes of Gaza is a digital historical archive dedicated to documenting the ongoing occupation, displacement, and genocide of the Palestinian people. It serves as a meticulously curated and publicly accessible repository of verified articles, reports, and media evidence, built to resist erasure and preserve truth.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">Why was this project created?</h4>
+                        <p class="text-gray-400">Echoes of Gaza was born from the recognition that history is too often written by those in power, erasing the voices and suffering of the oppressed. The project exists to create a permanent record of events in Gaza and across Palestine, one that cannot be rewritten or denied.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">What is the goal of Echoes of Gaza?</h4>
+                        <p class="text-gray-400">The archive exists to preserve evidence, promote accountability, and humanize the Palestinian struggle. It provides researchers, journalists, and the public with verifiable documentation that exposes patterns of occupation, displacement, and systemic injustice.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">How is the archive maintained?</h4>
+                        <p class="text-gray-400">The archive is updated daily. Each entry is carefully verified and cataloged with details such as title, author, publication date, and source. The aim is to ensure accuracy, transparency, and reliability for those using the collection for research, reporting, or advocacy.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">How does Echoes of Gaza promote accountability?</h4>
+                        <p class="text-gray-400">By creating a centralized and timestamped record of events, the archive makes it impossible for atrocities to be hidden or denied. It provides an evidentiary foundation for journalists, human rights investigators, and legal experts seeking to document war crimes and systemic abuse.</p>
+                        <p class="text-gray-400 mt-2">Accountability begins with preservation—once truth is recorded, it cannot be erased.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">How does the project address systemic prejudice and racism?</h4>
+                        <p class="text-gray-400">Echoes of Gaza reveals how racism, dehumanization, and colonial bias shape global responses to Palestinian suffering. By placing daily atrocities alongside decades of political betrayal, media distortion, and ignored international law, the archive shows that what is happening in Gaza is not an isolated tragedy, but the result of a broader system of racialized injustice.</p>
                     </div>
                     <div class="card-modern p-6 rounded-xl">
                         <h4 class="text-xl font-semibold mb-2 text-white">Who is the archive for?</h4>
-                        <p class="text-gray-400">It is for anyone committed to truth, justice, and memory.</p>
+                        <p class="text-gray-400">It is intended for journalists, educators, researchers, students, and advocates seeking an accurate and human-centered account of what is happening in Gaza. Above all, it is for anyone committed to truth, justice, and memory.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">Can I use the materials for research or media?</h4>
+                        <p class="text-gray-400">Yes. All materials are freely available for educational, journalistic, and humanitarian use. Please cite the archive as:<br>Echoes of Gaza - A Digital Historical Record (bit.ly/stopgenocide937)</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">Why is this important now?</h4>
+                        <p class="text-gray-400">Because silence and distortion are weapons. When records disappear, justice becomes impossible. By preserving evidence and testimony in real time, Echoes of Gaza ensures that the historical record remains intact, and that the truth endures long after headlines fade.</p>
                     </div>
                 </div>
             </div>
@@ -950,7 +1133,16 @@
         </div>
     </div>
 
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,ar,he', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <script type="module">
+        // --- GLOBAL STATE & INITIAL DATA ---
         let articles = [
             // Sample Articles (add more actual data here if needed)
              {
@@ -7390,7 +7582,7 @@ source: "Haaretz"
         year: "2024"
     }, ];
 
-       let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+     let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let victimCurrentPage = 1;
         const victimPageSize = 20;
         let totalVictimPages = 1;
@@ -7433,22 +7625,23 @@ source: "Haaretz"
         async function updateHeroStats() {
             const daysEl = document.getElementById('days-stat-hero');
             const journalistEl = document.getElementById('journalist-stat');
-            const journalistBannerEl = document.getElementById('journalist-stat-banner');
             
+            // Update Days Count
             if (daysEl) daysEl.textContent = calculateDaysOfConflict().toLocaleString();
 
-            try {
-                // Using a static fallback if fetch fails (likely due to CORS in preview)
-                const res = await fetch('https://stopmurderingjournalists.com/api/v1/martyrs');
-                if (!res.ok) throw new Error("API Error");
-                const data = await res.json();
-                const count = data.length.toLocaleString() + '+';
-                if (journalistEl) journalistEl.textContent = count;
-                if (journalistBannerEl) journalistBannerEl.textContent = count;
-            } catch (error) {
-                // Fallback to hardcoded recent data
-                if (journalistEl) journalistEl.textContent = '327+';
-                if (journalistBannerEl) journalistBannerEl.textContent = '327+';
+            // Update Journalist Count from API
+            if (journalistEl) {
+                try {
+                    const res = await fetch('https://stopmurderingjournalists.com/api/v1/martyrs');
+                    if (!res.ok) throw new Error("API Error");
+                    const data = await res.json();
+                    // Update the text content with the live count
+                    const count = data.length.toLocaleString() + '+';
+                    journalistEl.textContent = count;
+                } catch (error) {
+                    console.error("Failed to fetch journalist count:", error);
+                    // Fallback value remains whatever is hardcoded in the HTML (327+)
+                }
             }
         }
 
