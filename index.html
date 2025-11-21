@@ -46,7 +46,7 @@
             --accent-gold: #D4AF37;
         }
 
-        /* Global Styles */
+           /* Global Styles */
         html {
             /* Removed scroll-behavior: smooth to prevent mobile crashes on long pages. 
                We handle smooth scrolling via JS instead. */
@@ -7421,7 +7421,7 @@ source: "Haaretz"
         year: "2024"
     }, ];
 
-        let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+           let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
         
         // Carousel State
@@ -7496,6 +7496,24 @@ source: "Haaretz"
             });
         }
 
+        // Helper function to format date: 2025-10-17 -> October 17th, 2025
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            // Split explicitly to avoid timezone issues with new Date("YYYY-MM-DD")
+            const [year, month, day] = dateStr.split('-').map(Number);
+            const date = new Date(year, month - 1, day);
+            
+            const monthName = date.toLocaleString('default', { month: 'long' });
+            
+            const getOrdinal = (n) => {
+                const s = ["th", "st", "nd", "rd"];
+                const v = n % 100;
+                return n + (s[(v - 20) % 10] || s[v] || s[0]);
+            };
+
+            return `${monthName} ${getOrdinal(day)}, ${year}`;
+        }
+
         function renderArticles(articlesToDisplay) {
             const grid = document.getElementById('article-grid');
             if (!grid) return;
@@ -7538,7 +7556,7 @@ source: "Haaretz"
                                 </span>
                                 <!-- Date -->
                                 <span class="text-[#A0A0A0] text-sm font-medium">
-                                    ${article.date}
+                                    ${formatDate(article.date)}
                                 </span>
                             </div>
 
