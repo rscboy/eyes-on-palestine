@@ -31,7 +31,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Echoes of Gaza: A Historical Archive</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Updated Tailwind Script to include Forms, Typography, Aspect Ratio, and Line Clamp plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Font Links: Standardized to use Inter for all text -->
@@ -253,6 +254,15 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); position: relative;
         }
 
+        /* Mobile Modal Adjustments */
+        @media (max-width: 640px) {
+            .modal-content-article {
+                width: 90% !important; /* Wider on mobile */
+                margin: 5vh auto !important; /* Centered vertically with small margin */
+                max-height: 90vh !important; /* Allow it to be taller if needed to fit content without scroll */
+            }
+        }
+
         .close-button {
             color: #fff; position: absolute; top: 15px; right: 25px; font-size: 40px;
             font-weight: 700; cursor: pointer; z-index: 1010; line-height: 1;
@@ -391,9 +401,13 @@
                     </div>
 
                     <!-- CTA Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a href="#articles" id="explore-archive-btn" class="btn-primary px-8 py-4 rounded-full text-lg font-semibold w-full sm:w-auto">Explore Archive</a>
-                        <button id="view-timeline-btn" class="btn-secondary px-8 py-4 rounded-full text-lg font-semibold w-full sm:w-auto">View Timeline</button>
+                    <div class="flex flex-col items-center gap-4">
+                        <a href="#articles" id="explore-archive-btn" class="btn-primary px-10 py-4 rounded-full text-lg font-semibold w-full sm:w-auto text-center shadow-xl">Explore Archive</a>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                            <button id="view-timeline-btn" class="btn-secondary px-8 py-4 rounded-full text-lg font-semibold w-full sm:w-auto text-center">View Timeline</button>
+                            <button id="view-bias-tool-btn" class="btn-secondary px-8 py-4 rounded-full text-lg font-semibold w-full sm:w-auto text-center">Racial Bias Tool</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -413,8 +427,8 @@
             </div>
         </section>
 
-        <!-- Controls Section (Tools): Bias Tool -->
-        <section id="bias-tool-controls" class="py-16 md:py-24 bg-black border-y border-gray-800">
+        <!-- Controls Section (Tools): Bias Tool (Hidden by default) -->
+        <section id="bias-tool-controls" class="py-16 md:py-24 bg-black border-y border-gray-800 hidden">
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl mx-auto filter-panel p-8 md:p-12 rounded-2xl text-center shadow-2xl">
                     <svg class="w-16 h-16 text-white mx-auto mb-6 transition-transform duration-500 hover:rotate-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -612,8 +626,9 @@
                 </div>
 
                 <div id="filter-controls" class="mb-8 p-6 rounded-xl filter-panel hidden">
-                      <!-- Filters Grid (Date, Tag, Source, Region) -->
-                      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                      <!-- Filters Grid (Date, Tag, Source) - Removed Region -->
+                      <!-- Changed lg:grid-cols-4 to lg:grid-cols-3 -->
+                      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div>
                             <h4 class="font-bold text-lg mb-3 text-red-400">Filter by Date</h4>
                             <div class="flex flex-col space-y-2">
@@ -623,7 +638,7 @@
                         </div>
                         <div><h4 class="font-bold text-lg mb-3 text-red-400">Filter by Tag</h4><div id="tag-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2"></div></div>
                         <div><h4 class="font-bold text-lg mb-3 text-red-400">Filter by Source</h4><div id="source-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2"></div></div>
-                        <div><h4 class="font-bold text-lg mb-3 text-red-400">Filter by Region</h4><div id="region-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2"></div></div>
+                        <!-- Removed Filter by Region div -->
                       </div>
                       <div class="mt-6 border-t border-white/10 pt-6 flex items-center space-x-4">
                         <button id="filter-button" class="btn-primary font-bold py-2 px-6 rounded-full text-sm">Apply Filters</button>
@@ -658,7 +673,9 @@
         <section id="geolocation" class="py-16 md:py-24 bg-[#1a1a1a] border-y border-gray-800">
             <div class="container mx-auto px-6">
                 <h3 class="section-title text-3xl font-bold text-center mb-12 mx-auto">Geolocation Analysis</h3>
-                <div class="w-full aspect-video border-4 border-gray-700 rounded-lg overflow-hidden card-modern">
+                <!-- Added max-w-5xl mx-auto to constrain width -->
+                <!-- Changed aspect-video to h-[600px] for better height -->
+                <div class="max-w-5xl mx-auto w-full h-[600px] border-4 border-gray-700 rounded-lg overflow-hidden card-modern">
                     <iframe loading="lazy" src="https://www.scribblemaps.com/maps/view/My-Map/RS3sBEB4ZU" width="100%" height="100%" frameborder="0" title="Geolocation Map"></iframe>
                 </div>
             </div>
@@ -668,9 +685,33 @@
         <section id="gaza-displacement-maps" class="py-16 md:py-24 bg-black border-y border-gray-800">
             <div class="container mx-auto px-6">
                 <h3 class="section-title text-3xl font-bold text-center mb-12 mx-auto">Gaza Maps: Displacement & Kill Zones</h3>
-                <!-- Increased mobile height to 85vh to ensure full visibility of vertical map UIs -->
-                <div class="w-full h-[85vh] md:h-auto md:aspect-video border-4 border-gray-700 rounded-lg overflow-hidden card-modern bg-[#1a1a1a]">
-                    <iframe loading="lazy" allowfullscreen scrolling="no" frameborder="0" src="https://arcg.is/0TeG4L" width="100%" height="100%" class="w-full h-full" title="Gaza Maps IDF Forced Displacement"></iframe>
+                <!-- Added max-w-5xl mx-auto to constrain width -->
+                <!-- Set consistent tall height h-[80vh] for both mobile and desktop -->
+                <div class="max-w-5xl mx-auto w-full h-[80vh] border-4 border-gray-700 rounded-lg overflow-hidden bg-[#1a1a1a] shadow-2xl relative">
+                    <!-- Added sandbox attributes to fix mobile iframe restrictions -->
+                    <!-- Added scrolling="no" for cleaner mobile behavior -->
+                    <iframe 
+                        src="https://arcg.is/0TeG4L" 
+                        width="100%" 
+                        height="100%" 
+                        frameborder="0" 
+                        scrolling="no"
+                        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-presentation"
+                        allow="geolocation; microphone; camera" 
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen 
+                        webkitallowfullscreen 
+                        mozallowfullscreen 
+                        class="w-full h-full" 
+                        title="Gaza Maps IDF Forced Displacement">
+                    </iframe>
+                </div>
+                
+                <!-- Mobile Fallback Link -->
+                <div class="text-center mt-4 md:hidden">
+                    <a href="https://arcg.is/0TeG4L" target="_blank" class="text-sm text-red-400 hover:text-white transition underline decoration-dotted">
+                        Map not loading? Click here to open in full screen
+                    </a>
                 </div>
             </div>
         </section>
@@ -7340,7 +7381,7 @@ source: "Haaretz"
         year: "2024"
     }, ];
 
-                let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+        let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
         
         // Carousel State
@@ -7792,7 +7833,7 @@ source: "Haaretz"
         function populateFilters() {
             const tags = [...new Set(articles.map(a => a.category))].sort();
             const sources = [...new Set(articles.map(a => a.source))].sort();
-            const regions = [...new Set(articles.map(a => a.region))].sort();
+            // Removed regions logic
 
             const createCheckbox = (value, type) => `
                 <label class="flex items-center space-x-2 cursor-pointer group">
@@ -7803,11 +7844,11 @@ source: "Haaretz"
 
             const tagContainer = document.getElementById('tag-filters');
             const sourceContainer = document.getElementById('source-filters');
-            const regionContainer = document.getElementById('region-filters');
+            // Removed regionContainer
 
             if (tagContainer) tagContainer.innerHTML = tags.map(t => createCheckbox(t, 'tag')).join('');
             if (sourceContainer) sourceContainer.innerHTML = sources.map(s => createCheckbox(s, 'source')).join('');
-            if (regionContainer) regionContainer.innerHTML = regions.map(r => createCheckbox(r, 'region')).join('');
+            // Removed regionContainer population
         }
 
         // --- INITIALIZATION & EVENT LISTENERS ---
@@ -7827,8 +7868,8 @@ source: "Haaretz"
             const menu = document.getElementById('mobile-menu');
             const closeBtn = document.getElementById('close-mobile-menu');
             
-            menuBtn.addEventListener('click', () => menu.classList.remove('translate-x-full'));
-            closeBtn.addEventListener('click', () => menu.classList.add('translate-x-full'));
+            if(menuBtn) menuBtn.addEventListener('click', () => menu.classList.remove('translate-x-full'));
+            if(closeBtn) closeBtn.addEventListener('click', () => menu.classList.add('translate-x-full'));
             
             // Close mobile menu on link click
             document.querySelectorAll('.mobile-nav-link').forEach(link => {
@@ -7878,7 +7919,7 @@ source: "Haaretz"
 
                 const selectedTags = getChecked('tag');
                 const selectedSources = getChecked('source');
-                const selectedRegions = getChecked('region');
+                // Removed selectedRegions
 
                 let filtered = articles;
 
@@ -7896,10 +7937,7 @@ source: "Haaretz"
                     filtered = filtered.filter(a => selectedSources.includes(a.source));
                 }
 
-                // Region Filter
-                if (selectedRegions.length > 0) {
-                    filtered = filtered.filter(a => selectedRegions.includes(a.region));
-                }
+                // Removed Region Filter Logic
                 
                 currentlyDisplayedArticles = filtered;
                 renderArticles(currentlyDisplayedArticles);
@@ -7936,7 +7974,7 @@ source: "Haaretz"
             const timelineBtn = document.getElementById('view-timeline-btn');
             const timelineSection = document.getElementById('casualty-graph');
 
-            timelineBtn.addEventListener('click', () => {
+            if(timelineBtn) timelineBtn.addEventListener('click', () => {
                 const isHidden = timelineSection.classList.contains('hidden');
                 
                 if (isHidden) {
@@ -7951,8 +7989,35 @@ source: "Haaretz"
                 }
             });
 
+            // Racial Bias Tool Toggle (Hero Button)
+            const biasBtn = document.getElementById('view-bias-tool-btn');
+            const biasSection = document.getElementById('bias-tool-controls');
+
+            if (biasBtn) biasBtn.addEventListener('click', () => {
+                const isHidden = biasSection.classList.contains('hidden');
+                if (isHidden) {
+                    biasSection.classList.remove('hidden');
+                    biasBtn.innerText = 'Close Bias Tool';
+                    biasSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    biasSection.classList.add('hidden');
+                    biasBtn.innerText = 'Racial Bias Tool';
+                }
+            });
+
+            // Nav "Tools" Link Logic (Handle hidden section)
+            document.querySelectorAll('a[href="#bias-tool-controls"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    biasSection.classList.remove('hidden');
+                    if(biasBtn) biasBtn.innerText = 'Close Bias Tool';
+                    biasSection.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
             // Comparison Section Toggle
-            document.getElementById('toggle-comparison-btn').addEventListener('click', () => {
+            const compareBtn = document.getElementById('toggle-comparison-btn');
+            if(compareBtn) compareBtn.addEventListener('click', () => {
                 const section = document.getElementById('comparison-section');
                 const isHidden = section.classList.toggle('hidden');
                 document.getElementById('toggle-comparison-text').innerText = isHidden ? 'See In-Depth Analysis' : 'Hide Analysis';
@@ -7969,13 +8034,13 @@ source: "Haaretz"
                 const article = articles[Math.floor(Math.random() * articles.length)];
                 const archiveLink = `https://archive.is/oldest/${article.link}`;
                 document.getElementById('random-article-body').innerHTML = `
-                    <div class="relative h-64 overflow-hidden rounded-t-xl"><img src="${article.imageUrl}" class="w-full h-full object-cover"></div>
-                    <div class="p-8 space-y-4">
-                        <h2 class="text-3xl font-bold text-white leading-snug">${article.title}</h2>
-                        <div class="text-sm text-gray-400 border-b border-gray-700 pb-4">${article.date}</div>
-                        <p class="text-gray-300 text-lg leading-relaxed">${article.summary}</p>
+                    <div class="relative h-40 sm:h-64 overflow-hidden rounded-t-xl"><img src="${article.imageUrl}" class="w-full h-full object-cover"></div>
+                    <div class="p-5 sm:p-8 space-y-3 sm:space-y-4">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white leading-snug">${article.title}</h2>
+                        <div class="text-xs sm:text-sm text-gray-400 border-b border-gray-700 pb-3 sm:pb-4">${article.date}</div>
+                        <p class="text-gray-300 text-sm sm:text-lg leading-relaxed">${article.summary}</p>
                         <div class="pt-4 border-t border-gray-700 flex justify-end">
-                            <a href="${archiveLink}" target="_blank" class="btn-primary py-3 px-6 rounded-full text-sm font-semibold">Read Original Article →</a>
+                            <a href="${archiveLink}" target="_blank" class="btn-primary py-2 px-4 sm:py-3 sm:px-6 rounded-full text-xs sm:text-sm font-semibold">Read Original Article →</a>
                         </div>
                     </div>`;
                 document.getElementById('random-article-modal').classList.add('is-visible');
