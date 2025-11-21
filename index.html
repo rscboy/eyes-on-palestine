@@ -13,18 +13,23 @@
     </script>
 
     <!-- Social Preview / Open Graph Tags -->
-    <meta property="og:title" content="Echoes of Gaza: A Historical Archive.">
+    <meta property="og:site_name" content="Echoes of Gaza">
+    <meta property="og:title" content="Echoes of Gaza: A Historical Archive">
     <meta property="og:description" content="A digital historical record documenting the crisis. 680,000+ estimated casualties. Preserving truth, resisting erasure.">
     <meta property="og:image" content="https://i.postimg.cc/Vkg4mhjh/Screenshot-2025-11-20-at-10-35-44-PM.png">
     <meta property="og:url" content="https://echoesofgaza.org">
     <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Echoes of Gaza: A Historical Archive">
+    <meta name="twitter:description" content="A digital historical record documenting the crisis. 680,000+ estimated casualties. Preserving truth, resisting erasure.">
     <meta name="twitter:image" content="https://i.postimg.cc/Vkg4mhjh/Screenshot-2025-11-20-at-10-35-44-PM.png">
 
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/197/197467.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echoes of Gaza: A Historical Archive.</title>
+    <title>Echoes of Gaza: A Historical Archive</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -801,7 +806,8 @@
     
     <div id="random-article-modal" class="modal">
         <div class="modal-content-article">
-            <span class="close-button text-4xl text-red-500 hover:text-white bg-black/50 rounded-full p-2" onclick="document.getElementById('random-article-modal').classList.remove('is-visible')">&times;</span>
+            <!-- Changed text-red-500 to text-black and bg-black/50 to bg-white/50 for contrast -->
+            <span class="close-button text-4xl text-black hover:text-gray-700 bg-white/50 hover:bg-white rounded-full p-2 transition-colors" onclick="document.getElementById('random-article-modal').classList.remove('is-visible')">&times;</span>
             <div id="random-article-body"></div>
         </div>
     </div>
@@ -7334,7 +7340,7 @@ source: "Haaretz"
         year: "2024"
     }, ];
 
-         let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+                let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
         
         // Carousel State
@@ -7927,8 +7933,22 @@ source: "Haaretz"
             document.getElementById('victim-next-btn').addEventListener('click', () => { if(victimCurrentPage < totalVictimPages) { victimCurrentPage++; renderVictims(); }});
 
             // Timeline Toggle
-            document.getElementById('view-timeline-btn').addEventListener('click', () => {
-                document.getElementById('casualty-graph').classList.toggle('hidden');
+            const timelineBtn = document.getElementById('view-timeline-btn');
+            const timelineSection = document.getElementById('casualty-graph');
+
+            timelineBtn.addEventListener('click', () => {
+                const isHidden = timelineSection.classList.contains('hidden');
+                
+                if (isHidden) {
+                    timelineSection.classList.remove('hidden');
+                    timelineBtn.innerText = 'Close Timeline';
+                    timelineSection.scrollIntoView({ behavior: 'smooth' });
+                    // Ensure chart resizes correctly if it was hidden during init
+                    if (window.myCasualtyChart) window.myCasualtyChart.resize();
+                } else {
+                    timelineSection.classList.add('hidden');
+                    timelineBtn.innerText = 'View Timeline';
+                }
             });
 
             // Comparison Section Toggle
