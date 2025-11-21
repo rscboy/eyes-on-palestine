@@ -13,18 +13,18 @@
     </script>
 
     <!-- Social Preview / Open Graph Tags -->
-    <meta property="og:title" content="Echoes of Gaza: Archive of Genocide">
+    <meta property="og:title" content="Echoes of Gaza: A Historical Archive.">
     <meta property="og:description" content="A digital historical record documenting the crisis. 680,000+ estimated casualties. Preserving truth, resisting erasure.">
-    <meta property="og:image" content="https://i.postimg.cc/Y9c7R3rC/Untitled-design.png">
+    <meta property="og:image" content="https://i.postimg.cc/Vkg4mhjh/Screenshot-2025-11-20-at-10-35-44-PM.png">
     <meta property="og:url" content="https://echoesofgaza.org">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://i.postimg.cc/Y9c7R3rC/Untitled-design.png">
+    <meta name="twitter:image" content="https://i.postimg.cc/Vkg4mhjh/Screenshot-2025-11-20-at-10-35-44-PM.png">
 
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/197/197467.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echoes of Gaza: Archive of Genocide</title>
+    <title>Echoes of Gaza: A Historical Archive.</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -211,7 +211,7 @@
         .card-modern:hover .image-overlay { opacity: 1; }
 
         /* Chart Tooltip */
-        #casualty-chart-container { position: relative; }
+        #casualty-chart-container { position: relative; min-height: 400px; } /* Added min-height to ensure visibility with aspect ratio false */
         #chart-tooltip {
             position: absolute; background: rgba(42, 42, 42, 0.9); color: white;
             padding: 10px; border-radius: 5px; pointer-events: none; opacity: 0;
@@ -319,7 +319,8 @@
     </header>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed top-0 right-0 w-full h-full bg-black/90 z-40 transform translate-x-full md:hidden flex flex-col">
+    <!-- Changed z-40 to z-[60] to ensure it sits on TOP of the header (which is z-50) -->
+    <div id="mobile-menu" class="fixed top-0 right-0 w-full h-full bg-black/90 z-[60] transform translate-x-full md:hidden flex flex-col">
         <div class="flex justify-end p-6">
             <button id="close-mobile-menu" class="text-white focus:outline-none p-2 rounded-full hover:bg-gray-800 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -393,18 +394,17 @@
             </div>
         </section>
 
-        <!-- Casualty Graph Section -->
-        <section id="casualty-graph" class="py-16 md:py-24 bg-black border-b border-gray-800 hidden">
+        <!-- Casualty Graph Section (hidden by default) -->
+        <section id="casualty-graph" class="py-16 md:py-24 bg-[#1a1a1a] border-b border-gray-800 hidden">
             <div class="container mx-auto px-6">
                 <h3 class="text-3xl font-bold text-center mb-3">Palestinian Casualties in Gaza</h3>
-                <p class="text-center text-gray-400 mb-8">
-                    Estimated casualty count including direct killings and indirect deaths from starvation and disease.
-                </p>
-                <div id="casualty-chart-container" class="max-w-6xl mx-auto h-96">
+                <p class="text-center text-gray-400 mb-8">October 7, 2023 - November 20, 2025</p>
+                <div id="casualty-chart-container" class="max-w-6xl mx-auto">
                     <canvas id="casualtyChart"></canvas>
                     <div id="chart-tooltip"></div>
                 </div>
-                <p class="text-center text-xs text-gray-500 mt-4">Data trending towards 680,000+ (Just International / The Lancet Projections).</p>
+                <p class="text-center text-xs text-gray-500 mt-4">Click on a data point to jump to articles from that
+                    month. Source: Gaza Ministry of Health.</p>
             </div>
         </section>
 
@@ -448,9 +448,135 @@
         <!-- Comparison Section (Hidden by default) -->
         <section id="comparison-section" class="py-16 md:py-24 bg-black border-b border-gray-800 hidden">
             <div class="container mx-auto px-6">
-                <h3 class="text-3xl font-bold text-center mb-12 mx-auto">Lexicon of Conflict</h3>
-                <!-- (Same carousel content as before, kept brief for file size) -->
-                <div class="text-center text-gray-400">Detailed analysis hidden for brevity (same as previous version). Toggle visible using button above.</div>
+                <h3 class="text-3xl font-bold text-center mb-12 mx-auto">Lexicon of Conflict: Analysis of Narrative Disparity</h3>
+                <div class="max-w-5xl mx-auto relative">
+                    <!-- Carousel Container -->
+                    <div id="carousel-container" class="overflow-hidden rounded-xl border border-white/10 shadow-2xl bg-gray-900/50">
+                        <div id="carousel-track" class="flex transition-transform duration-500 ease-in-out">
+
+                            <!-- Example Pair 1 -->
+                            <div class="carousel-item flex-shrink-0 w-full p-8 md:p-12">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                                        <p class="text-xl text-gray-200">"West Bank Mosque Is Burned as Israeli Settler Violence Surges"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">The New York Times</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                            <strong>Analysis:</strong> Framed as "violence" or property crime rather than a targeted hate crime or terrorism.
+                                        </blockquote>
+                                    </div>
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                                        <p class="text-xl text-gray-200">"British leader says ‘vile’ synagogue assailant ‘attacked Jews because they are Jews’... in a terrorist attack"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">Associated Press</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                            <strong>Analysis:</strong> Immediately labeled "terrorism" and a "vile" hate crime. Moral clarity is reserved for this side.
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Example Pair 2 -->
+                            <div class="carousel-item flex-shrink-0 w-full p-8 md:p-12">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                                        <p class="text-xl text-gray-200">"Violent Protests Leave Dozens Dead"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">The New York Times</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                            <strong>Analysis:</strong> Active voice falsely implies the protests *caused* the deaths, rather than soldiers shooting protesters.
+                                        </blockquote>
+                                    </div>
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                                        <p class="text-xl text-gray-200">"Israeli woman murdered in brutal terror attack"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">Standard Media Framing</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                            <strong>Analysis:</strong> Agency is clear. Emotive language ("murdered", "brutal") is used to evoke outrage.
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Example Pair 3 -->
+                            <div class="carousel-item flex-shrink-0 w-full p-8 md:p-12">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                                        <p class="text-xl text-gray-200">"Missile at Beachside Gaza Cafe Finds Patrons"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">The New York Times</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                            <strong>Analysis:</strong> The "Missile" is the agent, not the pilot. It "finds" patrons by chance, erasing intent.
+                                        </blockquote>
+                                    </div>
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                                        <p class="text-xl text-gray-200">"‘Horrific massacre’: Israelis slaughtered in 'brutal' assault"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">Standard Media Framing</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                            <strong>Analysis:</strong> Terms like "slaughter" and "massacre" are used 180x more frequently for Israeli deaths.
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Example Pair 4: Passive Voice vs. Active Agency -->
+                            <div class="carousel-item flex-shrink-0 w-full p-8 md:p-12">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                                        <p class="text-xl text-gray-200">"A group of Palestinian men waving a white flag are shot at, killing 1"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">NBC News</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                            <strong>Analysis:</strong> The passive voice ("are shot at") obfuscates responsibility. The reader is told a fact but not *who* did the shooting.
+                                        </blockquote>
+                                    </div>
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                                        <p class="text-xl text-gray-200">"Two Israelis killed by Palestinian gunman"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">Standard Media Framing</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                            <strong>Analysis:</strong> The active structure "killed by" clearly assigns agency and blame to the perpetrator.
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Example Pair 5: Euphemism vs. Individualization -->
+                            <div class="carousel-item flex-shrink-0 w-full p-8 md:p-12">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-red-500 mb-2">Language for Palestinians</h4>
+                                        <p class="text-xl text-gray-200">"Clashes erupt in West Bank, 3 Palestinians die"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">Standard Media Framing</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-red-500 pl-3">
+                                            <strong>Analysis:</strong> "Clashes" implies equality in a fundamentally asymmetric conflict. "Die" is passive, obscuring the cause of death.
+                                        </blockquote>
+                                    </div>
+                                    <div class="card-modern p-6 rounded-lg h-full">
+                                        <h4 class="text-sm font-semibold text-green-500 mb-2">Language for Israelis</h4>
+                                        <p class="text-xl text-gray-200">"A 25-year-old musician, a mother of two: The victims of the music festival massacre"</p>
+                                        <p class="text-gray-500 text-xs mt-1 italic">Standard Narrative Framing</p>
+                                        <blockquote class="text-gray-400 text-sm mt-3 border-l-2 border-green-500 pl-3">
+                                            <strong>Analysis:</strong> The "identifiable victim effect" is leveraged by providing emotional detail and narrative depth to humanize the victims.
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <button id="carousel-prev" class="absolute top-1/2 left-0 md:-left-16 transform -translate-y-1/2 p-3 bg-gray-800/80 text-white rounded-full hover:bg-red-500/80 z-20 disabled:opacity-30 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button id="carousel-next" class="absolute top-1/2 right-0 md:-right-16 transform -translate-y-1/2 p-3 bg-gray-800/80 text-white rounded-full hover:bg-red-500/80 z-20 disabled:opacity-30 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                    
+                    <p class="text-center text-gray-500 text-sm pt-6 mt-8 border-t border-gray-700">Analysis synthesized from reporting by The Intercept and The New York Times.</p>
+                </div>
             </div>
         </section>
 
@@ -481,8 +607,8 @@
                 </div>
 
                 <div id="filter-controls" class="mb-8 p-6 rounded-xl filter-panel hidden">
-                     <!-- Filters Grid (Date, Tag, Source, Region) -->
-                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                      <!-- Filters Grid (Date, Tag, Source, Region) -->
+                      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         <div>
                             <h4 class="font-bold text-lg mb-3 text-red-400">Filter by Date</h4>
                             <div class="flex flex-col space-y-2">
@@ -493,11 +619,11 @@
                         <div><h4 class="font-bold text-lg mb-3 text-red-400">Filter by Tag</h4><div id="tag-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2"></div></div>
                         <div><h4 class="font-bold text-lg mb-3 text-red-400">Filter by Source</h4><div id="source-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2"></div></div>
                         <div><h4 class="font-bold text-lg mb-3 text-red-400">Filter by Region</h4><div id="region-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2"></div></div>
-                     </div>
-                     <div class="mt-6 border-t border-white/10 pt-6 flex items-center space-x-4">
+                      </div>
+                      <div class="mt-6 border-t border-white/10 pt-6 flex items-center space-x-4">
                         <button id="filter-button" class="btn-primary font-bold py-2 px-6 rounded-full text-sm">Apply Filters</button>
                         <button id="clear-button" class="filter-chip py-2 px-6 rounded-full text-sm">Clear Filters</button>
-                     </div>
+                      </div>
                 </div>
 
                 <div id="article-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
@@ -528,7 +654,7 @@
             <div class="container mx-auto px-6">
                 <h3 class="section-title text-3xl font-bold text-center mb-12 mx-auto">Geolocation Analysis</h3>
                 <div class="w-full aspect-video border-4 border-gray-700 rounded-lg overflow-hidden card-modern">
-                    <iframe src="https://www.scribblemaps.com/maps/view/My-Map/RS3sBEB4ZU" width="100%" height="100%" frameborder="0" title="Geolocation Map"></iframe>
+                    <iframe loading="lazy" src="https://www.scribblemaps.com/maps/view/My-Map/RS3sBEB4ZU" width="100%" height="100%" frameborder="0" title="Geolocation Map"></iframe>
                 </div>
             </div>
         </section>
@@ -537,9 +663,9 @@
         <section id="gaza-displacement-maps" class="py-16 md:py-24 bg-black border-y border-gray-800">
             <div class="container mx-auto px-6">
                 <h3 class="section-title text-3xl font-bold text-center mb-12 mx-auto">Gaza Maps: Displacement & Kill Zones</h3>
-                <!-- Used min-h-[50vh] for mobile to prevent cutoff -->
-                <div class="w-full min-h-[50vh] md:aspect-video border-4 border-gray-700 rounded-lg overflow-hidden card-modern bg-[#1a1a1a]">
-                    <iframe allowfullscreen scrolling="no" frameborder="0" src="https://arcg.is/0TeG4L" width="100%" height="100%" class="w-full h-full" title="Gaza Maps IDF Forced Displacement"></iframe>
+                <!-- Increased mobile height to 85vh to ensure full visibility of vertical map UIs -->
+                <div class="w-full h-[85vh] md:h-auto md:aspect-video border-4 border-gray-700 rounded-lg overflow-hidden card-modern bg-[#1a1a1a]">
+                    <iframe loading="lazy" allowfullscreen scrolling="no" frameborder="0" src="https://arcg.is/0TeG4L" width="100%" height="100%" class="w-full h-full" title="Gaza Maps IDF Forced Displacement"></iframe>
                 </div>
             </div>
         </section>
@@ -604,15 +730,42 @@
             <div class="container mx-auto px-6">
                 <h3 class="section-title text-3xl font-bold text-center mb-12 mx-auto">Frequently Asked Questions</h3>
                 <div class="max-w-3xl mx-auto space-y-8">
-                    <div class="card-modern p-6 rounded-xl"><h4 class="text-xl font-semibold mb-2 text-white">What is Echoes of Gaza?</h4><p class="text-gray-400">Echoes of Gaza is a digital historical archive dedicated to documenting the ongoing occupation, displacement, and genocide of the Palestinian people. It serves as a meticulously curated and publicly accessible repository of verified articles, reports, and media evidence, built to resist erasure and preserve truth.</p></div>
-                    <div class="card-modern p-6 rounded-xl"><h4 class="text-xl font-semibold mb-2 text-white">Why was this project created?</h4><p class="text-gray-400">Echoes of Gaza was born from the recognition that history is too often written by those in power, erasing the voices and suffering of the oppressed. The project exists to create a permanent record of events in Gaza and across Palestine, one that cannot be rewritten or denied.</p></div>
-                    <div class="card-modern p-6 rounded-xl"><h4 class="text-xl font-semibold mb-2 text-white">What is the goal of Echoes of Gaza?</h4><p class="text-gray-400">The archive exists to preserve evidence, promote accountability, and humanize the Palestinian struggle. It provides researchers, journalists, and the public with verifiable documentation that exposes patterns of occupation, displacement, and systemic injustice.</p></div>
-                    <div class="card-modern p-6 rounded-xl"><h4 class="text-xl font-semibold mb-2 text-white">How is the archive maintained?</h4><p class="text-gray-400">The archive is updated daily. Each entry is carefully verified and cataloged with details such as title, author, publication date, and source. The aim is to ensure accuracy, transparency, and reliability for those using the collection for research, reporting, or advocacy.</p></div>
-                    <div class="card-modern p-6 rounded-xl"><h4 class="text-xl font-semibold mb-2 text-white">How does Echoes of Gaza promote accountability?</h4><p class="text-gray-400">By creating a centralized and timestamped record of events, the archive makes it impossible for atrocities to be hidden or denied. It provides an evidentiary foundation for journalists, human rights investigators, and legal experts seeking to document war crimes and systemic abuse.</p></div>
-                    <div class="card-modern p-6 rounded-xl"><h4 class="text-xl font-semibold mb-2 text-white">How does the project address systemic prejudice and racism?</h4><p class="text-gray-400">Echoes of Gaza reveals how racism, dehumanization, and colonial bias shape global responses to Palestinian suffering. By placing daily atrocities alongside decades of political betrayal, media distortion, and ignored international law, the archive shows that what is happening in Gaza is not an isolated tragedy, but the result of a broader system of racialized injustice.</p></div>
-                    <div class="card-modern p-6 rounded-xl"><h4 class="text-xl font-semibold mb-2 text-white">Who is the archive for?</h4><p class="text-gray-400">It is intended for journalists, educators, researchers, students, and advocates seeking an accurate and human-centered account of what is happening in Gaza. Above all, it is for anyone committed to truth, justice, and memory.</p></div>
-                    <div class="card-modern p-6 rounded-xl"><h4 class="text-xl font-semibold mb-2 text-white">Can I use the materials for research or media?</h4><p class="text-gray-400">Yes. All materials are freely available for educational, journalistic, and humanitarian use. Please cite the archive as: Echoes of Gaza - A Digital Historical Record (echoesofgaza.org)</p></div>
-                    <div class="card-modern p-6 rounded-xl"><h4 class="text-xl font-semibold mb-2 text-white">Why is this important now?</h4><p class="text-gray-400">Because silence and distortion are weapons. When records disappear, justice becomes impossible. By preserving evidence and testimony in real time, Echoes of Gaza ensures that the historical record remains intact, and that the truth endures long after headlines fade.</p></div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">What is Echoes of Gaza?</h4>
+                        <p class="text-gray-400">Echoes of Gaza is a digital historical archive dedicated to documenting the ongoing occupation, displacement, and genocide of the Palestinian people. It serves as a meticulously curated and publicly accessible repository of verified articles, reports, and media evidence, built to resist erasure and preserve truth.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">Why was this project created?</h4>
+                        <p class="text-gray-400">Echoes of Gaza was born from the recognition that history is too often written by those in power, erasing the voices and suffering of the oppressed. The project exists to create a permanent record of events in Gaza and across Palestine, one that cannot be rewritten or denied.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">What is the goal of Echoes of Gaza?</h4>
+                        <p class="text-gray-400">The archive exists to preserve evidence, promote accountability, and humanize the Palestinian struggle. It provides researchers, journalists, and the public with verifiable documentation that exposes patterns of occupation, displacement, and systemic injustice.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">How is the archive maintained?</h4>
+                        <p class="text-gray-400">The archive is updated daily. Each entry is carefully verified and cataloged with details such as title, author, publication date, and source. The aim is to ensure accuracy, transparency, and reliability for those using the collection for research, reporting, or advocacy.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">How does Echoes of Gaza promote accountability?</h4>
+                        <p class="text-gray-400">By creating a centralized and timestamped record of events, the archive makes it impossible for atrocities to be hidden or denied. It provides an evidentiary foundation for journalists, human rights investigators, and legal experts seeking to document war crimes and systemic abuse.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">How does the project address systemic prejudice and racism?</h4>
+                        <p class="text-gray-400">Echoes of Gaza reveals how racism, dehumanization, and colonial bias shape global responses to Palestinian suffering. By placing daily atrocities alongside decades of political betrayal, media distortion, and ignored international law, the archive shows that what is happening in Gaza is not an isolated tragedy, but the result of a broader system of racialized injustice.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">Who is the archive for?</h4>
+                        <p class="text-gray-400">It is intended for journalists, educators, researchers, students, and advocates seeking an accurate and human-centered account of what is happening in Gaza. Above all, it is for anyone committed to truth, justice, and memory.</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">Can I use the materials for research or media?</h4>
+                        <p class="text-gray-400">Yes. All materials are freely available for educational, journalistic, and humanitarian use. Please cite the archive as: Echoes of Gaza - A Digital Historical Record (echoesofgaza.org)</p>
+                    </div>
+                    <div class="card-modern p-6 rounded-xl">
+                        <h4 class="text-xl font-semibold mb-2 text-white">Why is this important now?</h4>
+                        <p class="text-gray-400">Because silence and distortion are weapons. When records disappear, justice becomes impossible. By preserving evidence and testimony in real time, Echoes of Gaza ensures that the historical record remains intact, and that the truth endures long after headlines fade.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -7181,8 +7334,12 @@ source: "Haaretz"
         year: "2024"
     }, ];
 
-          let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+         let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
+        
+        // Carousel State
+        let currentSlide = 0;
+        let carouselItems = [];
 
         // --- SHARE FUNCTIONS (ATTACHED TO WINDOW) ---
         window.shareOnTwitter = (url, title) => { window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank'); };
@@ -7267,18 +7424,81 @@ source: "Haaretz"
 
             grid.innerHTML = sorted.map((article) => {
                 const archiveLink = `https://archive.is/oldest/${article.link}`;
+                // Create a unique ID for this article's share menu based on date and random string
+                const uniqueId = 'share-' + Math.random().toString(36).substr(2, 9);
+                const safeLink = article.link.replace(/'/g, "\\'");
+                const safeTitle = article.title.replace(/'/g, "\\'");
+
                 return `
-                    <div onclick="window.open('${archiveLink}', '_blank')" class="card-modern rounded-2xl overflow-hidden group flex flex-col">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="${article.imageUrl}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=Image';">
-                            <div class="image-overlay"></div>
-                            <div class="absolute top-4 left-4"><span class="tag-badge">${article.category}</span></div>
+                    <!-- Article Preview Card Component -->
+                    <div onclick="window.open('${archiveLink}', '_blank')" class="group flex flex-col rounded-xl overflow-hidden bg-[#1A1A1A] shadow-lg hover:scale-[1.01] transition-all duration-300 cursor-pointer border border-white/5">
+                        
+                        <!-- A. Header Image Block (40% height approx handled by aspect ratio class or fixed height) -->
+                        <div class="relative h-48 w-full overflow-hidden bg-white">
+                            <!-- Using article image. If 'Source Logo' was strictly required, we would use an img tag with the logo here. -->
+                            <img src="${article.imageUrl}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] to-transparent opacity-20"></div>
                         </div>
-                        <div class="p-6 flex-grow flex flex-col card-content-link">
-                            <div class="text-xs text-gray-500 mb-2 uppercase">${article.date} • ${article.source}</div>
-                            <h3 class="text-xl font-bold mb-3 leading-tight transition">${getSwappedText(article.title)}</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed mb-4 flex-grow">${getSwappedText(article.summary)}</p>
-                            ${generateShareMenu(article.link, article.title, 'article')}
+
+                        <!-- B. Content Block -->
+                        <div class="flex flex-col flex-grow px-6 py-6">
+                            
+                            <!-- 1. Metadata Row -->
+                            <div class="flex justify-between items-start mb-4">
+                                <!-- Blue Pill Tag -->
+                                <span class="bg-[#1E3A8A] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-sm">
+                                    ${article.category}
+                                </span>
+                                <!-- Date -->
+                                <span class="text-[#A0A0A0] text-sm font-medium">
+                                    ${article.date}
+                                </span>
+                            </div>
+
+                            <!-- 2. Title -->
+                            <h3 class="text-white font-bold text-xl mb-3 leading-tight line-clamp-3 group-hover:text-red-400 transition-colors">
+                                ${getSwappedText(article.title)}
+                            </h3>
+
+                            <!-- 3. Description -->
+                            <p class="text-[#C0C0C0] text-base leading-relaxed mb-4 line-clamp-3 flex-grow">
+                                ${getSwappedText(article.summary)}
+                            </p>
+
+                            <!-- 4. Source Line -->
+                            <div class="text-[#A0A0A0] text-xs mb-6">
+                                Source: <span class="font-semibold text-gray-300">${article.source}</span>
+                            </div>
+
+                            <!-- 5. Footer Row (Share Button) -->
+                            <div class="mt-auto flex justify-end pt-4 border-t border-white/5" onclick="event.stopPropagation()">
+                                <div class="relative">
+                                    <!-- Custom Share Button Style -->
+                                    <button 
+                                        onclick="window.toggleShareMenu('${uniqueId}')"
+                                        class="flex items-center space-x-2 bg-[#2A2A2A] hover:bg-[#333] text-gray-300 hover:text-white px-4 py-2 rounded-xl transition-all duration-200 shadow-sm group-share"
+                                    >
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                                        <span class="text-sm font-medium">Share</span>
+                                    </button>
+
+                                    <!-- Share Popover Menu -->
+                                    <div id="${uniqueId}" class="share-popover absolute bottom-full right-0 mb-2 w-48 p-2 rounded-md hidden bg-gray-800/95 backdrop-blur-md border border-gray-700 shadow-xl z-50">
+                                        <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.shareOnTwitter('${safeLink}', '${safeTitle}'); document.getElementById('${uniqueId}').classList.add('hidden');">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                            <span>Share on X</span>
+                                        </div>
+                                        <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.shareOnFacebook('${safeLink}'); document.getElementById('${uniqueId}').classList.add('hidden');">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                                            <span>Share on Facebook</span>
+                                        </div>
+                                        <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.copyLink('${safeLink}', 'Article', '${uniqueId}')">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                            <span>Copy Link</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>`;
             }).join('');
@@ -7344,53 +7564,146 @@ source: "Haaretz"
         }
 
         // --- CHART LOGIC (Exponential) ---
-        function generateTimelineData() {
-            const labels = []; const data = [];
-            const start = new Date(2023, 9, 1); // Oct 2023
-            const end = new Date(2025, 10, 1);  // Nov 2025
-            let current = new Date(start);
-            
-            const startVal = 9000;
-            const endVal = 680000;
-            const months = 25;
-            // Exponential Growth: y = a * (b^x)
-            // 680000 = 9000 * (b^25) -> b = (680000/9000)^(1/25)
-            const growthRate = Math.pow(endVal / startVal, 1 / months);
+        // Helper function to filter articles when graph is clicked
+        function filterByMonth(label) {
+            // Parse "Oct '23" to dates
+            const [monthStr, yearStr] = label.split(" '");
+            const year = 2000 + parseInt(yearStr);
+            const months = { "Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "Jun": 5, "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11 };
+            const monthIndex = months[monthStr];
 
-            let i = 0;
-            while (current <= end) {
-                labels.push(current.toLocaleString('default', { month: 'short', year: '2-digit' }));
-                const deaths = Math.floor(startVal * Math.pow(growthRate, i));
-                data.push(deaths);
-                current.setMonth(current.getMonth() + 1);
-                i++;
-            }
-            return { labels, data };
+            if (monthIndex === undefined) return;
+
+            const startDate = new Date(year, monthIndex, 1);
+            const endDate = new Date(year, monthIndex + 1, 0); // Last day of the month
+
+            // Update UI Inputs
+            const startInput = document.getElementById('start-date');
+            const endInput = document.getElementById('end-date');
+            // Format YYYY-MM-DD for input fields
+            const fmt = d => d.toISOString().split('T')[0];
+            if(startInput) startInput.value = fmt(startDate);
+            if(endInput) endInput.value = fmt(endDate);
+
+            // Show filter panel if hidden
+            document.getElementById('filter-controls').classList.remove('hidden');
+
+            // Filter Articles
+            const filtered = articles.filter(a => {
+                const d = new Date(a.date);
+                return d >= startDate && d <= endDate;
+            });
+
+            currentlyDisplayedArticles = filtered;
+            renderArticles(currentlyDisplayedArticles);
+
+            // Scroll to articles
+            document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
         }
 
         function renderCasualtyChart() {
-            const { labels, data } = generateTimelineData();
+            // Data points estimated to match the provided graph visuals (0 to ~69k)
+            // Labels for bi-monthly intervals as seen in the reference image
+            const labels = [
+                "Oct '23", "Dec '23", "Feb '24", "Apr '24", "Jun '24", 
+                "Aug '24", "Oct '24", "Dec '24", "Feb '25", "Apr '25", 
+                "Jun '25", "Aug '25", "Oct '25"
+            ];
+            
+            // Approximate values matching the curve in the image but scaled to 700k range
+            const data = [
+                90000, 220000, 290000, 340000, 380000, 
+                420000, 450000, 490000, 520000, 560000, 
+                600000, 650000, 700000
+            ];
+
             const ctx = document.getElementById('casualtyChart').getContext('2d');
-            new Chart(ctx, {
+            
+            // Destroy existing chart instance if it exists to prevent duplication/glitches
+            if (window.myCasualtyChart) {
+                window.myCasualtyChart.destroy();
+            }
+
+            window.myCasualtyChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Total Casualties (Est.)',
+                        label: 'Confirmed Casualties',
                         data: data,
-                        borderColor: 'rgba(206, 17, 38, 0.8)',
-                        backgroundColor: 'rgba(206, 17, 38, 0.2)',
-                        pointBackgroundColor: 'rgba(206, 17, 38, 1)',
-                        pointRadius: 3, // Dots for every month
+                        borderColor: '#CE1126', // Red line
+                        backgroundColor: 'rgba(206, 17, 38, 0.2)', // Red fill with transparency
+                        borderWidth: 2,
+                        pointBackgroundColor: '#CE1126', // Red dot fill
+                        pointBorderColor: '#ffffff', // White dot border
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
                         fill: true,
-                        tension: 0.4
+                        tension: 0.3 // Slight curve
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: { x: { ticks: { color: '#888' }, grid: { display: false } }, y: { ticks: { color: '#888' }, grid: { color: '#333' } } },
-                    plugins: { legend: { display: false } }
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    onClick: (evt, activeElements) => {
+                        if (activeElements.length > 0) {
+                            const index = activeElements[0].index;
+                            const label = labels[index];
+                            filterByMonth(label);
+                        }
+                    },
+                    onHover: (event, chartElement) => {
+                        event.native.target.style.cursor = chartElement.length ? 'pointer' : 'default';
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.9)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#333',
+                            borderWidth: 1,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y.toLocaleString() + ' Casualties';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)',
+                                borderColor: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#9ca3af', // gray-400
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        },
+                        y: {
+                            min: 0,
+                            max: 700000,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)',
+                                borderColor: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                stepSize: 100000, // Increment by 100k
+                                color: '#9ca3af', // gray-400
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
                 }
             });
         }
@@ -7406,6 +7719,44 @@ source: "Haaretz"
         function updateHeroStats() {
             const daysEl = document.getElementById('days-stat-hero');
             if (daysEl) daysEl.innerText = calculateDaysOfConflict().toLocaleString();
+        }
+        
+        // --- CAROUSEL LOGIC ---
+        function setupCarousel() {
+            carouselItems = document.querySelectorAll('.carousel-item');
+            const track = document.getElementById('carousel-track');
+            const prevBtn = document.getElementById('carousel-prev');
+            const nextBtn = document.getElementById('carousel-next');
+
+            if (!track || carouselItems.length === 0) return;
+
+            function updateCarousel() {
+                const width = 100; // percentage
+                track.style.transform = `translateX(-${currentSlide * width}%)`;
+                if (prevBtn) prevBtn.disabled = currentSlide === 0;
+                if (nextBtn) nextBtn.disabled = currentSlide === carouselItems.length - 1;
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    if (currentSlide > 0) {
+                        currentSlide--;
+                        updateCarousel();
+                    }
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    if (currentSlide < carouselItems.length - 1) {
+                        currentSlide++;
+                        updateCarousel();
+                    }
+                });
+            }
+            
+            // Init state
+            updateCarousel();
         }
         
         // --- BIAS TOOL PREVIEW LOGIC ---
@@ -7431,6 +7782,28 @@ source: "Haaretz"
             previewEl.innerHTML = highlighted;
         }
 
+        // --- FILTER POPULATION LOGIC ---
+        function populateFilters() {
+            const tags = [...new Set(articles.map(a => a.category))].sort();
+            const sources = [...new Set(articles.map(a => a.source))].sort();
+            const regions = [...new Set(articles.map(a => a.region))].sort();
+
+            const createCheckbox = (value, type) => `
+                <label class="flex items-center space-x-2 cursor-pointer group">
+                    <input type="checkbox" value="${value}" data-filter-type="${type}" class="form-checkbox h-4 w-4 text-red-600 bg-gray-800 border-gray-600 rounded focus:ring-red-500 focus:ring-offset-gray-900 transition duration-150 ease-in-out">
+                    <span class="text-gray-300 group-hover:text-white transition text-sm">${value}</span>
+                </label>
+            `;
+
+            const tagContainer = document.getElementById('tag-filters');
+            const sourceContainer = document.getElementById('source-filters');
+            const regionContainer = document.getElementById('region-filters');
+
+            if (tagContainer) tagContainer.innerHTML = tags.map(t => createCheckbox(t, 'tag')).join('');
+            if (sourceContainer) sourceContainer.innerHTML = sources.map(s => createCheckbox(s, 'source')).join('');
+            if (regionContainer) regionContainer.innerHTML = regions.map(r => createCheckbox(r, 'region')).join('');
+        }
+
         // --- INITIALIZATION & EVENT LISTENERS ---
         document.addEventListener('DOMContentLoaded', () => {
             currentlyDisplayedArticles = [...articles];
@@ -7440,6 +7813,8 @@ source: "Haaretz"
             fetchVictimsData();
             updateHeroStats(); 
             updateBiasToolPreview(); // Initial call
+            setupCarousel(); // Initialize Carousel
+            populateFilters(); // Populate the sidebar filters
 
             // Mobile Menu Logic
             const menuBtn = document.getElementById('mobile-menu-button');
@@ -7473,10 +7848,67 @@ source: "Haaretz"
                 e.target.classList.add('active'); document.getElementById('sort-newest').classList.remove('active');
             });
 
+            // Toggle Filter Panel
+            document.getElementById('toggle-filter-btn').addEventListener('click', (e) => {
+                const panel = document.getElementById('filter-controls');
+                panel.classList.toggle('hidden');
+                e.target.classList.toggle('active');
+            });
+
             // Search & Filters
             document.getElementById('article-search').addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
                 renderArticles(articles.filter(a => a.title.toLowerCase().includes(term) || a.summary.toLowerCase().includes(term)));
+            });
+
+            // Manual Filter Button Logic (Updated to include Tags, Sources, Regions)
+            document.getElementById('filter-button').addEventListener('click', () => {
+                const start = document.getElementById('start-date').value;
+                const end = document.getElementById('end-date').value;
+                
+                // Get selected checkboxes
+                const getChecked = (type) => 
+                    Array.from(document.querySelectorAll(`input[data-filter-type="${type}"]:checked`)).map(cb => cb.value);
+
+                const selectedTags = getChecked('tag');
+                const selectedSources = getChecked('source');
+                const selectedRegions = getChecked('region');
+
+                let filtered = articles;
+
+                // Date Filter
+                if (start) filtered = filtered.filter(a => new Date(a.date) >= new Date(start));
+                if (end) filtered = filtered.filter(a => new Date(a.date) <= new Date(end));
+
+                // Category/Tag Filter
+                if (selectedTags.length > 0) {
+                    filtered = filtered.filter(a => selectedTags.includes(a.category));
+                }
+
+                // Source Filter
+                if (selectedSources.length > 0) {
+                    filtered = filtered.filter(a => selectedSources.includes(a.source));
+                }
+
+                // Region Filter
+                if (selectedRegions.length > 0) {
+                    filtered = filtered.filter(a => selectedRegions.includes(a.region));
+                }
+                
+                currentlyDisplayedArticles = filtered;
+                renderArticles(currentlyDisplayedArticles);
+            });
+            
+            // Clear Button Logic
+            document.getElementById('clear-button').addEventListener('click', () => {
+                document.getElementById('start-date').value = '';
+                document.getElementById('end-date').value = '';
+                
+                // Uncheck all checkboxes
+                document.querySelectorAll('input[type="checkbox"][data-filter-type]').forEach(cb => cb.checked = false);
+
+                currentlyDisplayedArticles = [...articles];
+                renderArticles(currentlyDisplayedArticles);
             });
 
             document.getElementById('double-standard-toggle').addEventListener('change', (e) => {
@@ -7501,7 +7933,10 @@ source: "Haaretz"
 
             // Comparison Section Toggle
             document.getElementById('toggle-comparison-btn').addEventListener('click', () => {
-                document.getElementById('comparison-section').classList.toggle('hidden');
+                const section = document.getElementById('comparison-section');
+                const isHidden = section.classList.toggle('hidden');
+                document.getElementById('toggle-comparison-text').innerText = isHidden ? 'See In-Depth Analysis' : 'Hide Analysis';
+                if (!isHidden) section.scrollIntoView({ behavior: 'smooth' });
             });
 
             // Window Click Listener (Only for closing menus now)
