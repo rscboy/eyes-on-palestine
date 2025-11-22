@@ -24,7 +24,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Echoes of Gaza: A Historical Archive">
     <meta name="twitter:description" content="A digital historical record documenting the crisis. 680,000+ estimated casualties. Preserving truth, resisting erasure.">
-    <meta name="twitter:image" content="hhttps://i.postimg.cc/pLVp76rt/Ki6G09W0.jpg">
+    <meta name="twitter:image" content="https://i.postimg.cc/pLVp76rt/Ki6G09W0.jpg">
 
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/197/197467.png" type="image/png">
     <meta charset="UTF-8">
@@ -179,8 +179,26 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            color: #ffffff !important; /* Force white text */
         }
-        .search-modern:focus { border-color: var(--pal-red); box-shadow: 0 0 0 3px rgba(206, 17, 38, 0.2); }
+        .search-modern:focus { 
+            border-color: var(--pal-red); 
+            box-shadow: 0 0 0 3px rgba(206, 17, 38, 0.2); 
+            background: rgba(30, 30, 30, 0.9); /* Darker background on focus for contrast */
+        }
+        .search-modern::placeholder {
+            color: #a0a0a0 !important; /* Ensure placeholder is visible */
+        }
+
+        /* Fix for Browser Autofill White Background Issue */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
+            -webkit-text-fill-color: white !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
 
         .filter-chip {
             background: rgba(30, 30, 30, 0.8);
@@ -295,7 +313,22 @@
 
                 <!-- Desktop Menu -->
                 <nav class="hidden md:flex items-center space-x-6">
-                    <a href="#articles" class="nav-link text-gray-300 hover:text-white transition">Archive</a>
+                    <!-- Updated Archive Dropdown (Desktop Only) -->
+                    <div class="relative">
+                        <button id="archive-menu-button" class="text-gray-300 hover:text-white transition flex items-center">
+                            Archive
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div id="archive-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 mt-2 w-48 bg-black/90 border border-white/10 rounded-lg shadow-xl hidden z-50">
+                            <a href="#articles" class="block px-4 py-2 text-sm hover:bg-white/10 transition text-gray-300 hover:text-white">Articles</a>
+                            <a href="#books" class="block px-4 py-2 text-sm hover:bg-white/10 transition text-gray-300 hover:text-white">Books</a>
+                            <a href="#videos" class="block px-4 py-2 text-sm hover:bg-white/10 transition text-gray-300 hover:text-white">Interviews</a>
+                            <a href="#films" class="block px-4 py-2 text-sm hover:bg-white/10 transition text-gray-300 hover:text-white">Documentaries</a>
+                        </div>
+                    </div>
+
                     <a href="#bias-tool-controls" class="nav-link text-gray-300 hover:text-white transition">Tools</a>
                     <a href="#geolocation" class="nav-link text-gray-300 hover:text-white transition">Maps</a>
                     <a href="#victims" class="nav-link text-gray-300 hover:text-white transition">Victims</a>
@@ -647,17 +680,45 @@
                 </div>
 
                 <div id="article-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-                <div class="text-center mt-12">
-                    <button id="load-more-btn" class="px-8 py-3 rounded-full border-2 border-white/20 hover:border-white/40 transition font-semibold">Load More Articles</button>
+                
+                <!-- Pagination / Load More Controls -->
+                <div class="flex flex-col items-center justify-center mt-12 space-y-4">
+                    <div class="text-sm text-gray-400">
+                        Showing <span id="showing-count" class="text-white font-bold">0</span> of <span id="total-count" class="text-white font-bold">0</span> articles
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                        <button id="load-more-btn" class="px-8 py-3 rounded-full border-2 border-white/20 hover:border-white/40 hover:bg-white/5 transition font-semibold text-white">
+                            Load More Articles
+                        </button>
+                        
+                        <div class="flex items-center bg-[#2A2A2A] rounded-full px-5 py-3 border border-white/10">
+                            <label for="article-limit-select" class="text-xs text-gray-400 mr-2 uppercase font-bold tracking-wider">View:</label>
+                            <select id="article-limit-select" class="bg-transparent text-white text-sm font-bold focus:outline-none border-none p-0 cursor-pointer">
+                                <option value="30" class="bg-zinc-800 text-gray-300">30</option>
+                                <option value="60" class="bg-zinc-800 text-gray-300">60</option>
+                                <option value="90" class="bg-zinc-800 text-gray-300">90</option>
+                                <option value="all" class="bg-zinc-800 text-white">All</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Books Section -->
-        <section id="books" class="py-16 md:py-24">
+        <!-- Books Section (Moved before Videos) -->
+        <section id="books" class="py-16 md:py-24 bg-[#151515] border-t border-gray-800">
             <div class="container mx-auto px-6">
                 <h3 class="section-title text-3xl font-bold text-center mb-12 mx-auto">Books</h3>
                 <div id="book-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- Videos Section (Moved after Books) -->
+        <section id="videos" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <h3 class="section-title text-3xl font-bold text-center mb-12 mx-auto">Video Reports & Interviews</h3>
+                <div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto"></div>
             </div>
         </section>
 
@@ -677,6 +738,18 @@
                 <!-- Changed aspect-video to h-[600px] for better height -->
                 <div class="max-w-5xl mx-auto w-full h-[600px] border-4 border-gray-700 rounded-lg overflow-hidden card-modern">
                     <iframe loading="lazy" src="https://www.scribblemaps.com/maps/view/My-Map/RS3sBEB4ZU" width="100%" height="100%" frameborder="0" title="Geolocation Map"></iframe>
+                </div>
+                
+                <div id="geolocation-content" class="mt-12">
+                    <p class="text-center text-gray-400 mb-10 max-w-3xl mx-auto">
+                        This section features critical geolocation analysis from researcher <strong>Abu
+                        Location</strong>.
+                        His work has been essential in verifying events and deconstructing false narratives
+                        propagated by the Israeli military during the conflict.
+                        <br>
+                        You can follow his ongoing analysis on
+                        <a href="https://x.com/AbuLocation" target="_blank" class="text-blue-400 hover:underline">X (formerly Twitter)</a>.
+                    </p>
                 </div>
             </div>
         </section>
@@ -705,6 +778,13 @@
                         class="w-full h-full" 
                         title="Gaza Maps IDF Forced Displacement">
                     </iframe>
+                </div>
+                
+                <!-- Map Credit Link -->
+                <div class="text-center mt-4">
+                    <p class="text-sm text-gray-400">
+                        Map provided by <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Gaza Maps</a>, a project by Databases for Palestine.
+                    </p>
                 </div>
                 
                 <!-- Mobile Fallback Link -->
@@ -3247,7 +3327,7 @@ source: "Haaretz"
   },
   {
     "date": "2025-08-25",
-    "title": "https://thehill.com/opinion/international/5465482-israel-war-crimes-gaza/",
+    "title": " Netanyahu says Israel didn’t conduct a ‘Dresden bombing’ in Gaza. But it did.",
     "summary": "An opinion piece in The Hill discusses allegations that Israel committed war crimes in Gaza. The article examines reported violations of international law and calls for accountability.",
     "link": "https://thehill.com/opinion/international/5465482-israel-war-crimes-gaza/",
     "imageUrl": "https://thehill.com/wp-content/uploads/sites/2/2022/03/hill_logo_wide.jpg?w=1280",
@@ -7230,7 +7310,16 @@ source: "Haaretz"
     "categoryColor": "blue",
     "source": "The Straits Times"
   },
-    
+{
+    "date": "2025-11-21",
+    "title": "Israel has physically moved the “yellow line” to seize more area",
+    "summary": "Palestinian authorities say Israeli forces advanced about 300 metres beyond the so‑called “yellow line” in eastern Gaza City, effectively expanding the zone under its military control despite the ceasefire agreement.",
+    "link": "https://x.com/DropSiteNews/status/1991960187272597744?s=20",
+    "imageUrl": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/7c/72/5d/7c725de1-4676-100f-894e-69eea17609e8/mza_16756755009481006378.jpg/1200x1200bf-60.jpg",
+    "category": "Conflict",
+    "categoryColor": "red",
+    "source": "DropSite News"
+  },
 
         ];
         let videos = [
@@ -7240,49 +7329,49 @@ source: "Haaretz"
                 { title: "Israeli officials detail plans to seize all of Gaza and occupy it indefinitely, AP reports", creator: "CBS", link: "https://www.cbs.com/", imageUrl: "https://dims.apnews.com/dims4/default/7be1fea/2147483647/strip/true/crop/3070x2046+0+0/resize/599x399!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F2f%2Fb8%2F587422fe1fb2df6a5e1e55ec7f56%2Fa243f78be02e4bd595d740fc8841d116", platform: "CBS" },
                 {
   title: "Queers for Palestine & The Power of Pinkwashing",
-  creator: "A Bit Fruity",
+  creator: "Matt Bernstein",
   link: "https://www.youtube.com/watch?v=Xsgdk-DDSXc",
   imageUrl: "https://i3.ytimg.com/vi/Xsgdk-DDSXc/maxresdefault.jpg",
   platform: "A Bit Fruity"
 },
 {
   title: "The Jewish Fear Industrial Complex",
-  creator: "A Bit Fruity",
+  creator: "Matt Bernstein",
   link: "https://www.youtube.com/watch?v=N3YjMb_Lhkw",
   imageUrl: "https://i3.ytimg.com/vi/N3YjMb_Lhkw/maxresdefault.jpg",
   platform: "A Bit Fruity"
 },
 {
   title: "The Unraveling of Debra Messing",
-  creator: "A Bit Fruity",
+  creator: "Matt Bernstein",
   link: "https://www.youtube.com/watch?v=2_YMlTus7tg",
   imageUrl: "https://i3.ytimg.com/vi/2_YMlTus7tg/maxresdefault.jpg",
   platform: "A Bit Fruity"
 },
 {
   title: "The Trans Teen Imprisoned for Refusing to Join the IDF",
-  creator: "A Bit Fruity",
+  creator: "Matt Bernstein",
   link: "https://www.youtube.com/watch?v=VYlJiuV1Yjo",
   imageUrl: "https://i3.ytimg.com/vi/VYlJiuV1Yjo/maxresdefault.jpg",
   platform: "A Bit Fruity"
 },
 {
   title: "The Antisemitism Panic",
-  creator: "A Bit Fruity",
+  creator: "Matt Bernstein",
   link: "https://www.youtube.com/watch?v=0S_z0i6SR2E",
   imageUrl: "https://i3.ytimg.com/vi/0S_z0i6SR2E/maxresdefault.jpg",
   platform: "A Bit Fruity"
 },
 {
   title: "Ms Rachel DEFENDS her support for Gaza's kids",
-  creator: "Zeteo",
+  creator: "Mehdi Hasan",
   link: "https://www.youtube.com/watch?v=PmnNY2e3SL0",
   imageUrl: "https://i3.ytimg.com/vi/PmnNY2e3SL0/maxresdefault.jpg",
   platform: "Zeteo"
 },
 {
   title: "Everything the Media is Getting Wrong About the College Protests",
-  creator: "A Bit Fruity",
+  creator: "Matt Bernstein",
   link: "https://www.youtube.com/watch?v=tuTV6wLvjyM",
   imageUrl: "https://i3.ytimg.com/vi/tuTV6wLvjyM/maxresdefault.jpg",
   platform: "A Bit Fruity"
@@ -7431,7 +7520,9 @@ source: "Haaretz"
         year: "2024"
     }, ];
 
-           let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+          // Pagination State
+        let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+        let articleLimit = 30; // Default limit
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
         
         // Carousel State
@@ -7535,9 +7626,45 @@ source: "Haaretz"
                 return currentSortOrder === 'newest' ? db - da : da - db;
             });
 
-            if (sorted.length === 0) { grid.innerHTML = `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center">No articles match.</p>`; return; }
+            // Handle Empty State
+            if (sorted.length === 0) { 
+                grid.innerHTML = `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center">No articles match.</p>`; 
+                document.getElementById('showing-count').innerText = 0;
+                document.getElementById('total-count').innerText = 0;
+                document.getElementById('load-more-btn').classList.add('hidden');
+                return; 
+            }
 
-            grid.innerHTML = sorted.map((article) => {
+            // Apply Limit
+            const totalItems = sorted.length;
+            let limit = articleLimit === 'all' ? totalItems : parseInt(articleLimit);
+            if (isNaN(limit)) limit = 30; // Fallback
+
+            const visibleArticles = sorted.slice(0, limit);
+
+            // Update Counts
+            document.getElementById('showing-count').innerText = visibleArticles.length;
+            document.getElementById('total-count').innerText = totalItems;
+
+            // Update Load More Button Visibility
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            if (limit >= totalItems) {
+                loadMoreBtn.classList.add('hidden');
+            } else {
+                loadMoreBtn.classList.remove('hidden');
+            }
+            
+            // Sync Dropdown
+            const dropdown = document.getElementById('article-limit-select');
+            if (dropdown && articleLimit !== 'all') {
+                if ([30, 60, 90].includes(articleLimit)) {
+                    dropdown.value = articleLimit;
+                }
+            } else if (articleLimit === 'all') {
+                dropdown.value = 'all';
+            }
+
+            grid.innerHTML = visibleArticles.map((article) => {
                 const archiveLink = `https://archive.is/oldest/${article.link}`;
                 // Create a unique ID for this article's share menu based on date and random string
                 const uniqueId = 'share-' + Math.random().toString(36).substr(2, 9);
@@ -7631,6 +7758,33 @@ source: "Haaretz"
                 </div>
             </div>`).join('');
         }
+
+        function renderVideos() {
+            const grid = document.getElementById('video-grid'); if(!grid) return;
+            grid.innerHTML = videos.map(v => `
+            <div class="card-modern rounded-2xl overflow-hidden group flex flex-col h-full">
+                <div class="relative h-64 sm:h-72 overflow-hidden group">
+                    <img src="${v.imageUrl}" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Thumbnail';">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/30 transition-colors">
+                        <div class="w-16 h-16 rounded-full bg-red-600/90 flex items-center justify-center pl-1 shadow-xl transform group-hover:scale-110 transition duration-300">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+                    <a href="${v.link}" target="_blank" class="absolute inset-0 z-10" aria-label="Watch video"></a>
+                </div>
+                <div class="p-6 flex-grow flex flex-col bg-[#1E1E1E]">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="bg-red-900/30 text-red-400 text-[10px] font-bold uppercase px-2 py-1 rounded border border-red-900/50">${v.platform}</span>
+                        <span class="text-gray-500 text-xs flex items-center gap-1">
+                            Watch Now <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </span>
+                    </div>
+                    <h4 class="font-bold text-lg text-gray-100 mb-3 leading-snug hover:text-red-400 transition line-clamp-2"><a href="${v.link}" target="_blank">${v.title}</a></h4>
+                    <p class="text-gray-400 text-sm mt-auto border-t border-white/5 pt-3">By <span class="text-white">${v.creator}</span></p>
+                </div>
+            </div>`).join('');
+        }
+
         function renderFilms() {
             const grid = document.getElementById('film-grid'); if(!grid) return;
             grid.innerHTML = films.map(f => `
@@ -7922,8 +8076,15 @@ source: "Haaretz"
         // --- INITIALIZATION & EVENT LISTENERS ---
         document.addEventListener('DOMContentLoaded', () => {
             currentlyDisplayedArticles = [...articles];
+            
+            // Sort Videos by Date (Newest First)
+            videos.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Sort Films by Date (Newest First)
+            films.sort((a, b) => new Date(b.date) - new Date(a.date));
+
             renderArticles(currentlyDisplayedArticles);
-            renderBooks(); renderFilms();
+            renderBooks(); renderFilms(); renderVideos();
             renderCasualtyChart();
             fetchVictimsData();
             updateHeroStats(); 
@@ -7976,7 +8137,7 @@ source: "Haaretz"
                 renderArticles(articles.filter(a => a.title.toLowerCase().includes(term) || a.summary.toLowerCase().includes(term)));
             });
 
-            // Manual Filter Button Logic (Updated to include Tags, Sources, Regions)
+            // Manual Filter Button Logic
             document.getElementById('filter-button').addEventListener('click', () => {
                 const start = document.getElementById('start-date').value;
                 const end = document.getElementById('end-date').value;
@@ -8005,8 +8166,7 @@ source: "Haaretz"
                     filtered = filtered.filter(a => selectedSources.includes(a.source));
                 }
 
-                // Removed Region Filter Logic
-                
+                articleLimit = 30; // Reset limit on filter apply
                 currentlyDisplayedArticles = filtered;
                 renderArticles(currentlyDisplayedArticles);
             });
@@ -8019,7 +8179,23 @@ source: "Haaretz"
                 // Uncheck all checkboxes
                 document.querySelectorAll('input[type="checkbox"][data-filter-type]').forEach(cb => cb.checked = false);
 
+                articleLimit = 30; // Reset limit
                 currentlyDisplayedArticles = [...articles];
+                renderArticles(currentlyDisplayedArticles);
+            });
+
+            // Load More Button Logic
+            document.getElementById('load-more-btn').addEventListener('click', () => {
+                if (articleLimit !== 'all') {
+                    articleLimit += 30;
+                    renderArticles(currentlyDisplayedArticles);
+                }
+            });
+
+            // Article Limit Dropdown Logic
+            document.getElementById('article-limit-select').addEventListener('change', (e) => {
+                const val = e.target.value;
+                articleLimit = val === 'all' ? 'all' : parseInt(val);
                 renderArticles(currentlyDisplayedArticles);
             });
 
@@ -8114,11 +8290,39 @@ source: "Haaretz"
                 document.getElementById('random-article-modal').classList.add('is-visible');
             });
             
-            // Resources Dropdown
+            // Archive Dropdown Logic
+            const archBtn = document.getElementById('archive-menu-button');
+            const archMenu = document.getElementById('archive-menu-dropdown');
+            if(archBtn) {
+                archBtn.addEventListener('click', (e) => { 
+                    e.stopPropagation(); 
+                    // Close resources menu if open
+                    const resMenu = document.getElementById('resources-menu-dropdown');
+                    if(resMenu) resMenu.classList.add('hidden');
+                    
+                    archMenu.classList.toggle('hidden'); 
+                });
+            }
+
+            // Resources Dropdown Logic
             const resBtn = document.getElementById('resources-menu-button');
             const resMenu = document.getElementById('resources-menu-dropdown');
-            if(resBtn) resBtn.addEventListener('click', (e) => { e.stopPropagation(); resMenu.classList.toggle('hidden'); });
-            window.addEventListener('click', () => { if(resMenu) resMenu.classList.add('hidden'); });
+            if(resBtn) {
+                resBtn.addEventListener('click', (e) => { 
+                    e.stopPropagation(); 
+                    // Close archive menu if open
+                    const archMenu = document.getElementById('archive-menu-dropdown');
+                    if(archMenu) archMenu.classList.add('hidden');
+
+                    resMenu.classList.toggle('hidden'); 
+                });
+            }
+            
+            // Global Click to Close Dropdowns
+            window.addEventListener('click', () => { 
+                if(resMenu) resMenu.classList.add('hidden'); 
+                if(archMenu) archMenu.classList.add('hidden');
+            });
 
             // Logo Scroll Top
             document.getElementById('nav-logo').addEventListener('click', (e) => {
