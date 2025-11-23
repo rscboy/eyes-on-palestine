@@ -36,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Font Links: Standardized to use Inter for all text -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <style>
         /* Define new color variables */
         :root {
@@ -57,6 +57,10 @@
             background-color: #1a1a1a;
             color: #e5e5e5;
             top: 0 !important;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
         }
 
         /* Hide Google Translate Top Bar */
@@ -294,6 +298,35 @@
             border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Quiz Card Specifics */
+        .quiz-card {
+            transition: all 0.3s ease;
+        }
+        .quiz-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        /* Correct State: Green accent */
+        .quiz-card.correct {
+            border-color: #22c55e !important;
+            background: linear-gradient(145deg, #1a1a1a, rgba(34, 197, 94, 0.1)) !important;
+        }
+        .quiz-card.correct .accent-bar {
+            background-color: #22c55e !important;
+            opacity: 1 !important;
+        }
+        
+        /* Wrong State: Red accent */
+        .quiz-card.wrong {
+            border-color: #ef4444 !important;
+            background: linear-gradient(145deg, #1a1a1a, rgba(239, 68, 68, 0.1)) !important;
+            opacity: 0.6;
+        }
+        .quiz-card.wrong .accent-bar {
+            background-color: #ef4444 !important;
+            opacity: 1 !important;
+        }
     </style>
 </head>
 
@@ -329,7 +362,21 @@
                         </div>
                     </div>
 
-                    <a href="#bias-tool-controls" class="nav-link text-gray-300 hover:text-white transition">Tools</a>
+                    <!-- Tools Dropdown -->
+                    <div class="relative">
+                        <button id="tools-menu-button" class="text-gray-300 hover:text-white transition flex items-center">
+                            Tools
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div id="tools-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 mt-2 w-48 bg-black/90 border border-white/10 rounded-lg shadow-xl hidden z-50">
+                            <a href="#narrative-test-section" class="block px-4 py-2 text-sm hover:bg-white/10 transition text-gray-300 hover:text-white">Narratives</a>
+                            <a href="#casualty-graph" class="block px-4 py-2 text-sm hover:bg-white/10 transition text-gray-300 hover:text-white">Timeline</a>
+                            <a href="#bias-tool-controls" class="block px-4 py-2 text-sm hover:bg-white/10 transition text-gray-300 hover:text-white">Racial Bias Tool</a>
+                        </div>
+                    </div>
+
                     <a href="#geolocation" class="nav-link text-gray-300 hover:text-white transition">Maps</a>
                     <a href="#victims" class="nav-link text-gray-300 hover:text-white transition">Victims</a>
 
@@ -441,6 +488,32 @@
                             <button id="view-timeline-btn" class="btn-secondary px-8 py-4 rounded-full text-lg font-semibold w-full sm:w-auto text-center">View Timeline</button>
                             <button id="view-bias-tool-btn" class="btn-secondary px-8 py-4 rounded-full text-lg font-semibold w-full sm:w-auto text-center">Racial Bias Tool</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NARRATIVE TEST EMBEDDED SECTION -->
+        <section id="narrative-test-section" class="py-12 bg-gradient-to-b from-black to-[#1a1a1a] border-b border-white/5">
+            <div class="container mx-auto px-6 max-w-3xl">
+                <div class="text-center mb-8">
+                    <span class="bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider animate-pulse">Live Reality Check</span>
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mt-3 mb-2">The Narrative Test</h2>
+                    <p class="text-sm text-gray-400">Can you identify which headline was actually published?</p>
+                </div>
+                
+                <div class="bg-[#151515] border border-white/10 rounded-xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+                    <!-- Decorative Background Element -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="embedded-quiz-options">
+                        <!-- Options injected via JS -->
+                    </div>
+
+                    <div id="embedded-quiz-result" class="hidden mt-8 text-center animate-fade-in-up border-t border-white/5 pt-6">
+                        <div id="embedded-quiz-result-header" class="text-xl font-bold mb-2"></div>
+                        <div id="embedded-quiz-result-text" class="text-gray-300 text-sm leading-relaxed"></div>
+                        <button onclick="initEmbeddedQuiz()" class="mt-6 btn-secondary px-6 py-2 rounded-full text-xs font-bold border-white/20 hover:bg-white/5 transition">Test Another Headline</button>
                     </div>
                 </div>
             </div>
@@ -940,7 +1013,9 @@
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <script type="module">
-        // --- GLOBAL STATE & INITIAL DATA ---
+        // --- GLOBAL DATA ---
+        let currentQuizArticle = null; // Add to top scope for quiz logic
+
         let articles = [
             // Sample Articles (add more actual data here if needed)
              {
@@ -7390,6 +7465,66 @@ source: "Haaretz"
     "categoryColor": "orange",
     "source": "Associated Press"
   },
+ {
+    "date": "2025-11-23",
+    "title": "Israel seizes 1,042 dunams of Palestinian land to build army 'security road'",
+    "summary": "Israel has seized 1,042 dunams of land in the northern Jordan Valley through nine military orders to build a 'security road' connecting settlements and bases, according to the Wall and Settlement Resistance Authority. The road project will cut off Palestinian villages from agricultural lands and facilitate settlement expansion.",
+    "link": "https://www.newarab.com/news/israel-seizes-1042-dunams-palestinian-land-army-use",
+    "imageUrl": "https://d10bt0812qicot.cloudfront.net/img/2a/df897cb5e34467bba62c7c6f85723d/640x360.png",
+    "category": "Conflict",
+    "categoryColor": "red",
+    "source": "Al Jazeera"
+  },
+  {
+    "date": "2025-11-23",
+    "title": "20‑year‑old Palestinian student said killed by IDF during settler attack near Ramallah",
+    "summary": "A 20‑year‑old Palestinian student was reportedly shot and killed by Israeli forces during a settler incursion in Deir Jarir, near Ramallah, according to Palestinian sources. The Israeli military has confirmed operations in the area but has not provided further details on the incident.",
+    "link": "https://www.timesofisrael.com/liveblog_entry/20-year-old-palestinian-student-said-killed-by-idf-during-settler-attack-near-ramallah/",
+    "imageUrl": "https://play-lh.googleusercontent.com/5RXKeNxLAMc60xycN3PSvoxwEY8Pp9iiZH2stMxmh9YoL6YOa7wSYPMA-w1vpYM7rg",
+    "category": "Conflict",
+    "categoryColor": "red",
+    "source": "The Times of Israel"
+  },
+  {
+    "date": "2025-11-21",
+    "title": "At least 67 Palestinian children killed in Gaza since ‘ceasefire’ began: UN",
+    "summary": "UNICEF reports that at least 67 Palestinian children have died in Gaza since a ceasefire took effect, including fatalities from airstrikes in Khan Younis and Gaza City. The agency has called for stronger protection of civilians and children in conflict zones.",
+    "link": "https://www.aljazeera.com/news/2025/11/21/at-least-67-palestinian-children-killed-in-gaza-since-ceasefire-began-un",
+    "imageUrl": "https://d10bt0812qicot.cloudfront.net/img/2a/df897cb5e34467bba62c7c6f85723d/640x360.png",
+    "category": "Humanitarian",
+    "categoryColor": "orange",
+    "source": "Al Jazeera"
+  },
+ {
+    "date": "2025-11-22",
+    "title": "Israeli airstrikes kill at least 20 people in Gaza, medics say",
+    "summary": "Israeli airstrikes in Gaza killed at least 20 people and wounded more than 80, according to local health authorities, in what officials describe as a test of the fragile ceasefire between Israel and Hamas. The Israeli military and Hamas exchanged blame for the ongoing violations of the truce.",
+    "link": "https://www.reuters.com/world/middle-east/israeli-airstrike-car-gaza-city-kills-four-others-wounded-medics-say-2025-11-22/",
+    "imageUrl": "https://i0.wp.com/janoberg.me/wp-content/uploads/2023/05/logo-Reuters.jpg?fit=5000%2C2435&ssl=1",
+    "category": "Conflict",
+    "categoryColor": "red",
+    "source": "Reuters"
+  },
+  {
+    "date": "2025-11-23",
+    "title": "Israel has violated Gaza truce nearly 500 times in 44 days, killed hundreds",
+    "summary": "The Gaza Government Media Office reports that Israel has violated the ceasefire agreement nearly 500 times over 44 days, resulting in hundreds of Palestinian deaths. The violations reportedly include airstrikes, artillery shelling, and sniper fire.",
+    "link": "https://www.aljazeera.com/news/2025/11/23/israel-has-violated-gaza-truce-nearly-500-times-in-44-days-killed-hundreds",
+    "imageUrl": "https://d10bt0812qicot.cloudfront.net/img/2a/df897cb5e34467bba62c7c6f85723d/640x360.png",
+    "category": "Conflict",
+    "categoryColor": "red",
+    "source": "Al Jazeera"
+  },
+  {
+    "date": "2025-11-23",
+    "title": "Gaza hospitals running out of supplies as Israeli airstrikes continue, medics say",
+    "summary": "Hospitals in Gaza are experiencing severe shortages of essential medical supplies such as gauze, antiseptics, and antibiotics. The shortages come amid continued Israeli airstrikes and a reported failure of humanitarian aid to reach affected areas.",
+    "link": "https://www.theguardian.com/world/2025/nov/23/gaza-hospitals-essential-supplies-aid-israeli-airstrikes",
+    "imageUrl": "https://assets-legacy.floridarrc.com/2023/01/the-guardian-logo.jpeg",
+    "category": "Humanitarian",
+    "categoryColor": "orange",
+    "source": "The Guardian"
+  },
 
         ];
         let videos = [
@@ -7589,8 +7724,7 @@ source: "Haaretz"
         imageUrl: "https://s3.amazonaws.com/nightjarprod/content/uploads/sites/216/2025/01/25212539/s7XYieuZg9kMe07i9VI4bfGN4Pw.jpg",
         year: "2024"
     }, ];
-
-          // Pagination State
+       // Pagination State
         let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let articleLimit = 30; // Default limit
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
@@ -7655,13 +7789,27 @@ source: "Haaretz"
         }
 
         function getSwappedText(text) {
-            if (!titlesSwapped) return text;
-            const swapMap = { 'israelis': 'gazans', 'israeli': 'palestinian', 'israel': 'hamas', 'idf': 'military', 'palestinian': 'israeli', 'palestinians': 'israelis', 'hamas': 'israel', 'military': 'idf', 'gazans': 'israelis', 'gaza': 'israel', 'west bank': 'israel', 'jerusalem': 'gaza' };
+            const swapMap = { 
+                'israelis': 'gazans', 
+                'israeli': 'palestinian', 
+                'israel': 'hamas', // Context dependent, but fits general media narratives
+                'idf': 'military', 
+                'palestinian': 'israeli', 
+                'palestinians': 'israelis', 
+                'hamas': 'israel', 
+                'military': 'idf', 
+                'gazans': 'israelis', 
+                'gaza': 'israel', 
+                'west bank': 'israel', 
+                'jerusalem': 'gaza',
+                'tel aviv': 'gaza city'
+            };
             const regex = new RegExp(Object.keys(swapMap).join('|'), 'gi');
             return text.replace(regex, (matched) => {
                 const lower = matched.toLowerCase();
                 const rep = swapMap[lower];
                 if (!rep) return matched;
+                // Preserve capitalization
                 if (matched[0] === matched[0].toUpperCase()) return rep.charAt(0).toUpperCase() + rep.slice(1);
                 return rep;
             });
@@ -7693,6 +7841,8 @@ source: "Haaretz"
             const sorted = [...articlesToDisplay].sort((a, b) => {
                 const da = new Date(a.date).getTime();
                 const db = new Date(b.date).getTime();
+                const textA = titlesSwapped ? getSwappedText(a.title) : a.title;
+                const textB = titlesSwapped ? getSwappedText(b.title) : b.title;
                 return currentSortOrder === 'newest' ? db - da : da - db;
             });
 
@@ -7736,18 +7886,20 @@ source: "Haaretz"
 
             grid.innerHTML = visibleArticles.map((article) => {
                 const archiveLink = `https://archive.is/oldest/${article.link}`;
-                // Create a unique ID for this article's share menu based on date and random string
                 const uniqueId = 'share-' + Math.random().toString(36).substr(2, 9);
                 const safeLink = article.link.replace(/'/g, "\\'");
                 const safeTitle = article.title.replace(/'/g, "\\'");
+                
+                // Get display text based on bias toggle
+                const displayTitle = titlesSwapped ? getSwappedText(article.title) : article.title;
+                const displaySummary = titlesSwapped ? getSwappedText(article.summary) : article.summary;
 
                 return `
                     <!-- Article Preview Card Component -->
                     <div onclick="window.open('${archiveLink}', '_blank')" class="group flex flex-col rounded-xl overflow-hidden bg-[#1A1A1A] shadow-lg hover:scale-[1.01] transition-all duration-300 cursor-pointer border border-white/5">
                         
-                        <!-- A. Header Image Block (40% height approx handled by aspect ratio class or fixed height) -->
+                        <!-- A. Header Image Block -->
                         <div class="relative h-48 w-full overflow-hidden bg-white">
-                            <!-- Using article image. If 'Source Logo' was strictly required, we would use an img tag with the logo here. -->
                             <img src="${article.imageUrl}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
                             <div class="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] to-transparent opacity-20"></div>
                         </div>
@@ -7757,11 +7909,9 @@ source: "Haaretz"
                             
                             <!-- 1. Metadata Row -->
                             <div class="flex justify-between items-start mb-4">
-                                <!-- Blue Pill Tag -->
                                 <span class="bg-[#1E3A8A] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-sm">
                                     ${article.category}
                                 </span>
-                                <!-- Date -->
                                 <span class="text-[#A0A0A0] text-sm font-medium">
                                     ${formatDate(article.date)}
                                 </span>
@@ -7769,12 +7919,12 @@ source: "Haaretz"
 
                             <!-- 2. Title -->
                             <h3 class="text-white font-bold text-xl mb-3 leading-tight line-clamp-3 group-hover:text-red-400 transition-colors">
-                                ${getSwappedText(article.title)}
+                                ${displayTitle}
                             </h3>
 
                             <!-- 3. Description -->
                             <p class="text-[#C0C0C0] text-base leading-relaxed mb-4 line-clamp-3 flex-grow">
-                                ${getSwappedText(article.summary)}
+                                ${displaySummary}
                             </p>
 
                             <!-- 4. Source Line -->
@@ -7785,27 +7935,18 @@ source: "Haaretz"
                             <!-- 5. Footer Row (Share Button) -->
                             <div class="mt-auto flex justify-end pt-4 border-t border-white/5" onclick="event.stopPropagation()">
                                 <div class="relative">
-                                    <!-- Custom Share Button Style -->
-                                    <button 
-                                        onclick="window.toggleShareMenu('${uniqueId}')"
-                                        class="flex items-center space-x-2 bg-[#2A2A2A] hover:bg-[#333] text-gray-300 hover:text-white px-4 py-2 rounded-xl transition-all duration-200 shadow-sm group-share"
-                                    >
+                                    <button onclick="window.toggleShareMenu('${uniqueId}')" class="flex items-center space-x-2 bg-[#2A2A2A] hover:bg-[#333] text-gray-300 hover:text-white px-4 py-2 rounded-xl transition-all duration-200 shadow-sm group-share">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                                         <span class="text-sm font-medium">Share</span>
                                     </button>
-
-                                    <!-- Share Popover Menu -->
                                     <div id="${uniqueId}" class="share-popover absolute bottom-full right-0 mb-2 w-48 p-2 rounded-md hidden bg-gray-800/95 backdrop-blur-md border border-gray-700 shadow-xl z-50">
                                         <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.shareOnTwitter('${safeLink}', '${safeTitle}'); document.getElementById('${uniqueId}').classList.add('hidden');">
-                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                                             <span>Share on X</span>
                                         </div>
                                         <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.shareOnFacebook('${safeLink}'); document.getElementById('${uniqueId}').classList.add('hidden');">
-                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                                             <span>Share on Facebook</span>
                                         </div>
                                         <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.copyLink('${safeLink}', 'Article', '${uniqueId}')">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                                             <span>Copy Link</span>
                                         </div>
                                     </div>
@@ -8108,7 +8249,7 @@ source: "Haaretz"
             if (!previewEl || !articleToPreview) return;
 
             const rawTitle = articleToPreview.title;
-            const displayedTitle = getSwappedText(rawTitle);
+            const displayedTitle = titlesSwapped ? getSwappedText(rawTitle) : rawTitle;
             
             // Highlight swapped keywords for visual effect
             const regex = /palestinian|israeli|israel|hamas|idf|military|gazans|gaza|west bank/gi;
@@ -8121,11 +8262,116 @@ source: "Haaretz"
             previewEl.innerHTML = highlighted;
         }
 
+        // --- EMBEDDED QUIZ LOGIC (REPLACES POPUP) ---
+        window.initEmbeddedQuiz = () => {
+            // Reset Result State
+            const resultDiv = document.getElementById('embedded-quiz-result');
+            if (resultDiv) {
+                resultDiv.classList.add('hidden');
+            }
+
+            // Pick a random article
+            const article = articles[Math.floor(Math.random() * articles.length)];
+            currentQuizArticle = article; // Store for use in check function
+
+            const realHeadline = article.title;
+            const fakeHeadline = getSwappedText(realHeadline);
+
+            // Don't run quiz if swap didn't change anything, try again
+            if (realHeadline === fakeHeadline) {
+                return initEmbeddedQuiz(); 
+            }
+
+            const optionsContainer = document.getElementById('embedded-quiz-options');
+            if(!optionsContainer) return;
+
+            // Randomize order: 0 is real/fake, 1 is fake/real
+            const isFirstOptionReal = Math.random() < 0.5;
+
+            // Construct Card HTML with News-like styling
+            // NOTE: We don't use quotes around the text anymore to make it look like a real feed item
+            const createCard = (text, isReal) => `
+                <div class="quiz-card relative group cursor-pointer overflow-hidden rounded-xl border border-white/10 bg-[#1E1E1E] hover:border-white/30 transition-all duration-300 flex flex-col h-full min-h-[200px]" onclick="window.checkEmbeddedQuizAnswer(this, ${isReal}, '${realHeadline.replace(/'/g, "\\'")}')">
+                    
+                    <!-- Decorative Accent Bar (Hidden by default, shown on hover/selection) -->
+                    <div class="accent-bar absolute top-0 left-0 w-1 h-full bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <div class="p-6 md:p-8 flex flex-col justify-center h-full relative z-10">
+                        <!-- Fake Metadata Tags -->
+                        <div class="flex items-center gap-2 mb-3 opacity-70">
+                            <span class="text-[10px] font-bold text-red-500 uppercase tracking-widest">Breaking News</span>
+                            <span class="w-1 h-1 rounded-full bg-gray-500"></span>
+                            <span class="text-[10px] font-medium text-gray-400 uppercase">World</span>
+                        </div>
+                        
+                        <h3 class="font-serif text-xl md:text-2xl text-white font-bold leading-snug text-left">
+                            ${text}
+                        </h3>
+                        
+                        <div class="mt-4 flex items-center text-gray-500 text-xs space-x-2">
+                            <span>2 hours ago</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            optionsContainer.innerHTML = isFirstOptionReal 
+                ? createCard(realHeadline, true) + createCard(fakeHeadline, false)
+                : createCard(fakeHeadline, false) + createCard(realHeadline, true);
+        }
+
+        window.checkEmbeddedQuizAnswer = (cardElement, isCorrect, realHeadline) => {
+            // Disable all clicks
+            const cards = document.querySelectorAll('.quiz-card');
+            cards.forEach(c => c.onclick = null);
+
+            // Style cards
+            cards.forEach(c => {
+                // If this is the card that was clicked
+                if(c === cardElement) {
+                   if(isCorrect) c.classList.add('correct');
+                   else c.classList.add('wrong');
+                } else {
+                   // If this is the OTHER card, but it was the correct one
+                   if(!isCorrect) c.classList.add('correct'); 
+                }
+            });
+
+            const resultDiv = document.getElementById('embedded-quiz-result');
+            const resultHeader = document.getElementById('embedded-quiz-result-header');
+            const resultText = document.getElementById('embedded-quiz-result-text');
+
+            resultDiv.classList.remove('hidden');
+
+            if (isCorrect) {
+                resultHeader.innerHTML = `<span class="text-green-500">Correct.</span>`;
+                
+                let content = `You identified the actual headline published by Western media. The swapped version highlights how absurd or different the reporting would sound if the roles were reversed.`;
+                
+                if (currentQuizArticle) {
+                    content += `
+                        <div class="mt-4 p-4 bg-black/30 rounded-lg border border-white/10 text-left">
+                            <h4 class="text-white font-bold text-sm mb-1">Original Article Source</h4>
+                            <p class="text-gray-400 text-xs mb-3 italic">"${currentQuizArticle.summary}"</p>
+                            <a href="${currentQuizArticle.link}" target="_blank" class="text-red-400 hover:text-red-300 text-xs font-semibold flex items-center group">
+                                Read Full Story on ${currentQuizArticle.source}
+                                <svg class="w-3 h-3 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
+                        </div>
+                    `;
+                }
+                
+                resultText.innerHTML = content;
+            } else {
+                resultHeader.innerHTML = `<span class="text-red-500">Incorrect.</span>`;
+                resultText.innerHTML = `This was a trick. The real headline was: <br><strong class="text-white block mt-2 mb-1">"${realHeadline}"</strong><br>The version you selected uses language often applied to one side, but when applied to the other, it reveals a deep bias in framing.`;
+            }
+        }
+
         // --- FILTER POPULATION LOGIC ---
         function populateFilters() {
             const tags = [...new Set(articles.map(a => a.category))].sort();
             const sources = [...new Set(articles.map(a => a.source))].sort();
-            // Removed regions logic
 
             const createCheckbox = (value, type) => `
                 <label class="flex items-center space-x-2 cursor-pointer group">
@@ -8136,11 +8382,9 @@ source: "Haaretz"
 
             const tagContainer = document.getElementById('tag-filters');
             const sourceContainer = document.getElementById('source-filters');
-            // Removed regionContainer
 
             if (tagContainer) tagContainer.innerHTML = tags.map(t => createCheckbox(t, 'tag')).join('');
             if (sourceContainer) sourceContainer.innerHTML = sources.map(s => createCheckbox(s, 'source')).join('');
-            // Removed regionContainer population
         }
 
         // --- INITIALIZATION & EVENT LISTENERS ---
@@ -8161,6 +8405,9 @@ source: "Haaretz"
             updateBiasToolPreview(); // Initial call
             setupCarousel(); // Initialize Carousel
             populateFilters(); // Populate the sidebar filters
+            
+            // Initialize the Embedded Quiz
+            initEmbeddedQuiz();
 
             // Mobile Menu Logic
             const menuBtn = document.getElementById('mobile-menu-button');
@@ -8326,6 +8573,28 @@ source: "Haaretz"
                     biasSection.classList.remove('hidden');
                     if(biasBtn) biasBtn.innerText = 'Close Bias Tool';
                     biasSection.scrollIntoView({ behavior: 'smooth' });
+                    // Close dropdowns if open
+                    const toolsMenu = document.getElementById('tools-menu-dropdown');
+                    if(toolsMenu) toolsMenu.classList.add('hidden');
+                });
+            });
+
+            // Nav "Timeline" Link Logic (Handle hidden section)
+            document.querySelectorAll('a[href="#casualty-graph"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const section = document.getElementById('casualty-graph');
+                    section.classList.remove('hidden');
+                    const btn = document.getElementById('view-timeline-btn');
+                    if(btn) btn.innerText = 'Close Timeline';
+                    section.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Ensure chart resizes correctly
+                    if (window.myCasualtyChart) window.myCasualtyChart.resize();
+
+                    // Close dropdowns if open
+                    const toolsMenu = document.getElementById('tools-menu-dropdown');
+                    if(toolsMenu) toolsMenu.classList.add('hidden');
                 });
             });
 
@@ -8387,11 +8656,28 @@ source: "Haaretz"
                     resMenu.classList.toggle('hidden'); 
                 });
             }
+
+            // Tools Dropdown Logic
+            const toolsBtn = document.getElementById('tools-menu-button');
+            const toolsMenu = document.getElementById('tools-menu-dropdown');
+            if(toolsBtn) {
+                toolsBtn.addEventListener('click', (e) => { 
+                    e.stopPropagation(); 
+                    // Close other menus if open
+                    const resMenu = document.getElementById('resources-menu-dropdown');
+                    if(resMenu) resMenu.classList.add('hidden');
+                    const archMenu = document.getElementById('archive-menu-dropdown');
+                    if(archMenu) archMenu.classList.add('hidden');
+
+                    toolsMenu.classList.toggle('hidden'); 
+                });
+            }
             
             // Global Click to Close Dropdowns
             window.addEventListener('click', () => { 
                 if(resMenu) resMenu.classList.add('hidden'); 
                 if(archMenu) archMenu.classList.add('hidden');
+                if(toolsMenu) toolsMenu.classList.add('hidden');
             });
 
             // Logo Scroll Top
