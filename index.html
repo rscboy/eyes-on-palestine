@@ -100,7 +100,9 @@
         .hero-section::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 300px;
             background: radial-gradient(ellipse at top, rgba(206, 17, 38, 0.15), transparent);
         }
@@ -488,32 +490,6 @@
                             <button id="view-timeline-btn" class="btn-secondary px-8 py-4 rounded-full text-lg font-semibold w-full sm:w-auto text-center">View Timeline</button>
                             <button id="view-bias-tool-btn" class="btn-secondary px-8 py-4 rounded-full text-lg font-semibold w-full sm:w-auto text-center">Racial Bias Tool</button>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- NARRATIVE TEST EMBEDDED SECTION -->
-        <section id="narrative-test-section" class="py-12 bg-gradient-to-b from-black to-[#1a1a1a] border-b border-white/5">
-            <div class="container mx-auto px-6 max-w-3xl">
-                <div class="text-center mb-8">
-                    <span class="bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider animate-pulse">Live Reality Check</span>
-                    <h2 class="text-2xl md:text-3xl font-bold text-white mt-3 mb-2">The Narrative Test</h2>
-                    <p class="text-sm text-gray-400">Can you identify which headline was actually published?</p>
-                </div>
-                
-                <div class="bg-[#151515] border border-white/10 rounded-xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
-                    <!-- Decorative Background Element -->
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="embedded-quiz-options">
-                        <!-- Options injected via JS -->
-                    </div>
-
-                    <div id="embedded-quiz-result" class="hidden mt-8 text-center animate-fade-in-up border-t border-white/5 pt-6">
-                        <div id="embedded-quiz-result-header" class="text-xl font-bold mb-2"></div>
-                        <div id="embedded-quiz-result-text" class="text-gray-300 text-sm leading-relaxed"></div>
-                        <button onclick="initEmbeddedQuiz()" class="mt-6 btn-secondary px-6 py-2 rounded-full text-xs font-bold border-white/20 hover:bg-white/5 transition">Test Another Headline</button>
                     </div>
                 </div>
             </div>
@@ -919,6 +895,32 @@
                         <h4 class="font-bold text-xl mb-3 text-white">Zionist or Nazi?</h4>
                         <p class="text-gray-400 text-sm mb-4 flex-grow">A quiz distinguishing the rhetoric.</p>
                         <a href="https://zionism.wtf/#zionist-or-nazi" target="_blank" class="mt-auto btn-dark-uniform font-bold py-2 px-6 rounded-full text-sm">Take the Quiz</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NARRATIVE TEST EMBEDDED SECTION (MOVED HERE) -->
+        <section id="narrative-test-section" class="py-12 bg-gradient-to-b from-black to-[#1a1a1a] border-b border-white/5">
+            <div class="container mx-auto px-6 max-w-3xl">
+                <div class="text-center mb-8">
+                    <span class="bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider animate-pulse">Live Reality Check</span>
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mt-3 mb-2">The Narrative Test</h2>
+                    <p class="text-sm text-gray-400">Can you identify which headline was actually published?</p>
+                </div>
+                
+                <div class="bg-[#151515] border border-white/10 rounded-xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+                    <!-- Decorative Background Element -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="embedded-quiz-options">
+                        <!-- Options injected via JS -->
+                    </div>
+
+                    <div id="embedded-quiz-result" class="hidden mt-8 text-center animate-fade-in-up border-t border-white/5 pt-6">
+                        <div id="embedded-quiz-result-header" class="text-xl font-bold mb-2"></div>
+                        <div id="embedded-quiz-result-text" class="text-gray-300 text-sm leading-relaxed"></div>
+                        <button onclick="initEmbeddedQuiz()" class="mt-6 btn-secondary px-6 py-2 rounded-full text-xs font-bold border-white/20 hover:bg-white/5 transition">Test Another Headline</button>
                     </div>
                 </div>
             </div>
