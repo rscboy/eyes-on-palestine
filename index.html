@@ -46,10 +46,10 @@
             --accent-gold: #D4AF37;
         }
 
-           /* Global Styles */
+        /* Global Styles */
         html {
             /* Removed scroll-behavior: smooth to prevent mobile crashes on long pages. 
-               We handle smooth scrolling via JS instead. */
+                We handle smooth scrolling via JS instead. */
         }
 
         body {
@@ -337,13 +337,9 @@
     <header class="nav-glass fixed w-full top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <a href="#" id="nav-logo" class="flex items-center space-x-3 transition-opacity hover:opacity-80">
-                    <span class="text-xl font-bold">
-                        <span class="text-red-500">Echoes</span>
-                        <span class="text-white">of</span>
-                        <span class="text-green-500">Gaza</span>
-                    </span>
+                <!-- Logo: UPDATED - Removed divider bars -->
+                <a href="#" id="nav-logo" class="flex flex-col items-center transition-opacity hover:opacity-80">
+                    <span class="text-sm font-serif font-medium text-white tracking-widest uppercase">ECHOES OF GAZA</span>
                 </a>
 
                 <!-- Desktop Menu -->
@@ -446,12 +442,14 @@
         <!-- Hero Section -->
         <section class="hero-section pt-32 pb-8 md:pt-20 md:pb-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-                <div class="text-center">
-                    <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
-                        <span class="text-white">A Record of</span>
-                        <span class="bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent">Genocide</span>
+                <div class="text-center flex flex-col items-center">
+                    <!-- Main Headline: The Genocide Archive. REDUCED FONT SIZES -->
+                    <h1 class="font-serif font-extrabold text-6xl sm:text-7xl md:text-8xl mb-4 leading-none">
+                        <span class="text-white block">The Genocide</span>
+                        <span class="block bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent">Archive</span>
                     </h1>
 
+                    <!-- Original Description -->
                     <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
                         An historical archive documenting war crimes, crimes against humanity, and systematic aggression committed by the state of Israel against Palestinian civilians since October 7, 2023.
                     </p>
@@ -708,9 +706,9 @@
                 </div>
 
                 <div id="filter-controls" class="mb-8 p-6 rounded-xl filter-panel hidden">
-                      <!-- Filters Grid (Date, Tag, Source) - Removed Region -->
-                      <!-- Changed lg:grid-cols-4 to lg:grid-cols-3 -->
-                      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Filters Grid (Date, Tag, Source) - Removed Region -->
+                    <!-- Changed lg:grid-cols-4 to lg:grid-cols-3 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div>
                             <h4 class="font-bold text-lg mb-3 text-red-400">Filter by Date</h4>
                             <div class="flex flex-col space-y-2">
@@ -721,11 +719,11 @@
                         <div><h4 class="font-bold text-lg mb-3 text-red-400">Filter by Tag</h4><div id="tag-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2"></div></div>
                         <div><h4 class="font-bold text-lg mb-3 text-red-400">Filter by Source</h4><div id="source-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2"></div></div>
                         <!-- Removed Filter by Region div -->
-                      </div>
-                      <div class="mt-6 border-t border-white/10 pt-6 flex items-center space-x-4">
+                    </div>
+                    <div class="mt-6 border-t border-white/10 pt-6 flex items-center space-x-4">
                         <button id="filter-button" class="btn-primary font-bold py-2 px-6 rounded-full text-sm">Apply Filters</button>
                         <button id="clear-button" class="filter-chip py-2 px-6 rounded-full text-sm">Clear Filters</button>
-                      </div>
+                    </div>
                 </div>
 
                 <div id="article-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
@@ -976,6 +974,7 @@
     <footer id="footer" class="bg-black border-t border-white/10 pt-12 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-8">
             <div class="md:w-1/3 space-y-4">
+                <!-- Kept original footer style for visual separation from the nav/hero look -->
                 <span class="text-xl font-bold"><span class="text-red-500">Echoes</span> <span class="text-white">of</span> <span class="text-green-500">Gaza</span></span>
                 <p class="text-gray-500 text-sm">Preserving truth, resisting erasure.</p>
                 <!-- Translate -->
@@ -1016,8 +1015,8 @@
 
     <script type="module">
         // --- GLOBAL DATA ---
-        let currentQuizArticle = null; // Add to top scope for quiz logic
-
+        // FIX: Re-declare with 'let' to ensure it's properly scoped within the module, fixing ReferenceError.
+        let currentQuizArticle = null; 
         let articles = [
             // Sample Articles (add more actual data here if needed)
              {
@@ -7726,8 +7725,7 @@ source: "Haaretz"
         imageUrl: "https://s3.amazonaws.com/nightjarprod/content/uploads/sites/216/2025/01/25212539/s7XYieuZg9kMe07i9VI4bfGN4Pw.jpg",
         year: "2024"
     }, ];
-       // Pagination State
-        let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+          let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let articleLimit = 30; // Default limit
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
         
@@ -7980,7 +7978,7 @@ source: "Haaretz"
                     <img src="${v.imageUrl}" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Thumbnail';">
                     <div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/30 transition-colors">
                         <div class="w-16 h-16 rounded-full bg-red-600/90 flex items-center justify-center pl-1 shadow-xl transform group-hover:scale-110 transition duration-300">
-                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                         </div>
                     </div>
                     <a href="${v.link}" target="_blank" class="absolute inset-0 z-10" aria-label="Watch video"></a>
@@ -8258,7 +8256,7 @@ source: "Haaretz"
             const highlightColor = titlesSwapped ? 'text-green-400' : 'text-red-400';
             
             const highlighted = displayedTitle.replace(regex, (match) => {
-                 return `<span class="${highlightColor} font-bold">${match}</span>`;
+                    return `<span class="${highlightColor} font-bold">${match}</span>`;
             });
             
             previewEl.innerHTML = highlighted;
@@ -8393,11 +8391,9 @@ source: "Haaretz"
         document.addEventListener('DOMContentLoaded', () => {
             currentlyDisplayedArticles = [...articles];
             
-            // Sort Videos by Date (Newest First)
-            videos.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            // Sort Films by Date (Newest First)
-            films.sort((a, b) => new Date(b.date) - new Date(a.date));
+            // FIX: Use spread syntax to sort a copy, ensuring .sort() can be called.
+            videos = [...videos].sort((a, b) => new Date(b.date) - new Date(a.date));
+            films = [...films].sort((a, b) => new Date(b.date) - new Date(a.date));
 
             renderArticles(currentlyDisplayedArticles);
             renderBooks(); renderFilms(); renderVideos();
