@@ -1,5 +1,4 @@
 ---
-permalink: /archive.html
 layout: null
 ---
 <!DOCTYPE html>
@@ -156,8 +155,6 @@ layout: null
         <div class="document-container">
             <!-- 
                 Using the /preview endpoint is CRITICAL.
-                /view -> opens standard Google Drive Viewer (often has toolbars)
-                /preview -> opens just the document (best for embedding)
             -->
             <iframe 
                 src="https://drive.google.com/file/d/1GKU2PSNyv7TN2Kdt86sXi294CXnQJ79E/preview"
