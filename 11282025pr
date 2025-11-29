@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Document</title>
     <style>
-        /* Reset all margins and make the body take up the full screen 
-           so the embedded PDF looks like a native app.
-        */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             width: 100%;
-            overflow: hidden; /* Prevents double scrollbars */
+            overflow: hidden; /* Prevents scrollbars on the main window */
             background-color: #1a1a1a;
         }
         
@@ -28,21 +25,13 @@
 <body>
 
     <!-- 
-        This embeds the PDF/Website directly into this page.
-        Most browsers (including Safari on Mac) have a built-in PDF viewer 
-        that will trigger inside this frame.
+        The Google Drive file is now hardcoded. 
+        Note the '/preview' at the end of the URL - this is crucial for embedding.
     -->
     <iframe 
-        src="https://eog-11282025pr.tiiny.site/"
+        src="https://drive.google.com/file/d/1GKU2PSNyv7TN2Kdt86sXi294CXnQJ79E/preview"
         title="Embedded Content"
         allowfullscreen>
-        
-        <!-- Fallback message if the browser absolutely refuses to embed -->
-        <div style="color: white; text-align: center; padding-top: 50px;">
-            <p>Your browser is unable to display this content securely.</p>
-            <a href="https://eog-11282025pr.tiiny.site/" target="_blank" style="color: #4CAF50;">Click here to view it</a>
-        </div>
-        
     </iframe>
 
 </body>
