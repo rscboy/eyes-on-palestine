@@ -3,72 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
-    
-    <!-- Method 1: Meta Refresh (Immediate) -->
-    <meta http-equiv="refresh" content="0;url=https://eog-11282025pr.tiiny.site/">
-    
+    <title>Game Document</title>
     <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+        /* Reset all margins and make the body take up the full screen 
+           so the embedded PDF looks like a native app.
+        */
+        body, html {
             margin: 0;
-            background-color: #f3f4f6;
-            color: #374151;
-            text-align: center;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* Prevents double scrollbars */
+            background-color: #1a1a1a;
         }
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 90%;
-        }
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3b82f6;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem auto;
-        }
-        a {
-            color: #3b82f6;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
         }
     </style>
-
-    <script>
-        // Method 2: JavaScript Redirect (Primary)
-        // usage of .replace() ensures the user can use the 'Back' button 
-        // without getting stuck in a redirect loop.
-        window.onload = function() {
-            window.location.replace("https://eog-11282025pr.tiiny.site/");
-        }
-    </script>
 </head>
 <body>
-    <div class="container">
-        <div class="spinner"></div>
-        <p>Redirecting you...</p>
-        <p style="font-size: 0.9em; color: #6b7280;">
-            If you are not redirected automatically, 
-            <a href="https://eog-11282025pr.tiiny.site/">click here</a>.
-        </p>
-    </div>
+
+    <!-- 
+        This embeds the PDF/Website directly into this page.
+        Most browsers (including Safari on Mac) have a built-in PDF viewer 
+        that will trigger inside this frame.
+    -->
+    <iframe 
+        src="https://eog-11282025pr.tiiny.site/"
+        title="Embedded Content"
+        allowfullscreen>
+        
+        <!-- Fallback message if the browser absolutely refuses to embed -->
+        <div style="color: white; text-align: center; padding-top: 50px;">
+            <p>Your browser is unable to display this content securely.</p>
+            <a href="https://eog-11282025pr.tiiny.site/" target="_blank" style="color: #4CAF50;">Click here to view it</a>
+        </div>
+        
+    </iframe>
+
 </body>
 </html>
