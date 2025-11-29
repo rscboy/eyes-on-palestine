@@ -278,6 +278,17 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); position: relative;
         }
 
+        /* Special Press Release Modal Styles */
+        #press-release-modal {
+            z-index: 2000; /* Higher than standard modals to ensure visibility */
+            backdrop-filter: blur(8px);
+        }
+        .press-modal-content {
+            background: linear-gradient(145deg, #0a0a0a 0%, #151515 100%);
+            border: 1px solid rgba(206, 17, 38, 0.3);
+            box-shadow: 0 0 40px rgba(206, 17, 38, 0.15);
+        }
+
         /* Mobile Modal Adjustments */
         @media (max-width: 640px) {
             .modal-content-article {
@@ -974,8 +985,10 @@
     <footer id="footer" class="bg-black border-t border-white/10 pt-12 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-8">
             <div class="md:w-1/3 space-y-4">
-                <!-- Kept original footer style for visual separation from the nav/hero look -->
-                <span class="text-xl font-bold"><span class="text-red-500">Echoes</span> <span class="text-white">of</span> <span class="text-green-500">Gaza</span></span>
+                <!-- Updated footer logo to match nav bar exactly -->
+                <div class="flex flex-col items-start transition-opacity hover:opacity-80">
+                    <span class="text-sm font-serif font-medium text-white tracking-widest uppercase">ECHOES OF GAZA</span>
+                </div>
                 <p class="text-gray-500 text-sm">Preserving truth, resisting erasure.</p>
                 <!-- Translate -->
                 <div id="google_translate_element"></div>
@@ -1004,6 +1017,34 @@
             <!-- Changed text-red-500 to text-black and bg-black/50 to bg-white/50 for contrast -->
             <span class="close-button text-4xl text-black hover:text-gray-700 bg-white/50 hover:bg-white rounded-full p-2 transition-colors" onclick="document.getElementById('random-article-modal').classList.remove('is-visible')">&times;</span>
             <div id="random-article-body"></div>
+        </div>
+    </div>
+
+    <!-- PRESS RELEASE MODAL -->
+    <div id="press-release-modal" class="modal">
+        <div class="modal-content-article press-modal-content max-w-lg mx-auto relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-red-600/10 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none"></div>
+            
+            <span class="close-button text-2xl" onclick="document.getElementById('press-release-modal').classList.remove('is-visible')">&times;</span>
+            
+            <div class="p-8 text-center flex flex-col items-center">
+                <span class="bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider mb-4 shadow-lg shadow-red-900/40">Official Statement</span>
+                
+                <p class="text-gray-500 text-xs font-bold tracking-widest uppercase mb-2">November 28, 2025</p>
+                
+                <h2 class="font-serif text-xl md:text-2xl text-white font-bold mb-6 leading-tight">PRESS RELEASE: Dayton Jewish Observer Covers Anti-Zionism & Echoes of Gaza Archive</h2>
+
+                <p class="text-gray-300 text-xs md:text-sm mb-6 leading-relaxed text-left bg-white/5 p-4 rounded-lg border border-white/10">
+                    "It is not every day a Jewish anti-Zionist voice appears in a Jewish community paper... Zionism is being questioned more openly within Jewish communities, and even long-standing institutions are beginning to reflect that change." <br><span class="block mt-2 text-right text-gray-500 text-[10px] uppercase font-bold">— Samuel Caruso, Director</span>
+                </p>
+                
+                <div class="w-full h-px bg-gradient-to-r from-transparent via-red-900/50 to-transparent mb-6"></div>
+                
+                <a href="https://echoesofgaza.org/11282025pr" target="_blank" class="btn-primary w-full py-4 px-6 rounded-lg text-sm font-bold shadow-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2 group">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Read Full Statement
+                </a>
+            </div>
         </div>
     </div>
 
@@ -8227,7 +8268,7 @@ source: "Haaretz"
                                 <div class="relative">
                                     <button onclick="window.toggleShareMenu('${uniqueId}')" class="flex items-center space-x-2 bg-[#2A2A2A] hover:bg-[#333] text-gray-300 hover:text-white px-4 py-2 rounded-xl transition-all duration-200 shadow-sm group-share">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-                                        <span class="text-sm font-medium">Share</span>
+                                            <span class="text-sm font-medium">Share</span>
                                     </button>
                                     <div id="${uniqueId}" class="share-popover absolute bottom-full right-0 mb-2 w-48 p-2 rounded-md hidden bg-gray-800/95 backdrop-blur-md border border-gray-700 shadow-xl z-50">
                                         <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.shareOnTwitter('${safeLink}', '${safeTitle}'); document.getElementById('${uniqueId}').classList.add('hidden');">
@@ -8972,6 +9013,26 @@ source: "Haaretz"
             document.getElementById('nav-logo').addEventListener('click', (e) => {
                 e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+
+            // --- PRESS RELEASE POPUP LOGIC ---
+            // Expires Dec 5th 2025. Shows immediately, hides after 16 seconds.
+            const now = new Date();
+            const expiryDate = new Date('2025-12-05T23:59:59'); 
+            
+            // Show only if current date is before expiry
+            if (now < expiryDate) {
+                const popup = document.getElementById('press-release-modal');
+                if(popup) {
+                    // Show immediately
+                    popup.classList.add('is-visible');
+                    
+                    // Auto-close after 16 seconds
+                    setTimeout(() => {
+                        popup.classList.remove('is-visible');
+                    }, 16000);
+                }
+            }
+
         });
     </script>
 </body>
