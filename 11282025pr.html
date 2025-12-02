@@ -77,6 +77,17 @@
             text-transform: uppercase;
         }
 
+        /* Specific style for the Header Link */
+        .header-link {
+            color: inherit; /* Keeps text white by default */
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .header-link:hover {
+            color: var(--pal-green); /* Turns palette green on hover */
+        }
+
         .subtitle {
             color: #ccc;
             font-size: 0.8rem;
@@ -167,7 +178,9 @@
 <body>
 
     <header>
-        <h1>Official Press Release</h1>
+        <h1>
+            <a href="https://echoesofgaza.org" class="header-link">Official Press Release</a>
+        </h1>
         <div class="subtitle">ARCHIVED REPORT • 11.28.2025</div>
     </header>
 
