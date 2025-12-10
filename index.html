@@ -378,14 +378,15 @@
                     <a href="https://echoesofgaza.org/collab" target="_blank" class="btn-primary px-6 py-2 rounded-full text-sm font-semibold hidden md:block">
                         Submit Evidence
                     </a>
-
-                    <div class="flex items-center space-x-4 md:hidden">
-                        <button id="mobile-menu-button" class="text-white">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                            </svg>
-                        </button>
-                    </div>
+                </nav>
+                
+                <!-- MOBILE MENU BUTTON (Moved outside of the desktop <nav> tag) -->
+                <div class="flex items-center space-x-4 md:hidden">
+                    <button id="mobile-menu-button" class="text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -906,7 +907,7 @@
         let currentQuizArticle = null;
         let carouselItems = [];
         let currentSlide = 0;
-       
+    
         let articles = [
             // Sample Articles (add more actual data here if needed)
              {
@@ -8396,6 +8397,30 @@ source: "Haaretz"
         let articleLimit = 30;
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
 
+        // Helper to escape single quotes for embedding a string inside an HTML onclick attribute's single quotes
+        function escapeHtmlAttribute(str) {
+            return str.replace(/'/g, "\\'");
+        }
+
+        // Helper to format date in the desired 'Month Dayth, YYYY' format
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString.replace(/-/g, '/')); // Use forward slashes for safer parsing
+            if (isNaN(date)) return dateString;
+
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formatted = date.toLocaleDateString('en-US', options);
+            
+            // Custom logic to add ordinal suffix (for "10th", "12th" etc.)
+            const day = date.getDate();
+            let suffix = 'th';
+            if (day % 10 === 1 && day % 100 !== 11) suffix = 'st';
+            else if (day % 10 === 2 && day % 100 !== 12) suffix = 'nd';
+            else if (day % 10 === 3 && day % 100 !== 13) suffix = 'rd';
+
+            return formatted.replace(/(\d+)/, (match) => match + suffix);
+        }
+
         // Global functions for HTML interaction
         window.shareOnTwitter = (url, title) => { window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank'); };
         window.shareOnFacebook = (url) => { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank'); };
@@ -8466,8 +8491,9 @@ source: "Haaretz"
 
             // Filter Articles
             const filtered = articles.filter(a => {
-                const d = new Date(a.date);
-                return d >= startDate && d <= endDate;
+                const d = new Date(a.date.replace(/-/g, '/'));
+                const endOfDay = new Date(endDate.setHours(23, 59, 59, 999));
+                return d >= startDate && d <= endOfDay;
             });
 
             currentlyDisplayedArticles = filtered;
@@ -8478,19 +8504,19 @@ source: "Haaretz"
         }
 
         function generateShareMenu(url, title, type, uniqueId) {
-            const escapedTitle = title.replace(/"/g, '&quot;');
-            const escapedUrl = url.replace(/"/g, '&quot;');
-            const linkTarget = type === 'article' ? `https://archive.is/oldest/${url}` : url;
-
+            // Use escapeHtmlAttribute to prevent breaking the onclick string
+            const cleanTitle = escapeHtmlAttribute(title);
+            const cleanUrl = escapeHtmlAttribute(url);
+            
             return `
             <div id="popover-${uniqueId}" class="share-popover absolute bottom-full right-0 mb-2 w-48 p-2 rounded-md hidden bg-gray-800/95 backdrop-blur-md border border-gray-700 shadow-xl z-50">
-                <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.shareOnTwitter('${escapedUrl}', '${escapedTitle}'); document.getElementById('popover-${uniqueId}').classList.add('hidden');">
+                <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.shareOnTwitter('${cleanUrl}', '${cleanTitle}'); document.getElementById('popover-${uniqueId}').classList.add('hidden'); event.stopPropagation();">
                     <span>Share on X</span>
                 </div>
-                <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.shareOnFacebook('${escapedUrl}'); document.getElementById('popover-${uniqueId}').classList.add('hidden');">
+                <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.shareOnFacebook('${cleanUrl}'); document.getElementById('popover-${uniqueId}').classList.add('hidden'); event.stopPropagation();">
                     <span>Share on Facebook</span>
                 </div>
-                <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.copyLink('${escapedUrl}', '${escapedTitle}', '${uniqueId}')">
+                <div class="p-3 text-sm text-gray-200 hover:bg-white/10 rounded cursor-pointer flex items-center gap-2" onclick="window.copyLink('${cleanUrl}', '${cleanTitle}', '${uniqueId}'); event.stopPropagation();">
                     <span>Copy Link</span>
                 </div>
             </div>`;
@@ -8528,8 +8554,8 @@ source: "Haaretz"
             
             // Apply sorting and bias toggle logic
             const sorted = [...articlesToDisplay].sort((a, b) => {
-                const da = new Date(a.date).getTime();
-                const db = new Date(b.date).getTime();
+                const da = new Date(a.date.replace(/-/g, '/')).getTime();
+                const db = new Date(b.date.replace(/-/g, '/')).getTime();
                 return currentSortOrder === 'newest' ? db - da : da - db;
             });
 
@@ -8538,14 +8564,17 @@ source: "Haaretz"
             document.getElementById('total-count').innerText = articles.length;
 
             if (sorted.length === 0) {
-                grid.innerHTML = `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center">No articles match.</p>`;
+                grid.innerHTML = `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center">No articles match the current filters.</p>`;
                 return;
             }
 
             grid.innerHTML = sorted.map((article) => {
                 const archiveLink = `https://archive.is/oldest/${article.link}`;
-                const safeTitle = article.title.replace(/'/g, "\\'");
-                const safeSummary = article.summary.replace(/'/g, "\\'");
+                // Use the original title/summary for story creator, clean link/title for sharing
+                const safeTitle = escapeHtmlAttribute(article.title);
+                const safeSummary = escapeHtmlAttribute(article.summary);
+                const cleanLink = escapeHtmlAttribute(article.link);
+                
                 const safeImage = article.imageUrl;
                 const uniqueId = 'share-' + Math.random().toString(36).substr(2, 9);
                 
@@ -8562,24 +8591,25 @@ source: "Haaretz"
                         <div class="flex flex-col flex-grow px-6 py-6">
                             <div class="flex justify-between items-start mb-4">
                                 <span class="bg-[#1E3A8A] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-sm">${article.category}</span>
-                                <span class="text-[#A0A0A0] text-sm font-medium">${article.date}</span>
+                                <span class="text-[#A0A0A0] text-sm font-medium">${formatDate(article.date)}</span>
                             </div>
                             <h3 onclick="window.open('${archiveLink}', '_blank')" class="text-white font-bold text-xl mb-3 leading-tight line-clamp-3 group-hover:text-red-400 transition-colors">${displayTitle}</h3>
                             <p onclick="window.open('${archiveLink}', '_blank')" class="text-[#C0C0C0] text-base leading-relaxed mb-4 line-clamp-3 flex-grow">${displaySummary}</p>
                             
                             <div class="mt-auto flex justify-between pt-4 border-t border-white/5 items-center">
-                                <div class="text-[#A0A0A0] text-xs w-1/3 truncate">Source: <span class="font-semibold text-gray-300">${article.source}</span></div>
-                                <div class="flex items-center gap-2 relative">
+                                <!-- FIX: Changed w-1/3 to flex-1 to allow source name more room on mobile -->
+                                <div class="flex-1 text-[#A0A0A0] text-xs truncate mr-2">Source: <span class="font-semibold text-gray-300">${article.source}</span></div>
+                                <div class="flex items-center gap-2 relative flex-shrink-0">
                                     <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="flex items-center space-x-1 bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-lg shadow-red-900/20 transform hover:-translate-y-0.5">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                                         <span>Story</span>
                                     </button>
                                     <div class="relative">
-                                        <button onclick="window.toggleShareMenu('popover-${uniqueId}')" class="flex items-center space-x-1 bg-[#2A2A2A] hover:bg-[#333] text-gray-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm border border-white/5">
+                                        <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="flex items-center space-x-1 bg-[#2A2A2A] hover:bg-[#333] text-gray-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm border border-white/5">
                                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                                             <span>Share</span>
                                         </button>
-                                        ${generateShareMenu(article.link, article.title, 'article', uniqueId)} 
+                                        ${generateShareMenu(cleanLink, safeTitle, 'article', uniqueId)} 
                                     </div>
                                 </div>
                             </div>
@@ -8592,6 +8622,9 @@ source: "Haaretz"
             const grid = document.getElementById('book-grid'); if(!grid) return;
             grid.innerHTML = books.map(b => {
                 const uniqueId = 'book-' + Math.random().toString(36).substr(2, 9);
+                const cleanTitle = escapeHtmlAttribute(b.title);
+                const cleanLink = escapeHtmlAttribute(b.link);
+
                 return `
                 <div class="card-modern rounded-2xl overflow-hidden group flex flex-col text-center">
                     <div class="relative h-64 overflow-hidden"><img src="${b.imageUrl}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"><div class="image-overlay"></div></div>
@@ -8599,10 +8632,10 @@ source: "Haaretz"
                         <h4 class="font-semibold text-sm text-gray-100 mb-1">${b.title}</h4>
                         <p class="text-gray-400 text-xs">${b.author}</p>
                         <div class="mt-2 relative inline-block">
-                            <button onclick="window.toggleShareMenu('popover-${uniqueId}')" class="text-xs text-gray-500 hover:text-white flex items-center justify-center gap-1 mx-auto transition">
+                            <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="text-xs text-gray-500 hover:text-white flex items-center justify-center gap-1 mx-auto transition">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg> Share
                             </button>
-                            ${generateShareMenu(b.link, b.title, 'book', uniqueId)}
+                            ${generateShareMenu(cleanLink, cleanTitle, 'book', uniqueId)}
                         </div>
                     </div>
                 </div>`;
@@ -8639,6 +8672,9 @@ source: "Haaretz"
             const grid = document.getElementById('film-grid'); if(!grid) return;
             grid.innerHTML = films.map(f => {
                 const uniqueId = 'film-' + Math.random().toString(36).substr(2, 9);
+                const cleanTitle = escapeHtmlAttribute(f.title);
+                const cleanLink = escapeHtmlAttribute(f.link);
+
                 return `
                 <div class="card-modern rounded-2xl overflow-hidden group flex flex-col">
                     <div class="relative h-56 overflow-hidden"><img src="${f.imageUrl}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"><div class="image-overlay"></div></div>
@@ -8646,10 +8682,10 @@ source: "Haaretz"
                         <h4 class="font-bold text-lg text-gray-100 mb-2 flex-grow">${f.title} (${f.year})</h4>
                         <p class="text-gray-400 text-sm">Dir: ${f.director}</p>
                         <div class="mt-3 relative inline-block">
-                             <button onclick="window.toggleShareMenu('popover-${uniqueId}')" class="text-xs text-gray-500 hover:text-white flex items-center gap-1 transition">
+                             <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="text-xs text-gray-500 hover:text-white flex items-center gap-1 transition">
                                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg> Share
                             </button>
-                            ${generateShareMenu(f.link, f.title, 'film', uniqueId)}
+                            ${generateShareMenu(cleanLink, cleanTitle, 'film', uniqueId)}
                         </div>
                     </div>
                 </div>`;
@@ -8746,7 +8782,7 @@ source: "Haaretz"
              const isFirstOptionReal = Math.random() < 0.5;
              
              const createCard = (text, isReal) => `
-                 <div class="quiz-card p-6 bg-[#1E1E1E] border border-white/10 rounded-xl cursor-pointer hover:border-white/30" onclick="window.checkEmbeddedQuizAnswer(this, ${isReal}, '${realHeadline.replace(/'/g, "\\'")}')">
+                 <div class="quiz-card p-6 bg-[#1E1E1E] border border-white/10 rounded-xl cursor-pointer hover:border-white/30" onclick="window.checkEmbeddedQuizAnswer(this, ${isReal}, '${escapeHtmlAttribute(realHeadline)}')">
                      <div class="flex items-center gap-2 mb-3 opacity-70">
                          <span class="text-[10px] font-bold text-red-500 uppercase tracking-widest">Breaking News</span>
                      </div>
@@ -8860,7 +8896,8 @@ source: "Haaretz"
             // Priority 1: Update Hero Stats immediately (synchronous, simple DOM update)
             updateHeroStats();
             
-            renderArticles(articles);
+            currentlyDisplayedArticles = [...articles]; // Initialize with all articles
+            renderArticles(currentlyDisplayedArticles);
             renderBooks();
             renderVideos();
             renderFilms();
@@ -8880,14 +8917,14 @@ source: "Haaretz"
             // Random Article Modal with Story Button
             document.getElementById('random-article-btn').addEventListener('click', () => {
                 const article = articles[Math.floor(Math.random() * articles.length)];
-                const safeTitle = article.title.replace(/'/g, "\\'");
-                const safeSummary = article.summary.replace(/'/g, "\\'");
+                const safeTitle = escapeHtmlAttribute(article.title);
+                const safeSummary = escapeHtmlAttribute(article.summary);
                 const safeImage = article.imageUrl;
                 document.getElementById('random-article-body').innerHTML = `
                     <div class="relative h-40 sm:h-64 overflow-hidden rounded-t-xl"><img src="${article.imageUrl}" class="w-full h-full object-cover"></div>
                     <div class="p-5 sm:p-8 space-y-3 sm:space-y-4">
                         <h2 class="text-2xl sm:text-3xl font-bold text-white leading-snug">${article.title}</h2>
-                        <div class="text-xs sm:text-sm text-gray-400 border-b border-gray-700 pb-3 sm:pb-4">${article.date}</div>
+                        <div class="text-xs sm:text-sm text-gray-400 border-b border-gray-700 pb-3 sm:pb-4">${formatDate(article.date)}</div>
                         <p class="text-gray-300 text-sm sm:text-lg leading-relaxed">${article.summary}</p>
                         <div class="pt-4 border-t border-gray-700 flex justify-end gap-4">
                             <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="btn-secondary py-2 px-4 rounded-full text-xs font-semibold">Create Story</button>
@@ -8961,8 +8998,8 @@ source: "Haaretz"
                 const selectedSources = getChecked('source');
 
                 let filtered = articles;
-                if (start) filtered = filtered.filter(a => new Date(a.date) >= new Date(start));
-                if (end) filtered = filtered.filter(a => new Date(a.date) <= new Date(end));
+                if (start) filtered = filtered.filter(a => new Date(a.date.replace(/-/g, '/')) >= new Date(start.replace(/-/g, '/')));
+                if (end) filtered = filtered.filter(a => new Date(a.date.replace(/-/g, '/')) <= new Date(end.replace(/-/g, '/')));
                 if (selectedTags.length > 0) filtered = filtered.filter(a => selectedTags.includes(a.category));
                 if (selectedSources.length > 0) filtered = filtered.filter(a => selectedSources.includes(a.source));
 
@@ -8996,12 +9033,31 @@ source: "Haaretz"
             const menuBtn = document.getElementById('mobile-menu-button');
             const menu = document.getElementById('mobile-menu');
             const closeBtn = document.getElementById('close-mobile-menu');
-            if(menuBtn) menuBtn.addEventListener('click', () => menu.classList.remove('translate-x-full'));
-            if(closeBtn) closeBtn.addEventListener('click', () => menu.classList.add('translate-x-full'));
             
+            // Open Menu and Stop Propagation
+            if(menuBtn) menuBtn.addEventListener('click', (e) => {
+                menu.classList.remove('translate-x-full');
+                e.stopPropagation();
+            });
+            // Close Menu
+            if(closeBtn) closeBtn.addEventListener('click', (e) => {
+                menu.classList.add('translate-x-full');
+                e.stopPropagation();
+            });
+            
+            // Close mobile menu when a mobile nav link is clicked (new addition for better UX)
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('translate-x-full');
+                });
+            });
+
             // Window click to close dropdowns
-            window.addEventListener('click', () => {
-                document.querySelectorAll('.share-popover').forEach(p => p.classList.add('hidden'));
+            window.addEventListener('click', (e) => {
+                // Close share popovers unless the target is the share button itself
+                if (!e.target.closest('.share-popover') && !e.target.closest('button[onclick*="toggleShareMenu"]')) {
+                     document.querySelectorAll('.share-popover').forEach(p => p.classList.add('hidden'));
+                }
             });
         });
     </script>
@@ -9051,7 +9107,9 @@ source: "Haaretz"
             const getOrdinal = (n) => {
                 const s = ["th", "st", "nd", "rd"];
                 const v = n % 100;
-                return n + (s[(v - 20) % 10] || s[v] || s[0]);
+                // Special case for 11, 12, 13
+                if (v >= 11 && v <= 13) return n + 'th';
+                return n + (s[v % 10] || s[0]);
             };
 
             // New Function: Generate Daily Update
@@ -9081,7 +9139,7 @@ source: "Haaretz"
                     img.onload = () => resolve(img);
                     img.onerror = () => {
                         // Proxy fallback
-                        const proxyUrl = `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=1080&h=1080&fit=cover`;
+                        const proxyUrl = `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=3840&h=3840&fit=cover&a=top`;
                         const proxyImg = new Image();
                         proxyImg.crossOrigin = "anonymous";
                         proxyImg.onload = () => resolve(proxyImg);
@@ -9131,11 +9189,26 @@ source: "Haaretz"
                 if (imgUrl) {
                     try {
                         const img = await loadUnknownImage(imgUrl);
-                        // Calculate aspect ratio preserving scale (cover fit)
-                        const scale = Math.max(size / img.width, size / img.height);
-                        const x = (size / 2) - (img.width / 2) * scale;
-                        const y = (size / 2) - (img.height / 2) * scale;
-                        ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+                        // Center crop the image to fill the canvas
+                        const imgAspect = img.width / img.height;
+                        const canvasAspect = size / size; // 1.0
+                        let sx, sy, sw, sh;
+
+                        if (imgAspect > canvasAspect) { // Image is wider than canvas (landscape)
+                            sw = img.height * canvasAspect;
+                            sh = img.height;
+                            sx = (img.width - sw) / 2;
+                            sy = 0;
+                        } else { // Image is taller than canvas (portrait or square)
+                            sw = img.width;
+                            sh = img.width / canvasAspect;
+                            sx = 0;
+                            sy = (img.height - sh) / 2;
+                        }
+
+                        // Draw the cropped image to fill the canvas
+                        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, size, size);
+
                     } catch (e) {
                         // Fallback gradient if image fails
                         const gradient = ctx.createLinearGradient(0, 0, size, size);
@@ -9272,14 +9345,12 @@ source: "Haaretz"
                             text: 'Read more at echoesofgaza.org'
                         });
                     } catch (error) {
-                        console.log('Sharing failed', error);
+                        // The user likely cancelled the share dialog
+                        console.log('Sharing failed or cancelled', error);
                     }
                 } else {
                     // 4. Fallback to Download for Desktop
-                    const link = document.createElement('a');
-                    link.download = file.name;
-                    link.href = canvasRef.current.toDataURL('image/png');
-                    link.click();
+                    downloadImage();
                 }
             };
 
@@ -9381,7 +9452,7 @@ source: "Haaretz"
                                     onClick={shareStory}
                                     className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-red-900/30 hover:shadow-red-900/50 hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-3 group"
                                 >
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
                                     <span>Share to Story</span>
                                 </button>
                                 <p className="text-center text-[10px] text-gray-600 mt-3 uppercase tracking-widest">Tap to share on mobile • Downloads on desktop</p>
