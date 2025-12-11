@@ -742,11 +742,12 @@
                         </div>
                     </div>
                     <div id="victim-pagination-controls" class="flex items-center space-x-2 flex-shrink-0">
-                        <button id="victim-prev-btn" class="filter-chip text-sm font-medium py-2 px-4 rounded-full">&lt; Prev</button>
-                        <span id="victim-page-info" class="text-sm text-gray-400">Page 1</span>
-                        <button id="victim-next-btn" class="filter-chip text-sm font-medium py-2 px-4 rounded-full">Next &gt;</button>
+                        <button id="victim-prev-btn" class="filter-chip text-sm font-medium py-2 px-4 rounded-full" disabled>&lt; Prev</button>
+                        <span id="victim-page-info" class="text-sm text-gray-400">Page 1 of 1</span>
+                        <button id="victim-next-btn" class="filter-chip text-sm font-medium py-2 px-4 rounded-full" disabled>Next &gt;</button>
                     </div>
                 </div>
+                <p id="victim-total-count" class="text-center text-sm text-gray-500 mb-4">Total Victims Loaded: 0</p>
                 <div id="victim-loading-spinner" class="flex justify-center items-center py-10"><div class="spinner"></div></div>
                 <div id="victim-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 max-w-6xl mx-auto"></div>
             </div>
@@ -909,6 +910,7 @@
         let currentQuizArticle = null;
         let carouselItems = [];
         let currentSlide = 0;
+  
    
         let articles = [
             // Sample Articles (add more actual data here if needed)
@@ -8395,7 +8397,7 @@ source: "Haaretz"
         year: "2024"
     },
         ];
-        let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+     let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let articleLimit = 30;
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
 
@@ -8696,6 +8698,29 @@ source: "Haaretz"
         }
 
         // --- VICTIMS LOGIC ---
+        function updateVictimControls() {
+            totalVictimPages = Math.ceil(filteredVictims.length / victimPageSize);
+            const pageInfoEl = document.getElementById('victim-page-info');
+            const prevBtn = document.getElementById('victim-prev-btn');
+            const nextBtn = document.getElementById('victim-next-btn');
+            const totalCountEl = document.getElementById('victim-total-count');
+
+            if (pageInfoEl) pageInfoEl.textContent = `Page ${victimCurrentPage} of ${totalVictimPages}`;
+            if (totalCountEl) totalCountEl.textContent = `Total Martyrs: ${filteredVictims.length.toLocaleString()}`;
+
+            if (prevBtn) prevBtn.disabled = victimCurrentPage <= 1;
+            if (nextBtn) nextBtn.disabled = victimCurrentPage >= totalVictimPages;
+        }
+
+        function renderVictims() {
+            const grid = document.getElementById('victim-grid');
+            const startIndex = (victimCurrentPage - 1) * victimPageSize;
+            const paginatedItems = filteredVictims.slice(startIndex, startIndex + victimPageSize);
+            grid.innerHTML = paginatedItems.map(v => `<div class="victim-card rounded-xl flex flex-col p-4 text-center items-center justify-center h-28"><h4 class="font-bold text-base text-gray-100 mb-1 leading-tight truncate w-full">${v.en_name}</h4><p class="text-gray-400 text-xs">Age: ${v.age || '?'} | ${v.sex ? v.sex[0].toUpperCase() : '?'}</p></div>`).join('');
+            
+            updateVictimControls();
+        }
+
         async function fetchVictimsData() {
             const spinner = document.getElementById('victim-loading-spinner');
             try {
@@ -8708,12 +8733,11 @@ source: "Haaretz"
                 document.getElementById('victim-grid').innerHTML = `<p class="text-gray-400 col-span-full text-center">Data unavailable in preview.</p>`;
             } finally { spinner.classList.add('hidden'); spinner.classList.remove('flex'); }
         }
-        function renderVictims() {
-            const grid = document.getElementById('victim-grid');
-            const startIndex = (victimCurrentPage - 1) * victimPageSize;
-            const paginatedItems = filteredVictims.slice(startIndex, startIndex + victimPageSize);
-            grid.innerHTML = paginatedItems.map(v => `<div class="victim-card rounded-xl flex flex-col p-4 text-center items-center justify-center h-28"><h4 class="font-bold text-base text-gray-100 mb-1 leading-tight truncate w-full">${v.en_name}</h4><p class="text-gray-400 text-xs">Age: ${v.age || '?'} | ${v.sex ? v.sex[0].toUpperCase() : '?'}</p></div>`).join('');
-            document.getElementById('victim-page-info').textContent = `Page ${victimCurrentPage}`;
+
+        function handleVictimPageChange(direction) {
+            victimCurrentPage = Math.min(Math.max(1, victimCurrentPage + direction), totalVictimPages);
+            renderVictims();
+            document.getElementById('victims').scrollIntoView({ behavior: 'smooth' });
         }
 
         // --- CAROUSEL LOGIC ---
@@ -8943,6 +8967,12 @@ source: "Haaretz"
             }
             setupDropdowns();
             // --- END DROPDOWN LOGIC ---
+
+
+            // --- VICTIM PAGINATION HANDLERS ---
+            document.getElementById('victim-prev-btn').addEventListener('click', () => handleVictimPageChange(-1));
+            document.getElementById('victim-next-btn').addEventListener('click', () => handleVictimPageChange(1));
+            // --- END VICTIM PAGINATION HANDLERS ---
 
 
             // Priority 1: Update Hero Stats immediately (synchronous, simple DOM update)
