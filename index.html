@@ -3,7 +3,7 @@
 
 <head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R5DZ6CC2Z8"></script>
+    <script async src="https://www.googletletagmanager.com/gtag/js?id=G-R5DZ6CC2Z8"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
@@ -371,9 +371,9 @@
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div id="resources-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 mt-2 w-48 bg-black/90 border border-white/10 rounded-lg shadow-xl hidden z-50">
-                            <a href="#quotes" class="nav-link block px-4 py-2 text-sm hover:bg-white/10 transition">Quotes & Resources</a>
-                            <a href="https://echoesofgaza.org/events" target="_blank" class="block px-4 py-2 text-sm hover:bg-white/10 transition">Events</a>
-                            <a href="#faq" class="nav-link block px-4 py-2 text-sm hover:bg-white/10 transition">FAQ</a>
+                            <a href="#quotes" class="block px-4 py-2 text-sm hover:bg-white/10 transition text-gray-300 hover:text-white">Quotes & Resources</a>
+                            <a href="https://echoesofgaza.org/events" target="_blank" class="block px-4 py-2 text-sm hover:bg-white/10 transition text-gray-300 hover:text-white">Events</a>
+                            <a href="#faq" class="block px-4 py-2 text-sm hover:bg-white/10 transition text-gray-300 hover:text-white">FAQ</a>
                         </div>
                     </div>
 
@@ -747,7 +747,7 @@
                         <button id="victim-next-btn" class="filter-chip text-sm font-medium py-2 px-4 rounded-full" disabled>Next &gt;</button>
                     </div>
                 </div>
-                <p id="victim-total-count" class="text-center text-sm text-gray-500 mb-4">Total Victims Loaded: 0</p>
+                <p id="victim-total-count" class="text-center text-sm text-gray-500 mb-4">Total Martyrs: 0</p>
                 <div id="victim-loading-spinner" class="flex justify-center items-center py-10"><div class="spinner"></div></div>
                 <div id="victim-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 max-w-6xl mx-auto"></div>
             </div>
@@ -771,7 +771,7 @@
                     <div class="card-modern p-6 rounded-xl flex flex-col items-center">
                         <h4 class="font-bold text-xl mb-3 text-white">Zionist or Nazi?</h4>
                         <p class="text-gray-400 text-sm mb-4 flex-grow">A quiz distinguishing the rhetoric.</p>
-                        <a href="https://zionism.wtf/#zionist-or-nazi" target="_blank" class="mt-auto btn-dark-uniform font-bold py-2 px-6 rounded-full text-sm">Take the Quiz</a>
+                        <a href="https://zionism.wtf/#zionism-or-nazi" target="_blank" class="mt-auto btn-dark-uniform font-bold py-2 px-6 rounded-full text-sm">Take the Quiz</a>
                     </div>
                 </div>
             </div>
@@ -910,7 +910,7 @@
         let currentQuizArticle = null;
         let carouselItems = [];
         let currentSlide = 0;
-  
+        
    
         let articles = [
             // Sample Articles (add more actual data here if needed)
@@ -8397,7 +8397,7 @@ source: "Haaretz"
         year: "2024"
     },
         ];
-     let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+       let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let articleLimit = 30;
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
 
@@ -8452,9 +8452,12 @@ source: "Haaretz"
         };
 
         function calculateDaysOfConflict() {
+            // Use ISO format with UTC indicator for consistent date parsing
             const startDate = new Date('2023-10-07T00:00:00Z');
             const now = new Date();
-            const diffTime = Math.abs(now - startDate);
+            // Calculate difference in milliseconds
+            const diffTime = now.getTime() - startDate.getTime();
+            // Round up to ensure a fractional day counts as a full day of conflict
             return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
         }
         
@@ -8682,7 +8685,11 @@ source: "Haaretz"
 
                 return `
                 <div class="card-modern rounded-2xl overflow-hidden group flex flex-col">
-                    <div class="relative h-56 overflow-hidden"><img src="${f.imageUrl}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"><div class="image-overlay"></div></div>
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="${f.imageUrl}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                        <div class="image-overlay"></div>
+                        <a href="${f.link}" target="_blank" class="absolute inset-0 z-10" aria-label="View Film/Documentary"></a> 
+                    </div>
                     <div class="p-6 flex-grow flex flex-col card-content-link">
                         <h4 class="font-bold text-lg text-gray-100 mb-2 flex-grow">${f.title} (${f.year})</h4>
                         <p class="text-gray-400 text-sm">Dir: ${f.director}</p>
@@ -9153,7 +9160,7 @@ source: "Haaretz"
             Close: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>,
             Image: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>,
             Type: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>,
-            Calendar: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>,
+            Calendar: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>,
             Download: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>,
             Sparkles: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
         };
