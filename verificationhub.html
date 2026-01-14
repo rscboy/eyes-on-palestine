@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echoes of Gaza | Verification Hub</title>
+    <title>History Archive | Verification Hub v4.0</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- React and Babel for browser-side transpilation -->
@@ -33,21 +33,18 @@
         const { useState, useEffect, useRef, useMemo, memo, useCallback } = React;
 
         /**
-         * Ultra-stable Icon component.
+         * Stable Icon component for high-performance builds.
          */
         const Icon = memo(({ name, className = "w-4 h-4", fill = "none" }) => {
             const svgMarkup = useMemo(() => {
                 if (!window.lucide || !lucide.icons || !lucide.icons[name]) return null;
-                
                 const iconDef = lucide.icons[name];
                 if (!Array.isArray(iconDef)) return null;
 
                 const [rootTag, rootAttrs, rootChildren] = iconDef;
-                
                 const buildTagMarkup = (tagName, attrs, children) => {
                     const a = attrs || {};
                     const isRoot = tagName === 'svg';
-                    
                     const merged = {
                         ...a,
                         class: isRoot ? `lucide lucide-${name.toLowerCase()} ${className}` : (a.class || ''),
@@ -60,22 +57,16 @@
                         "stroke-linecap": "round",
                         "stroke-linejoin": "round"
                     };
-
                     const attrStr = Object.entries(merged)
                         .filter(([k, v]) => v !== undefined && v !== null && v !== '')
                         .map(([k, v]) => `${k}="${v}"`)
                         .join(' ');
-
                     const childrenStr = (children || [])
                         .map(c => Array.isArray(c) ? buildTagMarkup(c[0], c[1], c[2]) : '')
                         .join('');
-
                     return `<${tagName} ${attrStr}>${childrenStr}</${tagName}>`;
                 };
-
-                try {
-                    return buildTagMarkup(rootTag, rootAttrs, rootChildren);
-                } catch (e) { return null; }
+                try { return buildTagMarkup(rootTag, rootAttrs, rootChildren); } catch (e) { return null; }
             }, [name, className, fill]);
 
             if (!svgMarkup) return <span className={className} style={{display:'inline-block'}} />;
@@ -86,24 +77,26 @@
             const statusStyles = {
                 live: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
                 archived: 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
+                suspicious: 'bg-rose-500/10 text-rose-400 border border-rose-500/20',
                 inconclusive: 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
-                wiped: 'bg-red-500/10 text-red-500 border border-red-500/30 ring-1 ring-red-500/20',
+                wiped: 'bg-red-500/10 text-red-500 border border-red-500/40 ring-1 ring-red-500/20',
                 checking: 'bg-yellow-500/10 text-yellow-400 animate-pulse',
                 pending: 'bg-slate-800 text-slate-500 border border-white/5'
             };
 
             const statusIcons = {
-                live: "CheckCircle", archived: "Archive", inconclusive: "HelpCircle", 
-                wiped: "AlertOctagon", checking: "RefreshCw", pending: "Clock"
+                live: "CheckCircle", archived: "Archive", suspicious: "AlertTriangle",
+                inconclusive: "HelpCircle", wiped: "AlertOctagon", checking: "RefreshCw", pending: "Clock"
             };
 
             return (
                 <div className="article-card-wrapper h-full">
-                    <article className={`bg-[#0d1117] rounded-[2rem] border p-8 hover:border-white/10 transition-all flex flex-col relative group shadow-lg h-full ${article.status === 'wiped' ? 'border-red-900/50' : 'border-white/5'}`}>
+                    <article className={`bg-[#0d1117] rounded-[2rem] border p-8 hover:border-white/10 transition-all flex flex-col relative group shadow-lg h-full ${article.status === 'wiped' ? 'border-red-900/50 shadow-red-900/10' : 'border-white/5'}`}>
                         <div className="flex items-center justify-between mb-6">
                             <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest ${statusStyles[article.status]}`}>
                                 <Icon name={statusIcons[article.status]} className="w-3.5 h-3.5" />
-                                {article.status === 'wiped' ? 'WIPED / LOST' : article.status.toUpperCase()}
+                                {article.status === 'wiped' ? 'CONFIRMED WIPED' : article.status.toUpperCase()}
+                                {article.confidence && <span className="opacity-60 ml-1">({article.confidence})</span>}
                             </div>
                             <span className="text-[11px] font-mono text-slate-600 font-bold">{article.date}</span>
                         </div>
@@ -120,18 +113,26 @@
                             <div className="flex justify-between items-center">
                                 <span className="text-[11px] font-black text-slate-500 uppercase tracking-[0.1em]">{article.source}</span>
                                 <a href={article.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] font-black text-slate-400 hover:text-red-400 transition-colors uppercase">
-                                    Source <Icon name="ExternalLink" className="w-3 h-3" />
+                                    Origin <Icon name="ExternalLink" className="w-3 h-3" />
                                 </a>
                             </div>
                             
-                            <div className="grid grid-cols-1 gap-2">
+                            <div className="flex flex-col gap-2">
                                 {article.status !== 'live' && (
-                                    <button 
-                                        onClick={() => onManualVerify(article.id)}
-                                        className="w-full py-3 bg-white/5 hover:bg-white/10 text-slate-400 rounded-xl text-[10px] font-black border border-white/10 transition-all flex items-center justify-center gap-2 uppercase tracking-widest"
-                                    >
-                                        <Icon name="CheckCircle2" className="w-4 h-4 text-emerald-400" /> I confirm this is live
-                                    </button>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <button 
+                                            onClick={() => onManualVerify(article.id, 'high')}
+                                            className="py-3 bg-white/5 hover:bg-emerald-500/10 text-slate-400 hover:text-emerald-400 rounded-xl text-[9px] font-black border border-white/10 transition-all flex items-center justify-center gap-2 uppercase"
+                                        >
+                                            <Icon name="UserCheck" className="w-3.5 h-3.5" /> Live (High)
+                                        </button>
+                                        <button 
+                                            onClick={() => onManualVerify(article.id, 'medium')}
+                                            className="py-3 bg-white/5 hover:bg-amber-500/10 text-slate-400 hover:text-amber-400 rounded-xl text-[9px] font-black border border-white/10 transition-all flex items-center justify-center gap-2 uppercase"
+                                        >
+                                            <Icon name="UserCheck" className="w-3.5 h-3.5" /> Live (Med)
+                                        </button>
+                                    </div>
                                 )}
 
                                 {article.archiveUrl && (
@@ -139,12 +140,17 @@
                                         <Icon name="Archive" className="w-4 h-4" /> View Archival Backup
                                     </a>
                                 )}
+                                
+                                {article.errorDetail && (
+                                    <p className="text-[8px] text-slate-600 text-center uppercase tracking-tighter">{article.errorDetail}</p>
+                                )}
                             </div>
                         </div>
                     </article>
                 </div>
             );
         });
+
         const App = () => {
             const initialData = [
                          {
@@ -8365,15 +8371,14 @@ source: "Haaretz"
   "categoryColor": "purple",
   "source": "The Cradle"
 },
-            ];
-
-              const [articles, setArticles] = useState(() => 
+                   const [articles, setArticles] = useState(() => 
                 initialData.map((item, idx) => ({
                     ...item,
                     id: idx + 1,
                     url: item.link,
                     status: 'pending',
-                    archiveUrl: null
+                    archiveUrl: null,
+                    confidence: null
                 }))
             );
 
@@ -8386,7 +8391,7 @@ source: "Haaretz"
 
             const addLog = useCallback((message, type = 'info') => {
                 const timestamp = new Date().toLocaleTimeString();
-                setLogs(prev => [...prev.slice(-30), { message, type, timestamp }]);
+                setLogs(prev => [...prev.slice(-40), { message, type, timestamp }]);
             }, []);
 
             useEffect(() => {
@@ -8397,76 +8402,119 @@ source: "Haaretz"
                 total: articles.length,
                 live: articles.filter(a => a.status === 'live').length,
                 archived: articles.filter(a => a.status === 'archived').length,
+                suspicious: articles.filter(a => a.status === 'suspicious').length,
                 wiped: articles.filter(a => a.status === 'wiped').length,
                 inconclusive: articles.filter(a => a.status === 'inconclusive').length,
                 pending: articles.filter(a => a.status === 'pending').length
             }), [articles]);
 
-            const manualVerify = useCallback((id) => {
-                setArticles(prev => prev.map(a => a.id === id ? { ...a, status: 'live' } : a));
-                addLog(`Manual confirmation: Record #${id} marked as LIVE.`, 'success');
+            const manualVerify = useCallback((id, confidence = 'high') => {
+                setArticles(prev => prev.map(a => a.id === id ? { ...a, status: 'live', confidence } : a));
+                addLog(`Manual confirmation: Record #${id} marked LIVE (${confidence}).`, 'success');
             }, [addLog]);
 
-            const checkIntegrity = async (url) => {
+            const proxies = [
+                url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}&ts=${Date.now()}`,
+                url => `https://corsproxy.io/?${encodeURIComponent(url)}`
+            ];
+
+            const checkForRemovalPatterns = (text) => {
+                if (!text) return false;
+                const lower = text.toLowerCase();
+                const patterns = [
+                    /article no longer available/i,
+                    /404 not found/i,
+                    /page has been removed/i,
+                    /content removed/i,
+                    /paywall|subscribe|premium content/i,
+                    /this article is no longer/i,
+                    /sorry, we could not find/i,
+                ];
+                return patterns.some(p => p.test(lower));
+            };
+
+            const checkIntegrity = async (article) => {
                 let proxyCode = null;
                 let archiveSnapshot = null;
+                let bodySnippet = null;
                 
+                // 1. Check Wayback Machine first
                 try {
-                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}&ts=${Date.now()}`;
-                    const response = await fetch(proxyUrl);
-                    if (!response.ok) throw new Error();
-                    const json = await response.json();
-                    proxyCode = json.status?.http_code;
-                } catch (e) { proxyCode = "TIMEOUT_OR_BLOCKED"; }
-                
-                try {
-                    const waybackRes = await fetch(`https://archive.org/wayback/available?url=${encodeURIComponent(url)}`);
+                    const waybackRes = await fetch(`https://archive.org/wayback/available?url=${encodeURIComponent(article.url)}`);
                     const waybackData = await waybackRes.json();
                     archiveSnapshot = waybackData.archived_snapshots?.closest;
                 } catch (e) {}
 
-                // WIPED LOGIC: Confirmed 404 + No Archive
-                if (proxyCode === 404 && !archiveSnapshot?.available) {
-                    return { status: 'wiped' };
+                // 2. Try Proxies for content patterns
+                for (const proxyFn of proxies) {
+                    try {
+                        const response = await fetch(proxyFn(article.url));
+                        if (!response.ok) {
+                            proxyCode = response.status;
+                            continue; 
+                        }
+                        const json = await response.json();
+                        proxyCode = json.status?.http_code;
+                        
+                        // Check content if proxy returned html
+                        if (json.contents) {
+                            bodySnippet = json.contents.slice(0, 5000);
+                            if (checkForRemovalPatterns(bodySnippet)) {
+                                return { 
+                                    status: 'suspicious', 
+                                    archiveUrl: archiveSnapshot?.url, 
+                                    detail: 'Removal patterns detected in source content',
+                                    confidence: 'medium'
+                                };
+                            }
+                        }
+                        break; 
+                    } catch (e) { proxyCode = proxyCode || "TIMEOUT"; }
                 }
 
-                // ARCHIVED LOGIC: Any issue with origin but archive exists
-                if (archiveSnapshot?.available && (proxyCode === 404 || proxyCode === "TIMEOUT_OR_BLOCKED" || proxyCode >= 400)) {
-                    return { status: 'archived', archiveUrl: archiveSnapshot.url };
-                }
-
-                // LIVE LOGIC: Proxy sees it fine
+                // 3. Decision Logic
                 if (proxyCode >= 200 && proxyCode < 400) {
-                    return { status: 'live', archiveUrl: archiveSnapshot?.url };
+                    return { status: 'live', archiveUrl: archiveSnapshot?.url, confidence: 'high' };
+                }
+                
+                if (proxyCode === 404 || proxyCode === 410) {
+                    return archiveSnapshot?.available 
+                        ? { status: 'archived', archiveUrl: archiveSnapshot.url, detail: 'Origin 404 - Archive found', confidence: 'high' } 
+                        : { status: 'wiped', detail: 'Origin 404 - No Archive found', confidence: 'high' };
                 }
 
-                // INCONCLUSIVE: Generic failure (Firewall/Bot Protection) and no archive
-                return { status: 'inconclusive' };
+                if (archiveSnapshot?.available) {
+                    return { status: 'archived', archiveUrl: archiveSnapshot.url, detail: 'Origin unreachable - Archive exists', confidence: 'medium' };
+                }
+
+                return { status: 'inconclusive', detail: `Network Block/Bot Protection (${proxyCode})`, confidence: 'low' };
             };
 
             const runAudit = async () => {
                 if (isScanning) return;
                 setIsScanning(true);
-                addLog('STARTING PRECISION INTEGRITY AUDIT...', 'system');
+                addLog('INITIATING V2 AUDIT: CONTENT PATTERN & MULTI-PROXY FALLBACK...', 'system');
 
                 for (let i = 0; i < articles.length; i++) {
                     const article = articles[i];
                     if (article.status === 'live') continue;
                     
                     setArticles(prev => prev.map(a => a.id === article.id ? { ...a, status: 'checking' } : a));
-                    const result = await checkIntegrity(article.url);
+                    const result = await checkIntegrity(article);
                     
                     setArticles(prev => prev.map(a => a.id === article.id ? { 
                         ...a, 
                         status: result.status, 
-                        archiveUrl: result.archiveUrl 
+                        archiveUrl: result.archiveUrl,
+                        errorDetail: result.detail,
+                        confidence: result.confidence
                     } : a));
 
                     if (result.status === 'live') addLog(`OK: ${article.source}`, 'success');
-                    else if (result.status === 'wiped') addLog(`CRITICAL: Record #${article.id} confirmed WIPED`, 'error');
-                    else if (result.status === 'inconclusive') addLog(`SHIELDED: ${article.source} (Bot detection)`, 'system');
+                    else if (result.status === 'suspicious') addLog(`SUSPICIOUS: ${article.source} (Removal text?)`, 'system');
+                    else if (result.status === 'wiped') addLog(`CRITICAL: ${article.source} (Confirmed Wiped)`, 'error');
 
-                    await new Promise(r => setTimeout(r, 400));
+                    await new Promise(r => setTimeout(r, 600)); // Polite throttle
                 }
 
                 addLog('AUDIT CYCLE COMPLETED.', 'system');
@@ -8484,10 +8532,10 @@ source: "Haaretz"
 
             return (
                 <div className="main-container min-h-screen bg-[#05070a] text-slate-100 font-sans">
-                    <header className="bg-red-600/10 border-b border-red-500/20 py-2 px-6 text-center">
-                        <p className="text-[10px] text-red-400 font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3">
-                            <Icon name="ShieldAlert" className="w-3.5 h-3.5" /> 
-                            Audit Protocol v3.5: Identifying Confirmed Wiped Data
+                    <header className="bg-emerald-600/10 border-b border-emerald-500/20 py-2 px-6 text-center">
+                        <p className="text-[10px] text-emerald-400 font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3">
+                            <Icon name="Shield" className="w-3.5 h-3.5" /> 
+                            Audit Protocol v4.0: Pattern Detection & Confidence Metrics Enabled
                         </p>
                     </header>
 
@@ -8495,7 +8543,7 @@ source: "Haaretz"
                         <div className="max-w-[1600px] mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-6">
                             <div className="flex items-center gap-4">
                                 <div className="p-2.5 bg-gradient-to-br from-red-600/20 to-red-900/20 rounded-xl border border-red-600/30">
-                                    <Icon name="Vault" className="w-7 h-7 text-red-500" />
+                                    <Icon name="Database" className="w-7 h-7 text-red-500" />
                                 </div>
                                 <div>
                                     <h1 className="text-xl font-bold uppercase tracking-tight">Archive</h1>
@@ -8523,36 +8571,36 @@ source: "Haaretz"
                         <aside className="w-full lg:w-80 shrink-0 space-y-6">
                             <section className="bg-[#0d1117] rounded-[2rem] border border-white/5 p-6 shadow-xl">
                                 <h2 className="flex items-center gap-2 text-[10px] font-black text-slate-500 tracking-widest uppercase mb-6">
-                                    <Icon name="BarChart" className="w-3 h-3" /> Data Integrity
+                                    <Icon name="BarChart" className="w-3 h-3" /> Integrity Dashboard
                                 </h2>
                                 <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
                                     <div className="bg-[#05070a] rounded-2xl p-4 border border-white/5">
                                         <div className="text-2xl font-bold">{stats.total}</div>
-                                        <div className="text-[8px] text-slate-500 tracking-widest uppercase font-bold">Total</div>
+                                        <div className="text-[8px] text-slate-500 tracking-widest uppercase font-bold">Records</div>
                                     </div>
                                     <div className="bg-emerald-950/20 rounded-2xl p-4 border border-emerald-500/20 text-emerald-400">
                                         <div className="text-2xl font-bold">{stats.live}</div>
                                         <div className="text-[8px] tracking-widest uppercase font-bold">Live</div>
                                     </div>
+                                    <div className="bg-rose-950/20 rounded-2xl p-4 border border-rose-500/20 text-rose-400">
+                                        <div className="text-2xl font-bold">{stats.suspicious}</div>
+                                        <div className="text-[8px] tracking-widest uppercase font-bold">Suspicious</div>
+                                    </div>
                                     <div className="bg-red-950/20 rounded-2xl p-4 border border-red-500/20 text-red-500">
                                         <div className="text-2xl font-bold">{stats.wiped}</div>
-                                        <div className="text-[8px] tracking-widest uppercase font-bold text-red-400">Wiped</div>
-                                    </div>
-                                    <div className="bg-amber-950/20 rounded-2xl p-4 border border-amber-500/20 text-amber-400">
-                                        <div className="text-2xl font-bold">{stats.inconclusive}</div>
-                                        <div className="text-[8px] tracking-widest uppercase font-bold">Protected</div>
+                                        <div className="text-[8px] tracking-widest uppercase font-bold">Lost / Wiped</div>
                                     </div>
                                 </div>
                             </section>
 
                             <section className="bg-[#0d1117] rounded-[2rem] border border-white/5 p-6 shadow-xl h-[350px] flex flex-col">
                                 <h2 className="flex items-center gap-2 text-[10px] font-black text-slate-500 tracking-widest uppercase mb-4">
-                                    <Icon name="Activity" className="w-3 h-3" /> Live Feed
+                                    <Icon name="Activity" className="w-3 h-3" /> Audit Feed
                                 </h2>
                                 <div className="bg-[#05070a] rounded-2xl border border-white/5 p-4 flex-1 overflow-y-auto font-mono text-[9px] custom-scrollbar leading-relaxed">
-                                    {logs.length === 0 ? <div className="text-slate-700 italic">Ready for audit...</div> : 
+                                    {logs.length === 0 ? <div className="text-slate-700 italic">Ready for verification cycle.</div> : 
                                         logs.map((log, idx) => (
-                                            <div key={idx} className={`mb-1 ${log.type === 'error' ? 'text-red-500 font-bold' : log.type === 'success' ? 'text-emerald-400' : log.type === 'system' ? 'text-amber-400 font-bold' : 'text-slate-600'}`}>
+                                            <div key={idx} className={`mb-1 ${log.type === 'error' ? 'text-red-500 font-bold' : log.type === 'success' ? 'text-emerald-400' : log.type === 'system' ? 'text-amber-400 font-bold border-b border-amber-500/10 pb-1 mb-2' : 'text-slate-600'}`}>
                                                 [{log.timestamp}] {log.message}
                                             </div>
                                         ))
@@ -8564,10 +8612,10 @@ source: "Haaretz"
 
                         <div className="flex-1 space-y-6">
                             <div className="flex flex-wrap gap-2 sticky top-[100px] z-30 bg-[#05070a]/90 backdrop-blur-sm py-2">
-                                {['all', 'live', 'archived', 'inconclusive', 'wiped', 'pending'].map(tabId => (
+                                {['all', 'live', 'archived', 'suspicious', 'inconclusive', 'wiped'].map(tabId => (
                                     <button key={tabId} onClick={() => {setFilter(tabId); setVisibleCount(12);}}
                                         className={`px-4 py-2 rounded-xl border text-[9px] font-black uppercase tracking-widest transition-all ${
-                                            filter === tabId ? (tabId === 'wiped' ? 'bg-red-500/10 border-red-500/40 text-red-500' : 'bg-red-500/10 border-red-500/40 text-red-400') : 'bg-[#0d1117] border-white/5 text-slate-500'
+                                            filter === tabId ? 'bg-red-500/10 border-red-500/40 text-red-400' : 'bg-[#0d1117] border-white/5 text-slate-500'
                                         }`}>
                                         {tabId} ({stats[tabId] || stats.total})
                                     </button>
