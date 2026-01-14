@@ -2,17 +2,15 @@
 <html lang="en">
 
 <head>
-   
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-R5DZ6CC2Z8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletletagmanager.com/gtag/js?id=G-R5DZ6CC2Z8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-R5DZ6CC2Z8');
-</script>
-
+        gtag('config', 'G-R5DZ6CC2Z8');
+    </script>
 
     <!-- Social Preview / Open Graph Tags -->
     <meta property="og:site_name" content="Echoes of Gaza">
@@ -32,7 +30,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Echoes of Gaza: A Historical Archive</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     
@@ -223,7 +221,7 @@
 
         /* Image Overlay */
         .image-overlay {
-            position: absolute; inset: 0;
+            position: absolute inset: 0;
             background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
             opacity: 0; transition: opacity 0.3s ease;
         }
@@ -439,7 +437,7 @@
                             <div class="text-sm text-gray-400 uppercase tracking-wide">Est. Casualties</div>
                         </a>
                         <a href="https://stopmurderingjournalists.com/" target="_blank" class="stat-card block p-4 sm:p-6 rounded-xl hover:bg-white/5 transition cursor-pointer">
-                            <div id="journalist-stat" class="text-3xl font-bold text-red-400 mb-1">329+</div>
+                            <div id="journalist-stat" class="text-3xl font-bold text-red-400 mb-1">328+</div>
                             <div class="text-sm text-gray-400 uppercase tracking-wide">Journalists</div>
                         </a>
                         <div class="stat-card p-4 sm:p-6 rounded-xl">
@@ -607,10 +605,10 @@
                             </div>
                         </div>
                     </div>
-                    <button id="carousel-prev" class="absolute top-1/2 left-0 md:-left-16 transform -translate-y-1/2 p-3 bg-gray-800/80 text-white rounded-full hover:bg-red-500/80 z-20 disabled:opacity-30 transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
-                    <button id="carousel-next" class="absolute top-1/2 right-0 md:-right-16 transform -translate-y-1/2 p-3 bg-gray-800/80 text-white rounded-full hover:bg-red-500/80 z-20 disabled:opacity-30 transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
-                    <p class="text-center text-gray-500 text-sm pt-6 mt-8 border-t border-gray-700">Analysis synthesized from reporting by The Intercept and The New York Times.</p>
                 </div>
+                <button id="carousel-prev" class="absolute top-1/2 left-0 md:-left-16 transform -translate-y-1/2 p-3 bg-gray-800/80 text-white rounded-full hover:bg-red-500/80 z-20 disabled:opacity-30 transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
+                <button id="carousel-next" class="absolute top-1/2 right-0 md:-right-16 transform -translate-y-1/2 p-3 bg-gray-800/80 text-white rounded-full hover:bg-red-500/80 z-20 disabled:opacity-30 transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
+                <p class="text-center text-gray-500 text-sm pt-6 mt-8 border-t border-gray-700">Analysis synthesized from reporting by The Intercept and The New York Times.</p>
             </div>
         </section>
 
@@ -621,13 +619,14 @@
                 <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                     <div class="flex w-full md:flex-1 space-x-4">
                         <div class="relative flex-1">
-                            <input type="text" id="article-search" class="search-modern w-full pl-12 pr-4 py-3 rounded-xl text-white placeholder-gray-500 outline-none" placeholder="Search articles...">
+                            <input type="text" id="article-search" class="search-modern w-full pl-12 pr-4 py-3 rounded-xl text-white placeholder-gray-400 outline-none" placeholder="Search archive by title, content or source...">
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                 <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </div>
                         </div>
-                        <button id="random-article-btn" title="View Random Article" class="btn-primary flex-shrink-0 text-sm font-medium py-3 px-4 rounded-xl hover:shadow-lg transition">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 0012 4.002v1a7.001 7.001 0 017.071 7.07l-.388.388M19 12h1.002C17.915 18.257 12 23 6 23v-1c4.545 0 8.414-2.84 9.805-6.842l.388-.388M20 20h-5v-.582m0 0a8.001 8.001 0 01-14.288-5.358h-1.001C3.084 11.743 7.001 6.84 12 6.84v1c-3.791 0-7.002 2.385-8.393 5.358l-.388.388"></path></svg>
+                        <button id="random-article-btn" title="Discover Random Article" class="btn-primary flex-shrink-0 text-sm font-bold py-3 px-6 rounded-xl hover:shadow-lg transition flex items-center gap-2 group animate-pulse hover:animate-none">
+                            <svg class="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 0012 4.002v1a7.001 7.001 0 017.071 7.07l-.388.388M19 12h1.002C17.915 18.257 12 23 6 23v-1c4.545 0 8.414-2.84 9.805-6.842l.388-.388M20 20h-5v-.582m0 0a8.001 8.001 0 01-14.288-5.358h-1.001C3.084 11.743 7.001 6.84 12 6.84v1c-3.791 0-7.002 2.385-8.393 5.358l-.388.388"></path></svg>
+                            <span>Random</span>
                         </button>
                     </div>
                     <div id="sort-controls" class="flex items-center space-x-2 flex-shrink-0">
@@ -715,7 +714,7 @@
             </div>
         </section>
 
-        <!-- Gaza Displacement Maps Section (Restored) -->
+        <!-- Gaza Displacement Maps Section -->
         <section id="gaza-displacement-maps" class="py-16 md:py-24 bg-black border-y border-gray-800">
             <div class="container mx-auto px-6">
                 <h3 class="section-title text-3xl font-bold text-center mb-12 mx-auto">Gaza Maps: Displacement & Kill Zones</h3>
@@ -738,7 +737,7 @@
                 </div>
                 <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 max-w-5xl mx-auto">
                     <div class="relative w-full md:flex-1">
-                        <input type="text" id="victim-search" class="search-modern w-full pl-12 pr-4 py-3 rounded-xl text-white placeholder-gray-500 outline-none" placeholder="Search by name...">
+                        <input type="text" id="victim-search" class="search-modern w-full pl-12 pr-4 py-3 rounded-xl text-white placeholder-gray-400 outline-none" placeholder="Search martyrs by name...">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
@@ -861,7 +860,7 @@
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 border-t border-white/5 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
-            <p>© 2025 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="underline">CC BY-NC-SA 4.0</a>.</p>
+            <p>© 2026 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="underline">CC BY-NC-SA 4.0</a>.</p>
         </div>
     </footer>
 
@@ -887,13 +886,13 @@
             <span class="close-button text-2xl" onclick="document.getElementById('press-release-modal').classList.remove('is-visible')">&times;</span>
             <div class="p-8 text-center flex flex-col items-center">
                 <span class="bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider mb-4 shadow-lg shadow-red-900/40">Official Statement</span>
-                <p class="text-gray-500 text-xs font-bold tracking-widest uppercase mb-2">December 29, 2025</p>
-                <h2 class="font-serif text-xl md:text-2xl text-white font-bold mb-6 leading-tight">PRESS RELEASE: Never Again Cannot Be Conditional </h2>
+                <p class="text-gray-500 text-xs font-bold tracking-widest uppercase mb-2">November 28, 2025</p>
+                <h2 class="font-serif text-xl md:text-2xl text-white font-bold mb-6 leading-tight">PRESS RELEASE: Dayton Jewish Observer Covers Anti-Zionism & Echoes of Gaza Archive</h2>
                 <p class="text-gray-300 text-xs md:text-sm mb-6 leading-relaxed text-left bg-white/5 p-4 rounded-lg border border-white/10">
-                    "What is truly offensive to the victims of the Holocaust? Is it the institutional support of what numerous human rights groups have labeled as a genocide, or is it a single Jewish community member standing against it?" <br><span class="block mt-2 text-right text-gray-500 text-[10px] uppercase font-bold">— Samuel Caruso, Director</span>
+                    "It is not every day a Jewish anti-Zionist voice appears in a Jewish community paper... Zionism is being questioned more openly within Jewish communities." <br><span class="block mt-2 text-right text-gray-500 text-[10px] uppercase font-bold">— Samuel Caruso, Director</span>
                 </p>
                 <div class="w-full h-px bg-gradient-to-r from-transparent via-red-900/50 to-transparent mb-6"></div>
-                <a href="https://echoesofgaza.org/12292025pr" target="_blank" class="btn-primary w-full py-4 px-6 rounded-lg text-sm font-bold shadow-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2 group">Read Full Statement</a>
+                <a href="https://echoesofgaza.org/11282025pr" target="_blank" class="btn-primary w-full py-4 px-6 rounded-lg text-sm font-bold shadow-xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2 group">Read Full Statement</a>
             </div>
         </div>
     </div>
@@ -905,14 +904,13 @@
     <script type="text/javascript">
         function googleTranslateElementInit() { new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,ar,he', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element'); }
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <!-- Vanilla JS Logic -->
     <script type="module">
         let currentQuizArticle = null;
         let carouselItems = [];
         let currentSlide = 0;
-        
    
         let articles = [
             // Sample Articles (add more actual data here if needed)
@@ -9093,8 +9091,47 @@ source: "Haaretz"
     "category": "Humanitarian",
     "categoryColor": "orange",
     "source": "Middle East Eye"
-  }
-
+  },
+  {
+    "date": "2026-01-13",
+    "title": "Gaza’s living conditions worsen as strong winds and hypothermia kill 5",
+    "summary": "Harsh winter weather in Gaza worsened already dire living conditions for displaced people, with strong winds collapsing tents and flimsy structures that killed at least five people, including a 1‑year‑old who died of hypothermia. Aid groups warn that insufficient shelter and materials during the ceasefire have left many unable to withstand storms, adding to ongoing humanitarian challenges. :contentReference[oaicite:0]{index=0}",
+    "link": "https://www.latimes.com/world-nation/story/2026-01-13/gazas-living-conditions-worsen-as-strong-winds-hypothermia-kill-5",
+    "imageUrl": "https://store.latimes.com/cdn/shop/files/CopyofWorldseriesproducts-5_7416aa9d-77ed-42ed-a898-e461030797eb_grande.png?v=1730403214",
+    "category": "Humanitarian",
+    "categoryColor": "orange",
+    "source": "Los Angeles Times"
+  },
+  {
+    "date": "2026-01-13",
+    "title": "UN says at least 100 children killed in Gaza since ceasefire",
+    "summary": "The United Nations reported that at least 100 children have been killed in Gaza since the ceasefire began in early October 2025, with many deaths attributed to airstrikes, drone strikes, tank shelling and other violence. UNICEF’s spokesman said that despite the ceasefire, hostilities and dangerous conditions have continued to put children at risk. :contentReference[oaicite:1]{index=1}",
+    "link": "https://www.timesofisrael.com/liveblog_entry/un-says-at-least-100-children-killed-in-gaza-since-ceasefire/",
+    "imageUrl": "https://play-lh.googleusercontent.com/5RXKeNxLAMc60xycN3PSvoxwEY8Pp9iiZH2stMxmh9YoL6YOa7wSYPMA-w1vpYM7rg",
+    "category": "Conflict",
+    "categoryColor": "red",
+    "source": "The Times of Israel"
+  },
+  {
+    "date": "2026-01-11",
+    "title": "From Palestine to Minneapolis, ICE and Israel use the same violent playbook",
+    "summary": "An opinion piece argues that the tactics used by U.S. immigration enforcement (ICE) and Israeli forces reflect a similar pattern of state violence and impunity, citing incidents such as a fatal shooting by ICE in Minneapolis and treatment of Palestinians. The article connects systems of force and surveillance across these contexts and calls for accountability and systemic change. :contentReference[oaicite:2]{index=2}",
+    "link": "https://mondoweiss.net/2026/01/from-palestine-to-minneapolis-ice-and-israel-use-the-same-violent-playbook/",
+    "imageUrl": "https://mondoweiss.net/wp-content/uploads/2021/09/mondoweiss-ogimage.png",
+    "category": "Opinion",
+    "categoryColor": "gray",
+    "source": "Mondoweiss"
+  },
+{
+  "date": "2026-01-12",
+  "title": "Knesset advances bill mandating death by hanging for Palestinian prisoners",
+  "summary": "The Israeli Knesset advanced a bill that mandates the death penalty by hanging for Palestinian prisoners convicted of terrorism-related offenses. The proposal has sparked criticism from human rights groups who argue it discriminates and undermines legal standards.",
+  "link": "https://thecradle.co/articles-id/35370",
+  "imageUrl": "https://thecradle-main.oss-eu-central-1.aliyuncs.com/public/articles/acee9a02-9911-11ee-aecb-00163e02c055.png",
+  "category": "Legal",
+  "categoryColor": "purple",
+  "source": "The Cradle"
+},
 
         ];
         let videos = [
@@ -9324,25 +9361,24 @@ source: "Haaretz"
         year: "2025"
     },
         ];
-       let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
-        let articleLimit = 30;
+         let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+        let articleLimit = 30; // Current view limit
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
 
-        // Helper to escape single quotes for embedding a string inside an HTML onclick attribute's single quotes
+        // Helper to escape single quotes
         function escapeHtmlAttribute(str) {
             return str.replace(/'/g, "\\'");
         }
 
-        // Helper to format date in the desired 'Month Dayth, YYYY' format
+        // Helper to format date
         function formatDate(dateString) {
             if (!dateString) return '';
-            const date = new Date(dateString.replace(/-/g, '/')); // Use forward slashes for safer parsing
+            const date = new Date(dateString.replace(/-/g, '/'));
             if (isNaN(date)) return dateString;
 
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const formatted = date.toLocaleDateString('en-US', options);
             
-            // Custom logic to add ordinal suffix (for "10th", "12th" etc.)
             const day = date.getDate();
             let suffix = 'th';
             if (day % 10 === 1 && day % 100 !== 11) suffix = 'st';
@@ -9352,7 +9388,7 @@ source: "Haaretz"
             return formatted.replace(/(\d+)/, (match) => match + suffix);
         }
 
-        // Global functions for HTML interaction
+        // Global functions
         window.shareOnTwitter = (url, title) => { window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank'); };
         window.shareOnFacebook = (url) => { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank'); };
         window.toggleShareMenu = (id) => {
@@ -9370,7 +9406,7 @@ source: "Haaretz"
             document.getElementById(`popover-${uniqueId}`).classList.add('hidden');
         };
 
-        // Helper: Trigger the React Story Generator
+        // Trigger Story Generator
         window.openStoryCreator = (title, summary, date, imageUrl) => {
             const event = new CustomEvent('openStoryGenerator', {
                 detail: { title, summary, date, imageUrl }
@@ -9379,12 +9415,9 @@ source: "Haaretz"
         };
 
         function calculateDaysOfConflict() {
-            // Use ISO format with UTC indicator for consistent date parsing
             const startDate = new Date('2023-10-07T00:00:00Z');
             const now = new Date();
-            // Calculate difference in milliseconds
             const diffTime = now.getTime() - startDate.getTime();
-            // Round up to ensure a fractional day counts as a full day of conflict
             return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
         }
         
@@ -9393,9 +9426,8 @@ source: "Haaretz"
             if (daysEl) daysEl.innerText = calculateDaysOfConflict().toLocaleString();
         }
 
-        // Filter articles by month from graph click
+        // Filter articles by month
         function filterByMonth(label) {
-            // Parse "Oct '23" to dates
             const [monthStr, yearStr] = label.split(" '");
             const year = 2000 + parseInt(yearStr);
             const months = { "Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "Jun": 5, "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11 };
@@ -9404,12 +9436,10 @@ source: "Haaretz"
             if (monthIndex === undefined) return;
 
             const startDate = new Date(year, monthIndex, 1);
-            const endDate = new Date(year, monthIndex + 1, 0); // Last day of the month
+            const endDate = new Date(year, monthIndex + 1, 0);
 
-            // Update UI Inputs
             const startInput = document.getElementById('start-date');
             const endInput = document.getElementById('end-date');
-            // Format YYYY-MM-DD for input fields
             const fmt = d => {
                 const y = d.getFullYear();
                 const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -9420,25 +9450,20 @@ source: "Haaretz"
             if(startInput) startInput.value = fmt(startDate);
             if(endInput) endInput.value = fmt(endDate);
 
-            // Show filter panel if hidden
             document.getElementById('filter-controls').classList.remove('hidden');
 
-            // Filter Articles
             const filtered = articles.filter(a => {
                 const d = new Date(a.date.replace(/-/g, '/'));
-                const endOfDay = new Date(endDate.setHours(23, 59, 59, 999));
+                const endOfDay = new Date(new Date(endDate).setHours(23, 59, 59, 999));
                 return d >= startDate && d <= endOfDay;
             });
 
             currentlyDisplayedArticles = filtered;
             renderArticles(currentlyDisplayedArticles);
-
-            // Scroll to articles
             document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
         }
 
         function generateShareMenu(url, title, type, uniqueId) {
-            // Use escapeHtmlAttribute to prevent breaking the onclick string
             const cleanTitle = escapeHtmlAttribute(title);
             const cleanUrl = escapeHtmlAttribute(url);
             
@@ -9486,33 +9511,43 @@ source: "Haaretz"
             const grid = document.getElementById('article-grid');
             if (!grid) return;
             
-            // Apply sorting and bias toggle logic
+            // Sort full dataset first
             const sorted = [...articlesToDisplay].sort((a, b) => {
                 const da = new Date(a.date.replace(/-/g, '/')).getTime();
                 const db = new Date(b.date.replace(/-/g, '/')).getTime();
                 return currentSortOrder === 'newest' ? db - da : da - db;
             });
 
-            // Count Update
-            document.getElementById('showing-count').innerText = sorted.length;
-            document.getElementById('total-count').innerText = articles.length;
+            const totalFilteredCount = sorted.length;
+            
+            // Apply current view limit
+            const limit = articleLimit === 'all' ? sorted.length : parseInt(articleLimit);
+            const sliced = sorted.slice(0, limit);
 
-            if (sorted.length === 0) {
-                grid.innerHTML = `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center">No articles match the current filters.</p>`;
+            document.getElementById('showing-count').innerText = sliced.length;
+            document.getElementById('total-count').innerText = totalFilteredCount;
+
+            // Handle "Load More" button visibility
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            if (sliced.length >= totalFilteredCount) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'block';
+            }
+
+            if (sliced.length === 0) {
+                grid.innerHTML = `<p class="text-gray-400 md:col-span-2 lg:col-span-3 text-center py-10">No articles match the current search or filters.</p>`;
                 return;
             }
 
-            grid.innerHTML = sorted.map((article) => {
+            grid.innerHTML = sliced.map((article) => {
                 const archiveLink = `https://archive.is/oldest/${article.link}`;
-                // Use the original title/summary for story creator, clean link/title for sharing
                 const safeTitle = escapeHtmlAttribute(article.title);
                 const safeSummary = escapeHtmlAttribute(article.summary);
                 const cleanLink = escapeHtmlAttribute(article.link);
-                
                 const safeImage = article.imageUrl;
                 const uniqueId = 'share-' + Math.random().toString(36).substr(2, 9);
                 
-                // Bias Toggle Application
                 const displayTitle = titlesSwapped ? getSwappedText(article.title) : article.title;
                 const displaySummary = titlesSwapped ? getSwappedText(article.summary) : article.summary;
 
@@ -9531,7 +9566,6 @@ source: "Haaretz"
                             <p onclick="window.open('${archiveLink}', '_blank')" class="text-[#C0C0C0] text-base leading-relaxed mb-4 line-clamp-3 flex-grow">${displaySummary}</p>
                             
                             <div class="mt-auto flex justify-between pt-4 border-t border-white/5 items-center">
-                                <!-- FIX: Changed w-1/3 to flex-1 to allow source name more room on mobile -->
                                 <div class="flex-1 text-[#A0A0A0] text-xs truncate mr-2">Source: <span class="font-semibold text-gray-300">${article.source}</span></div>
                                 <div class="flex items-center gap-2 relative flex-shrink-0">
                                     <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="flex items-center space-x-1 bg-gradient-to-br from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-lg shadow-red-900/20 transform hover:-translate-y-0.5">
@@ -9562,7 +9596,7 @@ source: "Haaretz"
                 return `
                 <div class="card-modern rounded-2xl overflow-hidden group flex flex-col text-center">
                     <div class="relative h-64 overflow-hidden"><img src="${b.imageUrl}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"><div class="image-overlay"></div></div>
-                    <div class="p-4 flex-grow flex flex-col justify-center card-content-link">
+                    <div class="p-4 flex-grow flex flex-col justify-center">
                         <h4 class="font-semibold text-sm text-gray-100 mb-1">${b.title}</h4>
                         <p class="text-gray-400 text-xs">${b.author}</p>
                         <div class="mt-2 relative inline-block">
@@ -9617,7 +9651,7 @@ source: "Haaretz"
                         <div class="image-overlay"></div>
                         <a href="${f.link}" target="_blank" class="absolute inset-0 z-10" aria-label="View Film/Documentary"></a> 
                     </div>
-                    <div class="p-6 flex-grow flex flex-col card-content-link">
+                    <div class="p-6 flex-grow flex flex-col">
                         <h4 class="font-bold text-lg text-gray-100 mb-2 flex-grow">${f.title} (${f.year})</h4>
                         <p class="text-gray-400 text-sm">Dir: ${f.director}</p>
                         <div class="mt-3 relative inline-block">
@@ -9650,6 +9684,12 @@ source: "Haaretz"
             const grid = document.getElementById('victim-grid');
             const startIndex = (victimCurrentPage - 1) * victimPageSize;
             const paginatedItems = filteredVictims.slice(startIndex, startIndex + victimPageSize);
+            
+            if (paginatedItems.length === 0) {
+                 grid.innerHTML = `<div class="col-span-full py-10 text-center text-gray-500">No martyrs found matching that name.</div>`;
+                 return;
+            }
+
             grid.innerHTML = paginatedItems.map(v => `<div class="victim-card rounded-xl flex flex-col p-4 text-center items-center justify-center h-28"><h4 class="font-bold text-base text-gray-100 mb-1 leading-tight truncate w-full">${v.en_name}</h4><p class="text-gray-400 text-xs">Age: ${v.age || '?'} | ${v.sex ? v.sex[0].toUpperCase() : '?'}</p></div>`).join('');
             
             updateVictimControls();
@@ -9735,9 +9775,8 @@ source: "Haaretz"
              const article = articles[Math.floor(Math.random() * articles.length)];
              currentQuizArticle = article;
              const realHeadline = article.title;
-             // Simple swap logic for demo
              const fakeHeadline = getSwappedText(realHeadline);
-             if(fakeHeadline === realHeadline) return window.initEmbeddedQuiz(); // retry if no swap
+             if(fakeHeadline === realHeadline) return window.initEmbeddedQuiz();
 
              const container = document.getElementById('embedded-quiz-options');
              const isFirstOptionReal = Math.random() < 0.5;
@@ -9798,17 +9837,50 @@ source: "Haaretz"
             if (sourceContainer) sourceContainer.innerHTML = sources.map(s => createCheckbox(s, 'source')).join('');
         }
 
+        // --- SEARCH & FILTER LOGIC ---
+        function applyArchiveFilters() {
+            const searchTerm = document.getElementById('article-search').value.toLowerCase();
+            const start = document.getElementById('start-date').value;
+            const end = document.getElementById('end-date').value;
+            const getChecked = (type) => Array.from(document.querySelectorAll(`input[data-filter-type="${type}"]:checked`)).map(cb => cb.value);
+            const selectedTags = getChecked('tag');
+            const selectedSources = getChecked('source');
+
+            let filtered = articles;
+
+            // Search Term Logic
+            if (searchTerm) {
+                filtered = filtered.filter(a => 
+                    a.title.toLowerCase().includes(searchTerm) || 
+                    a.summary.toLowerCase().includes(searchTerm) ||
+                    a.source.toLowerCase().includes(searchTerm) ||
+                    a.category.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Date Range Logic
+            if (start) filtered = filtered.filter(a => new Date(a.date.replace(/-/g, '/')) >= new Date(start.replace(/-/g, '/')));
+            if (end) filtered = filtered.filter(a => new Date(a.date.replace(/-/g, '/')) <= new Date(end.replace(/-/g, '/')));
+            
+            // Tag Logic
+            if (selectedTags.length > 0) filtered = filtered.filter(a => selectedTags.includes(a.category));
+            
+            // Source Logic
+            if (selectedSources.length > 0) filtered = filtered.filter(a => selectedSources.includes(a.source));
+
+            currentlyDisplayedArticles = filtered;
+            renderArticles(currentlyDisplayedArticles);
+        }
+
         // --- CHART LOGIC ---
         function renderCasualtyChart() {
-            // Safety check for Chart.js
-            if (typeof Chart === 'undefined') {
-                console.warn('Chart.js not loaded');
-                return;
-            }
+            if (typeof Chart === 'undefined') return;
             
             const labels = ["Oct '23", "Dec '23", "Feb '24", "Apr '24", "Jun '24", "Aug '24", "Oct '24", "Dec '24", "Feb '25", "Apr '25", "Jun '25", "Aug '25", "Oct '25"];
             const data = [90000, 220000, 290000, 340000, 380000, 420000, 450000, 490000, 520000, 560000, 600000, 650000, 700000];
-            const ctx = document.getElementById('casualtyChart').getContext('2d');
+            const canvas = document.getElementById('casualtyChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
             if (window.myCasualtyChart) window.myCasualtyChart.destroy();
             window.myCasualtyChart = new Chart(ctx, {
                 type: 'line',
@@ -9854,7 +9926,6 @@ source: "Haaretz"
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // --- DROPDOWN LOGIC (Fix for desktop navigation) ---
             function setupDropdowns() {
                 const dropdowns = [
                     { buttonId: 'archive-menu-button', menuId: 'archive-menu-dropdown' },
@@ -9871,66 +9942,82 @@ source: "Haaretz"
                             e.preventDefault();
                             e.stopPropagation(); 
 
-                            // Close all other menus
                             document.querySelectorAll('.nav-glass div[id$="-menu-dropdown"]').forEach(m => {
                                 if (m !== menu) m.classList.add('hidden');
                             });
 
-                            // Toggle the current menu
                             menu.classList.toggle('hidden');
                         });
-                        // Allow clicks on links inside the dropdown to navigate normally
                         menu.querySelectorAll('a').forEach(link => {
-                            link.addEventListener('click', (e) => {
-                                // Close the dropdown right before navigating
+                            link.addEventListener('click', () => {
                                 menu.classList.add('hidden');
-                                // Do NOT call e.stopPropagation() here; allow navigation event to bubble
                             });
                         });
-                        // Ensure clicks inside the menu container (not links) don't close it globally
                         menu.addEventListener('click', (e) => {
                             e.stopPropagation();
                         });
                     }
                 });
 
-                // Close all dropdowns when clicking outside
                 window.addEventListener('click', () => {
                     document.querySelectorAll('.nav-glass div[id$="-menu-dropdown"]').forEach(m => m.classList.add('hidden'));
                 });
             }
             setupDropdowns();
-            // --- END DROPDOWN LOGIC ---
 
-
-            // --- VICTIM PAGINATION HANDLERS ---
+            // Victim Pagination and Search
             document.getElementById('victim-prev-btn').addEventListener('click', () => handleVictimPageChange(-1));
             document.getElementById('victim-next-btn').addEventListener('click', () => handleVictimPageChange(1));
-            // --- END VICTIM PAGINATION HANDLERS ---
-
-
-            // Priority 1: Update Hero Stats immediately (synchronous, simple DOM update)
-            updateHeroStats();
             
-            currentlyDisplayedArticles = [...articles]; // Initialize with all articles
+            document.getElementById('victim-search').addEventListener('input', (e) => {
+                 const q = e.target.value.toLowerCase();
+                 filteredVictims = victimsData.filter(v => v.en_name.toLowerCase().includes(q));
+                 victimCurrentPage = 1;
+                 renderVictims();
+            });
+
+            // Archive Search
+            document.getElementById('article-search').addEventListener('input', applyArchiveFilters);
+
+            updateHeroStats();
+            currentlyDisplayedArticles = [...articles];
             renderArticles(currentlyDisplayedArticles);
             renderBooks();
             renderVideos();
             renderFilms();
             
-            // Priority 2: Async Data Fetching
             fetchVictimsData();
-            
-            // Priority 3: Interactive Components
             initEmbeddedQuiz();
             setupCarousel();
             populateFilters();
             
-            // Priority 4: Heavy/External Libraries
             renderCasualtyChart();
             updateBiasToolPreview();
+
+            // Ensure nav links for hidden sections reveal them before scrolling
+            document.querySelectorAll('nav a, #mobile-menu a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const href = link.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        const targetSection = document.querySelector(href);
+                        if (targetSection && targetSection.classList.contains('hidden')) {
+                            targetSection.classList.remove('hidden');
+                            // Update corresponding hero button text if they exist
+                            if (href === '#casualty-graph') {
+                                const btn = document.getElementById('view-timeline-btn');
+                                if(btn) btn.innerText = 'Close Timeline';
+                                renderCasualtyChart();
+                            }
+                            if (href === '#bias-tool-controls') {
+                                const btn = document.getElementById('view-bias-tool-btn');
+                                if(btn) btn.innerText = 'Close Bias Tool';
+                            }
+                        }
+                    }
+                });
+            });
             
-            // Random Article Modal with Story Button
+            // RANDOM ARTICLE Logic
             document.getElementById('random-article-btn').addEventListener('click', () => {
                 const article = articles[Math.floor(Math.random() * articles.length)];
                 const safeTitle = escapeHtmlAttribute(article.title);
@@ -9950,24 +10037,21 @@ source: "Haaretz"
                 document.getElementById('random-article-modal').classList.add('is-visible');
             });
 
-            // Toggle Filter Panel
             document.getElementById('toggle-filter-btn').addEventListener('click', (e) => {
                 const panel = document.getElementById('filter-controls');
                 panel.classList.toggle('hidden');
                 e.target.classList.toggle('active');
             });
 
-            // Comparison Section Toggle
             const compareBtn = document.getElementById('toggle-comparison-btn');
             const comparisonSection = document.getElementById('comparison-section');
             if(compareBtn) compareBtn.addEventListener('click', () => {
                 const isHidden = comparisonSection.classList.toggle('hidden');
                 document.getElementById('toggle-comparison-text').innerText = isHidden ? 'See In-Depth Analysis' : 'Hide Analysis';
                 if (!isHidden) comparisonSection.scrollIntoView({ behavior: 'smooth' });
-                setupCarousel(); // Re-init layout
+                setupCarousel();
             });
 
-            // Timeline Toggle
             const timelineBtn = document.getElementById('view-timeline-btn');
             const timelineSection = document.getElementById('casualty-graph');
             if(timelineBtn) timelineBtn.addEventListener('click', () => {
@@ -9983,7 +10067,6 @@ source: "Haaretz"
                 }
             });
 
-            // Bias Tool Toggle
             const biasBtn = document.getElementById('view-bias-tool-btn');
             const biasSection = document.getElementById('bias-tool-controls');
             if (biasBtn) biasBtn.addEventListener('click', () => {
@@ -9998,79 +10081,64 @@ source: "Haaretz"
                 }
             });
 
-            // Double Standard Toggle
             document.getElementById('double-standard-toggle').addEventListener('change', (e) => {
                 titlesSwapped = e.target.checked; 
                 renderArticles(currentlyDisplayedArticles);
                 updateBiasToolPreview(); 
             });
 
-            // Manual Filter Button
             document.getElementById('filter-button').addEventListener('click', () => {
-                const start = document.getElementById('start-date').value;
-                const end = document.getElementById('end-date').value;
-                const getChecked = (type) => Array.from(document.querySelectorAll(`input[data-filter-type="${type}"]:checked`)).map(cb => cb.value);
-                const selectedTags = getChecked('tag');
-                const selectedSources = getChecked('source');
-
-                let filtered = articles;
-                if (start) filtered = filtered.filter(a => new Date(a.date.replace(/-/g, '/')) >= new Date(start.replace(/-/g, '/')));
-                if (end) filtered = filtered.filter(a => new Date(a.date.replace(/-/g, '/')) <= new Date(end.replace(/-/g, '/')));
-                if (selectedTags.length > 0) filtered = filtered.filter(a => selectedTags.includes(a.category));
-                if (selectedSources.length > 0) filtered = filtered.filter(a => selectedSources.includes(a.source));
-
-                articleLimit = 30; 
-                currentlyDisplayedArticles = filtered;
-                renderArticles(currentlyDisplayedArticles);
+                applyArchiveFilters();
+                document.getElementById('filter-controls').classList.add('hidden');
+                document.getElementById('toggle-filter-btn').classList.remove('active');
             });
 
-            // Clear Button
             document.getElementById('clear-button').addEventListener('click', () => {
                 document.getElementById('start-date').value = '';
                 document.getElementById('end-date').value = '';
+                document.getElementById('article-search').value = '';
                 document.querySelectorAll('input[type="checkbox"][data-filter-type]').forEach(cb => cb.checked = false);
                 articleLimit = 30;
                 currentlyDisplayedArticles = [...articles];
                 renderArticles(currentlyDisplayedArticles);
             });
 
-            // Press Release Logic (Expires Jan 5 2026)
-            const now = new Date();
-            const expiryDate = new Date('2026-01-05T23:59:59'); 
-            if (now < expiryDate) {
-                const popup = document.getElementById('press-release-modal');
-                if(popup) {
-                    popup.classList.add('is-visible');
-                    setTimeout(() => { popup.classList.remove('is-visible'); }, 16000);
-                }
-            }
+            // VIEW LIMIT AND LOAD MORE Logic
+            const limitSelect = document.getElementById('article-limit-select');
+            limitSelect.addEventListener('change', (e) => {
+                articleLimit = e.target.value;
+                renderArticles(currentlyDisplayedArticles);
+            });
 
-            // Mobile menu logic
+            document.getElementById('load-more-btn').addEventListener('click', () => {
+                if (articleLimit !== 'all') {
+                    articleLimit = parseInt(articleLimit) + 30;
+                    // Update dropdown to show current view count if possible
+                    limitSelect.value = currentlyDisplayedArticles.length <= articleLimit ? 'all' : articleLimit;
+                }
+                renderArticles(currentlyDisplayedArticles);
+            });
+
+            // Mobile menu
             const menuBtn = document.getElementById('mobile-menu-button');
             const menu = document.getElementById('mobile-menu');
             const closeBtn = document.getElementById('close-mobile-menu');
             
-            // Open Menu and Stop Propagation
             if(menuBtn) menuBtn.addEventListener('click', (e) => {
                 menu.classList.remove('translate-x-full');
                 e.stopPropagation();
             });
-            // Close Menu
             if(closeBtn) closeBtn.addEventListener('click', (e) => {
                 menu.classList.add('translate-x-full');
                 e.stopPropagation();
             });
-            
-            // Close mobile menu when a mobile nav link is clicked (new addition for better UX)
             document.querySelectorAll('.mobile-nav-link').forEach(link => {
                 link.addEventListener('click', () => {
                     menu.classList.add('translate-x-full');
                 });
             });
 
-            // Window click to close dropdowns
             window.addEventListener('click', (e) => {
-                // Close share popovers unless the target is the share button itself
                 if (!e.target.closest('.share-popover') && !e.target.closest('button[onclick*="toggleShareMenu"]')) {
                      document.querySelectorAll('.share-popover').forEach(p => p.classList.add('hidden'));
                 }
@@ -10082,14 +10150,13 @@ source: "Haaretz"
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // SVG Icons for UI
         const Icons = {
             Close: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>,
             Image: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>,
             Type: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>,
-            Calendar: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>,
-            Download: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>,
-            Sparkles: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+            Calendar: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>,
+            Download: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>,
+            Sparkles: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
         };
 
         const StoryGenerator = () => {
@@ -10119,16 +10186,13 @@ source: "Haaretz"
                 drawCanvas();
             }, [isOpen, imgUrl, title, description, date]);
 
-            // New Helper: Get Ordinal Suffix
             const getOrdinal = (n) => {
                 const s = ["th", "st", "nd", "rd"];
                 const v = n % 100;
-                // Special case for 11, 12, 13
                 if (v >= 11 && v <= 13) return n + 'th';
                 return n + (s[v % 10] || s[0]);
             };
 
-            // New Function: Generate Daily Update
             const setDailyUpdate = () => {
                 const now = new Date();
                 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -10137,11 +10201,10 @@ source: "Haaretz"
                 const monthName = months[now.getMonth()];
                 const dateStr = `${dayName}, ${monthName} ${getOrdinal(now.getDate())}`;
                 
-                setImgUrl(''); // Clear image
+                setImgUrl('');
                 setTitle(`Updates - ${dateStr}`);
-                setDescription("The upcoming articles cover *some* of the news coming out of Gaza in the last 24 hours and showcase Palestinian narratives. The articles are available on the digital archive, no paywall required, and are recorded to prevent erasure.");
+                setDescription("The upcoming articles cover news coming out of Gaza in the last 24 hours and showcase Palestinian narratives. Recorded to prevent erasure.");
                 
-                // Set internal date state
                 const yyyy = now.getFullYear();
                 const mm = String(now.getMonth() + 1).padStart(2, '0');
                 const dd = String(now.getDate()).padStart(2, '0');
@@ -10154,8 +10217,7 @@ source: "Haaretz"
                     img.crossOrigin = "anonymous";
                     img.onload = () => resolve(img);
                     img.onerror = () => {
-                        // Proxy fallback
-                        const proxyUrl = `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=3840&h=3840&fit=cover&a=top`;
+                        const proxyUrl = `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=2000&fit=cover`;
                         const proxyImg = new Image();
                         proxyImg.crossOrigin = "anonymous";
                         proxyImg.onload = () => resolve(proxyImg);
@@ -10166,7 +10228,6 @@ source: "Haaretz"
                 });
             };
 
-            // Helper function for text wrapping
             const wrapText = (ctx, text, x, y, maxWidth, lineHeight) => {
                 const words = text.split(' ');
                 let line = '';
@@ -10188,185 +10249,100 @@ source: "Haaretz"
                 return currentY + lineHeight;
             };
 
-
             const drawCanvas = async () => {
                 const canvas = canvasRef.current;
                 const ctx = canvas.getContext('2d');
-                
-                const size = 3840;
+                const size = 2000;
                 canvas.width = size;
                 canvas.height = size;
 
-                // 1. Background fill
                 ctx.fillStyle = '#0a0a0a';
                 ctx.fillRect(0, 0, size, size);
 
-                // 2. Image Loading
                 if (imgUrl) {
                     try {
                         const img = await loadUnknownImage(imgUrl);
-                        // Center crop the image to fill the canvas
                         const imgAspect = img.width / img.height;
-                        const canvasAspect = size / size; // 1.0
+                        const canvasAspect = 1;
                         let sx, sy, sw, sh;
 
-                        if (imgAspect > canvasAspect) { // Image is wider than canvas (landscape)
+                        if (imgAspect > canvasAspect) {
                             sw = img.height * canvasAspect;
                             sh = img.height;
                             sx = (img.width - sw) / 2;
                             sy = 0;
-                        } else { // Image is taller than canvas (portrait or square)
+                        } else {
                             sw = img.width;
                             sh = img.width / canvasAspect;
                             sx = 0;
                             sy = (img.height - sh) / 2;
                         }
-
-                        // Draw the cropped image to fill the canvas
                         ctx.drawImage(img, sx, sy, sw, sh, 0, 0, size, size);
-
                     } catch (e) {
-                        // Fallback gradient if image fails
-                        const gradient = ctx.createLinearGradient(0, 0, size, size);
-                        gradient.addColorStop(0, '#1a1a1a');
-                        gradient.addColorStop(1, '#333');
-                        ctx.fillStyle = gradient;
+                        ctx.fillStyle = '#1a1a1a';
                         ctx.fillRect(0, 0, size, size);
                     }
                 }
 
-                // 3. Sophisticated Overlay (Angled & darker at bottom left)
-                const overlay = ctx.createLinearGradient(0, 0, size * 0.8, size);
-                overlay.addColorStop(0, 'rgba(0,0,0,0.2)'); // Lighter top-left
-                overlay.addColorStop(0.5, 'rgba(0,0,0,0.7)');
-                overlay.addColorStop(1, 'rgba(0,0,0,0.96)'); // Very dark bottom-right
+                const overlay = ctx.createLinearGradient(0, 0, 0, size);
+                overlay.addColorStop(0, 'rgba(0,0,0,0.3)');
+                overlay.addColorStop(0.6, 'rgba(0,0,0,0.8)');
+                overlay.addColorStop(1, 'rgba(0,0,0,1)');
                 ctx.fillStyle = overlay;
                 ctx.fillRect(0, 0, size, size);
 
-                // 4. Branding (Top Left Masthead) - Text Logo
-                const logoText = 'ECHOES OF GAZA';
-                const logoX = 180;
-                const logoY = 180;
-
-                ctx.font = '700 80px "Playfair Display", serif';
+                // Logo
+                ctx.font = '700 40px "Playfair Display", serif';
+                ctx.fillStyle = '#FFFFFF';
                 ctx.textAlign = 'left';
-                ctx.letterSpacing = '6px';
+                ctx.fillText('ECHOES OF GAZA', 100, 100);
+
+                // Content
+                const textStartX = 100;
+                let currentY = size * 0.5;
+                const maxW = size - 200;
+
+                ctx.fillStyle = '#CE1126';
+                ctx.fillRect(textStartX, currentY, 15, 400);
+
+                const actualTextX = textStartX + 40;
+                ctx.font = '700 30px "Inter", sans-serif';
+                ctx.fillText(date.toUpperCase() + ' / ARCHIVE', actualTextX, currentY + 30);
                 
-                // Get text width for background pill
-                const logoMetrics = ctx.measureText(logoText);
-                const textWidth = logoMetrics.width;
-                const textHeight = 100; // Approximate height for bounding box
-                const padding = 50;
-
-                // Draw translucent dark pill background
-                ctx.fillStyle = 'rgba(10, 10, 10, 0.7)';
-                const pillX = logoX - padding / 2;
-                const pillY = logoY - textHeight / 2;
-                const pillWidth = textWidth + padding;
-                const pillHeight = textHeight;
-                const radius = 20;
-
-                ctx.beginPath();
-                ctx.moveTo(pillX + radius, pillY);
-                ctx.lineTo(pillX + pillWidth - radius, pillY);
-                ctx.quadraticCurveTo(pillX + pillWidth, pillY, pillX + pillWidth, pillY + radius);
-                ctx.lineTo(pillX + pillWidth, pillY + pillHeight - radius);
-                ctx.quadraticCurveTo(pillX + pillWidth, pillY + pillHeight, pillX + pillWidth - radius, pillY + pillHeight);
-                ctx.lineTo(pillX + radius, pillY + pillHeight);
-                ctx.quadraticCurveTo(pillX, pillY + pillHeight, pillX, pillY + pillHeight - radius);
-                ctx.lineTo(pillX, pillY + radius);
-                ctx.quadraticCurveTo(pillX, pillY, pillX + radius, pillY);
-                ctx.closePath();
-                ctx.fill();
-
-                // Draw text
+                currentY += 120;
+                ctx.font = '700 80px "Playfair Display", serif';
                 ctx.fillStyle = '#FFFFFF';
-                // Adjust Y position to vertically center the text within the pill (approximately)
-                const textBaselineY = logoY + 30; // 30 is adjustment for font baseline
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-                ctx.shadowBlur = 30;
-                ctx.fillText(logoText, logoX, textBaselineY);
-                ctx.shadowBlur = 0; // Reset shadow
+                currentY = wrapText(ctx, title, actualTextX, currentY, maxW - 40, 100);
 
+                currentY += 40;
+                ctx.font = '400 45px "Inter", sans-serif';
+                ctx.fillStyle = '#ccc';
+                wrapText(ctx, description, actualTextX, currentY, maxW - 40, 70);
 
-                // 5. Typography Layout
-                const contentStartX = 180;
-                const contentStartY = size * 0.45; // Start content lower down
-                const maxTextWidth = size - (contentStartX * 2) - 100; // Right margin
-
-                // A. Vertical Brand Accent Bar
-                ctx.fillStyle = '#CE1126'; // Brand Red
-                // Draw a tall red stripe next to the text block
-                ctx.fillRect(contentStartX, contentStartY + 20, 25, 600);
-
-                // B. Content Text Block (Left Aligned next to accent)
-                const textX = contentStartX + 80; // Gap after red bar
-                let currentY = contentStartY + 80;
-
-                // Date/Meta (Uppercase, Red)
-                ctx.font = '700 50px "Inter", sans-serif';
-                ctx.fillStyle = '#CE1126'; 
-                ctx.textAlign = 'left';
-                ctx.letterSpacing = '3px';
-                ctx.fillText(date.toUpperCase() + ' / ARCHIVE ENTRY', textX, currentY);
-                currentY += 200; // Increased spacing here (from 160 to 200)
-
-                // Title (Massive, Playfair Display, Bold, White)
-                ctx.font = '700 180px "Playfair Display", serif';
-                ctx.fillStyle = '#FFFFFF';
-                ctx.letterSpacing = '0px';
-                // Use helper function for wrapping title
-                currentY = wrapText(ctx, title, textX, currentY, maxTextWidth, 220);
-                currentY += 80; // Gap after title
-
-                // Summary (Inter, Light Gray)
-                ctx.font = '400 90px "Inter", sans-serif';
-                ctx.fillStyle = '#e5e5e5';
-                // Use helper function for wrapping summary
-                wrapText(ctx, description, textX, currentY, maxTextWidth, 140);
-
-
-                // 6. Footer/URL (Bottom Right Corner)
-                ctx.font = '500 50px "Inter", sans-serif';
-                ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                ctx.font = '500 25px "Inter", sans-serif';
+                ctx.fillStyle = 'rgba(255,255,255,0.4)';
                 ctx.textAlign = 'right';
-                ctx.letterSpacing = '2px';
-                ctx.fillText('ECHOESOFGAZA.ORG | A HISTORICAL ARCHIVE', size - 180, size - 150);
+                ctx.fillText('ECHOESOFGAZA.ORG', size - 100, size - 80);
             };
 
-            const downloadImage = () => {
-                if(!canvasRef.current) return;
-                const link = document.createElement('a');
-                link.download = `echoes-story-${Date.now()}.png`;
-                link.href = canvasRef.current.toDataURL('image/png', 1.0);
-                link.click();
-            };
-
-            // New Share Function Logic
             const shareStory = async () => {
                 if(!canvasRef.current) return;
-                
-                // 1. Create Blob from Canvas
                 const blob = await new Promise(resolve => canvasRef.current.toBlob(resolve, 'image/png'));
-                
-                // 2. Create File Object
-                const file = new File([blob], `echoes-story-${Date.now()}.png`, { type: 'image/png' });
+                const file = new File([blob], `echoes-story.png`, { type: 'image/png' });
 
-                // 3. Check for Native Share API Support
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     try {
                         await navigator.share({
                             files: [file],
                             title: 'Echoes of Gaza Story',
-                            text: 'Read more at echoesofgaza.org'
+                            text: 'Historical Record from echoesofgaza.org'
                         });
-                    } catch (error) {
-                        // The user likely cancelled the share dialog
-                        console.log('Sharing failed or cancelled', error);
-                    }
+                    } catch (error) { console.log('Cancelled'); }
                 } else {
-                    // 4. Fallback to Download for Desktop
-                    downloadImage();
+                    const link = document.createElement('a');
+                    link.download = `echoes-story.png`;
+                    link.href = canvasRef.current.toDataURL('image/png');
+                    link.click();
                 }
             };
 
@@ -10374,104 +10350,54 @@ source: "Haaretz"
                 <>
                     {isOpen && (
                         <div 
-                            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2900] transition-opacity duration-300"
+                            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2900]"
                             onClick={() => setIsOpen(false)}
                         ></div>
                     )}
 
-                    <div className={`story-sidebar ${isOpen ? 'open' : ''} p-0 overflow-y-auto scrollbar-hide bg-[#111] border-l border-white/10`}>
-                        {/* Header */}
-                        <div className="sticky top-0 z-10 bg-[#111]/95 backdrop-blur-md border-b border-white/10 px-6 py-4 flex justify-between items-center">
+                    <div className={`story-sidebar ${isOpen ? 'open' : ''} bg-[#111] border-l border-white/10`}>
+                        <div className="sticky top-0 z-10 bg-[#111]/95 border-b border-white/10 px-6 py-4 flex justify-between items-center">
                             <div>
-                                <h2 className="text-xl font-serif font-bold text-white tracking-wide">Story Creator</h2>
-                                <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-0.5">Social Media Generator</p>
+                                <h2 className="text-xl font-serif font-bold text-white">Story Creator</h2>
                             </div>
-                            <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-white transition hover:bg-white/10 p-2 rounded-full">
+                            <button onClick={() => setIsOpen(false)} className="text-gray-400 p-2">
                                 <Icons.Close />
                             </button>
                         </div>
 
-                        <div className="p-6 space-y-6">
-                            {/* Preview */}
+                        <div className="p-6 space-y-6 overflow-y-auto">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Live Preview</label>
-                                <div className="relative w-full aspect-square bg-black border border-white/10 rounded-xl overflow-hidden shadow-2xl group">
-                                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
-                                    <canvas ref={canvasRef} className="w-full h-full object-contain relative z-10"></canvas>
+                                <label className="text-[10px] font-bold text-gray-400 uppercase">Preview</label>
+                                <div className="w-full aspect-square bg-black border border-white/10 rounded-xl overflow-hidden">
+                                    <canvas ref={canvasRef} className="w-full h-full object-contain"></canvas>
                                 </div>
                             </div>
 
-                            {/* Controls */}
                             <div className="space-y-5">
-                                {/* Daily Update Generator Button */}
-                                <button 
-                                    onClick={setDailyUpdate}
-                                    className="w-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white text-xs font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
-                                >
-                                    <Icons.Sparkles />
-                                    Generate Daily Update
+                                <button onClick={setDailyUpdate} className="w-full bg-zinc-800 text-white text-xs font-bold py-3 rounded-lg flex items-center justify-center gap-2">
+                                    <Icons.Sparkles /> Generate Daily
                                 </button>
                             
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                                        <Icons.Image /> Background Image
-                                    </label>
-                                    <input 
-                                        type="text" 
-                                        value={imgUrl} 
-                                        onChange={(e) => setImgUrl(e.target.value)}
-                                        className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:border-red-500/50 focus:ring-1 focus:ring-red-900/50 outline-none transition-all"
-                                        placeholder="Paste image URL..."
-                                    />
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase">Image URL</label>
+                                    <input type="text" value={imgUrl} onChange={(e) => setImgUrl(e.target.value)} className="w-full bg-black border border-white/10 rounded-lg px-4 py-3 text-white text-sm" />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                                        <Icons.Type /> Headline
-                                    </label>
-                                    <textarea 
-                                        rows="3"
-                                        value={title} 
-                                        onChange={(e) => setTitle(e.target.value)}
-                                        className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:border-red-500/50 focus:ring-1 focus:ring-red-900/50 outline-none resize-none transition-all leading-relaxed"
-                                    />
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase">Headline</label>
+                                    <textarea value={title} onChange={(e) => setTitle(e.target.value)} className="w-full bg-black border border-white/10 rounded-lg px-4 py-3 text-white text-sm" />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                                        <Icons.Type /> Summary
-                                    </label>
-                                    <textarea 
-                                        rows="4"
-                                        value={description} 
-                                        onChange={(e) => setDescription(e.target.value)}
-                                        className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:border-red-500/50 focus:ring-1 focus:ring-red-900/50 outline-none resize-none transition-all leading-relaxed"
-                                    />
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                                        <Icons.Calendar /> Date
-                                    </label>
-                                    <input 
-                                        type="date"
-                                        value={date} 
-                                        onChange={(e) => setDate(e.target.value)}
-                                        className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:border-red-500/50 focus:ring-1 focus:ring-red-900/50 outline-none transition-all"
-                                    />
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase">Summary</label>
+                                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="w-full bg-black border border-white/10 rounded-lg px-4 py-3 text-white text-sm" />
                                 </div>
                             </div>
 
-                            {/* Action */}
-                            <div className="pt-4 sticky bottom-0 bg-gradient-to-t from-[#111] to-transparent pb-6 -mx-6 px-6">
-                                <button 
-                                    onClick={shareStory}
-                                    className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-red-900/30 hover:shadow-red-900/50 hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-3 group"
-                                >
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+                            <div className="pt-4 sticky bottom-0 bg-[#111] pb-6">
+                                <button onClick={shareStory} className="w-full bg-red-600 text-white font-bold py-4 rounded-xl shadow-lg flex items-center justify-center gap-3">
                                     <span>Share to Story</span>
                                 </button>
-                                <p className="text-center text-[10px] text-gray-600 mt-3 uppercase tracking-widest">Tap to share on mobile • Downloads on desktop</p>
                             </div>
                         </div>
                     </div>
@@ -10479,8 +10405,11 @@ source: "Haaretz"
             );
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('story-generator-root'));
-        root.render(<StoryGenerator />);
+        const rootElement = document.getElementById('story-generator-root');
+        if (rootElement) {
+            const root = ReactDOM.createRoot(rootElement);
+            root.render(<StoryGenerator />);
+        }
     </script>
 </body>
 </html>
