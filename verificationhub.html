@@ -8339,6 +8339,7 @@ source: "Haaretz"
             };
 
             const runAudit = async () => {
+                if (isScanning) return;
                 setIsScanning(true);
                 addLog('========== INITIATING PRECISION AUDIT ==========', 'system');
                 addLog('Checking live origins and archival mirrors...', 'info');
