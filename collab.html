@@ -6,188 +6,247 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submission Form - Echoes of Gaza</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom Styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #121212; /* Dark background */
-            color: #E0E0E0; /* Light text */
-        }
-        .form-container {
-            background-color: #1E1E1E; /* Dark card background */
-            border: 1px solid #333;
-            border-top: 4px solid #D90000; /* Red accent */
-        }
-        .form-input, .form-select {
-            background-color: #2C2C2C;
-            border: 1px solid #444;
-            color: #FFFFFF;
-            border-radius: 0.375rem; /* rounded-md */
-        }
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: #D90000; /* Red focus */
-            box-shadow: 0 0 0 2px #5a0000;
-        }
-        .btn-submit {
-            background-color: #008000; /* Green */
-            color: #FFFFFF;
-            transition: background-color 0.3s ease;
-        }
-        .btn-submit:hover {
-            background-color: #006400; /* Darker green */
-        }
-        .btn-submit:disabled {
-            background-color: #444;
-            cursor: not-allowed;
-        }
-        .title-green {
-            color: #008000;
-        }
-        .title-white {
-            color: #FFFFFF;
-        }
-        .title-red {
-            color: #D90000;
-        }
-        .subtitle-gray {
-            color: #AAAAAA;
-        }
-        .note-block {
-            background-color: #2C2C2C;
-            border-left: 4px solid #D90000;
-            padding: 0.75rem;
-            border-radius: 0.25rem;
-        }
-        /* Success and Error Message Styles */
-        .alert-message {
-            display: none; /* Hidden by default */
-            padding: 0.75rem 1rem;
-            border-radius: 0.375rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            font-weight: 500;
-        }
-        .alert-success {
-            background-color: #004d00; /* Dark green */
-            color: #90ee90; /* Light green text */
-            border: 1px solid #008000;
-        }
-        .alert-error {
-            background-color: #4d0000; /* Dark red */
-            color: #f08080; /* Light red text */
-            border: 1px solid #D90000;
-        }
-    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Fonts: Playfair Display (Headings), Lora (Body/Text), Inter (Fallback) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- Global Branding System --- */
+        
+        :root {
+            --bg-primary: #0a0a0a;   /* Deep black/near-black */
+            --bg-secondary: #141414; /* Very dark charcoal */
+            --text-primary: #E0E0E0; /* Off-white */
+            --text-secondary: #888888; /* Muted gray */
+            --border-color: #333333;
+            --accent-red: #8B0000;   /* Deep, restrained red */
+            --focus-red: #D90000;
+        }
+
+        body {
+            font-family: 'Lora', serif; /* Archival/Editorial body font */
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        h1, h2, h3, h4, .editorial-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- Form Elements (Restrained, Rectangular, No "Card" look) --- */
+        
+        /* Removed .form-container styles (no card, no shadow, no rounded corners) */
+        
+        .form-input, .form-select {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: #FFFFFF;
+            border-radius: 0; /* Sharp edges */
+            font-family: 'Lora', serif;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--focus-red);
+            box-shadow: none; /* No glow */
+        }
+        
+        /* Placeholder styling */
+        ::placeholder {
+            color: #555;
+            font-style: italic;
+        }
+
+        /* --- Buttons (Administrative, Minimal) --- */
+        
+        .btn-submit {
+            background-color: #222; /* Neutral administrative dark */
+            color: #E0E0E0;
+            border: 1px solid #444;
+            border-radius: 0; /* Sharp edges */
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif; /* Clean sans for interface elements */
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-red);
+            border-color: var(--accent-red);
+            color: #FFF;
+        }
+
+        .btn-submit:disabled {
+            background-color: #111;
+            border-color: #222;
+            color: #444;
+            cursor: not-allowed;
+        }
+
+        /* --- Typography Details --- */
+
+        .section-header {
+            font-family: 'Playfair Display', serif;
+            color: #FFF;
+            border-bottom: 1px solid #333;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 400; /* Lighter weight for elegance */
+            letter-spacing: 0.02em;
+        }
+
+        .note-block {
+            background-color: transparent; /* No blocky background */
+            border-left: 1px solid var(--accent-red); /* Thin accent line */
+            padding-left: 1rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* --- Messages --- */
+        
+        .alert-message {
+            display: none;
+            padding: 1rem;
+            border-radius: 0; /* Sharp */
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            border: 1px solid;
+        }
+
+        .alert-success {
+            background-color: #051b05;
+            color: #a3d9a3;
+            border-color: #1b4d1b;
+        }
+
+        .alert-error {
+            background-color: #1f0505;
+            color: #d9a3a3;
+            border-color: #4d1b1b;
+        }
+    </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
+<body class="min-h-screen flex flex-col">
 
-    <div class="w-full max-w-2xl mx-auto">
-        <!-- Header -->
-        <div class="mb-6">
-            <!-- Updated: Title is now a link -->
-            <a href="https://rscboy.github.io/eyes-on-palestine/" class="no-underline hover:opacity-90" target="_blank" rel="noopener noreferrer">
-                <h1 class="text-3xl font-bold">
-                    <span class="title-green">Echoes</span>
-                    <span class="title-white">of</span>
-                    <span class="title-red">Gaza</span>:
-                    <span class="text-2xl font-medium subtitle-gray">a historical archive</span>
-                </h1>
-            </a>
-        </div>
+    <!-- Header / Logo Section -->
+    <!-- Positioned normally in flow with generous padding to avoid overlap -->
+    <header class="w-full pt-12 pb-8 px-6 md:px-16 lg:px-24">
+        <a href="https://rscboy.github.io/eyes-on-palestine/" class="no-underline hover:opacity-70 transition-opacity duration-300 inline-block" target="_blank" rel="noopener noreferrer">
+            <h1 class="text-2xl text-white font-bold tracking-widest uppercase" style="font-family: 'Playfair Display', serif;">
+                Echoes of Gaza
+            </h1>
+        </a>
+    </header>
 
-        <!-- Form Card -->
-        <div class="form-container shadow-lg rounded-lg p-6 md:p-8">
-            <div class="space-y-6">
-                <!-- Introduction Text -->
-                <div>
-                    <p class="text-gray-300 mb-4">
-                        This is a Gaza genocide collaborative. Submit articles that document the ongoing genocide, ethnic cleansing, displacement, dehumanization, and subjugation of the Palestinian people.
-                    </p>
-                    <div class="note-block text-sm text-gray-400">
-                        <p class="font-semibold text-gray-200 mb-2">Note on Contribution</p>
-                        <p>
-                            This is an open-source project. Contributions are curated from individuals from the collective based on a history of acting in good faith toward Palestinian liberation. All submissions will be reviewed to ensure they align with the mission of Echoes of Gaza.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Form -->
-                <form id="submissionForm" class="space-y-4">
-                    
-                    <!-- Required Fields -->
-                    <div>
-                        <h3 class="text-lg font-semibold mb-3 border-b border-gray-600 pb-2 text-gray-200">Required Information</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label for="submitterName" class="block text-sm font-medium text-gray-300 mb-1">Your Name *</label>
-                                <input type="text" id="submitterName" name="submitterName" class="form-input block w-full p-2" placeholder="So we know who sent this" required>
-                            </div>
-                            <div>
-                                <label for="date" class="block text-sm font-medium text-gray-300 mb-1">Date of Article (YYYY-MM-DD) *</label>
-                                <input type="date" id="date" name="date" class="form-input block w-full p-2" required>
-                            </div>
-                            <div>
-                                <label for="title" class="block text-sm font-medium text-gray-300 mb-1">Article Title *</label>
-                                <input type="text" id="title" name="title" class="form-input block w-full p-2" placeholder="The exact title of the article" required>
-                            </div>
-                            <div>
-                                <label for="link" class="block text-sm font-medium text-gray-300 mb-1">Article URL *</label>
-                                <input type="url" id="link" name="link" class="form-input block w-full p-2" placeholder="https://..." required>
-                            </div>
-                            <div>
-                                <label for="source" class="block text-sm font-medium text-gray-300 mb-1">Source Name *</label>
-                                <input type="text" id="source" name="source" class="form-input block w-full p-2" placeholder="e.g., Al Jazeera, The Guardian, +972 Magazine" required>
-                            </div>
-                            <div>
-                                <label for="category" class="block text-sm font-medium text-gray-300 mb-1">Category *</label>
-                                <select id="category" name="category" class="form-select block w-full p-2" required>
-                                    <option value="" disabled selected>Select a category</option>
-                                    <!-- Categories will be populated by JavaScript -->
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Optional Fields -->
-                    <div>
-                        <h3 class="text-lg font-semibold mb-3 border-b border-gray-600 pb-2 text-gray-200">Optional Information</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label for="summary" class="block text-sm font-medium text-gray-300 mb-1">Neutral Summary (Optional)</label>
-                                <textarea id="summary" name="summary" rows="4" class="form-input block w-full p-2" placeholder="A brief, neutral, one or two-sentence summary of the article's content."></textarea>
-                            </div>
-                            <div>
-                                <label for="imageUrl" class="block text-sm font-medium text-gray-300 mb-1">Image URL (Optional)</label>
-                                <input type="url" id="imageUrl" name="imageUrl" class="form-input block w-full p-2" placeholder="A link to a relevant image (if available)">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Submit Button & Messages -->
-                    <div>
-                        <!-- Submission Status Messages -->
-                        <div id="successMessage" class="alert-message alert-success">
-                            Thank you! Your submission has been received.
-                        </div>
-                        <div id="errorMessage" class="alert-message alert-error">
-                            Oops! Something went wrong. Please try again.
-                        </div>
-
-                        <button type="button" id="submitButton" class="btn-submit w-full font-bold py-2 px-4 rounded-md shadow-md">
-                            Submit Article
-                        </button>
-                        <p id="submittingText" class="text-xs text-center text-gray-500 mt-3" style="display: none;">
-                            Submitting, please wait...
-                        </p>
-                    </div>
-                </form>
+    <!-- Main Content -->
+    <main class="w-full max-w-3xl mx-auto px-6 md:px-8 pb-24">
+        
+        <!-- Introduction Text -->
+        <div class="mb-12">
+            <!-- Removed the large "Form Card" wrapper to follow "No cards" rule -->
+            <p class="text-xl md:text-2xl text-gray-200 mb-6 font-serif leading-relaxed">
+                This is a Gaza genocide collaborative. Submit articles that document the ongoing genocide, ethnic cleansing, displacement, dehumanization, and subjugation of the Palestinian people.
+            </p>
+            
+            <div class="note-block text-sm">
+                <p class="font-semibold text-gray-400 uppercase tracking-wider text-xs mb-2 not-italic font-sans">Note on Contribution</p>
+                <p>
+                    This is an open-source project. Contributions are curated from individuals from the collective based on a history of acting in good faith toward Palestinian liberation. All submissions will be reviewed to ensure they align with the mission of Echoes of Gaza.
+                </p>
             </div>
         </div>
-    </div>
+
+        <!-- Form -->
+        <form id="submissionForm" class="space-y-12">
+                
+            <!-- Required Fields -->
+            <section>
+                <h3 class="section-header text-xl">Required Information</h3>
+                
+                <div class="space-y-6"> <!-- Increased spacing for "generous margins" -->
+                    <div>
+                        <label for="submitterName" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Your Name *</label>
+                        <input type="text" id="submitterName" name="submitterName" class="form-input block w-full p-3" placeholder="Identify yourself for our records" required>
+                    </div>
+                    
+                    <div>
+                        <label for="date" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Date of Article *</label>
+                        <input type="date" id="date" name="date" class="form-input block w-full p-3" required>
+                    </div>
+                    
+                    <div>
+                        <label for="title" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article Title *</label>
+                        <input type="text" id="title" name="title" class="form-input block w-full p-3" placeholder="Enter the exact headline" required>
+                    </div>
+                    
+                    <div>
+                        <label for="link" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article URL *</label>
+                        <input type="url" id="link" name="link" class="form-input block w-full p-3" placeholder="https://" required>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="source" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Source Name *</label>
+                            <input type="text" id="source" name="source" class="form-input block w-full p-3" placeholder="Publication Name" required>
+                        </div>
+                        <div>
+                            <label for="category" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Category *</label>
+                            <select id="category" name="category" class="form-select block w-full p-3 cursor-pointer" required>
+                                <option value="" disabled selected>Select a classification</option>
+                                <!-- Categories will be populated by JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Optional Fields -->
+            <section>
+                <h3 class="section-header text-xl">Optional Documentation</h3>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label for="summary" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Neutral Summary</label>
+                        <textarea id="summary" name="summary" rows="5" class="form-input block w-full p-3" placeholder="Provide a brief, objective summary of the content."></textarea>
+                    </div>
+                    <div>
+                        <label for="imageUrl" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Image URL</label>
+                        <input type="url" id="imageUrl" name="imageUrl" class="form-input block w-full p-3" placeholder="Link to relevant imagery">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Submit Button & Messages -->
+            <div class="pt-8 border-t border-neutral-900">
+                <!-- Submission Status Messages -->
+                <div id="successMessage" class="alert-message alert-success">
+                    RECORD SUBMITTED. THANK YOU FOR YOUR CONTRIBUTION.
+                </div>
+                <div id="errorMessage" class="alert-message alert-error">
+                    SUBMISSION FAILED. PLEASE VERIFY DATA AND RETRY.
+                </div>
+
+                <button type="button" id="submitButton" class="btn-submit w-full">
+                    Submit Record to Archive
+                </button>
+                <p id="submittingText" class="text-xs text-center text-gray-600 mt-4 font-sans tracking-widest uppercase" style="display: none;">
+                    Processing Submission...
+                </p>
+            </div>
+        </form>
+    </main>
 
     <script>
         // List of all categories, cleaned and sorted
@@ -285,7 +344,6 @@
 
             // Get form data
             const formData = new FormData(form);
-_lat: 40.84000302484766
             const data = Object.fromEntries(formData.entries());
 
             // Get the assigned color
