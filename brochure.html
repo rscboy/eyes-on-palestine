@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoes of Gaza - Handout</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --white: #FFFFFF;
+            --off-white: #F9F9F9;
+            --gray: #4A4A4A;
+            --accent: #1a1a1a;
+            --red: #E4312b; /* Palestinian Flag Red */
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .page {
+                box-shadow: none !important;
+                margin: 0 !important;
+                border: none !important;
+                width: 100% !important;
+                height: 100% !important;
+                padding: 0 !important;
+                overflow: hidden;
+            }
+            .keffiyeh-frame {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+            background: #e0e0e0;
+            padding: 40px;
+            line-height: 1.5;
+            display: flex;
+            justify-content: center;
+        }
+
+        .page {
+            width: 8.5in;
+            height: 11in;
+            background: var(--white);
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+        }
+
+        /* --- Keffiyeh Pattern Border --- */
+        .keffiyeh-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 18px solid transparent;
+            /* slightly more intricate weave pattern */
+            border-image-source: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 16 L16 0 L32 16 L16 32 Z' fill='none' stroke='black' stroke-width='1'/%3E%3Cpath d='M8 8 L24 24 M24 8 L8 24' stroke='black' stroke-width='0.5'/%3E%3C/svg%3E");
+            border-image-slice: 16;
+            border-image-repeat: round;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Inner thin line for definition */
+        .inner-border {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            right: 24px;
+            bottom: 24px;
+            border: 0.5px solid var(--black);
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.6;
+        }
+
+        .content-wrapper {
+            padding: 0.6in 0.85in; /* Adjusted padding for better fit */
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- Header --- */
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd; /* Softer divider */
+            position: relative;
+        }
+
+        /* The Red Resistance Line */
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; /* Sits on top of the grey border */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--red);
+        }
+
+        .logo-container {
+            margin-bottom: 12px;
+        }
+
+        .logo {
+            width: 75px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 34px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+            color: var(--black);
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 11px;
+            color: var(--gray);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .mission {
+            font-family: 'Libre Baskerville', serif; /* Serif for mission = more gravitas */
+            font-size: 13px;
+            font-style: italic;
+            line-height: 1.6;
+            color: var(--accent);
+            max-width: 95%;
+            margin: 0 auto 14px;
+        }
+
+        .website-lockup {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .website {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--black);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            padding: 4px 12px;
+            border: 1px solid var(--black); /* Boxed link style */
+            transition: all 0.2s;
+        }
+
+        /* --- Sections --- */
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: 'IBM Plex Sans', sans-serif; /* Clean sans for headers */
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: var(--red); /* Red accent on titles */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-content {
+            font-size: 12px;
+            color: var(--accent);
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        /* Two column layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 16px;
+        }
+
+        /* Bullet lists */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 14px;
+            margin-bottom: 6px;
+            font-size: 11.5px;
+            line-height: 1.5;
+            color: #222;
+        }
+
+        ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0px;
+            color: var(--black);
+            font-weight: bold;
+        }
+
+        /* Bold items in list */
+        ul li strong {
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        .emphasis {
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            font-weight: 700;
+            color: var(--black);
+            display: block;
+            margin-top: 12px;
+            font-size: 12px;
+            text-align: center; /* Centered impact statement */
+            padding: 8px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* --- CTA Box --- */
+        .cta-box {
+            background: var(--black);
+            color: var(--white);
+            padding: 24px 32px;
+            margin-top: auto; /* Push to bottom */
+            position: relative;
+            /* Removed top border, utilizing full black block */
+        }
+
+        /* White accent line inside black box */
+        .cta-box::after {
+            content: '';
+            position: absolute;
+            left: 32px;
+            top: 24px;
+            bottom: 24px;
+            width: 1px;
+            background: var(--red); /* Red vertical accent */
+        }
+
+        .cta-content {
+            padding-left: 20px; /* Space for the red line */
+        }
+
+        .cta-box .section-title {
+            color: var(--white);
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .cta-box p {
+            font-size: 12px;
+            font-weight: 300;
+            margin-bottom: 14px;
+            opacity: 0.9;
+        }
+
+        .cta-list li {
+            color: var(--white);
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+        
+        .cta-list li:before {
+            color: var(--red); /* Red bullets inside dark mode */
+        }
+
+        .cta-link {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 14px;
+            color: var(--white);
+            text-decoration: none;
+            border-bottom: 1px solid var(--red); /* Red underline */
+            padding-bottom: 2px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 9px;
+            color: var(--gray);
+            font-family: 'IBM Plex Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Helper for print button */
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: var(--black);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: sans-serif;
+            font-weight: bold;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        .print-btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+    <button onclick="window.print()" class="print-btn no-print">Print / Save as PDF</button>
+
+    <div class="page">
+        <!-- Frame -->
+        <div class="keffiyeh-frame"></div>
+        <div class="inner-border"></div>
+
+        <div class="content-wrapper">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo-container">
+                    <img src="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" alt="Echoes of Gaza Logo" class="logo">
+                </div>
+                
+                <h1>Echoes of Gaza</h1>
+                <div class="subtitle">A Digital Historical Archive for Justice</div>
+                
+                <div class="mission">
+                    "An open source, living archive documenting the occupation, displacement, and genocide of the Palestinian people to combat erasure and preserve evidence."
+                </div>
+                
+                <div class="website-lockup">
+                    <a href="https://echoesofgaza.org" class="website">echoesofgaza.org</a>
+                </div>
+            </div>
+
+            <!-- Intro -->
+            <div class="section">
+                <div class="section-title">What Is Echoes of Gaza?</div>
+                <div class="section-content">
+                    <p>Echoes of Gaza is a publicly accessible digital archive preserving Palestinian history in real time. We collect verified, time-stamped records—articles, testimonies, and cultural documentation—to ensure war crimes and lived experiences cannot be denied, rewritten, or forgotten.</p>
+                </div>
+            </div>
+
+            <!-- Columns -->
+            <div class="two-column">
+                <div class="section">
+                    <div class="section-title">Why This Exists</div>
+                    <ul>
+                        <li>History is being erased and manipulated in real time</li>
+                        <li>Evidence disappears via censorship and removals</li>
+                        <li>Palestinian voices are routinely excluded</li>
+                        <li>Accountability demands a permanent public record</li>
+                    </ul>
+                    <span class="emphasis">This archive exists so the world can never say, “We didn’t know.”</span>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">The Difference</div>
+                    <ul>
+                        <li><strong>Verified Sources:</strong> Every entry links to evidence</li>
+                        <li><strong>Time-Stamped:</strong> A permanent chronological record</li>
+                        <li><strong>Open Source:</strong> Transparent and censorship-resistant</li>
+                        <li><strong>Living Archive:</strong> Updated daily by volunteers</li>
+                        <li><strong>Community Driven:</strong> Built for justice, not profit</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- How to Use -->
+            <div class="section">
+                <div class="section-title">How to Use It</div>
+                <div class="two-column" style="margin-bottom: 0; gap: 20px;">
+                    <ul>
+                        <li><strong>Journalists & Researchers:</strong> Cite verified data</li>
+                        <li><strong>Educators:</strong> Teach from primary sources</li>
+                    </ul>
+                    <ul>
+                        <li><strong>Activists:</strong> Reference documentation</li>
+                        <li><strong>Community:</strong> Preserve stories</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="cta-box">
+                <div class="cta-content">
+                    <div class="section-title">Get Involved</div>
+                    <p>Help keep this archive alive. History requires witnesses.</p>
+                    <div class="two-column" style="margin-bottom: 0; gap: 20px;">
+                        <ul class="cta-list">
+                            <li>Explore the archive and share widely</li>
+                            <li>Submit testimonies, art, or documentation</li>
+                        </ul>
+                        <ul class="cta-list">
+                            <li>Contribute edits or additions</li>
+                            <li>Join the open source team</li>
+                        </ul>
+                    </div>
+                    <a href="https://echoesofgaza.org/collab" class="cta-link">echoesofgaza.org/collab &rarr;</a>
+                </div>
+            </div>
+
+            <div class="footer">
+                Echoes of Gaza is an independent, open-source initiative.
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
