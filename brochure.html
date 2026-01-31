@@ -23,18 +23,26 @@
             --red: #E4312b; /* Palestinian Flag Red */
         }
 
+        /* CRITICAL: This removes browser headers/footers */
+        @page {
+            margin: 0;
+            size: 8.5in 11in;
+        }
+
         @media print {
             body {
                 background: white !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
             .page {
                 box-shadow: none !important;
                 margin: 0 !important;
                 border: none !important;
-                width: 100% !important;
-                height: 100% !important;
+                width: 8.5in !important;
+                height: 11in !important;
                 padding: 0 !important;
                 overflow: hidden;
             }
@@ -51,7 +59,7 @@
             font-family: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
             background: #e0e0e0;
             padding: 40px;
-            line-height: 1.5;
+            line-height: 1.45; /* Slightly tighter line height */
             display: flex;
             justify-content: center;
         }
@@ -97,7 +105,7 @@
         }
 
         .content-wrapper {
-            padding: 0.6in 0.85in; /* Adjusted padding for better fit */
+            padding: 0.6in 0.85in; 
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -108,9 +116,9 @@
         /* --- Header --- */
         .header {
             text-align: center;
-            margin-bottom: 24px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #ddd; /* Softer divider */
+            margin-bottom: 20px; /* Tighter spacing */
+            padding-bottom: 16px; /* Tighter spacing */
+            border-bottom: 1px solid #ddd;
             position: relative;
         }
 
@@ -118,7 +126,7 @@
         .header::after {
             content: '';
             position: absolute;
-            bottom: -2px; /* Sits on top of the grey border */
+            bottom: -2px;
             left: 50%;
             transform: translateX(-50%);
             width: 80px;
@@ -127,11 +135,11 @@
         }
 
         .logo-container {
-            margin-bottom: 12px;
+            margin-bottom: 10px; /* Tighter spacing */
         }
 
         .logo {
-            width: 75px;
+            width: 70px; /* Slightly smaller to save space */
             height: auto;
             display: block;
             margin: 0 auto;
@@ -139,7 +147,7 @@
 
         h1 {
             font-family: 'Libre Baskerville', serif;
-            font-size: 34px;
+            font-size: 32px; /* Slightly smaller */
             font-weight: 700;
             letter-spacing: -0.5px;
             margin-bottom: 4px;
@@ -153,51 +161,51 @@
             font-weight: 600;
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .mission {
-            font-family: 'Libre Baskerville', serif; /* Serif for mission = more gravitas */
+            font-family: 'Libre Baskerville', serif;
             font-size: 13px;
             font-style: italic;
-            line-height: 1.6;
+            line-height: 1.5;
             color: var(--accent);
             max-width: 95%;
-            margin: 0 auto 14px;
+            margin: 0 auto 12px;
         }
 
         .website-lockup {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .website {
             font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--black);
             text-decoration: none;
             letter-spacing: 0.5px;
             padding: 4px 12px;
-            border: 1px solid var(--black); /* Boxed link style */
+            border: 1px solid var(--black);
             transition: all 0.2s;
         }
 
         /* --- Sections --- */
         .section {
-            margin-bottom: 20px;
+            margin-bottom: 16px; /* Reduced from 20px */
         }
 
         .section-title {
-            font-family: 'IBM Plex Sans', sans-serif; /* Clean sans for headers */
+            font-family: 'IBM Plex Sans', sans-serif;
             font-size: 12px;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            margin-bottom: 8px;
-            color: var(--red); /* Red accent on titles */
+            margin-bottom: 6px;
+            color: var(--red);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -206,7 +214,7 @@
         .section-content {
             font-size: 12px;
             color: var(--accent);
-            line-height: 1.6;
+            line-height: 1.5;
             text-align: justify;
         }
 
@@ -215,7 +223,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 32px;
-            margin-bottom: 16px;
+            margin-bottom: 12px; /* Reduced margin */
         }
 
         /* Bullet lists */
@@ -227,9 +235,9 @@
         ul li {
             position: relative;
             padding-left: 14px;
-            margin-bottom: 6px;
+            margin-bottom: 4px; /* Tighter bullets */
             font-size: 11.5px;
-            line-height: 1.5;
+            line-height: 1.4;
             color: #222;
         }
 
@@ -253,9 +261,9 @@
             font-weight: 700;
             color: var(--black);
             display: block;
-            margin-top: 12px;
+            margin-top: 10px;
             font-size: 12px;
-            text-align: center; /* Centered impact statement */
+            text-align: center;
             padding: 8px 0;
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
@@ -265,37 +273,36 @@
         .cta-box {
             background: var(--black);
             color: var(--white);
-            padding: 24px 32px;
-            margin-top: auto; /* Push to bottom */
+            padding: 20px 28px; /* Tighter padding */
+            margin-top: auto; 
             position: relative;
-            /* Removed top border, utilizing full black block */
         }
 
         /* White accent line inside black box */
         .cta-box::after {
             content: '';
             position: absolute;
-            left: 32px;
-            top: 24px;
-            bottom: 24px;
+            left: 28px;
+            top: 20px;
+            bottom: 20px;
             width: 1px;
-            background: var(--red); /* Red vertical accent */
+            background: var(--red);
         }
 
         .cta-content {
-            padding-left: 20px; /* Space for the red line */
+            padding-left: 16px;
         }
 
         .cta-box .section-title {
             color: var(--white);
             font-size: 16px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .cta-box p {
             font-size: 12px;
             font-weight: 300;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             opacity: 0.9;
         }
 
@@ -306,23 +313,23 @@
         }
         
         .cta-list li:before {
-            color: var(--red); /* Red bullets inside dark mode */
+            color: var(--red);
         }
 
         .cta-link {
             display: inline-block;
             font-size: 14px;
             font-weight: 700;
-            margin-top: 14px;
+            margin-top: 10px;
             color: var(--white);
             text-decoration: none;
-            border-bottom: 1px solid var(--red); /* Red underline */
+            border-bottom: 1px solid var(--red);
             padding-bottom: 2px;
         }
 
         /* Footer */
         .footer {
-            margin-top: 12px;
+            margin-top: 10px;
             text-align: center;
             font-size: 9px;
             color: var(--gray);
