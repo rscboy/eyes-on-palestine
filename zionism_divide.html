@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflections: Zionism & Anti-Zionism</title>
+    <meta name="description" content="A space for honest self-interrogation regarding Zionism, safety, and identity.">
+    
+    <!-- Fonts: Lora (Serif) for editorial feel, Inter (Sans) for readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Critical CSS: Ensures content is visible immediately (prevents blank screen) -->
+    <style>
+        /* Base styles */
+        body { font-family: 'Inter', sans-serif; background-color: #FDFBF7; color: #2C2C2C; margin: 0; line-height: 1.6; }
+        h1, h2, h3, h4, h5 { font-family: 'Lora', serif; }
+        
+        /* Utility Helpers */
+        [x-cloak] { display: none !important; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Editorial List Styling */
+        ul.editorial-list { list-style: none; padding-left: 0; }
+        ul.editorial-list li { position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+        ul.editorial-list li::before { content: "—"; position: absolute; left: 0; color: #8C3A3A; }
+
+        /* Animation Keyframes (Fallbacks) */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .animate-fade-up { animation: fadeInUp 1s ease-out forwards; }
+        .animate-fade { animation: fadeIn 1.5s ease-out forwards; }
+    </style>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        window.tailwind = {
+            config: {
+                theme: {
+                    extend: {
+                        colors: {
+                            paper: '#FDFBF7',
+                            ink: '#2C2C2C',
+                            charcoal: '#1a1a1a',
+                            stone: { 50: '#fafaf9', 100: '#f5f5f4', 200: '#e7e5e4', 300: '#d6d3d1', 400: '#a8a29e', 500: '#78716c', 600: '#57534e', 800: '#292524', 900: '#1c1917' },
+                            accent: { light: '#D4C5B9', DEFAULT: '#8C3A3A', dark: '#5C2626' }
+                        },
+                        fontFamily: { serif: ['Lora', 'serif'], sans: ['Inter', 'sans-serif'] },
+                        animation: {
+                            'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                            'fade-in': 'fadeIn 1.5s ease-out forwards',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Alpine.js -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="antialiased selection:bg-stone-200 selection:text-ink pb-20">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full p-6 md:p-8 flex justify-between items-start z-50 pointer-events-none mix-blend-difference text-white">
+        <!-- Logo Area -->
+        <div class="pointer-events-auto cursor-default opacity-90 hover:opacity-100 transition-opacity">
+            <div class="text-xs md:text-sm font-medium tracking-[0.2em] uppercase text-white font-sans">
+                The Unsaid Divide
+            </div>
+            <a href="https://echoesofgaza.org" target="_blank" class="block text-[9px] font-bold text-white tracking-wider mt-1 opacity-80 font-sans hover:underline">
+                An Echoes of Gaza Project
+            </a>
+        </div>
+
+        <!-- Desktop Nav Links -->
+        <div class="hidden md:flex gap-8 pointer-events-auto mt-1">
+             <a href="#distinction" class="text-[10px] font-bold uppercase tracking-widest text-stone-300 hover:text-white transition-colors">Distinction</a>
+             <a href="#comparison" class="text-[10px] font-bold uppercase tracking-widest text-stone-300 hover:text-white transition-colors">Definitions</a>
+             <a href="#logics" class="text-[10px] font-bold uppercase tracking-widest text-stone-300 hover:text-white transition-colors">Logics</a>
+             <a href="#reality" class="text-[10px] font-bold uppercase tracking-widest text-stone-300 hover:text-white transition-colors">Reality</a>
+             <a href="#quiz" class="text-[10px] font-bold uppercase tracking-widest text-stone-300 hover:text-white transition-colors">Quiz</a>
+        </div>
+        
+        <!-- Mobile Menu Icon -->
+        <div class="md:hidden pointer-events-auto cursor-pointer opacity-60 hover:opacity-100 transition-opacity">
+            <i data-lucide="menu" class="w-6 h-6 text-white"></i>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 md:px-24 pt-20 relative text-center">
+        <div class="max-w-4xl w-full">
+            <span class="inline-block font-mono text-xs text-stone-500 tracking-widest uppercase mb-8 animate-fade">
+                A plain-spoken explanation
+            </span>
+
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl leading-[1.1] text-ink mb-10 animate-fade-up" style="animation-delay: 0.2s;">
+                States, Power,<br />
+                <span class="italic text-stone-500 font-light">& Ideology.</span>
+            </h1>
+
+            <div class="max-w-2xl mx-auto animate-fade-up" style="animation-delay: 0.5s;">
+                <p class="font-sans text-lg md:text-xl text-stone-600 leading-relaxed">
+                    Breaking down contemporary Zionism and the deliberate conflation with antisemitism. 
+                    We deconstruct both anti-Zionism and Zionism to help make it clear where we see the difference.
+                </p>
+            </div>
+        </div>
+
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce duration-[3000ms] text-stone-400">
+            <i data-lucide="chevron-down" class="w-6 h-6"></i>
+        </div>
+    </section>
+
+    <!-- The Distinction Section -->
+    <section id="distinction" class="py-24 px-6 md:px-24 bg-stone-100/50">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="font-serif text-3xl text-ink mb-12 text-center">First: Clarify the confusion</h2>
+            
+            <div class="prose prose-stone prose-lg mx-auto font-sans text-stone-700 leading-loose text-center md:text-left">
+                <p>
+                    Many people are taught that <strong class="text-ink">Zionism</strong> equals the belief that Jewish people deserve safety and self-determination.
+                </p>
+                <p>
+                    That framing is dangerous because it collapses three very different things into one:
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mt-16 text-center">
+                <div class="p-6 bg-white border border-stone-200 shadow-sm transition-transform hover:-translate-y-1 duration-300">
+                    <div class="text-accent font-mono text-4xl mb-4">1</div>
+                    <h3 class="font-serif text-xl mb-4 text-ink">Jewish People</h3>
+                    <p class="text-sm text-stone-600">A global people with many cultures, beliefs, and politics.</p>
+                </div>
+                <div class="p-6 bg-white border border-stone-200 shadow-sm transition-transform hover:-translate-y-1 duration-300">
+                    <div class="text-accent font-mono text-4xl mb-4">2</div>
+                    <h3 class="font-serif text-xl mb-4 text-ink">Jewish Safety</h3>
+                    <p class="text-sm text-stone-600">A universal moral claim and necessity.</p>
+                </div>
+                <div class="p-6 bg-stone-800 border border-stone-800 shadow-sm text-white transition-transform hover:-translate-y-1 duration-300">
+                    <div class="text-stone-400 font-mono text-4xl mb-4">3</div>
+                    <h3 class="font-serif text-xl mb-4 text-white">Zionism</h3>
+                    <p class="text-sm text-stone-300">A modern political ideology demanding a Jewish-supremacist nation-state in historic Palestine.</p>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center border-t border-stone-200 pt-8">
+                <p class="font-serif text-xl md:text-2xl italic text-ink">
+                    Anti-Zionism rejects #3. Not #1 or #2.
+                </p>
+                <p class="text-sm font-mono text-stone-500 mt-4 uppercase tracking-widest">That distinction is everything.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Comparison Section -->
+    <section class="py-24 md:py-32 bg-white border-y border-stone-200" id="comparison">
+        <div class="max-w-6xl mx-auto px-6 md:px-12">
+            
+            <div class="mb-20 text-center">
+                <h2 class="font-serif text-3xl md:text-4xl text-ink mb-4">The Real Definitions</h2>
+                <div class="h-px w-16 bg-accent mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 md:gap-24 relative">
+                
+                <!-- Center divider line -->
+                <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-stone-200 -translate-x-1/2"></div>
+
+                <!-- LEFT SIDE: ZIONISM -->
+                <div class="flex flex-col">
+                    <div class="mb-8 sticky top-24 bg-white/95 backdrop-blur-sm py-4 z-10 border-b border-stone-200 md:border-none">
+                        <span class="font-mono text-xs text-accent tracking-widest uppercase block mb-2">The State Project</span>
+                        <h3 class="font-serif text-3xl text-ink">What Zionism Is</h3>
+                    </div>
+                    
+                    <div class="prose prose-stone font-sans text-stone-700">
+                        <p class="italic text-stone-500 mb-6">It is not just a feeling or identity. It has concrete features:</p>
+                        <ul class="editorial-list space-y-4 text-lg">
+                            <li>A state defined as belonging primarily to one ethno-religious group</li>
+                            <li>Immigration rights based on identity, not citizenship</li>
+                            <li>Unequal legal status between Jews and non-Jews</li>
+                            <li>Permanent military domination over another population</li>
+                            <li>Territorial expansion enforced by violence</li>
+                        </ul>
+                        <div class="mt-8 p-6 bg-stone-50 border-l-2 border-accent">
+                            <p class="text-sm text-stone-600 leading-relaxed">
+                                Those are not abstractions. They are the lived reality of Palestinians under the state of Israel. 
+                                <br><br>
+                                <span class="font-semibold text-ink">Zionism is about who gets to determine whose lives matter more.</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE: ANTI-ZIONISM -->
+                <div class="flex flex-col">
+                    <div class="mb-8 sticky top-24 bg-white/95 backdrop-blur-sm py-4 z-10 border-b border-stone-200 md:border-none">
+                        <span class="font-mono text-xs text-stone-400 tracking-widest uppercase block mb-2">The Critique</span>
+                        <h3 class="font-serif text-3xl text-ink">What Anti-Zionism Is</h3>
+                    </div>
+
+                    <div class="prose prose-stone font-sans text-stone-700">
+                        <div class="mb-8">
+                            <h4 class="font-bold text-ink mb-3 uppercase text-xs tracking-widest">It Is:</h4>
+                            <ul class="editorial-list space-y-2">
+                                <li>Opposition to ethno-religious nationalism</li>
+                                <li>Opposition to theocracy and religious supremacy</li>
+                                <li>Opposition to apartheid and permanent occupation</li>
+                                <li>Support for equal rights and shared political futures</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-8 opacity-75">
+                            <h4 class="font-bold text-ink mb-3 uppercase text-xs tracking-widest">It Is Not:</h4>
+                            <ul class="space-y-2 list-none pl-0">
+                                <li class="flex items-start gap-2"><i data-lucide="x" class="w-5 h-5 text-stone-400"></i> Opposition to Jewish people</li>
+                                <li class="flex items-start gap-2"><i data-lucide="x" class="w-5 h-5 text-stone-400"></i> Denial of Jewish history or trauma</li>
+                                <li class="flex items-start gap-2"><i data-lucide="x" class="w-5 h-5 text-stone-400"></i> A call for Jewish expulsion or harm</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-6 bg-stone-900 text-stone-200">
+                            <p class="font-serif italic text-lg text-center">
+                                "No group’s safety can be built on another group’s dispossession."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Deep Dive Accordions -->
+    <section class="py-24 px-6 md:px-24 max-w-3xl mx-auto">
+        <div class="mb-12">
+            <h2 class="font-serif text-3xl md:text-4xl text-ink mb-6">Deconstructing the Arguments</h2>
+        </div>
+
+        <div x-data="{ active: null }" class="space-y-4">
+            
+            <!-- Item 1 -->
+            <div class="border border-stone-200 bg-white hover:border-stone-400 transition-colors duration-300">
+                <button @click="active === 1 ? active = null : active = 1" class="w-full text-left px-6 py-6 flex justify-between items-center group">
+                    <span class="font-serif text-xl text-ink">Why "Self-Determination" is the wrong frame</span>
+                    <i data-lucide="plus" class="w-5 h-5 text-stone-400 transition-transform duration-300" :class="{'rotate-45': active === 1}"></i>
+                </button>
+                <div x-show="active === 1" x-collapse x-cloak>
+                    <div class="px-6 pb-8 text-stone-600 leading-relaxed font-sans border-t border-stone-100 pt-6">
+                        <p class="mb-4">Self-determination is about people, not states. <strong>States do not have inherent moral rights. People do.</strong></p>
+                        <p class="mb-4">No state has a right to exist if it requires mass violence, apartheid, or ethnic supremacy to survive.</p>
+                        <p>Zionism treats the state as sacred—even when it enforces segregation, privileges one group in law, and criminalizes dissent. If a state can only exist by denying equality, then the problem is the state—not the demand for equality.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="border border-stone-200 bg-white hover:border-stone-400 transition-colors duration-300">
+                <button @click="active === 2 ? active = null : active = 2" class="w-full text-left px-6 py-6 flex justify-between items-center group">
+                    <span class="font-serif text-xl text-ink">Why Zionism is incompatible with Democracy</span>
+                    <i data-lucide="plus" class="w-5 h-5 text-stone-400 transition-transform duration-300" :class="{'rotate-45': active === 2}"></i>
+                </button>
+                <div x-show="active === 2" x-collapse x-cloak>
+                    <div class="px-6 pb-8 text-stone-600 leading-relaxed font-sans border-t border-stone-100 pt-6">
+                        <p class="mb-4">Democracy requires equal citizenship, one legal system, and political equality regardless of ethnicity. Zionism explicitly rejects this.</p>
+                        <p class="mb-4">A "Jewish state" is not merely a state with many Jewish citizens. It is a state where Jewish identity determines access to land, immigration, and political power, and where demographic engineering is treated as security.</p>
+                        <p class="font-bold">That is not democracy. That is managed supremacy.</p>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Item 3 -->
+             <div class="border border-stone-200 bg-white hover:border-stone-400 transition-colors duration-300">
+                <button @click="active === 3 ? active = null : active = 3" class="w-full text-left px-6 py-6 flex justify-between items-center group">
+                    <span class="font-serif text-xl text-ink">Why Zionism is Anti-American in principle</span>
+                    <i data-lucide="plus" class="w-5 h-5 text-stone-400 transition-transform duration-300" :class="{'rotate-45': active === 3}"></i>
+                </button>
+                <div x-show="active === 3" x-collapse x-cloak>
+                    <div class="px-6 pb-8 text-stone-600 leading-relaxed font-sans border-t border-stone-100 pt-6">
+                        <p class="mb-4">If you believe in religious freedom, separation of church and state, and equal protection under the law, Zionism directly contradicts those values.</p>
+                        <p class="mb-4">It asks us to endorse ethno-religious law, fund military occupation, and treat one people's freedom as expendable.</p>
+                        <p>This is not security. This is empire asking for loyalty. Anti-Zionism rejects the idea that freedom at home requires oppression abroad.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- The Moral Fault Line -->
+    <section class="py-32 bg-stone-900 flex flex-col items-center justify-center text-center px-6">
+        <h2 class="font-serif text-3xl md:text-5xl text-stone-100 mb-16">The Moral Fault Line</h2>
+        
+        <div class="max-w-4xl grid md:grid-cols-2 gap-12 w-full text-left md:text-center">
+            <!-- Increased contrast: removed opacity-70 and lightened text colors -->
+            <div>
+                <h3 class="font-mono text-xs text-stone-400 uppercase tracking-widest mb-4">Zionism Says</h3>
+                <p class="font-serif text-2xl text-stone-100 leading-relaxed">
+                    "Jewish safety requires Jewish dominance."
+                </p>
+                <div class="mt-4 text-stone-400 text-sm">Requires walls, bombs, and permanent war.</div>
+            </div>
+
+            <div>
+                <!-- Changed text-accent to text-stone-300 for better readability on dark background -->
+                <h3 class="font-mono text-xs text-stone-300 uppercase tracking-widest mb-4">Anti-Zionism Says</h3>
+                <p class="font-serif text-2xl text-white leading-relaxed">
+                    "Jewish safety requires equality, not supremacy."
+                </p>
+                <div class="mt-4 text-stone-400 text-sm">Demands shared humanity and political courage.</div>
+            </div>
+        </div>
+        
+        <div class="mt-20 max-w-xl text-stone-500 text-lg font-serif italic">
+            "Only one of those leads to real safety—for Jews, Palestinians, or anyone else."
+        </div>
+    </section>
+
+    <!-- LOGICS SECTION: Side-by-Side Comparison (Formerly Venn Diagram) -->
+    <section id="logics" class="py-24 px-6 md:px-12 bg-[#FDFBF7]" 
+             x-data="{ hoverState: '' }">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-3xl md:text-4xl text-ink">Mapping Political Logics</h2>
+                <p class="text-stone-500 mt-4 max-w-2xl mx-auto font-sans">
+                    A map of how power justifies itself. This is not about equating people, but comparing structures.
+                </p>
+            </div>
+
+            <!-- Desktop View: Side-by-Side with Central Connector -->
+            <div class="hidden lg:flex justify-between items-stretch gap-8 font-sans">
+                
+                <!-- Left Card: Supremacy -->
+                <div class="flex-1 bg-stone-200/50 p-12 border-l-4 border-stone-400 transition-all duration-300 hover:bg-stone-200"
+                     @mouseenter="hoverState = 'left'" @mouseleave="hoverState = ''">
+                    <h3 class="font-serif text-2xl font-bold text-stone-900 mb-2">Supremacy / Exclusion</h3>
+                    <p class="text-xs font-mono text-stone-600 uppercase tracking-widest mb-8">Hierarchy & Justified Violence</p>
+                    
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm font-medium text-stone-800">
+                        <p>Zionism (as state ideology)</p>
+                        <p>Fascism</p>
+                        <p>Ethno-nationalism</p>
+                        <p>Theocracy</p>
+                        <p>White nationalism</p>
+                        <p>Religious nationalism</p>
+                        <p>Settler colonialism</p>
+                        <p>Racial supremacy</p>
+                        <p>Apartheid ideology</p>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-stone-300 text-xs text-stone-700 opacity-90 italic">
+                        <strong>Characteristics:</strong> Blood citizenship • Militarized borders • Collective punishment • Fear framed as security
+                    </div>
+                </div>
+
+                <!-- Center Connector: Shared Rhetoric -->
+                <div class="w-64 flex flex-col justify-center items-center z-10 shrink-0">
+                    <div class="bg-white border border-stone-200 p-8 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)] rounded-sm text-center w-full">
+                        <h4 class="font-bold text-[10px] uppercase tracking-[0.2em] text-stone-400 mb-6">Shared Rhetoric</h4>
+                        <div class="font-serif text-xl text-ink font-semibold italic space-y-3 mb-6">
+                            <p>"Security"</p>
+                            <p>"Survival"</p>
+                            <p>"Freedom"</p>
+                            <p>"History"</p>
+                        </div>
+                        <div class="w-8 h-px bg-accent mx-auto mb-4"></div>
+                        <p class="font-mono text-[10px] text-accent uppercase font-bold leading-tight">
+                            Same Words.<br>Opposite Meanings.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Card: Liberation -->
+                <div class="flex-1 bg-white p-12 border-l-4 border-accent shadow-sm transition-all duration-300 hover:shadow-md"
+                     @mouseenter="hoverState = 'right'" @mouseleave="hoverState = ''">
+                    <h3 class="font-serif text-2xl font-bold text-ink mb-2">Equality / Liberation</h3>
+                    <p class="text-xs font-mono text-stone-500 uppercase tracking-widest mb-8">Universal Rights & Justice</p>
+                    
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm font-medium text-stone-700">
+                        <p>Anti-Zionism</p>
+                        <p>Equal citizenship</p>
+                        <p>Anti-racism</p>
+                        <p>International law</p>
+                        <p>Substantive Democracy</p>
+                        <p>Restorative justice</p>
+                        <p>Anti-fascism</p>
+                        <p>Human rights</p>
+                        <p>Decolonization</p>
+                        <p>Multi-racial democracy</p>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-stone-200 text-xs text-stone-500 opacity-90 italic">
+                        <strong>Characteristics:</strong> Equality before law • No identity supremacy • Safety through justice • Rights apply to everyone
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile View: Stacked Cards -->
+            <div class="lg:hidden flex flex-col gap-6 font-sans">
+                <!-- Card 1 -->
+                <div class="bg-stone-200/50 p-8 border-l-4 border-stone-400" @click="hoverState = hoverState === 'left' ? '' : 'left'">
+                    <h3 class="font-serif text-xl font-bold text-stone-900 mb-2">Supremacy / Exclusion</h3>
+                    <p class="text-xs font-mono text-stone-600 uppercase tracking-widest mb-4">The Logic of Hierarchy</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-white/50 px-2 py-1 text-xs border border-stone-300">Zionism</span>
+                        <span class="bg-white/50 px-2 py-1 text-xs border border-stone-300">Ethno-nationalism</span>
+                        <span class="bg-white/50 px-2 py-1 text-xs border border-stone-300">Apartheid</span>
+                        <span class="bg-white/50 px-2 py-1 text-xs border border-stone-300">Fascism</span>
+                    </div>
+                    <p class="text-sm text-stone-600 italic pt-2">Requires permanent internal enemies & militarized borders.</p>
+                </div>
+
+                <!-- Connector -->
+                <div class="text-center relative py-2">
+                    <div class="bg-white inline-block px-6 py-3 border border-stone-200 shadow-sm">
+                        <p class="font-bold text-[10px] uppercase tracking-widest text-stone-400 mb-1">Shared Rhetoric</p>
+                        <p class="font-serif italic text-ink">"Security" • "Survival" • "Freedom"</p>
+                        <p class="text-[9px] text-accent font-bold uppercase mt-1">Same Words. Opposite Meanings.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white p-8 border-l-4 border-accent shadow-sm" @click="hoverState = hoverState === 'right' ? '' : 'right'">
+                    <h3 class="font-serif text-xl font-bold text-ink mb-2">Equality / Liberation</h3>
+                    <p class="text-xs font-mono text-stone-500 uppercase tracking-widest mb-4">The Logic of Universalism</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-stone-50 px-2 py-1 text-xs border border-stone-200">Anti-Zionism</span>
+                        <span class="bg-stone-50 px-2 py-1 text-xs border border-stone-200">Democracy</span>
+                        <span class="bg-stone-50 px-2 py-1 text-xs border border-stone-200">Anti-racism</span>
+                        <span class="bg-stone-50 px-2 py-1 text-xs border border-stone-200">Human Rights</span>
+                    </div>
+                    <p class="text-sm text-stone-500 italic pt-2">Safety comes from justice, not domination.</p>
+                </div>
+            </div>
+
+            <!-- Dynamic Footer Note -->
+            <div class="mt-12 min-h-[80px] text-center transition-all duration-500">
+                <p x-show="!hoverState" class="font-serif text-lg text-ink px-4">
+                    The question is not whether Jews deserve safety.<br>
+                    <span class="text-stone-500 italic">The question is whether anyone’s safety should depend on supremacy.</span>
+                </p>
+                <div x-show="hoverState === 'left'" x-cloak class="inline-block animate-[fadeIn_0.3s_ease-out]">
+                    <p class="font-sans text-sm text-stone-600 bg-stone-200/50 px-6 py-4 rounded-sm border-l-4 border-stone-500 text-left max-w-xl mx-auto">
+                        <strong>Note:</strong> This comparison is about structure, not equivalence of suffering. Historical trauma does not justify permanent hierarchy.
+                    </p>
+                </div>
+                <div x-show="hoverState === 'right'" x-cloak class="inline-block animate-[fadeIn_0.3s_ease-out]">
+                    <p class="font-sans text-sm text-stone-600 bg-white shadow-sm px-6 py-4 rounded-sm border-l-4 border-accent text-left max-w-xl mx-auto">
+                        <strong>Note:</strong> Critique of ideology ≠ condemnation of people. This side prioritizes rights that apply to everyone, regardless of origin.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: Zionism Is What It Does -->
+    <section id="reality" class="py-24 px-6 md:px-24 bg-stone-100/30 border-y border-stone-200">
+        <div class="max-w-4xl mx-auto">
+            
+            <!-- 1. ENTRY — THE TITLE AS A CLAIM -->
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl md:text-5xl text-ink mb-4">Zionism Is What It Does</h2>
+                
+                <p class="font-sans text-xs md:text-sm text-stone-500 mb-8 uppercase tracking-wider">
+                    Inspired by Caitlin Johnstone. 
+                    <a href="https://archive.is/20250822003948/https://www.caitlinjohnst.one/p/zionism-is-what-it-does" target="_blank" class="underline decoration-stone-300 hover:text-accent hover:decoration-accent transition-all">
+                        Click here to read the original article.
+                    </a>
+                </p>
+
+                <div class="w-16 h-px bg-accent mx-auto mb-12"></div>
+                
+                <!-- 2. THE THESIS -->
+                <blockquote class="font-serif text-2xl md:text-3xl italic text-stone-800 leading-relaxed max-w-2xl mx-auto">
+                    “Zionism means exactly what we see before us today.”
+                </blockquote>
+            </div>
+
+            <!-- 3. WHY DEFINITIONS FAIL -->
+            <div class="max-w-2xl mx-auto text-center mb-16 font-sans text-stone-700 space-y-4">
+                <p class="text-lg">
+                    Ideologies are not poetry. They are systems of power. 
+                    Power reveals itself through enforcement, borders, and violence.
+                </p>
+                <p class="text-stone-500">
+                    If an ideology consistently produces the same outcomes across time, leadership, and circumstance, those outcomes are not distortions — they are features.
+                </p>
+                <div class="py-4"></div>
+                <p class="font-serif italic text-xl text-ink border-l-4 border-accent pl-4 text-left">
+                    “You can’t separate them from their actions.”
+                </p>
+            </div>
+
+            <!-- 4. DEFINITIONS VS OUTCOMES (3-Column Grid) -->
+            <div class="grid md:grid-cols-3 gap-8 mb-24 border-t border-b border-stone-200 py-12">
+                <!-- Col 1 -->
+                <div class="text-center md:text-left">
+                    <h4 class="font-mono text-xs text-stone-400 uppercase tracking-widest mb-4">What it Promises</h4>
+                    <ul class="space-y-2 text-stone-600 text-sm font-sans">
+                        <li>A safe haven</li>
+                        <li>Jewish democracy</li>
+                        <li>Historic redemption</li>
+                    </ul>
+                </div>
+                <!-- Col 2 -->
+                <div class="text-center md:text-left">
+                    <h4 class="font-mono text-xs text-stone-400 uppercase tracking-widest mb-4">What it Requires</h4>
+                    <ul class="space-y-2 text-stone-600 text-sm font-sans">
+                        <li>Demographic engineering</li>
+                        <li>Military occupation</li>
+                        <li>Land seizure & exclusivity</li>
+                    </ul>
+                </div>
+                <!-- Col 3 -->
+                <div class="text-center md:text-left">
+                    <h4 class="font-mono text-xs text-accent uppercase tracking-widest mb-4 font-bold">What it Produces</h4>
+                    <ul class="space-y-2 text-ink text-sm font-bold font-sans">
+                        <li>Permanent displacement</li>
+                        <li>Apartheid legal systems</li>
+                        <li>Cyclical violence & death</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 5. THE EXPERIMENT HAS BEEN RUN -->
+            <div class="mb-20 text-center">
+                <p class="font-serif text-2xl text-ink mb-6">
+                    “The Zionist experiment has been run, and these are the results.”
+                </p>
+                <div class="flex items-center justify-center gap-4 text-xs font-mono text-stone-400 uppercase tracking-widest mb-6">
+                    <span>1948</span>
+                    <span class="w-12 h-px bg-stone-300"></span>
+                    <span>1967</span>
+                    <span class="w-12 h-px bg-stone-300"></span>
+                    <span>Today</span>
+                </div>
+                <p class="text-stone-600 max-w-xl mx-auto text-sm">
+                    This is not about one war, one government, or one leader. 
+                    These outcomes appear whenever the ideology is enforced. There is no reset.
+                </p>
+            </div>
+
+            <!-- 6. IT WAS SUPPOSED TO BE DIFFERENT -->
+            <div class="bg-white p-8 md:p-12 border border-stone-200 mb-20 shadow-sm">
+                <h3 class="font-serif text-xl text-ink mb-4">"It was supposed to be different"</h3>
+                <p class="text-stone-600 mb-8 leading-relaxed">
+                    Many cling to the idea that it started as refuge and went wrong later. 
+                    But an ethno-religious state in a land already inhabited could only be built and maintained through force. 
+                    This is structural, not moralistic.
+                </p>
+                <blockquote class="font-serif text-lg italic text-ink border-l-4 border-stone-800 pl-6">
+                    “There is no other alternate reality iteration of Zionism you can point to where genocide, ethnic cleansing, apartheid and nonstop violence and abuse are not happening.”
+                </blockquote>
+            </div>
+
+            <!-- 7. THE COMPARISON THAT ENDS EXCEPTIONS -->
+            <div class="py-16 text-center">
+                <p class="text-stone-500 mb-6 text-sm uppercase tracking-widest">No ideology is judged by its intentions. All are judged by what happens when they win power.</p>
+                <h3 class="font-serif text-2xl md:text-4xl text-ink leading-tight max-w-3xl mx-auto">
+                    “You can’t legitimately tell me ‘Nazism just means a safe and prosperous homeland for the German people.’”
+                </h3>
+            </div>
+
+            <!-- 8. INTENT, TRAUMA, AND THE MORAL LIMIT -->
+            <div class="max-w-2xl mx-auto mb-20 space-y-6 text-stone-700">
+                <p>
+                    Historical antisemitism and the Holocaust explain the fear. They explain the trauma. 
+                    But trauma does not grant moral exemption.
+                </p>
+                <p class="font-bold">
+                    None of these justify permanent domination of another people.
+                </p>
+                <div class="p-6 bg-stone-200/50 italic font-serif text-ink">
+                    “It doesn’t matter if you believe Israel just wants to live in peace.”
+                </div>
+            </div>
+
+            <!-- 9. WHEN IDEOLOGY REQUIRES LYING -->
+            <div class="grid md:grid-cols-2 gap-12 items-center mb-24">
+                <div>
+                    <h3 class="font-serif text-xl text-ink mb-4">When reality is indefensible, rhetoric must escalate.</h3>
+                    <ul class="space-y-3 text-stone-600 text-sm">
+                        <li class="flex items-center gap-2"><i data-lucide="x" class="w-4 h-4 text-stone-400"></i> Media Denial</li>
+                        <li class="flex items-center gap-2"><i data-lucide="x" class="w-4 h-4 text-stone-400"></i> Semantic Warfare</li>
+                        <li class="flex items-center gap-2"><i data-lucide="x" class="w-4 h-4 text-stone-400"></i> Smearing Critics</li>
+                        <li class="flex items-center gap-2"><i data-lucide="x" class="w-4 h-4 text-stone-400"></i> Weaponized Accusations</li>
+                    </ul>
+                </div>
+                <div class="text-right">
+                    <p class="font-serif text-2xl italic text-ink">
+                        “Trying to argue otherwise is to argue with reality.”
+                    </p>
+                </div>
+            </div>
+
+            <!-- 10. WHAT ANTI-ZIONISM MEANS -->
+            <div class="text-center mb-16">
+                <h3 class="font-serif text-3xl text-ink mb-4">And anti-Zionism means opposing these things.</h3>
+                <p class="text-stone-500">Anti-Zionism is a refusal to normalize atrocity through abstraction.</p>
+            </div>
+
+            <!-- 11. THE IRREVERSIBLE FACT -->
+            <div class="max-w-md mx-auto text-center border-t border-stone-200 pt-8 mb-16">
+                <p class="font-sans font-bold text-ink uppercase tracking-widest text-xs mb-4">The Irreversible Fact</p>
+                <p class="font-serif text-lg text-stone-800">
+                    Once genocide and apartheid are present, the argument is no longer theoretical. 
+                    There is no more "debate." Only responsibility.
+                </p>
+            </div>
+
+            <!-- 12. FINAL LINE -->
+            <div class="text-center">
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-ink">
+                    Israel is what it does.<br>
+                    Zionism is what it does.
+                </h2>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- INTERACTIVE SELF-ASSESSMENT QUIZ -->
+    <section class="py-24 px-6 md:px-24 bg-paper border-t border-stone-200" id="quiz" 
+        x-data="{
+            step: 'intro', // intro, quiz, result
+            qIndex: 0,
+            answers: [],
+            questions: [
+                { text: 'A state that defines itself as belonging primarily to one ethno-religious group can still be democratic.', type: 'std' },
+                { text: 'Jewish safety requires a Jewish-majority state with special legal protections for Jews.', type: 'std' },
+                { text: 'If maintaining a state requires permanent military occupation of another people, that state is still morally legitimate.', type: 'std' },
+                { text: 'Palestinians living under Israeli control should have the same legal rights, freedom of movement, and political power as Jewish Israelis—even if that ends Israel as a “Jewish state.”', type: 'inv' },
+                { text: 'There are situations where apartheid is tragic but necessary for security.', type: 'std' },
+                { text: 'Criticizing Zionism as an ideology is inherently antisemitic.', type: 'std' },
+                { text: 'A state does not have a moral right to exist if it depends on ethnic supremacy, mass displacement, or collective punishment.', type: 'inv' },
+                { text: 'Jewish self-determination can exist in forms other than a nation-state built on exclusive Jewish sovereignty.', type: 'inv' },
+                { text: 'U.S. military and diplomatic support for Israel should be unconditional, even when Israel violates international law.', type: 'std' },
+                { text: 'True Jewish safety will come from equality, shared political futures, and peace—not military dominance.', type: 'inv' }
+            ],
+            select(val) {
+                this.answers[this.qIndex] = val;
+                if (this.qIndex < this.questions.length - 1) {
+                    this.qIndex++;
+                } else {
+                    this.step = 'result';
+                }
+            },
+            getResult() {
+                // Scoring: 
+                // Std: A=Zionist, B=Unsure, C=Anti
+                // Inv: A=Anti, B=Unsure, C=Zionist
+                let zScore = 0;
+                let azScore = 0;
+                let bCount = 0;
+
+                this.questions.forEach((q, i) => {
+                    let ans = this.answers[i];
+                    if (ans === 'B') {
+                        bCount++;
+                    } else if (q.type === 'std') {
+                        if (ans === 'A') zScore++;
+                        if (ans === 'C') azScore++;
+                    } else if (q.type === 'inv') {
+                        if (ans === 'A') azScore++;
+                        if (ans === 'C') zScore++;
+                    }
+                });
+
+                if (bCount > 4) return 'B';
+                if (zScore > azScore) return 'A';
+                return 'C';
+            },
+            restart() {
+                this.step = 'intro';
+                this.qIndex = 0;
+                this.answers = [];
+            }
+        }"
+    >
+        <div class="max-w-3xl mx-auto">
+            
+            <!-- INTRO VIEW -->
+            <div x-show="step === 'intro'" x-transition:enter="transition ease-out duration-500" class="text-center">
+                <span class="font-mono text-xs text-stone-400 uppercase tracking-widest mb-4 block">Self-Assessment</span>
+                <h2 class="font-serif text-3xl md:text-4xl text-ink mb-6">Zionism or Not?</h2>
+                <p class="text-lg text-stone-600 font-sans mb-8 leading-relaxed max-w-xl mx-auto">
+                    A diagnostic, not accusatory, quiz. Designed for a Jewish audience that may have been taught "Zionism = Jewish safety" and wants to honestly examine what they actually believe about states, equality, and power.
+                </p>
+                <div class="bg-stone-100 p-6 rounded-sm inline-block text-left mb-10 text-sm text-stone-500 font-sans border border-stone-200">
+                    <p class="mb-2"><strong>A</strong> = Strongly agree / agree</p>
+                    <p class="mb-2"><strong>B</strong> = Unsure / conflicted / depends</p>
+                    <p><strong>C</strong> = Disagree / strongly disagree</p>
+                </div>
+                <br>
+                <button @click="step = 'quiz'" class="px-10 py-4 bg-stone-900 text-white font-bold hover:bg-black hover:scale-105 hover:shadow-xl transition-all duration-300 tracking-widest text-sm uppercase rounded-sm border border-stone-800">
+                    Start Assessment
+                </button>
+                <p class="mt-6 text-xs text-stone-400 italic">There are no trick questions. Answer based on what you actually believe.</p>
+            </div>
+
+            <!-- QUIZ VIEW -->
+            <div x-show="step === 'quiz'" x-cloak class="min-h-[400px] flex flex-col justify-center">
+                <div class="mb-8 flex justify-between items-end border-b border-stone-200 pb-2">
+                    <span class="font-mono text-xs text-stone-400">Question <span x-text="qIndex + 1"></span>/10</span>
+                    <div class="flex gap-1">
+                        <template x-for="(q, i) in questions">
+                            <div class="h-1 w-4 rounded-full transition-colors" :class="i <= qIndex ? 'bg-accent' : 'bg-stone-200'"></div>
+                        </template>
+                    </div>
+                </div>
+
+                <h3 class="font-serif text-2xl md:text-3xl text-ink leading-relaxed mb-12 min-h-[120px]" x-text="questions[qIndex].text"></h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button @click="select('A')" class="p-6 border border-stone-300 hover:border-accent hover:bg-stone-50 transition-all text-left group bg-white">
+                        <span class="block font-bold text-xl mb-2 group-hover:text-accent">A</span>
+                        <span class="text-xs text-stone-500 uppercase tracking-wider">Agree</span>
+                    </button>
+                    <button @click="select('B')" class="p-6 border border-stone-300 hover:border-stone-500 hover:bg-stone-50 transition-all text-left group bg-white">
+                        <span class="block font-bold text-xl mb-2 group-hover:text-stone-600">B</span>
+                        <span class="text-xs text-stone-500 uppercase tracking-wider">Unsure</span>
+                    </button>
+                    <button @click="select('C')" class="p-6 border border-stone-300 hover:border-accent hover:bg-stone-50 transition-all text-left group bg-white">
+                        <span class="block font-bold text-xl mb-2 group-hover:text-accent">C</span>
+                        <span class="text-xs text-stone-500 uppercase tracking-wider">Disagree</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- RESULT VIEW -->
+            <div x-show="step === 'result'" x-cloak>
+                <div class="text-center mb-12">
+                    <h3 class="font-mono text-xs text-stone-400 uppercase tracking-widest mb-2">Your Reflection</h3>
+                    <h2 class="font-serif text-4xl text-ink mb-6">How to read your answers</h2>
+                    <p class="text-stone-500 italic">This is not a scorecard, but a mirror.</p>
+                </div>
+
+                <div class="grid gap-8">
+                    
+                    <!-- Result A: Zionist -->
+                    <div class="p-8 border bg-white transition-all duration-500"
+                        :class="getResult() === 'A' ? 'border-accent shadow-md scale-[1.02]' : 'border-stone-100 opacity-50 grayscale'">
+                        <h4 class="font-serif text-2xl text-ink mb-4 flex items-center gap-3">
+                            <span x-show="getResult() === 'A'" class="text-accent text-sm font-sans font-bold tracking-widest uppercase border border-accent px-2 py-1">You are here</span>
+                            Likely Zionist Beliefs
+                        </h4>
+                        <p class="text-stone-600 leading-relaxed font-sans">
+                            You likely hold Zionist beliefs, even if you consider yourself "critical" or "liberal" about Israel. That doesn’t mean you are malicious. It means you believe Jewish safety is best protected through state power, demographic control, and exceptionalism.
+                        </p>
+                    </div>
+
+                    <!-- Result B: Transition -->
+                    <div class="p-8 border bg-white transition-all duration-500"
+                        :class="getResult() === 'B' ? 'border-stone-500 shadow-md scale-[1.02]' : 'border-stone-100 opacity-50 grayscale'">
+                        <h4 class="font-serif text-2xl text-ink mb-4 flex items-center gap-3">
+                            <span x-show="getResult() === 'B'" class="text-stone-500 text-sm font-sans font-bold tracking-widest uppercase border border-stone-500 px-2 py-1">You are here</span>
+                            Transition Zone
+                        </h4>
+                        <p class="text-stone-600 leading-relaxed font-sans">
+                            You may have internal conflicts between Jewish ethics and state violence, or liberal values and ethno-nationalism. This is where many people begin questioning Zionism seriously.
+                        </p>
+                    </div>
+
+                    <!-- Result C: Anti-Zionist -->
+                    <div class="p-8 border bg-white transition-all duration-500"
+                         :class="getResult() === 'C' ? 'border-accent shadow-md scale-[1.02]' : 'border-stone-100 opacity-50 grayscale'">
+                        <h4 class="font-serif text-2xl text-ink mb-4 flex items-center gap-3">
+                            <span x-show="getResult() === 'C'" class="text-accent text-sm font-sans font-bold tracking-widest uppercase border border-accent px-2 py-1">You are here</span>
+                            Likely Anti-Zionist
+                        </h4>
+                        <p class="text-stone-600 leading-relaxed font-sans">
+                            You likely believe that no state is above equality, and no people’s safety requires another’s oppression. That is not a rejection of Judaism. It is a rejection of supremacy.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="mt-16 text-center max-w-xl mx-auto border-t border-stone-200 pt-8">
+                    <p class="font-serif text-lg text-ink italic mb-6">
+                        "If answering these questions made you uncomfortable, that discomfort isn’t a failure. It’s an opening."
+                    </p>
+                    <button @click="restart()" class="text-xs font-mono text-stone-400 hover:text-ink uppercase tracking-widest underline decoration-stone-300 underline-offset-4">
+                        Retake Assessment
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-paper py-24 px-6 text-center border-t border-stone-200">
+        <div class="max-w-2xl mx-auto">
+            <h3 class="font-serif text-2xl text-ink mb-8">The Closing Truth</h3>
+            
+            <p class="text-stone-700 text-lg mb-8 leading-relaxed font-sans">
+                Anti-Zionism is not a denial of Jewish life. It is a refusal to let Jewish trauma be weaponized to justify apartheid, ethnic cleansing, and endless war.
+            </p>
+
+            <div class="py-8 px-8 border border-stone-300 inline-block bg-white">
+                <p class="font-serif text-xl md:text-2xl text-ink italic">
+                    "No one’s liberation can be built on someone else’s erasure."
+                </p>
+            </div>
+
+            <div class="mt-16 flex justify-center gap-4 text-[10px] font-mono text-stone-400 uppercase tracking-widest">
+                <span>Ethical</span>
+                <span>•</span>
+                <span>Democratic</span>
+                <span>•</span>
+                <span>Jewish</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
