@@ -59,7 +59,7 @@
             font-family: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
             background: #e0e0e0;
             padding: 40px;
-            line-height: 1.45; /* Slightly tighter line height */
+            line-height: 1.45;
             display: flex;
             justify-content: center;
         }
@@ -105,7 +105,7 @@
         }
 
         .content-wrapper {
-            padding: 0.6in 0.85in; 
+            padding: 0.5in 0.85in; /* Reduced top/bottom padding slightly more to accommodate larger text */
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -116,8 +116,8 @@
         /* --- Header --- */
         .header {
             text-align: center;
-            margin-bottom: 20px; /* Tighter spacing */
-            padding-bottom: 16px; /* Tighter spacing */
+            margin-bottom: 18px; 
+            padding-bottom: 14px; 
             border-bottom: 1px solid #ddd;
             position: relative;
         }
@@ -135,11 +135,11 @@
         }
 
         .logo-container {
-            margin-bottom: 10px; /* Tighter spacing */
+            margin-bottom: 8px; 
         }
 
         .logo {
-            width: 70px; /* Slightly smaller to save space */
+            width: 72px;
             height: auto;
             display: block;
             margin: 0 auto;
@@ -147,31 +147,31 @@
 
         h1 {
             font-family: 'Libre Baskerville', serif;
-            font-size: 32px; /* Slightly smaller */
+            font-size: 36px;
             font-weight: 700;
             letter-spacing: -0.5px;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             color: var(--black);
             line-height: 1.1;
         }
 
         .subtitle {
-            font-size: 11px;
+            font-size: 12.5px; /* Increased from 12px */
             color: var(--gray);
             font-weight: 600;
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .mission {
             font-family: 'Libre Baskerville', serif;
-            font-size: 13px;
+            font-size: 15px; /* Increased from 14.5px */
             font-style: italic;
             line-height: 1.5;
             color: var(--accent);
-            max-width: 95%;
-            margin: 0 auto 12px;
+            max-width: 98%;
+            margin: 0 auto 10px;
         }
 
         .website-lockup {
@@ -183,7 +183,7 @@
 
         .website {
             font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
             color: var(--black);
             text-decoration: none;
@@ -195,16 +195,16 @@
 
         /* --- Sections --- */
         .section {
-            margin-bottom: 16px; /* Reduced from 20px */
+            margin-bottom: 14px;
         }
 
         .section-title {
             font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             color: var(--red);
             display: flex;
             align-items: center;
@@ -212,7 +212,7 @@
         }
 
         .section-content {
-            font-size: 12px;
+            font-size: 14px; /* Increased from 13px */
             color: var(--accent);
             line-height: 1.5;
             text-align: justify;
@@ -222,8 +222,8 @@
         .two-column {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            margin-bottom: 12px; /* Reduced margin */
+            gap: 28px;
+            margin-bottom: 12px;
         }
 
         /* Bullet lists */
@@ -235,8 +235,8 @@
         ul li {
             position: relative;
             padding-left: 14px;
-            margin-bottom: 4px; /* Tighter bullets */
-            font-size: 11.5px;
+            margin-bottom: 4px;
+            font-size: 13.5px; /* Increased from 12.5px */
             line-height: 1.4;
             color: #222;
         }
@@ -261,10 +261,10 @@
             font-weight: 700;
             color: var(--black);
             display: block;
-            margin-top: 10px;
-            font-size: 12px;
+            margin-top: 8px;
+            font-size: 13.5px; /* Increased from 13px */
             text-align: center;
-            padding: 8px 0;
+            padding: 6px 0;
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
         }
@@ -273,7 +273,7 @@
         .cta-box {
             background: var(--black);
             color: var(--white);
-            padding: 20px 28px; /* Tighter padding */
+            padding: 18px 24px;
             margin-top: auto; 
             position: relative;
         }
@@ -282,9 +282,9 @@
         .cta-box::after {
             content: '';
             position: absolute;
-            left: 28px;
-            top: 20px;
-            bottom: 20px;
+            left: 24px;
+            top: 18px;
+            bottom: 18px;
             width: 1px;
             background: var(--red);
         }
@@ -295,20 +295,20 @@
 
         .cta-box .section-title {
             color: var(--white);
-            font-size: 16px;
+            font-size: 17px;
             margin-bottom: 4px;
         }
 
         .cta-box p {
-            font-size: 12px;
+            font-size: 13.5px; /* Increased from 13px */
             font-weight: 300;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             opacity: 0.9;
         }
 
         .cta-list li {
             color: var(--white);
-            font-size: 11px;
+            font-size: 12.5px; /* Increased from 12px */
             margin-bottom: 3px;
         }
         
@@ -318,9 +318,9 @@
 
         .cta-link {
             display: inline-block;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
-            margin-top: 10px;
+            margin-top: 8px;
             color: var(--white);
             text-decoration: none;
             border-bottom: 1px solid var(--red);
@@ -329,9 +329,9 @@
 
         /* Footer */
         .footer {
-            margin-top: 10px;
+            margin-top: 8px;
             text-align: center;
-            font-size: 9px;
+            font-size: 10px;
             color: var(--gray);
             font-family: 'IBM Plex Sans', sans-serif;
             text-transform: uppercase;
