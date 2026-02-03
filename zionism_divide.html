@@ -17,7 +17,7 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- CRITICAL CSS: Fully independent styling -->
+    <!-- CRITICAL CSS -->
     <style>
         /* --- VARIABLES --- */
         :root {
@@ -68,10 +68,6 @@
         .grid-2 { grid-template-columns: 1fr; }
         .grid-3 { grid-template-columns: 1fr; }
 
-        /* --- RESPONSIVE VISIBILITY --- */
-        .desktop-only { display: none !important; }
-        .mobile-only { display: flex !important; }
-
         /* --- TYPOGRAPHY --- */
         .hero-title { font-size: 2.5rem; line-height: 1.1; color: var(--text-ink); margin-bottom: 1.5rem; }
         .section-title { font-size: 2rem; margin-bottom: 1rem; color: var(--text-ink); }
@@ -100,7 +96,7 @@
         .mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--bg-paper);
-            z-index: 900; /* Below nav (z-1000) so nav stays visible */
+            z-index: 900;
             padding-top: 6rem; padding-left: 2rem; padding-right: 2rem;
             display: flex; flex-direction: column; gap: 2rem;
             overflow-y: auto;
@@ -173,9 +169,6 @@
             .grid-2 { grid-template-columns: 1fr 1fr; gap: 4rem; }
             .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
             
-            .desktop-only { display: flex !important; }
-            .mobile-only { display: none !important; }
-            
             .nav-links { display: flex; }
             .mobile-menu-icon { display: none; }
             
@@ -183,7 +176,6 @@
             .logic-card { flex: 1; }
             .connector { margin: 0; display: flex; flex-direction: column; justify-content: center; width: 200px; flex-shrink: 0; }
             
-            /* Timeline Desktop */
             .timeline { margin-left: 2rem; }
         }
     </style>
@@ -229,12 +221,12 @@
             
             <!-- Desktop Links -->
             <div class="nav-links">
+                <a href="#quiz">Quiz</a>
                 <a href="#distinction">Distinction</a>
                 <a href="#comparison">Definitions</a>
                 <a href="#logics">Logics</a>
                 <a href="#history">History</a>
                 <a href="#reality">Reality</a>
-                <a href="#quiz">Quiz</a>
             </div>
             
             <!-- Mobile Menu Toggle -->
@@ -257,12 +249,12 @@
              x-transition:leave-end="opacity-0 -translate-y-4"
              x-cloak>
              
+             <a href="#quiz" @click="mobileOpen = false" class="mobile-menu-link">Quiz</a>
              <a href="#distinction" @click="mobileOpen = false" class="mobile-menu-link">Distinction</a>
              <a href="#comparison" @click="mobileOpen = false" class="mobile-menu-link">Definitions</a>
              <a href="#logics" @click="mobileOpen = false" class="mobile-menu-link">Logics</a>
              <a href="#history" @click="mobileOpen = false" class="mobile-menu-link">History</a>
              <a href="#reality" @click="mobileOpen = false" class="mobile-menu-link">Reality</a>
-             <a href="#quiz" @click="mobileOpen = false" class="mobile-menu-link">Quiz</a>
              
              <div style="margin-top: auto; padding-bottom: 2rem;">
                  <p class="text-small uppercase">An Echoes of Gaza Project</p>
@@ -286,6 +278,105 @@
         </div>
         <div style="position: absolute; bottom: 2rem; animation: bounce 2s infinite;">
             <i data-lucide="chevron-down" width="24" height="24" style="color: var(--text-muted);"></i>
+        </div>
+    </section>
+
+    <!-- QUIZ: MOVED HERE, under Hero -->
+    <!-- INLINE DATA to prevent mobile loading issues -->
+    <section id="quiz" style="background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);" 
+        x-data="{
+            step: 'intro',
+            qIndex: 0,
+            answers: [],
+            questions: [
+                { text: 'A state that defines itself as belonging primarily to one ethno-religious group can still be democratic.', type: 'std' },
+                { text: 'Jewish safety requires a Jewish-majority state with special legal protections for Jews.', type: 'std' },
+                { text: 'If maintaining a state requires permanent military occupation of another people, that state is still morally legitimate.', type: 'std' },
+                { text: 'Palestinians living under Israeli control should have the same legal rights, freedom of movement, and political power as Jewish Israelis—even if that ends Israel as a \'Jewish state.\'', type: 'inv' },
+                { text: 'There are situations where apartheid is tragic but necessary for security.', type: 'std' },
+                { text: 'Criticizing Zionism as an ideology is inherently antisemitic.', type: 'std' },
+                { text: 'A state does not have a moral right to exist if it depends on ethnic supremacy, mass displacement, or collective punishment.', type: 'inv' },
+                { text: 'Jewish self-determination can exist in forms other than a nation-state built on exclusive Jewish sovereignty.', type: 'inv' },
+                { text: 'U.S. military and diplomatic support for Israel should be unconditional, even when Israel violates international law.', type: 'std' },
+                { text: 'True Jewish safety will come from equality, shared political futures, and peace—not military dominance.', type: 'inv' }
+            ],
+            select(val) {
+                this.answers[this.qIndex] = val;
+                if (this.qIndex < this.questions.length - 1) {
+                    this.qIndex++;
+                } else {
+                    this.step = 'result';
+                    // Check if scrollIntoView exists before calling
+                    if(document.getElementById('quiz')) {
+                        setTimeout(() => { document.getElementById('quiz').scrollIntoView({behavior: 'smooth'}) }, 100);
+                    }
+                }
+            },
+            getResult() {
+                let zScore = 0; let azScore = 0; let bCount = 0;
+                this.questions.forEach((q, i) => {
+                    let ans = this.answers[i];
+                    if (ans === 'B') { bCount++; }
+                    else if (q.type === 'std') { if (ans === 'A') zScore++; if (ans === 'C') azScore++; }
+                    else if (q.type === 'inv') { if (ans === 'A') azScore++; if (ans === 'C') zScore++; }
+                });
+                if (bCount > 4) return 'B';
+                if (zScore > azScore) return 'A';
+                return 'C';
+            },
+            restart() {
+                this.step = 'intro';
+                this.qIndex = 0;
+                this.answers = [];
+            }
+        }">
+        <div class="container max-w-md text-center">
+            
+            <!-- Intro -->
+            <div x-show="step === 'intro'">
+                <h2 class="section-title">Zionism or Not?</h2>
+                <p class="text-muted">A diagnostic, not accusatory, quiz. Designed for a Jewish audience that may have been taught "Zionism = Jewish safety".</p>
+                <div class="card" style="display: inline-block; text-align: left; font-size: 0.9rem; margin-bottom: 2rem;">
+                    <div><strong>A</strong> = Strongly agree</div>
+                    <div><strong>B</strong> = Unsure</div>
+                    <div><strong>C</strong> = Strongly disagree</div>
+                </div>
+                <br>
+                <button @click="step = 'quiz'" class="btn-primary">Start Assessment</button>
+            </div>
+
+            <!-- Quiz -->
+            <div x-show="step === 'quiz'" x-cloak style="min-height: 300px; display: flex; flex-direction: column; justify-content: center;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                    <span class="uppercase">Question <span x-text="qIndex + 1"></span>/10</span>
+                </div>
+                <h3 style="font-size: 1.5rem; min-height: 80px;" x-text="questions[qIndex].text"></h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 2rem;">
+                    <button @click="select('A')" class="card" style="padding: 1rem; text-align: center;"><strong>A</strong><br><span class="text-small">Agree</span></button>
+                    <button @click="select('B')" class="card" style="padding: 1rem; text-align: center;"><strong>B</strong><br><span class="text-small">Unsure</span></button>
+                    <button @click="select('C')" class="card" style="padding: 1rem; text-align: center;"><strong>C</strong><br><span class="text-small">Disagree</span></button>
+                </div>
+            </div>
+
+            <!-- Result -->
+            <div x-show="step === 'result'" x-cloak>
+                <h2 class="section-title">Your Reflection</h2>
+                <div class="text-left" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div class="card" :style="getResult() === 'A' ? 'border: 2px solid var(--text-ink);' : 'opacity: 0.5;'">
+                        <h4>Likely Zionist Beliefs</h4>
+                        <p class="text-small">You likely believe Jewish safety is best protected through state power.</p>
+                    </div>
+                    <div class="card" :style="getResult() === 'B' ? 'border: 2px solid var(--text-ink);' : 'opacity: 0.5;'">
+                        <h4>Transition Zone</h4>
+                        <p class="text-small">You may have internal conflicts between Jewish ethics and state violence.</p>
+                    </div>
+                    <div class="card" :style="getResult() === 'C' ? 'border: 2px solid var(--text-ink);' : 'opacity: 0.5;'">
+                        <h4>Likely Anti-Zionist</h4>
+                        <p class="text-small">You likely believe that no state is above equality.</p>
+                    </div>
+                </div>
+                <button @click="restart()" style="margin-top: 2rem; text-decoration: underline; text-transform: uppercase; font-size: 0.8rem;">Retake</button>
+            </div>
         </div>
     </section>
 
@@ -628,61 +719,20 @@
         </div>
     </section>
 
-    <!-- QUIZ -->
-    <section id="quiz" style="background: white; border-top: 1px solid var(--border);" x-data="quizComponent">
-        <div class="container max-w-md text-center">
-            
-            <!-- Intro -->
-            <div x-show="step === 'intro'">
-                <h2 class="section-title">Zionism or Not?</h2>
-                <p class="text-muted">A diagnostic, not accusatory, quiz. Designed for a Jewish audience that may have been taught "Zionism = Jewish safety".</p>
-                <div class="card" style="display: inline-block; text-align: left; font-size: 0.9rem; margin-bottom: 2rem;">
-                    <div><strong>A</strong> = Strongly agree</div>
-                    <div><strong>B</strong> = Unsure</div>
-                    <div><strong>C</strong> = Strongly disagree</div>
-                </div>
-                <br>
-                <button @click="step = 'quiz'" class="btn-primary">Start Assessment</button>
-            </div>
-
-            <!-- Quiz -->
-            <div x-show="step === 'quiz'" x-cloak style="min-height: 300px; display: flex; flex-direction: column; justify-content: center;">
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                    <span class="uppercase">Question <span x-text="qIndex + 1"></span>/10</span>
-                </div>
-                <h3 style="font-size: 1.5rem; min-height: 80px;" x-text="questions[qIndex].text"></h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 2rem;">
-                    <button @click="select('A')" class="card" style="padding: 1rem; text-align: center;"><strong>A</strong><br><span class="text-small">Agree</span></button>
-                    <button @click="select('B')" class="card" style="padding: 1rem; text-align: center;"><strong>B</strong><br><span class="text-small">Unsure</span></button>
-                    <button @click="select('C')" class="card" style="padding: 1rem; text-align: center;"><strong>C</strong><br><span class="text-small">Disagree</span></button>
-                </div>
-            </div>
-
-    <!-- Footer -->
-    <footer class="bg-paper py-24 px-6 text-center border-t border-stone-200">
-        <div class="max-w-2xl mx-auto">
-            <h3 class="font-serif text-2xl text-ink mb-8">The Closing Truth</h3>
-            
-            <p class="text-stone-700 text-lg mb-8 leading-relaxed font-sans">
+    <!-- FOOTER -->
+    <footer class="text-center" style="background-color: var(--bg-paper); border-top: 1px solid var(--border); padding: 4rem 1.5rem;">
+        <div class="container max-w-md">
+            <h3 style="font-size: 1.5rem; margin-bottom: 2rem;">The Closing Truth</h3>
+            <p class="text-muted">
                 Anti-Zionism is not a denial of Jewish life. It is a refusal to let Jewish trauma be weaponized to justify apartheid, ethnic cleansing, and endless war.
             </p>
-
-            <div class="py-8 px-8 border border-stone-300 inline-block bg-white shadow-sm">
-                <p class="font-serif text-xl md:text-2xl text-ink italic">
+            <div class="card" style="display: inline-block;">
+                <p style="font-style: italic; font-family: var(--font-serif); font-size: 1.25rem; margin: 0;">
                     "No one’s liberation can be built on someone else’s erasure."
                 </p>
             </div>
-
-            <div class="mt-16 flex justify-center gap-4 text-[10px] font-mono text-stone-400 uppercase tracking-widest">
-                <span>Ethical</span>
-                <span>•</span>
-                <span>Democratic</span>
-                <span>•</span>
-                <span>Jewish</span>
-            </div>
         </div>
-
-        <!-- Standard Footer Info -->
+        
         <div style="margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); max-width: 900px; margin-left: auto; margin-right: auto;">
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; font-size: 0.75rem; color: var(--text-muted);">
                 <div style="opacity: 0.7;">
@@ -695,54 +745,8 @@
         </div>
     </footer>
 
-    <!-- LOGIC SCRIPT: Moved outside HTML attributes to prevent syntax errors -->
+    <!-- Icon Init -->
     <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('quizComponent', () => ({
-                step: 'intro',
-                qIndex: 0,
-                answers: [],
-                questions: [
-                    { text: 'A state that defines itself as belonging primarily to one ethno-religious group can still be democratic.', type: 'std' },
-                    { text: 'Jewish safety requires a Jewish-majority state with special legal protections for Jews.', type: 'std' },
-                    { text: 'If maintaining a state requires permanent military occupation of another people, that state is still morally legitimate.', type: 'std' },
-                    { text: 'Palestinians living under Israeli control should have the same legal rights, freedom of movement, and political power as Jewish Israelis—even if that ends Israel as a "Jewish state."', type: 'inv' },
-                    { text: 'There are situations where apartheid is tragic but necessary for security.', type: 'std' },
-                    { text: 'Criticizing Zionism as an ideology is inherently antisemitic.', type: 'std' },
-                    { text: 'A state does not have a moral right to exist if it depends on ethnic supremacy, mass displacement, or collective punishment.', type: 'inv' },
-                    { text: 'Jewish self-determination can exist in forms other than a nation-state built on exclusive Jewish sovereignty.', type: 'inv' },
-                    { text: 'U.S. military and diplomatic support for Israel should be unconditional, even when Israel violates international law.', type: 'std' },
-                    { text: 'True Jewish safety will come from equality, shared political futures, and peace—not military dominance.', type: 'inv' }
-                ],
-                select(val) {
-                    this.answers[this.qIndex] = val;
-                    if (this.qIndex < this.questions.length - 1) {
-                        this.qIndex++;
-                    } else {
-                        this.step = 'result';
-                        setTimeout(() => { document.getElementById('quiz').scrollIntoView({behavior: 'smooth'}) }, 100);
-                    }
-                },
-                getResult() {
-                    let zScore = 0; let azScore = 0; let bCount = 0;
-                    this.questions.forEach((q, i) => {
-                        let ans = this.answers[i];
-                        if (ans === 'B') { bCount++; }
-                        else if (q.type === 'std') { if (ans === 'A') zScore++; if (ans === 'C') azScore++; }
-                        else if (q.type === 'inv') { if (ans === 'A') azScore++; if (ans === 'C') zScore++; }
-                    });
-                    if (bCount > 4) return 'B';
-                    if (zScore > azScore) return 'A';
-                    return 'C';
-                },
-                restart() {
-                    this.step = 'intro';
-                    this.qIndex = 0;
-                    this.answers = [];
-                }
-            }));
-        });
-
         lucide.createIcons();
     </script>
 </body>
