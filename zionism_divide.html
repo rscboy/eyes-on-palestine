@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Unsaid Divide: Zionism & Anti-Zionism</title>
     <meta name="description" content="A space for honest self-interrogation regarding Zionism, safety, and identity.">
-    <link rel="icon" href="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" type="image/png">
-
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -141,6 +139,17 @@
         .tag { font-size: 0.75rem; padding: 0.25rem 0.5rem; background: white; border: 1px solid var(--border); color: var(--text-muted); }
         .connector { text-align: center; padding: 1rem; border: 1px dashed var(--border); margin: 1rem 0; background: white; }
 
+        /* TIMELINE COMPONENT */
+        .timeline { position: relative; padding-left: 2rem; margin-top: 4rem; border-left: 2px solid var(--border); }
+        .timeline-item { position: relative; margin-bottom: 4rem; }
+        .timeline-marker { 
+            position: absolute; left: -2.35rem; top: 0; 
+            width: 0.7rem; height: 0.7rem; 
+            background: var(--bg-paper); border: 2px solid var(--accent); border-radius: 50%; 
+        }
+        .timeline-year { font-family: monospace; font-size: 0.8rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; font-weight: bold; }
+        .timeline-title { font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-ink); }
+
         /* Button */
         .btn-primary {
             display: inline-block; padding: 1rem 2.5rem;
@@ -173,6 +182,9 @@
             .logic-container { flex-direction: row; align-items: stretch; }
             .logic-card { flex: 1; }
             .connector { margin: 0; display: flex; flex-direction: column; justify-content: center; width: 200px; flex-shrink: 0; }
+            
+            /* Timeline Desktop */
+            .timeline { margin-left: 2rem; }
         }
     </style>
     
@@ -220,6 +232,7 @@
                 <a href="#distinction">Distinction</a>
                 <a href="#comparison">Definitions</a>
                 <a href="#logics">Logics</a>
+                <a href="#history">History</a>
                 <a href="#reality">Reality</a>
                 <a href="#quiz">Quiz</a>
             </div>
@@ -247,6 +260,7 @@
              <a href="#distinction" @click="mobileOpen = false" class="mobile-menu-link">Distinction</a>
              <a href="#comparison" @click="mobileOpen = false" class="mobile-menu-link">Definitions</a>
              <a href="#logics" @click="mobileOpen = false" class="mobile-menu-link">Logics</a>
+             <a href="#history" @click="mobileOpen = false" class="mobile-menu-link">History</a>
              <a href="#reality" @click="mobileOpen = false" class="mobile-menu-link">Reality</a>
              <a href="#quiz" @click="mobileOpen = false" class="mobile-menu-link">Quiz</a>
              
@@ -483,6 +497,82 @@
         </div>
     </section>
 
+    <!-- NEW SECTION: HISTORY TIMELINE -->
+    <section id="history" style="background-color: var(--bg-stone);">
+        <div class="container max-w-4xl">
+            <div class="text-center mb-16">
+                <h2 class="section-title">Zionism Was Never Judaism</h2>
+                <div class="divider"></div>
+                <p class="uppercase text-small">A Jewish Debate, From the Beginning</p>
+            </div>
+
+            <div class="max-w-2xl mx-auto mb-16 text-center text-muted">
+                <p class="text-lg">One of the most persistent myths surrounding Zionism is that it represents a natural, ancient, or universal Jewish aspiration. <strong>It does not.</strong></p>
+                <div class="card" style="text-align: left; margin-top: 2rem;">
+                    <p class="bold uppercase text-small" style="color: var(--accent);">Core Clarification</p>
+                    <p>Judaism is a religion, an ethical tradition, and a peoplehood. Zionism is a modern political ideology, emerging in late 19th-century Europe. They are not the same—and they have often been in conflict.</p>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <!-- Item -->
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-year">Pre-1800s</div>
+                    <h3 class="timeline-title">Judaism Without a State</h3>
+                    <p class="text-muted">Jewish life is organized around law, community, ethics, and diaspora. Political sovereignty is largely rejected as premature and dangerous. Return to the land is understood as messianic, not political.</p>
+                </div>
+                <!-- Item -->
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-year">Mid-1800s</div>
+                    <h3 class="timeline-title">European Nationalism Rises</h3>
+                    <p class="text-muted">Jews face pogroms and exclusion. Competing Jewish responses emerge: Socialism, Bundism, Assimilation, and Religious traditionalism. Zionism is a minority view. Many Jews see nationalism itself as the danger.</p>
+                </div>
+                <!-- Item -->
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-year">1897</div>
+                    <h3 class="timeline-title">Political Zionism Founded</h3>
+                    <p class="text-muted">Theodor Herzl convenes the First Zionist Congress. Immediate Jewish opposition emerges, arguing Zionism mirrors European racial nationalism and endangers Jews by tying them to colonial power.</p>
+                </div>
+                <!-- Item -->
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-year">Early 1900s</div>
+                    <h3 class="timeline-title">Jewish Anti-Zionism Organizes</h3>
+                    <p class="text-muted">Orthodox leaders reject Zionism as heretical. Jewish socialists reject it as reactionary. The Jewish Labor Bund insists: "Where we live, there is our homeland."</p>
+                </div>
+                <!-- Item -->
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-year">1948</div>
+                    <h3 class="timeline-title">State Establishment & Expulsion</h3>
+                    <p class="text-muted">Hundreds of thousands of Palestinians are expelled. Zionism becomes a state ideology. Jewish dissent is marginalized. Anti-Zionist Jews face a new accusation: opposing the state equals betraying the people.</p>
+                </div>
+                <!-- Item -->
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-year">1967</div>
+                    <h3 class="timeline-title">Occupation Begins</h3>
+                    <p class="text-muted">Israel occupies Gaza and the West Bank. Military rule becomes permanent. A new Jewish critique emerges: Occupation is incompatible with Jewish ethics.</p>
+                </div>
+                <!-- Item -->
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-year">2023–2026</div>
+                    <h3 class="timeline-title">The Breaking Point</h3>
+                    <p class="text-muted">Mass civilian killing in Gaza. Genocide is named by scholars and survivors. Zionism becomes globally synonymous with permanent war and legalized inequality. Jewish anti-Zionists are no longer fringe.</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-16">
+                <h3 class="font-serif text-2xl mb-4">The Quiet Truth</h3>
+                <p class="italic text-lg">Zionism did not become controversial because people forgot Jewish history. It became controversial because people started remembering it.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- REALITY SECTION -->
     <section id="reality" style="background-color: rgba(245, 245, 244, 0.5); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
         <div class="container max-w-4xl">
@@ -568,39 +658,39 @@
                 </div>
             </div>
 
-            <!-- Result -->
-            <div x-show="step === 'result'" x-cloak>
-                <h2 class="section-title">Your Reflection</h2>
-                <div class="text-left" style="display: flex; flex-direction: column; gap: 1rem;">
-                    <div class="card" :style="getResult() === 'A' ? 'border: 2px solid var(--text-ink);' : 'opacity: 0.5;'">
-                        <h4>Likely Zionist Beliefs</h4>
-                        <p class="text-small">You likely believe Jewish safety is best protected through state power.</p>
-                    </div>
-                    <div class="card" :style="getResult() === 'B' ? 'border: 2px solid var(--text-ink);' : 'opacity: 0.5;'">
-                        <h4>Transition Zone</h4>
-                        <p class="text-small">You may have internal conflicts between Jewish ethics and state violence.</p>
-                    </div>
-                    <div class="card" :style="getResult() === 'C' ? 'border: 2px solid var(--text-ink);' : 'opacity: 0.5;'">
-                        <h4>Likely Anti-Zionist</h4>
-                        <p class="text-small">You likely believe that no state is above equality.</p>
-                    </div>
-                </div>
-                <button @click="restart()" style="margin-top: 2rem; text-decoration: underline; text-transform: uppercase; font-size: 0.8rem;">Retake</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="text-center" style="background-color: var(--bg-paper); border-top: 1px solid var(--border); padding: 4rem 1.5rem;">
-        <div class="container max-w-md">
-            <h3 style="font-size: 1.5rem; margin-bottom: 2rem;">The Closing Truth</h3>
-            <p class="text-muted">
+    <!-- Footer -->
+    <footer class="bg-paper py-24 px-6 text-center border-t border-stone-200">
+        <div class="max-w-2xl mx-auto">
+            <h3 class="font-serif text-2xl text-ink mb-8">The Closing Truth</h3>
+            
+            <p class="text-stone-700 text-lg mb-8 leading-relaxed font-sans">
                 Anti-Zionism is not a denial of Jewish life. It is a refusal to let Jewish trauma be weaponized to justify apartheid, ethnic cleansing, and endless war.
             </p>
-            <div class="card" style="display: inline-block;">
-                <p style="font-style: italic; font-family: var(--font-serif); font-size: 1.25rem; margin: 0;">
+
+            <div class="py-8 px-8 border border-stone-300 inline-block bg-white shadow-sm">
+                <p class="font-serif text-xl md:text-2xl text-ink italic">
                     "No one’s liberation can be built on someone else’s erasure."
                 </p>
+            </div>
+
+            <div class="mt-16 flex justify-center gap-4 text-[10px] font-mono text-stone-400 uppercase tracking-widest">
+                <span>Ethical</span>
+                <span>•</span>
+                <span>Democratic</span>
+                <span>•</span>
+                <span>Jewish</span>
+            </div>
+        </div>
+
+        <!-- Standard Footer Info -->
+        <div style="margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); max-width: 900px; margin-left: auto; margin-right: auto;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; font-size: 0.75rem; color: var(--text-muted);">
+                <div style="opacity: 0.7;">
+                    &copy; 2025 The Unsaid Divide.
+                </div>
+                <a href="https://echoesofgaza.org" target="_blank" style="text-transform: uppercase; letter-spacing: 0.1em; font-weight: bold; opacity: 0.9;">
+                    An Echoes of Gaza Project
+                </a>
             </div>
         </div>
     </footer>
