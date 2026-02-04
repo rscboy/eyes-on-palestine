@@ -349,7 +349,6 @@
             <!-- Intro -->
             <div x-show="step === 'intro'">
                 <h2 class="section-title">Zionism or Not?</h2>
-                <i data-lucide="plus" width="20"></i>
                 <p class="text-muted">A diagnostic quiz. Designed for an audience that may have been taught "Zionism = Jewish safety".</p>
                 <div class="card" style="display: inline-block; text-align: left; font-size: 0.9rem; margin-bottom: 2rem;">
                     <div><strong>A</strong> = Strongly agree</div>
@@ -494,8 +493,11 @@
         <div x-data="{ active: null }" class="flex flex-col gap-4">
             <!-- Item 1 -->
             <div>
+
                 <button @click="active === 1 ? active = null : active = 1" class="accordion-btn">
                     <span>Why "Self-Determination" is the wrong frame</span>
+                                        <i data-lucide="plus" width="20"></i>
+
                 </button>
                 <div x-show="active === 1" x-collapse x-cloak class="accordion-content">
                     <p style="margin-top: 1rem;">Self-determination is about people, not states. <strong>States do not have inherent moral rights. People do.</strong></p>
