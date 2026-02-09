@@ -127,10 +127,9 @@
       getDocs
     } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
     import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-functions.js";
-    // Storage Imports
     import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-storage.js";
 
-    // Your Firebase config (from Firebase Console)
+    // Your Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyBzPg-wYDL27znG6ThriRbqLn29nHzFUWQ",
       authDomain: "echoes-of-gaza.firebaseapp.com",
@@ -218,9 +217,9 @@
       auth = getAuth(app);
       db = getFirestore(app);
       functions = getFunctions(app, "us-central1");
-      // Init Storage
       storage = getStorage(app);
-      // Init Reject Function
+      
+      // Initialize rejectFn callable globally so it's available in handleReject
       rejectFn = httpsCallable(functions, "rejectPrimarySource");
     } catch (e) {
       console.error("Firebase init error", e);
@@ -294,7 +293,6 @@
         const submissions = [];
         snap.forEach((d) => submissions.push({ id: d.id, ...d.data() }));
 
-        // Client-side sort: newest first if createdAt exists
         submissions.sort((a, b) => {
           const da = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(0);
           const dbb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(0);
@@ -329,8 +327,6 @@
       for (const item of items) {
         const createdStr = item.createdAt?.toDate ? item.createdAt.toDate().toLocaleString() : "Unknown submitted time";
         const fileSize = item.sizeBytes ? formatBytes(item.sizeBytes) : "";
-
-        // New Logic
         const safeStoragePath = item.storagePath || "";
         const safeContentType = item.contentType || item.mimeType || "";
 
@@ -358,7 +354,6 @@
                 ${item.source ? `<span class="truncate max-w-md">Source: ${esc(item.source)}</span>` : ""}
               </div>
 
-              <!-- Preview Container -->
               <div id="preview-${esc(item.id)}" class="hidden mt-4"></div>
 
               <div id="success-${esc(item.id)}" class="hidden mt-4 p-3 border border-zinc-800 bg-zinc-950/50">
@@ -377,7 +372,6 @@
             </div>
 
             <div class="flex flex-col gap-2 min-w-[140px] justify-start mt-2">
-              <!-- Preview Button -->
               <button
                 onclick="window.handlePreview('${esc(item.id)}', '${esc(safeStoragePath)}', '${esc(safeContentType)}')"
                 class="px-6 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase w-full md:w-auto">
@@ -397,7 +391,7 @@
                 <button
                   onclick="window.handleApprove('${esc(item.id)}')"
                   id="btn-approve-${esc(item.id)}"
-                  class="flex-1 px-3 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[10px] font-sans tracking-[0.15em] uppercase">
+                  class="flex-1 px-3 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
                   Approve
                 </button>
               </div>
@@ -421,7 +415,6 @@
           throw new Error("No storagePath yet. Try refresh in a few seconds.");
         }
 
-        // Toggle off if already open
         if (!previewBox.classList.contains("hidden")) {
           previewBox.classList.add("hidden");
           previewBox.innerHTML = "";
@@ -435,7 +428,6 @@
 
         previewBox.innerHTML = "";
 
-        // Image preview
         if ((contentType || "").startsWith("image/")) {
           const img = document.createElement("img");
           img.src = url;
@@ -444,7 +436,6 @@
           return;
         }
 
-        // Video preview
         if ((contentType || "").startsWith("video/")) {
           const video = document.createElement("video");
           video.src = url;
@@ -454,7 +445,6 @@
           return;
         }
 
-        // PDF or other
         const iframe = document.createElement("iframe");
         iframe.src = url;
         iframe.className = "w-full border border-zinc-800";
@@ -476,7 +466,7 @@
       }
     };
 
-    // Callable function action (Approve)
+    // Approve Logic
     window.handleApprove = async (submissionId) => {
       if (isProcessing) return;
 
@@ -566,7 +556,6 @@
         const res = await rejectFn({ submissionId, reason });
         console.log("Reject success:", res.data);
 
-        // Remove card from UI
         const card = document.getElementById(`card-${submissionId}`);
         if (card) card.remove();
 
@@ -591,7 +580,6 @@
       }
     };
 
-    // Start state
     showLogin();
   </script>
 </body>
