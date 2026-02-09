@@ -90,6 +90,37 @@
             cursor: not-allowed;
         }
 
+        /* --- Tabs --- */
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+        
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 1rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+        }
+        
+        .tab-btn:hover {
+            color: var(--text-primary);
+        }
+        
+        .tab-btn.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--accent-red);
+        }
+
         /* --- Typography Details --- */
 
         .section-header {
@@ -168,87 +199,230 @@
             </div>
         </div>
 
-        <!-- Form -->
-        <form id="submissionForm" class="space-y-12">
-                
-            <!-- Required Fields -->
-            <section>
-                <h3 class="section-header text-xl">Required Information</h3>
-                
-                <div class="space-y-6"> <!-- Increased spacing for "generous margins" -->
-                    <div>
-                        <label for="submitterName" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Your Name *</label>
-                        <input type="text" id="submitterName" name="submitterName" class="form-input block w-full p-3" placeholder="Identify yourself for our records" required>
-                    </div>
+        <!-- Tabs -->
+        <div class="tab-container">
+            <button id="tab-articles" class="tab-btn active" onclick="switchTab('articles')">Article Submission</button>
+            <button id="tab-primary" class="tab-btn" onclick="switchTab('primary')">Primary Source Submission</button>
+        </div>
+
+        <!-- Article Form Container -->
+        <div id="content-articles">
+            <form id="submissionForm" class="space-y-12">
                     
-                    <div>
-                        <label for="date" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Date of Article *</label>
-                        <input type="date" id="date" name="date" class="form-input block w-full p-3" required>
-                    </div>
+                <!-- Required Fields -->
+                <section>
+                    <h3 class="section-header text-xl">Required Information</h3>
                     
-                    <div>
-                        <label for="title" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article Title *</label>
-                        <input type="text" id="title" name="title" class="form-input block w-full p-3" placeholder="Enter the exact headline" required>
-                    </div>
-                    
-                    <div>
-                        <label for="link" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article URL *</label>
-                        <input type="url" id="link" name="link" class="form-input block w-full p-3" placeholder="https://" required>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-6"> <!-- Increased spacing for "generous margins" -->
                         <div>
-                            <label for="source" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Source Name *</label>
-                            <input type="text" id="source" name="source" class="form-input block w-full p-3" placeholder="Publication Name" required>
+                            <label for="submitterName" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Your Name *</label>
+                            <input type="text" id="submitterName" name="submitterName" class="form-input block w-full p-3" placeholder="Identify yourself for our records" required>
+                        </div>
+                        
+                        <div>
+                            <label for="date" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Date of Article *</label>
+                            <input type="date" id="date" name="date" class="form-input block w-full p-3" required>
+                        </div>
+                        
+                        <div>
+                            <label for="title" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article Title *</label>
+                            <input type="text" id="title" name="title" class="form-input block w-full p-3" placeholder="Enter the exact headline" required>
+                        </div>
+                        
+                        <div>
+                            <label for="link" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article URL *</label>
+                            <input type="url" id="link" name="link" class="form-input block w-full p-3" placeholder="https://" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="source" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Source Name *</label>
+                                <input type="text" id="source" name="source" class="form-input block w-full p-3" placeholder="Publication Name" required>
+                            </div>
+                            <div>
+                                <label for="category" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Category *</label>
+                                <select id="category" name="category" class="form-select block w-full p-3 cursor-pointer" required>
+                                    <option value="" disabled selected>Select a classification</option>
+                                    <!-- Categories will be populated by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Optional Fields -->
+                <section>
+                    <h3 class="section-header text-xl">Optional Documentation</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label for="summary" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Neutral Summary</label>
+                            <textarea id="summary" name="summary" rows="5" class="form-input block w-full p-3" placeholder="Provide a brief, objective summary of the content."></textarea>
                         </div>
                         <div>
-                            <label for="category" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Category *</label>
-                            <select id="category" name="category" class="form-select block w-full p-3 cursor-pointer" required>
-                                <option value="" disabled selected>Select a classification</option>
-                                <!-- Categories will be populated by JavaScript -->
-                            </select>
+                            <label for="imageUrl" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Image URL</label>
+                            <input type="url" id="imageUrl" name="imageUrl" class="form-input block w-full p-3" placeholder="Link to relevant imagery">
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- Optional Fields -->
-            <section>
-                <h3 class="section-header text-xl">Optional Documentation</h3>
-                
-                <div class="space-y-6">
-                    <div>
-                        <label for="summary" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Neutral Summary</label>
-                        <textarea id="summary" name="summary" rows="5" class="form-input block w-full p-3" placeholder="Provide a brief, objective summary of the content."></textarea>
+                <!-- Submit Button & Messages -->
+                <div class="pt-8 border-t border-neutral-900">
+                    <!-- Submission Status Messages -->
+                    <div id="successMessage" class="alert-message alert-success">
+                        RECORD SUBMITTED. THANK YOU FOR YOUR CONTRIBUTION.
                     </div>
-                    <div>
-                        <label for="imageUrl" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Image URL</label>
-                        <input type="url" id="imageUrl" name="imageUrl" class="form-input block w-full p-3" placeholder="Link to relevant imagery">
+                    <div id="errorMessage" class="alert-message alert-error">
+                        SUBMISSION FAILED. PLEASE VERIFY DATA AND RETRY.
                     </div>
-                </div>
-            </section>
 
-            <!-- Submit Button & Messages -->
-            <div class="pt-8 border-t border-neutral-900">
-                <!-- Submission Status Messages -->
-                <div id="successMessage" class="alert-message alert-success">
-                    RECORD SUBMITTED. THANK YOU FOR YOUR CONTRIBUTION.
+                    <button type="button" id="submitButton" class="btn-submit w-full">
+                        Submit Record to Archive
+                    </button>
+                    <p id="submittingText" class="text-xs text-center text-gray-600 mt-4 font-sans tracking-widest uppercase" style="display: none;">
+                        Processing Submission...
+                    </p>
                 </div>
-                <div id="errorMessage" class="alert-message alert-error">
-                    SUBMISSION FAILED. PLEASE VERIFY DATA AND RETRY.
-                </div>
+            </form>
+        </div>
 
-                <button type="button" id="submitButton" class="btn-submit w-full">
-                    Submit Record to Archive
-                </button>
-                <p id="submittingText" class="text-xs text-center text-gray-600 mt-4 font-sans tracking-widest uppercase" style="display: none;">
-                    Processing Submission...
-                </p>
-            </div>
-        </form>
+        <!-- Primary Source Content -->
+        <div id="content-primary" class="hidden">
+            <form id="primarySourceForm" class="space-y-12">
+                <!-- Section: File Upload -->
+                <section>
+                    <h3 class="section-header text-xl">Document Upload</h3>
+                    
+                    <div class="space-y-6">
+                        <!-- File Input -->
+                        <div>
+                            <label for="primaryFile" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Select File *</label>
+                            <input type="file" id="primaryFile" name="primaryFile" class="block w-full text-sm text-gray-400
+                                file:mr-4 file:py-3 file:px-4
+                                file:rounded-none file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-[#222] file:text-gray-300
+                                hover:file:bg-[#8B0000] hover:file:text-white
+                                transition-all duration-300
+                                border border-[#333] bg-[#141414] p-2" required>
+                        </div>
+
+                        <!-- Video Instructions -->
+                        <div class="note-block text-sm">
+                            <p class="font-semibold text-gray-400 uppercase tracking-wider text-xs mb-2 not-italic font-sans">Video Submission Instructions</p>
+                            <p>
+                                For video files larger than 500MB, or for secure anonymous transfer of high-resolution footage, please use an encrypted transfer service (like WeTransfer or Signal) and paste the download link in the "Neutral Summary" field of the Standard Article form, or contact us directly.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Metadata -->
+                <section>
+                    <h3 class="section-header text-xl">Source Details</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                             <label for="primaryTitle" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Title of Information *</label>
+                             <input type="text" id="primaryTitle" name="primaryTitle" class="form-input block w-full p-3" placeholder="Descriptive title of the document/media" required>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="primaryDate" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Date *</label>
+                                <input type="date" id="primaryDate" name="primaryDate" class="form-input block w-full p-3" required>
+                            </div>
+                            <div>
+                                 <label for="primaryTag" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Tag *</label>
+                                 <input type="text" id="primaryTag" name="primaryTag" class="form-input block w-full p-3" placeholder="e.g. Medical Report, Eye Witness" required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="primarySource" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Source (Optional)</label>
+                            <input type="text" id="primarySource" name="primarySource" class="form-input block w-full p-3" placeholder="Original source or author if known">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Legal -->
+                <section>
+                    <h3 class="section-header text-xl">Verification & Terms</h3>
+                    <div class="space-y-4 pt-4">
+                        
+                        <label class="flex items-start gap-4 cursor-pointer group">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" required class="peer h-5 w-5 cursor-pointer appearance-none border border-gray-600 bg-[#141414] checked:border-red-900 checked:bg-red-900 transition-all">
+                                <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none opacity-0 peer-checked:opacity-100 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+                                <span class="block font-bold text-gray-300 mb-1">Authenticity Verification</span>
+                                I certify that this content is authentic, not AI-generated, and accurately represents the events or data depicted.
+                            </div>
+                        </label>
+
+                        <label class="flex items-start gap-4 cursor-pointer group">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" required class="peer h-5 w-5 cursor-pointer appearance-none border border-gray-600 bg-[#141414] checked:border-red-900 checked:bg-red-900 transition-all">
+                                <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none opacity-0 peer-checked:opacity-100 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+                                <span class="block font-bold text-gray-300 mb-1">Intellectual Property Rights</span>
+                                I confirm I have the right to share this content or it is in the public domain. I grant Echoes of Gaza permission to archive and display this material.
+                            </div>
+                        </label>
+
+                        <label class="flex items-start gap-4 cursor-pointer group">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" required class="peer h-5 w-5 cursor-pointer appearance-none border border-gray-600 bg-[#141414] checked:border-red-900 checked:bg-red-900 transition-all">
+                                <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none opacity-0 peer-checked:opacity-100 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <div class="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+                                <span class="block font-bold text-gray-300 mb-1">Limitation of Liability</span>
+                                I understand and accept the terms regarding the limitation of liability for the Echoes of Gaza platform.
+                            </div>
+                        </label>
+
+                    </div>
+                </section>
+
+                <!-- Submit Button (Primary) -->
+                <div class="pt-8 border-t border-neutral-900">
+                    <button type="button" id="submitPrimaryButton" class="btn-submit w-full">
+                        Upload Primary Source
+                    </button>
+                    <!-- Placeholder for status messages -->
+                    <p class="text-xs text-center text-gray-600 mt-4 font-sans tracking-widest uppercase">
+                        Secure Upload Ready
+                    </p>
+                </div>
+            </form>
+        </div>
+
     </main>
 
     <script>
+        // --- Tab Switching Logic ---
+        function switchTab(tabName) {
+            const tabArticles = document.getElementById('tab-articles');
+            const tabPrimary = document.getElementById('tab-primary');
+            const contentArticles = document.getElementById('content-articles');
+            const contentPrimary = document.getElementById('content-primary');
+
+            if (tabName === 'articles') {
+                tabArticles.classList.add('active');
+                tabPrimary.classList.remove('active');
+                contentArticles.classList.remove('hidden');
+                contentPrimary.classList.add('hidden');
+            } else {
+                tabArticles.classList.remove('active');
+                tabPrimary.classList.add('active');
+                contentArticles.classList.add('hidden');
+                contentPrimary.classList.remove('hidden');
+            }
+        }
+
+
         // List of all categories, cleaned and sorted
         const categories = [
             "Accountability", "Aid Access", "Aid blockade", "Aid conflict", "Aid crisis",
@@ -398,11 +572,154 @@
             });
         });
 
-        // Set default date to today
+        // Set default date to today for both forms
         document.addEventListener('DOMContentLoaded', () => {
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('date').value = today;
+            const dateInput = document.getElementById('date');
+            if (dateInput) dateInput.value = today;
+            
+            const primaryDateInput = document.getElementById('primaryDate');
+            if (primaryDateInput) primaryDateInput.value = today;
         });
     </script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+        import {
+          getFirestore,
+          collection,
+          addDoc,
+          serverTimestamp,
+          updateDoc,
+          doc
+        } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+        import {
+          getStorage,
+          ref,
+          uploadBytesResumable
+        } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-storage.js";
+      
+        // Firebase config (yours)
+        const firebaseConfig = {
+          apiKey: "AIzaSyBzPg-wYDL27znG6ThriRbqLn29nHzFUWQ",
+          authDomain: "echoes-of-gaza.firebaseapp.com",
+          projectId: "echoes-of-gaza",
+          storageBucket: "echoes-of-gaza.firebasestorage.app",
+          messagingSenderId: "592151003023",
+          appId: "1:592151003023:web:b3c7db040a0afb87a555fa"
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+      
+        // Primary Source form elements
+        const primaryForm = document.getElementById("primarySourceForm");
+        const submitPrimaryButton = document.getElementById("submitPrimaryButton");
+      
+        // This is your placeholder status line under the primary submit button
+        const primaryStatusEl = submitPrimaryButton?.parentElement?.querySelector("p");
+      
+        function setPrimaryStatus(message) {
+          if (primaryStatusEl) primaryStatusEl.textContent = message;
+        }
+      
+        function formatBytes(bytes) {
+          if (!Number(bytes)) return "0 Bytes";
+          const k = 1024;
+          const sizes = ["Bytes", "KiB", "MiB", "GiB"];
+          const i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1);
+          return `${(bytes / Math.pow(k, i)).toFixed(i === 0 ? 0 : 2)} ${sizes[i]}`;
+        }
+      
+        submitPrimaryButton.addEventListener("click", async () => {
+          // Validate required fields and checkboxes
+          if (!primaryForm.checkValidity()) {
+            primaryForm.reportValidity();
+            return;
+          }
+      
+          const fileInput = document.getElementById("primaryFile");
+          const file = fileInput?.files?.[0];
+      
+          if (!file) {
+            alert("Please select a file.");
+            return;
+          }
+      
+          // Client side size cap (server side rules should also enforce)
+          const ONE_GB = 1024 * 1024 * 1024;
+          if (file.size > ONE_GB) {
+            alert("File too large. Max size is 1GB.");
+            return;
+          }
+      
+          // Read metadata
+          const title = document.getElementById("primaryTitle").value.trim();
+          const date = document.getElementById("primaryDate").value; // YYYY-MM-DD
+          const tag = document.getElementById("primaryTag").value.trim();
+          const source = document.getElementById("primarySource").value.trim();
+      
+          submitPrimaryButton.disabled = true;
+          setPrimaryStatus("Creating record...");
+      
+          try {
+            // 1) Create Firestore doc first to get submissionId
+            const docRef = await addDoc(collection(db, "primary_sources"), {
+              status: "pending",
+              createdAt: serverTimestamp(),
+      
+              // Fields your admin and public pages expect
+              title,
+              date,
+              tag,
+              source: source || "",
+      
+              originalFileName: file.name,
+              contentType: file.type || "",
+              sizeBytes: file.size
+            });
+      
+            const submissionId = docRef.id;
+      
+            // 2) Upload file to Storage under pending path
+            const storagePath = `primary_sources/pending/${submissionId}/${file.name}`;
+            const storageRef = ref(storage, storagePath);
+      
+            setPrimaryStatus(`Uploading ${formatBytes(file.size)}...`);
+      
+            const uploadTask = uploadBytesResumable(storageRef, file, {
+              contentType: file.type || undefined
+            });
+      
+            await new Promise((resolve, reject) => {
+              uploadTask.on(
+                "state_changed",
+                (snap) => {
+                  const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+                  setPrimaryStatus(`Uploading... ${pct}%`);
+                },
+                reject,
+                resolve
+              );
+            });
+      
+            // 3) Store the storage path on the doc
+            await updateDoc(doc(db, "primary_sources", submissionId), {
+              storagePath
+            });
+      
+            primaryForm.reset();
+            setPrimaryStatus("Submitted. Pending admin approval.");
+            alert("Submitted. Pending admin approval.");
+      
+          } catch (err) {
+            console.error(err);
+            setPrimaryStatus("Upload failed. Please try again.");
+            alert("Upload failed. Please try again.");
+          } finally {
+            submitPrimaryButton.disabled = false;
+          }
+        });
+      </script>
 </body>
 </html>
