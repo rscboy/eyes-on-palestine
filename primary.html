@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primary Sources | Echoes of Gaza</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'void': '#0a0a0a',      // Near black background
+                        'bone': '#e5e5e5',      // Soft off-white text
+                        'ash': '#a3a3a3',       // Muted secondary text
+                        'blood': '#7f1d1d',     // Muted red accent
+                        'charcoal': '#171717',  // Input background
+                        'border-dim': '#262626' // Subtle borders
+                    },
+                    fontFamily: {
+                        'heading': ['"Playfair Display"', 'serif'],
+                        'body': ['"Lora"', 'serif'],
+                        'ui': ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar for a raw, archival feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #262626; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #404040; 
+        }
+        
+        /* Remove default input focus rings, replace with sharp border */
+        input:focus, select:focus {
+            outline: none;
+            border-color: #525252;
+        }
+
+        /* Ensure iframes do not flash white */
+        iframe {
+            background-color: #0a0a0a;
+        }
+    </style>
+</head>
+<body class="bg-void text-bone min-h-screen font-body selection:bg-blood selection:text-white antialiased">
+
+    <!-- Main Container -->
+    <main class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+        
+        <!-- Header Section -->
+        <header class="mb-16 text-center">
+            <h2 class="font-heading text-xl md:text-2xl text-ash mb-2 tracking-wide">Echoes of Gaza</h2>
+            <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-semibold mb-8 text-white">Primary Sources</h1>
+            
+            <div class="max-w-xl mx-auto space-y-6 text-lg leading-relaxed text-ash">
+                <p>
+                    This archive documents the genocide, ethnic cleansing, and systematic dehumanization of the Palestinian people. The records below serve as testimonial evidence. They are presented without editorial alteration to preserve the integrity of the witness accounts.
+                </p>
+            </div>
+
+            <div class="mt-8 border-l-2 border-blood pl-4 text-left max-w-xl mx-auto">
+                <p class="text-sm font-ui text-neutral-400">
+                    <span class="text-blood font-semibold uppercase tracking-wider text-xs block mb-1">Archive Note</span>
+                    All records indexed here have been reviewed and approved for authenticity. Sensitive content warnings apply to the entirety of this collection.
+                </p>
+            </div>
+        </header>
+
+        <!-- Controls Section -->
+        <section class="mb-12 border-y border-border-dim py-6">
+            <div class="flex flex-col md:flex-row gap-4">
+                
+                <!-- Search -->
+                <div class="flex-grow">
+                    <label for="searchInput" class="sr-only">Search archive</label>
+                    <input type="text" id="searchInput" 
+                        placeholder="Filter by title, tag, or source..." 
+                        class="w-full bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm placeholder-neutral-600 rounded-none focus:border-neutral-500 transition-colors">
+                </div>
+
+                <!-- Filters -->
+                <div class="flex gap-4">
+                    <select id="tagFilter" class="bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer min-w-[140px]">
+                        <option value="">All Tags</option>
+                        <!-- Populated dynamically -->
+                    </select>
+
+                    <select id="sortFilter" class="bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer min-w-[140px]">
+                        <option value="newest">Newest Added</option>
+                        <option value="oldest">Oldest Added</option>
+                        <!-- Note: 'title' sort requires composite index with status, sticking to time based for MVP stability -->
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center py-20 hidden">
+            <span class="font-ui text-sm tracking-widest uppercase text-ash animate-pulse">Loading archive records...</span>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-20 hidden border border-border-dim border-dashed">
+            <p class="font-heading text-xl text-neutral-500 italic">No approved primary sources are currently published.</p>
+        </div>
+
+        <!-- Records Grid -->
+        <div id="recordsList" class="space-y-20">
+            <!-- Records injected here -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-20 text-center">
+            <button id="loadMoreBtn" class="hidden font-ui text-sm uppercase tracking-widest border border-border-dim px-8 py-3 hover:bg-white hover:text-black transition-colors duration-300 rounded-none disabled:opacity-50 disabled:cursor-not-allowed">
+                Load More Records
+            </button>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-12 border-t border-border-dim mt-12">
+        <p class="font-ui text-xs text-neutral-600 uppercase tracking-widest">Echoes of Gaza Archive &copy; 2024</p>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+        import { 
+            getFirestore, 
+            collection, 
+            query, 
+            where, 
+            orderBy, 
+            limit, 
+            startAfter, 
+            getDocs 
+        } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+        // --- CONFIGURATION ---
+        // PASTE YOUR firebaseConfig HERE
+        const firebaseConfig = {
+            // apiKey: "...",
+            // authDomain: "...",
+            // projectId: "...",
+            // storageBucket: "...",
+            // messagingSenderId: "...",
+            // appId: "..."
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // State
+        let lastVisible = null;
+        let isFetching = false;
+        let allTags = new Set();
+        const recordsList = document.getElementById('recordsList');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const loadingState = document.getElementById('loadingState');
+        const emptyState = document.getElementById('emptyState');
+        const searchInput = document.getElementById('searchInput');
+        const tagFilter = document.getElementById('tagFilter');
+        const sortFilter = document.getElementById('sortFilter');
+
+        // Helper: Escape HTML for safety
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // Helper: Create Record DOM Element
+        function createRecordElement(doc) {
+            const data = doc.data();
+            const id = doc.id;
+            
+            // Fallbacks
+            const title = data.title || "Untitled Record";
+            const date = data.date || "Unknown Date";
+            const source = data.source ? ` &mdash; ${data.source}` : "";
+            const tag = data.tag || "Uncategorized";
+            const previewUrl = data.drivePreviewUrl || "";
+            
+            // Track tag for filter
+            if (tag) allTags.add(tag);
+
+            const article = document.createElement('article');
+            article.className = "group record-item"; // class for local filtering
+            article.dataset.title = title.toLowerCase();
+            article.dataset.tag = tag;
+            article.dataset.source = (data.source || "").toLowerCase();
+
+            // Structure
+            article.innerHTML = `
+                <div class="mb-4 flex items-baseline justify-between">
+                    <span class="font-ui text-xs font-medium uppercase tracking-wider text-neutral-500 border border-neutral-800 px-2 py-1">${escapeHtml(tag)}</span>
+                </div>
+                
+                <h3 class="font-heading text-2xl md:text-3xl text-white mb-2 leading-tight">${escapeHtml(title)}</h3>
+                
+                <div class="font-body text-ash italic mb-6">
+                    ${escapeHtml(date)}${escapeHtml(source)}
+                </div>
+
+                <div class="w-12 h-px bg-blood mb-8"></div>
+
+                <div class="relative w-full bg-neutral-900 border border-neutral-800">
+                     <iframe 
+                        src="${previewUrl}" 
+                        allow="autoplay" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer" 
+                        sandbox="allow-scripts allow-same-origin allow-popups" 
+                        class="w-full aspect-[4/3] md:aspect-auto" 
+                        style="height: 520px; border: none;"
+                        title="Document Preview">
+                    </iframe>
+                </div>
+
+                <div class="mt-3 text-right">
+                    <a href="${previewUrl}" target="_blank" rel="noopener noreferrer" 
+                       class="font-ui text-xs text-neutral-500 hover:text-blood uppercase tracking-widest transition-colors flex items-center justify-end gap-2 group-hover:underline decoration-blood underline-offset-4">
+                        Open record in Drive
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                          <path stroke-linecap="square" stroke-linejoin="miter" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                        </svg>
+                    </a>
+                </div>
+            `;
+            return article;
+        }
+
+        // Fetch Logic
+        async function fetchRecords(reset = false) {
+            if (isFetching) return;
+            isFetching = true;
+            
+            if (reset) {
+                recordsList.innerHTML = '';
+                lastVisible = null;
+                allTags.clear();
+                updateTagFilter();
+                loadingState.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+                loadMoreBtn.classList.add('hidden');
+            } else {
+                loadMoreBtn.textContent = "Loading...";
+            }
+
+            try {
+                const sortDirection = sortFilter.value === 'oldest' ? 'asc' : 'desc';
+                
+                let q = query(
+                    collection(db, "primary_sources"),
+                    where("status", "==", "approved"),
+                    orderBy("approvedAt", sortDirection),
+                    limit(12)
+                );
+
+                if (lastVisible) {
+                    q = query(q, startAfter(lastVisible));
+                }
+
+                const querySnapshot = await getDocs(q);
+
+                loadingState.classList.add('hidden');
+
+                if (querySnapshot.empty && reset) {
+                    emptyState.classList.remove('hidden');
+                    isFetching = false;
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const el = createRecordElement(doc);
+                    recordsList.appendChild(el);
+                });
+
+                // Update pagination state
+                lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+                
+                // Show/Hide Load More
+                if (querySnapshot.docs.length < 12) {
+                    loadMoreBtn.classList.add('hidden');
+                } else {
+                    loadMoreBtn.classList.remove('hidden');
+                    loadMoreBtn.textContent = "Load More Records";
+                }
+
+                // Update UI filters
+                updateTagFilter();
+                // Re-apply current client-side text filter if exists
+                applyClientFilter();
+
+            } catch (error) {
+                console.error("Error fetching documents: ", error);
+                recordsList.innerHTML += `<p class="text-red-900 font-ui text-sm text-center py-4">Error loading records. Ensure indexes are built.</p>`;
+                loadingState.classList.add('hidden');
+            } finally {
+                isFetching = false;
+            }
+        }
+
+        // Update Tag Dropdown
+        function updateTagFilter() {
+            // Keep current selection
+            const currentVal = tagFilter.value;
+            
+            // Clear except first
+            while (tagFilter.options.length > 1) {
+                tagFilter.remove(1);
+            }
+
+            const sortedTags = Array.from(allTags).sort();
+            sortedTags.forEach(tag => {
+                const option = document.createElement('option');
+                option.value = tag;
+                option.textContent = tag;
+                tagFilter.appendChild(option);
+            });
+
+            // Restore selection if it still exists
+            if (allTags.has(currentVal)) {
+                tagFilter.value = currentVal;
+            }
+        }
+
+        // Client-side Filter Logic (Search + Tag)
+        // Note: Firestore text search is expensive/complex. 
+        // We filter the *loaded* DOM elements for immediate feedback.
+        function applyClientFilter() {
+            const search = searchInput.value.toLowerCase();
+            const tag = tagFilter.value;
+            const items = document.querySelectorAll('.record-item');
+
+            items.forEach(item => {
+                const t = item.dataset.title;
+                const s = item.dataset.source;
+                const tg = item.dataset.tag;
+
+                const matchesSearch = t.includes(search) || s.includes(search) || tg.toLowerCase().includes(search);
+                const matchesTag = tag === "" || tg === tag;
+
+                if (matchesSearch && matchesTag) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        // Event Listeners
+        loadMoreBtn.addEventListener('click', () => fetchRecords(false));
+        
+        searchInput.addEventListener('input', applyClientFilter);
+        
+        tagFilter.addEventListener('change', applyClientFilter);
+
+        sortFilter.addEventListener('change', () => fetchRecords(true));
+
+        // Initial Load
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRecords(true);
+        });
+
+    </script>
+</body>
+</html>
