@@ -516,7 +516,14 @@
         setStatus("Approved");
       } catch (error) {
         console.error("Approval failed:", error);
-        errorDiv.textContent = "Error: " + (error?.message || "Unknown error");
+        
+        // BETTER ERROR REPORTING LOGIC
+        let msg = error.message || String(error);
+        if (msg.startsWith("INTERNAL")) msg = msg.replace("INTERNAL", "").trim();
+        // Remove leading colon if present after strip
+        if (msg.startsWith(":")) msg = msg.substring(1).trim();
+
+        errorDiv.innerHTML = `<span class="font-bold text-red-400">Error:</span> ${esc(msg)}`;
         errorDiv.classList.remove("hidden");
 
         btn.disabled = false;
@@ -562,13 +569,20 @@
         setStatus("Rejected");
       } catch (err) {
         console.error("Reject failed:", err);
+        
+        // BETTER ERROR REPORTING LOGIC
+        let msg = err.message || String(err);
+        if (msg.startsWith("INTERNAL")) msg = msg.replace("INTERNAL", "").trim();
+        if (msg.startsWith(":")) msg = msg.substring(1).trim();
+
         if (errorDiv) {
-          errorDiv.textContent = "Reject error: " + (err?.message || String(err));
+          errorDiv.innerHTML = `<span class="font-bold text-red-400">Error:</span> ${esc(msg)}`;
           errorDiv.classList.remove("hidden");
         } else {
-          alert("Reject error: " + (err?.message || String(err)));
+          alert("Reject error: " + msg);
         }
         setStatus("Error");
+        
         if (approveBtn) approveBtn.disabled = false;
         if (rejectBtn) {
           rejectBtn.disabled = false;
