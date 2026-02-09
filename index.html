@@ -9963,9 +9963,10 @@ source: "Haaretz"
         link: "https://www.youtube.com/watch?v=P8aOk_zONRg",
         imageUrl: "https://m.media-amazon.com/images/M/MV5BOWM5MmQyMjItM2Q0MS00ZTliLThjMmUtZmNlYTYwMGQ0MTMxXkEyXkFqcGc@._V1_.jpg",
         year: "2021"
-    },       
+    },  
+            
         ];
-        let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+         let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let articleLimit = 30; // Current view limit
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
 
@@ -10476,8 +10477,8 @@ source: "Haaretz"
         function renderCasualtyChart() {
             if (typeof Chart === 'undefined') return;
             
-            const labels = ["Oct '23", "Dec '23", "Feb '24", "Apr '24", "Jun '24", "Aug '24", "Oct '24", "Dec '24", "Feb '25", "Apr '25", "Jun '25", "Aug '25", "Oct '25"];
-            const data = [90000, 220000, 290000, 340000, 380000, 420000, 450000, 490000, 520000, 560000, 600000, 650000, 700000];
+            const labels = ["Oct '23", "Dec '23", "Feb '24", "Apr '24", "Jun '24", "Aug '24", "Oct '24", "Dec '24", "Feb '25", "Apr '25", "Jun '25", "Aug '25", "Oct '25", "Dec '25", "Feb '26"];
+            const data = [90000, 220000, 290000, 340000, 380000, 420000, 450000, 490000, 520000, 560000, 600000, 650000, 700000, 705000, 710000];
             const canvas = document.getElementById('casualtyChart');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
