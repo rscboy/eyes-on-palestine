@@ -35,6 +35,28 @@
             font-family: 'Playfair Display', serif;
         }
 
+        /* --- Navigation Styles --- */
+        .nav-glass {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            height: 80px;
+        }
+
+        .nav-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem; /* text-xs */
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: #fff;
+        }
+
         /* --- Form Elements (Restrained, Rectangular, No "Card" look) --- */
         
         /* Removed .form-container styles (no card, no shadow, no rounded corners) */
@@ -172,17 +194,76 @@
 <body class="min-h-screen flex flex-col">
 
     <!-- Header / Logo Section -->
-    <!-- Positioned normally in flow with generous padding to avoid overlap -->
-    <header class="w-full pt-8 pb-8 px-6 md:px-16 lg:px-24">
-        <a href="https://echoesofgaza.org" class="no-underline hover:opacity-70 transition-opacity duration-300 inline-block">
-            <h1 class="text-lg text-white font-bold tracking-widest uppercase" style="font-family: 'Playfair Display', serif;">
-                Echoes of Gaza
-            </h1>
-        </a>
+    <header class="nav-glass fixed w-full top-0 z-50 flex items-center">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+            <div class="flex justify-between items-center h-full">
+                <!-- Updated logo link -->
+                <a href="https://echoesofgaza.org" id="nav-logo" class="flex flex-col items-start opacity-80 hover:opacity-100 transition-opacity">
+                    <span class="text-xs font-serif text-white tracking-[0.2em] uppercase">Echoes of Gaza</span>
+                </a>
+
+                <nav class="hidden md:flex items-center space-x-8">
+                    <div class="relative group">
+                        <button id="archive-menu-button" class="nav-link flex items-center">
+                            Archive
+                        </button>
+                        <!-- Wrapper with top padding to bridge the hover gap -->
+                        <div id="archive-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
+                                <a href="https://echoesofgaza.org/#articles" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Articles</a>
+                                <a href="https://echoesofgaza.org/#books" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Books</a>
+                                <a href="https://echoesofgaza.org/#videos" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Interviews</a>
+                                <a href="https://echoesofgaza.org/#films" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Documentaries</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <button id="tools-menu-button" class="nav-link flex items-center">
+                            Tools
+                        </button>
+                        <div id="tools-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
+                                <a href="https://echoesofgaza.org/#narrative-test-section" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Narratives</a>
+                                <a href="https://echoesofgaza.org/#casualty-graph" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Timeline</a>
+                                <a href="https://echoesofgaza.org/#bias-tool-controls" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Racial Bias Tool</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://echoesofgaza.org/#geolocation" class="nav-link">Maps</a>
+                    <a href="https://echoesofgaza.org/#victims" class="nav-link">Victims</a>
+
+                    <div class="relative group">
+                        <button id="resources-menu-button" class="nav-link flex items-center">
+                            Resources
+                        </button>
+                        <div id="resources-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
+                                <a href="https://echoesofgaza.org/#quotes" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Quotes & Resources</a>
+                                <!-- Removed target="_blank" per instructions -->
+                                <a href="https://echoesofgaza.org/events" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Events</a>
+                                <a href="https://echoesofgaza.org/#faq" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">FAQ</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                
+                <!-- MOBILE MENU BUTTON -->
+                <div class="flex items-center space-x-4 md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-400 hover:text-white transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
     </header>
 
     <!-- Main Content -->
-    <main class="w-full max-w-3xl mx-auto px-6 md:px-8 pb-24">
+    <!-- Added pt-32 to account for fixed header -->
+    <main class="w-full max-w-3xl mx-auto px-6 md:px-8 pb-24 pt-32">
         
         <!-- Introduction Text -->
         <div class="mb-12">
@@ -402,13 +483,25 @@
     </main>
 
     <!-- Footer -->
-    <footer class="w-full py-8 text-center border-t border-neutral-900 mt-auto">
-        <p class="text-xs text-gray-600 font-sans tracking-widest uppercase mb-2">
-            &copy; 2026 Echoes of Gaza
-        </p>
-        <a href="https://echoesofgaza.org" class="text-xs text-gray-500 hover:text-white transition-colors font-serif italic">
-            Return to Archive
-        </a>
+    <footer id="footer" class="bg-black border-t border-white/5 pt-12 pb-10 mt-auto">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-12">
+            <div class="md:w-1/3 space-y-6">
+                <div class="flex flex-col items-start opacity-70">
+                    <span class="text-xs font-serif text-white tracking-[0.2em] uppercase">Echoes of Gaza</span>
+                </div>
+                <p class="text-gray-600 text-xs leading-relaxed">Preserving truth, resisting erasure.</p>
+                <div id="google_translate_element"></div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 md:w-2/3">
+                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Archive</h4><ul class="space-y-3 text-xs text-gray-500"><li><a href="#articles" class="hover:text-white transition">Articles</a></li><li><a href="#victims" class="hover:text-white transition">Martyrs</a></li></ul></div>
+                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Resources</h4><ul class="space-y-3 text-xs text-gray-500"><li><a href="#quotes" class="hover:text-white transition">Quotes</a></li><li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" class="hover:text-white transition">Raw Data</a></li></ul></div>
+                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Support</h4><div class="flex flex-col space-y-3"><a href="https://buymeacoffee.com/echoesofgaza" target="_blank" class="text-xs text-gray-500 hover:text-white transition">Donate</a><a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" class="text-xs text-[#8B0000] hover:text-red-400 transition">Monthly Support</a></div></div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 mt-20 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-700 uppercase tracking-wider">
+            <p>© 2026 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="underline hover:text-gray-500">CC BY-NC-SA 4.0</a>.</p>
+            <a href="https://echoesofgaza.org/admin.html" class="mt-4 md:mt-0 hover:text-gray-500 transition">Admin Portal</a>
+        </div>
     </footer>
 
     <script>
