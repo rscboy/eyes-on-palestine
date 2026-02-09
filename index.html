@@ -345,11 +345,14 @@
                         <button id="archive-menu-button" class="nav-link flex items-center">
                             Archive
                         </button>
-                        <div id="archive-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 mt-4 w-48 bg-[#0a0a0a] border border-[#222] hidden group-hover:block pt-2 shadow-2xl">
-                            <a href="#articles" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Articles</a>
-                            <a href="#books" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Books</a>
-                            <a href="#videos" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Interviews</a>
-                            <a href="#films" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Documentaries</a>
+                        <!-- Wrapper with top padding to bridge the hover gap -->
+                        <div id="archive-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
+                                <a href="#articles" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Articles</a>
+                                <a href="#books" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Books</a>
+                                <a href="#videos" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Interviews</a>
+                                <a href="#films" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Documentaries</a>
+                            </div>
                         </div>
                     </div>
 
@@ -357,10 +360,12 @@
                         <button id="tools-menu-button" class="nav-link flex items-center">
                             Tools
                         </button>
-                        <div id="tools-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 mt-4 w-48 bg-[#0a0a0a] border border-[#222] hidden group-hover:block pt-2 shadow-2xl">
-                            <a href="#narrative-test-section" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Narratives</a>
-                            <a href="#casualty-graph" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Timeline</a>
-                            <a href="#bias-tool-controls" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Racial Bias Tool</a>
+                        <div id="tools-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
+                                <a href="#narrative-test-section" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Narratives</a>
+                                <a href="#casualty-graph" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Timeline</a>
+                                <a href="#bias-tool-controls" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Racial Bias Tool</a>
+                            </div>
                         </div>
                     </div>
 
@@ -371,14 +376,16 @@
                         <button id="resources-menu-button" class="nav-link flex items-center">
                             Resources
                         </button>
-                        <div id="resources-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 mt-4 w-48 bg-[#0a0a0a] border border-[#222] hidden group-hover:block pt-2 shadow-2xl">
-                            <a href="#quotes" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Quotes & Resources</a>
-                            <a href="https://echoesofgaza.org/events" target="_blank" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Events</a>
-                            <a href="#faq" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">FAQ</a>
+                        <div id="resources-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
+                                <a href="#quotes" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Quotes & Resources</a>
+                                <a href="https://echoesofgaza.org/events" target="_blank" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Events</a>
+                                <a href="#faq" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">FAQ</a>
+                            </div>
                         </div>
                     </div>
 
-                    <a href="https://echoesofgaza.org/collab" target="_blank" class="btn-primary px-5 py-2 rounded text-xs uppercase tracking-wider hidden md:block">
+                    <a href="https://echoesofgaza.org/collab" class="btn-primary px-5 py-2 rounded text-xs uppercase tracking-wider hidden md:block">
                         Submit Evidence
                     </a>
                 </nav>
@@ -410,7 +417,7 @@
             <a href="#quotes" class="mobile-nav-link text-gray-400 hover:text-white transition">Resources</a>
             <a href="https://echoesofgaza.org/events" target="_blank" class="mobile-nav-link text-gray-400 hover:text-white transition">Events</a>
             <a href="#faq" class="mobile-nav-link text-gray-400 hover:text-white transition">FAQ</a>
-            <a href="https://echoesofgaza.org/collab" target="_blank" class="mobile-nav-link btn-primary px-8 py-3 rounded text-sm uppercase">Submit Evidence</a>
+            <a href="https://echoesofgaza.org/collab" class="mobile-nav-link btn-primary px-8 py-3 rounded text-sm uppercase">Submit Evidence</a>
         </nav>
     </div>
 
@@ -738,7 +745,7 @@
                      <div class="card-modern p-8 flex flex-col items-center">
                         <h4 class="font-serif font-bold text-white mb-3">Zionism Divide</h4>
                         <p class="text-gray-500 text-xs mb-6 flex-grow leading-relaxed">Understanding the distinction between Zionism and Anti-Zionism.</p>
-                        <a href="https://echoesofgaza.org/zionism_divide" target="_blank" class="mt-auto btn-dark-uniform text-xs uppercase tracking-widest py-2 px-6 rounded">Quiz</a>
+                        <a href="https://echoesofgaza.org/zionism_divide" class="mt-auto btn-dark-uniform text-xs uppercase tracking-widest py-2 px-6 rounded">Quiz</a>
                     </div>
                     <div class="card-modern p-8 flex flex-col items-center">
                         <h4 class="font-serif font-bold text-white mb-3">Statements</h4>
@@ -844,7 +851,6 @@
         let currentQuizArticle = null;
         let carouselItems = [];
         let currentSlide = 0;
-    
    
         let articles = [
             // Sample Articles (add more actual data here if needed)
@@ -9959,7 +9965,7 @@ source: "Haaretz"
         year: "2021"
     },       
         ];
-         let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+        let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let articleLimit = 30; // Current view limit
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
 
