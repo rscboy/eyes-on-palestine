@@ -714,8 +714,9 @@
       
           } catch (err) {
             console.error(err);
-            setPrimaryStatus("Upload failed. Please try again.");
-            alert("Upload failed. Please try again.");
+            const msg = err?.code ? `${err.code}: ${err.message}` : (err?.message || String(err));
+            setPrimaryStatus("Upload failed: " + msg);
+            alert("Upload failed: " + msg);
           } finally {
             submitPrimaryButton.disabled = false;
           }
