@@ -102,7 +102,7 @@
 
   <!-- Footer -->
   <footer class="max-w-7xl mx-auto w-full px-8 py-12 border-t border-zinc-900 flex justify-between items-center text-[10px] font-sans tracking-widest text-zinc-700 uppercase">
-    <div>&copy; 2024 ECHOES OF GAZA | ADMIN SYSTEM</div>
+    <div>&copy; 2026 ECHOES OF GAZA | ADMIN SYSTEM</div>
     <div class="flex gap-4">
       <span>Status: <span id="system-status" class="text-zinc-500">Idle</span></span>
     </div>
@@ -110,7 +110,7 @@
 
   <!-- Firebase Logic -->
   <script type="module">
-    // Firebase SDK imports (keep versions consistent)
+    // Firebase SDK imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
     import {
       getAuth,
@@ -127,6 +127,8 @@
       getDocs
     } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
     import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-functions.js";
+    // Storage Imports
+    import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-storage.js";
 
     // Your Firebase config (from Firebase Console)
     const firebaseConfig = {
@@ -210,12 +212,16 @@
     }
 
     // Init Firebase
-    let app, auth, db, functions;
+    let app, auth, db, functions, storage, rejectFn;
     try {
       app = initializeApp(firebaseConfig);
       auth = getAuth(app);
       db = getFirestore(app);
       functions = getFunctions(app, "us-central1");
+      // Init Storage
+      storage = getStorage(app);
+      // Init Reject Function
+      rejectFn = httpsCallable(functions, "rejectPrimarySource");
     } catch (e) {
       console.error("Firebase init error", e);
       showLogin("Firebase configuration missing or invalid.");
@@ -324,9 +330,13 @@
         const createdStr = item.createdAt?.toDate ? item.createdAt.toDate().toLocaleString() : "Unknown submitted time";
         const fileSize = item.sizeBytes ? formatBytes(item.sizeBytes) : "";
 
+        // New Logic
+        const safeStoragePath = item.storagePath || "";
+        const safeContentType = item.contentType || item.mimeType || "";
+
         html += `
-          <div id="card-${esc(item.id)}" class="group border-b border-zinc-900 hover:bg-zinc-900/30 transition-colors p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div class="flex-1 space-y-2">
+          <div id="card-${esc(item.id)}" class="group border-b border-zinc-900 hover:bg-zinc-900/30 transition-colors p-6 flex flex-col md:flex-row items-start justify-between gap-6">
+            <div class="flex-1 space-y-2 w-full">
               <div class="flex items-center gap-3">
                 <span class="px-2 py-0.5 border border-zinc-800 text-[10px] tracking-widest uppercase text-zinc-500 font-sans">${esc(item.tag || "General")}</span>
                 <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">${esc(createdStr)}</span>
@@ -348,9 +358,12 @@
                 ${item.source ? `<span class="truncate max-w-md">Source: ${esc(item.source)}</span>` : ""}
               </div>
 
+              <!-- Preview Container -->
+              <div id="preview-${esc(item.id)}" class="hidden mt-4"></div>
+
               <div id="success-${esc(item.id)}" class="hidden mt-4 p-3 border border-zinc-800 bg-zinc-950/50">
-                <p class="text-[#8b0000] text-xs font-sans mb-2 uppercase tracking-wider">Approved and archived</p>
-                <a id="link-${esc(item.id)}" href="#" target="_blank" rel="noopener noreferrer" class="text-xs text-zinc-300 underline hover:text-white flex items-center gap-2">
+                <p id="success-msg-${esc(item.id)}" class="text-[#8b0000] text-xs font-sans mb-2 uppercase tracking-wider">Processed</p>
+                <a id="link-${esc(item.id)}" href="#" target="_blank" rel="noopener noreferrer" class="hidden text-xs text-zinc-300 underline hover:text-white flex items-center gap-2">
                   View in Drive
                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -363,13 +376,31 @@
               <div id="error-${esc(item.id)}" class="hidden mt-2 text-[#8b0000] text-xs font-sans"></div>
             </div>
 
-            <div class="flex items-center gap-4 min-w-[140px] justify-end">
+            <div class="flex flex-col gap-2 min-w-[140px] justify-start mt-2">
+              <!-- Preview Button -->
               <button
-                onclick="window.handleApprove('${esc(item.id)}')"
-                id="btn-approve-${esc(item.id)}"
+                onclick="window.handlePreview('${esc(item.id)}', '${esc(safeStoragePath)}', '${esc(safeContentType)}')"
                 class="px-6 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase w-full md:w-auto">
-                Approve
+                Preview
               </button>
+
+              <div class="flex gap-2 w-full md:w-auto">
+                <!-- Reject Button -->
+                <button
+                  onclick="window.handleReject('${esc(item.id)}')"
+                  id="btn-reject-${esc(item.id)}"
+                  class="px-6 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase w-full md:w-auto">
+                  Reject
+                </button>
+
+                <!-- Approve Button -->
+                <button
+                  onclick="window.handleApprove('${esc(item.id)}')"
+                  id="btn-approve-${esc(item.id)}"
+                  class="flex-1 px-3 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[10px] font-sans tracking-[0.15em] uppercase">
+                  Approve
+                </button>
+              </div>
             </div>
           </div>
         `;
@@ -378,7 +409,74 @@
       listContainer.innerHTML = html;
     }
 
-    // Callable function action
+    // Preview Logic
+    window.handlePreview = async (docId, storagePath, contentType) => {
+      const previewBox = document.getElementById(`preview-${docId}`);
+      const errorBox = document.getElementById(`error-${docId}`);
+
+      if (errorBox) errorBox.classList.add("hidden");
+
+      try {
+        if (!storagePath) {
+          throw new Error("No storagePath yet. Try refresh in a few seconds.");
+        }
+
+        // Toggle off if already open
+        if (!previewBox.classList.contains("hidden")) {
+          previewBox.classList.add("hidden");
+          previewBox.innerHTML = "";
+          return;
+        }
+
+        previewBox.classList.remove("hidden");
+        previewBox.innerHTML = `<div class="text-xs text-zinc-500 font-sans tracking-widest uppercase">Loading preview...</div>`;
+
+        const url = await getDownloadURL(ref(storage, storagePath));
+
+        previewBox.innerHTML = "";
+
+        // Image preview
+        if ((contentType || "").startsWith("image/")) {
+          const img = document.createElement("img");
+          img.src = url;
+          img.className = "w-full border border-zinc-800";
+          previewBox.appendChild(img);
+          return;
+        }
+
+        // Video preview
+        if ((contentType || "").startsWith("video/")) {
+          const video = document.createElement("video");
+          video.src = url;
+          video.controls = true;
+          video.className = "w-full border border-zinc-800";
+          previewBox.appendChild(video);
+          return;
+        }
+
+        // PDF or other
+        const iframe = document.createElement("iframe");
+        iframe.src = url;
+        iframe.className = "w-full border border-zinc-800";
+        iframe.style.height = "520px";
+        previewBox.appendChild(iframe);
+
+      } catch (e) {
+        console.error(e);
+        if (previewBox) {
+          previewBox.classList.add("hidden");
+          previewBox.innerHTML = "";
+        }
+        if (errorBox) {
+          errorBox.textContent = "Preview error: " + (e.message || String(e));
+          errorBox.classList.remove("hidden");
+        } else {
+          alert("Preview error: " + (e.message || String(e)));
+        }
+      }
+    };
+
+    // Callable function action (Approve)
     window.handleApprove = async (submissionId) => {
       if (isProcessing) return;
 
@@ -388,13 +486,17 @@
       if (!ok) return;
 
       const btn = document.getElementById(`btn-approve-${submissionId}`);
+      const btnReject = document.getElementById(`btn-reject-${submissionId}`);
       const errorDiv = document.getElementById(`error-${submissionId}`);
       const successDiv = document.getElementById(`success-${submissionId}`);
+      const successMsg = document.getElementById(`success-msg-${submissionId}`);
 
       isProcessing = true;
       btn.disabled = true;
-      btn.textContent = "Processing...";
+      btn.textContent = "...";
       btn.classList.add("opacity-50", "cursor-not-allowed");
+      if(btnReject) btnReject.classList.add("hidden");
+
       errorDiv.classList.add("hidden");
       setStatus("Approving...");
 
@@ -407,8 +509,10 @@
 
         btn.classList.add("hidden");
         successDiv.classList.remove("hidden");
+        successMsg.textContent = "Approved and archived";
 
         const linkEl = document.getElementById(`link-${submissionId}`);
+        linkEl.classList.remove("hidden");
         if (data.drivePreviewUrl) {
           linkEl.href = data.drivePreviewUrl;
         } else {
@@ -416,7 +520,7 @@
         }
 
         if (data.driveFileName) {
-          linkEl.textContent = `Open ${data.driveFileName} in Drive`;
+          linkEl.innerHTML = `Open ${esc(data.driveFileName)} in Drive <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`;
         }
 
         setStatus("Approved");
@@ -428,7 +532,60 @@
         btn.disabled = false;
         btn.textContent = "Approve";
         btn.classList.remove("opacity-50", "cursor-not-allowed");
+        if(btnReject) btnReject.classList.remove("hidden");
         setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    };
+
+    // Reject Logic
+    window.handleReject = async (submissionId) => {
+      if (isProcessing) return;
+
+      const reason = prompt("Optional: reason for rejection (leave blank for none)") || "";
+      const ok = confirm("Reject this submission?\n\nThis will delete the pending upload and mark it rejected.");
+      if (!ok) return;
+
+      const rejectBtn = document.getElementById(`btn-reject-${submissionId}`);
+      const approveBtn = document.getElementById(`btn-approve-${submissionId}`);
+      const errorDiv = document.getElementById(`error-${submissionId}`);
+
+      isProcessing = true;
+      setStatus("Rejecting...");
+
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (rejectBtn) {
+        rejectBtn.disabled = true;
+        rejectBtn.textContent = "Rejecting...";
+        rejectBtn.classList.add("opacity-50", "cursor-not-allowed");
+      }
+      if (approveBtn) approveBtn.disabled = true;
+
+      try {
+        const res = await rejectFn({ submissionId, reason });
+        console.log("Reject success:", res.data);
+
+        // Remove card from UI
+        const card = document.getElementById(`card-${submissionId}`);
+        if (card) card.remove();
+
+        setStatus("Rejected");
+      } catch (err) {
+        console.error("Reject failed:", err);
+        if (errorDiv) {
+          errorDiv.textContent = "Reject error: " + (err?.message || String(err));
+          errorDiv.classList.remove("hidden");
+        } else {
+          alert("Reject error: " + (err?.message || String(err)));
+        }
+        setStatus("Error");
+        if (approveBtn) approveBtn.disabled = false;
+        if (rejectBtn) {
+          rejectBtn.disabled = false;
+          rejectBtn.textContent = "Reject";
+          rejectBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        }
       } finally {
         isProcessing = false;
       }
