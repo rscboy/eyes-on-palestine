@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Portal | Echoes of Gaza</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0a0a0a;
+      --accent-red: #8b0000;
+      --text-zinc: #e4e4e7;
+      --text-muted: #71717a;
+    }
+    body { background-color: var(--bg-dark); color: var(--text-zinc); font-family: 'Playfair Display', serif; }
+    .font-sans { font-family: 'Inter', sans-serif; }
+    .tracking-wide-caps { letter-spacing: 0.2em; text-transform: uppercase; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0f0f0f; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+    .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto w-full px-8 pt-12 pb-6 flex justify-between items-start border-b border-zinc-900">
+    <div class="space-y-1">
+      <h1 class="text-2xl font-bold tracking-wide-caps font-sans text-zinc-100">Echoes of Gaza</h1>
+      <div class="flex items-center gap-2 text-zinc-500 font-sans text-[10px] tracking-widest uppercase">
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        Secure Admin Portal
+      </div>
+    </div>
+
+    <div id="auth-status" class="hidden flex items-center gap-4">
+      <div class="text-right">
+        <div id="admin-email" class="text-[10px] font-sans tracking-widest uppercase text-zinc-400">Loading...</div>
+        <button id="btn-logout" class="text-xs text-[#8b0000] hover:text-red-400 font-sans underline transition-colors">Sign Out</button>
+      </div>
+      <div class="w-10 h-10 border border-zinc-800 bg-zinc-900 rounded-full flex items-center justify-center text-zinc-500">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-grow max-w-7xl mx-auto w-full px-8 py-10">
+    <!-- Login View -->
+    <div id="view-login" class="flex flex-col items-center justify-center py-20 hidden">
+      <div class="max-w-md w-full text-center space-y-8">
+        <div class="border-l border-[#8b0000] pl-6 py-2 text-left bg-[#0f0f0f]">
+          <h4 class="text-[10px] font-sans tracking-widest uppercase text-[#8b0000] mb-2 font-bold">Authorized Personnel Only</h4>
+          <p class="text-sm text-zinc-500 font-sans leading-relaxed">
+            This system is monitored. Access is restricted to specific administrative accounts.
+          </p>
+        </div>
+        <button id="btn-login" class="px-8 py-3 bg-zinc-900 border border-zinc-700 hover:border-[#8b0000] text-zinc-200 font-sans text-xs tracking-widest uppercase transition-all w-full">
+          Authenticate with Google
+        </button>
+        <p id="login-error" class="text-[#8b0000] text-sm font-sans hidden"></p>
+      </div>
+    </div>
+
+    <!-- Dashboard View -->
+    <div id="view-dashboard" class="hidden">
+      <div class="flex justify-between items-end mb-8">
+        <div>
+          <h2 class="text-xl font-serif text-zinc-200 mb-2">Pending Submissions</h2>
+          <p class="text-sm text-zinc-500 font-sans italic">Review queue for primary source archive.</p>
+        </div>
+        <button id="btn-refresh" class="px-4 py-2 text-[10px] font-sans tracking-widest uppercase border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-600 transition-colors flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 4v6h-6"></path>
+            <path d="M1 20v-6h6"></path>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+          Refresh List
+        </button>
+      </div>
+
+      <div id="submissions-list" class="space-y-0 border-t border-zinc-900">
+        <div class="py-12 text-center text-zinc-600 font-serif italic animate-pulse-slow">
+          Connecting to secure archive...
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto w-full px-8 py-12 border-t border-zinc-900 flex justify-between items-center text-[10px] font-sans tracking-widest text-zinc-700 uppercase">
+    <div>&copy; 2024 ECHOES OF GAZA | ADMIN SYSTEM</div>
+    <div class="flex gap-4">
+      <span>Status: <span id="system-status" class="text-zinc-500">Idle</span></span>
+    </div>
+  </footer>
+
+  <!-- Firebase Logic -->
+  <script type="module">
+    // Firebase SDK imports (keep versions consistent)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithPopup,
+      GoogleAuthProvider,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      query,
+      where,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+    import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-functions.js";
+
+    // Your Firebase config (from Firebase Console)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBzPg-wYDL27znG6ThriRbqLn29nHzFUWQ",
+      authDomain: "echoes-of-gaza.firebaseapp.com",
+      projectId: "echoes-of-gaza",
+      storageBucket: "echoes-of-gaza.firebasestorage.app",
+      messagingSenderId: "592151003023",
+      appId: "1:592151003023:web:b3c7db040a0afb87a555fa"
+    };
+
+    const ALLOWED_EMAILS = new Set([
+      "goblue.c.2001@gmail.com",
+      "fatimahgula83@gmail.com"
+    ]);
+
+    // DOM Elements
+    const viewLogin = document.getElementById("view-login");
+    const viewDashboard = document.getElementById("view-dashboard");
+    const authStatus = document.getElementById("auth-status");
+    const adminEmailDisplay = document.getElementById("admin-email");
+    const btnLogin = document.getElementById("btn-login");
+    const btnLogout = document.getElementById("btn-logout");
+    const btnRefresh = document.getElementById("btn-refresh");
+    const listContainer = document.getElementById("submissions-list");
+    const systemStatus = document.getElementById("system-status");
+    const loginError = document.getElementById("login-error");
+
+    // State
+    let currentUser = null;
+    let isProcessing = false;
+
+    // Helpers
+    function setStatus(msg) {
+      systemStatus.textContent = msg;
+    }
+
+    function esc(s) {
+      return String(s ?? "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[c]));
+    }
+
+    function formatBytes(bytes, decimals = 2) {
+      if (!Number(bytes)) return "0 Bytes";
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ["Bytes", "KiB", "MiB", "GiB"];
+      const i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1);
+      return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+    }
+
+    function showLogin(msg) {
+      viewLogin.classList.remove("hidden");
+      viewDashboard.classList.add("hidden");
+      authStatus.classList.add("hidden");
+      if (msg) {
+        loginError.innerHTML = msg;
+        loginError.classList.remove("hidden");
+      } else {
+        loginError.classList.add("hidden");
+      }
+      setStatus("Waiting for auth");
+    }
+
+    function showDashboard() {
+      viewLogin.classList.add("hidden");
+      viewDashboard.classList.remove("hidden");
+      authStatus.classList.remove("hidden");
+      adminEmailDisplay.textContent = currentUser?.email || "";
+      fetchSubmissions();
+    }
+
+    async function handleUnauthorized(email) {
+      await signOut(auth);
+      showLogin(`Access Denied for <strong>${esc(email)}</strong>.<br>This account is not on the admin whitelist.`);
+    }
+
+    // Init Firebase
+    let app, auth, db, functions;
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+      functions = getFunctions(app, "us-central1");
+    } catch (e) {
+      console.error("Firebase init error", e);
+      showLogin("Firebase configuration missing or invalid.");
+      listContainer.innerHTML = `
+        <div class="py-12 text-center text-[#8b0000] font-sans">
+          Error: Firebase configuration missing or invalid.
+        </div>
+      `;
+      throw e;
+    }
+
+    // Auth
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        currentUser = null;
+        showLogin();
+        return;
+      }
+
+      if (!ALLOWED_EMAILS.has(user.email)) {
+        console.warn("Unauthorized access attempt:", user.email);
+        handleUnauthorized(user.email);
+        return;
+      }
+
+      currentUser = user;
+      showDashboard();
+    });
+
+    btnLogin.addEventListener("click", async () => {
+      const provider = new GoogleAuthProvider();
+      try {
+        loginError.classList.add("hidden");
+        setStatus("Signing in...");
+        await signInWithPopup(auth, provider);
+      } catch (error) {
+        console.error("Login failed", error);
+        showLogin("Authentication failed: " + esc(error.message));
+        setStatus("Error");
+      }
+    });
+
+    btnLogout.addEventListener("click", async () => {
+      await signOut(auth);
+      showLogin();
+    });
+
+    btnRefresh.addEventListener("click", () => {
+      fetchSubmissions();
+    });
+
+    async function fetchSubmissions() {
+      if (!currentUser) return;
+
+      setStatus("Loading pending...");
+      listContainer.innerHTML = `
+        <div class="py-12 text-center text-zinc-500 font-sans tracking-widest text-xs uppercase animate-pulse">
+          Querying secure database...
+        </div>
+      `;
+
+      try {
+        const q = query(
+          collection(db, "primary_sources"),
+          where("status", "==", "pending")
+        );
+
+        const snap = await getDocs(q);
+
+        const submissions = [];
+        snap.forEach((d) => submissions.push({ id: d.id, ...d.data() }));
+
+        // Client-side sort: newest first if createdAt exists
+        submissions.sort((a, b) => {
+          const da = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(0);
+          const dbb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(0);
+          return dbb - da;
+        });
+
+        renderList(submissions);
+        setStatus("Idle");
+      } catch (error) {
+        console.error("Error fetching submissions:", error);
+        listContainer.innerHTML = `
+          <div class="py-8 text-center border border-red-900/30 bg-red-900/10 p-4">
+            <p class="text-[#8b0000] font-sans text-sm mb-2">Error loading data</p>
+            <p class="text-zinc-500 text-xs font-mono">${esc(error.message)}</p>
+          </div>
+        `;
+        setStatus("Error loading");
+      }
+    }
+
+    function renderList(items) {
+      if (!items.length) {
+        listContainer.innerHTML = `
+          <div class="py-20 text-center text-zinc-600 italic font-serif">
+            No pending submissions found in the queue.
+          </div>
+        `;
+        return;
+      }
+
+      let html = "";
+      for (const item of items) {
+        const createdStr = item.createdAt?.toDate ? item.createdAt.toDate().toLocaleString() : "Unknown submitted time";
+        const fileSize = item.sizeBytes ? formatBytes(item.sizeBytes) : "";
+
+        html += `
+          <div id="card-${esc(item.id)}" class="group border-b border-zinc-900 hover:bg-zinc-900/30 transition-colors p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="flex-1 space-y-2">
+              <div class="flex items-center gap-3">
+                <span class="px-2 py-0.5 border border-zinc-800 text-[10px] tracking-widest uppercase text-zinc-500 font-sans">${esc(item.tag || "General")}</span>
+                <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">${esc(createdStr)}</span>
+              </div>
+
+              <h3 class="text-lg text-zinc-200 font-serif leading-tight">
+                ${esc(item.title || "Untitled Submission")}
+              </h3>
+
+              <div class="text-xs text-zinc-500 font-sans flex flex-col gap-1">
+                ${item.date ? `<span>Date: ${esc(item.date)}</span>` : ""}
+                ${item.originalFileName ? `<span class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  ${esc(item.originalFileName)} ${fileSize ? `<span class="text-zinc-600">(${esc(fileSize)})</span>` : ""}
+                </span>` : ""}
+                ${item.source ? `<span class="truncate max-w-md">Source: ${esc(item.source)}</span>` : ""}
+              </div>
+
+              <div id="success-${esc(item.id)}" class="hidden mt-4 p-3 border border-zinc-800 bg-zinc-950/50">
+                <p class="text-[#8b0000] text-xs font-sans mb-2 uppercase tracking-wider">Approved and archived</p>
+                <a id="link-${esc(item.id)}" href="#" target="_blank" rel="noopener noreferrer" class="text-xs text-zinc-300 underline hover:text-white flex items-center gap-2">
+                  View in Drive
+                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
+
+              <div id="error-${esc(item.id)}" class="hidden mt-2 text-[#8b0000] text-xs font-sans"></div>
+            </div>
+
+            <div class="flex items-center gap-4 min-w-[140px] justify-end">
+              <button
+                onclick="window.handleApprove('${esc(item.id)}')"
+                id="btn-approve-${esc(item.id)}"
+                class="px-6 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase w-full md:w-auto">
+                Approve
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      listContainer.innerHTML = html;
+    }
+
+    // Callable function action
+    window.handleApprove = async (submissionId) => {
+      if (isProcessing) return;
+
+      const ok = confirm(
+        "Approve this submission?\n\nThis will move the file to the public Drive folder and publish it."
+      );
+      if (!ok) return;
+
+      const btn = document.getElementById(`btn-approve-${submissionId}`);
+      const errorDiv = document.getElementById(`error-${submissionId}`);
+      const successDiv = document.getElementById(`success-${submissionId}`);
+
+      isProcessing = true;
+      btn.disabled = true;
+      btn.textContent = "Processing...";
+      btn.classList.add("opacity-50", "cursor-not-allowed");
+      errorDiv.classList.add("hidden");
+      setStatus("Approving...");
+
+      try {
+        const approveFn = httpsCallable(functions, "approvePrimarySource");
+        const result = await approveFn({ submissionId });
+
+        const data = result.data || {};
+        console.log("Approval success:", data);
+
+        btn.classList.add("hidden");
+        successDiv.classList.remove("hidden");
+
+        const linkEl = document.getElementById(`link-${submissionId}`);
+        if (data.drivePreviewUrl) {
+          linkEl.href = data.drivePreviewUrl;
+        } else {
+          linkEl.href = "#";
+        }
+
+        if (data.driveFileName) {
+          linkEl.textContent = `Open ${data.driveFileName} in Drive`;
+        }
+
+        setStatus("Approved");
+      } catch (error) {
+        console.error("Approval failed:", error);
+        errorDiv.textContent = "Error: " + (error?.message || "Unknown error");
+        errorDiv.classList.remove("hidden");
+
+        btn.disabled = false;
+        btn.textContent = "Approve";
+        btn.classList.remove("opacity-50", "cursor-not-allowed");
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    };
+
+    // Start state
+    showLogin();
+  </script>
+</body>
+</html>
