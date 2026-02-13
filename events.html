@@ -12,272 +12,373 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-    <!-- Added Bodoni Moda for the new logo -->
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;500;700&display=swap" rel="stylesheet">
+    <!-- Inter for UI/Metadata -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Bodoni Moda for Display/Logo -->
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;500&display=swap" rel="stylesheet">
+    <!-- Lora for Body Copy (Editorial/Archival) -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     
     <style>
         /* --- CORE BRANDING CSS --- */
         :root {
-            --pal-red: #EE2A35;
-            --pal-green: #009736;
-            --pal-black: #000000;
-            --pal-white: #FFFFFF;
+            --pal-red: #a81c25; /* Darkened for archival feel */
+            --pal-green: #1a5d2e; /* Muted green */
+            --pal-black: #0a0a0a;
+            --pal-white: #e5e5e5; /* Soft white */
+            --bg-dark: #121212;
+            --bg-card: #161616;
         }
 
         body {
+            font-family: 'Lora', serif;
+            background-color: var(--bg-dark);
+            color: var(--pal-white);
+            line-height: 1.8; /* Generous line spacing */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography Overrides */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bodoni Moda', serif;
+            font-weight: 400; /* Lighter weights for elegance */
+            letter-spacing: -0.02em;
+        }
+
+        /* Metadata Style (Archival Labels) */
+        .meta-label {
             font-family: 'Inter', sans-serif;
-            background-color: #121212;
-            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #888;
         }
 
         html { scroll-behavior: smooth; }
 
         /* Scrollbar Styling */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1a1a1a; }
-        ::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #777; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
 
-        /* Hero Text Gradient */
-        .hero-gradient-text {
-            background: linear-gradient(to right, var(--pal-white), #a0a0a0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Hero Text - Subtle Fade */
+        .hero-text {
+            color: #f0f0f0;
         }
 
-        /* Card Styling */
+        /* Card Styling - Minimalist Archival Box */
         .card {
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            overflow: hidden;
+            background-color: var(--bg-card);
+            border: 1px solid #2a2a2a;
+            transition: border-color 0.4s ease, transform 0.4s ease;
         }
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
             border-color: #555;
+            transform: translateY(-2px);
         }
 
-        /* Tags */
-        .tag-green { background: rgba(0, 151, 54, 0.1); color: #22c55e; border: 1px solid rgba(0, 151, 54, 0.2); }
-        .tag-red { background: rgba(238, 42, 53, 0.1); color: #ef4444; border: 1px solid rgba(238, 42, 53, 0.2); }
-        .tag-gray { background: rgba(255, 255, 255, 0.1); color: #9ca3af; border: 1px solid rgba(255, 255, 255, 0.2); }
+        /* Tags - Outlined, Minimal */
+        .tag-minimal { 
+            border: 1px solid #333; 
+            color: #999; 
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.65rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2px;
+        }
+        .tag-green-subtle { color: #4ade80; border-color: rgba(74, 222, 128, 0.2); }
+        .tag-red-subtle { color: #f87171; border-color: rgba(248, 113, 113, 0.2); }
+
+        /* Navigation Glass */
+        .nav-glass {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            height: 80px;
+        }
+
+        .nav-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #888;
+            transition: color 0.4s ease;
+        }
+        .nav-link:hover { color: #fff; }
+
+        .btn-primary {
+            font-family: 'Inter', sans-serif;
+            background-color: #8B0000; /* Deep archival red */
+            color: white;
+            transition: all 0.4s ease;
+            letter-spacing: 0.1em;
+        }
+        .btn-primary:hover {
+            background-color: #a00000;
+        }
         
-        /* Bullet Points Customization */
-        ul.custom-bullets li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
-        ul.custom-bullets li::before {
-            content: "•";
-            color: var(--pal-green);
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
-        /* Spotify Button Gradient */
-        .spotify-btn {
-            background: #1DB954;
-            transition: background 0.3s ease;
-        }
-        .spotify-btn:hover {
-            background: #1ed760;
-        }
-
-        /* NEW LOGO STYLE */
+        /* New Logo Style */
         .brand-logo {
             font-family: 'Bodoni Moda', serif;
             text-transform: uppercase;
-            letter-spacing: 0.2em; /* Wide tracking */
+            letter-spacing: 0.2em;
             color: white;
-            font-weight: 500; 
+            font-weight: 400; 
+        }
+
+        /* Editorial Line Spacing Utility */
+        .prose-editorial {
+            line-height: 1.9;
+            color: #ccc;
         }
     </style>
 </head>
-<body class="text-white flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen">
 
     <!-- HEADER -->
-    <!-- Changed to solid bg-black for high contrast/solemn look -->
-    <header class="border-b border-gray-800 sticky top-0 bg-black z-50">
-        <div class="container mx-auto px-6 py-5 flex justify-between items-center">
-            <!-- Updated Logo: Minimalist, Serif, Uppercase, Wide Tracking -->
-            <a href="https://echoesofgaza.org" class="inline-block text-lg brand-logo hover:opacity-80 transition-opacity">
-                Echoes of Gaza
-            </a>
-            <nav class="hidden md:flex items-center space-x-6">
-                <a href="https://echoesofgaza.org" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Back to Home</a>
+    <header class="nav-glass fixed w-full top-0 z-50 flex items-center justify-center">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+            <div class="flex justify-between items-center h-full">
+                <a href="#" id="nav-logo" class="flex flex-col items-start opacity-90 hover:opacity-100 transition-opacity z-50 relative">
+                    <span class="text-xs font-serif text-white tracking-[0.25em] uppercase">Echoes of Gaza</span>
+                </a>
+
+                <nav class="hidden md:flex items-center space-x-10">
+                    <div class="relative group">
+                        <button id="archive-menu-button" class="nav-link flex items-center">Archive</button>
+                        <div id="archive-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-6 w-56 hidden group-hover:block z-50">
+                            <div class="bg-[#111] border border-[#333] p-2 shadow-2xl">
+                                <a href="#articles" class="block px-6 py-3 text-[0.7rem] uppercase tracking-widest text-gray-400 hover:text-white hover:bg-[#1a1a1a] transition">Articles</a>
+                                <a href="#books" class="block px-6 py-3 text-[0.7rem] uppercase tracking-widest text-gray-400 hover:text-white hover:bg-[#1a1a1a] transition">Books</a>
+                                <a href="#videos" class="block px-6 py-3 text-[0.7rem] uppercase tracking-widest text-gray-400 hover:text-white hover:bg-[#1a1a1a] transition">Interviews</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <button id="tools-menu-button" class="nav-link flex items-center">Tools</button>
+                        <div id="tools-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-6 w-56 hidden group-hover:block z-50">
+                            <div class="bg-[#111] border border-[#333] p-2 shadow-2xl">
+                                <a href="#narrative" class="block px-6 py-3 text-[0.7rem] uppercase tracking-widest text-gray-400 hover:text-white hover:bg-[#1a1a1a] transition">Narratives</a>
+                                <a href="#timeline" class="block px-6 py-3 text-[0.7rem] uppercase tracking-widest text-gray-400 hover:text-white hover:bg-[#1a1a1a] transition">Timeline</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#geolocation" class="nav-link">Maps</a>
+                    <a href="#victims" class="nav-link">Victims</a>
+                    <a href="#resources" class="nav-link">Resources</a>
+
+                    <a href="https://echoesofgaza.org/collab" class="btn-primary px-6 py-3 text-[0.65rem] uppercase tracking-[0.15em] hidden md:block border border-transparent hover:border-red-900">
+                        Submit Evidence
+                    </a>
+                </nav>
+                
+                <!-- MOBILE MENU BUTTON -->
+                <div class="flex items-center space-x-4 md:hidden z-50 relative">
+                    <button id="mobile-menu-button" class="text-gray-400 hover:text-white transition p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOBILE MENU OVERLAY (Added) -->
+        <div id="mobile-menu" class="fixed inset-0 top-[80px] bg-[#0a0a0a] z-40 hidden flex-col p-8 overflow-y-auto border-t border-white/5 transition-all duration-300">
+            <nav class="flex flex-col space-y-8 pb-12">
+                <!-- Archive Section -->
+                <div>
+                    <span class="meta-label block mb-4 text-gray-600">Archive</span>
+                    <div class="flex flex-col space-y-3 pl-4 border-l border-gray-800">
+                        <a href="#articles" class="text-xl text-gray-300 font-serif hover:text-white transition">Articles</a>
+                        <a href="#books" class="text-xl text-gray-300 font-serif hover:text-white transition">Books</a>
+                        <a href="#videos" class="text-xl text-gray-300 font-serif hover:text-white transition">Interviews</a>
+                    </div>
+                </div>
+                
+                <!-- Tools Section -->
+                <div>
+                    <span class="meta-label block mb-4 text-gray-600">Tools</span>
+                    <div class="flex flex-col space-y-3 pl-4 border-l border-gray-800">
+                        <a href="#narrative" class="text-xl text-gray-300 font-serif hover:text-white transition">Narratives</a>
+                        <a href="#timeline" class="text-xl text-gray-300 font-serif hover:text-white transition">Timeline</a>
+                    </div>
+                </div>
+
+                <!-- Direct Links -->
+                <div class="flex flex-col space-y-4 pt-4">
+                     <a href="#geolocation" class="text-xl text-gray-300 font-serif hover:text-white transition">Maps</a>
+                     <a href="#victims" class="text-xl text-gray-300 font-serif hover:text-white transition">Victims</a>
+                     <a href="#resources" class="text-xl text-gray-300 font-serif hover:text-white transition">Resources</a>
+                </div>
+
+                <!-- CTA -->
+                <div class="pt-6 mt-4">
+                     <a href="https://echoesofgaza.org/collab" class="btn-primary w-full block text-center py-4 text-xs uppercase tracking-[0.2em] border border-transparent">Submit Evidence</a>
+                </div>
             </nav>
         </div>
     </header>
 
-    <main class="flex-grow">
+    <main class="flex-grow pt-20">
         <!-- HERO SECTION -->
-        <section class="py-20 bg-black text-center border-b border-gray-800">
+        <section class="py-32 bg-[#0a0a0a] text-center border-b border-white/5">
             <div class="container mx-auto px-6">
-                <h1 class="text-4xl md:text-6xl font-extrabold hero-gradient-text mb-4">
-                    Speaker Series & Events
+                <span class="meta-label block mb-6 text-gray-500">Vol. 01 — Public Programming</span>
+                <h1 class="text-5xl md:text-7xl hero-text mb-8 leading-tight">
+                    Speaker Series <span class="text-gray-600 font-light">&</span> Events
                 </h1>
-                <p class="text-gray-400 max-w-2xl mx-auto text-lg">
-                    Join us for conversations on history, law, and lived experience. We gather to listen, reflect, and turn empathy into concrete action.
+                <p class="text-gray-400 max-w-2xl mx-auto text-xl prose-editorial font-light italic">
+                    Conversations on history, law, and lived experience. We gather to listen, reflect, and turn empathy into concrete action.
                 </p>
             </div>
         </section>
 
         <!-- CONTENT SECTION -->
-        <section class="py-16 bg-[#121212]">
+        <section class="py-24 bg-[#121212]">
             <div class="container mx-auto px-6 max-w-5xl">
                 
-                <!-- UPCOMING EVENTS SECTION -->
-                <h2 class="text-2xl font-bold mb-8 border-l-4 border-green-600 pl-4">Upcoming Events</h2>
+                <!-- SECTION HEADER -->
+                <div class="flex items-center gap-4 mb-16">
+                    <span class="h-[1px] w-8 bg-green-900"></span>
+                    <h2 class="text-3xl text-gray-200">Latest</h2>
+                </div>
 
-                <!-- NEW EVENT: Ruwāyah: Stories of Sumud -->
-                <div class="card rounded-xl p-8 md:p-10 border border-green-900/30 bg-[#1a1a1a] relative mb-20 shadow-[0_0_15px_rgba(0,151,54,0.1)]">
-                    <!-- Date Badge -->
-                    <div class="md:absolute top-10 right-10 bg-green-900/20 border border-green-800 text-green-400 px-4 py-2 rounded-lg text-center mb-6 md:mb-0 inline-block">
-                        <span class="block text-xs uppercase tracking-wider font-bold">Upcoming</span>
-                        <span class="block text-xl font-bold text-white">31 JAN</span>
-                        <span class="block text-xs">Fri • 8–10 PM SGT</span>
-                        <span class="block text-xs opacity-80">7–9 AM EST</span>
+                <!-- FEATURED EVENT -->
+                <div class="card p-10 md:p-12 mb-24 relative">
+                    <!-- Date Stamp -->
+                    <div class="md:absolute top-12 right-12 text-right mb-8 md:mb-0">
+                        <span class="meta-label block text-gray-500 mb-1">Jan 31, 2026</span>
+                        <span class="meta-label block text-gray-600">Friday • 20:00 SGT</span>
                     </div>
 
-                    <div class="md:pr-32">
-                        <div class="flex items-center gap-3 mb-4">
-                             <span class="tag-green text-xs font-bold px-3 py-1 rounded-full">New Event</span>
-                             <span class="text-gray-400 text-sm">Online • Google Meet</span>
+                    <div class="md:pr-40">
+                        <div class="flex items-center gap-3 mb-6">
+                             <span class="tag-minimal">Concluded</span>
+                             <span class="meta-label text-gray-500">Google Meet</span>
                         </div>
 
-                        <h3 class="text-3xl md:text-4xl font-bold text-white mb-4">
-                            Ruwāyah: Stories of Sumud 🖊️
+                        <h3 class="text-4xl text-white mb-6 leading-tight">
+                            Ruwāyah: Stories of Sumud
                         </h3>
 
-                        <p class="text-gray-300 text-lg leading-relaxed mb-6 italic border-l-2 border-gray-700 pl-4">
-                            "We do not need to be born into a struggle to care. We only need to witness, to choose to engage and resist."
-                        </p>
+                        <div class="pl-6 border-l border-gray-800 mb-8">
+                            <p class="prose-editorial text-lg italic text-gray-400">
+                                "We do not need to be born into a struggle to care. We only need to witness, to choose to engage and resist."
+                            </p>
+                        </div>
                         
-                        <p class="text-gray-400 mb-6">
-                            <em>Ruwāyah</em> means story, while <em>Sumud</em> means steadfastness. Join us for a series of conversations on witnessing and resistance.
+                        <p class="prose-editorial mb-10 text-base">
+                            <em class="text-white">Ruwāyah</em> means story, while <em class="text-white">Sumud</em> means steadfastness. This session convenes a dialogue on the ethics of witnessing and the durability of resistance.
                         </p>
 
-                        <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="grid md:grid-cols-2 gap-12 mb-10">
                             <!-- Speaker 1 -->
-                            <div class="bg-[#222] p-5 rounded-lg border border-gray-800">
-                                <h4 class="text-xl font-bold text-white mb-2">Jason Soo <span class="text-sm font-normal text-gray-400 ml-2">Filmmaker & Activist</span></h4>
-                                <p class="text-sm text-gray-400 leading-relaxed">
-                                    Director of <em>Al-Awda</em>. A short film born from his time with the Freedom Flotilla Coalition (2018). Jason will share what it means to show up, to document, and to keep going when the world tells you to look away. "From the sea to the screen."
+                            <div>
+                                <h4 class="text-lg text-white mb-2">Jason Soo</h4>
+                                <span class="meta-label block mb-3 text-gray-600">Filmmaker & Activist</span>
+                                <p class="text-sm text-gray-500 leading-relaxed font-serif">
+                                    Director of <em>Al-Awda</em>. Reflecting on his time with the Freedom Flotilla Coalition (2018) and the act of documenting "from the sea to the screen."
                                 </p>
                             </div>
                             <!-- Speaker 2 -->
-                            <div class="bg-[#222] p-5 rounded-lg border border-gray-800">
-                                <h4 class="text-xl font-bold text-white mb-2">Wei <span class="text-sm font-normal text-gray-400 ml-2">Social Worker (19 Years Exp.)</span></h4>
-                                <p class="text-sm text-gray-400 leading-relaxed">
-                                    Having worked on the ground in Gaza alongside doctors and journalists, Wei will share what daily life looks like under the harshest circumstances and what it truly means to support ethically, without causing further harm.
+                            <div>
+                                <h4 class="text-lg text-white mb-2">Wei</h4>
+                                <span class="meta-label block mb-3 text-gray-600">Social Worker</span>
+                                <p class="text-sm text-gray-500 leading-relaxed font-serif">
+                                    Nineteen years of experience. Sharing insights from on-ground work in Gaza alongside medical teams, discussing ethical support structures.
                                 </p>
                             </div>
                         </div>
 
-                        <!-- CTA -->
-                        <a href="https://forms.gle/T9bBknn9uUFP48kr7?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnQRNn4HWc6Itx4ITv2aIv50VZqXTFCjU5rvi2KmsHgZy-X2Yc7yKbsdskek0_aem_XFjWoZO75MSVZPIE1GJOYA" target="_blank" class="inline-flex items-center gap-2 bg-green-700 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full transition-colors">
-                            <span>Register for Event</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                        </a>
+                        <!-- CTA / Status -->
+                        <div class="flex items-center gap-3 text-gray-600 mt-8">
+                            <span class="h-2 w-2 rounded-full bg-gray-700"></span>
+                            <span class="meta-label">Recording Pending Processing</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- PAST EVENTS SECTION -->
-                <h2 class="text-2xl font-bold mb-8 border-l-4 border-gray-600 pl-4">Past Events</h2>
+                <!-- PAST SECTION -->
+                <div class="flex items-center gap-4 mb-16 mt-32">
+                    <span class="h-[1px] w-8 bg-gray-700"></span>
+                    <h2 class="text-3xl text-gray-400">Archive</h2>
+                </div>
                 
-                <!-- NEWEST PAST EVENT: AWDA -->
-                <div class="card rounded-xl p-8 md:p-10 border border-gray-800 relative mb-8">
-                    <!-- Date Badge (Styled for Past) -->
-                    <div class="md:absolute top-10 right-10 bg-gray-800/50 border border-gray-700 text-gray-300 px-4 py-2 rounded-lg text-center mb-6 md:mb-0 inline-block opacity-80">
-                        <span class="block text-xs uppercase tracking-wider font-bold">Concluded</span>
-                        <span class="block text-xl font-bold text-white">29 NOV</span>
-                        <span class="block text-xs">2025</span>
+                <!-- PAST EVENT: AWDA -->
+                <div class="card p-10 md:p-12 mb-12 relative border-gray-800">
+                    <div class="md:absolute top-12 right-12 text-right mb-6 md:mb-0">
+                        <span class="meta-label block text-gray-600 mb-1">Nov 29, 2025</span>
+                        <span class="tag-minimal">Concluded</span>
                     </div>
 
-                    <!-- Content -->
-                    <div class="md:pr-32">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="tag-gray text-xs font-bold px-3 py-1 rounded-full">Speaker Series</span>
-                            <span class="text-gray-500 text-sm">Online Event</span>
+                    <div class="md:pr-40">
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="meta-label text-gray-500">Speaker Series</span>
                         </div>
 
-                        <h3 class="text-3xl md:text-4xl font-bold text-white mb-4">
-                            AWDA (عودة): Return & Hope <span class="text-2xl align-middle">🍉</span>
+                        <h3 class="text-3xl text-gray-200 mb-6 font-light">
+                            AWDA: Return & Hope
                         </h3>
 
-                        <p class="text-gray-300 text-lg leading-relaxed mb-6">
-                            Marking the <strong>International Day of Solidarity with the Palestinian People</strong>, this event was a powerful moment of reflection and connection. We explored the Right of Return through stories, law, and lived experience.
+                        <p class="prose-editorial text-lg mb-8">
+                            Marking the International Day of Solidarity. We explored the Right of Return through legal frameworks and personal memory.
                         </p>
 
-                        <p class="text-gray-400 mb-8 leading-relaxed">
-                            Featuring Palestinian voices from the West Bank, Baha from Bethlehem, and Dr. Fauziah Hassan (Chairperson, APWCQ), the session delved into the deep meaning of <em>Awda</em> (Return) not just as a political right, but as a daily practice of memory and hope.
-                        </p>
-
-                        <!-- Highlights / What was covered -->
-                        <div class="bg-[#222] rounded-lg p-6 border border-gray-700 mb-8">
-                            <h4 class="font-bold text-white mb-4">Key themes explored:</h4>
-                            <ul class="space-y-3 text-gray-300">
-                                <li class="flex items-start">
-                                    <span class="mr-3 mt-1">🌿</span>
-                                    <span>Personal accounts of displacement, resilience, and connection</span>
+                        <div class="bg-[#111] p-8 border border-gray-800 mb-8">
+                            <span class="meta-label block mb-6 text-gray-500">Key Themes</span>
+                            <ul class="space-y-4 text-gray-400 font-serif text-sm leading-relaxed">
+                                <li class="flex items-baseline gap-4">
+                                    <span class="text-xs text-gray-600">01</span>
+                                    <span>Personal accounts of displacement and resilience.</span>
                                 </li>
-                                <li class="flex items-start">
-                                    <span class="mr-3 mt-1">🏡</span>
-                                    <span>Heritage, land, and living memory as evidence of continuity</span>
+                                <li class="flex items-baseline gap-4">
+                                    <span class="text-xs text-gray-600">02</span>
+                                    <span>Heritage and land as evidence of continuity.</span>
                                 </li>
-                                <li class="flex items-start">
-                                    <span class="mr-3 mt-1">🌏</span>
-                                    <span>Building meaningful regional solidarity beyond borders</span>
+                                <li class="flex items-baseline gap-4">
+                                    <span class="text-xs text-gray-600">03</span>
+                                    <span>Regional solidarity beyond borders.</span>
                                 </li>
                             </ul>
                         </div>
 
-                        <!-- Footer / Recording Status -->
-                        <div class="flex flex-col sm:flex-row gap-4 items-center sm:items-start border-t border-gray-800 pt-6">
-                            <button disabled class="bg-gray-800 text-gray-400 font-bold py-3 px-8 rounded-md cursor-not-allowed inline-flex items-center justify-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                </svg>
-                                Recording Coming Soon
-                            </button>
-                            <p class="text-sm text-gray-500 mt-2 sm:mt-3">
-                                Thank you to everyone who joined us for this special gathering.
-                            </p>
+                        <div class="flex items-center gap-3 text-gray-600">
+                            <span class="h-2 w-2 rounded-full bg-gray-700"></span>
+                            <span class="meta-label">Recording Pending Processing</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Event 2: Watermelons Dreams -->
-                <div class="card rounded-xl p-6 md:p-8 border border-gray-800 mb-8">
-                    <div class="flex flex-col md:flex-row gap-8">
-                        <!-- Content Side -->
+                <div class="card p-8 md:p-10 mb-12 border-gray-800">
+                    <div class="flex flex-col md:flex-row gap-12">
                         <div class="flex-1">
-                            <span class="tag-red text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block">Music & Art</span>
-                            <h3 class="text-2xl font-bold text-white mb-2">Watermelons Dreams 🍉</h3>
-                            <p class="text-gray-400 mb-6">
-                                An event where we showcased Palestinian art and music as resistance. We gathered to witness creativity as a form of steadfastness (Sumud).
+                            <span class="tag-minimal tag-red-subtle mb-4 inline-block">Music & Art</span>
+                            <h3 class="text-2xl text-gray-200 mb-4">Watermelons Dreams</h3>
+                            <p class="prose-editorial text-sm mb-8 text-gray-500">
+                                Palestinian art and music as resistance. Witnessing creativity as a form of steadfastness.
                             </p>
                             
-                            <div class="flex flex-wrap gap-3">
-                                <a href="https://open.spotify.com/playlist/5dYAs4w3haBn6KaokRO89Y" target="_blank" class="spotify-btn text-white font-bold py-2 px-4 rounded-full text-sm flex items-center gap-2 hover:shadow-lg transition-all">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 4.2-1.32 9.6-0.66 13.38 1.68.42.299.6.899.361 1.261zm.12-3.36C15.54 8.46 9.06 8.22 5.28 9.36c-.599.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.44-1.32 11.58-1.02 15.96 1.56.6.36.84 1.14.479 1.74-.359.6-1.139.84-1.739.48z"/></svg>
-                                    Event Playlist (Doorgift)
+                            <div class="flex flex-wrap gap-4">
+                                <a href="https://open.spotify.com/playlist/5dYAs4w3haBn6KaokRO89Y" target="_blank" class="meta-label text-green-700 hover:text-green-500 transition-colors border-b border-transparent hover:border-green-500 pb-0.5">
+                                    Spotify Playlist
                                 </a>
-                                <a href="https://youtu.be/xcnmoVhJk-Y?si=viFSHaEqizXv179M" target="_blank" class="border border-gray-600 hover:border-white text-gray-300 hover:text-white font-bold py-2 px-4 rounded-full text-sm transition-colors">
-                                    View YouTube Playlist
+                                <a href="https://youtu.be/xcnmoVhJk-Y?si=viFSHaEqizXv179M" target="_blank" class="meta-label text-gray-500 hover:text-white transition-colors border-b border-transparent hover:border-white pb-0.5">
+                                    YouTube Archive
                                 </a>
                             </div>
                         </div>
 
-                        <!-- Video Side -->
                         <div class="w-full md:w-1/2 lg:w-5/12">
-                            <div class="rounded-lg overflow-hidden border border-gray-800 bg-black aspect-video relative">
+                            <div class="border border-gray-800 bg-black aspect-video relative grayscale hover:grayscale-0 transition-all duration-500">
                                 <iframe 
                                     width="100%" 
                                     height="100%" 
@@ -289,59 +390,106 @@
                                     allowfullscreen>
                                 </iframe>
                             </div>
-                            <div class="flex justify-between items-start mt-2">
-                                <p class="text-xs text-gray-500">Featured: Tamer Nafar & Djam1l - Put Your Arm Around Me</p>
-                                <a href="https://www.youtube.com/watch?v=xcnmoVhJk-Y" target="_blank" class="text-xs text-green-500 hover:text-green-400 underline">Watch on YouTube</a>
+                            <div class="mt-3 text-right">
+                                <span class="meta-label text-[0.6rem] text-gray-600">Featured: Tamer Nafar & Djam1l</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Grid for Smaller Past Events -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                    <!-- Event 3: Fragments of Memory -->
-                    <div class="card rounded-lg p-6 border border-gray-800 flex flex-col">
-                        <div class="mb-4">
-                             <span class="text-xs text-green-500 font-bold uppercase tracking-wider mb-1 block">Virtual Exhibition</span>
-                             <h3 class="text-xl font-bold text-white mb-2">Fragments of Memory: Resistance Through Art</h3>
-                             <span class="text-xs text-gray-500 block mb-4">October 7, 2025</span>
+                <!-- Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card p-8 flex flex-col border-gray-800">
+                        <div class="mb-6">
+                             <span class="meta-label block text-gray-600 mb-2">Exhibition • Oct 7, 2025</span>
+                             <h3 class="text-xl text-gray-300 font-light">Fragments of Memory</h3>
                         </div>
-                        <p class="text-gray-400 text-sm mb-6 flex-grow">
-                            A virtual art exhibition hosted on Artsteps and Padlet, exploring the role of memory and creativity in preserving Palestinian identity and resistance.
+                        <p class="text-gray-500 text-sm leading-relaxed mb-8 flex-grow font-serif">
+                            A virtual art exhibition hosted on Artsteps and Padlet, preserving Palestinian identity through digital mediums.
                         </p>
-                        <div class="mt-auto">
-                             <div class="inline-flex items-center text-sm text-gray-500 italic">
-                                <span class="mr-2">🏛️</span> Hosted on Artsteps
-                             </div>
+                        <div class="mt-auto pt-6 border-t border-gray-800/50">
+                             <span class="meta-label text-gray-600">Archived on Artsteps</span>
                         </div>
                     </div>
 
-                    <!-- Event 4: Archive Launch -->
-                    <div class="card rounded-lg p-6 border border-gray-800 flex flex-col opacity-75 hover:opacity-100 transition-opacity">
-                        <div class="mb-4">
-                             <span class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1 block">Internal Review</span>
-                             <h3 class="text-xl font-bold text-white mb-2">Archive Launch: Documenting Genocide</h3>
-                             <span class="text-xs text-gray-500 block mb-4">October 2025</span>
+                    <div class="card p-8 flex flex-col border-gray-800 opacity-60 hover:opacity-100 transition-opacity">
+                        <div class="mb-6">
+                             <span class="meta-label block text-gray-600 mb-2">Internal • Oct 2025</span>
+                             <h3 class="text-xl text-gray-300 font-light">Archive Launch</h3>
                         </div>
-                        <p class="text-gray-400 text-sm mb-6 flex-grow">
-                            An internal team review of the archive structure and initial data ingestion to document the timeline of events.
+                        <p class="text-gray-500 text-sm leading-relaxed mb-8 flex-grow font-serif">
+                            Internal team review of archive structure and initial data ingestion protocols.
                         </p>
                     </div>
-                    
                 </div>
 
             </div>
         </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-gray-900 border-t border-gray-800 py-12 mt-auto">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            <p class="mb-2">Echoes of Gaza</p>
-            <p class="text-sm">© 2025 Echoes of Gaza Timeline Project.</p>
+    <!-- Footer -->
+    <footer id="footer" class="bg-[#050505] border-t border-white/5 pt-20 pb-12">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-16">
+            <div class="md:w-1/3 space-y-8">
+                <div class="flex flex-col items-start opacity-60">
+                    <span class="text-xs font-serif text-white tracking-[0.25em] uppercase">Echoes of Gaza</span>
+                </div>
+                <p class="text-gray-600 text-xs leading-relaxed font-serif italic">Preserving truth, resisting erasure.</p>
+                <div id="google_translate_element" class="opacity-50 grayscale hover:grayscale-0 transition"></div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-12 md:w-2/3">
+                <div>
+                    <h4 class="text-gray-500 mb-6 text-[0.65rem] uppercase tracking-[0.2em]">Archive</h4>
+                    <ul class="space-y-4 text-xs text-gray-600 font-serif">
+                        <li><a href="#articles" class="hover:text-gray-300 transition italic">Articles</a></li>
+                        <li><a href="#victims" class="hover:text-gray-300 transition italic">Martyrs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-gray-500 mb-6 text-[0.65rem] uppercase tracking-[0.2em]">Resources</h4>
+                    <ul class="space-y-4 text-xs text-gray-600 font-serif">
+                        <li><a href="#quotes" class="hover:text-gray-300 transition italic">Quotes</a></li>
+                        <li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" class="hover:text-gray-300 transition italic">Raw Data</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-gray-500 mb-6 text-[0.65rem] uppercase tracking-[0.2em]">Support</h4>
+                    <div class="flex flex-col space-y-4">
+                        <a href="https://buymeacoffee.com/echoesofgaza" target="_blank" class="text-xs text-gray-600 hover:text-white transition font-serif italic">Donate</a>
+                        <a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" class="text-xs text-[#500] hover:text-red-800 transition font-serif italic">Monthly Support</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 mt-24 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[0.6rem] text-gray-700 uppercase tracking-widest font-sans">
+            <p>© 2026 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="hover:text-gray-500">CC BY-NC-SA 4.0</a>.</p>
+            <a href="https://echoesofgaza.org/admin.html" class="mt-4 md:mt-0 hover:text-gray-500 transition">Admin Portal</a>
         </div>
     </footer>
 
+    <!-- Mobile Menu Script -->
+    <script>
+        const mobileBtn = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('flex');
+                
+                // Optional: prevent background scroll when menu is open
+                document.body.classList.toggle('overflow-hidden');
+            });
+            
+            // Close menu when clicking a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('flex');
+                    document.body.classList.remove('overflow-hidden');
+                });
+            });
+        }
+    </script>
 </body>
 </html>
