@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoes of Gaza Podcast | Audio Documentation</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="A living audio archive documenting Palestinian voices, testimony, resistance, and truth. The Echoes of Gaza Podcast serves as an audio extension of the historical record.">
+    <meta name="keywords" content="Gaza podcast, Palestine podcast, Historical archive, Documentation, Evidentiary record">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'archive-bg': '#050505',
+                        'archive-surface': '#111111',
+                        'archive-elevated': '#161616',
+                        'archive-red': '#A32626',
+                        'archive-red-hover': '#C53A3A',
+                        'archive-text': '#EAEAEA',
+                        'archive-muted': '#B0B0B0',
+                        'archive-meta': '#777777',
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    letterSpacing: {
+                        'widest-archive': '0.15em',
+                    },
+                    maxWidth: {
+                        'archive': '900px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #EAEAEA;
+            font-family: 'Lato', sans-serif;
+            font-weight: 300;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #222; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #333; 
+        }
+        
+        .archive-divider {
+            height: 1px;
+            background-color: #222;
+            width: 100%;
+            margin: 3rem 0;
+        }
+
+        .archive-input {
+            background-color: #0A0A0A;
+            border: 1px solid #333;
+            color: #EAEAEA;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+        .archive-input:focus {
+            outline: none;
+            border-color: #555;
+            background-color: #111;
+        }
+
+        /* Nav Specific Styles matching the aesthetic */
+        .nav-glass {
+            background-color: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #222;
+            height: 80px; /* Enforce height for vertical centering */
+        }
+        
+        .nav-link {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.75rem; /* text-xs */
+            text-transform: uppercase;
+            letter-spacing: 0.15em; /* tracking-widest */
+            color: #777; /* archive-meta */
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover {
+            color: #EAEAEA; /* archive-text */
+        }
+
+        .btn-primary {
+            background-color: #A32626;
+            color: white;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #C53A3A;
+        }
+
+        /* Mobile Menu Transitions */
+        #mobile-menu {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-10px);
+        }
+        
+        #mobile-menu.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col items-center">
+
+    <!-- Header -->
+    <header class="nav-glass fixed w-full top-0 z-50 flex items-center justify-center">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+            <div class="flex justify-between items-center h-full">
+                <!-- LOGO UPDATED LINK -->
+                <a href="https://echoesofgaza.org" id="nav-logo" class="flex flex-col items-start opacity-80 hover:opacity-100 transition-opacity">
+                    <span class="text-xs font-serif text-white tracking-[0.2em] uppercase">Echoes of Gaza</span>
+                </a>
+
+                <nav class="hidden md:flex items-center space-x-8">
+                    <div class="relative group">
+                        <button id="archive-menu-button" class="nav-link flex items-center">
+                            Archive
+                        </button>
+                        <!-- Wrapper with top padding to bridge the hover gap -->
+                        <div id="archive-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
+                                <a href="#articles" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Articles</a>
+                                <a href="#books" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Books</a>
+                                <a href="#videos" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Interviews</a>
+                                <a href="#films" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Documentaries</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <button id="tools-menu-button" class="nav-link flex items-center">
+                            Tools
+                        </button>
+                        <div id="tools-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
+                                <a href="#narrative-test-section" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Narratives</a>
+                                <a href="#casualty-graph" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Timeline</a>
+                                <a href="#bias-tool-controls" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Racial Bias Tool</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#geolocation" class="nav-link">Maps</a>
+                    <a href="#victims" class="nav-link">Victims</a>
+
+                    <div class="relative group">
+                        <button id="resources-menu-button" class="nav-link flex items-center">
+                            Resources
+                        </button>
+                        <div id="resources-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
+                                <a href="#quotes" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Quotes & Resources</a>
+                                <a href="https://echoesofgaza.org/events" target="_blank" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Events</a>
+                                <a href="#faq" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">FAQ</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://echoesofgaza.org/collab" class="btn-primary px-5 py-2 rounded text-xs uppercase tracking-wider hidden md:block">
+                        Submit Evidence
+                    </a>
+                </nav>
+                
+                <!-- MOBILE MENU BUTTON -->
+                <div class="flex items-center space-x-4 md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-400 hover:text-white transition focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOBILE MENU DROPDOWN -->
+        <div id="mobile-menu" class="absolute top-[80px] left-0 w-full bg-[#050505] border-b border-[#222] flex flex-col shadow-2xl md:hidden z-40">
+            <div class="px-6 py-6 space-y-4">
+                <a href="#articles" class="block text-sm text-archive-muted hover:text-white uppercase tracking-widest border-b border-[#111] pb-2">Archive</a>
+                <a href="#narrative-test-section" class="block text-sm text-archive-muted hover:text-white uppercase tracking-widest border-b border-[#111] pb-2">Tools</a>
+                <a href="#geolocation" class="block text-sm text-archive-muted hover:text-white uppercase tracking-widest border-b border-[#111] pb-2">Maps</a>
+                <a href="#victims" class="block text-sm text-archive-muted hover:text-white uppercase tracking-widest border-b border-[#111] pb-2">Victims</a>
+                <a href="#quotes" class="block text-sm text-archive-muted hover:text-white uppercase tracking-widest border-b border-[#111] pb-2">Resources</a>
+                <a href="https://echoesofgaza.org/collab" class="block text-sm text-archive-red hover:text-white uppercase tracking-widest font-bold pt-2">Submit Evidence</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Column -->
+    <main class="w-full max-w-archive px-6 pt-40 pb-20">
+
+        <!-- Hero Section -->
+        <header class="text-center mb-24">
+            
+            <!-- Archive Alert -->
+            <div class="inline-flex items-center mx-auto mb-10 border-l-2 border-archive-red pl-4 py-1 text-left">
+                <div class="flex flex-col">
+                    <span class="text-[10px] tracking-widest text-archive-red uppercase font-bold mb-1">New Release</span>
+                    <span class="text-sm text-archive-muted italic font-serif">Episode 04 is now available for streaming.</span>
+                </div>
+            </div>
+
+            <h1 class="text-5xl md:text-6xl text-archive-text leading-tight mb-8 font-normal">
+                Echoes of Gaza <br> <span class="text-archive-muted italic">The Podcast</span>
+            </h1>
+            
+            <p class="text-lg text-archive-muted max-w-xl mx-auto mb-12 leading-relaxed font-light">
+                Conversations with activists, medical workers, and journalists on the ground. 
+                Amplifying the voices of those resisting erasure and demanding accountability.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <button class="bg-archive-red hover:bg-archive-red-hover text-white px-8 py-3 text-sm tracking-widest uppercase transition-colors duration-200 rounded-[2px]">
+                    Play Latest Episode
+                </button>
+            </div>
+        </header>
+
+        <div class="archive-divider"></div>
+
+        <!-- Latest Episode Section -->
+        <section id="latest" class="py-12">
+            <div class="flex items-baseline justify-between mb-12">
+                <h2 class="text-2xl font-serif text-archive-text">Latest Episode</h2>
+                <span class="text-archive-meta text-xs uppercase tracking-widest">Ref: S01-E04</span>
+            </div>
+
+            <!-- Episode Container -->
+            <div class="bg-archive-surface p-8 md:p-12 rounded-[2px] border border-[#222]">
+                <div class="flex flex-col md:flex-row gap-10">
+                    
+                    <!-- Meta Data Column -->
+                    <div class="md:w-1/4 flex flex-col gap-6 text-xs text-archive-meta font-mono border-l border-[#222] pl-4 md:border-l-0 md:pl-0">
+                        <div>
+                            <span class="block uppercase tracking-widest mb-1 text-[#444]">Date Released</span>
+                            <span class="text-archive-muted">February 14, 2026</span>
+                        </div>
+                        <div>
+                            <span class="block uppercase tracking-widest mb-1 text-[#444]">Duration</span>
+                            <span class="text-archive-muted">48:12</span>
+                        </div>
+                        <div>
+                            <span class="block uppercase tracking-widest mb-1 text-[#444]">Focus</span>
+                            <span class="text-archive-muted">Medical Relief / Direct Action</span>
+                        </div>
+                        <div>
+                            <span class="block uppercase tracking-widest mb-1 text-[#444]">Guest</span>
+                            <span class="text-archive-muted">Dr. Amal, ER Surgeon</span>
+                        </div>
+                    </div>
+
+                    <!-- Content Column -->
+                    <div class="md:w-3/4">
+                        <h3 class="text-3xl font-serif text-archive-text mb-6 leading-snug">
+                            Life & Death in the Red Zone
+                        </h3>
+                        <p class="text-archive-muted leading-relaxed mb-8 font-light">
+                            Dr. Amal joins us directly from Rafah to discuss the collapse of healthcare infrastructure and the organizing efforts of medical staff under fire. A raw look at the logistics of survival and the urgent call for international solidarity.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-4 pt-6 border-t border-[#222]">
+                             <button class="flex items-center gap-3 text-sm text-archive-text hover:text-archive-red transition-colors duration-200">
+                                <i data-lucide="play" class="w-4 h-4"></i>
+                                <span class="uppercase tracking-widest text-xs">Play Episode</span>
+                            </button>
+                            <span class="text-[#333]">|</span>
+                            <button class="flex items-center gap-3 text-sm text-archive-meta hover:text-archive-text transition-colors duration-200" onclick="copyLink()">
+                                <i data-lucide="share-2" class="w-4 h-4"></i>
+                                <span class="uppercase tracking-widest text-xs">Share Episode</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Toast Notification -->
+            <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-archive-surface border border-[#333] text-archive-muted px-6 py-3 text-xs tracking-widest uppercase opacity-0 transition-opacity duration-300 pointer-events-none">
+                Link Copied to Clipboard
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-2xl font-serif mb-10 text-archive-text">Editorial Statement</h2>
+                
+                <div class="text-lg text-archive-muted font-serif leading-loose italic">
+                    <p class="mb-8">
+                        The Echoes of Gaza archive collects evidence. The podcast amplifies action.
+                    </p>
+                    <p class="mb-8">
+                        "In the face of silence, we speak directly with those shaping the resistance—from medics in the field to legal experts in the Hague."
+                    </p>
+                    <p class="text-base font-sans text-archive-meta not-italic">
+                        This is not just a record of what happened, but a platform for those determining what happens next. A space for strategy, solidarity, and unedited truth.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Player Links (Textual/Minimal) -->
+        <section class="py-12 border-y border-[#222]">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                <div class="group cursor-pointer">
+                    <h4 class="text-archive-text font-serif text-lg mb-2 group-hover:text-archive-red transition-colors">Spotify</h4>
+                    <p class="text-xs text-archive-meta uppercase tracking-widest">Stream Full Series</p>
+                </div>
+                <div class="group cursor-pointer">
+                    <h4 class="text-archive-text font-serif text-lg mb-2 group-hover:text-archive-red transition-colors">Apple Podcasts</h4>
+                    <p class="text-xs text-archive-meta uppercase tracking-widest">Subscribe to Feed</p>
+                </div>
+                <div class="group cursor-pointer">
+                    <h4 class="text-archive-text font-serif text-lg mb-2 group-hover:text-archive-red transition-colors">YouTube</h4>
+                    <p class="text-xs text-archive-meta uppercase tracking-widest">Visual Episodes</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer" class="bg-black border-t border-white/5 pt-12 pb-10">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-12">
+                <div class="md:w-1/3 space-y-6">
+                    <div class="flex flex-col items-start opacity-70">
+                        <span class="text-xs font-serif text-white tracking-[0.2em] uppercase">Echoes of Gaza</span>
+                    </div>
+                    <p class="text-gray-600 text-xs leading-relaxed">Preserving truth, resisting erasure.</p>
+                    <div id="google_translate_element"></div>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 md:w-2/3">
+                    <div>
+                        <h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Archive</h4>
+                        <ul class="space-y-3 text-xs text-gray-500">
+                            <li><a href="#articles" class="hover:text-white transition">Articles</a></li>
+                            <li><a href="#victims" class="hover:text-white transition">Martyrs</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Resources</h4>
+                        <ul class="space-y-3 text-xs text-gray-500">
+                            <li><a href="#quotes" class="hover:text-white transition">Quotes</a></li>
+                            <li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" class="hover:text-white transition">Raw Data</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Support</h4>
+                        <div class="flex flex-col space-y-3">
+                            <a href="https://buymeacoffee.com/echoesofgaza" target="_blank" class="text-xs text-gray-500 hover:text-white transition">Donate</a>
+                            <a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" class="text-xs text-[#8B0000] hover:text-red-400 transition">Monthly Support</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 mt-20 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-700 uppercase tracking-wider">
+                <p>© 2026 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="underline hover:text-gray-500">CC BY-NC-SA 4.0</a>.</p>
+                <a href="https://echoesofgaza.org/admin.html" class="mt-4 md:mt-0 hover:text-gray-500 transition">Admin Portal</a>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        lucide.createIcons();
+
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if(mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
+            });
+        }
+
+        function copyLink() {
+            const toast = document.getElementById('toast');
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
