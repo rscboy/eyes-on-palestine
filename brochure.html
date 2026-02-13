@@ -15,12 +15,11 @@
         }
 
         :root {
-            --black: #000000;
-            --white: #FFFFFF;
-            --off-white: #F9F9F9;
+            --black: #111111; /* Softer black for print */
+            --paper: #FCFBF9; /* Warm archival paper tone */
             --gray: #4A4A4A;
             --accent: #1a1a1a;
-            --red: #E4312b; /* Palestinian Flag Red */
+            --red: #C8102E; /* Slightly deeper, more serious red */
         }
 
         /* CRITICAL: This removes browser headers/footers */
@@ -45,6 +44,7 @@
                 height: 11in !important;
                 padding: 0 !important;
                 overflow: hidden;
+                background-color: var(--paper) !important; /* Ensure paper tone prints */
             }
             .keffiyeh-frame {
                 -webkit-print-color-adjust: exact;
@@ -59,7 +59,7 @@
             font-family: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
             background: #e0e0e0;
             padding: 40px;
-            line-height: 1.45;
+            line-height: 1.5;
             display: flex;
             justify-content: center;
         }
@@ -67,7 +67,7 @@
         .page {
             width: 8.5in;
             height: 11in;
-            background: var(--white);
+            background: var(--paper); /* Archival paper background */
             margin: 0 auto;
             position: relative;
             display: flex;
@@ -83,12 +83,13 @@
             right: 0;
             bottom: 0;
             border: 18px solid transparent;
-            /* slightly more intricate weave pattern */
-            border-image-source: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 16 L16 0 L32 16 L16 32 Z' fill='none' stroke='black' stroke-width='1'/%3E%3Cpath d='M8 8 L24 24 M24 8 L8 24' stroke='black' stroke-width='0.5'/%3E%3C/svg%3E");
+            /* Delicate weave pattern */
+            border-image-source: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 16 L16 0 L32 16 L16 32 Z' fill='none' stroke='%23000' stroke-width='0.8'/%3E%3Cpath d='M8 8 L24 24 M24 8 L8 24' stroke='%23000' stroke-width='0.4'/%3E%3C/svg%3E");
             border-image-slice: 16;
             border-image-repeat: round;
             pointer-events: none;
             z-index: 10;
+            opacity: 0.8; /* Subtle */
         }
 
         /* Inner thin line for definition */
@@ -101,11 +102,11 @@
             border: 0.5px solid var(--black);
             pointer-events: none;
             z-index: 5;
-            opacity: 0.6;
+            opacity: 0.3;
         }
 
         .content-wrapper {
-            padding: 0.5in 0.85in; /* Reduced top/bottom padding slightly more to accommodate larger text */
+            padding: 0.5in 0.9in; /* Reduced vertical padding slightly to fit */
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -116,115 +117,134 @@
         /* --- Header --- */
         .header {
             text-align: center;
-            margin-bottom: 18px; 
-            padding-bottom: 14px; 
-            border-bottom: 1px solid #ddd;
+            margin-bottom: 18px; /* Reduced from 24px */
+            padding-bottom: 14px; /* Reduced from 18px */
+            border-bottom: 1px solid rgba(0,0,0,0.1);
             position: relative;
         }
 
-        /* The Red Resistance Line */
+        /* The Red Resistance Line - Key Motif */
         .header::after {
             content: '';
             position: absolute;
             bottom: -2px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
+            width: 60px; /* refined width */
             height: 3px;
             background: var(--red);
         }
 
         .logo-container {
-            margin-bottom: 8px; 
+            margin-bottom: 12px; /* Reduced from 16px */
         }
 
         .logo {
-            width: 72px;
+            width: 70px;
             height: auto;
             display: block;
             margin: 0 auto;
+            opacity: 0.95;
         }
 
         h1 {
             font-family: 'Libre Baskerville', serif;
-            font-size: 36px;
+            font-size: 38px;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px; /* Editorial spacing */
             text-transform: uppercase;
-            margin-bottom: 2px;
+            margin-bottom: 4px; /* Reduced margin */
             color: var(--black);
             line-height: 1.1;
         }
 
         .subtitle {
-            font-size: 12.5px; /* Increased from 12px */
+            font-size: 11px;
             color: var(--gray);
             font-weight: 600;
-            letter-spacing: 2px;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-bottom: 14px; /* Reduced from 18px */
         }
 
         .mission {
             font-family: 'Libre Baskerville', serif;
-            font-size: 15px; /* Increased from 14.5px */
+            font-size: 15px;
             font-style: italic;
-            line-height: 1.5;
+            line-height: 1.5; /* Slightly tighter line height */
             color: var(--accent);
-            max-width: 98%;
-            margin: 0 auto 10px;
+            max-width: 90%;
+            margin: 0 auto 12px; /* Reduced margin */
         }
 
         .website-lockup {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .website {
             font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--black);
             text-decoration: none;
             letter-spacing: 0.5px;
-            padding: 4px 12px;
-            border: 1px solid var(--black);
+            padding: 6px 16px;
+            border: 1px solid rgba(0,0,0,0.2);
             transition: all 0.2s;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+        
+        .website:hover {
+            border-color: var(--black);
         }
 
         /* --- Sections --- */
         .section {
-            margin-bottom: 14px;
+            margin-bottom: 14px; /* Reduced from 20px */
         }
 
         .section-title {
             font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             color: var(--red);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+        }
+        
+        /* Thin red divider line next to titles */
+        .section-title::after {
+            content: '';
+            height: 1px;
+            flex-grow: 1;
+            background: rgba(200, 16, 46, 0.2); /* Faint red line */
+            margin-left: 4px;
         }
 
         .section-content {
-            font-size: 14px; /* Increased from 13px */
+            font-size: 14px;
             color: var(--accent);
-            line-height: 1.5;
+            line-height: 1.6; /* Reduced slightly */
             text-align: justify;
+            margin-bottom: 6px;
         }
 
         /* Two column layout */
         .two-column {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 28px;
-            margin-bottom: 12px;
+            gap: 40px; /* Better column separation */
+            margin-bottom: 12px; /* Reduced margin */
+            align-items: start;
         }
 
         /* Bullet lists */
@@ -235,9 +255,9 @@
 
         ul li {
             position: relative;
-            padding-left: 14px;
-            margin-bottom: 4px;
-            font-size: 13.5px; /* Increased from 12.5px */
+            padding-left: 16px;
+            margin-bottom: 3px; /* Tightened from 5px */
+            font-size: 13px;
             line-height: 1.4;
             color: #222;
         }
@@ -246,8 +266,10 @@
             content: "•";
             position: absolute;
             left: 0px;
-            color: var(--black);
+            color: var(--red); /* Red bullets for consistency */
             font-weight: bold;
+            font-size: 14px;
+            line-height: 1.2;
         }
 
         /* Bold items in list */
@@ -262,55 +284,61 @@
             font-weight: 700;
             color: var(--black);
             display: block;
-            margin-top: 8px;
-            font-size: 13.5px; /* Increased from 13px */
+            margin-top: 10px; /* Reduced */
+            font-size: 14px;
             text-align: center;
-            padding: 6px 0;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
+            padding: 8px 0; /* Reduced padding */
+            border-top: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         /* --- CTA Box --- */
         .cta-box {
             background: var(--black);
-            color: var(--white);
-            padding: 18px 24px;
+            color: #fff;
+            padding: 20px 32px; /* Reduced top/bottom padding */
             margin-top: auto; 
             position: relative;
         }
 
-        /* White accent line inside black box */
+        /* Accent Line */
         .cta-box::after {
             content: '';
             position: absolute;
-            left: 24px;
-            top: 18px;
-            bottom: 18px;
-            width: 1px;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
             background: var(--red);
         }
 
         .cta-content {
-            padding-left: 16px;
+            padding-left: 0;
         }
 
         .cta-box .section-title {
-            color: var(--white);
-            font-size: 17px;
-            margin-bottom: 4px;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 6px;
+            border: none;
+        }
+        
+        .cta-box .section-title::after {
+            background: rgba(255,255,255,0.2);
         }
 
         .cta-box p {
-            font-size: 13.5px; /* Increased from 13px */
+            font-size: 13.5px;
             font-weight: 300;
-            margin-bottom: 10px;
+            margin-bottom: 10px; /* Reduced */
             opacity: 0.9;
+            color: #ccc;
         }
 
         .cta-list li {
-            color: var(--white);
-            font-size: 12.5px; /* Increased from 12px */
-            margin-bottom: 3px;
+            color: #eee;
+            font-size: 12.5px;
+            margin-bottom: 3px; /* Reduced */
         }
         
         .cta-list li:before {
@@ -319,24 +347,30 @@
 
         .cta-link {
             display: inline-block;
-            font-size: 15px;
+            font-size: 17px;
             font-weight: 700;
-            margin-top: 8px;
-            color: var(--white);
+            margin-top: 10px; /* Reduced */
+            color: #fff;
             text-decoration: none;
-            border-bottom: 1px solid var(--red);
+            border-bottom: 2px solid var(--red);
             padding-bottom: 2px;
+        }
+        
+        .cta-link:hover {
+            color: #fff;
+            border-bottom-color: #fff;
         }
 
         /* Footer */
         .footer {
-            margin-top: 8px;
+            margin-top: 12px;
             text-align: center;
-            font-size: 10px;
+            font-size: 9px;
             color: var(--gray);
             font-family: 'IBM Plex Sans', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            opacity: 0.7;
         }
         
         /* Helper for print button */
@@ -382,7 +416,7 @@
                 </div>
                 
                 <div class="website-lockup">
-                    <a href="https://echoesofgaza.org" class="website">echoesofgaza.org</a>
+                    <a href="https://echoesofgaza.org" class="website">Explore the archive &rarr; echoesofgaza.org</a>
                 </div>
             </div>
 
@@ -422,7 +456,7 @@
             <!-- How to Use -->
             <div class="section">
                 <div class="section-title">How to Use It</div>
-                <div class="two-column" style="margin-bottom: 0; gap: 20px;">
+                <div class="two-column" style="margin-bottom: 0; gap: 32px;">
                     <ul>
                         <li><strong>Journalists & Researchers:</strong> Cite verified data</li>
                         <li><strong>Educators:</strong> Teach from primary sources</li>
@@ -439,7 +473,7 @@
                 <div class="cta-content">
                     <div class="section-title">Get Involved</div>
                     <p>Help keep this archive alive. History requires witnesses.</p>
-                    <div class="two-column" style="margin-bottom: 0; gap: 20px;">
+                    <div class="two-column" style="margin-bottom: 0; gap: 32px;">
                         <ul class="cta-list">
                             <li>Explore the archive and share widely</li>
                             <li>Submit testimonies, art, or documentation</li>
