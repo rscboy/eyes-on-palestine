@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolkit: Responding to the Crisis Unfolding in Gaza | Echoes of Gaza</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&display=swap');
+        
+        :root {
+            --deep-black: #0B0B0B;
+            --deep-red: #8C0D0D;
+            --bone: #EDEDED;
+            --ash-gray: #7A7A7A;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--deep-black);
+            color: var(--bone);
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .text-brand-red { color: var(--deep-red); }
+        .bg-brand-red { background-color: var(--deep-red); }
+        .border-brand-red { border-color: var(--deep-red); }
+        
+        .text-bone { color: var(--bone); }
+        .bg-bone { background-color: var(--bone); }
+        .border-bone { border-color: var(--bone); }
+
+        .text-ash { color: var(--ash-gray); }
+        .border-ash { border-color: var(--ash-gray); }
+
+        /* Toast animation */
+        @keyframes fadeinout {
+            0%, 100% { opacity: 0; transform: translateY(20px); }
+            10%, 90% { opacity: 1; transform: translateY(0); }
+        }
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: var(--deep-red);
+            color: var(--bone);
+            text-align: center;
+            border: 1px solid var(--bone);
+            padding: 16px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .toast.show {
+            visibility: visible;
+            animation: fadeinout 3s;
+        }
+
+        /* Enforce sharp edges universally */
+        * { border-radius: 0 !important; }
+        
+        /* Image treatment for documentary realism */
+        .documentary-img {
+            filter: grayscale(100%) contrast(120%);
+        }
+
+        /* Highlighting for readability and emphasis */
+        .highlight-red {
+            background-color: var(--deep-red);
+            color: var(--bone);
+            padding: 0.125rem 0.375rem;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+        }
+
+        /* Custom Nav Styles */
+        .nav-glass {
+            background-color: rgba(11, 11, 11, 0.95);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid #222;
+            height: 5rem;
+        }
+        
+        .nav-link {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--ash-gray);
+            font-weight: 600;
+            transition: color 0.2s ease-in-out;
+        }
+        
+        .nav-link:hover {
+            color: var(--bone);
+        }
+        
+        .btn-primary {
+            background-color: var(--deep-red);
+            color: var(--bone);
+            border: 1px solid var(--deep-red);
+            transition: all 0.2s ease-in-out;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--bone);
+            color: var(--deep-black);
+            border-color: var(--bone);
+        }
+    </style>
+</head>
+<body class="leading-loose">
+
+    <!-- Top Navigation -->
+    <header class="nav-glass fixed w-full top-0 z-50 flex items-center">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+            <div class="flex justify-between items-center h-full">
+                <a href="#" id="nav-logo" class="flex flex-col items-start opacity-80 hover:opacity-100 transition-opacity">
+                    <span class="text-xs font-serif text-bone tracking-[0.2em] uppercase font-bold text-lg">Echoes of Gaza.</span>
+                </a>
+
+                <nav class="hidden md:flex items-center space-x-8">
+                    <div class="relative group">
+                        <button id="archive-menu-button" class="nav-link flex items-center">
+                            Archive
+                        </button>
+                        <!-- Wrapper with top padding to bridge the hover gap -->
+                        <div id="archive-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-6 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0B0B0B] border border-[#333] shadow-2xl">
+                                <a href="#articles" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone">Articles</a>
+                                <a href="#books" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">Books</a>
+                                <a href="#videos" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">Interviews</a>
+                                <a href="#films" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">Documentaries</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <button id="tools-menu-button" class="nav-link flex items-center">
+                            Tools
+                        </button>
+                        <div id="tools-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-6 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0B0B0B] border border-[#333] shadow-2xl">
+                                <a href="#narrative-test-section" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone">Narratives</a>
+                                <a href="#casualty-graph" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">Timeline</a>
+                                <a href="#bias-tool-controls" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">Racial Bias Tool</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#geolocation" class="nav-link">Maps</a>
+                    <a href="#victims" class="nav-link">Victims</a>
+
+                    <div class="relative group">
+                        <button id="resources-menu-button" class="nav-link flex items-center">
+                            Resources
+                        </button>
+                        <div id="resources-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-6 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0B0B0B] border border-[#333] shadow-2xl">
+                                <a href="#quotes" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone">Quotes & Resources</a>
+                                <a href="https://echoesofgaza.org/events" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">Events</a>
+                                <a href="#faq" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">FAQ</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://echoesofgaza.org/collab" class="btn-primary px-6 py-3 text-xs uppercase tracking-widest hidden md:block">
+                        Submit Evidence
+                    </a>
+                </nav>
+                
+                <!-- MOBILE MENU BUTTON -->
+                <div class="flex items-center space-x-4 md:hidden">
+                    <button id="mobile-menu-button" class="text-ash hover:text-bone transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 pb-24 pt-32">
+        
+        <!-- Hero Section -->
+        <header class="border-b border-[#222] pb-12 mb-16 pt-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-12">
+                <div class="md:w-2/3">
+                    <p class="text-brand-red font-bold tracking-widest uppercase text-[10px] mb-6 flex items-center gap-3">
+                        <span class="w-8 h-px bg-brand-red"></span> Action Toolkit 001
+                    </p>
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-serif font-extrabold leading-[1.1] tracking-tight text-bone mb-6">
+                        Responding to the <br/> Crisis in Gaza
+                    </h1>
+                    <p class="text-lg md:text-xl font-light text-ash max-w-2xl leading-relaxed">
+                        A global guide to leveraging archival evidence, contacting elected officials, and demanding accountability for human rights violations.
+                    </p>
+                </div>
+                <div class="md:w-1/3 w-full border-l border-[#333] pl-6 md:text-right md:border-l-0 md:pl-0">
+                <div class="grid grid-cols-2 md:grid-cols-1 gap-6">
+                    <div>
+                        <div class="text-[10px] uppercase tracking-widest text-ash mb-1">Status</div>
+                        <div class="text-bone font-serif text-lg">Active Record</div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] uppercase tracking-widest text-ash mb-1">Audience</div>
+                        <div class="text-bone font-serif text-lg">Global / International</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hero Image -->
+        <div class="w-full aspect-[21/9] md:aspect-[2.5/1] min-h-[300px] overflow-hidden relative bg-cover bg-center documentary-img border border-ash bg-[#111]" style="background-image: url('https://www.ap.org/wp-content/uploads/2024/10/24269687477630.jpg');">
+            <div class="absolute inset-0 bg-black/30"></div>
+            <div class="absolute bottom-4 left-4 md:bottom-6 md:left-6 z-10">
+                <p class="font-semibold text-[9px] md:text-[10px] uppercase tracking-widest text-bone bg-black/80 px-3 py-2 backdrop-blur-sm border border-[#333]">Ref: 01A-Destroyed-Infrastructure</p>
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row justify-between items-start mt-4 text-[10px] text-ash uppercase tracking-widest gap-4 md:gap-8">
+            <span class="max-w-4xl leading-relaxed">Palestinians inspect the rubble of the Yassin Mosque destroyed after it was hit by an Israeli airstrike at Shati refugee camp in Gaza City, early Monday, Oct. 9, 2023.</span>
+            <span class="font-semibold text-bone shrink-0 border-l border-brand-red pl-3">(AP Photo/Adel Hana, File)</span>
+        </div>
+    </header>
+
+    <!-- Introduction -->
+        <article class="text-lg md:text-xl font-light text-bone mb-24 leading-relaxed py-8">
+            <p class="mb-8">
+                <strong class="font-serif text-2xl md:text-3xl font-bold block mb-6 text-bone leading-snug"><span class="highlight-red">Tens of thousands of civilians have been killed</span> in Israel’s systematic attacks against Palestinians in Gaza since October 2023.</strong> 
+                As the world watches in horror, Echoes of Gaza serves as a digital archive, preserving the documentation of human rights violations gathered by researchers, journalists, and digital evidence teams. This open-source record exists to ensure that evidence of war crimes—such as the deliberate pulverization of civilian infrastructure and mass civilian casualties—cannot be rewritten or minimized.
+            </p>
+            <p class="mb-8">
+                Alongside members of the Palestinian and Jewish communities globally, human rights advocates are campaigning for the enforcement of ceasefires, the protection of civilians, and international accountability. At this moment of unprecedented humanitarian catastrophe, the actions and advocacy of the international community are critical. 
+            </p>
+            <p class="font-semibold text-bone border-l-2 border-brand-red pl-4">
+                It is because of everyday people standing up for human rights that governments around the world have taken initial steps—from voting at the UN to adjusting trade and aid policies. There is much more to do. This toolkit provides the resources to leverage our archive for direct action.
+            </p>
+        </article>
+
+        <!-- Section: What needs to be done? -->
+        <section class="mb-32">
+            <h2 class="text-4xl md:text-5xl font-serif font-bold mb-10 text-bone border-b border-ash pb-6">What needs to be done?</h2>
+            <p class="text-lg font-light mb-12 text-ash max-w-3xl">As a historical archive, Echoes of Gaza preserves the evidence necessary for accountability. Based on this documented reality, we support the calls of international human rights organizations urging governments worldwide to:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+                <div class="border-l-2 border-brand-red pl-6">
+                    <h3 class="font-serif font-bold text-2xl mb-4 text-bone">Uphold international law</h3>
+                    <ul class="list-none space-y-3 text-ash font-light">
+                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Publicly and unequivocally call on Israel to adhere to IHL and IHRL.</li>
+                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Push for Israel’s compliance with the ICJ orders, including measures to prevent genocide and occupation.</li>
+                    </ul>
+                </div>
+                <div class="border-l-2 border-brand-red pl-6">
+                    <h3 class="font-serif font-bold text-2xl mb-4 text-bone">Support accountability</h3>
+                    <ul class="list-none space-y-3 text-ash font-light">
+                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Back all international investigations, including by the ICC.</li>
+                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Call on the UN Security Council to impose targeted sanctions on officials responsible for war crimes.</li>
+                    </ul>
+                </div>
+                <div class="border-l-2 border-brand-red pl-6">
+                    <h3 class="font-serif font-bold text-2xl mb-4 text-bone">Suspend arms transfers</h3>
+                    <ul class="list-none space-y-3 text-ash font-light">
+                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Suspend all direct or indirect arms transfers to Israel.</li>
+                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">End all military cooperation and assistance until compliance with international law is verified.</li>
+                    </ul>
+                </div>
+                <div class="border-l-2 border-brand-red pl-6">
+                    <h3 class="font-serif font-bold text-2xl mb-4 text-bone">Ensure aid & protection</h3>
+                    <ul class="list-none space-y-3 text-ash font-light">
+                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Demand immediate, sustained and unhindered delivery of humanitarian aid to Gaza.</li>
+                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Support medical evacuations and ensure safe access for humanitarian workers.</li>
+                    </ul>
+                </div>
+                <div class="border-l-2 border-brand-red pl-6">
+                    <h3 class="font-serif font-bold text-2xl mb-4 text-bone">Ban settlement trade</h3>
+                    <p class="text-ash font-light relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Impose a comprehensive ban on all trade and economic activity in illegal settlements in the Occupied Palestinian Territory.</p>
+                </div>
+                <div class="border-l-2 border-brand-red pl-6">
+                    <h3 class="font-serif font-bold text-2xl mb-4 text-bone">Champion lasting peace</h3>
+                    <p class="text-ash font-light relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Advocate for a political solution that ends the occupation and respects Palestinian self-determination.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Divider -->
+        <div class="text-center my-32">
+            <h2 class="text-4xl md:text-5xl font-serif font-bold uppercase tracking-widest text-bone bg-brand-red px-6 py-3 inline-block">What can you do?</h2>
+        </div>
+
+        <!-- Section 1: Get Informed -->
+        <section class="mb-32">
+            <div class="mb-16">
+                <div class="text-brand-red font-serif text-8xl font-black leading-none mb-6">01</div>
+                <h2 class="text-4xl font-serif font-bold border-b border-ash pb-6">Get Informed and Share Knowledge</h2>
+            </div>
+
+            <div class="border border-[#222] p-8 md:p-12 mb-16 bg-[#0F0F0F]">
+                <h3 class="text-3xl font-serif font-bold mb-6">Understand the Designations</h3>
+                <p class="mb-8 font-light text-ash">Thanks to relentless public pressure, various governments have shifted stances. But it is not enough. Many governments have not acknowledged the severity of the situation, stopped arms transfers, or held violators accountable to international law.</p>
+                
+                <div class="border-l-4 border-brand-red pl-6 py-2 my-10">
+                    <p class="font-serif text-xl md:text-2xl leading-relaxed text-bone italic">
+                        "<span class="highlight-red">International human rights organizations, UN experts, and legal scholars have concluded that Israel is committing acts of genocide</span> against Palestinians in Gaza. This includes: <span class="highlight-red">killing civilians in large numbers</span>, causing serious physical and mental harm, and deliberately inflicting conditions of life calculated to bring about the destruction of the population."
+                    </p>
+                </div>
+                
+                <p class="text-sm text-ash font-light uppercase tracking-wider">Under international law, all governments have a duty to prevent genocide. Governments must no longer enable impunity. Business as usual is not an option.</p>
+            </div>
+
+            <!-- Action Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+                <!-- Stay Informed -->
+                <div class="border border-ash p-8 hover:border-bone transition-colors">
+                    <h4 class="font-serif font-bold text-2xl mb-4">Stay Informed</h4>
+                    <p class="text-ash font-light mb-8">Read our Combat Misinformation Resource to understand the current situation and learn how to debunk myths online and offline.</p>
+                    <div class="flex flex-col gap-4 text-sm font-semibold tracking-widest uppercase">
+                        <a href="#" class="text-bone hover:text-brand-red flex items-center gap-3"><span class="w-4 h-px bg-ash"></span> Instagram</a>
+                        <a href="#" class="text-bone hover:text-brand-red flex items-center gap-3"><span class="w-4 h-px bg-ash"></span> X / Twitter</a>
+                        <a href="#" class="text-bone hover:text-brand-red flex items-center gap-3"><span class="w-4 h-px bg-ash"></span> Facebook</a>
+                    </div>
+                </div>
+
+                <!-- Amplify Voices -->
+                <div class="border border-ash p-8 hover:border-bone transition-colors flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-serif font-bold text-2xl mb-4">Amplify Voices</h4>
+                        <p class="text-ash font-light mb-8">Amplifying lived experience voices creates empathy. Share stories of Palestinians on your social media so friends and family know what is happening.</p>
+                    </div>
+                    <a href="https://watermeloncrimes.com/resources" target="_blank" class="inline-block bg-bone text-[#0B0B0B] px-6 py-4 font-bold text-xs uppercase tracking-widest hover:bg-brand-red hover:text-bone transition-colors text-center">Find Palestinian Voices</a>
+                </div>
+            </div>
+
+            <!-- Educational Resources -->
+            <h3 class="text-3xl font-serif font-bold mb-8 border-b border-ash pb-6">Educate Yourself: Partner Resources</h3>
+            <p class="mb-10 text-ash font-light">To be effective advocates, it’s crucial to educate ourselves. While we provide resources from other organizations, note that Echoes of Gaza may not endorse everything shared on these platforms.</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="border-t border-[#333] pt-4">
+                    <h4 class="font-serif font-bold text-xl mb-2 text-bone">Palestine Advocacy Networks</h4>
+                    <p class="text-sm text-ash font-light">Leading global organizations for justice and human rights in Palestine.</p>
+                </div>
+                <div class="border-t border-[#333] pt-4">
+                    <h4 class="font-serif font-bold text-xl mb-2 text-bone">Eyes on Palestine</h4>
+                    <p class="text-sm text-ash font-light">Multimedia platform showing perspectives through art and culture.</p>
+                </div>
+                <div class="border-t border-[#333] pt-4">
+                    <h4 class="font-serif font-bold text-xl mb-2 text-bone">Stand With Palestine</h4>
+                    <p class="text-sm text-ash font-light">Events, representative contacts, and legal aid across the globe.</p>
+                </div>
+                <div class="border-t border-[#333] pt-4">
+                    <h4 class="font-serif font-bold text-xl mb-2 text-bone">Loud Jew Collective & Jews Against Fascism</h4>
+                    <p class="text-sm text-ash font-light">Jewish voices against oppression advocating for justice in Palestine.</p>
+                </div>
+            </div>
+            
+            <div class="mt-16 border border-brand-red p-8 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div>
+                    <h4 class="text-2xl font-serif font-bold mb-2">Understand Zionism vs. Anti-Zionism</h4>
+                    <p class="text-ash font-light">Explore the historical and ideological distinctions using our interactive educational tool.</p>
+                </div>
+                <a href="https://echoesofgaza.org/zionism_divide" target="_blank" class="bg-brand-red text-bone px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-bone hover:text-[#0B0B0B] transition-colors whitespace-nowrap">Access the Tool</a>
+            </div>
+        </section>
+
+        <!-- Section 2: Take Direct Action -->
+        <section class="mb-24">
+            <div class="mb-16">
+                <div class="text-brand-red font-serif text-8xl font-black leading-none mb-6">02</div>
+                <h2 class="text-4xl font-serif font-bold border-b border-ash pb-6">Take Direct Action</h2>
+            </div>
+            <p class="mb-16 text-xl font-light text-ash">As the people of Gaza endure relentless bombardment, starvation, and mass displacement, it’s critical we keep up the pressure on your elected officials and international bodies to act.</p>
+
+            <!-- Join Reps -->
+            <div class="border border-[#333] p-10 mb-20 bg-[#0F0F0F]">
+                <h3 class="text-3xl font-serif font-bold mb-6 text-bone"><span class="highlight-red">Mobilize Your Community</span></h3>
+                <p class="mb-6 font-light text-bone leading-relaxed">As the crisis continues, the call for committed advocates has never been more urgent. Be the driving force behind organising and mobilising efforts in your region by becoming a Community Organizer.</p>
+                <ul class="list-none space-y-3 mb-10 text-ash font-light">
+                    <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-bone">Create local events & present archival evidence</li>
+                    <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-bone">Mobilise communities to attend protests and vigils</li>
+                    <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-bone">Coordinate targeted political actions in your region</li>
+                </ul>
+                <a href="mailto:contact@echoesofgaza.org" class="inline-block border border-bone text-bone font-bold text-xs tracking-widest uppercase px-8 py-4 hover:bg-bone hover:text-[#0B0B0B] transition-colors">Email to express interest</a>
+            </div>
+
+            <!-- Solidarity / Map Placeholder -->
+            <div class="mb-20">
+                <h3 class="text-3xl font-serif font-bold mb-6">Stand in Solidarity</h3>
+                <p class="mb-10 text-ash font-light text-lg">Showing up at rallies and vigils sends a clear message of unity and compassion. Explore the global calendar of upcoming events, rallies, and solidarity vigils below.</p>
+                
+                <!-- Events Embed -->
+                <div class="border border-ash mb-12 bg-[#0F0F0F] flex flex-col">
+                    <div class="p-6 border-b border-[#333] flex justify-between items-center bg-[#111]">
+                        <div class="flex items-center gap-4">
+                            <i data-lucide="calendar" class="w-5 h-5 text-ash"></i>
+                            <h4 class="font-serif font-bold text-xl text-bone">Global Events Calendar</h4>
+                        </div>
+                        <a href="https://echoesofgaza.org/events" target="_blank" class="text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">
+                            Open <span class="hidden sm:inline">Full Screen</span> <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="w-full aspect-[4/3] sm:aspect-video relative overflow-hidden bg-black">
+                        <!-- Embedded Iframe -->
+                        <iframe 
+                            src="https://echoesofgaza.org/events" 
+                            title="Echoes of Gaza Events" 
+                            class="absolute top-0 left-0 w-full h-full border-0" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
+
+                    <div class="p-6 border-t border-[#333] text-center bg-[#111]">
+                        <p class="text-xs text-ash uppercase tracking-widest">Missing an event? Email <a href="mailto:activism@echoesofgaza.org" class="text-bone hover:text-brand-red border-b border-ash transition-colors pb-1">activism@echoesofgaza.org</a></p>
+                    </div>
+                </div>
+
+                <!-- Protest Safety -->
+                <div class="border-l-4 border-ash pl-6 py-2">
+                    <h4 class="font-serif font-bold text-2xl mb-6 text-bone"><span class="highlight-red">Staying Safe at Protests</span></h4>
+                    <div class="grid md:grid-cols-2 gap-8 text-ash font-light">
+                        <div>
+                            <span class="font-bold text-bone block mb-2 uppercase tracking-wider text-xs">Know your rights</span> 
+                            You have a right to peacefully assemble and protest. Police must avoid the use of force.
+                        </div>
+                        <div>
+                            <span class="font-bold text-bone block mb-2 uppercase tracking-wider text-xs">Plan ahead</span> 
+                            Find out where it is, what to expect, and make a plan if you get separated from friends.
+                        </div>
+                        <div>
+                            <span class="font-bold text-bone block mb-2 uppercase tracking-wider text-xs">Protective clothing</span> 
+                            Cover skin, bring shatter-resistant eye protection and a bandana soaked in water.
+                        </div>
+                        <div>
+                            <span class="font-bold text-bone block mb-2 uppercase tracking-wider text-xs">Emergency supplies</span> 
+                            First-aid kit, water, ID, cash, and a fresh set of clothes.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MP Engagement Section -->
+            <div class="grid md:grid-cols-2 gap-12 mb-12 items-start">
+                <!-- Meet/Social Media -->
+                <div>
+                    <h3 class="text-3xl font-serif font-bold mb-6">Meet & Engage Your Elected Officials</h3>
+                    <p class="text-ash font-light mb-6">A face-to-face meeting is powerful. You can request one on your own or with a local advocacy group utilizing our archive.</p>
+                    <p class="text-ash font-light mb-10 pb-10 border-b border-[#333]">Visit your elected official's social media and engage by providing factual, documented evidence on their posts. Staffers monitor these. Engage constructively and rely on the record.</p>
+                </div>
+
+                <!-- Call Script -->
+                <div class="border border-brand-red p-8 bg-[#080808] relative">
+                    <h3 class="text-2xl font-serif font-bold mb-2 text-bone">Call Your Official: Script</h3>
+                    <p class="text-xs text-ash uppercase tracking-widest mb-8">Phoning is a powerful way to demand accountability. You'll likely just speak to a staffer or leave a voicemail.</p>
+                    
+                    <div class="bg-[#111] border border-[#222] p-6 mb-8 h-64 overflow-y-auto text-ash font-light" id="mp-script">
+                        <p class="font-bold text-bone mb-4">Hello, my name is [Your Name] and I'm a local constituent.</p>
+                        <ul class="list-none space-y-4">
+                            <li><strong class="text-bone">Enforce the Ceasefire:</strong> I am calling to demand that our government hold Israel accountable for its daily, documented violations of the current ceasefire agreement.</li>
+                            <li><strong class="text-bone">Ensure Aid:</strong> I urge [Official's Name] to demand the immediate and unhindered delivery of humanitarian aid, which continues to be obstructed.</li>
+                            <li><strong class="text-bone">End Arms Transfers:</strong> Our government must suspend all arms transfers and military cooperation until there is full compliance with international law and the ceasefire.</li>
+                            <li><strong class="text-bone">Support Accountability:</strong> Our government must back efforts at the UN and international courts to impose targeted sanctions on those responsible for ongoing war crimes.</li>
+                            <li><strong class="text-bone">Uphold Law:</strong> We must push for Israel to follow all ICJ orders to prevent genocide and protect civilians.</li>
+                        </ul>
+                    </div>
+                    
+                    <button onclick="copyScript()" class="w-full bg-brand-red text-bone font-bold text-xs uppercase tracking-widest py-4 hover:bg-bone hover:text-[#0B0B0B] transition-colors flex items-center justify-center gap-3">
+                        <i data-lucide="copy" class="w-4 h-4"></i> Copy Script to Clipboard
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-32 pt-16 border-t border-ash text-center">
+                <h3 class="text-3xl font-serif font-bold mb-4">Thank you for all your actions.</h3>
+                <p class="text-xl text-ash font-light">Together we can challenge injustice.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Custom Toast Notification -->
+    <div id="toast" class="toast">Script copied to clipboard.</div>
+
+    <!-- Footer -->
+    <footer id="footer" class="bg-black border-t border-white/5 pt-12 pb-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-12">
+            <div class="md:w-1/3 space-y-6">
+                <div class="flex flex-col items-start opacity-70">
+                    <span class="text-xs font-serif text-white tracking-[0.2em] uppercase">Echoes of Gaza</span>
+                </div>
+                <p class="text-gray-600 text-xs leading-relaxed">Preserving truth, resisting erasure.</p>
+                <div id="google_translate_element"></div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 md:w-2/3">
+                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Archive</h4><ul class="space-y-3 text-xs text-gray-500"><li><a href="#articles" class="hover:text-white transition">Articles</a></li><li><a href="#victims" class="hover:text-white transition">Martyrs</a></li></ul></div>
+                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Resources</h4><ul class="space-y-3 text-xs text-gray-500"><li><a href="#quotes" class="hover:text-white transition">Quotes</a></li><li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" class="hover:text-white transition">Raw Data</a></li></ul></div>
+                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Support</h4><div class="flex flex-col space-y-3"><a href="https://buymeacoffee.com/echoesofgaza" target="_blank" class="text-xs text-gray-500 hover:text-white transition">Donate</a><a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" class="text-xs text-[#8B0000] hover:text-red-400 transition">Monthly Support</a></div></div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 mt-20 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-700 uppercase tracking-wider">
+            <p>© 2026 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="underline hover:text-gray-500">CC BY-NC-SA 4.0</a>.</p>
+            <a href="https://echoesofgaza.org/admin.html" class="mt-4 md:mt-0 hover:text-gray-500 transition">Admin Portal</a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Copy to clipboard function with custom toast
+        function copyScript() {
+            const textToCopy = document.getElementById('mp-script').innerText;
+            
+            // Fallback for document.execCommand
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            // Prevent scrolling to bottom of page in MS Edge.
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+                showToast();
+            } catch (err) {
+                console.error('Unable to copy', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Show toast notification
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "toast show";
+            setTimeout(function(){ 
+                toast.className = toast.className.replace("show", ""); 
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
