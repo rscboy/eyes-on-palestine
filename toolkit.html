@@ -19,7 +19,13 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 5rem; /* Accounts for single sticky header */
+            scroll-padding-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            html {
+                scroll-padding-top: 5rem; /* Accounts for mobile sticky header */
+            }
         }
 
         body {
@@ -92,91 +98,95 @@
 </head>
 <body class="leading-loose">
 
-    <!-- Primary Nav / Toolkit Index -->
-    <header class="fixed w-full top-0 z-50 bg-[rgba(11,11,11,0.95)] backdrop-blur-md border-b border-[#222]">
+    <!-- Mobile Top Navigation -->
+    <header class="md:hidden fixed w-full top-0 z-50 bg-[rgba(11,11,11,0.95)] backdrop-blur-md border-b border-[#222]">
         <div class="max-w-4xl mx-auto px-4 sm:px-6">
-            <!-- Desktop View -->
-            <div class="hidden md:flex justify-between items-center h-16">
+            <div class="flex justify-between items-center h-16">
                 <div class="flex flex-col">
-                    <span class="text-brand-red font-serif font-bold text-sm tracking-widest uppercase leading-tight mb-1">Toolkit Index</span>
-                    <a href="https://echoesofgaza.org" class="text-[9px] text-bone hover:text-brand-red transition-colors uppercase tracking-widest leading-none">An Echoes of Gaza Project</a>
+                    <span class="text-brand-red font-serif font-bold text-[11px] tracking-widest uppercase leading-tight mb-1">Toolkit Index</span>
+                    <a href="https://echoesofgaza.org" class="text-[9px] text-bone hover:text-brand-red transition-colors uppercase tracking-widest leading-none relative z-10">An Echoes of Gaza Project</a>
                 </div>
-                <nav class="flex space-x-8 text-[10px] uppercase tracking-widest font-semibold">
-                    <a href="#context" class="text-ash hover:text-bone transition-colors">Context</a>
-                    <a href="#demands" class="text-ash hover:text-bone transition-colors">Our Demands</a>
-                    <a href="#inform" class="text-ash hover:text-bone transition-colors">Get Informed</a>
-                    <a href="#action" class="text-ash hover:text-bone transition-colors">Direct Action</a>
-                    <a href="#scripts" class="text-ash hover:text-bone transition-colors">Script Library</a>
-                </nav>
+                <button id="mobile-toolkit-menu-btn" class="p-2 text-ash hover:text-bone transition-colors relative z-10">
+                    <i data-lucide="chevron-down" id="toolkit-chevron" class="w-5 h-5 transition-transform duration-300"></i>
+                </button>
             </div>
-            <!-- Mobile View (Collapsible) -->
-            <div class="md:hidden">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex flex-col">
-                        <span class="text-brand-red font-serif font-bold text-[11px] tracking-widest uppercase leading-tight mb-1">Toolkit Index</span>
-                        <a href="https://echoesofgaza.org" class="text-[9px] text-bone hover:text-brand-red transition-colors uppercase tracking-widest leading-none relative z-10">An Echoes of Gaza Project</a>
-                    </div>
-                    <button id="mobile-toolkit-menu-btn" class="p-2 text-ash hover:text-bone transition-colors relative z-10">
-                        <i data-lucide="chevron-down" id="toolkit-chevron" class="w-5 h-5 transition-transform duration-300"></i>
-                    </button>
-                </div>
-                <div id="mobile-toolkit-menu" class="hidden flex-col pb-6 space-y-4 text-[10px] uppercase tracking-widest font-semibold border-t border-[#222] pt-4">
-                    <a href="#context" class="block text-ash hover:text-bone transition-colors">Context</a>
-                    <a href="#demands" class="block text-ash hover:text-bone transition-colors">Our Demands</a>
-                    <a href="#inform" class="block text-ash hover:text-bone transition-colors">Get Informed</a>
-                    <a href="#action" class="block text-ash hover:text-bone transition-colors">Direct Action</a>
-                    <a href="#scripts" class="block text-ash hover:text-bone transition-colors">Script Library</a>
-                </div>
+            <div id="mobile-toolkit-menu" class="hidden flex-col pb-6 space-y-4 text-[10px] uppercase tracking-widest font-semibold border-t border-[#222] pt-4">
+                <a href="#context" class="block text-ash hover:text-bone transition-colors">Context</a>
+                <a href="#demands" class="block text-ash hover:text-bone transition-colors">Our Demands</a>
+                <a href="#inform" class="block text-ash hover:text-bone transition-colors">Get Informed</a>
+                <a href="#action" class="block text-ash hover:text-bone transition-colors">Direct Action</a>
+                <a href="#scripts" class="block text-ash hover:text-bone transition-colors">Script Library</a>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 pb-24 pt-28">
-        
-        <!-- Hero Section -->
-        <header class="border-b border-[#222] pb-12 mb-16 pt-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-12">
-                <div class="md:w-2/3">
-                    <p class="text-brand-red font-bold tracking-widest uppercase text-[10px] mb-6 flex items-center gap-3">
-                        <span class="w-8 h-px bg-brand-red"></span> Action Toolkit 001
-                    </p>
-                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-serif font-extrabold leading-[1.1] tracking-tight text-bone mb-6">
-                        Responding to the <br/> Genocide in Gaza
-                    </h1>
-                    <p class="text-lg md:text-xl font-light text-ash max-w-2xl leading-relaxed">
-                        A global guide to leveraging archival evidence, contacting elected officials, and demanding accountability for human rights violations.
-                    </p>
-                </div>
-                <div class="md:w-1/3 w-full border-l border-[#333] pl-6 md:text-right md:border-l-0 md:pl-0">
-                <div class="grid grid-cols-2 md:grid-cols-1 gap-6">
-                    <div>
-                        <div class="text-[10px] uppercase tracking-widest text-ash mb-1">Status</div>
-                        <div class="text-bone font-serif text-lg">Active Record</div>
+    <!-- Desktop Vertical Sidebar -->
+    <aside class="hidden md:flex flex-col fixed left-0 top-0 h-screen w-48 lg:w-56 border-r border-[#222] bg-[rgba(11,11,11,0.95)] backdrop-blur-md p-6 lg:p-8 z-50">
+        <div class="flex flex-col mb-16">
+            <span class="text-brand-red font-serif font-bold text-sm tracking-widest uppercase leading-tight mb-2">Toolkit Index</span>
+            <a href="https://echoesofgaza.org" class="text-[10px] text-bone hover:text-brand-red transition-colors uppercase tracking-widest leading-relaxed">An Echoes of Gaza Project</a>
+        </div>
+        <nav class="flex flex-col space-y-10 text-xs uppercase tracking-widest font-semibold relative pl-5" id="desktop-nav">
+            <!-- Animated Indicator -->
+            <div id="nav-indicator" class="absolute left-0 w-[2px] bg-brand-red transition-all duration-300 ease-out opacity-0 pointer-events-none"></div>
+            
+            <a href="#context" class="nav-link text-ash hover:text-bone transition-colors block relative">Context</a>
+            <a href="#demands" class="nav-link text-ash hover:text-bone transition-colors block relative">Our Demands</a>
+            <a href="#inform" class="nav-link text-ash hover:text-bone transition-colors block relative">Get Informed</a>
+            <a href="#action" class="nav-link text-ash hover:text-bone transition-colors block relative">Direct Action</a>
+            <a href="#scripts" class="nav-link text-ash hover:text-bone transition-colors block relative">Script Library</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="md:ml-48 lg:ml-56 flex flex-col min-h-screen">
+        <!-- Main Content -->
+        <main class="max-w-4xl mx-auto px-6 lg:px-12 pb-24 pt-24 md:pt-12 w-full">
+            
+            <!-- Hero Section -->
+            <header class="border-b border-[#222] pb-12 mb-16">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-12">
+                    <div class="md:w-2/3">
+                        <p class="text-brand-red font-bold tracking-widest uppercase text-[10px] mb-6 flex items-center gap-3">
+                            <span class="w-8 h-px bg-brand-red"></span> Action Toolkit 001
+                        </p>
+                        <h1 class="text-5xl md:text-6xl lg:text-7xl font-serif font-extrabold leading-[1.1] tracking-tight text-bone mb-6">
+                            Responding to the <br/> Genocide in Gaza
+                        </h1>
+                        <p class="text-lg md:text-xl font-light text-ash max-w-2xl leading-relaxed">
+                            A global guide to leveraging archival evidence, contacting elected officials, and demanding accountability for human rights violations.
+                        </p>
                     </div>
-                    <div>
-                        <div class="text-[10px] uppercase tracking-widest text-ash mb-1">Audience</div>
-                        <div class="text-bone font-serif text-lg">Global / International</div>
+                    <div class="md:w-1/3 w-full border-l border-[#333] pl-6 md:text-right md:border-l-0 md:pl-0">
+                        <div class="grid grid-cols-2 md:grid-cols-1 gap-6">
+                            <div>
+                                <div class="text-[10px] uppercase tracking-widest text-ash mb-1">Status</div>
+                                <div class="text-bone font-serif text-lg">Active Record</div>
+                            </div>
+                            <div>
+                                <div class="text-[10px] uppercase tracking-widest text-ash mb-1">Audience</div>
+                                <div class="text-bone font-serif text-lg">Global / International</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
         
-        <!-- Hero Image -->
-        <div class="w-full aspect-[21/9] md:aspect-[2.5/1] min-h-[300px] overflow-hidden relative bg-cover bg-center documentary-img border border-ash bg-[#111]" style="background-image: url('https://www.ap.org/wp-content/uploads/2024/10/24269687477630.jpg');">
-            <div class="absolute inset-0 bg-black/30"></div>
-            <div class="absolute bottom-4 left-4 md:bottom-6 md:left-6 z-10">
-                <p class="font-semibold text-[9px] md:text-[10px] uppercase tracking-widest text-bone bg-black/80 px-3 py-2 backdrop-blur-sm border border-[#333]">Ref: 01A-Destroyed-Infrastructure</p>
-            </div>
-        </div>
-        <div class="flex flex-col md:flex-row justify-between items-start mt-4 text-[10px] text-ash uppercase tracking-widest gap-4 md:gap-8">
-            <span class="max-w-4xl leading-relaxed">Palestinians inspect the rubble of the Yassin Mosque destroyed after it was hit by an Israeli airstrike at Shati refugee camp in Gaza City, early Monday, Oct. 9, 2023.</span>
-            <span class="font-semibold text-bone shrink-0 border-l border-brand-red pl-3">(AP Photo/Adel Hana, File)</span>
-        </div>
-    </header>
+                <!-- Hero Image -->
+                <div class="w-full aspect-[21/9] md:aspect-[2.5/1] min-h-[300px] overflow-hidden relative bg-cover bg-center documentary-img border border-ash bg-[#111]" style="background-image: url('https://www.ap.org/wp-content/uploads/2024/10/24269687477630.jpg');">
+                    <div class="absolute inset-0 bg-black/30"></div>
+                    <div class="absolute bottom-4 left-4 md:bottom-6 md:left-6 z-10">
+                        <p class="font-semibold text-[9px] md:text-[10px] uppercase tracking-widest text-bone bg-black/80 px-3 py-2 backdrop-blur-sm border border-[#333]">Ref: 01A-Destroyed-Infrastructure</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row justify-between items-start mt-4 text-[10px] text-ash uppercase tracking-widest gap-4 md:gap-8">
+                    <span class="max-w-4xl leading-relaxed">Palestinians inspect the rubble of the Yassin Mosque destroyed after it was hit by an Israeli airstrike at Shati refugee camp in Gaza City, early Monday, Oct. 9, 2023.</span>
+                    <span class="font-semibold text-bone shrink-0 border-l border-brand-red pl-3">(AP Photo/Adel Hana, File)</span>
+                </div>
+            </header>
 
     <!-- Introduction -->
-        <article id="context" class="text-lg md:text-xl font-light text-bone mb-24 leading-relaxed py-8">
+        <article id="context" class="text-lg md:text-xl font-light text-bone mb-16 leading-relaxed py-8">
             <p class="mb-8">
                 <strong class="font-serif text-2xl md:text-3xl font-bold block mb-6 text-bone leading-snug"><span class="highlight-red">Tens of thousands of civilians have been killed</span> in Israel’s systematic attacks against Palestinians in Gaza since October 2023.</strong> 
                 As the world watches in horror, Echoes of Gaza serves as a digital archive, preserving the documentation of human rights violations gathered by researchers, journalists, and digital evidence teams. This open-source record exists to ensure that evidence of war crimes - such as the deliberate pulverization of civilian infrastructure and mass civilian casualties - cannot be rewritten or minimized.
@@ -189,8 +199,10 @@
             </p>
         </article>
 
+        <hr class="border-[#222] my-24">
+
         <!-- Section: What needs to be done? -->
-        <section id="demands" class="mb-32">
+        <section id="demands" class="mb-24">
             <h2 class="text-4xl md:text-5xl font-serif font-bold mb-10 text-bone border-b border-ash pb-6">What needs to be done?</h2>
             <p class="text-lg font-light mb-12 text-ash max-w-3xl">As a historical archive, Echoes of Gaza preserves the evidence necessary for accountability. Based on this documented reality, we support the calls of international human rights organizations urging governments worldwide to:</p>
             
@@ -234,13 +246,15 @@
             </div>
         </section>
 
+        <hr class="border-[#222] my-24">
+
         <!-- Main Divider -->
-        <div class="text-center my-32">
+        <div class="text-center my-24">
             <h2 class="text-4xl md:text-5xl font-serif font-bold uppercase tracking-widest text-bone bg-brand-red px-6 py-3 inline-block">What can you do?</h2>
         </div>
 
         <!-- Section 1: Get Informed -->
-        <section id="inform" class="mb-32">
+        <section id="inform" class="mb-24">
             <div class="mb-16">
                 <div class="text-brand-red font-serif text-8xl font-black leading-none mb-6">01</div>
                 <h2 class="text-4xl font-serif font-bold border-b border-ash pb-6">Get Informed and Share Knowledge</h2>
@@ -252,7 +266,7 @@
                 
                 <div class="border-l-4 border-brand-red pl-6 py-2 my-10">
                     <p class="font-serif text-xl md:text-2xl leading-relaxed text-bone italic">
-                        "<span class="highlight-red">International human rights organizations, UN experts, and legal scholars have concluded that Israel is committing acts of genocide</span> against Palestinians in Gaza. This includes: <span class="highlight-red">killing civilians in large numbers</span>, causing serious physical and mental harm, and deliberately inflicting conditions of life calculated to bring about the destruction of the population."
+                        "International human rights organizations, UN experts, and legal scholars have concluded that Israel is committing acts of genocide against Palestinians in Gaza. This includes: killing civilians in large numbers, causing serious physical and mental harm, and deliberately inflicting conditions of life calculated to bring about the destruction of the population."
                     </p>
                 </div>
                 
@@ -262,7 +276,7 @@
             <!-- Action Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
                 <!-- Stay Informed -->
-                <div class="border border-ash p-8 hover:border-bone transition-colors">
+                <div class="border border-[#222] bg-[#0F0F0F] p-8 md:p-10 hover:border-ash transition-colors">
                     <h4 class="font-serif font-bold text-2xl mb-4">Stay Informed</h4>
                     <p class="text-ash font-light mb-8">Access our verified timeline and historical records to understand the current situation and counter narratives of erasure with documented facts.</p>
                     <div class="flex flex-col gap-4 text-sm font-semibold tracking-widest uppercase">
@@ -273,7 +287,7 @@
                 </div>
 
                 <!-- Amplify Voices -->
-                <div class="border border-ash p-8 hover:border-bone transition-colors flex flex-col justify-between">
+                <div class="border border-[#222] bg-[#0F0F0F] p-8 md:p-10 hover:border-ash transition-colors flex flex-col justify-between">
                     <div>
                         <h4 class="font-serif font-bold text-2xl mb-4">Amplify Voices</h4>
                         <p class="text-ash font-light mb-8">Amplifying lived experience voices creates empathy. Share stories of Palestinians on your social media so friends and family know what is happening.</p>
@@ -321,6 +335,8 @@
                 <a href="https://echoesofgaza.org/zionism_divide" target="_blank" class="bg-brand-red text-bone px-8 py-4 font-bold text-xs uppercase tracking-widest hover:bg-bone hover:text-[#0B0B0B] transition-colors whitespace-nowrap">Access the Tool</a>
             </div>
         </section>
+
+        <hr class="border-[#222] my-24">
 
         <!-- Section 2: Take Direct Action -->
         <section id="action" class="mb-24">
@@ -808,7 +824,7 @@
                 </h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Article 1 -->
-                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                    <div class="border border-[#222] bg-[#0F0F0F] p-8 flex flex-col gap-4 hover:border-ash transition-colors">
                         <div class="flex items-center gap-3 border-b border-[#333] pb-3">
                             <span class="w-3 h-3 bg-brand-red inline-block"></span>
                             <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Countering casualty denialism</span></span>
@@ -823,7 +839,7 @@
                     </div>
 
                     <!-- Article 2 -->
-                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                    <div class="border border-[#222] bg-[#0F0F0F] p-8 flex flex-col gap-4 hover:border-ash transition-colors">
                         <div class="flex items-center gap-3 border-b border-[#333] pb-3">
                             <span class="w-3 h-3 bg-brand-red inline-block"></span>
                             <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Exposing ceasefire violations</span></span>
@@ -838,7 +854,7 @@
                     </div>
 
                     <!-- Article 3 -->
-                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                    <div class="border border-[#222] bg-[#0F0F0F] p-8 flex flex-col gap-4 hover:border-ash transition-colors">
                         <div class="flex items-center gap-3 border-b border-[#333] pb-3">
                             <span class="w-3 h-3 bg-brand-red inline-block"></span>
                             <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Addressing true scale of destruction</span></span>
@@ -853,7 +869,7 @@
                     </div>
 
                     <!-- Article 4 -->
-                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                    <div class="border border-[#222] bg-[#0F0F0F] p-8 flex flex-col gap-4 hover:border-ash transition-colors">
                         <div class="flex items-center gap-3 border-b border-[#333] pb-3">
                             <span class="w-3 h-3 bg-brand-red inline-block"></span>
                             <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Disproving precise targeting claims</span></span>
@@ -868,7 +884,7 @@
                     </div>
 
                     <!-- Article 5 -->
-                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                    <div class="border border-[#222] bg-[#0F0F0F] p-8 flex flex-col gap-4 hover:border-ash transition-colors">
                         <div class="flex items-center gap-3 border-b border-[#333] pb-3">
                             <span class="w-3 h-3 bg-brand-red inline-block"></span>
                             <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Highlighting systemic impact on youth</span></span>
@@ -883,7 +899,7 @@
                     </div>
 
                     <!-- Article 6 -->
-                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                    <div class="border border-[#222] bg-[#0F0F0F] p-8 flex flex-col gap-4 hover:border-ash transition-colors">
                         <div class="flex items-center gap-3 border-b border-[#333] pb-3">
                             <span class="w-3 h-3 bg-brand-red inline-block"></span>
                             <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Proving deliberate non-combatant targeting</span></span>
@@ -898,7 +914,7 @@
                     </div>
 
                     <!-- Article 7 -->
-                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                    <div class="border border-[#222] bg-[#0F0F0F] p-8 flex flex-col gap-4 hover:border-ash transition-colors">
                         <div class="flex items-center gap-3 border-b border-[#333] pb-3">
                             <span class="w-3 h-3 bg-brand-red inline-block"></span>
                             <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Proving systematic aid obstruction</span></span>
@@ -927,7 +943,7 @@
 
     <!-- Footer -->
     <footer id="footer" class="bg-black border-t border-white/5 pt-12 pb-10">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-12">
+        <div class="max-w-4xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between gap-12">
             <div class="md:w-1/3 space-y-6">
                 <div class="flex flex-col items-start opacity-70 hover:opacity-100 transition-opacity">
                     <a href="https://echoesofgaza.org" class="text-xs font-serif text-white tracking-[0.2em] uppercase">Echoes of Gaza</a>
@@ -941,11 +957,12 @@
                 <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Support</h4><div class="flex flex-col space-y-3"><a href="https://buymeacoffee.com/echoesofgaza" target="_blank" class="text-xs text-gray-500 hover:text-white transition">Donate</a><a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" class="text-xs text-[#8B0000] hover:text-red-400 transition">Monthly Support</a></div></div>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 mt-20 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-700 uppercase tracking-wider">
+        <div class="max-w-4xl mx-auto px-6 lg:px-12 mt-20 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-700 uppercase tracking-wider">
             <p>© 2026 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="underline hover:text-gray-500">CC BY-NC-SA 4.0</a>.</p>
             <a href="https://echoesofgaza.org/admin.html" class="mt-4 md:mt-0 hover:text-gray-500 transition">Admin Portal</a>
         </div>
     </footer>
+    </div> <!-- End of wrapper -->
 
     <!-- Scripts -->
     <script>
@@ -1069,6 +1086,51 @@
                 }, 3000);
             }
         }
+
+        // Scroll Spy for Desktop Navigation
+        document.addEventListener("DOMContentLoaded", () => {
+            const sections = document.querySelectorAll("article[id], section[id], div[id='scripts']");
+            const navLinks = document.querySelectorAll("#desktop-nav .nav-link");
+            const indicator = document.getElementById("nav-indicator");
+
+            function updateNav() {
+                let current = "";
+                let scrollY = window.scrollY;
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    // Trigger slightly before the section hits the very top
+                    if (scrollY >= (sectionTop - window.innerHeight / 3)) {
+                        current = section.getAttribute("id");
+                    }
+                });
+
+                // Default to top section if near top of page
+                if (scrollY < 100) current = "context";
+
+                navLinks.forEach(link => {
+                    link.classList.remove("text-bone");
+                    link.classList.add("text-ash");
+                    if (link.getAttribute("href") === `#${current}`) {
+                        link.classList.remove("text-ash");
+                        link.classList.add("text-bone");
+                        
+                        // Animate indicator
+                        if (indicator) {
+                            indicator.style.opacity = "1";
+                            indicator.style.top = `${link.offsetTop}px`;
+                            indicator.style.height = `${link.offsetHeight}px`;
+                        }
+                    }
+                });
+            }
+
+            window.addEventListener("scroll", updateNav);
+            window.addEventListener("resize", updateNav);
+            
+            // Initial call
+            setTimeout(updateNav, 100);
+        });
     </script>
 </body>
 </html>
