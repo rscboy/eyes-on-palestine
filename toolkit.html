@@ -17,11 +17,15 @@
             --ash-gray: #7A7A7A;
         }
 
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 5rem; /* Accounts for single sticky header */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--deep-black);
             color: var(--bone);
-            scroll-behavior: smooth;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -84,118 +88,51 @@
             box-decoration-break: clone;
             -webkit-box-decoration-break: clone;
         }
-
-        /* Custom Nav Styles */
-        .nav-glass {
-            background-color: rgba(11, 11, 11, 0.95);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-bottom: 1px solid #222;
-            height: 5rem;
-        }
-        
-        .nav-link {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--ash-gray);
-            font-weight: 600;
-            transition: color 0.2s ease-in-out;
-        }
-        
-        .nav-link:hover {
-            color: var(--bone);
-        }
-        
-        .btn-primary {
-            background-color: var(--deep-red);
-            color: var(--bone);
-            border: 1px solid var(--deep-red);
-            transition: all 0.2s ease-in-out;
-            font-weight: 600;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--bone);
-            color: var(--deep-black);
-            border-color: var(--bone);
-        }
     </style>
 </head>
 <body class="leading-loose">
 
-    <!-- Top Navigation -->
-    <header class="nav-glass fixed w-full top-0 z-50 flex items-center">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-            <div class="flex justify-between items-center h-full">
-                <a href="#" id="nav-logo" class="flex flex-col items-start opacity-80 hover:opacity-100 transition-opacity">
-                    <span class="text-xs font-serif text-bone tracking-[0.2em] uppercase font-bold text-lg">Echoes of Gaza</span>
-                </a>
-
-                <nav class="hidden md:flex items-center space-x-8">
-                    <div class="relative group">
-                        <button id="archive-menu-button" class="nav-link flex items-center">
-                            Archive
-                        </button>
-                        <!-- Wrapper with top padding to bridge the hover gap -->
-                        <div id="archive-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-6 w-48 hidden group-hover:block z-50">
-                            <div class="bg-[#0B0B0B] border border-[#333] shadow-2xl">
-                                <a href="#articles" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone">Articles</a>
-                                <a href="#books" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">Books</a>
-                                <a href="#videos" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">Interviews</a>
-                                <a href="#films" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">Documentaries</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="relative group">
-                        <button id="tools-menu-button" class="nav-link flex items-center">
-                            Tools
-                        </button>
-                        <div id="tools-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-6 w-48 hidden group-hover:block z-50">
-                            <div class="bg-[#0B0B0B] border border-[#333] shadow-2xl">
-                                <a href="#narrative-test-section" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone">Narratives</a>
-                                <a href="#casualty-graph" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">Timeline</a>
-                                <a href="#bias-tool-controls" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">Racial Bias Tool</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <a href="#geolocation" class="nav-link">Maps</a>
-                    <a href="#victims" class="nav-link">Victims</a>
-
-                    <div class="relative group">
-                        <button id="resources-menu-button" class="nav-link flex items-center">
-                            Resources
-                        </button>
-                        <div id="resources-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-6 w-48 hidden group-hover:block z-50">
-                            <div class="bg-[#0B0B0B] border border-[#333] shadow-2xl">
-                                <a href="#quotes" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone">Quotes & Resources</a>
-                                <a href="https://echoesofgaza.org/events" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">Events</a>
-                                <a href="#faq" class="block px-6 py-4 text-xs tracking-widest uppercase hover:bg-brand-red transition text-ash hover:text-bone border-t border-[#222]">FAQ</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <a href="https://echoesofgaza.org/collab" class="btn-primary px-6 py-3 text-xs uppercase tracking-widest hidden md:block">
-                        Submit Evidence
-                    </a>
+    <!-- Primary Nav / Toolkit Index -->
+    <header class="fixed w-full top-0 z-50 bg-[rgba(11,11,11,0.95)] backdrop-blur-md border-b border-[#222]">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <!-- Desktop View -->
+            <div class="hidden md:flex justify-between items-center h-16">
+                <div class="flex flex-col">
+                    <span class="text-brand-red font-serif font-bold text-sm tracking-widest uppercase leading-tight mb-1">Toolkit Index</span>
+                    <a href="https://echoesofgaza.org" class="text-[9px] text-bone hover:text-brand-red transition-colors uppercase tracking-widest leading-none">An Echoes of Gaza Project</a>
+                </div>
+                <nav class="flex space-x-8 text-[10px] uppercase tracking-widest font-semibold">
+                    <a href="#context" class="text-ash hover:text-bone transition-colors">Context</a>
+                    <a href="#demands" class="text-ash hover:text-bone transition-colors">Our Demands</a>
+                    <a href="#inform" class="text-ash hover:text-bone transition-colors">Get Informed</a>
+                    <a href="#action" class="text-ash hover:text-bone transition-colors">Direct Action</a>
+                    <a href="#scripts" class="text-ash hover:text-bone transition-colors">Script Library</a>
                 </nav>
-                
-                <!-- MOBILE MENU BUTTON -->
-                <div class="flex items-center space-x-4 md:hidden">
-                    <button id="mobile-menu-button" class="text-ash hover:text-bone transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16m-7 6h7" />
-                        </svg>
+            </div>
+            <!-- Mobile View (Collapsible) -->
+            <div class="md:hidden">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex flex-col">
+                        <span class="text-brand-red font-serif font-bold text-[11px] tracking-widest uppercase leading-tight mb-1">Toolkit Index</span>
+                        <a href="https://echoesofgaza.org" class="text-[9px] text-bone hover:text-brand-red transition-colors uppercase tracking-widest leading-none relative z-10">An Echoes of Gaza Project</a>
+                    </div>
+                    <button id="mobile-toolkit-menu-btn" class="p-2 text-ash hover:text-bone transition-colors relative z-10">
+                        <i data-lucide="chevron-down" id="toolkit-chevron" class="w-5 h-5 transition-transform duration-300"></i>
                     </button>
+                </div>
+                <div id="mobile-toolkit-menu" class="hidden flex-col pb-6 space-y-4 text-[10px] uppercase tracking-widest font-semibold border-t border-[#222] pt-4">
+                    <a href="#context" class="block text-ash hover:text-bone transition-colors">Context</a>
+                    <a href="#demands" class="block text-ash hover:text-bone transition-colors">Our Demands</a>
+                    <a href="#inform" class="block text-ash hover:text-bone transition-colors">Get Informed</a>
+                    <a href="#action" class="block text-ash hover:text-bone transition-colors">Direct Action</a>
+                    <a href="#scripts" class="block text-ash hover:text-bone transition-colors">Script Library</a>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 pb-24 pt-32">
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 pb-24 pt-28">
         
         <!-- Hero Section -->
         <header class="border-b border-[#222] pb-12 mb-16 pt-8">
@@ -239,21 +176,21 @@
     </header>
 
     <!-- Introduction -->
-        <article class="text-lg md:text-xl font-light text-bone mb-24 leading-relaxed py-8">
+        <article id="context" class="text-lg md:text-xl font-light text-bone mb-24 leading-relaxed py-8">
             <p class="mb-8">
                 <strong class="font-serif text-2xl md:text-3xl font-bold block mb-6 text-bone leading-snug"><span class="highlight-red">Tens of thousands of civilians have been killed</span> in Israel’s systematic attacks against Palestinians in Gaza since October 2023.</strong> 
-                As the world watches in horror, Echoes of Gaza serves as a digital archive, preserving the documentation of human rights violations gathered by researchers, journalists, and digital evidence teams. This open-source record exists to ensure that evidence of war crimes—such as the deliberate pulverization of civilian infrastructure and mass civilian casualties—cannot be rewritten or minimized.
+                As the world watches in horror, Echoes of Gaza serves as a digital archive, preserving the documentation of human rights violations gathered by researchers, journalists, and digital evidence teams. This open-source record exists to ensure that evidence of war crimes - such as the deliberate pulverization of civilian infrastructure and mass civilian casualties - cannot be rewritten or minimized.
             </p>
             <p class="mb-8">
                 Alongside members of the Palestinian and Jewish communities globally, human rights advocates are campaigning for the enforcement of ceasefires, the protection of civilians, and international accountability. At this moment of unprecedented humanitarian catastrophe, the actions and advocacy of the international community are critical. 
             </p>
             <p class="font-semibold text-bone border-l-2 border-brand-red pl-4">
-                It is because of everyday people standing up for human rights that governments around the world have taken initial steps—from voting at the UN to adjusting trade and aid policies. There is much more to do. This toolkit provides the resources to leverage our archive for direct action.
+                It is because of everyday people standing up for human rights that governments around the world have taken initial steps - from voting at the UN to adjusting trade and aid policies. There is much more to do. This toolkit provides the resources to leverage our archive for direct action.
             </p>
         </article>
 
         <!-- Section: What needs to be done? -->
-        <section class="mb-32">
+        <section id="demands" class="mb-32">
             <h2 class="text-4xl md:text-5xl font-serif font-bold mb-10 text-bone border-b border-ash pb-6">What needs to be done?</h2>
             <p class="text-lg font-light mb-12 text-ash max-w-3xl">As a historical archive, Echoes of Gaza preserves the evidence necessary for accountability. Based on this documented reality, we support the calls of international human rights organizations urging governments worldwide to:</p>
             
@@ -261,38 +198,38 @@
                 <div class="border-l-2 border-brand-red pl-6">
                     <h3 class="font-serif font-bold text-2xl mb-4 text-bone">Uphold international law</h3>
                     <ul class="list-none space-y-3 text-ash font-light">
-                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Publicly and unequivocally call on Israel to adhere to IHL and IHRL.</li>
-                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Push for Israel’s compliance with the ICJ orders, including measures to prevent genocide and occupation.</li>
+                        <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-brand-red">Publicly and unequivocally call on Israel to adhere to IHL and IHRL.</li>
+                        <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-brand-red">Push for Israel’s compliance with the ICJ orders, including measures to prevent genocide and occupation.</li>
                     </ul>
                 </div>
                 <div class="border-l-2 border-brand-red pl-6">
                     <h3 class="font-serif font-bold text-2xl mb-4 text-bone">Support accountability</h3>
                     <ul class="list-none space-y-3 text-ash font-light">
-                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Back all international investigations, including by the ICC.</li>
-                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Call on the UN Security Council to impose targeted sanctions on officials responsible for war crimes.</li>
+                        <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-brand-red">Back all international investigations, including by the ICC.</li>
+                        <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-brand-red">Call on the UN Security Council to impose targeted sanctions on officials responsible for war crimes.</li>
                     </ul>
                 </div>
                 <div class="border-l-2 border-brand-red pl-6">
                     <h3 class="font-serif font-bold text-2xl mb-4 text-bone">Suspend arms transfers</h3>
                     <ul class="list-none space-y-3 text-ash font-light">
-                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Suspend all direct or indirect arms transfers to Israel.</li>
-                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">End all military cooperation and assistance until compliance with international law is verified.</li>
+                        <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-brand-red">Suspend all direct or indirect arms transfers to Israel.</li>
+                        <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-brand-red">End all military cooperation and assistance until compliance with international law is verified.</li>
                     </ul>
                 </div>
                 <div class="border-l-2 border-brand-red pl-6">
                     <h3 class="font-serif font-bold text-2xl mb-4 text-bone">Ensure aid & protection</h3>
                     <ul class="list-none space-y-3 text-ash font-light">
-                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Demand immediate, sustained and unhindered delivery of humanitarian aid to Gaza.</li>
-                        <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Support medical evacuations and ensure safe access for humanitarian workers.</li>
+                        <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-brand-red">Demand immediate, sustained and unhindered delivery of humanitarian aid to Gaza.</li>
+                        <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-brand-red">Support medical evacuations and ensure safe access for humanitarian workers.</li>
                     </ul>
                 </div>
                 <div class="border-l-2 border-brand-red pl-6">
                     <h3 class="font-serif font-bold text-2xl mb-4 text-bone">Ban settlement trade</h3>
-                    <p class="text-ash font-light relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Impose a comprehensive ban on all trade and economic activity in illegal settlements in the Occupied Palestinian Territory.</p>
+                    <p class="text-ash font-light relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-brand-red">Impose a comprehensive ban on all trade and economic activity in illegal settlements in the Occupied Palestinian Territory.</p>
                 </div>
                 <div class="border-l-2 border-brand-red pl-6">
                     <h3 class="font-serif font-bold text-2xl mb-4 text-bone">Champion lasting peace</h3>
-                    <p class="text-ash font-light relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-brand-red">Advocate for a political solution that ends the occupation and respects Palestinian self-determination.</p>
+                    <p class="text-ash font-light relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-brand-red">Advocate for a political solution that ends the occupation and respects Palestinian self-determination.</p>
                 </div>
             </div>
         </section>
@@ -303,7 +240,7 @@
         </div>
 
         <!-- Section 1: Get Informed -->
-        <section class="mb-32">
+        <section id="inform" class="mb-32">
             <div class="mb-16">
                 <div class="text-brand-red font-serif text-8xl font-black leading-none mb-6">01</div>
                 <h2 class="text-4xl font-serif font-bold border-b border-ash pb-6">Get Informed and Share Knowledge</h2>
@@ -311,7 +248,7 @@
 
             <div class="border border-[#222] p-8 md:p-12 mb-16 bg-[#0F0F0F]">
                 <h3 class="text-3xl font-serif font-bold mb-6">Understand the Designations</h3>
-                <p class="mb-8 font-light text-ash">Thanks to relentless public pressure, various governments have shifted stances. But it is not enough. Many governments have not acknowledged the severity of the situation, stopped arms transfers, or held violators accountable to international law.</p>
+                <p class="mb-8 font-light text-ash">Thanks to relentless public pressure, various governments have shifted stances - reinstating UNRWA funding and calling for ceasefires. But it is not enough. Many governments have not acknowledged the severity of the situation, stopped arms transfers, or held violators accountable to international law.</p>
                 
                 <div class="border-l-4 border-brand-red pl-6 py-2 my-10">
                     <p class="font-serif text-xl md:text-2xl leading-relaxed text-bone italic">
@@ -351,20 +288,28 @@
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div class="border-t border-[#333] pt-4">
-                    <h4 class="font-serif font-bold text-xl mb-2 text-bone">Palestine Advocacy Networks</h4>
-                    <p class="text-sm text-ash font-light">Leading global organizations for justice and human rights in Palestine.</p>
+                    <h4 class="font-serif font-bold text-xl mb-2">
+                        <a href="https://visualizingpalestine.org/" target="_blank" class="text-bone hover:text-brand-red transition-colors">Visualizing Palestine</a>
+                    </h4>
+                    <p class="text-sm text-ash font-light">Data-driven visual stories documenting Palestinian experiences and human rights.</p>
                 </div>
                 <div class="border-t border-[#333] pt-4">
-                    <h4 class="font-serif font-bold text-xl mb-2 text-bone">Eyes on Palestine</h4>
-                    <p class="text-sm text-ash font-light">Multimedia platform showing perspectives through art and culture.</p>
+                    <h4 class="font-serif font-bold text-xl mb-2">
+                        <a href="https://www.instagram.com/eye.on.palestine/" target="_blank" class="text-bone hover:text-brand-red transition-colors">Eyes on Palestine</a>
+                    </h4>
+                    <p class="text-sm text-ash font-light">Multimedia platform documenting daily realities and perspectives on the ground.</p>
                 </div>
                 <div class="border-t border-[#333] pt-4">
-                    <h4 class="font-serif font-bold text-xl mb-2 text-bone">Stand With Palestine</h4>
-                    <p class="text-sm text-ash font-light">Events, representative contacts, and legal aid across the globe.</p>
+                    <h4 class="font-serif font-bold text-xl mb-2">
+                        <a href="https://www.dropsitenews.com/" target="_blank" class="text-bone hover:text-brand-red transition-colors">Drop Site News</a>
+                    </h4>
+                    <p class="text-sm text-ash font-light">Independent investigative journalism and rigorous reporting on global accountability.</p>
                 </div>
                 <div class="border-t border-[#333] pt-4">
-                    <h4 class="font-serif font-bold text-xl mb-2 text-bone">Loud Jew Collective & Jews Against Fascism</h4>
-                    <p class="text-sm text-ash font-light">Jewish voices against oppression advocating for justice in Palestine.</p>
+                    <h4 class="font-serif font-bold text-xl mb-2">
+                        <a href="https://www.imeupolicyproject.org/" target="_blank" class="text-bone hover:text-brand-red transition-colors">IMEU Policy Project</a>
+                    </h4>
+                    <p class="text-sm text-ash font-light">Expert policy analysis and advocacy resources for Palestinian rights and justice.</p>
                 </div>
             </div>
             
@@ -378,7 +323,7 @@
         </section>
 
         <!-- Section 2: Take Direct Action -->
-        <section class="mb-24">
+        <section id="action" class="mb-24">
             <div class="mb-16">
                 <div class="text-brand-red font-serif text-8xl font-black leading-none mb-6">02</div>
                 <h2 class="text-4xl font-serif font-bold border-b border-ash pb-6">Take Direct Action</h2>
@@ -390,9 +335,9 @@
                 <h3 class="text-3xl font-serif font-bold mb-6 text-bone"><span class="highlight-red">Become a Collaborator</span></h3>
                 <p class="mb-6 font-light text-bone leading-relaxed">History is a form of resistance. The systematic erasure of Palestinian suffering relies on silence and the destruction of evidence. By submitting verified sources, you help increase accountability, expose prejudice, and build a permanent moral record.</p>
                 <ul class="list-none space-y-3 mb-10 text-ash font-light">
-                    <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-bone">Submit verified primary and secondary sources</li>
-                    <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-bone">Build an evidentiary record that exposes systemic violence</li>
-                    <li class="relative pl-4 before:content-['—'] before:absolute before:left-0 before:text-bone">Strengthen documentation for international accountability</li>
+                    <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-bone">Submit verified primary and secondary sources</li>
+                    <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-bone">Build an evidentiary record that exposes systemic violence</li>
+                    <li class="relative pl-4 before:content-['-'] before:absolute before:left-0 before:text-bone">Strengthen documentation for international accountability</li>
                 </ul>
                 <a href="https://echoesofgaza.org/collab" target="_blank" class="inline-block border border-bone text-bone font-bold text-xs tracking-widest uppercase px-8 py-4 hover:bg-bone hover:text-[#0B0B0B] transition-colors">Contribute Evidence</a>
             </div>
@@ -453,34 +398,519 @@
                 </div>
             </div>
 
-            <!-- MP Engagement Section -->
-            <div class="grid md:grid-cols-2 gap-12 mb-12 items-start">
-                <!-- Meet/Social Media -->
-                <div>
-                    <h3 class="text-3xl font-serif font-bold mb-6">Meet & Engage Your Elected Officials</h3>
-                    <p class="text-ash font-light mb-6">A face-to-face meeting is powerful. You can request one on your own or with a local advocacy group utilizing our archive.</p>
-                    <p class="text-ash font-light mb-10 pb-10 border-b border-[#333]">Visit your elected official's social media and engage by providing factual, documented evidence on their posts. Staffers monitor these. Engage constructively and rely on the record.</p>
+            <!-- Script Library Section -->
+            <div id="scripts" class="mb-12 pt-8">
+                <h3 class="text-3xl font-serif font-bold mb-6">Advocacy Script Library</h3>
+                <p class="text-ash font-light mb-10 pb-10 border-b border-[#333]">Advocacy extends beyond elected officials. Use these structured, evidence-based scripts to demand accountability in your workplace, academic institutions, and personal networks. Select a scenario below to access the corresponding script.</p>
+
+                <div class="border border-brand-red bg-[#080808] flex flex-col md:flex-row">
+                    <!-- Script Navigation Tabs -->
+                    <div class="md:w-1/3 border-b md:border-b-0 md:border-r border-[#333] flex flex-col">
+                        <button onclick="switchScript('script-official', this)" class="script-tab active bg-bone text-[#0B0B0B] font-bold text-xs uppercase tracking-widest text-left px-6 py-6 transition-colors border-b border-[#333]">
+                            Elected Officials
+                        </button>
+                        <button onclick="switchScript('script-workplace', this)" class="script-tab text-ash hover:text-bone hover:bg-[#111] font-bold text-xs uppercase tracking-widest text-left px-6 py-6 transition-colors border-b border-[#333]">
+                            Workplace / HR
+                        </button>
+                        <button onclick="switchScript('script-academic', this)" class="script-tab text-ash hover:text-bone hover:bg-[#111] font-bold text-xs uppercase tracking-widest text-left px-6 py-6 transition-colors border-b border-[#333]">
+                            Academic Institutions
+                        </button>
+                        <button onclick="switchScript('script-personal', this)" class="script-tab text-ash hover:text-bone hover:bg-[#111] font-bold text-xs uppercase tracking-widest text-left px-6 py-6 transition-colors">
+                            Personal Network
+                        </button>
+                    </div>
+
+                    <!-- Script Content Area -->
+                    <div class="md:w-2/3 p-8 relative flex flex-col">
+                        <div class="flex-grow">
+                            <!-- Official Script -->
+                            <div id="script-official" class="script-content block">
+                                <h4 class="text-xl font-serif font-bold mb-2 text-bone">Call Your Official: Script</h4>
+                                <p class="text-[10px] text-ash uppercase tracking-widest mb-6 border-b border-[#333] pb-4">Target: Representatives, Parliament Members, Local Government</p>
+                                <div class="bg-[#111] border border-[#222] p-6 mb-8 h-64 overflow-y-auto text-ash font-light" id="text-script-official">
+                                    <p class="font-bold text-bone mb-4">Hello, my name is [Your Name] and I'm a local constituent.</p>
+                                    <ul class="list-none space-y-4">
+                                        <li><strong class="text-bone">Enforce the Ceasefire:</strong> I am calling to demand that our government hold Israel accountable for its daily, documented violations of the current ceasefire agreement.</li>
+                                        <li><strong class="text-bone">Ensure Aid:</strong> I urge [Official's Name] to demand the immediate and unhindered delivery of humanitarian aid, which continues to be obstructed.</li>
+                                        <li><strong class="text-bone">End Arms Transfers:</strong> Our government must suspend all arms transfers and military cooperation until there is full compliance with international law and the ceasefire.</li>
+                                        <li><strong class="text-bone">Support Accountability:</strong> Our government must back efforts at the UN and international courts to impose targeted sanctions on those responsible for ongoing war crimes.</li>
+                                        <li><strong class="text-bone">Uphold Law:</strong> We must push for Israel to follow all ICJ orders to prevent genocide and protect civilians.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Workplace Script -->
+                            <div id="script-workplace" class="script-content hidden">
+                                <h4 class="text-xl font-serif font-bold mb-2 text-bone">Corporate Accountability: Email</h4>
+                                <p class="text-[10px] text-ash uppercase tracking-widest mb-6 border-b border-[#333] pb-4">Target: Corporate Leadership, Human Resources, Union Reps</p>
+                                <div class="bg-[#111] border border-[#222] p-6 mb-8 h-64 overflow-y-auto text-ash font-light" id="text-script-workplace">
+                                    <p class="font-bold text-bone mb-4">Subject: Request for Supply Chain Review and Human Rights Compliance</p>
+                                    <p class="mb-4">Dear [Leadership/HR Name],</p>
+                                    <p class="mb-4">I am writing to formally request that [Company Name] review its vendor and supply chain relationships to ensure we are not financially complicit in documented human rights violations.</p>
+                                    <p class="mb-4">As the crisis in Gaza has escalated into what international legal experts and the UN have identified as plausible genocide, corporations hold a responsibility under the UN Guiding Principles on Business and Human Rights to conduct strict due diligence.</p>
+                                    <p class="mb-4">I urge leadership to establish a clear, transparent policy regarding our financial investments and partnerships. I would appreciate a meeting to discuss how [Company Name] plans to address this institutional responsibility.</p>
+                                    <p>Sincerely,<br>[Your Name]</p>
+                                </div>
+                            </div>
+
+                            <!-- Academic Script -->
+                            <div id="script-academic" class="script-content hidden">
+                                <h4 class="text-xl font-serif font-bold mb-2 text-bone">Academic Divestment: Email / Letter</h4>
+                                <p class="text-[10px] text-ash uppercase tracking-widest mb-6 border-b border-[#333] pb-4">Target: University Presidents, Board of Trustees, Deans</p>
+                                <div class="bg-[#111] border border-[#222] p-6 mb-8 h-64 overflow-y-auto text-ash font-light" id="text-script-academic">
+                                    <p class="font-bold text-bone mb-4">Subject: Call for Endowment Transparency and Divestment</p>
+                                    <p class="mb-4">Dear [Title and Name],</p>
+                                    <p class="mb-4">As a [student/alumnus/faculty member], I am formally requesting full transparency regarding the university's endowment investments, specifically concerning corporations complicit in the military occupation and ongoing attacks on civilian infrastructure in Gaza.</p>
+                                    <p class="mb-4">Academic institutions have a historic and moral duty to stand against documented war crimes. I urge the Board of Trustees to commit to a comprehensive divestment strategy.</p>
+                                    <p class="mb-4">Furthermore, I request clear, documented protections for students and faculty exercising their right to protest and document these violations on campus, free from administrative retaliation.</p>
+                                    <p>Respectfully,<br>[Your Name]</p>
+                                </div>
+                            </div>
+
+                            <!-- Personal Network Script -->
+                            <div id="script-personal" class="script-content hidden">
+                                <h4 class="text-xl font-serif font-bold mb-2 text-bone">Navigating Skepticism: Talking Points</h4>
+                                <p class="text-[10px] text-ash uppercase tracking-widest mb-6 border-b border-[#333] pb-4">Target: Skeptical Family Members, Community Forums</p>
+                                <div class="bg-[#111] border border-[#222] p-6 mb-8 h-64 overflow-y-auto text-ash font-light" id="text-script-personal">
+                                    <p class="font-bold text-bone mb-4">Core Principles for the Conversation:</p>
+                                    <ul class="list-none space-y-4">
+                                        <li><strong class="text-bone">Redefine Success:</strong> "Acknowledge that completely changing someone's mind is often ambiguous. Getting them to understand your vantage point - and understanding theirs - is a more attainable baseline."</li>
+                                        <li><strong class="text-bone">Maintain Dignity:</strong> "Keep the conversation civil and treat others with baseline decency. If they refuse to return that respect, their conduct speaks louder than their argument."</li>
+                                        <li><strong class="text-bone">Anchor in Evidence:</strong> "I rely on documented evidence and international human rights consensus, not partisan media."</li>
+                                        <li><strong class="text-bone">Cite the Record:</strong> "Organizations like Amnesty International, Human Rights Watch, and the UN have extensively documented the systemic attacks on civilian infrastructure and the obstruction of aid."</li>
+                                        <li><strong class="text-bone">Reject False Neutrality:</strong> "We can disagree on political solutions, but the archival record of mass civilian casualties is verified and factual. It cannot be minimized."</li>
+                                        <li><strong class="text-bone">Focus on the Law:</strong> "This isn't just about my personal feelings; the International Court of Justice has identified a plausible risk of genocide. International law requires accountability."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Dynamic Copy Button -->
+                        <button onclick="copyActiveScript()" class="w-full bg-brand-red text-bone font-bold text-xs uppercase tracking-widest py-4 hover:bg-bone hover:text-[#0B0B0B] transition-colors flex items-center justify-center gap-3 mt-auto">
+                            <i data-lucide="copy" class="w-4 h-4"></i> Copy Script to Clipboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deploying the Archive Section -->
+            <div class="mt-24 mb-12">
+                <h3 class="text-3xl font-serif font-bold mb-6">Deploying the Archive</h3>
+                <p class="text-ash font-light mb-10 pb-10 border-b border-[#333]">When advocating online or in person, your strongest tool is verified documentation. Drop these curated, undeniable sources directly into emails, social media comments, or conversation notes to counter denialism and establish the factual record in seconds.</p>
+
+                <!-- Live Advocacy Scenarios -->
+                <div class="mb-16">
+                    <h4 class="font-serif font-bold text-2xl text-bone mb-6 flex items-center gap-3">
+                        <span class="w-4 h-4 bg-brand-red inline-block"></span> Live Advocacy Scenarios
+                    </h4>
+                    
+                    <div class="flex flex-col gap-4">
+                        <!-- Scenario 1: Politician's Post -->
+                        <div class="border border-[#333] bg-[#080808] hover:border-ash transition-colors">
+                            <button onclick="toggleScenario('scenario-1', this)" class="w-full text-left p-6 flex justify-between items-center group">
+                                <div>
+                                    <span class="text-[10px] text-brand-red uppercase tracking-widest font-bold block mb-2">Scenario 01</span>
+                                    <span class="font-serif text-xl font-bold text-bone group-hover:text-brand-red transition-colors">Commenting on a Politician's Post</span>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-ash transition-transform duration-300"></i>
+                            </button>
+                            
+                            <div id="scenario-1" class="hidden border-t border-[#333] p-6 bg-[#0F0F0F]">
+                                <div class="grid md:grid-cols-3 gap-8">
+                                    <div class="md:col-span-1 border-b md:border-b-0 md:border-r border-[#333] pb-6 md:pb-0 md:pr-6">
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">The Encountered Claim</p>
+                                        <p class="text-sm text-bone font-light mb-6 border-l-2 border-[#333] pl-3 italic">"This is a targeted operation focused strictly on combatants, utilizing precision strikes."</p>
+                                        
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">Strategic Guidance</p>
+                                        <p class="text-sm text-ash font-light mb-6">Do not engage in emotional debate. Neutralize the claim by deploying the military's own internal data. Keep the tone factual, public, and undeniable.</p>
+
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">Citation to Deploy</p>
+                                        <div class="border border-[#333] p-4 bg-[#111]" id="cite-1">
+                                            <p class="text-xs text-bone font-serif leading-tight mb-2">Revealed: Israeli military’s own data indicates civilian death rate of 83% in Gaza war. (The Guardian)</p>
+                                            <p class="text-[10px] text-brand-red break-all">https://www.theguardian.com/world/ng-interactive/2025/aug/21/revealed-israeli-militarys-own-data-indicates-civilian-death-rate-of-83-in-gaza-war</p>
+                                        </div>
+                                        <button onclick="copySpecificText('cite-1')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">
+                                            <i data-lucide="copy" class="w-3 h-3"></i> Copy Citation
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="md:col-span-2 flex flex-col justify-center">
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-4">Example Responses</p>
+                                        
+                                        <div class="mb-6">
+                                            <span class="text-[10px] font-bold text-bone uppercase tracking-widest mb-2 block border-b border-[#333] pb-2">Social Media Comment</span>
+                                            <div id="resp-1-social" class="text-sm text-ash font-light p-4 bg-[#111] border border-[#222]">
+                                                You claim this is a targeted operation, but the Israeli military’s own data reveals an 83% civilian death rate. This is a documented war against non-combatants. The factual record contradicts your statement. https://www.theguardian.com/world/ng-interactive/2025/aug/21/revealed-israeli-militarys-own-data-indicates-civilian-death-rate-of-83-in-gaza-war
+                                            </div>
+                                            <button onclick="copySpecificText('resp-1-social')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-bone hover:text-brand-red transition-colors flex items-center gap-2">
+                                                <i data-lucide="copy" class="w-3 h-3"></i> Copy Full Response
+                                            </button>
+                                        </div>
+
+                                        <div>
+                                            <span class="text-[10px] font-bold text-bone uppercase tracking-widest mb-2 block border-b border-[#333] pb-2">Short Email Template</span>
+                                            <div id="resp-1-email" class="text-sm text-ash font-light p-4 bg-[#111] border border-[#222]">
+                                                Dear [Name], your recent statement ignores the factual record. According to independent analysis of the Israeli military's own data, the civilian death rate is 83%. We demand you acknowledge this reality and call for an arms embargo immediately. Source: https://www.theguardian.com/world/ng-interactive/2025/aug/21/revealed-israeli-militarys-own-data-indicates-civilian-death-rate-of-83-in-gaza-war
+                                            </div>
+                                            <button onclick="copySpecificText('resp-1-email')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-bone hover:text-brand-red transition-colors flex items-center gap-2">
+                                                <i data-lucide="copy" class="w-3 h-3"></i> Copy Full Response
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scenario 2: Calling a Representative -->
+                        <div class="border border-[#333] bg-[#080808] hover:border-ash transition-colors">
+                            <button onclick="toggleScenario('scenario-2', this)" class="w-full text-left p-6 flex justify-between items-center group">
+                                <div>
+                                    <span class="text-[10px] text-brand-red uppercase tracking-widest font-bold block mb-2">Scenario 02</span>
+                                    <span class="font-serif text-xl font-bold text-bone group-hover:text-brand-red transition-colors">Calling an Elected Official</span>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-ash transition-transform duration-300"></i>
+                            </button>
+                            
+                            <div id="scenario-2" class="hidden border-t border-[#333] p-6 bg-[#0F0F0F]">
+                                <div class="grid md:grid-cols-3 gap-8">
+                                    <div class="md:col-span-1 border-b md:border-b-0 md:border-r border-[#333] pb-6 md:pb-0 md:pr-6">
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">The Encountered Claim</p>
+                                        <p class="text-sm text-bone font-light mb-6 border-l-2 border-[#333] pl-3 italic">"Israel is abiding by the ceasefire agreement and de-escalating."</p>
+                                        
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">Strategic Guidance</p>
+                                        <p class="text-sm text-ash font-light mb-6">Staffers are trained to deflect. Cut through the talking points by citing immediate, verified reports of ongoing casualties post-ceasefire. Demand immediate public condemnation.</p>
+
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">Citation to Deploy</p>
+                                        <div class="border border-[#333] p-4 bg-[#111]" id="cite-2">
+                                            <p class="text-xs text-bone font-serif leading-tight mb-2">Officials say 260 Palestinians killed since ceasefire, overall toll nears 70,000. (Middle East Eye)</p>
+                                            <p class="text-[10px] text-brand-red break-all">https://www.middleeasteye.net/live-blog/live-blog-update/officials-say-260-palestinians-killed-ceasefire-overall-toll-nears-70000</p>
+                                        </div>
+                                        <button onclick="copySpecificText('cite-2')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">
+                                            <i data-lucide="copy" class="w-3 h-3"></i> Copy Citation
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="md:col-span-2 flex flex-col justify-center">
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-4">Example Responses</p>
+                                        
+                                        <div>
+                                            <span class="text-[10px] font-bold text-bone uppercase tracking-widest mb-2 block border-b border-[#333] pb-2">Phone Script / Voicemail</span>
+                                            <div id="resp-2-phone" class="text-sm text-ash font-light p-4 bg-[#111] border border-[#222]">
+                                                Hi, my name is [Name] and I am a constituent. My representative recently claimed the ceasefire is holding. I am calling to correct the historical record. Verified reports confirm over 260 Palestinians have been killed since the ceasefire began. I expect [Official's Name] to publicly condemn these ongoing violations and demand enforcement of the agreement immediately.
+                                            </div>
+                                            <button onclick="copySpecificText('resp-2-phone')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-bone hover:text-brand-red transition-colors flex items-center gap-2">
+                                                <i data-lucide="copy" class="w-3 h-3"></i> Copy Full Response
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scenario 3: Town Hall -->
+                        <div class="border border-[#333] bg-[#080808] hover:border-ash transition-colors">
+                            <button onclick="toggleScenario('scenario-3', this)" class="w-full text-left p-6 flex justify-between items-center group">
+                                <div>
+                                    <span class="text-[10px] text-brand-red uppercase tracking-widest font-bold block mb-2">Scenario 03</span>
+                                    <span class="font-serif text-xl font-bold text-bone group-hover:text-brand-red transition-colors">Speaking at a Public Town Hall</span>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-ash transition-transform duration-300"></i>
+                            </button>
+                            
+                            <div id="scenario-3" class="hidden border-t border-[#333] p-6 bg-[#0F0F0F]">
+                                <div class="grid md:grid-cols-3 gap-8">
+                                    <div class="md:col-span-1 border-b md:border-b-0 md:border-r border-[#333] pb-6 md:pb-0 md:pr-6">
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">The Encountered Claim</p>
+                                        <p class="text-sm text-bone font-light mb-6 border-l-2 border-[#333] pl-3 italic">"We cannot trust the casualty numbers; they are unverified or inflated by Hamas."</p>
+                                        
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">Strategic Guidance</p>
+                                        <p class="text-sm text-ash font-light mb-6">This is a tactic to minimize suffering. Circumvent the debate entirely by citing the occupying force's own intelligence accepting the numbers as accurate.</p>
+
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">Citation to Deploy</p>
+                                        <div class="border border-[#333] p-4 bg-[#111]" id="cite-3">
+                                            <p class="text-xs text-bone font-serif leading-tight mb-2">IDF Accepts Gaza Health Ministry Estimate of Over 70,000 Palestinians Killed During the War. (Haaretz)</p>
+                                            <p class="text-[10px] text-brand-red break-all">https://www.haaretz.com/israel-news/2026-01-29/ty-article/.premium/idf-accepts-gaza-health-ministry-estimate-of-over-70-000-palestinians-killed-in-the-war/0000019c-0918-dec4-adfd-fd5dde830000</p>
+                                        </div>
+                                        <button onclick="copySpecificText('cite-3')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">
+                                            <i data-lucide="copy" class="w-3 h-3"></i> Copy Citation
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="md:col-span-2 flex flex-col justify-center">
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-4">Example Responses</p>
+                                        
+                                        <div>
+                                            <span class="text-[10px] font-bold text-bone uppercase tracking-widest mb-2 block border-b border-[#333] pb-2">Public Comment / Speaking Notes</span>
+                                            <div id="resp-3-speech" class="text-sm text-ash font-light p-4 bg-[#111] border border-[#222]">
+                                                When we discuss the death toll today, we are not dealing in estimates or disputed figures. The IDF itself has accepted the Health Ministry's estimate of over 70,000 Palestinians killed, as reported by Haaretz. The debate over numbers is a deliberate distraction from the reality of the slaughter. My question is: now that the occupying force has admitted the scale of this genocide, what concrete actions is this council taking to address it?
+                                            </div>
+                                            <button onclick="copySpecificText('resp-3-speech')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-bone hover:text-brand-red transition-colors flex items-center gap-2">
+                                                <i data-lucide="copy" class="w-3 h-3"></i> Copy Full Response
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scenario 4: Workplace/Academic False Neutrality -->
+                        <div class="border border-[#333] bg-[#080808] hover:border-ash transition-colors">
+                            <button onclick="toggleScenario('scenario-4', this)" class="w-full text-left p-6 flex justify-between items-center group">
+                                <div>
+                                    <span class="text-[10px] text-brand-red uppercase tracking-widest font-bold block mb-2">Scenario 04</span>
+                                    <span class="font-serif text-xl font-bold text-bone group-hover:text-brand-red transition-colors">Challenging Institutional "Neutrality"</span>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-ash transition-transform duration-300"></i>
+                            </button>
+                            
+                            <div id="scenario-4" class="hidden border-t border-[#333] p-6 bg-[#0F0F0F]">
+                                <div class="grid md:grid-cols-3 gap-8">
+                                    <div class="md:col-span-1 border-b md:border-b-0 md:border-r border-[#333] pb-6 md:pb-0 md:pr-6">
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">The Encountered Claim</p>
+                                        <p class="text-sm text-bone font-light mb-6 border-l-2 border-[#333] pl-3 italic">"As an institution, we must remain strictly neutral and avoid taking sides in a complex geopolitical conflict."</p>
+                                        
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">Strategic Guidance</p>
+                                        <p class="text-sm text-ash font-light mb-6">Pivot from "political conflict" to "humanitarian consensus." Emphasize that neutrality in the face of systemic harm to protected groups (like children) violates basic institutional ethics.</p>
+
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">Citation to Deploy</p>
+                                        <div class="border border-[#333] p-4 bg-[#111]" id="cite-4">
+                                            <p class="text-xs text-bone font-serif leading-tight mb-2">Save the Children: Israel Has Killed on Average a Child Every Hour for Past 23 Months.</p>
+                                            <p class="text-[10px] text-brand-red break-all">https://www.savethechildren.net/news/gaza-20000-children-killed-23-months-war-more-one-child-killed-every-hour</p>
+                                        </div>
+                                        <button onclick="copySpecificText('cite-4')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">
+                                            <i data-lucide="copy" class="w-3 h-3"></i> Copy Citation
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="md:col-span-2 flex flex-col justify-center">
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-4">Example Responses</p>
+                                        
+                                        <div class="mb-6">
+                                            <span class="text-[10px] font-bold text-bone uppercase tracking-widest mb-2 block border-b border-[#333] pb-2">Meeting Notes / Verbal Pivot</span>
+                                            <div id="resp-4-verbal" class="text-sm text-ash font-light p-4 bg-[#111] border border-[#222]">
+                                                This isn't about taking a political side; it's about basic human rights. According to Save the Children, a child has been killed every hour for the past 23 months. Our institution's commitment to ethics and human rights cannot be suspended just because applying those principles has become politically uncomfortable.
+                                            </div>
+                                            <button onclick="copySpecificText('resp-4-verbal')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-bone hover:text-brand-red transition-colors flex items-center gap-2">
+                                                <i data-lucide="copy" class="w-3 h-3"></i> Copy Full Response
+                                            </button>
+                                        </div>
+                                        
+                                        <div>
+                                            <span class="text-[10px] font-bold text-bone uppercase tracking-widest mb-2 block border-b border-[#333] pb-2">Follow-up Email Template</span>
+                                            <div id="resp-4-email" class="text-sm text-ash font-light p-4 bg-[#111] border border-[#222]">
+                                                Following our discussion on institutional neutrality, I urge leadership to review the documented reality on the ground. When organizations like Save the Children report the unprecedented killing of youth at this scale, neutrality reads as complicity. Please see the attached documentation.
+                                            </div>
+                                            <button onclick="copySpecificText('resp-4-email')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-bone hover:text-brand-red transition-colors flex items-center gap-2">
+                                                <i data-lucide="copy" class="w-3 h-3"></i> Copy Full Response
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scenario 5: Media / Journalistic Framing -->
+                        <div class="border border-[#333] bg-[#080808] hover:border-ash transition-colors">
+                            <button onclick="toggleScenario('scenario-5', this)" class="w-full text-left p-6 flex justify-between items-center group">
+                                <div>
+                                    <span class="text-[10px] text-brand-red uppercase tracking-widest font-bold block mb-2">Scenario 05</span>
+                                    <span class="font-serif text-xl font-bold text-bone group-hover:text-brand-red transition-colors">Addressing Passive Media Framing</span>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-ash transition-transform duration-300"></i>
+                            </button>
+                            
+                            <div id="scenario-5" class="hidden border-t border-[#333] p-6 bg-[#0F0F0F]">
+                                <div class="grid md:grid-cols-3 gap-8">
+                                    <div class="md:col-span-1 border-b md:border-b-0 md:border-r border-[#333] pb-6 md:pb-0 md:pr-6">
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">The Encountered Claim</p>
+                                        <p class="text-sm text-bone font-light mb-6 border-l-2 border-[#333] pl-3 italic">"The growing humanitarian crisis and starvation are unfortunate byproducts of urban warfare."</p>
+                                        
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">Strategic Guidance</p>
+                                        <p class="text-sm text-ash font-light mb-6">Challenge the passive voice. Starvation is not a byproduct; it is a policy. Use logistical facts regarding aid blockage to prove deliberate intent.</p>
+
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">Citation to Deploy</p>
+                                        <div class="border border-[#333] p-4 bg-[#111]" id="cite-5">
+                                            <p class="text-xs text-bone font-serif leading-tight mb-2">Israel allows only 1/3 of aid trucks into Gaza under ceasefire deal, authorities say. (Middle East Monitor)</p>
+                                            <p class="text-[10px] text-brand-red break-all">https://www.middleeastmonitor.com/20251124-israel-allows-only-1-3-of-aid-trucks-into-gaza-under-ceasefire-deal-authorities-say/</p>
+                                        </div>
+                                        <button onclick="copySpecificText('cite-5')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">
+                                            <i data-lucide="copy" class="w-3 h-3"></i> Copy Citation
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="md:col-span-2 flex flex-col justify-center">
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-4">Example Responses</p>
+                                        
+                                        <div>
+                                            <span class="text-[10px] font-bold text-bone uppercase tracking-widest mb-2 block border-b border-[#333] pb-2">Letter to the Editor / Comment</span>
+                                            <div id="resp-5-letter" class="text-sm text-ash font-light p-4 bg-[#111] border border-[#222]">
+                                                Describing the starvation in Gaza as an 'unfortunate byproduct' ignores the factual record of deliberate obstruction. Authorities confirm that Israel is allowing only one-third of agreed-upon aid trucks to enter, even under ceasefire conditions. This is not an accident of urban warfare; it is a systematic policy of deprivation. The media must report on this intentionally engineered blockade accurately.
+                                            </div>
+                                            <button onclick="copySpecificText('resp-5-letter')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-bone hover:text-brand-red transition-colors flex items-center gap-2">
+                                                <i data-lucide="copy" class="w-3 h-3"></i> Copy Full Response
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scenario 6: The "Self-Defense" Argument -->
+                        <div class="border border-[#333] bg-[#080808] hover:border-ash transition-colors">
+                            <button onclick="toggleScenario('scenario-6', this)" class="w-full text-left p-6 flex justify-between items-center group">
+                                <div>
+                                    <span class="text-[10px] text-brand-red uppercase tracking-widest font-bold block mb-2">Scenario 06</span>
+                                    <span class="font-serif text-xl font-bold text-bone group-hover:text-brand-red transition-colors">Countering "Standard Self-Defense" Justifications</span>
+                                </div>
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-ash transition-transform duration-300"></i>
+                            </button>
+                            
+                            <div id="scenario-6" class="hidden border-t border-[#333] p-6 bg-[#0F0F0F]">
+                                <div class="grid md:grid-cols-3 gap-8">
+                                    <div class="md:col-span-1 border-b md:border-b-0 md:border-r border-[#333] pb-6 md:pb-0 md:pr-6">
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">The Encountered Claim</p>
+                                        <p class="text-sm text-bone font-light mb-6 border-l-2 border-[#333] pl-3 italic">"All actions taken are standard self-defense protocols against militants."</p>
+                                        
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">Strategic Guidance</p>
+                                        <p class="text-sm text-ash font-light mb-6">Counter broad "self-defense" claims with specific, verified accounts of the deliberate targeting of strictly protected individuals, such as young children and medical personnel.</p>
+
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-2">Citation to Deploy</p>
+                                        <div class="border border-[#333] p-4 bg-[#111]" id="cite-6">
+                                            <p class="text-xs text-bone font-serif leading-tight mb-2">‘Not a normal war’: doctors say children have been targeted by Israeli snipers in Gaza. (The Guardian)</p>
+                                            <p class="text-[10px] text-brand-red break-all">https://www.theguardian.com/world/2024/apr/02/gaza-palestinian-children-killed-idf-israel-war</p>
+                                        </div>
+                                        <button onclick="copySpecificText('cite-6')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">
+                                            <i data-lucide="copy" class="w-3 h-3"></i> Copy Citation
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="md:col-span-2 flex flex-col justify-center">
+                                        <p class="text-[10px] text-ash uppercase tracking-widest font-bold mb-4">Example Responses</p>
+                                        
+                                        <div>
+                                            <span class="text-[10px] font-bold text-bone uppercase tracking-widest mb-2 block border-b border-[#333] pb-2">Forum Post / Digital Reply</span>
+                                            <div id="resp-6-forum" class="text-sm text-ash font-light p-4 bg-[#111] border border-[#222]">
+                                                Standard self-defense protocols do not include the deliberate targeting of youth. International medical volunteers and doctors on the ground have reported children arriving at hospitals with targeted sniper wounds. This is a documented war crime against non-combatants, not an act of self-defense. The record speaks for itself.
+                                            </div>
+                                            <button onclick="copySpecificText('resp-6-forum')" class="mt-3 text-[10px] font-bold uppercase tracking-widest text-bone hover:text-brand-red transition-colors flex items-center gap-2">
+                                                <i data-lucide="copy" class="w-3 h-3"></i> Copy Full Response
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Call Script -->
-                <div class="border border-brand-red p-8 bg-[#080808] relative">
-                    <h3 class="text-2xl font-serif font-bold mb-2 text-bone">Call Your Official: Script</h3>
-                    <p class="text-xs text-ash uppercase tracking-widest mb-8">Phoning is a powerful way to demand accountability. You'll likely just speak to a staffer or leave a voicemail.</p>
-                    
-                    <div class="bg-[#111] border border-[#222] p-6 mb-8 h-64 overflow-y-auto text-ash font-light" id="mp-script">
-                        <p class="font-bold text-bone mb-4">Hello, my name is [Your Name] and I'm a local constituent.</p>
-                        <ul class="list-none space-y-4">
-                            <li><strong class="text-bone">Enforce the Ceasefire:</strong> I am calling to demand that our government hold Israel accountable for its daily, documented violations of the current ceasefire agreement.</li>
-                            <li><strong class="text-bone">Ensure Aid:</strong> I urge [Official's Name] to demand the immediate and unhindered delivery of humanitarian aid, which continues to be obstructed.</li>
-                            <li><strong class="text-bone">End Arms Transfers:</strong> Our government must suspend all arms transfers and military cooperation until there is full compliance with international law and the ceasefire.</li>
-                            <li><strong class="text-bone">Support Accountability:</strong> Our government must back efforts at the UN and international courts to impose targeted sanctions on those responsible for ongoing war crimes.</li>
-                            <li><strong class="text-bone">Uphold Law:</strong> We must push for Israel to follow all ICJ orders to prevent genocide and protect civilians.</li>
-                        </ul>
+                <h4 class="font-serif font-bold text-2xl text-bone mb-6 flex items-center gap-3">
+                    <span class="w-4 h-4 bg-[#333] inline-block"></span> Raw Evidence Repository
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Article 1 -->
+                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                        <div class="flex items-center gap-3 border-b border-[#333] pb-3">
+                            <span class="w-3 h-3 bg-brand-red inline-block"></span>
+                            <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Countering casualty denialism</span></span>
+                        </div>
+                        <a href="https://www.haaretz.com/israel-news/2026-01-29/ty-article/.premium/idf-accepts-gaza-health-ministry-estimate-of-over-70-000-palestinians-killed-in-the-war/0000019c-0918-dec4-adfd-fd5dde830000" target="_blank" class="font-serif text-lg font-bold text-bone hover:text-brand-red transition-colors leading-snug">
+                            "IDF Accepts Gaza Health Ministry Estimate of Over 70,000 Palestinians Killed During the War"
+                        </a>
+                        <div class="flex justify-between items-center mt-auto pt-4">
+                            <span class="text-[10px] text-ash uppercase tracking-widest">Haaretz</span>
+                            <a href="https://www.haaretz.com/israel-news/2026-01-29/ty-article/.premium/idf-accepts-gaza-health-ministry-estimate-of-over-70-000-palestinians-killed-in-the-war/0000019c-0918-dec4-adfd-fd5dde830000" target="_blank" class="text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">Copy Evidence <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                        </div>
                     </div>
-                    
-                    <button onclick="copyScript()" class="w-full bg-brand-red text-bone font-bold text-xs uppercase tracking-widest py-4 hover:bg-bone hover:text-[#0B0B0B] transition-colors flex items-center justify-center gap-3">
-                        <i data-lucide="copy" class="w-4 h-4"></i> Copy Script to Clipboard
-                    </button>
+
+                    <!-- Article 2 -->
+                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                        <div class="flex items-center gap-3 border-b border-[#333] pb-3">
+                            <span class="w-3 h-3 bg-brand-red inline-block"></span>
+                            <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Exposing ceasefire violations</span></span>
+                        </div>
+                        <a href="https://www.middleeasteye.net/live-blog/live-blog-update/officials-say-260-palestinians-killed-ceasefire-overall-toll-nears-70000" target="_blank" class="font-serif text-lg font-bold text-bone hover:text-brand-red transition-colors leading-snug">
+                            "Officials say 260 Palestinians killed since ceasefire, overall toll nears 70,000"
+                        </a>
+                        <div class="flex justify-between items-center mt-auto pt-4">
+                            <span class="text-[10px] text-ash uppercase tracking-widest">Middle East Eye</span>
+                            <a href="https://www.middleeasteye.net/live-blog/live-blog-update/officials-say-260-palestinians-killed-ceasefire-overall-toll-nears-70000" target="_blank" class="text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">Copy Evidence <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Article 3 -->
+                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                        <div class="flex items-center gap-3 border-b border-[#333] pb-3">
+                            <span class="w-3 h-3 bg-brand-red inline-block"></span>
+                            <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Addressing true scale of destruction</span></span>
+                        </div>
+                        <a href="https://www.theguardian.com/world/2025/sep/12/israeli-ex-commander-confirms-palestinian-casualties-are-more-than-200000" target="_blank" class="font-serif text-lg font-bold text-bone hover:text-brand-red transition-colors leading-snug">
+                            "‘We took the gloves off’: ex-IDF chief confirms Gaza casualties over 200,000"
+                        </a>
+                        <div class="flex justify-between items-center mt-auto pt-4">
+                            <span class="text-[10px] text-ash uppercase tracking-widest">The Guardian</span>
+                            <a href="https://www.theguardian.com/world/2025/sep/12/israeli-ex-commander-confirms-palestinian-casualties-are-more-than-200000" target="_blank" class="text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">Copy Evidence <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Article 4 -->
+                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                        <div class="flex items-center gap-3 border-b border-[#333] pb-3">
+                            <span class="w-3 h-3 bg-brand-red inline-block"></span>
+                            <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Disproving precise targeting claims</span></span>
+                        </div>
+                        <a href="https://www.theguardian.com/world/ng-interactive/2025/aug/21/revealed-israeli-militarys-own-data-indicates-civilian-death-rate-of-83-in-gaza-war" target="_blank" class="font-serif text-lg font-bold text-bone hover:text-brand-red transition-colors leading-snug">
+                            "Revealed: Israeli military’s own data indicates civilian death rate of 83% in Gaza war."
+                        </a>
+                        <div class="flex justify-between items-center mt-auto pt-4">
+                            <span class="text-[10px] text-ash uppercase tracking-widest">The Guardian</span>
+                            <a href="https://www.theguardian.com/world/ng-interactive/2025/aug/21/revealed-israeli-militarys-own-data-indicates-civilian-death-rate-of-83-in-gaza-war" target="_blank" class="text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">Copy Evidence <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Article 5 -->
+                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                        <div class="flex items-center gap-3 border-b border-[#333] pb-3">
+                            <span class="w-3 h-3 bg-brand-red inline-block"></span>
+                            <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Highlighting systemic impact on youth</span></span>
+                        </div>
+                        <a href="https://www.savethechildren.net/news/gaza-20000-children-killed-23-months-war-more-one-child-killed-every-hour" target="_blank" class="font-serif text-lg font-bold text-bone hover:text-brand-red transition-colors leading-snug">
+                            "Save the Children: Israel Has Killed on Average a Child Every Hour for Past 23 Months."
+                        </a>
+                        <div class="flex justify-between items-center mt-auto pt-4">
+                            <span class="text-[10px] text-ash uppercase tracking-widest">Save The Children</span>
+                            <a href="https://www.savethechildren.net/news/gaza-20000-children-killed-23-months-war-more-one-child-killed-every-hour" target="_blank" class="text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">Copy Evidence <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Article 6 -->
+                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                        <div class="flex items-center gap-3 border-b border-[#333] pb-3">
+                            <span class="w-3 h-3 bg-brand-red inline-block"></span>
+                            <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Proving deliberate non-combatant targeting</span></span>
+                        </div>
+                        <a href="https://www.theguardian.com/world/2024/apr/02/gaza-palestinian-children-killed-idf-israel-war" target="_blank" class="font-serif text-lg font-bold text-bone hover:text-brand-red transition-colors leading-snug">
+                            "‘Not a normal war’: doctors say children have been targeted by Israeli snipers in Gaza"
+                        </a>
+                        <div class="flex justify-between items-center mt-auto pt-4">
+                            <span class="text-[10px] text-ash uppercase tracking-widest">The Guardian</span>
+                            <a href="https://www.theguardian.com/world/2024/apr/02/gaza-palestinian-children-killed-idf-israel-war" target="_blank" class="text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">Copy Evidence <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Article 7 -->
+                    <div class="border border-[#222] bg-[#0F0F0F] p-6 flex flex-col gap-4 hover:border-ash transition-colors">
+                        <div class="flex items-center gap-3 border-b border-[#333] pb-3">
+                            <span class="w-3 h-3 bg-brand-red inline-block"></span>
+                            <span class="text-[10px] text-ash uppercase tracking-widest font-bold">Use Case: <span class="text-bone">Proving systematic aid obstruction</span></span>
+                        </div>
+                        <a href="https://www.middleeastmonitor.com/20251124-israel-allows-only-1-3-of-aid-trucks-into-gaza-under-ceasefire-deal-authorities-say/" target="_blank" class="font-serif text-lg font-bold text-bone hover:text-brand-red transition-colors leading-snug">
+                            "Israel allows only 1/3 of aid trucks into Gaza under ceasefire deal, authorities say"
+                        </a>
+                        <div class="flex justify-between items-center mt-auto pt-4">
+                            <span class="text-[10px] text-ash uppercase tracking-widest">Middle East Monitor</span>
+                            <a href="https://www.middleeastmonitor.com/20251124-israel-allows-only-1-3-of-aid-trucks-into-gaza-under-ceasefire-deal-authorities-say/" target="_blank" class="text-[10px] font-bold uppercase tracking-widest text-brand-red hover:text-bone transition-colors flex items-center gap-2">Copy Evidence <i data-lucide="external-link" class="w-3 h-3"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -499,14 +929,14 @@
     <footer id="footer" class="bg-black border-t border-white/5 pt-12 pb-10">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-12">
             <div class="md:w-1/3 space-y-6">
-                <div class="flex flex-col items-start opacity-70">
-                    <span class="text-xs font-serif text-white tracking-[0.2em] uppercase">Echoes of Gaza</span>
+                <div class="flex flex-col items-start opacity-70 hover:opacity-100 transition-opacity">
+                    <a href="https://echoesofgaza.org" class="text-xs font-serif text-white tracking-[0.2em] uppercase">Echoes of Gaza</a>
                 </div>
                 <p class="text-gray-600 text-xs leading-relaxed">Preserving truth, resisting erasure.</p>
                 <div id="google_translate_element"></div>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 md:w-2/3">
-                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Archive</h4><ul class="space-y-3 text-xs text-gray-500"><li><a href="#articles" class="hover:text-white transition">Articles</a></li><li><a href="#victims" class="hover:text-white transition">Martyrs</a></li></ul></div>
+                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Archive</h4><ul class="space-y-3 text-xs text-gray-500"><li><a href="https://echoesofgaza.org" class="hover:text-white transition">Articles</a></li><li><a href="#victims" class="hover:text-white transition">Martyrs</a></li></ul></div>
                 <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Resources</h4><ul class="space-y-3 text-xs text-gray-500"><li><a href="#quotes" class="hover:text-white transition">Quotes</a></li><li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" class="hover:text-white transition">Raw Data</a></li></ul></div>
                 <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Support</h4><div class="flex flex-col space-y-3"><a href="https://buymeacoffee.com/echoesofgaza" target="_blank" class="text-xs text-gray-500 hover:text-white transition">Donate</a><a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" class="text-xs text-[#8B0000] hover:text-red-400 transition">Monthly Support</a></div></div>
             </div>
@@ -522,14 +952,99 @@
         // Initialize Lucide Icons
         lucide.createIcons();
 
-        // Copy to clipboard function with custom toast
-        function copyScript() {
-            const textToCopy = document.getElementById('mp-script').innerText;
+        // Toolkit Mobile Menu Logic
+        const toolkitMenuBtn = document.getElementById('mobile-toolkit-menu-btn');
+        const toolkitMenu = document.getElementById('mobile-toolkit-menu');
+        const toolkitChevron = document.getElementById('toolkit-chevron');
+
+        if (toolkitMenuBtn && toolkitMenu) {
+            toolkitMenuBtn.addEventListener('click', () => {
+                toolkitMenu.classList.toggle('hidden');
+                toolkitMenu.classList.toggle('flex');
+                if (toolkitChevron) {
+                    toolkitChevron.classList.toggle('rotate-180');
+                }
+            });
+
+            // Close mobile toolkit menu on link click
+            const toolkitLinks = toolkitMenu.querySelectorAll('a');
+            toolkitLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    toolkitMenu.classList.add('hidden');
+                    toolkitMenu.classList.remove('flex');
+                    if (toolkitChevron) toolkitChevron.classList.remove('rotate-180');
+                });
+            });
+        }
+
+        // Tab Switching Logic
+        function switchScript(targetId, tabElement) {
+            // Hide all scripts
+            const contents = document.querySelectorAll('.script-content');
+            contents.forEach(content => {
+                content.classList.remove('block');
+                content.classList.add('hidden');
+            });
+
+            // Remove active state from all tabs
+            const tabs = document.querySelectorAll('.script-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active', 'bg-bone', 'text-[#0B0B0B]');
+                tab.classList.add('text-ash', 'hover:text-bone', 'hover:bg-[#111]');
+            });
+
+            // Show target script
+            document.getElementById(targetId).classList.remove('hidden');
+            document.getElementById(targetId).classList.add('block');
+
+            // Set active state on clicked tab
+            tabElement.classList.add('active', 'bg-bone', 'text-[#0B0B0B]');
+            tabElement.classList.remove('text-ash', 'hover:text-bone', 'hover:bg-[#111]');
+        }
+
+        // Scenario Accordion Logic
+        function toggleScenario(id, btn) {
+            const content = document.getElementById(id);
+            // Lucide replaces <i> tags with <svg> tags, so we query for 'svg' instead of 'i'
+            const icon = btn.querySelector('svg'); 
             
-            // Fallback for document.execCommand
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                if (icon) icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                if (icon) icon.classList.remove('rotate-180');
+            }
+        }
+
+        // Generic Text Copy Function for specific IDs
+        function copySpecificText(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
             const textArea = document.createElement("textarea");
             textArea.value = textToCopy;
-            // Prevent scrolling to bottom of page in MS Edge.
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+                showToast();
+            } catch (err) {
+                console.error('Unable to copy', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Dynamic Copy to Clipboard for main script library
+        function copyActiveScript() {
+            const activeContent = document.querySelector('.script-content.block');
+            const textContainer = activeContent.querySelector('[id^="text-"]');
+            
+            const textToCopy = textContainer.innerText;
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
             textArea.style.position = "fixed";
             document.body.appendChild(textArea);
             textArea.focus();
@@ -547,10 +1062,12 @@
         // Show toast notification
         function showToast() {
             const toast = document.getElementById("toast");
-            toast.className = "toast show";
-            setTimeout(function(){ 
-                toast.className = toast.className.replace("show", ""); 
-            }, 3000);
+            if (toast) {
+                toast.className = "toast show";
+                setTimeout(function(){ 
+                    toast.className = toast.className.replace("show", ""); 
+                }, 3000);
+            }
         }
     </script>
 </body>
