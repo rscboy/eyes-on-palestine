@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoes of Gaza - Content Calendar</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts for Professional Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for textareas */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: #f5f5f4; 
+            border-radius: 4px;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background: #d6d3d1; 
+            border-radius: 4px;
+        }
+        textarea::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e; 
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-[#FDFBF7] font-sans text-stone-900 selection:bg-emerald-100 selection:text-emerald-900 pb-16">
+
+    <!-- Elegant Top Navigation -->
+    <nav class="bg-white border-b border-stone-200 sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-4">
+                    <img src="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" alt="Echoes of Gaza Logo" class="h-12 w-auto object-contain rounded-sm">
+                    <div>
+                        <h1 class="font-serif text-2xl font-semibold tracking-tight text-stone-900">
+                            Echoes of Gaza
+                        </h1>
+                        <p class="text-xs font-medium tracking-widest text-emerald-800 uppercase mt-0.5">
+                            Content Calendar
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <button onclick="openModal()" class="bg-emerald-900 hover:bg-emerald-800 text-white px-5 py-2.5 rounded text-sm font-medium transition-colors flex items-center shadow-sm">
+                        <i data-lucide="plus" class="h-4 w-4 mr-2"></i>
+                        Schedule Post
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Refined Workspace Banner -->
+        <div class="mb-8 bg-stone-100/50 border border-stone-200 rounded-lg p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm">
+            <div class="flex items-center text-stone-700">
+                <i data-lucide="lock" class="h-4 w-4 mr-2.5 text-stone-400 flex-shrink-0"></i>
+                <p>
+                    <span class="font-semibold text-stone-900">Internal Workspace:</span> This scheduling data is confidential. 
+                    <span class="hidden md:inline">Click any date to add a new entry, or select an existing post to edit.</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Calendar Controls -->
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-8">
+            <h2 id="month-year-display" class="font-serif text-3xl font-medium text-stone-900 mb-4 sm:mb-0">
+                <!-- Rendered via JS -->
+            </h2>
+            <div class="flex items-center space-x-1 bg-white p-1 rounded-md border border-stone-200 shadow-sm">
+                <button onclick="changeMonth(-1)" class="p-1.5 rounded hover:bg-stone-100 text-stone-600 transition-colors" aria-label="Previous month">
+                    <i data-lucide="chevron-left" class="h-5 w-5"></i>
+                </button>
+                <button onclick="goToToday()" class="px-4 py-1.5 rounded hover:bg-stone-100 text-stone-800 font-medium text-sm transition-colors">
+                    Today
+                </button>
+                <button onclick="changeMonth(1)" class="p-1.5 rounded hover:bg-stone-100 text-stone-600 transition-colors" aria-label="Next month">
+                    <i data-lucide="chevron-right" class="h-5 w-5"></i>
+                </button>
+                <div class="w-px h-5 bg-stone-200 mx-1"></div>
+                <button onclick="loadData()" class="p-1.5 rounded hover:bg-stone-100 text-stone-600 transition-colors" aria-label="Refresh Data" title="Sync latest posts">
+                    <i data-lucide="refresh-cw" id="refresh-icon" class="h-4 w-4"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="bg-white shadow-sm border border-stone-200 rounded-lg overflow-hidden">
+            <!-- Days of week header -->
+            <div id="days-header" class="grid grid-cols-7 border-b border-stone-200 bg-stone-50">
+                <!-- Rendered via JS -->
+            </div>
+
+            <!-- Days grid -->
+            <div id="calendar-grid" class="grid grid-cols-7 auto-rows-[minmax(130px,_auto)]">
+                <!-- Rendered via JS -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Modal (Hidden by default) -->
+    <div id="post-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center overflow-y-auto overflow-x-hidden bg-stone-900/40 backdrop-blur-sm p-4">
+        <div class="relative w-full max-w-xl bg-white rounded-xl shadow-2xl overflow-hidden">
+            
+            <!-- Modal Header -->
+            <div class="px-7 py-6 border-b border-stone-100 bg-white flex justify-between items-start">
+                <div>
+                    <h3 id="modal-title" class="font-serif text-2xl font-medium text-stone-900">
+                        Schedule New Post
+                    </h3>
+                    <p id="modal-subtitle" class="text-sm text-stone-500 mt-1">
+                        Add a new entry to the content calendar.
+                    </p>
+                </div>
+                <button onclick="closeModal()" class="p-2 rounded-full text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors">
+                    <i data-lucide="x" class="h-5 w-5"></i>
+                </button>
+            </div>
+
+            <!-- Form -->
+            <form id="post-form" class="p-7 space-y-6">
+                <input type="hidden" id="post-id">
+                
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Post Title <span class="text-emerald-700">*</span>
+                    </label>
+                    <input type="text" id="post-title" required class="w-full px-4 py-2.5 bg-white border border-stone-300 rounded-md focus:ring-1 focus:ring-emerald-800 focus:border-emerald-800 outline-none transition-all text-stone-900 placeholder-stone-400" placeholder="e.g., Weekly Update Video">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-stone-700 mb-2">
+                            Scheduled Date <span class="text-emerald-700">*</span>
+                        </label>
+                        <div class="relative">
+                            <i data-lucide="calendar" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400"></i>
+                            <input type="date" id="post-date" required class="w-full pl-10 pr-4 py-2.5 bg-white border border-stone-300 rounded-md focus:ring-1 focus:ring-emerald-800 focus:border-emerald-800 outline-none transition-all text-stone-900">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-stone-700 mb-2">
+                            Platform <span class="text-emerald-700">*</span>
+                        </label>
+                        <select id="post-platform" class="w-full px-4 py-2.5 bg-white border border-stone-300 rounded-md focus:ring-1 focus:ring-emerald-800 focus:border-emerald-800 outline-none transition-all text-stone-900">
+                            <option value="Instagram">Instagram</option>
+                            <option value="Twitter">Twitter (X)</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="TikTok">TikTok</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Canva Design Link <span class="text-stone-400 font-normal ml-1 text-xs italic">(Optional)</span>
+                    </label>
+                    <div class="flex rounded-md shadow-sm">
+                        <div class="relative flex-1">
+                            <i data-lucide="image" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400"></i>
+                            <input type="url" id="post-canva" class="w-full pl-10 pr-4 py-2.5 bg-white border border-stone-300 rounded-md focus:ring-1 focus:ring-emerald-800 focus:border-emerald-800 outline-none transition-all text-stone-900 placeholder-stone-400" placeholder="https://canva.com/...">
+                        </div>
+                        <a id="post-canva-link-btn" href="#" target="_blank" rel="noopener noreferrer" class="hidden ml-[-4px] bg-stone-50 border border-l-0 border-stone-300 rounded-r-md px-4 items-center text-emerald-800 hover:bg-emerald-50 transition-colors font-medium text-sm" title="Open Canva Link">
+                            Open <i data-lucide="external-link" class="h-4 w-4 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-stone-700 mb-2">
+                        Caption / Content Notes <span class="text-stone-400 font-normal ml-1 text-xs italic">(Optional)</span>
+                    </label>
+                    <div class="relative">
+                        <i data-lucide="align-left" class="absolute left-3 top-3 h-4 w-4 text-stone-400"></i>
+                        <textarea id="post-content" rows="4" class="w-full pl-10 pr-4 py-2.5 bg-white border border-stone-300 rounded-md focus:ring-1 focus:ring-emerald-800 focus:border-emerald-800 outline-none transition-all resize-none text-stone-900 placeholder-stone-400" placeholder="Draft your caption or add context notes for the team..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Modal Actions -->
+                <div class="flex items-center justify-between pt-6 mt-2 border-t border-stone-100">
+                    <div id="delete-btn-container">
+                        <button type="button" onclick="deletePost()" class="text-rose-700 hover:text-white hover:bg-rose-700 px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
+                            <i data-lucide="trash-2" class="h-4 w-4 mr-2"></i>
+                            Remove Entry
+                        </button>
+                    </div>
+                    
+                    <div class="flex space-x-3 ml-auto">
+                        <button type="button" onclick="closeModal()" class="px-5 py-2.5 text-sm font-medium text-stone-600 hover:text-stone-900 hover:bg-stone-100 rounded-md transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" id="submit-btn" class="px-6 py-2.5 text-sm font-medium text-white bg-emerald-900 hover:bg-emerald-800 rounded-md shadow-sm transition-colors">
+                            Schedule Post
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // --- Helper Functions ---
+        const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
+        const getFirstDayOfMonth = (year, month) => new Date(year, month, 1).getDay();
+        
+        const formatDateForInput = (date) => {
+            const d = new Date(date);
+            let month = '' + (d.getMonth() + 1);
+            let day = '' + d.getDate();
+            const year = d.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return [year, month, day].join('-');
+        };
+
+        // --- API Integration ---
+        const API_URL = "https://script.google.com/macros/s/AKfycbzp7C5t-sBzvRMAiJEizjKzcPoZ0gu1kQx4OYLqT8jsX086gT-VF7koghJgNkm7IRVBqQ/exec";
+        const TEAM_KEY = "FreePalestine123!";
+
+        async function apiGetPosts() {
+            try {
+                const res = await fetch(`${API_URL}?key=${encodeURIComponent(TEAM_KEY)}`);
+                const text = await res.text();
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error("Non-JSON Response received:", text.substring(0, 150));
+                    throw new Error("Server returned an invalid JSON format.");
+                }
+                if (!data.ok) throw new Error(data.error || "API returned ok: false");
+                return data.posts || [];
+            } catch (err) {
+                console.error("GET Error:", err);
+                alert("Error loading posts from server. Please try again.");
+                return [];
+            }
+        }
+
+        async function apiUpsertPost(post) {
+            try {
+                // No Content-Type header to prevent CORS preflight OPTIONS request
+                const res = await fetch(`${API_URL}?key=${encodeURIComponent(TEAM_KEY)}`, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "upsert", post: post })
+                });
+                const text = await res.text();
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error("Non-JSON Response received:", text.substring(0, 150));
+                    throw new Error("Server returned an invalid JSON format.");
+                }
+                if (!data.ok) throw new Error(data.error || "Failed to save post");
+                return true;
+            } catch (err) {
+                console.error("Upsert Error:", err);
+                alert("Error saving post. Please try again.");
+                return false;
+            }
+        }
+
+        async function apiDeletePost(id) {
+            try {
+                // No Content-Type header to prevent CORS preflight OPTIONS request
+                const res = await fetch(`${API_URL}?key=${encodeURIComponent(TEAM_KEY)}`, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "delete", id: id })
+                });
+                const text = await res.text();
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error("Non-JSON Response received:", text.substring(0, 150));
+                    throw new Error("Server returned an invalid JSON format.");
+                }
+                if (!data.ok) throw new Error(data.error || "Failed to delete post");
+                return true;
+            } catch (err) {
+                console.error("Delete Error:", err);
+                alert("Error deleting post. Please try again.");
+                return false;
+            }
+        }
+
+        // --- State ---
+        let currentDate = new Date();
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        
+        let posts = [];
+
+        // --- Core UI Functions ---
+        function getPlatformStyle(platform) {
+            if (!platform) return 'bg-emerald-50/50 border-l-2 border-l-emerald-500 text-stone-800';
+            switch(platform.toLowerCase()) {
+                case 'instagram': return 'bg-rose-50/50 border-l-2 border-l-rose-400 text-stone-800';
+                case 'twitter':
+                case 'twitter (x)': return 'bg-sky-50/50 border-l-2 border-l-sky-400 text-stone-800';
+                case 'facebook': return 'bg-blue-50/50 border-l-2 border-l-blue-500 text-stone-800';
+                case 'tiktok': return 'bg-stone-100 border-l-2 border-l-stone-800 text-stone-800';
+                case 'linkedin': return 'bg-indigo-50/50 border-l-2 border-l-indigo-400 text-stone-800';
+                default: return 'bg-emerald-50/50 border-l-2 border-l-emerald-500 text-stone-800';
+            }
+        }
+
+        function renderHeader() {
+            const header = document.getElementById('days-header');
+            header.innerHTML = '';
+            
+            daysOfWeek.forEach(day => {
+                // Desktop
+                const deskDiv = document.createElement('div');
+                deskDiv.className = 'py-4 text-center text-[11px] font-semibold text-stone-500 uppercase tracking-widest hidden sm:block';
+                deskDiv.textContent = day;
+                header.appendChild(deskDiv);
+                
+                // Mobile
+                const mobDiv = document.createElement('div');
+                mobDiv.className = 'py-3 text-center text-[11px] font-semibold text-stone-500 uppercase tracking-widest sm:hidden';
+                mobDiv.textContent = day.slice(0,3);
+                header.appendChild(mobDiv);
+            });
+        }
+
+        function renderCalendar() {
+            const currentYear = currentDate.getFullYear();
+            const currentMonth = currentDate.getMonth();
+            
+            // Update Title
+            document.getElementById('month-year-display').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const daysInMonth = getDaysInMonth(currentYear, currentMonth);
+            const firstDay = getFirstDayOfMonth(currentYear, currentMonth);
+            const today = new Date();
+            
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            // Empty cells before start of month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'border-r border-b border-stone-100 bg-[#FDFBF7] p-2';
+                grid.appendChild(emptyCell);
+            }
+
+            // Days of the month
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dateStr = formatDateForInput(new Date(currentYear, currentMonth, i));
+                const dayPosts = posts.filter(p => p.date === dateStr);
+                const isToday = i === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+                
+                const cell = document.createElement('div');
+                cell.className = `relative border-r border-b border-stone-100 p-2.5 transition-colors hover:bg-stone-50 group flex flex-col cursor-pointer ${isToday ? 'bg-emerald-50/20' : ''}`;
+                cell.onclick = (e) => {
+                    if (!e.target.closest('.post-pill')) {
+                        openModal(null, dateStr);
+                    }
+                };
+
+                // Cell Header (Number and Add Button)
+                const headerHtml = `
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-sm font-medium w-7 h-7 flex items-center justify-center rounded-full ${isToday ? 'bg-emerald-900 text-white' : 'text-stone-600'}">
+                            ${i}
+                        </span>
+                        <button class="opacity-0 group-hover:opacity-100 text-stone-400 hover:text-emerald-800 p-1 transition-all" title="Add post for this day">
+                            <i data-lucide="plus" class="h-4 w-4"></i>
+                        </button>
+                    </div>
+                `;
+                
+                // Posts Container
+                const postsContainer = document.createElement('div');
+                postsContainer.className = 'space-y-2 mt-1 flex-1';
+                
+                dayPosts.forEach(post => {
+                    const postPill = document.createElement('div');
+                    postPill.className = `post-pill p-2 rounded-r border border-l-0 border-y-stone-200 border-r-stone-200 cursor-pointer transition-all hover:shadow-sm hover:border-y-stone-300 hover:border-r-stone-300 ${getPlatformStyle(post.platform)}`;
+                    postPill.title = post.title;
+                    postPill.onclick = (e) => {
+                        e.stopPropagation();
+                        openModal(post);
+                    };
+
+                    let canvaIconHtml = post.canvaLink ? `
+                        <div class="mt-2 flex items-center text-[10px] uppercase font-semibold tracking-wider text-emerald-800">
+                            <i data-lucide="image" class="h-3 w-3 mr-1"></i> Design
+                        </div>
+                    ` : '';
+
+                    postPill.innerHTML = `
+                        <div class="text-[10px] font-semibold uppercase tracking-wider mb-0.5 opacity-60">
+                            ${post.platform}
+                        </div>
+                        <div class="font-medium text-sm leading-snug line-clamp-2">
+                            ${post.title}
+                        </div>
+                        ${canvaIconHtml}
+                    `;
+                    postsContainer.appendChild(postPill);
+                });
+
+                cell.innerHTML = headerHtml;
+                cell.appendChild(postsContainer);
+                grid.appendChild(cell);
+            }
+            
+            // Re-initialize icons for newly added DOM elements
+            lucide.createIcons();
+        }
+
+        // --- Navigation ---
+        function changeMonth(offset) {
+            currentDate.setMonth(currentDate.getMonth() + offset);
+            renderCalendar();
+        }
+
+        function goToToday() {
+            currentDate = new Date();
+            renderCalendar();
+        }
+
+        // --- Modal & Forms ---
+        function openModal(post = null, dateStr = null) {
+            const modal = document.getElementById('post-modal');
+            const form = document.getElementById('post-form');
+            const deleteBtn = document.getElementById('delete-btn-container');
+            const submitBtn = document.getElementById('submit-btn');
+            const modalTitle = document.getElementById('modal-title');
+            const modalSubtitle = document.getElementById('modal-subtitle');
+            const canvaLinkBtn = document.getElementById('post-canva-link-btn');
+            const canvaInput = document.getElementById('post-canva');
+
+            form.reset();
+            canvaLinkBtn.classList.add('hidden');
+            canvaLinkBtn.classList.remove('flex');
+
+            if (post) {
+                document.getElementById('post-id').value = post.id;
+                document.getElementById('post-title').value = post.title;
+                document.getElementById('post-date').value = post.date;
+                document.getElementById('post-platform').value = post.platform;
+                canvaInput.value = post.canvaLink || '';
+                document.getElementById('post-content').value = post.content || '';
+
+                modalTitle.textContent = 'Edit Scheduled Post';
+                modalSubtitle.textContent = 'Update the details below.';
+                submitBtn.textContent = 'Save Updates';
+                deleteBtn.classList.remove('hidden');
+                
+                if (post.canvaLink) {
+                    canvaLinkBtn.href = post.canvaLink;
+                    canvaLinkBtn.classList.remove('hidden');
+                    canvaLinkBtn.classList.add('flex');
+                    canvaInput.classList.replace('rounded-md', 'rounded-l-md');
+                } else {
+                     canvaInput.classList.replace('rounded-l-md', 'rounded-md');
+                }
+            } else {
+                document.getElementById('post-id').value = '';
+                document.getElementById('post-date').value = dateStr || formatDateForInput(currentDate);
+                document.getElementById('post-platform').value = 'Instagram';
+                
+                modalTitle.textContent = 'Schedule New Post';
+                modalSubtitle.textContent = 'Add a new entry to the content calendar.';
+                submitBtn.textContent = 'Schedule Post';
+                deleteBtn.classList.add('hidden');
+                canvaInput.classList.replace('rounded-l-md', 'rounded-md');
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('post-modal').classList.add('hidden');
+        }
+
+        async function deletePost() {
+            const id = document.getElementById('post-id').value;
+            if (id && confirm('Remove this entry from the calendar?')) {
+                const success = await apiDeletePost(id);
+                if (success) {
+                    closeModal();
+                    await loadData();
+                }
+            }
+        }
+
+        // Handle Canva input change to show/hide the open link button
+        document.getElementById('post-canva').addEventListener('input', function(e) {
+            const btn = document.getElementById('post-canva-link-btn');
+            if (e.target.value) {
+                btn.href = e.target.value;
+                btn.classList.remove('hidden');
+                btn.classList.add('flex');
+                e.target.classList.replace('rounded-md', 'rounded-l-md');
+            } else {
+                btn.classList.add('hidden');
+                btn.classList.remove('flex');
+                e.target.classList.replace('rounded-l-md', 'rounded-md');
+            }
+        });
+
+        document.getElementById('post-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Saving...';
+            submitBtn.disabled = true;
+
+            const id = document.getElementById('post-id').value;
+            const postData = {
+                title: document.getElementById('post-title').value,
+                date: document.getElementById('post-date').value,
+                platform: document.getElementById('post-platform').value,
+                canvaLink: document.getElementById('post-canva').value,
+                content: document.getElementById('post-content').value
+            };
+
+            // Only attach ID if we are editing an existing Airtable record
+            if (id) {
+                postData.id = id;
+            }
+
+            const success = await apiUpsertPost(postData);
+
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+
+            if (success) {
+                closeModal();
+                await loadData();
+            }
+        });
+
+        // Initialize App Data Load
+        async function loadData() {
+            const refreshIcon = document.getElementById('refresh-icon');
+            if (refreshIcon) refreshIcon.classList.add('animate-spin');
+            
+            posts = await apiGetPosts();
+            renderCalendar();
+            
+            if (refreshIcon) refreshIcon.classList.remove('animate-spin');
+        }
+
+        lucide.createIcons();
+        renderHeader();
+        loadData();
+        
+    </script>
+</body>
+</html>
