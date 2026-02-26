@@ -109,6 +109,10 @@
                 <button onclick="changeMonth(1)" class="p-1.5 rounded hover:bg-stone-100 text-stone-600 transition-colors" aria-label="Next month">
                     <i data-lucide="chevron-right" class="h-5 w-5"></i>
                 </button>
+                <div class="w-px h-5 bg-stone-200 mx-1"></div>
+                <button onclick="loadData()" class="p-1.5 rounded hover:bg-stone-100 text-stone-600 transition-colors" aria-label="Refresh Data" title="Sync latest posts">
+                    <i data-lucide="refresh-cw" id="refresh-icon" class="h-4 w-4"></i>
+                </button>
             </div>
         </div>
 
@@ -246,57 +250,126 @@
             return [year, month, day].join('-');
         };
 
-        // --- API Integration ---
-        const API_URL = "https://script.google.com/macros/s/AKfycbzp7C5t-sBzvRMAiJEizjKzcPoZ0gu1kQx4OYLqT8jsX086gT-VF7koghJgNkm7IRVBqQ/exec";
-        const TEAM_KEY = "FreePalestine123!";
+ // --- API Integration (JSONP for GET + sendBeacon for POST to avoid CORS) ---
+const API_URL = "https://script.google.com/macros/s/AKfycbzp7C5t-sBzvRMAiJEizjKzcPoZ0gu1kQx4OYLqT8jsX086gT-VF7koghJgNkm7IRVBqQ/exec";
+const TEAM_KEY = "FreePalestine123!";
 
-        async function apiGetPosts() {
-            try {
-                const res = await fetch(`${API_URL}?key=${TEAM_KEY}`);
-                const data = await res.json();
-                if (!data.ok) throw new Error(data.error || "API returned ok: false");
-                return data.posts || [];
-            } catch (err) {
-                console.error("GET Error:", err);
-                alert("Error loading posts from server. Please try again.");
-                return [];
-            }
-        }
+// JSONP helper (fixes CORS for GET)
+function jsonp(url) {
+  return new Promise((resolve, reject) => {
+    const cb = "cb_" + Math.random().toString(36).slice(2);
+    const script = document.createElement("script");
 
-        async function apiUpsertPost(post) {
-            try {
-                // No Content-Type header to prevent CORS preflight OPTIONS request
-                const res = await fetch(`${API_URL}?key=${TEAM_KEY}`, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "upsert", post: post })
-                });
-                const data = await res.json();
-                if (!data.ok) throw new Error(data.error || "Failed to save post");
-                return true;
-            } catch (err) {
-                console.error("Upsert Error:", err);
-                alert("Error saving post. Please try again.");
-                return false;
-            }
-        }
+    window[cb] = (data) => {
+      try {
+        delete window[cb];
+        script.remove();
+      } catch (e) {}
+      resolve(data);
+    };
 
-        async function apiDeletePost(id) {
-            try {
-                // No Content-Type header to prevent CORS preflight OPTIONS request
-                const res = await fetch(`${API_URL}?key=${TEAM_KEY}`, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "delete", id: id })
-                });
-                const data = await res.json();
-                if (!data.ok) throw new Error(data.error || "Failed to delete post");
-                return true;
-            } catch (err) {
-                console.error("Delete Error:", err);
-                alert("Error deleting post. Please try again.");
-                return false;
-            }
-        }
+    script.src = url + (url.includes("?") ? "&" : "?") + "callback=" + encodeURIComponent(cb);
+    script.onerror = () => {
+      try {
+        delete window[cb];
+        script.remove();
+      } catch (e) {}
+      reject(new Error("JSONP request failed"));
+    };
 
+    document.body.appendChild(script);
+  });
+}
+
+// Fire-and-forget POST helper (no CORS read)
+function beaconPost(url, obj) {
+  const payload = JSON.stringify(obj);
+
+  // Prefer sendBeacon
+  if (navigator.sendBeacon) {
+    const blob = new Blob([payload], { type: "text/plain;charset=UTF-8" });
+    const ok = navigator.sendBeacon(url, blob);
+    if (!ok) throw new Error("sendBeacon failed to queue request");
+    return;
+  }
+
+  // Fallback: hidden form POST (still works cross-origin, no response read)
+  const iframeName = "hidden_iframe_" + Math.random().toString(36).slice(2);
+  const iframe = document.createElement("iframe");
+  iframe.name = iframeName;
+  iframe.style.display = "none";
+  document.body.appendChild(iframe);
+
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = url;
+  form.target = iframeName;
+  form.style.display = "none";
+
+  // This fallback sends payload as a field; if you rely on fallback,
+  // your Apps Script doPost must parse e.parameter.payload (optional).
+  const input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "payload";
+  input.value = payload;
+  form.appendChild(input);
+
+  document.body.appendChild(form);
+  form.submit();
+
+  setTimeout(() => {
+    try { form.remove(); iframe.remove(); } catch (e) {}
+  }, 2000);
+}
+
+async function apiGetPosts() {
+  try {
+    const url = `${API_URL}?key=${encodeURIComponent(TEAM_KEY)}`;
+    const data = await jsonp(url);
+
+    if (!data || !data.ok) {
+      throw new Error((data && (data.error || data.message)) || "API returned ok: false");
+    }
+
+    return data.posts || [];
+  } catch (err) {
+    console.error("GET Error:", err);
+    alert("Error loading posts from server. Please try again.");
+    return [];
+  }
+}
+
+async function apiUpsertPost(post) {
+  try {
+    const url = `${API_URL}?key=${encodeURIComponent(TEAM_KEY)}`;
+
+    beaconPost(url, { action: "upsert", post });
+
+    // Give Apps Script a moment, then refresh via JSONP
+    await new Promise((r) => setTimeout(r, 500));
+    return true;
+  } catch (err) {
+    console.error("Upsert Error:", err);
+    alert("Error saving post. Please try again.");
+    return false;
+  }
+}
+
+async function apiDeletePost(id) {
+  try {
+    const url = `${API_URL}?key=${encodeURIComponent(TEAM_KEY)}`;
+
+    beaconPost(url, { action: "delete", id });
+
+    await new Promise((r) => setTimeout(r, 500));
+    return true;
+  } catch (err) {
+    console.error("Delete Error:", err);
+    alert("Error deleting post. Please try again.");
+    return false;
+  }
+}
+        
         // --- State ---
         let currentDate = new Date();
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -306,9 +379,11 @@
 
         // --- Core UI Functions ---
         function getPlatformStyle(platform) {
+            if (!platform) return 'bg-emerald-50/50 border-l-2 border-l-emerald-500 text-stone-800';
             switch(platform.toLowerCase()) {
                 case 'instagram': return 'bg-rose-50/50 border-l-2 border-l-rose-400 text-stone-800';
-                case 'twitter': return 'bg-sky-50/50 border-l-2 border-l-sky-400 text-stone-800';
+                case 'twitter':
+                case 'twitter (x)': return 'bg-sky-50/50 border-l-2 border-l-sky-400 text-stone-800';
                 case 'facebook': return 'bg-blue-50/50 border-l-2 border-l-blue-500 text-stone-800';
                 case 'tiktok': return 'bg-stone-100 border-l-2 border-l-stone-800 text-stone-800';
                 case 'linkedin': return 'bg-indigo-50/50 border-l-2 border-l-indigo-400 text-stone-800';
@@ -549,8 +624,13 @@
 
         // Initialize App Data Load
         async function loadData() {
+            const refreshIcon = document.getElementById('refresh-icon');
+            if (refreshIcon) refreshIcon.classList.add('animate-spin');
+            
             posts = await apiGetPosts();
             renderCalendar();
+            
+            if (refreshIcon) refreshIcon.classList.remove('animate-spin');
         }
 
         lucide.createIcons();
