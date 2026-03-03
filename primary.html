@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
-
     <title>Primary Sources | Echoes of Gaza</title>
     
     <!-- Google Fonts -->
@@ -12,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" type="image/png">
+<meta name="robots" content="index, follow">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -330,7 +329,7 @@
             // Fallbacks
             const title = data.title || "Untitled Record";
             const date = data.date || "Unknown Date";
-            const source = data.source ? ` &mdash; ${data.source}` : "";
+            const source = data.source ? ` ; ${data.source}` : "";
             const tag = data.tag || "Uncategorized";
             const previewUrl = data.drivePreviewUrl || "";
             
