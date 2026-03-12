@@ -41,7 +41,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Font Links -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
     <style>
         /* Define new color variables */
         :root {
@@ -93,12 +93,47 @@
 
         /* Hero Section Styling - Solemn Depth */
         .hero-section {
-            background: radial-gradient(circle at 50% 30%, #2a0505 0%, #000000 80%);
-            min-height: 90vh;
+            background: radial-gradient(ellipse 100% 70% at 50% 20%, #1a0305 0%, #050505 70%);
+            min-height: 100vh;
             display: flex;
             align-items: center;
             position: relative;
             overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute; top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 1px; height: 100px;
+            background: linear-gradient(to bottom, transparent, #5c0f1c);
+        }
+        .hero-eyebrow {
+            font-size: 0.65rem; letter-spacing: 0.3em;
+            text-transform: uppercase; color: #C9A84C;
+            margin-bottom: 24px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .hero-eyebrow::before, .hero-eyebrow::after {
+            content: ''; display: block;
+            width: 40px; height: 1px; background: #7a6130;
+        }
+        .hero-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(3.5rem, 10vw, 9rem);
+            line-height: 0.92; letter-spacing: -0.02em;
+            color: #fff; text-align: center; margin-bottom: 8px;
+        }
+        .hero-title-sub {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.2rem, 6vw, 5.5rem);
+            line-height: 1; letter-spacing: -0.01em;
+            color: #9B1B30; text-align: center; margin-bottom: 32px;
+        }
+        .hero-lead {
+            max-width: 560px; text-align: center;
+            font-size: 0.95rem; font-weight: 300;
+            color: rgba(200,192,180,0.75);
+            line-height: 1.9; margin-bottom: 56px;
         }
         
         /* Navigation - Minimal & Calm */
@@ -383,6 +418,7 @@
                                 <a href="https://echoesofgaza.org/events" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Events</a>
                                 <a href="#faq" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">FAQ</a>
                                 <a href="https://echoesofgaza.org/toolkit" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Toolkit</a>
+                
                             </div>
                         </div>
                     </div>
@@ -412,7 +448,7 @@
                 </svg>
             </button>
         </div>
-         <nav class="flex flex-col items-center justify-center flex-grow space-y-10 text-xl font-light tracking-wide">
+        <nav class="flex flex-col items-center justify-center flex-grow space-y-10 text-xl font-light tracking-wide">
             <a href="#articles" class="mobile-nav-link text-gray-400 hover:text-white transition">Archive</a>
             <a href="#geolocation" class="mobile-nav-link text-gray-400 hover:text-white transition">Maps</a>
             <a href="#victims" class="mobile-nav-link text-gray-400 hover:text-white transition">Victims</a>
@@ -429,13 +465,13 @@
         <section class="hero-section pt-32 pb-12">
             <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full">
                 <div class="text-center flex flex-col items-center">
-                    <h1 class="font-serif leading-none flex flex-col items-center mb-10">
-                        <span class="text-lg md:text-xl font-light text-gray-500 mb-2 tracking-[0.3em] uppercase">The</span>
-                        <span class="text-6xl md:text-8xl lg:text-9xl font-bold text-white tracking-tighter mb-2 block">GENOCIDE</span>
-                        <span class="text-5xl md:text-7xl lg:text-8xl font-bold text-[#8B0000] tracking-tighter block opacity-90">ARCHIVE</span>
+                    <div class="hero-eyebrow">A Digital Historical Record</div>
+                    <h1 class="flex flex-col items-center">
+                        <span class="hero-title">GENOCIDE</span>
+                        <span class="hero-title-sub">ARCHIVE</span>
                     </h1>
-                    <p class="text-base md:text-lg text-white/80 max-w-2xl mx-auto mb-16 leading-8 font-light">
-                        A historical archive documenting war crimes, crimes against humanity, and systematic aggression committed against Palestinian civilians since October 7, 2023.
+                    <p class="hero-lead">
+                        Documenting war crimes, crimes against humanity, and systematic aggression committed against Palestinian civilians since October 7, 2023.
                     </p>
                     
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16 w-full">
@@ -473,7 +509,7 @@
         <section id="casualty-graph" class="py-12 bg-[#0a0a0a] border-b border-white/5 hidden">
             <div class="container mx-auto px-6">
                 <h3 class="text-2xl font-serif font-bold text-center mb-4 text-white/90">Palestinian Casualties in Gaza</h3>
-                <p class="text-center text-gray-500 text-sm mb-12 uppercase tracking-wider">October 7, 2023 - Present</p>
+                <p class="text-center text-gray-500 text-sm mb-12 uppercase tracking-wider">October 7, 2023 - February 2026</p>
                 <div id="casualty-chart-container" class="max-w-6xl mx-auto">
                     <canvas id="casualtyChart"></canvas>
                     <div id="chart-tooltip"></div>
@@ -695,7 +731,7 @@
                     referrerpolicy="no-referrer-when-downgrade"
                     allowfullscreen>
                   </iframe>
-                
+                  
                   <p style="
                     margin-top:8px;
                     margin-bottom:8px;
@@ -791,7 +827,7 @@
                 </div>
             </div>
         </section>
-        
+
         <!-- FAQ Section -->
         <section id="faq" class="py-24 bg-[#080808] border-t border-white/5">
             <div class="container mx-auto px-6">
@@ -836,6 +872,7 @@
                 </div>
             </div>
         </section>
+        
     </main>
 
     <!-- Footer -->
@@ -854,7 +891,7 @@
                 <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Support</h4><div class="flex flex-col space-y-3"><a href="https://buymeacoffee.com/echoesofgaza" target="_blank" class="text-xs text-gray-500 hover:text-white transition">Donate</a><a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" class="text-xs text-[#8B0000] hover:text-red-400 transition">Monthly Support</a></div></div>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 mt-20 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-700 uppercase tracking-wider">
+       <div class="max-w-7xl mx-auto px-6 lg:px-8 mt-20 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-700 uppercase tracking-wider">
     <p>© 2026 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="underline hover:text-gray-500">CC BY-NC-SA 4.0</a>.</p>
     <a href="https://echoesofgaza.org/admin.html" class="mt-4 md:mt-0 hover:text-gray-500 transition">Admin Portal</a>
 </div>
@@ -890,6 +927,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- REACT ROOT FOR STORY GENERATOR -->
     <div id="story-generator-root"></div>
