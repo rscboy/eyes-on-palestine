@@ -268,6 +268,7 @@
         const posts = [
             {
                 id: 1,
+                slug: "incident-at-beth-jacob-my-response",
                 title: "Incident at Beth Jacob: My Response",
                 subtitle: "I have had over a month to mull this situation over in my head. I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
                 author: "Alexandria Gary King / נחמה בת אברהם ושרה",
@@ -311,18 +312,24 @@
             setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
+        function getPostUrl(post) {
+            return `https://echoesofgaza.org/blog_king_response.html?post=${encodeURIComponent(post.slug || post.id)}`;
+        }
+
         function sharePost(event, id) {
             if (event) event.stopPropagation();
-            const dummyUrl = `https://echoesofgaza.org/blog/posts/${id}`;
+            const post = posts.find(p => p.id === id);
+            if (!post) return;
+            const postUrl = getPostUrl(post);
             
             if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(dummyUrl).then(() => {
+                navigator.clipboard.writeText(postUrl).then(() => {
                     showToast("Link copied to clipboard");
                 }).catch(() => {
-                    fallbackCopyTextToClipboard(dummyUrl);
+                    fallbackCopyTextToClipboard(postUrl);
                 });
             } else {
-                fallbackCopyTextToClipboard(dummyUrl);
+                fallbackCopyTextToClipboard(postUrl);
             }
         }
 
@@ -347,8 +354,19 @@
         // --- RENDER FUNCTIONS ---
 
         // View 1: The Blog Index
+        function updatePostQuery(post) {
+            const url = new URL(window.location.href);
+            if (post) {
+                url.searchParams.set("post", post.slug || post.id);
+            } else {
+                url.searchParams.delete("post");
+            }
+            window.history.replaceState({}, "", url.toString());
+        }
+
         function renderIndex() {
             window.scrollTo(0, 0);
+            updatePostQuery(null);
             let html = `
                 <div class="max-w-[1100px] mx-auto px-5 py-12 fade-in">
                     
@@ -362,7 +380,7 @@
 
             posts.forEach(post => {
                 html += `
-                    <article class="group cursor-pointer" onclick="renderPost(${post.id})">
+                    <article class="group cursor-pointer" onclick="renderPost(${post.id}, true)">
                         <!-- Meta -->
                         <div class="flex items-center gap-2 mb-2 text-sm text-ash-gray font-sans">
                             <span class="font-medium text-off-white">${post.author}</span>
@@ -431,10 +449,11 @@
         }
 
         // View 2: The Article Page
-        function renderPost(id) {
+        function renderPost(id, updateUrl = false) {
             window.scrollTo(0, 0);
             const post = posts.find(p => p.id === id);
             if (!post) return;
+            if (updateUrl) updatePostQuery(post);
 
             container.innerHTML = `
                 <div class="max-w-[680px] mx-auto px-5 py-10 fade-in">
@@ -517,7 +536,28 @@
         }
 
         // Initialize
-        renderIndex();
+        function initializePage() {
+            const params = new URLSearchParams(window.location.search);
+            const requestedPost = params.get("post");
+            if (!requestedPost) {
+                renderIndex();
+                return;
+            }
+
+            const normalized = requestedPost.trim().toLowerCase();
+            const post = posts.find(p =>
+                String(p.id) === normalized ||
+                (p.slug && p.slug.toLowerCase() === normalized)
+            );
+
+            if (post) {
+                renderPost(post.id, false);
+            } else {
+                renderIndex();
+            }
+        }
+
+        initializePage();
 
     </script>
 </body>
