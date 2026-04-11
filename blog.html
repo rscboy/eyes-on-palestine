@@ -14,6 +14,41 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Echoes of Gaza: Blog">
     <meta name="twitter:description" content="Analysis, commentary, and updates from the archival team and invited scholars.">
+    <script>
+        (function applyInitialPostMeta() {
+            const targetSlug = "incident-at-beth-jacob-my-response";
+            const title = "Incident at Beth Jacob: My Response";
+            const description = "I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.";
+            const url = "https://echoesofgaza.org/blog?post=incident-at-beth-jacob-my-response";
+            const image = "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/refs/heads/main/alexandria_blog_image.png";
+            const imageAlt = "Alexandria at the Jewish Cultural Festival in Dayton";
+
+            const currentPost = new URLSearchParams(window.location.search).get("post");
+            if (!currentPost || currentPost.trim().toLowerCase() !== targetSlug) return;
+
+            const upsertMeta = (selector, attributes) => {
+                let tag = document.head.querySelector(selector);
+                if (!tag) {
+                    tag = document.createElement("meta");
+                    document.head.appendChild(tag);
+                }
+                Object.entries(attributes).forEach(([key, value]) => tag.setAttribute(key, value));
+            };
+
+            document.title = title;
+            upsertMeta('meta[name="description"]', { name: "description", content: description });
+            upsertMeta('meta[property="og:title"]', { property: "og:title", content: title });
+            upsertMeta('meta[property="og:description"]', { property: "og:description", content: description });
+            upsertMeta('meta[property="og:url"]', { property: "og:url", content: url });
+            upsertMeta('meta[property="og:image"]', { property: "og:image", content: image });
+            upsertMeta('meta[property="og:image:secure_url"]', { property: "og:image:secure_url", content: image });
+            upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: imageAlt });
+            upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
+            upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: title });
+            upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: description });
+            upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: image });
+        })();
+    </script>
     
     <!-- Typography Imports -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -359,8 +394,12 @@
             upsertMeta('meta[property="og:description"]', { property: "og:description", content: pageDescription });
             if (pageImage) {
                 upsertMeta('meta[property="og:image"]', { property: "og:image", content: pageImage });
+                upsertMeta('meta[property="og:image:secure_url"]', { property: "og:image:secure_url", content: pageImage });
+                upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: `${pageTitle} thumbnail` });
             } else {
                 removeMeta('meta[property="og:image"]');
+                removeMeta('meta[property="og:image:secure_url"]');
+                removeMeta('meta[property="og:image:alt"]');
             }
             upsertMeta('meta[property="og:url"]', { property: "og:url", content: pageUrl });
             upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: pageImage ? "summary_large_image" : "summary" });
