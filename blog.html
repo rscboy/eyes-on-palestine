@@ -3,29 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echoes of Gaza: Blog</title>
-    <meta name="description" content="Analysis, commentary, and updates from the archival team and invited scholars.">
+    <title>Incident at Beth Jacob: My Response</title>
+    <meta name="description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.">
     <link rel="icon" href="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" type="image/png">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="article">
     <meta property="og:site_name" content="Echoes of Gaza">
-    <meta property="og:title" content="Echoes of Gaza: Blog">
-    <meta property="og:description" content="Analysis, commentary, and updates from the archival team and invited scholars.">
-    <meta property="og:url" content="https://echoesofgaza.org/blog">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Echoes of Gaza: Blog">
-    <meta name="twitter:description" content="Analysis, commentary, and updates from the archival team and invited scholars.">
+    <meta property="og:title" content="Incident at Beth Jacob: My Response">
+    <meta property="og:description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.">
+    <meta property="og:url" content="https://echoesofgaza.org/blog?post=incident-at-beth-jacob-my-response">
+    <meta property="og:image" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png">
+    <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png">
+    <meta property="og:image:alt" content="Alexandria at the Jewish Cultural Festival in Dayton">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Incident at Beth Jacob: My Response">
+    <meta name="twitter:description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png">
     <script>
         (function applyPostSpecificHeadMetadata() {
             const postSlug = new URLSearchParams(window.location.search).get("post");
-            if (postSlug !== "incident-at-beth-jacob-my-response") return;
-
-            const metadata = {
-                title: "Incident at Beth Jacob: My Response",
-                description: "I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
-                url: "https://echoesofgaza.org/blog?post=incident-at-beth-jacob-my-response",
-                image: "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/refs/heads/main/alexandria_blog_image.png",
-                imageAlt: "Alexandria at the Jewish Cultural Festival in Dayton"
-            };
+            const metadata = postSlug === "incident-at-beth-jacob-my-response"
+                ? {
+                    title: "Incident at Beth Jacob: My Response",
+                    description: "I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
+                    url: "https://echoesofgaza.org/blog?post=incident-at-beth-jacob-my-response",
+                    image: "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png",
+                    imageAlt: "Alexandria at the Jewish Cultural Festival in Dayton",
+                    twitterCard: "summary_large_image",
+                    removeImages: false
+                }
+                : {
+                    title: "Echoes of Gaza: Blog",
+                    description: "Analysis, commentary, and updates from the archival team and invited scholars.",
+                    url: "https://echoesofgaza.org/blog",
+                    image: null,
+                    imageAlt: null,
+                    twitterCard: "summary",
+                    removeImages: true
+                };
 
             document.title = metadata.title;
 
@@ -39,17 +53,29 @@
             };
 
             upsertMeta('meta[name="description"]', { name: "description", content: metadata.description });
-            upsertMeta('meta[property="og:type"]', { property: "og:type", content: "article" });
+            const removeMeta = (selector) => {
+                const tag = document.head.querySelector(selector);
+                if (tag) tag.remove();
+            };
+
+            upsertMeta('meta[property="og:type"]', { property: "og:type", content: metadata.removeImages ? "website" : "article" });
             upsertMeta('meta[property="og:title"]', { property: "og:title", content: metadata.title });
             upsertMeta('meta[property="og:description"]', { property: "og:description", content: metadata.description });
             upsertMeta('meta[property="og:url"]', { property: "og:url", content: metadata.url });
-            upsertMeta('meta[property="og:image"]', { property: "og:image", content: metadata.image });
-            upsertMeta('meta[property="og:image:secure_url"]', { property: "og:image:secure_url", content: metadata.image });
-            upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: metadata.imageAlt });
-            upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
+            if (metadata.removeImages) {
+                removeMeta('meta[property="og:image"]');
+                removeMeta('meta[property="og:image:secure_url"]');
+                removeMeta('meta[property="og:image:alt"]');
+                removeMeta('meta[name="twitter:image"]');
+            } else {
+                upsertMeta('meta[property="og:image"]', { property: "og:image", content: metadata.image });
+                upsertMeta('meta[property="og:image:secure_url"]', { property: "og:image:secure_url", content: metadata.image });
+                upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: metadata.imageAlt });
+                upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: metadata.image });
+            }
+            upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: metadata.twitterCard });
             upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: metadata.title });
             upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: metadata.description });
-            upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: metadata.image });
         })();
     </script>
     
@@ -320,7 +346,7 @@
                 title: "Incident at Beth Jacob: My Response",
                 subtitle: "I have had over a month to mull this situation over in my head. I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
                 shareDescription: "I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
-                shareImage: "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/refs/heads/main/alexandria_blog_image.png",
+                shareImage: "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png",
                 author: "Alexandria Gary King / נחמה בת אברהם ושרה",
                 authorImg: "https://media.licdn.com/dms/image/v2/D5603AQG6acvhb-oGDA/profile-displayphoto-shrink_200_200/B56ZcdWNreHgBY-/0/1748544053088?e=2147483647&v=beta&t=VN-lQa9_dfE2HY8zy_NVmZETmdk53ZNjNEWqZ98Qsfc",
                 role: "Direct Support Professional",
@@ -334,7 +360,7 @@
                     <p>I have had over a month to mull this situation over in my head. I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something. This is not a piece defending myself or an attempt to attack anyone. If it were up to me, this never would have happened, and I would have continued as things were, but unfortunately that is impossible. I’m sure that many people reading this have no idea what I’m talking about, so I’ll lay down some background, explain what happened, and attempt to clarify some points. Through this, I hope to lay a better path forward not only for myself, but also hopefully for the greater Jewish community.</p>
 
                     <figure class="float-right w-48 md:w-56 ml-6 mb-4 mt-2">
-                        <img src="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/refs/heads/main/alexandria_blog_image.png" alt="Alexandria at the Jewish Cultural Festival in Dayton" class="w-full rounded-sm object-cover border border-border-gray opacity-90 hover:opacity-100 transition-opacity">
+                        <img src="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png" alt="Alexandria at the Jewish Cultural Festival in Dayton" class="w-full rounded-sm object-cover border border-border-gray opacity-90 hover:opacity-100 transition-opacity">
                         <figcaption class="text-[11px] text-ash-gray mt-2 font-sans leading-tight text-right italic">Alexandria at the Jewish Cultural Festival in Dayton</figcaption>
                     </figure>
 
