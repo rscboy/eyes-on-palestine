@@ -1,50 +1,644 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Incident at Beth Jacob: My Response</title>
-  <meta name="description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something." />
-  <link rel="canonical" href="https://echoesofgaza.org/blog/incident-at-beth-jacob.html" />
-  <meta property="og:type" content="article" />
-  <meta property="og:site_name" content="Echoes of Gaza" />
-  <meta property="og:title" content="Incident at Beth Jacob: My Response" />
-  <meta property="og:description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something." />
-  <meta property="og:url" content="https://echoesofgaza.org/blog/incident-at-beth-jacob.html" />
-  <meta property="og:image" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png" />
-  <meta property="og:image:alt" content="Alexandria at the Jewish Cultural Festival in Dayton" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Incident at Beth Jacob: My Response" />
-  <meta name="twitter:description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something." />
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png" />
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident at Beth Jacob: My Response</title>
+    <meta name="description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.">
+    <link rel="canonical" href="https://echoesofgaza.org/blog/incident-at-beth-jacob.html">
+    <link rel="icon" href="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" type="image/png">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Echoes of Gaza">
+    <meta property="og:title" content="Incident at Beth Jacob: My Response">
+    <meta property="og:description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.">
+    <meta property="og:url" content="https://echoesofgaza.org/blog/incident-at-beth-jacob.html">
+    <meta property="og:image" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png">
+    <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png">
+    <meta property="og:image:alt" content="Alexandria at the Jewish Cultural Festival in Dayton">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Incident at Beth Jacob: My Response">
+    <meta name="twitter:description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png">
+
+
+    <!-- Typography Imports -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons (Phosphor) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'deep-black': '#0B0B0B',
+                        'deep-red': '#8C0D0D',
+                        'off-white': '#EDEDED',
+                        'ash-gray': '#7A7A7A',
+                        'border-gray': '#2A2A2A',
+                        'hover-bg': '#1A1A1A',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    },
+                    maxWidth: {
+                        'reading': '680px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #0B0B0B;
+            color: #EDEDED;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        h1.post-title {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.01em;
+            line-height: 1.1;
+        }
+
+        .post-subtitle {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+            color: #7A7A7A;
+        }
+
+        /* Article Body Styling */
+        .prose-content p {
+            font-family: 'Playfair Display', serif;
+            font-size: 19px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            color: #EDEDED;
+            font-weight: 400;
+        }
+
+        .prose-content .sans-text {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .prose-content h2 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 22px;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            color: #EDEDED;
+            letter-spacing: -0.02em;
+        }
+
+        .prose-content blockquote {
+            border-left: 3px solid #8C0D0D;
+            padding-left: 20px;
+            margin: 32px 0;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 20px;
+            color: #EDEDED;
+        }
+
+        .prose-content hr {
+            border: 0;
+            height: 1px;
+            background: #2A2A2A;
+            margin: 40px auto;
+            width: 100px;
+        }
+
+        /* Interactive Elements */
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #7A7A7A;
+            font-size: 13px;
+            transition: all 0.2s;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .action-btn:hover {
+            color: #EDEDED;
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        .btn-primary {
+            background-color: #8C0D0D;
+            color: #EDEDED;
+            transition: background-color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #6d0a0a;
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #EDEDED;
+            color: #0B0B0B;
+            text-align: center;
+            border-radius: 4px;
+            padding: 12px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
-<body class="bg-[#0B0B0B] text-[#EDEDED] antialiased">
-  <main class="max-w-[680px] mx-auto px-5 py-10">
-    <a href="https://echoesofgaza.org/blog" class="text-[#8C0D0D] text-sm font-bold uppercase tracking-widest hover:text-white">&larr; Blog Index</a>
+<body class="min-h-screen flex flex-col">
 
-    <header class="mt-6 mb-8">
-      <h1 class="text-[40px] md:text-[48px] leading-tight font-bold mb-4">Incident at Beth Jacob: My Response</h1>
-      <h2 class="text-[20px] md:text-[22px] text-[#7A7A7A] mb-8">I have had over a month to mull this situation over in my head. I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.</h2>
-      <div class="py-5 border-y border-[#2A2A2A] text-sm text-[#7A7A7A]">
-        <span class="text-[#EDEDED] font-medium">Alexandria Gary King / נחמה בת אברהם ושרה</span>
-        <span> • 3/31/2026 / י&quot;ג בניסן תשפ&quot;ו • 4 min read</span>
-      </div>
-    </header>
+    <!-- Blog Masthead / Hero Section -->
+    <section class="w-full border-b border-border-gray bg-deep-black py-12 fade-in">
+        <div class="max-w-[1100px] mx-auto px-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+            <div class="flex flex-col gap-4">
+                <!-- Brand Identity -->
+                <div class="flex items-center gap-4">
+                    <a href="https://echoesofgaza.org">
+                        <img src="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" alt="Logo" class="h-10 w-auto object-contain hover:opacity-80 transition-opacity">
+                    </a>
+                    <a href="#" onclick="renderIndex(); return false;" class="text-xs font-sans text-deep-red font-bold uppercase tracking-widest hover:text-off-white transition-colors">
+                        Blog Home
+                    </a>
+                </div>
 
-    <article class="space-y-6 text-[19px] leading-relaxed">
-      <p><strong>Note:</strong> I will not be discussing anything outside of the scope of what I have witnessed firsthand. I know that this topic has had some impact outside of what I have been able to see personally, but I have no intention of speculating on events that are outside of my purview.</p>
-      <p>I have had over a month to mull this situation over in my head. I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something. This is not a piece defending myself or an attempt to attack anyone. If it were up to me, this never would have happened, and I would have continued as things were, but unfortunately that is impossible. I’m sure that many people reading this have no idea what I’m talking about, so I’ll lay down some background, explain what happened, and attempt to clarify some points. Through this, I hope to lay a better path forward not only for myself, but also hopefully for the greater Jewish community.</p>
-      <figure class="float-right w-48 md:w-56 ml-6 mb-4 mt-2">
-        <img src="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png" alt="Alexandria at the Jewish Cultural Festival in Dayton" class="w-full rounded-sm object-cover border border-[#2A2A2A]" />
-        <figcaption class="text-[11px] text-[#7A7A7A] mt-2 leading-tight text-right italic">Alexandria at the Jewish Cultural Festival in Dayton</figcaption>
-      </figure>
-      <p>First, for those who don’t know who I am, I am Alexandria King (Hebrew Name: נחמה בת אברהם ושרה) and I am a twenty-nine-year-old college student in Dayton, Ohio, direct support professional, and a proud Jew by choice. I am a member of Temple Israel (a reform synagogue in Dayton) and had been attending services at Beth Jacob Synagogue (an Orthodox synagogue) off and on for some time. The appeal of attending Beth Jacob services despite the fact that I am not the most frum (observant) person was that I found great comfort in the ritual of the Orthodox service. I enjoyed coming in early, going through the liturgy, and hearing the entire Torah and Haftorah portions. Most importantly, I always looked forward to Rabbi Agar’s drashes (sermons). I was always interested to see where he was going to take the portion and what stories he was going to tell; however, services didn’t always go smoothly. I can recall on at least one occasion where service was interrupted by someone going into the hallway and throwing a fit (this is what those in the storytelling business call foreshadowing.)</p>
-      <p>It was the 28th of February when, as was normal for me at this point, I went to services at Beth Jacob. Nothing was out of the ordinary, me and my partner Isaac were worshiping on separate sides of the מחיצה (mechitza, a divider at an Orthodox Synagogue to split men and women) when suddenly there was a commotion in the hallway. There was a woman who was terribly upset about someone being allowed at the synagogue. It was hard to make it out, but they were yelling phrases such as “sin against god,” “they’re not a member,” “anti-Israel,” “pro-Pali,” and “it’s them or me.” There was a point in that diatribe in which I was pretty certain that this person was referring to me, and when I looked back to see Leibel (Rabbi Agar) gesturing me to come back, my suspicions were confirmed. He asked me to leave. I was willing, albeit with consternation, quietly and without fuss. That is until the woman, as I was leaving, decided that she wanted to put salt on the wound and say things to my face. I was already in fight or flight mode, a feeling that was remarkably familiar to me and was reminiscent of times I have been physically attacked, and decided to tell her, in some impolite words, to get out of my face. From there I left and began to have an emotional breakdown in my car. The next week, I was contacted by a detective from the Sheriff’s office that I was asked to not return to the synagogue because of MY disturbance and rude language (and specifically not because of my views or where I was sitting, according to them.)</p>
-      <p>I have had a lot of feelings about this situation, but the main one is one of deep hurt. I felt like I was being abandoned by someone I once considered a friend and a trusted community leader. I felt like I was no longer safe in my Jewish Community because of who I am. A woman who I have never met before comes in and yells about me, and I’m the one who must leave? It makes no sense to me, and it feels like they were looking for an excuse not to have me come, and this just fell into their laps. I can’t honestly think of any other explanation than either malice or incompetence, and I’d believe either one at this point.</p>
-      <p>Now, I want to make one thing explicit: yes, I am and have always been staunchly for the self-determination of the Palestinian people. I believe that Israel’s actions on that front have been and continue to be abhorrent. At the same time, I believe deeply in the safety, dignity, and self-determination of Jewish people. I do not at all believe that these commitments are contradictory. I am a person who believes that if we want something to be better, we must be able to criticize it. The Torah calls for us to be a holy nation and to pursue justice justly, and I do not believe that the state of Israel holds itself to that standard. I will continue to work toward betterment; however, that does not make me an antisemite or worthy of being excluded from Jewish spaces.</p>
-      <p>To conclude, I just want to say that I am not sure what will come out of this. I know that there have already been discussions about what happened on that day to which I am not privy. Despite my efforts to keep this in my small circle of disclosure, I should’ve known that it was going to get out regardless of who I spoke to. I just want to say that even though I am hurt still, this is not something that happens in all Jewish Spaces. There have been countless spaces that my Queer Pro-Palestinian Jewish self has felt wholly welcome in. This is more so a cautionary tale that not all Jewish spaces are safe, and that not all leadership can lead.</p>
-    </article>
-  </main>
+                <h1 class="font-serif text-3xl md:text-5xl font-bold text-off-white tracking-tight leading-none">
+                    <a href="https://echoesofgaza.org" class="hover:underline decoration-deep-red underline-offset-8 transition-all">Echoes of Gaza</a>: Blog
+                </h1>
+
+                <p class="text-ash-gray text-sm md:text-base max-w-lg leading-relaxed font-sans">
+                    Analysis, commentary, and updates from the archival team and invited scholars.
+                </p>
+            </div>
+
+            <div class="flex items-center gap-4 w-full md:w-auto">
+                <form class="flex w-full md:w-auto" onsubmit="event.preventDefault();">
+                    <input type="email" placeholder="Email Address" class="bg-[#111] border border-border-gray border-r-0 text-off-white px-4 py-3 w-full md:w-64 text-sm focus:outline-none focus:border-deep-red transition-colors placeholder-ash-gray">
+                    <button class="bg-deep-red text-off-white px-6 py-3 text-sm font-medium hover:bg-red-900 transition-colors uppercase tracking-wider whitespace-nowrap">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main id="app-container" class="flex-grow w-full mx-auto fade-in">
+        <!-- Content injected via JavaScript -->
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="bg-deep-black border-t border-border-gray pt-12 pb-10 mt-auto">
+        <div class="max-w-[1100px] mx-auto px-5 flex flex-col md:flex-row justify-between gap-12">
+            <!-- Brand Column -->
+            <div class="md:w-1/3 space-y-6">
+                <div class="flex flex-col items-start opacity-100">
+                    <span class="text-xs font-serif text-off-white tracking-[0.2em] uppercase">Echoes of Gaza</span>
+                </div>
+                <p class="text-ash-gray text-xs leading-relaxed font-sans">Preserving truth, resisting erasure.</p>
+                <div id="google_translate_element"></div>
+            </div>
+
+            <!-- Links Columns -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 md:w-2/3">
+                <!-- Archive -->
+                <div>
+                    <h4 class="text-off-white/80 mb-6 text-xs uppercase tracking-widest font-sans font-bold">Archive</h4>
+                    <ul class="space-y-3 text-xs text-ash-gray font-sans">
+                        <li><a href="https://echoesofgaza.org/#articles" class="hover:text-off-white transition-colors">Articles</a></li>
+                        <li><a href="https://echoesofgaza.org/#victims" class="hover:text-off-white transition-colors">Martyrs</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div>
+                    <h4 class="text-off-white/80 mb-6 text-xs uppercase tracking-widest font-sans font-bold">Resources</h4>
+                    <ul class="space-y-3 text-xs text-ash-gray font-sans">
+                        <li><a href="https://echoesofgaza.org/#quotes" class="hover:text-off-white transition-colors">Quotes</a></li>
+                        <li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" class="hover:text-off-white transition-colors">Raw Data</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div>
+                    <h4 class="text-off-white/80 mb-6 text-xs uppercase tracking-widest font-sans font-bold">Support</h4>
+                    <div class="flex flex-col space-y-3 font-sans">
+                        <a href="https://buymeacoffee.com/echoesofgaza" target="_blank" class="text-xs text-ash-gray hover:text-off-white transition-colors">Donate</a>
+                        <a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" class="text-xs text-deep-red hover:text-white transition-colors font-medium">Monthly Support</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="max-w-[1100px] mx-auto px-5 mt-20 border-t border-border-gray pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-ash-gray uppercase tracking-wider font-sans">
+            <p>© 2026 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="underline hover:text-off-white transition-colors">CC BY-NC-SA 4.0</a>.</p>
+            <a href="https://echoesofgaza.org/admin.html" class="mt-4 md:mt-0 hover:text-off-white transition-colors">Admin Portal</a>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Container -->
+    <div id="toast">Link copied to clipboard</div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- DATA STORE ---
+        const posts = [
+            {
+                id: 1,
+                slug: "incident-at-beth-jacob",
+                path: "incident-at-beth-jacob.html",
+                title: "Incident at Beth Jacob: My Response",
+                subtitle: "I have had over a month to mull this situation over in my head. I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
+                shareDescription: "I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
+                shareImage: "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png",
+                author: "Alexandria Gary King / נחמה בת אברהם ושרה",
+                authorImg: "https://media.licdn.com/dms/image/v2/D5603AQG6acvhb-oGDA/profile-displayphoto-shrink_200_200/B56ZcdWNreHgBY-/0/1748544053088?e=2147483647&v=beta&t=VN-lQa9_dfE2HY8zy_NVmZETmdk53ZNjNEWqZ98Qsfc",
+                role: "Direct Support Professional",
+                date: "3/31/2026 / י\"ג בניסן תשפ\"ו",
+                readTime: "4 min read",
+                citations: 0,
+                comments: 0,
+                content: `
+                    <p><strong>Note:</strong> I will not be discussing anything outside of the scope of what I have witnessed firsthand. I know that this topic has had some impact outside of what I have been able to see personally, but I have no intention of speculating on events that are outside of my purview.</p>
+
+                    <p>I have had over a month to mull this situation over in my head. I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something. This is not a piece defending myself or an attempt to attack anyone. If it were up to me, this never would have happened, and I would have continued as things were, but unfortunately that is impossible. I’m sure that many people reading this have no idea what I’m talking about, so I’ll lay down some background, explain what happened, and attempt to clarify some points. Through this, I hope to lay a better path forward not only for myself, but also hopefully for the greater Jewish community.</p>
+
+                    <figure class="float-right w-48 md:w-56 ml-6 mb-4 mt-2">
+                        <img src="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png" alt="Alexandria at the Jewish Cultural Festival in Dayton" class="w-full rounded-sm object-cover border border-border-gray opacity-90 hover:opacity-100 transition-opacity">
+                        <figcaption class="text-[11px] text-ash-gray mt-2 font-sans leading-tight text-right italic">Alexandria at the Jewish Cultural Festival in Dayton</figcaption>
+                    </figure>
+
+                    <p>First, for those who don’t know who I am, I am Alexandria King (Hebrew Name: נחמה בת אברהם ושרה) and I am a twenty-nine-year-old college student in Dayton, Ohio, direct support professional, and a proud Jew by choice. I am a member of Temple Israel (a reform synagogue in Dayton) and had been attending services at Beth Jacob Synagogue (an Orthodox synagogue) off and on for some time. The appeal of attending Beth Jacob services despite the fact that I am not the most frum (observant) person was that I found great comfort in the ritual of the Orthodox service. I enjoyed coming in early, going through the liturgy, and hearing the entire Torah and Haftorah portions. Most importantly, I always looked forward to Rabbi Agar’s drashes (sermons). I was always interested to see where he was going to take the portion and what stories he was going to tell; however, services didn’t always go smoothly. I can recall on at least one occasion where service was interrupted by someone going into the hallway and throwing a fit (this is what those in the storytelling business call foreshadowing.)</p>
+
+                    <p>It was the 28th of February when, as was normal for me at this point, I went to services at Beth Jacob. Nothing was out of the ordinary, me and my partner Isaac were worshiping on separate sides of the מחיצה (mechitza, a divider at an Orthodox Synagogue to split men and women) when suddenly there was a commotion in the hallway. There was a woman who was terribly upset about someone being allowed at the synagogue. It was hard to make it out, but they were yelling phrases such as “sin against god,” “they’re not a member,” “anti-Israel,” “pro-Pali,” and “it’s them or me.” There was a point in that diatribe in which I was pretty certain that this person was referring to me, and when I looked back to see Leibel (Rabbi Agar) gesturing me to come back, my suspicions were confirmed. He asked me to leave. I was willing, albeit with consternation, quietly and without fuss. That is until the woman, as I was leaving, decided that she wanted to put salt on the wound and say things to my face. I was already in fight or flight mode, a feeling that was remarkably familiar to me and was reminiscent of times I have been physically attacked, and decided to tell her, in some impolite words, to get out of my face. From there I left and began to have an emotional breakdown in my car. The next week, I was contacted by a detective from the Sheriff’s office that I was asked to not return to the synagogue because of MY disturbance and rude language (and specifically not because of my views or where I was sitting, according to them.)</p>
+
+                    <p>I have had a lot of feelings about this situation, but the main one is one of deep hurt. I felt like I was being abandoned by someone I once considered a friend and a trusted community leader. I felt like I was no longer safe in my Jewish Community because of who I am. A woman who I have never met before comes in and yells about me, and I’m the one who must leave? It makes no sense to me, and it feels like they were looking for an excuse not to have me come, and this just fell into their laps. I can’t honestly think of any other explanation than either malice or incompetence, and I’d believe either one at this point.</p>
+
+                    <p>Now, I want to make one thing explicit: yes, I am and have always been staunchly for the self-determination of the Palestinian people. I believe that Israel’s actions on that front have been and continue to be abhorrent. At the same time, I believe deeply in the safety, dignity, and self-determination of Jewish people. I do not at all believe that these commitments are contradictory. I am a person who believes that if we want something to be better, we must be able to criticize it. The Torah calls for us to be a holy nation and to pursue justice justly, and I do not believe that the state of Israel holds itself to that standard. I will continue to work toward betterment; however, that does not make me an antisemite or worthy of being excluded from Jewish spaces.</p>
+
+                    <p>To conclude, I just want to say that I am not sure what will come out of this. I know that there have already been discussions about what happened on that day to which I am not privy. Despite my efforts to keep this in my small circle of disclosure, I should’ve known that it was going to get out regardless of who I spoke to. I just want to say that even though I am hurt still, this is not something that happens in all Jewish Spaces. There have been countless spaces that my Queer Pro-Palestinian Jewish self has felt wholly welcome in. This is more so a cautionary tale that not all Jewish spaces are safe, and that not all leadership can lead.</p>
+                `
+            }
+        ];
+
+        const container = document.getElementById('app-container');
+        const SITE_TITLE = "Echoes of Gaza: Blog";
+        const SITE_DESCRIPTION = "Analysis, commentary, and updates from the archival team and invited scholars.";
+        const SITE_URL = "https://echoesofgaza.org/blog";
+        const SITE_FAVICON = "https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png";
+
+        function removeMeta(selector) {
+            const tag = document.head.querySelector(selector);
+            if (tag) tag.remove();
+        }
+
+        function upsertMeta(selector, attributes) {
+            let tag = document.head.querySelector(selector);
+            if (!tag) {
+                tag = document.createElement("meta");
+                document.head.appendChild(tag);
+            }
+            Object.entries(attributes).forEach(([key, value]) => tag.setAttribute(key, value));
+        }
+
+        function ensureFavicon() {
+            let favicon = document.head.querySelector('link[rel="icon"]');
+            if (!favicon) {
+                favicon = document.createElement("link");
+                favicon.setAttribute("rel", "icon");
+                document.head.appendChild(favicon);
+            }
+            favicon.setAttribute("href", SITE_FAVICON);
+            favicon.setAttribute("type", "image/png");
+        }
+
+        function setSeoMeta(post = null) {
+            const pageTitle = post ? post.title : SITE_TITLE;
+            const pageDescription = post ? (post.shareDescription || post.subtitle || SITE_DESCRIPTION) : SITE_DESCRIPTION;
+            const pageUrl = post ? getPostUrl(post) : SITE_URL;
+            const pageImage = post ? (post.shareImage || null) : null;
+
+            document.title = pageTitle;
+            ensureFavicon();
+            upsertMeta('meta[name="description"]', { name: "description", content: pageDescription });
+            upsertMeta('meta[property="og:type"]', { property: "og:type", content: "article" });
+            upsertMeta('meta[property="og:site_name"]', { property: "og:site_name", content: "Echoes of Gaza" });
+            upsertMeta('meta[property="og:title"]', { property: "og:title", content: pageTitle });
+            upsertMeta('meta[property="og:description"]', { property: "og:description", content: pageDescription });
+            if (pageImage) {
+                upsertMeta('meta[property="og:image"]', { property: "og:image", content: pageImage });
+                upsertMeta('meta[property="og:image:secure_url"]', { property: "og:image:secure_url", content: pageImage });
+                upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: `${pageTitle} thumbnail` });
+            } else {
+                removeMeta('meta[property="og:image"]');
+                removeMeta('meta[property="og:image:secure_url"]');
+                removeMeta('meta[property="og:image:alt"]');
+            }
+            upsertMeta('meta[property="og:url"]', { property: "og:url", content: pageUrl });
+            upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: pageImage ? "summary_large_image" : "summary" });
+            upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: pageTitle });
+            upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: pageDescription });
+            if (pageImage) {
+                upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: pageImage });
+            } else {
+                removeMeta('meta[name="twitter:image"]');
+            }
+        }
+
+        // --- SHARED UTILITIES ---
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        function getPostUrl(post) {
+            if (post.path) return `https://echoesofgaza.org/blog/${post.path}`;
+            return `https://echoesofgaza.org/blog?post=${encodeURIComponent(post.slug || post.id)}`;
+        }
+
+        function sharePost(event, id) {
+            if (event) event.stopPropagation();
+            const post = posts.find(p => p.id === id);
+            if (!post) return;
+            const postUrl = getPostUrl(post);
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(postUrl).then(() => {
+                    showToast("Link copied to clipboard");
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(postUrl);
+                });
+            } else {
+                fallbackCopyTextToClipboard(postUrl);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if(successful) showToast("Link copied to clipboard");
+                else showToast("Failed to copy link");
+            } catch (err) {
+                showToast("Failed to copy link");
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // --- RENDER FUNCTIONS ---
+
+        // View 1: The Blog Index
+        function updatePostQuery(post) {
+            const url = new URL(window.location.href);
+            if (post) {
+                url.searchParams.set("post", post.slug || post.id);
+            } else {
+                url.searchParams.delete("post");
+            }
+            window.history.replaceState({}, "", url.toString());
+        }
+
+        function renderIndex() {
+            window.scrollTo(0, 0);
+            updatePostQuery(null);
+            setSeoMeta(null);
+            let html = `
+                <div class="max-w-[1100px] mx-auto px-5 py-12 fade-in">
+
+                    <div class="flex flex-col md:flex-row gap-12">
+
+                        <!-- Main Feed (Left/Center) -->
+                        <div class="w-full md:w-2/3">
+                            <h2 class="text-off-white font-sans font-bold text-sm tracking-widest uppercase mb-8 border-b border-border-gray pb-2">Newest Entries</h2>
+                            <div class="space-y-12">
+            `;
+
+            posts.forEach(post => {
+                const postUrl = getPostUrl(post);
+                html += `
+                    <article class="group">
+                        <a href="${postUrl}" class="block cursor-pointer">
+                        <!-- Meta -->
+                        <div class="flex items-center gap-2 mb-2 text-sm text-ash-gray font-sans">
+                            <span class="font-medium text-off-white">${post.author}</span>
+                            <span>&bull;</span>
+                            <span>${post.date}</span>
+                        </div>
+
+                        <!-- Titles -->
+                        <h2 class="text-[24px] font-serif font-bold text-off-white leading-tight mb-2 group-hover:text-ash-gray transition-colors">${post.title}</h2>
+                        <p class="text-ash-gray text-[16px] leading-snug mb-4 font-sans line-clamp-2">${post.subtitle}</p>
+
+                        </a>
+                        <!-- Action Row -->
+                        <div class="flex items-center gap-6 mt-4 border-t border-border-gray pt-4 opacity-70 group-hover:opacity-100 transition-opacity">
+                            <div class="action-btn" title="View Citations">
+                                <i class="ph ph-seal-check text-lg"></i>
+                                <span>${post.citations}</span>
+                            </div>
+                            <div class="action-btn" title="View Comments">
+                                <i class="ph ph-chat-circle text-lg"></i>
+                                <span>${post.comments}</span>
+                            </div>
+                            <div class="action-btn ml-auto" onclick="sharePost(event, ${post.id})" title="Copy Link">
+                                <i class="ph ph-share-network text-lg"></i>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            });
+
+            html += `
+                            </div>
+                        </div>
+
+                        <!-- Sidebar (Right) -->
+                        <aside class="w-full md:w-1/3 space-y-10 pl-0 md:pl-8 md:border-l border-border-gray h-fit sticky top-12">
+
+                            <!-- About Box -->
+                            <div>
+                                <h3 class="text-off-white font-sans font-bold text-sm tracking-widest uppercase mb-4">About the Blog</h3>
+                                <p class="text-ash-gray text-sm leading-relaxed mb-4">
+                                    The Blog serves as the collaborative layer of the Archive. Here, community members, activists, local voices, academics, and scholars provide weekly commentary on the documentation process.
+                                </p>
+                            </div>
+
+                            <!-- Contributors -->
+                            <div>
+                                <h3 class="text-off-white font-sans font-bold text-sm tracking-widest uppercase mb-4">Contributors</h3>
+                                <ul class="space-y-4">
+                                    <li class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-hover-bg border border-border-gray flex items-center justify-center text-xs text-ash-gray font-serif overflow-hidden">
+                                            <img src="https://media.licdn.com/dms/image/v2/D5603AQG6acvhb-oGDA/profile-displayphoto-shrink_200_200/B56ZcdWNreHgBY-/0/1748544053088?e=2147483647&v=beta&t=VN-lQa9_dfE2HY8zy_NVmZETmdk53ZNjNEWqZ98Qsfc" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-off-white font-medium">Alexandria Gary King</div>
+                                            <div class="text-xs text-ash-gray">Direct Support Professional</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </aside>
+                    </div>
+                </div>`;
+
+            container.innerHTML = html;
+        }
+
+        // View 2: The Article Page
+        function renderPost(id, updateUrl = false) {
+            window.scrollTo(0, 0);
+            const post = posts.find(p => p.id === id);
+            if (!post) return;
+            if (updateUrl) updatePostQuery(post);
+            setSeoMeta(post);
+
+            container.innerHTML = `
+                <div class="max-w-[680px] mx-auto px-5 py-10 fade-in">
+
+                    <!-- Post Header -->
+                    <header class="mb-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="text-deep-red text-sm font-bold uppercase tracking-widest cursor-pointer hover:text-white" onclick="renderIndex()">&larr; Blog Index</div>
+                        </div>
+
+                        <h1 class="post-title text-[40px] md:text-[48px] font-bold text-off-white mb-4">${post.title}</h1>
+                        <h2 class="post-subtitle text-[20px] md:text-[22px] mb-8 font-sans">${post.subtitle}</h2>
+
+                        <!-- Author Block -->
+                        <div class="flex items-center justify-between py-5 border-y border-border-gray">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-border-gray rounded-full flex items-center justify-center text-off-white font-serif italic text-lg border border-[#333] overflow-hidden">
+                                    ${post.authorImg ? `<img src="${post.authorImg}" alt="${post.author}" class="w-full h-full object-cover">` : post.author.charAt(0)}
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-sm font-medium text-off-white cursor-pointer hover:underline">${post.author}</span>
+                                    <span class="text-xs text-ash-gray">${post.date} &bull; ${post.readTime}</span>
+                                </div>
+                            </div>
+
+                            <!-- Share Actions -->
+                            <div class="flex items-center gap-4 text-ash-gray border-l border-border-gray pl-4 ml-4">
+                                <div class="action-btn" title="View Citations">
+                                    <i class="ph ph-seal-check text-xl"></i>
+                                    <span class="text-sm">${post.citations}</span>
+                                </div>
+                                <div class="action-btn" onclick="sharePost(event, ${post.id})" title="Copy Link">
+                                    <i class="ph ph-share-network text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Body -->
+                    <article class="prose-content">
+                        ${post.content}
+                    </article>
+
+                    <!-- Editor's Note -->
+                    <section class="mt-8 p-4 border border-border-gray bg-[#111] rounded-sm">
+                        <p class="text-xs uppercase tracking-[0.18em] text-deep-red font-bold mb-2">Editor’s Note</p>
+                        <p class="text-sm text-ash-gray leading-relaxed">
+                            The Echoes of Gaza archive is an anti-Zionist space committed to Palestinian liberation.
+                            We publish personal narratives that reflect a range of lived experiences and perspectives within that struggle.
+                            The views expressed in this piece are the author’s own.
+                        </p>
+                    </section>
+
+                    <!-- Engagement / Footer Area -->
+                    <div class="mt-16 mb-20">
+                        <!-- Engagement Row -->
+                        <div class="flex items-center gap-6 py-4 border-t border-border-gray">
+                             <div class="action-btn hover:text-deep-red" title="View Citations">
+                                <i class="ph ph-seal-check text-xl"></i>
+                                <span class="text-sm">${post.citations} Citations</span>
+                            </div>
+                            <div class="action-btn" title="View Comments">
+                                <i class="ph ph-chat-circle text-xl"></i>
+                                <span class="text-sm">${post.comments} Responses</span>
+                            </div>
+                             <div class="action-btn ml-auto" onclick="sharePost(event, ${post.id})" title="Copy Link">
+                                <i class="ph ph-share-network text-xl"></i>
+                            </div>
+                        </div>
+
+                        <!-- Subscribe Box -->
+                        <div class="bg-[#111] border border-border-gray p-8 text-center rounded-sm my-8">
+                            <img src="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" alt="Logo" class="h-12 w-auto mx-auto mb-4 object-contain">
+                            <h3 class="text-off-white font-serif text-xl font-bold mb-2">Echoes of Gaza: Blog</h3>
+                            <p class="text-ash-gray text-sm mb-6 max-w-sm mx-auto">Get weekly analysis from Prof. Miller and invited guests directly to your inbox.</p>
+                            <div class="flex gap-2 max-w-sm mx-auto">
+                                <input type="email" placeholder="Email address" class="bg-black border border-border-gray text-white px-3 py-2 w-full text-sm focus:border-deep-red outline-none">
+                                <button class="bg-deep-red text-white px-4 py-2 text-sm font-medium whitespace-nowrap hover:bg-red-900 transition-colors">Subscribe</button>
+                            </div>
+                        </div>
+
+                        <!-- Comments Section (Preview) -->
+                        <div class="bg-black py-4">
+                            <h3 class="font-sans font-bold text-sm uppercase tracking-widest text-off-white mb-6">Responses (${post.comments})</h3>
+                             <button class="text-deep-red text-sm font-medium hover:underline">Write a response...</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize dedicated post view
+        function initializePage() {
+            renderPost(1, false);
+        }
+
+        initializePage();
+
+    </script>
 </body>
 </html>
