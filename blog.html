@@ -3,21 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Incident at Beth Jacob: My Response</title>
-    <meta name="description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.">
+    <title>Echoes of Gaza: Blog</title>
+    <meta name="description" content="Analysis, commentary, and updates from the archival team and invited scholars.">
     <link rel="icon" href="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" type="image/png">
-    <meta property="og:type" content="article">
+    <meta property="og:type" content="website">
     <meta property="og:site_name" content="Echoes of Gaza">
-    <meta property="og:title" content="Incident at Beth Jacob: My Response">
-    <meta property="og:description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.">
-    <meta property="og:url" content="https://echoesofgaza.org/blog?post=incident-at-beth-jacob-my-response">
-    <meta property="og:image" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/refs/heads/main/alexandria_blog_image.png">
-    <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/refs/heads/main/alexandria_blog_image.png">
-    <meta property="og:image:alt" content="Alexandria at the Jewish Cultural Festival in Dayton">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Incident at Beth Jacob: My Response">
-    <meta name="twitter:description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/refs/heads/main/alexandria_blog_image.png">
+    <meta property="og:title" content="Echoes of Gaza: Blog">
+    <meta property="og:description" content="Analysis, commentary, and updates from the archival team and invited scholars.">
+    <meta property="og:url" content="https://echoesofgaza.org/blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Echoes of Gaza: Blog">
+    <meta name="twitter:description" content="Analysis, commentary, and updates from the archival team and invited scholars.">
+    <script>
+        (function applyPostSpecificHeadMetadata() {
+            const postSlug = new URLSearchParams(window.location.search).get("post");
+            if (postSlug !== "incident-at-beth-jacob-my-response") return;
+
+            const metadata = {
+                title: "Incident at Beth Jacob: My Response",
+                description: "I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
+                url: "https://echoesofgaza.org/blog?post=incident-at-beth-jacob-my-response",
+                image: "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/refs/heads/main/alexandria_blog_image.png",
+                imageAlt: "Alexandria at the Jewish Cultural Festival in Dayton"
+            };
+
+            document.title = metadata.title;
+
+            const upsertMeta = (selector, attributes) => {
+                let tag = document.head.querySelector(selector);
+                if (!tag) {
+                    tag = document.createElement("meta");
+                    document.head.appendChild(tag);
+                }
+                Object.entries(attributes).forEach(([key, value]) => tag.setAttribute(key, value));
+            };
+
+            upsertMeta('meta[name="description"]', { name: "description", content: metadata.description });
+            upsertMeta('meta[property="og:type"]', { property: "og:type", content: "article" });
+            upsertMeta('meta[property="og:title"]', { property: "og:title", content: metadata.title });
+            upsertMeta('meta[property="og:description"]', { property: "og:description", content: metadata.description });
+            upsertMeta('meta[property="og:url"]', { property: "og:url", content: metadata.url });
+            upsertMeta('meta[property="og:image"]', { property: "og:image", content: metadata.image });
+            upsertMeta('meta[property="og:image:secure_url"]', { property: "og:image:secure_url", content: metadata.image });
+            upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: metadata.imageAlt });
+            upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
+            upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: metadata.title });
+            upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: metadata.description });
+            upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: metadata.image });
+        })();
+    </script>
     
     <!-- Typography Imports -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
