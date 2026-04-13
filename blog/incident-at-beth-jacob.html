@@ -187,7 +187,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            margin-bottom: 20px;
+            margin-top: 20px;
             padding: 12px 0;
             border-top: 1px solid #2A2A2A;
             border-bottom: 1px solid #2A2A2A;
@@ -613,25 +613,25 @@
                         </div>
                     </header>
 
-	                    <div class="social-stats">
-	                        <button id="likeBtn" class="stat-btn" aria-label="Like this page">
-	                            <span>♥</span>
-	                            <span id="likeCount">0</span>
-	                        </button>
-	                        <span class="stat-item" aria-label="Views">
-	                            <span>👁</span>
-	                            <span id="viewCount">0</span>
-	                        </span>
-	                        <button id="shareBtn" class="stat-btn" aria-label="Share this page">
-	                            <span>↗</span>
-	                            <span id="shareCount">0</span>
-	                        </button>
-	                    </div>
-
 	                    <!-- Body -->
 	                    <article class="prose-content">
 	                        ${post.content}
 	                    </article>
+
+	                    <div class="social-stats">
+	                        <button id="likeBtn" class="stat-btn" aria-label="Like this page">
+	                            <i class="ph ph-heart"></i>
+	                            <span id="likeCount">0</span>
+	                        </button>
+	                        <span class="stat-item" aria-label="Views">
+	                            <i class="ph ph-eye"></i>
+	                            <span id="viewCount">0</span>
+	                        </span>
+	                        <button id="shareBtn" class="stat-btn" aria-label="Share this page">
+	                            <i class="ph ph-share-network"></i>
+	                            <span id="shareCount">0</span>
+	                        </button>
+	                    </div>
 
                     <!-- Editor's Note -->
                     <section class="mt-8 p-4 border border-border-gray bg-[#111] rounded-sm">
@@ -651,19 +651,9 @@
                                 <i class="ph ph-seal-check text-xl"></i>
                                 <span class="text-sm">${post.citations} Citations</span>
                             </div>
-                            <div class="action-btn" title="View Comments">
-                                <i class="ph ph-chat-circle text-xl"></i>
-                                <span class="text-sm">${post.comments} Responses</span>
-                            </div>
                              <div class="action-btn ml-auto" onclick="sharePost(event, ${post.id})" title="Copy Link">
                                 <i class="ph ph-share-network text-xl"></i>
                             </div>
-                        </div>
-
-                        <!-- Comments Section (Preview) -->
-                        <div class="bg-black py-4">
-                            <h3 class="font-sans font-bold text-sm uppercase tracking-widest text-off-white mb-6">Responses (${post.comments})</h3>
-                             <button class="text-deep-red text-sm font-medium hover:underline">Write a response...</button>
                         </div>
                     </div>
                 </div>
