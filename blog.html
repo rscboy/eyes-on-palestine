@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echoes of Gaza: Blog</title>
+    <title>Voices from Echoes of Gaza</title>
     <meta name="description" content="Analysis, commentary, and updates from the archival team and invited scholars.">
     <link rel="icon" href="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" type="image/png">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Echoes of Gaza">
-    <meta property="og:title" content="Echoes of Gaza: Blog">
+    <meta property="og:title" content="Voices from Echoes of Gaza">
     <meta property="og:description" content="Analysis, commentary, and updates from the archival team and invited scholars.">
     <meta property="og:url" content="https://echoesofgaza.org/blog">
-    <meta property="og:image" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png">
-    <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png">
-    <meta property="og:image:alt" content="Alexandria at the Jewish Cultural Festival in Dayton">
+    <meta property="og:image" content="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png">
+    <meta property="og:image:secure_url" content="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png">
+    <meta property="og:image:alt" content="Echoes of Gaza favicon">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Echoes of Gaza: Blog">
+    <meta name="twitter:title" content="Voices from Echoes of Gaza">
     <meta name="twitter:description" content="Analysis, commentary, and updates from the archival team and invited scholars.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png">
+    <meta name="twitter:image" content="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png">
     <script>
         (function applyPostSpecificHeadMetadata() {
             const postSlug = new URLSearchParams(window.location.search).get("post");
@@ -29,16 +29,18 @@
                     image: "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png",
                     imageAlt: "Alexandria at the Jewish Cultural Festival in Dayton",
                     twitterCard: "summary_large_image",
-                    removeImages: false
+                    removeImages: false,
+                    isPost: true
                 }
                 : {
-                    title: "Echoes of Gaza: Blog",
+                    title: "Voices from Echoes of Gaza",
                     description: "Analysis, commentary, and updates from the archival team and invited scholars.",
                     url: "https://echoesofgaza.org/blog",
-                    image: null,
-                    imageAlt: null,
+                    image: "https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png",
+                    imageAlt: "Echoes of Gaza favicon",
                     twitterCard: "summary",
-                    removeImages: true
+                    removeImages: false,
+                    isPost: false
                 };
 
             document.title = metadata.title;
@@ -58,7 +60,7 @@
                 if (tag) tag.remove();
             };
 
-            upsertMeta('meta[property="og:type"]', { property: "og:type", content: metadata.removeImages ? "website" : "article" });
+            upsertMeta('meta[property="og:type"]', { property: "og:type", content: metadata.isPost ? "article" : "website" });
             upsertMeta('meta[property="og:title"]', { property: "og:title", content: metadata.title });
             upsertMeta('meta[property="og:description"]', { property: "og:description", content: metadata.description });
             upsertMeta('meta[property="og:url"]', { property: "og:url", content: metadata.url });
@@ -371,7 +373,7 @@
         ];
 
         const container = document.getElementById('app-container');
-        const SITE_TITLE = "Echoes of Gaza: Blog";
+        const SITE_TITLE = "Voices from Echoes of Gaza";
         const SITE_DESCRIPTION = "Analysis, commentary, and updates from the archival team and invited scholars.";
         const SITE_URL = "https://echoesofgaza.org/blog";
         const SITE_FAVICON = "https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png";
@@ -405,7 +407,7 @@
             const pageTitle = post ? post.title : SITE_TITLE;
             const pageDescription = post ? (post.shareDescription || post.subtitle || SITE_DESCRIPTION) : SITE_DESCRIPTION;
             const pageUrl = post ? getPostUrl(post) : SITE_URL;
-            const pageImage = post ? (post.shareImage || null) : null;
+            const pageImage = post ? (post.shareImage || null) : SITE_FAVICON;
 
             document.title = pageTitle;
             ensureFavicon();
@@ -423,8 +425,9 @@
                 removeMeta('meta[property="og:image:secure_url"]');
                 removeMeta('meta[property="og:image:alt"]');
             }
+            const hasLargeShareImage = Boolean(post && pageImage);
             upsertMeta('meta[property="og:url"]', { property: "og:url", content: pageUrl });
-            upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: pageImage ? "summary_large_image" : "summary" });
+            upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: hasLargeShareImage ? "summary_large_image" : "summary" });
             upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: pageTitle });
             upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: pageDescription });
             if (pageImage) {

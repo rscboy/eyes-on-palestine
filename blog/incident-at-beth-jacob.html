@@ -313,7 +313,7 @@
         ];
 
         const container = document.getElementById('app-container');
-        const SITE_TITLE = "Echoes of Gaza: Blog";
+        const SITE_TITLE = "Voices from Echoes of Gaza";
         const SITE_DESCRIPTION = "Analysis, commentary, and updates from the archival team and invited scholars.";
         const SITE_URL = "https://echoesofgaza.org/blog";
         const SITE_FAVICON = "https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png";
@@ -347,7 +347,7 @@
             const pageTitle = post ? post.title : SITE_TITLE;
             const pageDescription = post ? (post.shareDescription || post.subtitle || SITE_DESCRIPTION) : SITE_DESCRIPTION;
             const pageUrl = post ? getPostUrl(post) : SITE_URL;
-            const pageImage = post ? (post.shareImage || null) : null;
+            const pageImage = post ? (post.shareImage || null) : SITE_FAVICON;
 
             document.title = pageTitle;
             ensureFavicon();
@@ -365,8 +365,9 @@
                 removeMeta('meta[property="og:image:secure_url"]');
                 removeMeta('meta[property="og:image:alt"]');
             }
+            const hasLargeShareImage = Boolean(post && pageImage);
             upsertMeta('meta[property="og:url"]', { property: "og:url", content: pageUrl });
-            upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: pageImage ? "summary_large_image" : "summary" });
+            upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: hasLargeShareImage ? "summary_large_image" : "summary" });
             upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: pageTitle });
             upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: pageDescription });
             if (pageImage) {
