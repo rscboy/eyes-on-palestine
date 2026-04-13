@@ -12,13 +12,18 @@
     <meta property="og:title" content="Incident at Beth Jacob: My Response">
     <meta property="og:description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.">
     <meta property="og:url" content="https://echoesofgaza.org/blog/incident-at-beth-jacob.html">
-    <meta property="og:image" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png">
-    <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png">
+    <meta property="og:image" content="https://echoesofgaza.org/alexandria_blog_image.png">
+    <meta property="og:image:secure_url" content="https://echoesofgaza.org/alexandria_blog_image.png">
     <meta property="og:image:alt" content="Alexandria at the Jewish Cultural Festival in Dayton">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1046">
+    <meta property="og:image:height" content="1468">
+    <meta name="twitter:url" content="https://echoesofgaza.org/blog/incident-at-beth-jacob.html">
+    <meta name="twitter:image:alt" content="Alexandria at the Jewish Cultural Festival in Dayton">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Incident at Beth Jacob: My Response">
     <meta name="twitter:description" content="I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png">
+    <meta name="twitter:image" content="https://echoesofgaza.org/alexandria_blog_image.png">
 
 
     <!-- Typography Imports -->
@@ -322,7 +327,7 @@
                 title: "Incident at Beth Jacob: My Response",
                 subtitle: "I have had over a month to mull this situation over in my head. I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
                 shareDescription: "I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
-                shareImage: "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png",
+                shareImage: "https://echoesofgaza.org/alexandria_blog_image.png",
                 author: "Alexandria Gary King / נחמה בת אברהם ושרה",
                 authorImg: "https://media.licdn.com/dms/image/v2/D5603AQG6acvhb-oGDA/profile-displayphoto-shrink_200_200/B56ZcdWNreHgBY-/0/1748544053088?e=2147483647&v=beta&t=VN-lQa9_dfE2HY8zy_NVmZETmdk53ZNjNEWqZ98Qsfc",
                 role: "Direct Support Professional",
@@ -336,7 +341,7 @@
                     <p>I have had over a month to mull this situation over in my head. I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something. This is not a piece defending myself or an attempt to attack anyone. If it were up to me, this never would have happened, and I would have continued as things were, but unfortunately that is impossible. I’m sure that many people reading this have no idea what I’m talking about, so I’ll lay down some background, explain what happened, and attempt to clarify some points. Through this, I hope to lay a better path forward not only for myself, but also hopefully for the greater Jewish community.</p>
 
                     <figure class="float-right w-48 md:w-56 ml-6 mb-4 mt-2">
-                        <img src="https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/alexandria_blog_image.png" alt="Alexandria at the Jewish Cultural Festival in Dayton" class="w-full rounded-sm object-cover border border-border-gray opacity-90 hover:opacity-100 transition-opacity">
+                        <img src="https://echoesofgaza.org/alexandria_blog_image.png" alt="Alexandria at the Jewish Cultural Festival in Dayton" class="w-full rounded-sm object-cover border border-border-gray opacity-90 hover:opacity-100 transition-opacity">
                         <figcaption class="text-[11px] text-ash-gray mt-2 font-sans leading-tight text-right italic">Alexandria at the Jewish Cultural Festival in Dayton</figcaption>
                     </figure>
 
@@ -400,10 +405,16 @@
             if (pageImage) {
                 upsertMeta('meta[property="og:image"]', { property: "og:image", content: pageImage });
                 upsertMeta('meta[property="og:image:secure_url"]', { property: "og:image:secure_url", content: pageImage });
+                upsertMeta('meta[property="og:image:type"]', { property: "og:image:type", content: "image/png" });
+                upsertMeta('meta[property="og:image:width"]', { property: "og:image:width", content: "1046" });
+                upsertMeta('meta[property="og:image:height"]', { property: "og:image:height", content: "1468" });
                 upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: `${pageTitle} thumbnail` });
             } else {
                 removeMeta('meta[property="og:image"]');
                 removeMeta('meta[property="og:image:secure_url"]');
+                removeMeta('meta[property="og:image:type"]');
+                removeMeta('meta[property="og:image:width"]');
+                removeMeta('meta[property="og:image:height"]');
                 removeMeta('meta[property="og:image:alt"]');
             }
             const hasLargeShareImage = Boolean(post && pageImage);
@@ -411,10 +422,13 @@
             upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: hasLargeShareImage ? "summary_large_image" : "summary" });
             upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: pageTitle });
             upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: pageDescription });
+            upsertMeta('meta[name="twitter:url"]', { name: "twitter:url", content: pageUrl });
             if (pageImage) {
                 upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: pageImage });
+                upsertMeta('meta[name="twitter:image:alt"]', { name: "twitter:image:alt", content: `${pageTitle} thumbnail` });
             } else {
                 removeMeta('meta[name="twitter:image"]');
+                removeMeta('meta[name="twitter:image:alt"]');
             }
         }
 
