@@ -182,6 +182,45 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
+        .social-stats {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding: 12px 0;
+            border-top: 1px solid #2A2A2A;
+            border-bottom: 1px solid #2A2A2A;
+        }
+
+        .stat-btn,
+        .stat-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #EDEDED;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .stat-btn {
+            background: transparent;
+            border: 1px solid #2A2A2A;
+            border-radius: 999px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .stat-btn:hover:not(:disabled) {
+            border-color: #8C0D0D;
+            color: #fff;
+        }
+
+        .stat-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -269,6 +308,8 @@
 
     <!-- Toast Notification Container -->
     <div id="toast">Link copied to clipboard</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <!-- JavaScript Logic -->
     <script>
@@ -528,7 +569,7 @@
         }
 
         // View 2: The Article Page
-        function renderPost(id, updateUrl = false) {
+	        function renderPost(id, updateUrl = false) {
             window.scrollTo(0, 0);
             const post = posts.find(p => p.id === id);
             if (!post) return;
@@ -572,47 +613,174 @@
                         </div>
                     </header>
 
-                    <!-- Body -->
-                    <article class="prose-content">
-                        ${post.content}
-                    </article>
+	                    <!-- Body -->
+	                    <article class="prose-content">
+	                        ${post.content}
+	                    </article>
 
                     <!-- Editor's Note -->
-                    <section class="mt-8 p-4 border border-border-gray bg-[#111] rounded-sm">
-                        <p class="text-xs uppercase tracking-[0.18em] text-deep-red font-bold mb-2">Editor’s Note</p>
-                        <p class="text-sm text-ash-gray leading-relaxed">
-                            The Echoes of Gaza archive is an anti-Zionist space committed to Palestinian liberation.
-                            We publish personal narratives that reflect a range of lived experiences and perspectives within that struggle.
-                            The views expressed in this piece are the author’s own.
-                        </p>
-                    </section>
+	                    <section class="mt-8 p-4 border border-border-gray bg-[#111] rounded-sm">
+	                        <p class="text-xs uppercase tracking-[0.18em] text-deep-red font-bold mb-2">Editor’s Note</p>
+	                        <p class="text-sm text-ash-gray leading-relaxed">
+	                            The Echoes of Gaza archive is an anti-Zionist space committed to Palestinian liberation.
+	                            We publish personal narratives that reflect a range of lived experiences and perspectives within that struggle.
+	                            The views expressed in this piece are the author’s own.
+	                        </p>
+	                    </section>
 
-                    <!-- Engagement / Footer Area -->
-                    <div class="mt-16 mb-20">
-                        <!-- Engagement Row -->
-                        <div class="flex items-center gap-6 py-4 border-t border-border-gray">
-                             <div class="action-btn hover:text-deep-red" title="View Citations">
-                                <i class="ph ph-seal-check text-xl"></i>
-                                <span class="text-sm">${post.citations} Citations</span>
-                            </div>
-                            <div class="action-btn" title="View Comments">
-                                <i class="ph ph-chat-circle text-xl"></i>
-                                <span class="text-sm">${post.comments} Responses</span>
-                            </div>
-                             <div class="action-btn ml-auto" onclick="sharePost(event, ${post.id})" title="Copy Link">
-                                <i class="ph ph-share-network text-xl"></i>
-                            </div>
+                        <div class="social-stats mt-10 mb-20">
+                            <button id="likeBtn" class="stat-btn" aria-label="Like this page">
+                                <span>Like</span>
+                                <span id="likeCount">0</span>
+                            </button>
+                            <span class="stat-item" aria-label="Views">
+                                <span>Views</span>
+                                <span id="viewCount">0</span>
+                            </span>
+                            <button id="shareBtn" class="stat-btn" aria-label="Share this page">
+                                <span>Share</span>
+                                <span id="shareCount">0</span>
+                            </button>
                         </div>
+	                </div>
+	            `;
 
-                        <!-- Comments Section (Preview) -->
-                        <div class="bg-black py-4">
-                            <h3 class="font-sans font-bold text-sm uppercase tracking-widest text-off-white mb-6">Responses (${post.comments})</h3>
-                             <button class="text-deep-red text-sm font-medium hover:underline">Write a response...</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+                initSocialStats();
+	        }
+
+            function initSocialStats() {
+                const SUPABASE_URL = "https://pobsfgvtrqavodkxqtkr.supabase.co";
+                const SUPABASE_ANON_KEY = "sb_publishable_g15YsT165WFtfwe86H6xnw_0CgJ4TqK";
+                const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                const postId = window.location.pathname.replace(/\/$/, "") || "/";
+
+                const viewCountEl = document.getElementById("viewCount");
+                const likeCountEl = document.getElementById("likeCount");
+                const shareCountEl = document.getElementById("shareCount");
+                const likeBtn = document.getElementById("likeBtn");
+                const shareBtn = document.getElementById("shareBtn");
+
+                async function loadCounts() {
+                    const { data, error } = await supabaseClient
+                        .from("page_stats")
+                        .select("views, likes, shares")
+                        .eq("post_id", postId)
+                        .maybeSingle();
+
+                    if (error) {
+                        console.error("Error loading counts:", error);
+                        return;
+                    }
+
+                    viewCountEl.textContent = data?.views ?? 0;
+                    likeCountEl.textContent = data?.likes ?? 0;
+                    shareCountEl.textContent = data?.shares ?? 0;
+                }
+
+                function shouldCountViewToday() {
+                    const key = `viewed:${postId}`;
+                    const today = new Date().toISOString().slice(0, 10);
+                    const lastViewed = localStorage.getItem(key);
+
+                    if (lastViewed === today) return false;
+
+                    localStorage.setItem(key, today);
+                    return true;
+                }
+
+                async function countView() {
+                    const { data, error } = await supabaseClient.rpc("increment_view", {
+                        target_post_id: postId
+                    });
+
+                    if (error) {
+                        console.error("Error counting view:", error);
+                        return;
+                    }
+
+                    if (data) {
+                        viewCountEl.textContent = data.views ?? 0;
+                        likeCountEl.textContent = data.likes ?? 0;
+                        shareCountEl.textContent = data.shares ?? 0;
+                    }
+                }
+
+                async function countLike() {
+                    const key = `liked:${postId}`;
+                    if (localStorage.getItem(key)) return;
+
+                    const { data, error } = await supabaseClient.rpc("increment_like", {
+                        target_post_id: postId
+                    });
+
+                    if (error) {
+                        console.error("Error counting like:", error);
+                        return;
+                    }
+
+                    localStorage.setItem(key, "1");
+                    likeBtn.disabled = true;
+
+                    if (data) {
+                        viewCountEl.textContent = data.views ?? 0;
+                        likeCountEl.textContent = data.likes ?? 0;
+                        shareCountEl.textContent = data.shares ?? 0;
+                    }
+                }
+
+                async function countShare() {
+                    let shared = false;
+
+                    try {
+                        if (navigator.share) {
+                            await navigator.share({
+                                title: document.title,
+                                url: window.location.href
+                            });
+                            shared = true;
+                        } else if (navigator.clipboard) {
+                            await navigator.clipboard.writeText(window.location.href);
+                            alert("Link copied to clipboard");
+                            shared = true;
+                        }
+                    } catch (err) {
+                        console.error("Share cancelled or failed:", err);
+                    }
+
+                    if (!shared) return;
+
+                    const { data, error } = await supabaseClient.rpc("increment_share", {
+                        target_post_id: postId
+                    });
+
+                    if (error) {
+                        console.error("Error counting share:", error);
+                        return;
+                    }
+
+                    if (data) {
+                        viewCountEl.textContent = data.views ?? 0;
+                        likeCountEl.textContent = data.likes ?? 0;
+                        shareCountEl.textContent = data.shares ?? 0;
+                    }
+                }
+
+                async function initStats() {
+                    await loadCounts();
+
+                    if (shouldCountViewToday()) {
+                        await countView();
+                    }
+
+                    if (localStorage.getItem(`liked:${postId}`)) {
+                        likeBtn.disabled = true;
+                    }
+                }
+
+                likeBtn.addEventListener("click", countLike);
+                shareBtn.addEventListener("click", countShare);
+                initStats();
+            }
 
         // Initialize dedicated post view
         function initializePage() {
