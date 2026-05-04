@@ -359,10 +359,11 @@
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="source" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Source Name *</label>
-                                <input type="text" id="source" name="source" class="form-input block w-full p-3" placeholder="Publication Name" required>
-                            </div>
+	                            <div>
+	                                <label for="source" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Source Name *</label>
+	                                <input type="text" id="source" name="source" list="sourceDatabase" class="form-input block w-full p-3" placeholder="Start typing a publication name" required>
+                                    <datalist id="sourceDatabase"></datalist>
+	                            </div>
                             <div>
                                 <label for="documentType" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Document Type *</label>
                                 <select id="documentType" name="documentType" class="form-select block w-full p-3 cursor-pointer" required>
@@ -798,6 +799,25 @@
 
         const sourceInput = document.getElementById("source");
         const imageUrlInput = document.getElementById("imageUrl");
+        const sourceDatabase = document.getElementById("sourceDatabase");
+
+        function renderSourceSuggestions(sources) {
+            if (!sourceDatabase) return;
+            const allSources = [...new Set([...Object.keys(SOURCE_IMAGE_URLS), ...sources])]
+                .filter(Boolean)
+                .sort((a, b) => a.localeCompare(b));
+            sourceDatabase.innerHTML = allSources.map(source => `<option value="${source}"></option>`).join('');
+        }
+
+        renderSourceSuggestions([]);
+
+        fetch('./data/articles.json?v=' + Date.now())
+            .then(response => response.ok ? response.json() : [])
+            .then(articles => {
+                if (!Array.isArray(articles)) return;
+                renderSourceSuggestions(articles.map(article => article.source));
+            })
+            .catch(() => {});
 
         if (sourceInput && imageUrlInput) {
             const maybeAutofillImage = () => {
