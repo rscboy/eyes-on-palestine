@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Portal | Echoes of Gaza</title>
+<meta name="robots" content="index, follow">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -83,7 +84,7 @@
       <div class="flex justify-between items-end mb-8">
         <div>
           <h2 class="text-xl font-serif text-zinc-200 mb-2">Pending Submissions</h2>
-          <p class="text-sm text-zinc-500 font-sans italic">Review queue for primary source archive.</p>
+          <p class="text-sm text-zinc-500 font-sans italic">Review primary source uploads and secondary article submissions.</p>
         </div>
         <button id="btn-refresh" class="px-4 py-2 text-[10px] font-sans tracking-widest uppercase border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-600 transition-colors flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -95,9 +96,28 @@
         </button>
       </div>
 
-      <div id="submissions-list" class="space-y-0 border-t border-zinc-900">
-        <div class="py-12 text-center text-zinc-600 font-serif italic animate-pulse-slow">
-          Connecting to secure archive...
+      <div class="flex gap-3 mb-8 border-b border-zinc-900 pb-4">
+        <button id="tab-primary-admin" class="px-4 py-2 border border-[#8b0000] text-zinc-200 font-sans text-[10px] tracking-widest uppercase">
+          Primary Sources
+        </button>
+        <button id="tab-secondary-admin" class="px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase">
+          Secondary Articles
+        </button>
+      </div>
+
+      <div id="primary-admin-panel">
+        <div id="submissions-list" class="space-y-0 border-t border-zinc-900">
+          <div class="py-12 text-center text-zinc-600 font-serif italic animate-pulse-slow">
+            Connecting to secure archive...
+          </div>
+        </div>
+      </div>
+
+      <div id="secondary-admin-panel" class="hidden">
+        <div id="secondary-submissions-list" class="space-y-0 border-t border-zinc-900">
+          <div class="py-12 text-center text-zinc-600 font-serif italic">
+            Secondary source queue not loaded.
+          </div>
         </div>
       </div>
     </div>
@@ -157,12 +177,19 @@
     const btnLogout = document.getElementById("btn-logout");
     const btnRefresh = document.getElementById("btn-refresh");
     const listContainer = document.getElementById("submissions-list");
+    const tabPrimaryAdmin = document.getElementById("tab-primary-admin");
+    const tabSecondaryAdmin = document.getElementById("tab-secondary-admin");
+    const primaryAdminPanel = document.getElementById("primary-admin-panel");
+    const secondaryAdminPanel = document.getElementById("secondary-admin-panel");
+    const secondaryListContainer = document.getElementById("secondary-submissions-list");
     const systemStatus = document.getElementById("system-status");
     const loginError = document.getElementById("login-error");
 
     // State
     let currentUser = null;
     let isProcessing = false;
+    let activeAdminTab = "primary";
+    let secondaryAdminCode = "";
 
     // Helpers
     function setStatus(msg) {
@@ -206,7 +233,11 @@
       viewDashboard.classList.remove("hidden");
       authStatus.classList.remove("hidden");
       adminEmailDisplay.textContent = currentUser?.email || "";
-      fetchSubmissions();
+      if (activeAdminTab === "primary") {
+        fetchSubmissions();
+      } else {
+        fetchSecondarySubmissions();
+      }
     }
 
     async function handleUnauthorized(email) {
@@ -272,8 +303,36 @@
       showLogin();
     });
 
-    btnRefresh.addEventListener("click", () => {
+    tabPrimaryAdmin.addEventListener("click", () => {
+      activeAdminTab = "primary";
+
+      tabPrimaryAdmin.className = "px-4 py-2 border border-[#8b0000] text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+      tabSecondaryAdmin.className = "px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+
+      primaryAdminPanel.classList.remove("hidden");
+      secondaryAdminPanel.classList.add("hidden");
+
       fetchSubmissions();
+    });
+
+    tabSecondaryAdmin.addEventListener("click", () => {
+      activeAdminTab = "secondary";
+
+      tabSecondaryAdmin.className = "px-4 py-2 border border-[#8b0000] text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+      tabPrimaryAdmin.className = "px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+
+      primaryAdminPanel.classList.add("hidden");
+      secondaryAdminPanel.classList.remove("hidden");
+
+      fetchSecondarySubmissions();
+    });
+
+    btnRefresh.addEventListener("click", () => {
+      if (activeAdminTab === "primary") {
+        fetchSubmissions();
+      } else {
+        fetchSecondarySubmissions();
+      }
     });
 
     async function fetchSubmissions() {
@@ -406,6 +465,264 @@
 
       listContainer.innerHTML = html;
     }
+
+    const SECONDARY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec";
+
+    function getSecondaryAdminCode() {
+      if (secondaryAdminCode) return secondaryAdminCode;
+
+      const entered = prompt("Enter secondary article admin code:");
+      if (!entered) throw new Error("Admin code required.");
+
+      secondaryAdminCode = entered.trim();
+      return secondaryAdminCode;
+    }
+
+    async function fetchSecondarySubmissions() {
+      if (!currentUser) return;
+
+      setStatus("Loading secondary...");
+      secondaryListContainer.innerHTML = `
+        <div class="py-12 text-center text-zinc-500 font-sans tracking-widest text-xs uppercase animate-pulse">
+          Loading secondary article queue...
+        </div>
+      `;
+
+      try {
+        const adminCode = getSecondaryAdminCode();
+        const url = `${SECONDARY_SCRIPT_URL}?action=listPending&adminCode=${encodeURIComponent(adminCode)}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.result !== "success") {
+          throw new Error(data.message || "Failed to load secondary submissions.");
+        }
+
+        renderSecondaryList(data.items || []);
+        setStatus("Idle");
+      } catch (error) {
+        console.error(error);
+        secondaryListContainer.innerHTML = `
+          <div class="py-8 text-center border border-red-900/30 bg-red-900/10 p-4">
+            <p class="text-[#8b0000] font-sans text-sm mb-2">Error loading secondary articles</p>
+            <p class="text-zinc-500 text-xs font-mono">${esc(error.message)}</p>
+          </div>
+        `;
+        setStatus("Error");
+      }
+    }
+
+    function renderSecondaryList(items) {
+      if (!items.length) {
+        secondaryListContainer.innerHTML = `
+          <div class="py-20 text-center text-zinc-600 italic font-serif">
+            No pending secondary article submissions.
+          </div>
+        `;
+        return;
+      }
+
+      let html = "";
+
+      for (const item of items) {
+        html += `
+          <div id="secondary-card-${esc(item.id)}" class="group border-b border-zinc-900 hover:bg-zinc-900/30 transition-colors p-6 flex flex-col md:flex-row items-start justify-between gap-6">
+            <div class="flex-1 space-y-3 w-full">
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="px-2 py-0.5 border border-zinc-800 text-[10px] tracking-widest uppercase text-zinc-500 font-sans">${esc(item.category || "Uncategorized")}</span>
+                <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">${esc(item.submittedAt || "")}</span>
+                <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">Submitted by: ${esc(item.submitted_by || "Unknown")}</span>
+              </div>
+
+              <h3 class="text-lg text-zinc-200 font-serif leading-tight">
+                ${esc(item.title || "Untitled Article")}
+              </h3>
+
+              <p class="text-sm text-zinc-500 font-sans leading-relaxed">
+                ${esc(item.summary || "No summary provided.")}
+              </p>
+
+              <div class="text-xs text-zinc-500 font-sans flex flex-col gap-1">
+                <span>Date: ${esc(item.date || "")}</span>
+                <span>Source: ${esc(item.source || "")}</span>
+                <span>Author: ${esc(item.author || "")}</span>
+                <span>Document Type: ${esc(item.documentType || "")}</span>
+                <a href="${esc(item.link || "#")}" target="_blank" rel="noopener noreferrer" class="text-zinc-300 underline hover:text-white">
+                  Open article
+                </a>
+              </div>
+
+              ${item.imageUrl ? `
+                <div class="mt-3 flex items-center gap-3">
+                  <img src="${esc(item.imageUrl)}" alt="" class="w-16 h-16 object-cover border border-zinc-800 bg-zinc-950">
+                  <span class="text-[10px] text-zinc-600 font-sans break-all">${esc(item.imageUrl)}</span>
+                </div>
+              ` : ""}
+
+              <div id="secondary-error-${esc(item.id)}" class="hidden mt-2 text-[#8b0000] text-xs font-sans"></div>
+              <div id="secondary-success-${esc(item.id)}" class="hidden mt-2 text-green-700 text-xs font-sans">Processed</div>
+            </div>
+
+            <div class="flex gap-2 min-w-[180px] justify-start mt-2">
+              <button
+                onclick="window.handleRejectSecondary('${esc(item.id)}')"
+                id="btn-secondary-reject-${esc(item.id)}"
+                class="px-5 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Reject
+              </button>
+
+              <button
+                onclick="window.handleApproveSecondary('${esc(item.id)}')"
+                id="btn-secondary-approve-${esc(item.id)}"
+                class="px-5 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Approve
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      secondaryListContainer.innerHTML = html;
+    }
+
+    window.handleApproveSecondary = async (id) => {
+      if (isProcessing) return;
+
+      const ok = confirm("Approve this article?\n\nThis will add it to data/articles.json on GitHub.");
+      if (!ok) return;
+
+      const btn = document.getElementById(`btn-secondary-approve-${id}`);
+      const rejectBtn = document.getElementById(`btn-secondary-reject-${id}`);
+      const errorDiv = document.getElementById(`secondary-error-${id}`);
+      const successDiv = document.getElementById(`secondary-success-${id}`);
+
+      isProcessing = true;
+      setStatus("Approving secondary...");
+
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "...";
+        btn.classList.add("opacity-50", "cursor-not-allowed");
+      }
+      if (rejectBtn) rejectBtn.classList.add("hidden");
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({
+            action: "approveArticle",
+            id,
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || ""
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.result !== "success") {
+          throw new Error(data.message || "Approval failed.");
+        }
+
+        if (successDiv) {
+          successDiv.textContent = "Approved and added to articles.json";
+          successDiv.classList.remove("hidden");
+        }
+
+        const card = document.getElementById(`secondary-card-${id}`);
+        if (card) setTimeout(() => card.remove(), 800);
+
+        setStatus("Approved");
+      } catch (error) {
+        console.error(error);
+        if (errorDiv) {
+          errorDiv.textContent = "Error: " + error.message;
+          errorDiv.classList.remove("hidden");
+        }
+
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "Approve";
+          btn.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+        if (rejectBtn) rejectBtn.classList.remove("hidden");
+
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    };
+
+    window.handleRejectSecondary = async (id) => {
+      if (isProcessing) return;
+
+      const reason = prompt("Optional reason for rejection:") || "";
+      const ok = confirm("Reject this article submission?");
+      if (!ok) return;
+
+      const btn = document.getElementById(`btn-secondary-reject-${id}`);
+      const approveBtn = document.getElementById(`btn-secondary-approve-${id}`);
+      const errorDiv = document.getElementById(`secondary-error-${id}`);
+
+      isProcessing = true;
+      setStatus("Rejecting secondary...");
+
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "...";
+        btn.classList.add("opacity-50", "cursor-not-allowed");
+      }
+      if (approveBtn) approveBtn.disabled = true;
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({
+            action: "rejectArticle",
+            id,
+            reason,
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || ""
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.result !== "success") {
+          throw new Error(data.message || "Rejection failed.");
+        }
+
+        const card = document.getElementById(`secondary-card-${id}`);
+        if (card) card.remove();
+
+        setStatus("Rejected");
+      } catch (error) {
+        console.error(error);
+        if (errorDiv) {
+          errorDiv.textContent = "Reject error: " + error.message;
+          errorDiv.classList.remove("hidden");
+        }
+
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "Reject";
+          btn.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+        if (approveBtn) approveBtn.disabled = false;
+
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    };
 
     // Preview Logic
     window.handlePreview = async (docId, storagePath, contentType) => {
