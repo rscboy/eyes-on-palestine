@@ -259,6 +259,122 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
+        .article-action-btn {
+            min-height: 2.25rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #111;
+            color: #999;
+            border-radius: 4px;
+            padding: 0.5rem 0.7rem;
+            font-size: 0.68rem;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .article-action-btn:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: #161616;
+            color: #fff;
+        }
+
+        .article-action-btn svg {
+            width: 0.85rem;
+            height: 0.85rem;
+            flex: 0 0 auto;
+        }
+
+        .article-category-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .article-category-pill {
+            color: #8B0000;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .article-author-line {
+            min-width: 0;
+        }
+
+        @media (max-width: 640px) {
+            #articles .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            #articles h2 {
+                margin-bottom: 1.5rem;
+            }
+
+            .article-search-row {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .article-search-row.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+                margin-left: 0;
+            }
+
+            #sort-controls {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 0.5rem;
+            }
+
+            #sort-controls .filter-chip,
+            #random-article-btn {
+                width: 100%;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+
+            #filter-controls {
+                padding: 1.25rem;
+            }
+
+            .article-card-body {
+                padding: 1rem;
+            }
+
+            .article-card-footer {
+                display: block;
+            }
+
+            .article-author-line {
+                margin-bottom: 0.75rem;
+            }
+
+            .article-actions {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .article-action-btn {
+                width: 100%;
+                min-height: 2.5rem;
+            }
+
+            .share-popover {
+                left: 0;
+                right: auto;
+                width: 11rem;
+            }
+        }
+
         /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #050505; }
@@ -364,6 +480,7 @@
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
+    <link rel="stylesheet" href="./assets/site-shell.css">
 </head>
 
 <body class="antialiased selection:bg-red-900 selection:text-white">
@@ -617,7 +734,7 @@
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-serif font-bold mb-12 text-white/90">Documentary Archive</h2>
                 <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
-                    <div class="flex w-full md:flex-1 space-x-4">
+                    <div class="article-search-row flex w-full md:flex-1 space-x-4">
                         <div class="relative flex-1">
                             <input type="text" id="article-search" class="search-modern w-full pl-10 pr-4 py-2 text-sm outline-none" placeholder="Search archive...">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -636,7 +753,7 @@
                 </div>
                 
                 <div id="filter-controls" class="mb-12 p-8 border border-white/5 bg-[#0a0a0a] hidden">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
                         <div>
                             <h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Date Range</h4>
                             <div class="flex flex-col space-y-3">
@@ -644,8 +761,14 @@
                                 <input type="date" id="end-date" class="w-full search-modern px-3 py-2 text-xs">
                             </div>
                         </div>
-                        <div><h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Topics</h4><div id="tag-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div></div>
+                        <div>
+                            <h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Topics</h4>
+                            <input type="text" id="category-filter-search" class="search-modern w-full px-3 py-2 text-xs mb-3" placeholder="Search categories...">
+                            <div id="tag-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div>
+                        </div>
                         <div><h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Sources</h4><div id="source-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div></div>
+                        <div><h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Authors</h4><div id="author-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div></div>
+                        <div><h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Document Type</h4><div id="document-type-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div></div>
                     </div>
                     <div class="mt-8 pt-6 border-t border-white/5 flex items-center gap-4">
                         <button id="filter-button" class="btn-primary text-xs uppercase tracking-wider px-6 py-2 rounded">Apply</button>
@@ -959,32 +1082,7 @@
         let currentSlide = 0;
    
         let articles = [];
-let currentlyDisplayedArticles = [];
-
-async function loadArticles() {
-    try {
-        const response = await fetch('./data/articles.json?v=' + Date.now());
-
-        if (!response.ok) {
-            throw new Error(`Failed to load articles.json: ${response.status}`);
-        }
-
-        articles = await response.json();
-        currentlyDisplayedArticles = articles;
-
-        console.log(`Loaded ${articles.length} articles`);
-
-        populateFilters();
-        renderArticles(articles);
-
-    } catch (error) {
-        console.error('Failed to load articles:', error);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', loadArticles);
-
-    let videos = [
+        let videos = [
             { title: "MSNBC EXCLUSIVE: Full interview with Mahmoud Khalil and his wife, Dr. Noor Abdalla", creator: "MSNBC", link: "https://www.msnbc.com/", imageUrl: "https://media13.s-nbcnews.com/i/mpx/2704722219/2025_06/1751072250948_n_msnbc_mahmoud_khalil_noor_abdalla_gaza_250627_1920x1080-3kw5co.jpg", platform: "MSNBC" },
                 { title: "Mahmoud Khalil Is Free: Follow His Journey from ICE Jail Back to Gates of Columbia University", creator: "Democracy Now!", link: "https://www.democracynow.org/", imageUrl: "https://i.ytimg.com/vi/BWpRCoQ2wWE/maxresdefault.jpg", platform: "Democracy Now!" },
                 { title: "Israeli forces raided the cells of Palestinian captives after some allegedly expressed joy during rocket fire on Israel—part of Minister Ben Gvir's policy of punishing any show of Palestinian resistance or joy", creator: "DropSite News", link: "https://x.com/dropsitenews", imageUrl: "https://pbs.twimg.com/ext_tw_video_thumb/1934279968365662208/pu/img/XnWEXrPGt3Kc28V1.jpg", platform: "X (Twitter)" },
@@ -1264,6 +1362,48 @@ document.addEventListener('DOMContentLoaded', loadArticles);
             return formatted.replace(/(\d+)/, (match) => match + suffix);
         }
 
+        function getArticleCategories(article) {
+            if (Array.isArray(article.categories) && article.categories.length) {
+                return article.categories.filter(Boolean);
+            }
+            return article.category ? [article.category] : ['Uncategorized'];
+        }
+
+        function getArticleAuthors(article) {
+            if (Array.isArray(article.authors) && article.authors.length) {
+                return article.authors.filter(Boolean);
+            }
+            if (article.author) {
+                return String(article.author).split(/\s*(?:,|;| and )\s*/i).filter(Boolean);
+            }
+            return ['Unknown author'];
+        }
+
+        function getArticleDocumentType(article) {
+            return article.documentType || 'Article';
+        }
+
+        function chronologicalValue(item) {
+            if (item.date) {
+                const dateValue = new Date(String(item.date).replace(/-/g, '/')).getTime();
+                if (!Number.isNaN(dateValue)) return dateValue;
+            }
+            const year = Number(item.year || item.publishedYear || String(item.title || '').match(/\b(19|20)\d{2}\b/)?.[0]);
+            return Number.isFinite(year) ? new Date(year, 11, 31).getTime() : 0;
+        }
+
+        function newestFirst(items) {
+            return [...items].sort((a, b) => chronologicalValue(b) - chronologicalValue(a));
+        }
+
+        function createIcon(name) {
+            const icons = {
+                story: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h9.5L20 7.5V19a2 2 0 0 1-2 2H6.5A2.5 2.5 0 0 1 4 18.5"/><path d="M14 3v5h5"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>',
+                share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4"/><path d="m15.4 6.5-6.8 4"/></svg>'
+            };
+            return icons[name] || '';
+        }
+
         // Global functions
         window.shareOnTwitter = (url, title) => { window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank'); };
         window.shareOnFacebook = (url) => { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank'); };
@@ -1300,6 +1440,37 @@ document.addEventListener('DOMContentLoaded', loadArticles);
         function updateHeroStats() {
             const daysEl = document.getElementById('days-stat-hero');
             if (daysEl) daysEl.innerText = calculateDaysOfConflict().toLocaleString();
+        }
+
+        async function loadArticles() {
+            try {
+                const response = await fetch('./data/articles.json?v=' + Date.now());
+
+                if (!response.ok) {
+                    throw new Error(`Failed to load articles.json: ${response.status}`);
+                }
+
+                const loadedArticles = await response.json();
+                if (!Array.isArray(loadedArticles)) {
+                    throw new Error('articles.json must contain an array of articles');
+                }
+
+                articles = loadedArticles;
+                currentlyDisplayedArticles = [...articles];
+
+                console.log(`Loaded ${articles.length} articles`);
+
+                populateFilters();
+                renderArticles(currentlyDisplayedArticles);
+                return true;
+            } catch (error) {
+                console.error('Failed to load articles:', error);
+                const grid = document.getElementById('article-grid');
+                if (grid) {
+                    grid.innerHTML = `<p class="text-gray-500 md:col-span-2 lg:col-span-3 text-center py-20 font-light">Articles unavailable.</p>`;
+                }
+                return false;
+            }
         }
 
         // Filter articles by month
@@ -1423,6 +1594,10 @@ document.addEventListener('DOMContentLoaded', loadArticles);
                 const cleanLink = escapeHtmlAttribute(article.link);
                 const safeImage = article.imageUrl;
                 const uniqueId = 'share-' + Math.random().toString(36).substr(2, 9);
+                const categories = getArticleCategories(article);
+                const authors = getArticleAuthors(article);
+                const categoryHtml = categories.slice(0, 3).map(category => `<span class="article-category-pill">${category}</span>`).join('');
+                const authorText = authors.join(', ');
                 
                 const displayTitle = titlesSwapped ? getSwappedText(article.title) : article.title;
                 const displaySummary = titlesSwapped ? getSwappedText(article.summary) : article.summary;
@@ -1432,23 +1607,27 @@ document.addEventListener('DOMContentLoaded', loadArticles);
                         <div onclick="window.open('${archiveLink}', '_blank')" class="relative h-56 w-full overflow-hidden bg-[#111] cursor-pointer">
                             <img src="${article.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
                         </div>
-                        <div class="flex flex-col flex-grow p-6">
-                            <div class="flex justify-between items-start mb-3">
-                                <span class="text-[#8B0000] text-[10px] font-bold uppercase tracking-widest">${article.category}</span>
+                        <div class="article-card-body flex flex-col flex-grow p-6">
+                            <div class="flex justify-between items-start gap-4 mb-3">
+                                <div class="article-category-list">${categoryHtml}</div>
                                 <span class="text-gray-600 text-[10px] uppercase tracking-widest">${formatDate(article.date)}</span>
                             </div>
                             <h3 onclick="window.open('${archiveLink}', '_blank')" class="text-white font-serif font-bold text-lg mb-3 leading-snug cursor-pointer hover:text-gray-300 transition-colors">${displayTitle}</h3>
                             <p onclick="window.open('${archiveLink}', '_blank')" class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow font-light cursor-pointer">${displaySummary}</p>
                             
-                            <div class="mt-auto flex justify-between pt-4 border-t border-[#1a1a1a] items-center">
-                                <div class="flex-1 text-gray-600 text-[10px] uppercase tracking-wider truncate mr-2">${article.source}</div>
-                                <div class="flex items-center gap-3 relative flex-shrink-0">
-                                    <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="text-gray-500 hover:text-white text-xs transition uppercase tracking-wider">
-                                        Story
+                            <div class="article-card-footer mt-auto flex justify-between pt-4 border-t border-[#1a1a1a] items-center gap-4">
+                                <div class="article-author-line flex-1 text-gray-600 text-[10px] uppercase tracking-wider truncate">
+                                    <span>${article.source}</span>
+                                    <span class="text-gray-700"> / </span>
+                                    <span>${authorText}</span>
+                                </div>
+                                <div class="article-actions flex items-center gap-2 relative flex-shrink-0">
+                                    <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="article-action-btn" aria-label="Create story">
+                                        ${createIcon('story')}<span>Story</span>
                                     </button>
                                     <div class="relative">
-                                        <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="text-gray-500 hover:text-white text-xs transition uppercase tracking-wider">
-                                            Share
+                                        <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="article-action-btn" aria-label="Share article">
+                                            ${createIcon('share')}<span>Share</span>
                                         </button>
                                         ${generateShareMenu(cleanLink, safeTitle, 'article', uniqueId)} 
                                     </div>
@@ -1461,7 +1640,7 @@ document.addEventListener('DOMContentLoaded', loadArticles);
 
         function renderBooks() {
             const grid = document.getElementById('book-grid'); if(!grid) return;
-            grid.innerHTML = books.map(b => {
+            grid.innerHTML = newestFirst(books).map(b => {
                 const uniqueId = 'book-' + Math.random().toString(36).substr(2, 9);
                 const cleanTitle = escapeHtmlAttribute(b.title);
                 const cleanLink = escapeHtmlAttribute(b.link);
@@ -1486,7 +1665,7 @@ document.addEventListener('DOMContentLoaded', loadArticles);
 
         function renderVideos() {
             const grid = document.getElementById('video-grid'); if(!grid) return;
-            grid.innerHTML = videos.map(v => `
+            grid.innerHTML = newestFirst(videos).map(v => `
             <div class="card-modern group flex flex-col h-full bg-[#0a0a0a] border border-[#222]">
                 <div class="relative h-64 sm:h-72 overflow-hidden bg-[#111]">
                     <img src="${v.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Thumbnail';">
@@ -1509,7 +1688,7 @@ document.addEventListener('DOMContentLoaded', loadArticles);
 
         function renderFilms() {
             const grid = document.getElementById('film-grid'); if(!grid) return;
-            grid.innerHTML = films.map(f => {
+            grid.innerHTML = newestFirst(films).map(f => {
                 const uniqueId = 'film-' + Math.random().toString(36).substr(2, 9);
                 const cleanTitle = escapeHtmlAttribute(f.title);
                 const cleanLink = escapeHtmlAttribute(f.link);
@@ -1693,20 +1872,26 @@ document.addEventListener('DOMContentLoaded', loadArticles);
 
         // --- FILTER POPULATION ---
         function populateFilters() {
-            const tags = [...new Set(articles.map(a => a.category))].sort();
+            const tags = [...new Set(articles.flatMap(getArticleCategories))].sort();
             const sources = [...new Set(articles.map(a => a.source))].sort();
+            const authors = [...new Set(articles.flatMap(getArticleAuthors))].sort();
+            const documentTypes = [...new Set(articles.map(getArticleDocumentType))].sort();
 
             const createCheckbox = (value, type) => `
-                <label class="flex items-center space-x-3 cursor-pointer group">
+                <label class="flex items-center space-x-3 cursor-pointer group" data-filter-label="${value.toLowerCase()}">
                     <input type="checkbox" value="${value}" data-filter-type="${type}" class="form-checkbox h-3 w-3 text-[#8B0000] bg-[#111] border-gray-700 rounded focus:ring-0 focus:ring-offset-0 transition duration-150 ease-in-out">
                     <span class="text-gray-400 group-hover:text-white transition text-xs uppercase tracking-wide">${value}</span>
                 </label>`;
 
             const tagContainer = document.getElementById('tag-filters');
             const sourceContainer = document.getElementById('source-filters');
+            const authorContainer = document.getElementById('author-filters');
+            const documentTypeContainer = document.getElementById('document-type-filters');
 
             if (tagContainer) tagContainer.innerHTML = tags.map(t => createCheckbox(t, 'tag')).join('');
             if (sourceContainer) sourceContainer.innerHTML = sources.map(s => createCheckbox(s, 'source')).join('');
+            if (authorContainer) authorContainer.innerHTML = authors.map(a => createCheckbox(a, 'author')).join('');
+            if (documentTypeContainer) documentTypeContainer.innerHTML = documentTypes.map(t => createCheckbox(t, 'documentType')).join('');
         }
 
         // --- SEARCH & FILTER LOGIC ---
@@ -1717,6 +1902,8 @@ document.addEventListener('DOMContentLoaded', loadArticles);
             const getChecked = (type) => Array.from(document.querySelectorAll(`input[data-filter-type="${type}"]:checked`)).map(cb => cb.value);
             const selectedTags = getChecked('tag');
             const selectedSources = getChecked('source');
+            const selectedAuthors = getChecked('author');
+            const selectedDocumentTypes = getChecked('documentType');
 
             let filtered = articles;
 
@@ -1726,7 +1913,9 @@ document.addEventListener('DOMContentLoaded', loadArticles);
                     a.title.toLowerCase().includes(searchTerm) || 
                     a.summary.toLowerCase().includes(searchTerm) ||
                     a.source.toLowerCase().includes(searchTerm) ||
-                    a.category.toLowerCase().includes(searchTerm)
+                    getArticleCategories(a).some(category => category.toLowerCase().includes(searchTerm)) ||
+                    getArticleAuthors(a).some(author => author.toLowerCase().includes(searchTerm)) ||
+                    getArticleDocumentType(a).toLowerCase().includes(searchTerm)
                 );
             }
 
@@ -1735,10 +1924,16 @@ document.addEventListener('DOMContentLoaded', loadArticles);
             if (end) filtered = filtered.filter(a => new Date(a.date.replace(/-/g, '/')) <= new Date(end.replace(/-/g, '/')));
             
             // Tag Logic
-            if (selectedTags.length > 0) filtered = filtered.filter(a => selectedTags.includes(a.category));
+            if (selectedTags.length > 0) filtered = filtered.filter(a => getArticleCategories(a).some(category => selectedTags.includes(category)));
             
             // Source Logic
             if (selectedSources.length > 0) filtered = filtered.filter(a => selectedSources.includes(a.source));
+
+            // Author Logic
+            if (selectedAuthors.length > 0) filtered = filtered.filter(a => getArticleAuthors(a).some(author => selectedAuthors.includes(author)));
+
+            // Document Type Logic
+            if (selectedDocumentTypes.length > 0) filtered = filtered.filter(a => selectedDocumentTypes.includes(getArticleDocumentType(a)));
 
             currentlyDisplayedArticles = filtered;
             renderArticles(currentlyDisplayedArticles);
@@ -1798,7 +1993,7 @@ document.addEventListener('DOMContentLoaded', loadArticles);
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             function setupDropdowns() {
                 const dropdowns = [
                     { buttonId: 'archive-menu-button', menuId: 'archive-menu-dropdown' },
@@ -1851,21 +2046,25 @@ document.addEventListener('DOMContentLoaded', loadArticles);
 
             // Archive Search
             document.getElementById('article-search').addEventListener('input', applyArchiveFilters);
+            document.getElementById('category-filter-search').addEventListener('input', (e) => {
+                const query = e.target.value.trim().toLowerCase();
+                document.querySelectorAll('#tag-filters label[data-filter-label]').forEach(label => {
+                    label.classList.toggle('hidden', query && !label.dataset.filterLabel.includes(query));
+                });
+            });
 
             updateHeroStats();
-            currentlyDisplayedArticles = [...articles];
-            renderArticles(currentlyDisplayedArticles);
+            const articlesLoaded = await loadArticles();
             renderBooks();
             renderVideos();
             renderFilms();
             
             fetchVictimsData();
-            initEmbeddedQuiz();
+            if (articlesLoaded && articles.length > 0) initEmbeddedQuiz();
             setupCarousel();
-            populateFilters();
             
             renderCasualtyChart();
-            updateBiasToolPreview();
+            if (articlesLoaded && articles.length > 0) updateBiasToolPreview();
 
             // Ensure nav links for hidden sections reveal them before scrolling
             document.querySelectorAll('nav a, #mobile-menu a').forEach(link => {
@@ -1977,7 +2176,9 @@ document.addEventListener('DOMContentLoaded', loadArticles);
                 document.getElementById('start-date').value = '';
                 document.getElementById('end-date').value = '';
                 document.getElementById('article-search').value = '';
+                document.getElementById('category-filter-search').value = '';
                 document.querySelectorAll('input[type="checkbox"][data-filter-type]').forEach(cb => cb.checked = false);
+                document.querySelectorAll('#tag-filters label[data-filter-label]').forEach(label => label.classList.remove('hidden'));
                 articleLimit = 30;
                 currentlyDisplayedArticles = [...articles];
                 renderArticles(currentlyDisplayedArticles);
@@ -2302,5 +2503,6 @@ document.addEventListener('DOMContentLoaded', loadArticles);
             }
         });
     </script>
+    <script src="./assets/site-shell.js" defer></script>
 </body>
 </html>
