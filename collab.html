@@ -117,6 +117,65 @@
             border-color: var(--focus-red);
             color: #fff;
         }
+
+        .image-url-preview {
+            display: grid;
+            grid-template-columns: 5rem minmax(0, 1fr);
+            gap: 1rem;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            background: #0f0f0f;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .image-url-preview.is-empty {
+            display: none;
+        }
+
+        .image-url-preview img {
+            width: 5rem;
+            height: 5rem;
+            object-fit: cover;
+            background: #050505;
+            border: 1px solid #262626;
+        }
+
+        .image-url-preview-label {
+            color: #777;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .image-url-preview-link {
+            display: block;
+            color: #d4d4d4;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+            margin-top: 0.2rem;
+        }
+
+        .image-url-preview-status {
+            color: #777;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            margin-top: 0.35rem;
+        }
+
+        @media (max-width: 520px) {
+            .image-url-preview {
+                grid-template-columns: 4rem minmax(0, 1fr);
+            }
+
+            .image-url-preview img {
+                width: 4rem;
+                height: 4rem;
+            }
+        }
         
         /* Placeholder styling */
         ::placeholder {
@@ -408,6 +467,14 @@
                         <div>
                             <label for="imageUrl" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Image URL</label>
                             <input type="url" id="imageUrl" name="imageUrl" class="form-input block w-full p-3" placeholder="Link to relevant imagery">
+                            <div id="imageUrlPreview" class="image-url-preview is-empty" aria-live="polite">
+                                <img id="imageUrlPreviewImage" src="" alt="Selected article image preview">
+                                <div>
+                                    <div class="image-url-preview-label">Image Preview</div>
+                                    <a id="imageUrlPreviewLink" href="#" target="_blank" rel="noopener noreferrer" class="image-url-preview-link"></a>
+                                    <div id="imageUrlPreviewStatus" class="image-url-preview-status"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -800,6 +867,33 @@
         const sourceInput = document.getElementById("source");
         const imageUrlInput = document.getElementById("imageUrl");
         const sourceDatabase = document.getElementById("sourceDatabase");
+        const imageUrlPreview = document.getElementById("imageUrlPreview");
+        const imageUrlPreviewImage = document.getElementById("imageUrlPreviewImage");
+        const imageUrlPreviewLink = document.getElementById("imageUrlPreviewLink");
+        const imageUrlPreviewStatus = document.getElementById("imageUrlPreviewStatus");
+
+        function updateImageUrlPreview(url) {
+            const value = String(url || "").trim();
+
+            if (!imageUrlPreview || !imageUrlPreviewImage || !imageUrlPreviewLink || !imageUrlPreviewStatus) {
+                return;
+            }
+
+            if (!value) {
+                imageUrlPreview.classList.add("is-empty");
+                imageUrlPreviewImage.removeAttribute("src");
+                imageUrlPreviewLink.removeAttribute("href");
+                imageUrlPreviewLink.textContent = "";
+                imageUrlPreviewStatus.textContent = "";
+                return;
+            }
+
+            imageUrlPreview.classList.remove("is-empty");
+            imageUrlPreviewImage.src = value;
+            imageUrlPreviewLink.href = value;
+            imageUrlPreviewLink.textContent = value;
+            imageUrlPreviewStatus.textContent = "Using this image URL for the submitted record.";
+        }
 
         function renderSourceSuggestions(sources) {
             if (!sourceDatabase) return;
@@ -820,16 +914,22 @@
             .catch(() => {});
 
         if (sourceInput && imageUrlInput) {
-            const maybeAutofillImage = () => {
+            const syncImageFromSource = () => {
                 const mappedImage = getKnownImageUrlForSource(sourceInput.value);
-                if (mappedImage && (!imageUrlInput.value || imageUrlInput.value.includes("placeholder"))) {
+                if (mappedImage) {
                     imageUrlInput.value = mappedImage;
+                    updateImageUrlPreview(mappedImage);
+                } else {
+                    updateImageUrlPreview(imageUrlInput.value);
                 }
             };
 
-            sourceInput.addEventListener("input", maybeAutofillImage);
-            sourceInput.addEventListener("change", maybeAutofillImage);
-            sourceInput.addEventListener("blur", maybeAutofillImage);
+            sourceInput.addEventListener("input", syncImageFromSource);
+            sourceInput.addEventListener("change", syncImageFromSource);
+            sourceInput.addEventListener("blur", syncImageFromSource);
+            imageUrlInput.addEventListener("input", () => updateImageUrlPreview(imageUrlInput.value));
+            imageUrlInput.addEventListener("change", () => updateImageUrlPreview(imageUrlInput.value));
+            updateImageUrlPreview(imageUrlInput.value);
         }
 
         // Handle form submission
@@ -911,6 +1011,7 @@
                     selectedCategories.splice(0, selectedCategories.length);
                     syncSelectedCategories();
                     renderCategorySuggestions('');
+                    updateImageUrlPreview('');
                 } else {
                     // Show error
                     errorMessage.style.display = 'block';
