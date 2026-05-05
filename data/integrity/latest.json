@@ -1,6 +1,14 @@
 {
   "generated_at": null,
-  "scanner_version": "1.0.0",
+  "last_scan_at": null,
+  "scanner_version": "1.1.0",
+  "total_articles": 0,
+  "scan": {
+    "offset": 0,
+    "limit": null,
+    "checked_articles": 0,
+    "screenshots_enabled": false
+  },
   "summary": {
     "total": 0,
     "live": 0,
@@ -11,5 +19,15 @@
     "blocked_unknown": 0,
     "needs_manual_review": 0
   },
+  "counts": {
+    "live": 0,
+    "redirected_live": 0,
+    "confirmed_removed": 0,
+    "likely_removed": 0,
+    "changed_substantially": 0,
+    "blocked_unknown": 0,
+    "needs_manual_review": 0
+  },
+  "flagged_articles": [],
   "results": []
 }
