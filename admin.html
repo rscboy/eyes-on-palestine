@@ -350,6 +350,9 @@
         <button id="btn-login" class="px-8 py-3 bg-zinc-900 border border-zinc-700 hover:border-[#8b0000] text-zinc-200 font-sans text-xs tracking-widest uppercase transition-all w-full">
           Authenticate with Google
         </button>
+        <button id="btn-secondary-access" class="px-8 py-3 border border-zinc-800 hover:border-[#8b0000] text-zinc-400 hover:text-zinc-200 font-sans text-xs tracking-widest uppercase transition-all w-full">
+          Secondary Articles Password Access
+        </button>
         <p id="login-error" class="text-[#8b0000] text-sm font-sans hidden"></p>
       </div>
     </div>
@@ -449,6 +452,7 @@
     const authStatus = document.getElementById("auth-status");
     const adminEmailDisplay = document.getElementById("admin-email");
     const btnLogin = document.getElementById("btn-login");
+    const btnSecondaryAccess = document.getElementById("btn-secondary-access");
     const btnLogout = document.getElementById("btn-logout");
     const btnRefresh = document.getElementById("btn-refresh");
     const listContainer = document.getElementById("submissions-list");
@@ -490,7 +494,24 @@
       return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
     }
 
+    function activatePrimaryTab() {
+      activeAdminTab = "primary";
+      tabPrimaryAdmin.className = "px-4 py-2 border border-[#8b0000] text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+      tabSecondaryAdmin.className = "px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+      primaryAdminPanel.classList.remove("hidden");
+      secondaryAdminPanel.classList.add("hidden");
+    }
+
+    function activateSecondaryTab() {
+      activeAdminTab = "secondary";
+      tabSecondaryAdmin.className = "px-4 py-2 border border-[#8b0000] text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+      tabPrimaryAdmin.className = "px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+      primaryAdminPanel.classList.add("hidden");
+      secondaryAdminPanel.classList.remove("hidden");
+    }
+
     function showLogin(msg) {
+      activatePrimaryTab();
       viewLogin.classList.remove("hidden");
       viewDashboard.classList.add("hidden");
       authStatus.classList.add("hidden");
@@ -503,10 +524,29 @@
       setStatus("Waiting for auth");
     }
 
+    function showSecondaryDashboard(shouldFetch = false) {
+      activateSecondaryTab();
+      viewLogin.classList.add("hidden");
+      viewDashboard.classList.remove("hidden");
+      if (currentUser) {
+        authStatus.classList.remove("hidden");
+        adminEmailDisplay.textContent = currentUser.email || "";
+      } else {
+        authStatus.classList.add("hidden");
+        adminEmailDisplay.textContent = "";
+      }
+      setStatus(shouldFetch ? "Loading secondary..." : "Secondary access");
+      if (shouldFetch) fetchSecondarySubmissions();
+    }
+
     function showDashboard() {
       viewLogin.classList.add("hidden");
       viewDashboard.classList.remove("hidden");
-      authStatus.classList.remove("hidden");
+      if (currentUser) {
+        authStatus.classList.remove("hidden");
+      } else {
+        authStatus.classList.add("hidden");
+      }
       adminEmailDisplay.textContent = currentUser?.email || "";
       if (activeAdminTab === "primary") {
         fetchSubmissions();
@@ -546,7 +586,7 @@
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         currentUser = null;
-        showLogin();
+        showSecondaryDashboard(false);
         return;
       }
 
@@ -573,37 +613,37 @@
       }
     });
 
+    btnSecondaryAccess.addEventListener("click", () => {
+      loginError.classList.add("hidden");
+      showSecondaryDashboard(true);
+    });
+
     btnLogout.addEventListener("click", async () => {
       await signOut(auth);
-      showLogin();
+      showSecondaryDashboard(false);
     });
 
     tabPrimaryAdmin.addEventListener("click", () => {
-      activeAdminTab = "primary";
+      activatePrimaryTab();
 
-      tabPrimaryAdmin.className = "px-4 py-2 border border-[#8b0000] text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
-      tabSecondaryAdmin.className = "px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+      if (!currentUser) {
+        showLogin();
+        return;
+      }
 
-      primaryAdminPanel.classList.remove("hidden");
-      secondaryAdminPanel.classList.add("hidden");
-
-      fetchSubmissions();
+      showDashboard();
     });
 
     tabSecondaryAdmin.addEventListener("click", () => {
-      activeAdminTab = "secondary";
-
-      tabSecondaryAdmin.className = "px-4 py-2 border border-[#8b0000] text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
-      tabPrimaryAdmin.className = "px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
-
-      primaryAdminPanel.classList.add("hidden");
-      secondaryAdminPanel.classList.remove("hidden");
-
-      fetchSecondarySubmissions();
+      showSecondaryDashboard(true);
     });
 
     btnRefresh.addEventListener("click", () => {
       if (activeAdminTab === "primary") {
+        if (!currentUser) {
+          showLogin();
+          return;
+        }
         fetchSubmissions();
       } else {
         fetchSecondarySubmissions();
@@ -754,8 +794,6 @@
     }
 
     async function fetchSecondarySubmissions() {
-      if (!currentUser) return;
-
       setStatus("Loading secondary...");
       secondaryListContainer.innerHTML = `
         <div class="py-12 text-center text-zinc-500 font-sans tracking-widest text-xs uppercase animate-pulse">
@@ -1176,7 +1214,7 @@
       }
     };
 
-    showLogin();
+    showSecondaryDashboard(false);
   </script>
 </body>
 </html>
