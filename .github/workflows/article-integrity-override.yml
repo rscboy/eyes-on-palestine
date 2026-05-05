@@ -1,0 +1,56 @@
+name: Article Integrity Manual Override
+
+on:
+  workflow_dispatch:
+    inputs:
+      article_id:
+        description: "Article Integrity Monitor id"
+        required: true
+      manual_status:
+        description: "Verified status"
+        required: true
+        type: choice
+        options:
+          - live
+          - redirected_live
+          - confirmed_removed
+          - likely_removed
+          - changed_substantially
+          - blocked_unknown
+          - needs_manual_review
+      verified_by:
+        description: "Reviewer name or email"
+        required: true
+      notes:
+        description: "Neutral verification notes"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Apply manual override
+        run: |
+          python scripts/apply_integrity_override.py \
+            --id "${{ github.event.inputs.article_id }}" \
+            --status "${{ github.event.inputs.manual_status }}" \
+            --verified-by "${{ github.event.inputs.verified_by }}" \
+            --notes "${{ github.event.inputs.notes }}"
+
+      - name: Commit manual override
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Apply article integrity manual override"
+          file_pattern: data/integrity/manual_overrides.json
