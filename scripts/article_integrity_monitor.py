@@ -1,0 +1,303 @@
+#!/usr/bin/env python3
+"""
+Article Integrity Monitor for Echoes of Gaza.
+
+This checker is intentionally conservative. It only marks an article as
+confirmed_removed when the browser-level navigation clearly returns 404/410.
+Blocks, timeouts, bot protection, paywalls, and ambiguous failures become
+blocked_unknown or needs_manual_review instead of removal.
+"""
+
+from __future__ import annotations
+
+import argparse
+import asyncio
+import hashlib
+import json
+import re
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from difflib import SequenceMatcher
+from pathlib import Path
+from typing import Any
+
+from playwright.async_api import TimeoutError as PlaywrightTimeoutError
+from playwright.async_api import async_playwright
+
+
+SCANNER_VERSION = "1.0.0"
+REMOVAL_PATTERNS = [
+    "404",
+    "410",
+    "page not found",
+    "not found",
+    "content unavailable",
+    "this content is unavailable",
+    "this page is no longer available",
+    "article not found",
+    "story not found",
+    "the page you requested could not be found",
+    "we couldn't find that page",
+    "this article is no longer available",
+]
+BLOCK_PATTERNS = [
+    "access denied",
+    "are you a robot",
+    "captcha",
+    "cloudflare",
+    "enable javascript",
+    "unusual traffic",
+    "temporarily unavailable",
+    "forbidden",
+    "subscribe to continue",
+    "sign in to continue",
+    "region",
+    "not available in your region",
+]
+
+
+def utc_now() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def article_id(article: dict[str, Any]) -> str:
+    seed = article.get("link") or f"{article.get('source', '')}:{article.get('title', '')}:{article.get('date', '')}"
+    return hashlib.sha256(str(seed).encode("utf-8")).hexdigest()[:16]
+
+
+def normalize_text(value: str) -> str:
+    value = re.sub(r"\s+", " ", value or "").strip().lower()
+    value = re.sub(r"[^a-z0-9\s]", " ", value)
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def similarity(expected_title: str, expected_summary: str, page_title: str, visible_text: str) -> float:
+    expected = normalize_text(f"{expected_title} {expected_summary}")
+    observed = normalize_text(f"{page_title} {visible_text[:8000]}")
+    if not expected or not observed:
+        return 0.0
+
+    title_ratio = SequenceMatcher(None, normalize_text(expected_title), normalize_text(page_title)).ratio()
+    expected_tokens = set(expected.split())
+    observed_tokens = set(observed.split())
+    token_overlap = len(expected_tokens & observed_tokens) / max(1, len(expected_tokens))
+    return round((title_ratio * 0.45) + (token_overlap * 0.55), 4)
+
+
+def find_patterns(text: str, patterns: list[str]) -> list[str]:
+    normalized = normalize_text(text)
+    return [pattern for pattern in patterns if pattern in normalized]
+
+
+def classify(
+    status_code: int | None,
+    redirected: bool,
+    removal_indicators: list[str],
+    block_indicators: list[str],
+    similarity_score: float,
+    error: str | None,
+) -> tuple[str, str]:
+    if status_code in (404, 410):
+        return "confirmed_removed", f"Browser navigation returned HTTP {status_code}."
+
+    if status_code in (401, 403, 429) or block_indicators:
+        return "blocked_unknown", "The page appears blocked, access-controlled, rate-limited, or region/paywall restricted."
+
+    if error:
+        return "needs_manual_review", f"The automated browser check could not confidently verify the page: {error}"
+
+    if removal_indicators and status_code and 200 <= status_code < 400:
+        return "likely_removed", "The page loaded but contains removal or soft-404 language."
+
+    if status_code and 500 <= status_code < 600:
+        return "needs_manual_review", f"The origin returned HTTP {status_code}, which may be temporary."
+
+    if status_code and 300 <= status_code < 400:
+        return "needs_manual_review", f"The browser did not fully resolve redirect status HTTP {status_code}."
+
+    if status_code and 200 <= status_code < 300:
+        if similarity_score < 0.08:
+            return "changed_substantially", "The page loaded, but extracted content has very low similarity to the archived title and summary."
+        if redirected:
+            return "redirected_live", "The page loaded after redirecting to a different URL."
+        return "live", "The page loaded and remains broadly consistent with archived metadata."
+
+    return "needs_manual_review", "The automated check did not collect enough evidence for a confident status."
+
+
+@dataclass
+class CheckConfig:
+    articles_path: Path
+    output_path: Path
+    history_path: Path
+    screenshot_dir: Path
+    limit: int | None
+    timeout_ms: int
+    screenshots: bool
+
+
+async def check_article(context: Any, article: dict[str, Any], config: CheckConfig) -> dict[str, Any]:
+    checked_at = utc_now()
+    aid = article_id(article)
+    original_url = article.get("link", "")
+    page = await context.new_page()
+    status_code = None
+    final_url = original_url
+    page_title = ""
+    visible_text = ""
+    error = None
+    screenshot_path = None
+
+    try:
+        response = await page.goto(original_url, wait_until="domcontentloaded", timeout=config.timeout_ms)
+        if response:
+            status_code = response.status
+        try:
+            await page.wait_for_load_state("networkidle", timeout=min(config.timeout_ms, 10000))
+        except PlaywrightTimeoutError:
+            pass
+        final_url = page.url
+        page_title = await page.title()
+        visible_text = await page.locator("body").inner_text(timeout=5000)
+    except Exception as exc:  # noqa: BLE001
+        error = f"{type(exc).__name__}: {exc}"
+        final_url = page.url or original_url
+        try:
+            page_title = await page.title()
+            visible_text = await page.locator("body").inner_text(timeout=2500)
+        except Exception:  # noqa: BLE001
+            pass
+
+    redirect_chain_changed = bool(final_url and original_url and final_url.rstrip("/") != original_url.rstrip("/"))
+    combined_text = f"{page_title}\n{visible_text}"
+    removal_indicators = find_patterns(combined_text, REMOVAL_PATTERNS)
+    block_indicators = find_patterns(combined_text, BLOCK_PATTERNS)
+    similarity_score = similarity(article.get("title", ""), article.get("summary", ""), page_title, visible_text)
+    status, observed_issue = classify(
+        status_code,
+        redirect_chain_changed,
+        removal_indicators,
+        block_indicators,
+        similarity_score,
+        error,
+    )
+
+    if config.screenshots and status not in {"live", "redirected_live"}:
+        config.screenshot_dir.mkdir(parents=True, exist_ok=True)
+        screenshot_file = config.screenshot_dir / f"{aid}-{checked_at.replace(':', '').replace('-', '')}.png"
+        try:
+            await page.screenshot(path=str(screenshot_file), full_page=True)
+            screenshot_path = str(screenshot_file).replace("\\", "/")
+        except Exception:  # noqa: BLE001
+            screenshot_path = None
+
+    await page.close()
+
+    return {
+        "id": aid,
+        "status": status,
+        "checked_at": checked_at,
+        "observed_issue": observed_issue,
+        "original": {
+            "title": article.get("title", ""),
+            "date": article.get("date", ""),
+            "source": article.get("source", ""),
+            "summary": article.get("summary", ""),
+            "url": original_url,
+        },
+        "signals": {
+            "status_code": status_code,
+            "final_url": final_url,
+            "redirected": redirect_chain_changed,
+            "page_title": page_title,
+            "similarity_score": similarity_score,
+            "removal_indicators": removal_indicators,
+            "block_indicators": block_indicators,
+            "error": error,
+            "text_snippet": re.sub(r"\s+", " ", visible_text).strip()[:900],
+            "screenshot": screenshot_path,
+        },
+    }
+
+
+def summarize(results: list[dict[str, Any]]) -> dict[str, int]:
+    statuses = [
+        "live",
+        "redirected_live",
+        "confirmed_removed",
+        "likely_removed",
+        "changed_substantially",
+        "blocked_unknown",
+        "needs_manual_review",
+    ]
+    summary = {"total": len(results), **{status: 0 for status in statuses}}
+    for result in results:
+        summary[result["status"]] = summary.get(result["status"], 0) + 1
+    return summary
+
+
+async def run(config: CheckConfig) -> None:
+    articles = json.loads(config.articles_path.read_text(encoding="utf-8"))
+    if not isinstance(articles, list):
+        raise ValueError("articles.json must contain a JSON array")
+    if config.limit:
+        articles = articles[: config.limit]
+
+    config.output_path.parent.mkdir(parents=True, exist_ok=True)
+    config.history_path.parent.mkdir(parents=True, exist_ok=True)
+
+    async with async_playwright() as playwright:
+        browser = await playwright.chromium.launch(headless=True)
+        context = await browser.new_context(
+            user_agent=(
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+            ),
+            viewport={"width": 1365, "height": 900},
+            locale="en-US",
+        )
+
+        results = []
+        for index, article in enumerate(articles, start=1):
+            print(f"[{index}/{len(articles)}] {article.get('source', '')}: {article.get('title', '')[:90]}")
+            results.append(await check_article(context, article, config))
+
+        await context.close()
+        await browser.close()
+
+    payload = {
+        "generated_at": utc_now(),
+        "scanner_version": SCANNER_VERSION,
+        "summary": summarize(results),
+        "results": results,
+    }
+    config.output_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    with config.history_path.open("a", encoding="utf-8") as history:
+        for result in results:
+            history.write(json.dumps(result, ensure_ascii=False) + "\n")
+
+
+def parse_args() -> CheckConfig:
+    parser = argparse.ArgumentParser(description="Run Article Integrity Monitor checks.")
+    parser.add_argument("--articles", default="data/articles.json")
+    parser.add_argument("--output", default="data/integrity/latest.json")
+    parser.add_argument("--history", default="data/integrity/history.jsonl")
+    parser.add_argument("--screenshots-dir", default="data/integrity/screenshots")
+    parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--timeout-ms", type=int, default=25000)
+    parser.add_argument("--screenshots", action="store_true")
+    args = parser.parse_args()
+    return CheckConfig(
+        articles_path=Path(args.articles),
+        output_path=Path(args.output),
+        history_path=Path(args.history),
+        screenshot_dir=Path(args.screenshots_dir),
+        limit=args.limit,
+        timeout_ms=args.timeout_ms,
+        screenshots=args.screenshots,
+    )
+
+
+if __name__ == "__main__":
+    asyncio.run(run(parse_args()))
