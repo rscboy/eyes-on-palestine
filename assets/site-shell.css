@@ -131,11 +131,54 @@ body.site-shell-pad {
 
 .site-shell-mobile-button {
   display: none;
-  width: 36px;
+  min-width: 78px;
   height: 36px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0a0a0a;
+  padding: 0 12px;
 }
 
-.site-shell-mobile-button span,
+.site-shell-mobile-button-text {
+  display: block;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.site-shell-mobile-button-mark {
+  position: relative;
+  display: block;
+  width: 11px;
+  height: 11px;
+  color: #8b0000;
+}
+
+.site-shell-mobile-button-mark::before,
+.site-shell-mobile-button-mark::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+
+.site-shell-mobile-button-mark::before {
+  width: 11px;
+  height: 1px;
+}
+
+.site-shell-mobile-button-mark::after {
+  width: 1px;
+  height: 11px;
+}
+
 .site-shell-mobile-close span {
   display: block;
   width: 19px;
@@ -214,6 +257,44 @@ body.site-shell-pad {
   line-height: 1.7;
 }
 
+.site-shell-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 18px;
+}
+
+.site-shell-social a {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #080808;
+  padding: 8px 11px;
+  color: #8a8f98;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.site-shell-social a:hover {
+  border-color: rgba(139, 0, 0, 0.7);
+  background: rgba(139, 0, 0, 0.12);
+  color: #fff;
+}
+
+.site-shell-social svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .site-shell-footer-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(120px, 1fr));
@@ -275,7 +356,7 @@ body.site-shell-pad {
   }
 
   .site-shell-mobile-button {
-    display: block;
+    display: inline-flex;
   }
 
   .site-shell-footer-main,
@@ -288,4 +369,3 @@ body.site-shell-pad {
     gap: 34px;
   }
 }
-
