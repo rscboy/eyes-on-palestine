@@ -1,0 +1,15 @@
+{
+  "generated_at": null,
+  "scanner_version": "1.0.0",
+  "summary": {
+    "total": 0,
+    "live": 0,
+    "redirected_live": 0,
+    "confirmed_removed": 0,
+    "likely_removed": 0,
+    "changed_substantially": 0,
+    "blocked_unknown": 0,
+    "needs_manual_review": 0
+  },
+  "results": []
+}
