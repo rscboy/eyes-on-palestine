@@ -28,6 +28,281 @@
 
     .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(139, 0, 0, 0.16), transparent 32rem),
+        linear-gradient(180deg, #0c0c0c 0%, #070707 48%, #0a0a0a 100%);
+    }
+
+    body > header,
+    body > main,
+    body > footer {
+      max-width: 1180px;
+    }
+
+    body > header {
+      margin-top: 1rem;
+      border: 1px solid rgba(39, 39, 42, 0.9);
+      background: rgba(10, 10, 10, 0.76);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    body > main {
+      padding-top: 2rem;
+    }
+
+    body > footer {
+      margin-bottom: 1rem;
+      border: 1px solid rgba(39, 39, 42, 0.72);
+      background: rgba(9, 9, 9, 0.72);
+    }
+
+    #auth-status {
+      padding: 0.5rem 0.6rem 0.5rem 0.8rem;
+      border: 1px solid rgba(39, 39, 42, 0.9);
+      background: rgba(15, 15, 15, 0.72);
+    }
+
+    #view-login > div > div:first-child,
+    #view-dashboard > div:first-child,
+    #primary-admin-panel,
+    #secondary-admin-panel {
+      border: 1px solid rgba(39, 39, 42, 0.9);
+      background: rgba(12, 12, 12, 0.72);
+    }
+
+    #view-login > div > div:first-child {
+      padding: 1.35rem;
+    }
+
+    #view-dashboard > div:first-child {
+      padding: 1.25rem;
+    }
+
+    #view-dashboard > div:first-child,
+    #view-dashboard > div:nth-child(2) {
+      margin-bottom: 1rem;
+    }
+
+    #tab-primary-admin,
+    #tab-secondary-admin,
+    #btn-refresh,
+    #btn-login,
+    #btn-logout,
+    [id^="btn-approve-"],
+    [id^="btn-reject-"],
+    [id^="btn-secondary-approve-"],
+    [id^="btn-secondary-reject-"],
+    button[onclick^="window.handlePreview"] {
+      min-height: 2.55rem;
+      border-radius: 0;
+    }
+
+    #btn-login,
+    #btn-refresh,
+    #tab-primary-admin,
+    #tab-secondary-admin {
+      background: rgba(15, 15, 15, 0.78);
+    }
+
+    #btn-login:hover,
+    #btn-refresh:hover,
+    #tab-primary-admin:hover,
+    #tab-secondary-admin:hover,
+    [id^="btn-approve-"]:hover,
+    [id^="btn-reject-"]:hover,
+    [id^="btn-secondary-approve-"]:hover,
+    [id^="btn-secondary-reject-"]:hover,
+    button[onclick^="window.handlePreview"]:hover {
+      background: rgba(139, 0, 0, 0.12);
+    }
+
+    #primary-admin-panel,
+    #secondary-admin-panel {
+      overflow: hidden;
+    }
+
+    #submissions-list,
+    #secondary-submissions-list {
+      border-top: 0;
+    }
+
+    [id^="card-"],
+    [id^="secondary-card-"] {
+      border-color: rgba(39, 39, 42, 0.85) !important;
+      background: rgba(9, 9, 9, 0.55);
+    }
+
+    [id^="card-"]:hover,
+    [id^="secondary-card-"]:hover {
+      background: rgba(18, 18, 18, 0.9) !important;
+    }
+
+    [id^="card-"] h3,
+    [id^="secondary-card-"] h3 {
+      max-width: 66ch;
+    }
+
+    [id^="preview-"] iframe {
+      min-height: 420px;
+      background: #050505;
+    }
+
+    [id^="secondary-card-"] img {
+      flex: 0 0 auto;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 1px solid var(--accent-red);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 760px) {
+      body > header,
+      body > main,
+      body > footer {
+        width: calc(100% - 1.5rem);
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+
+      body > header {
+        margin-top: 0.75rem;
+        padding-top: 1.25rem !important;
+        padding-bottom: 1.25rem !important;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      body > header h1 {
+        font-size: 1rem !important;
+        line-height: 1.4;
+      }
+
+      #auth-status {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      #admin-email {
+        max-width: calc(100vw - 7rem);
+        overflow-wrap: anywhere;
+      }
+
+      body > main {
+        padding-top: 1rem !important;
+        padding-bottom: 1.5rem !important;
+      }
+
+      #view-login {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+      }
+
+      #view-dashboard > div:first-child {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+      }
+
+      #btn-refresh {
+        width: 100%;
+        justify-content: center;
+      }
+
+      #view-dashboard > div:nth-child(2) {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      #tab-primary-admin,
+      #tab-secondary-admin {
+        width: 100%;
+      }
+
+      [id^="card-"],
+      [id^="secondary-card-"] {
+        padding: 1rem !important;
+        gap: 1rem !important;
+      }
+
+      [id^="card-"] > div:first-child > div:first-child,
+      [id^="secondary-card-"] > div:first-child > div:first-child {
+        align-items: flex-start;
+        gap: 0.45rem;
+      }
+
+      [id^="card-"] h3,
+      [id^="secondary-card-"] h3 {
+        font-size: 1rem !important;
+      }
+
+      [id^="card-"] span,
+      [id^="secondary-card-"] span,
+      [id^="card-"] a,
+      [id^="secondary-card-"] a {
+        white-space: normal;
+      }
+
+      [id^="card-"] > div:last-child,
+      [id^="secondary-card-"] > div:last-child {
+        width: 100%;
+        min-width: 0 !important;
+      }
+
+      [id^="card-"] > div:last-child > div,
+      [id^="secondary-card-"] > div:last-child {
+        display: grid !important;
+        grid-template-columns: 1fr;
+      }
+
+      [id^="btn-approve-"],
+      [id^="btn-reject-"],
+      [id^="btn-secondary-approve-"],
+      [id^="btn-secondary-reject-"],
+      button[onclick^="window.handlePreview"] {
+        width: 100% !important;
+        justify-content: center;
+      }
+
+      [id^="secondary-card-"] img + span {
+        display: block;
+        min-width: 0;
+      }
+
+      [id^="preview-"] iframe {
+        height: 360px !important;
+        min-height: 360px;
+      }
+
+      body > footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding-top: 1.25rem !important;
+        padding-bottom: 1.25rem !important;
+      }
+    }
+
+    @media (max-width: 420px) {
+      body > header,
+      body > main,
+      body > footer {
+        width: calc(100% - 1rem);
+      }
+
+      [id^="card-"],
+      [id^="secondary-card-"] {
+        padding: 0.85rem !important;
+      }
+    }
   </style>
 </head>
 
