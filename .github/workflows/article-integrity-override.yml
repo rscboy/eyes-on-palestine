@@ -25,6 +25,15 @@ on:
         description: "Neutral verification notes"
         required: false
         default: ""
+      screenshot_action:
+        description: "Screenshot action"
+        required: true
+        default: "delete_after_review"
+        type: choice
+        options:
+          - delete_after_review
+          - keep_as_evidence
+          - no_screenshot
 
 permissions:
   contents: write
@@ -47,10 +56,11 @@ jobs:
             --id "${{ github.event.inputs.article_id }}" \
             --status "${{ github.event.inputs.manual_status }}" \
             --verified-by "${{ github.event.inputs.verified_by }}" \
-            --notes "${{ github.event.inputs.notes }}"
+            --notes "${{ github.event.inputs.notes }}" \
+            --screenshot-action "${{ github.event.inputs.screenshot_action }}"
 
       - name: Commit manual override
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Apply article integrity manual override"
-          file_pattern: data/integrity/manual_overrides.json
+          file_pattern: data/integrity/manual_overrides.json data/integrity/screenshots/*.png
