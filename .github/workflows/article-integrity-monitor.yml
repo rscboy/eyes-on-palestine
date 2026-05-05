@@ -1,0 +1,53 @@
+name: Article Integrity Monitor
+
+on:
+  schedule:
+    - cron: "22 7 * * 1"
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Optional number of articles to check for a test run"
+        required: false
+        default: ""
+      screenshots:
+        description: "Capture screenshots for anomalous results"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install checker dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-integrity.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Run Article Integrity Monitor
+        run: |
+          ARGS=""
+          if [ -n "${{ github.event.inputs.limit }}" ]; then
+            ARGS="$ARGS --limit ${{ github.event.inputs.limit }}"
+          fi
+          if [ "${{ github.event.inputs.screenshots }}" = "true" ]; then
+            ARGS="$ARGS --screenshots"
+          fi
+          python scripts/article_integrity_monitor.py $ARGS
+
+      - name: Commit integrity results
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update article integrity monitor results"
+          file_pattern: data/integrity/latest.json data/integrity/history.jsonl data/integrity/screenshots/*.png
