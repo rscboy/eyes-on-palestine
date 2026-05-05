@@ -21,11 +21,15 @@ from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any
 
-from playwright.async_api import TimeoutError as PlaywrightTimeoutError
-from playwright.async_api import async_playwright
+try:
+    from playwright.async_api import TimeoutError as PlaywrightTimeoutError
+    from playwright.async_api import async_playwright
+except ModuleNotFoundError:  # Allows --help and argument validation before dependencies are installed.
+    PlaywrightTimeoutError = TimeoutError
+    async_playwright = None
 
 
-SCANNER_VERSION = "1.0.0"
+SCANNER_VERSION = "1.1.0"
 REMOVAL_PATTERNS = [
     "404",
     "410",
@@ -132,6 +136,7 @@ class CheckConfig:
     history_path: Path
     screenshot_dir: Path
     limit: int | None
+    offset: int
     timeout_ms: int
     screenshots: bool
 
@@ -184,7 +189,8 @@ async def check_article(context: Any, article: dict[str, Any], config: CheckConf
 
     if config.screenshots and status not in {"live", "redirected_live"}:
         config.screenshot_dir.mkdir(parents=True, exist_ok=True)
-        screenshot_file = config.screenshot_dir / f"{aid}-{checked_at.replace(':', '').replace('-', '')}.png"
+        screenshot_stamp = checked_at.replace(":", "").replace("-", "")
+        screenshot_file = config.screenshot_dir / f"{aid}__{screenshot_stamp}.png"
         try:
             await page.screenshot(path=str(screenshot_file), full_page=True)
             screenshot_path = str(screenshot_file).replace("\\", "/")
@@ -195,9 +201,13 @@ async def check_article(context: Any, article: dict[str, Any], config: CheckConf
 
     return {
         "id": aid,
+        "article_id": aid,
         "status": status,
         "checked_at": checked_at,
         "observed_issue": observed_issue,
+        "screenshot_path": screenshot_path,
+        "screenshot_reviewed": False if screenshot_path else None,
+        "screenshot_keep": False if screenshot_path else None,
         "original": {
             "title": article.get("title", ""),
             "date": article.get("date", ""),
@@ -216,6 +226,7 @@ async def check_article(context: Any, article: dict[str, Any], config: CheckConf
             "error": error,
             "text_snippet": re.sub(r"\s+", " ", visible_text).strip()[:900],
             "screenshot": screenshot_path,
+            "screenshot_path": screenshot_path,
         },
     }
 
@@ -236,10 +247,22 @@ def summarize(results: list[dict[str, Any]]) -> dict[str, int]:
     return summary
 
 
+def flagged_results(results: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [result for result in results if result.get("status") not in {"live", "redirected_live"}]
+
+
 async def run(config: CheckConfig) -> None:
+    if async_playwright is None:
+        raise RuntimeError("Playwright is required to run the integrity monitor. Install requirements-integrity.txt first.")
+
     articles = json.loads(config.articles_path.read_text(encoding="utf-8"))
     if not isinstance(articles, list):
         raise ValueError("articles.json must contain a JSON array")
+    total_articles = len(articles)
+    if config.offset < 0:
+        raise ValueError("--offset must be zero or greater")
+    if config.offset:
+        articles = articles[config.offset :]
     if config.limit:
         articles = articles[: config.limit]
 
@@ -265,10 +288,22 @@ async def run(config: CheckConfig) -> None:
         await context.close()
         await browser.close()
 
+    generated_at = utc_now()
+    summary = summarize(results)
     payload = {
-        "generated_at": utc_now(),
+        "generated_at": generated_at,
+        "last_scan_at": generated_at,
         "scanner_version": SCANNER_VERSION,
-        "summary": summarize(results),
+        "total_articles": total_articles,
+        "scan": {
+            "offset": config.offset,
+            "limit": config.limit,
+            "checked_articles": len(results),
+            "screenshots_enabled": config.screenshots,
+        },
+        "summary": summary,
+        "counts": {key: value for key, value in summary.items() if key != "total"},
+        "flagged_articles": flagged_results(results),
         "results": results,
     }
     config.output_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -285,6 +320,7 @@ def parse_args() -> CheckConfig:
     parser.add_argument("--history", default="data/integrity/history.jsonl")
     parser.add_argument("--screenshots-dir", default="data/integrity/screenshots")
     parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--timeout-ms", type=int, default=25000)
     parser.add_argument("--screenshots", action="store_true")
     args = parser.parse_args()
@@ -294,6 +330,7 @@ def parse_args() -> CheckConfig:
         history_path=Path(args.history),
         screenshot_dir=Path(args.screenshots_dir),
         limit=args.limit,
+        offset=args.offset,
         timeout_ms=args.timeout_ms,
         screenshots=args.screenshots,
     )
