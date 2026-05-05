@@ -47,7 +47,8 @@
           <a href="${home}/collab" class="site-shell-submit">Submit Evidence</a>
         </nav>
         <button class="site-shell-mobile-button" type="button" aria-label="Open menu" aria-expanded="false">
-          <span></span><span></span><span></span>
+          <span class="site-shell-mobile-button-text">Menu</span>
+          <span class="site-shell-mobile-button-mark" aria-hidden="true"></span>
         </button>
       </div>
     </header>
@@ -73,6 +74,22 @@
           <div class="site-shell-footer-brand">
             <a href="${home}" class="site-shell-logo">Echoes of Gaza</a>
             <p>Preserving truth, resisting erasure.</p>
+            <div class="site-shell-social" aria-label="Echoes of Gaza social media">
+              <a href="https://www.instagram.com/echoesofgaza" target="_blank" rel="noopener noreferrer" aria-label="Echoes of Gaza on Instagram">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                  <circle cx="12" cy="12" r="4"></circle>
+                  <circle cx="17.5" cy="6.5" r="1"></circle>
+                </svg>
+                <span>Instagram</span>
+              </a>
+              <a href="https://www.facebook.com/p/Echoes-of-Gaza-A-Historical-Archive-61584294577441/" target="_blank" rel="noopener noreferrer" aria-label="Echoes of Gaza on Facebook">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M14 8h3V4h-3c-3 0-5 2-5 5v3H6v4h3v4h4v-4h3l1-4h-4V9c0-.6.4-1 1-1Z"></path>
+                </svg>
+                <span>Facebook</span>
+              </a>
+            </div>
             <div id="google_translate_element"></div>
           </div>
           <div class="site-shell-footer-grid">
@@ -136,9 +153,10 @@
 
   function setupTranslate() {
     window.googleTranslateElementInit = function () {
-      if (!window.google || !window.google.translate || !window.google.translate.TranslateElement || !document.getElementById("google_translate_element")) return;
-      const inlineLayout = window.google.translate.TranslateElement.InlineLayout;
-      new window.google.translate.TranslateElement({
+      const TranslateElement = window.google?.translate?.TranslateElement;
+      if (typeof TranslateElement !== "function" || !document.getElementById("google_translate_element")) return;
+      const inlineLayout = TranslateElement.InlineLayout;
+      new TranslateElement({
         pageLanguage: "en",
         includedLanguages: "en,ar,he",
         layout: inlineLayout ? inlineLayout.SIMPLE : undefined
