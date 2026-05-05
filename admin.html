@@ -353,6 +353,9 @@
         <button id="btn-secondary-access" class="px-8 py-3 border border-zinc-800 hover:border-[#8b0000] text-zinc-400 hover:text-zinc-200 font-sans text-xs tracking-widest uppercase transition-all w-full">
           Secondary Articles Password Access
         </button>
+        <button id="btn-integrity-access" class="px-8 py-3 border border-zinc-800 hover:border-[#8b0000] text-zinc-400 hover:text-zinc-200 font-sans text-xs tracking-widest uppercase transition-all w-full">
+          Integrity Review Password Access
+        </button>
         <p id="login-error" class="text-[#8b0000] text-sm font-sans hidden"></p>
       </div>
     </div>
@@ -381,6 +384,9 @@
         <button id="tab-secondary-admin" class="px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase">
           Secondary Articles
         </button>
+        <button id="tab-integrity-admin" class="px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase">
+          Integrity Review
+        </button>
       </div>
 
       <div id="primary-admin-panel">
@@ -396,6 +402,45 @@
           <div class="py-12 text-center text-zinc-600 font-serif italic">
             Secondary source queue not loaded.
           </div>
+        </div>
+      </div>
+
+      <div id="integrity-admin-panel" class="hidden">
+        <div id="integrity-locked-panel" class="border border-zinc-900 bg-zinc-950/40 p-8 mb-6 text-center">
+          <h3 class="text-lg text-zinc-200 font-serif mb-2">Integrity Review Locked</h3>
+          <p class="text-sm text-zinc-500 font-sans leading-relaxed max-w-2xl mx-auto mb-5">
+            Manual integrity verification is private and uses the same admin password flow as the secondary source queue.
+          </p>
+          <button id="btn-unlock-integrity" class="px-5 py-2 border border-[#8b0000] text-zinc-200 hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+            Enter Password
+          </button>
+        </div>
+        <div id="integrity-review-content" class="hidden">
+        <div class="border border-zinc-900 bg-zinc-950/40 p-5 md:p-6 mb-6">
+          <h3 class="text-lg text-zinc-200 font-serif mb-2">Manual Integrity Verification</h3>
+          <p class="text-sm text-zinc-500 font-sans leading-relaxed max-w-3xl">
+            Review articles where automation could not confidently determine whether the original article is live, removed, blocked, or changed. Manual decisions are written through the GitHub Actions override workflow and take precedence over automated classifications.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-3 mt-5">
+            <input id="integrity-reviewer-name" class="bg-[#080808] border border-zinc-800 text-zinc-300 p-3 text-xs font-sans outline-none focus:border-zinc-600" placeholder="Reviewer name or email">
+            <input id="integrity-github-owner" class="bg-[#080808] border border-zinc-800 text-zinc-300 p-3 text-xs font-sans outline-none focus:border-zinc-600" placeholder="GitHub owner">
+            <input id="integrity-github-repo" class="bg-[#080808] border border-zinc-800 text-zinc-300 p-3 text-xs font-sans outline-none focus:border-zinc-600" placeholder="GitHub repo">
+            <input id="integrity-github-branch" class="bg-[#080808] border border-zinc-800 text-zinc-300 p-3 text-xs font-sans outline-none focus:border-zinc-600" value="main" placeholder="Branch">
+            <select id="integrity-screenshot-action" class="bg-[#080808] border border-zinc-800 text-zinc-300 p-3 text-xs font-sans outline-none focus:border-zinc-600">
+              <option value="delete_after_review">Delete screenshot after review</option>
+              <option value="keep_as_evidence">Keep screenshot as evidence</option>
+              <option value="no_screenshot">No screenshot action</option>
+            </select>
+          </div>
+          <input id="integrity-github-token" class="bg-[#080808] border border-zinc-800 text-zinc-300 p-3 text-xs font-sans outline-none focus:border-zinc-600 w-full mt-3" type="password" placeholder="Optional GitHub token for this browser session only">
+          <p class="text-[10px] text-zinc-600 font-sans uppercase tracking-widest mt-3">Do not store GitHub tokens in site code. This field only dispatches the override workflow from this browser session.</p>
+          <div id="integrity-review-status" class="text-xs text-zinc-500 font-sans mt-4"></div>
+        </div>
+        <div id="integrity-review-list" class="space-y-0 border-t border-zinc-900">
+          <div class="py-12 text-center text-zinc-600 font-serif italic">
+            Integrity review queue not loaded.
+          </div>
+        </div>
         </div>
       </div>
     </div>
@@ -453,14 +498,21 @@
     const adminEmailDisplay = document.getElementById("admin-email");
     const btnLogin = document.getElementById("btn-login");
     const btnSecondaryAccess = document.getElementById("btn-secondary-access");
+    const btnIntegrityAccess = document.getElementById("btn-integrity-access");
     const btnLogout = document.getElementById("btn-logout");
     const btnRefresh = document.getElementById("btn-refresh");
     const listContainer = document.getElementById("submissions-list");
     const tabPrimaryAdmin = document.getElementById("tab-primary-admin");
     const tabSecondaryAdmin = document.getElementById("tab-secondary-admin");
+    const tabIntegrityAdmin = document.getElementById("tab-integrity-admin");
     const primaryAdminPanel = document.getElementById("primary-admin-panel");
     const secondaryAdminPanel = document.getElementById("secondary-admin-panel");
+    const integrityAdminPanel = document.getElementById("integrity-admin-panel");
     const secondaryListContainer = document.getElementById("secondary-submissions-list");
+    const integrityReviewList = document.getElementById("integrity-review-list");
+    const integrityLockedPanel = document.getElementById("integrity-locked-panel");
+    const integrityReviewContent = document.getElementById("integrity-review-content");
+    const btnUnlockIntegrity = document.getElementById("btn-unlock-integrity");
     const systemStatus = document.getElementById("system-status");
     const loginError = document.getElementById("login-error");
 
@@ -469,6 +521,8 @@
     let isProcessing = false;
     let activeAdminTab = "primary";
     let secondaryAdminCode = "";
+    let integrityLatestPayload = null;
+    let integrityOverrides = {};
 
     // Helpers
     function setStatus(msg) {
@@ -494,20 +548,37 @@
       return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
     }
 
+    const activeTabClass = "px-4 py-2 border border-[#8b0000] text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+    const inactiveTabClass = "px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+
     function activatePrimaryTab() {
       activeAdminTab = "primary";
-      tabPrimaryAdmin.className = "px-4 py-2 border border-[#8b0000] text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
-      tabSecondaryAdmin.className = "px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+      tabPrimaryAdmin.className = activeTabClass;
+      tabSecondaryAdmin.className = inactiveTabClass;
+      tabIntegrityAdmin.className = inactiveTabClass;
       primaryAdminPanel.classList.remove("hidden");
       secondaryAdminPanel.classList.add("hidden");
+      integrityAdminPanel.classList.add("hidden");
     }
 
     function activateSecondaryTab() {
       activeAdminTab = "secondary";
-      tabSecondaryAdmin.className = "px-4 py-2 border border-[#8b0000] text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
-      tabPrimaryAdmin.className = "px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+      tabSecondaryAdmin.className = activeTabClass;
+      tabPrimaryAdmin.className = inactiveTabClass;
+      tabIntegrityAdmin.className = inactiveTabClass;
       primaryAdminPanel.classList.add("hidden");
       secondaryAdminPanel.classList.remove("hidden");
+      integrityAdminPanel.classList.add("hidden");
+    }
+
+    function activateIntegrityTab() {
+      activeAdminTab = "integrity";
+      tabIntegrityAdmin.className = activeTabClass;
+      tabPrimaryAdmin.className = inactiveTabClass;
+      tabSecondaryAdmin.className = inactiveTabClass;
+      primaryAdminPanel.classList.add("hidden");
+      secondaryAdminPanel.classList.add("hidden");
+      integrityAdminPanel.classList.remove("hidden");
     }
 
     function showLogin(msg) {
@@ -539,6 +610,33 @@
       if (shouldFetch) fetchSecondarySubmissions();
     }
 
+    function showIntegrityDashboard(shouldFetch = false) {
+      activateIntegrityTab();
+      viewLogin.classList.add("hidden");
+      viewDashboard.classList.remove("hidden");
+      if (currentUser) {
+        authStatus.classList.remove("hidden");
+        adminEmailDisplay.textContent = currentUser.email || "";
+      } else {
+        authStatus.classList.add("hidden");
+        adminEmailDisplay.textContent = "";
+      }
+      setStatus(shouldFetch ? "Loading integrity..." : "Integrity access");
+      if (!shouldFetch) {
+        integrityLockedPanel.classList.remove("hidden");
+        integrityReviewContent.classList.add("hidden");
+      }
+      if (shouldFetch) fetchIntegrityReviewQueue();
+    }
+
+    function showDefaultPasswordDashboard() {
+      if (window.location.hash === "#integrity-review") {
+        showIntegrityDashboard(false);
+      } else {
+        showSecondaryDashboard(false);
+      }
+    }
+
     function showDashboard() {
       viewLogin.classList.add("hidden");
       viewDashboard.classList.remove("hidden");
@@ -550,6 +648,8 @@
       adminEmailDisplay.textContent = currentUser?.email || "";
       if (activeAdminTab === "primary") {
         fetchSubmissions();
+      } else if (activeAdminTab === "integrity") {
+        fetchIntegrityReviewQueue();
       } else {
         fetchSecondarySubmissions();
       }
@@ -586,7 +686,7 @@
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         currentUser = null;
-        showSecondaryDashboard(false);
+        showDefaultPasswordDashboard();
         return;
       }
 
@@ -618,9 +718,14 @@
       showSecondaryDashboard(true);
     });
 
+    btnIntegrityAccess.addEventListener("click", () => {
+      loginError.classList.add("hidden");
+      showIntegrityDashboard(true);
+    });
+
     btnLogout.addEventListener("click", async () => {
       await signOut(auth);
-      showSecondaryDashboard(false);
+      showDefaultPasswordDashboard();
     });
 
     tabPrimaryAdmin.addEventListener("click", () => {
@@ -638,6 +743,14 @@
       showSecondaryDashboard(true);
     });
 
+    tabIntegrityAdmin.addEventListener("click", () => {
+      showIntegrityDashboard(true);
+    });
+
+    btnUnlockIntegrity.addEventListener("click", () => {
+      fetchIntegrityReviewQueue();
+    });
+
     btnRefresh.addEventListener("click", () => {
       if (activeAdminTab === "primary") {
         if (!currentUser) {
@@ -645,6 +758,8 @@
           return;
         }
         fetchSubmissions();
+      } else if (activeAdminTab === "integrity") {
+        fetchIntegrityReviewQueue();
       } else {
         fetchSecondarySubmissions();
       }
@@ -786,7 +901,7 @@
     function getSecondaryAdminCode() {
       if (secondaryAdminCode) return secondaryAdminCode;
 
-      const entered = prompt("Enter secondary article admin code:");
+      const entered = prompt("Enter admin password:");
       if (!entered) throw new Error("Admin code required.");
 
       secondaryAdminCode = entered.trim();
@@ -825,6 +940,235 @@
         setStatus("Error");
       }
     }
+
+    const INTEGRITY_REVIEW_STATUSES = new Set(["needs_manual_review", "blocked_unknown"]);
+
+    function integrityStatusText(value) {
+      return String(value || "needs_manual_review").replace(/_/g, " ");
+    }
+
+    function saveIntegritySettings() {
+      [
+        "integrity-reviewer-name",
+        "integrity-github-owner",
+        "integrity-github-repo",
+        "integrity-github-branch",
+        "integrity-screenshot-action"
+      ].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) localStorage.setItem(id, el.value);
+      });
+    }
+
+    function loadIntegritySettings() {
+      [
+        "integrity-reviewer-name",
+        "integrity-github-owner",
+        "integrity-github-repo",
+        "integrity-github-branch",
+        "integrity-screenshot-action"
+      ].forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.value = localStorage.getItem(id) || el.value || "";
+        el.addEventListener("input", saveIntegritySettings);
+        el.addEventListener("change", saveIntegritySettings);
+      });
+    }
+
+    function effectiveIntegrityResult(result) {
+      const override = integrityOverrides[result.id];
+      if (!override) return result;
+      return {
+        ...result,
+        automated_status: result.status,
+        status: override.manual_status || result.status,
+        manual_override: override
+      };
+    }
+
+    function archiveLinks(url) {
+      return {
+        archiveIs: `https://archive.is/oldest/${encodeURIComponent(url || "")}`,
+        archiveOrg: `https://web.archive.org/web/*/${url || ""}`
+      };
+    }
+
+    async function fetchIntegrityReviewQueue() {
+      setStatus("Loading integrity...");
+      integrityReviewList.innerHTML = `
+        <div class="py-12 text-center text-zinc-500 font-sans tracking-widest text-xs uppercase animate-pulse">
+          Loading manual integrity queue...
+        </div>
+      `;
+
+      try {
+        getSecondaryAdminCode();
+        integrityLockedPanel.classList.add("hidden");
+        integrityReviewContent.classList.remove("hidden");
+        loadIntegritySettings();
+        const [latestResponse, overrideResponse] = await Promise.all([
+          fetch("./data/integrity/latest.json?v=" + Date.now()),
+          fetch("./data/integrity/manual_overrides.json?v=" + Date.now())
+        ]);
+        integrityLatestPayload = latestResponse.ok ? await latestResponse.json() : { results: [] };
+        const overridePayload = overrideResponse.ok ? await overrideResponse.json() : { overrides: {} };
+        integrityOverrides = {
+          ...(overridePayload.overrides || {}),
+          ...JSON.parse(localStorage.getItem("integrity-local-overrides") || "{}")
+        };
+        renderIntegrityReviewQueue();
+        setStatus("Idle");
+      } catch (error) {
+        console.error(error);
+        integrityReviewList.innerHTML = `
+          <div class="py-8 text-center border border-red-900/30 bg-red-900/10 p-4">
+            <p class="text-[#8b0000] font-sans text-sm mb-2">Error loading integrity review</p>
+            <p class="text-zinc-500 text-xs font-mono">${esc(error.message)}</p>
+          </div>
+        `;
+        setStatus("Error");
+      }
+    }
+
+    function renderIntegrityReviewQueue() {
+      const items = (integrityLatestPayload?.results || [])
+        .map(effectiveIntegrityResult)
+        .filter((item) => INTEGRITY_REVIEW_STATUSES.has(item.status));
+
+      if (!items.length) {
+        integrityReviewList.innerHTML = `
+          <div class="py-20 text-center text-zinc-600 italic font-serif">
+            No blocked or manual review records in the latest scan.
+          </div>
+        `;
+        return;
+      }
+
+      integrityReviewList.innerHTML = items.map((item) => {
+        const links = archiveLinks(item.original?.url || "");
+        const signals = item.signals || {};
+        const screenshotPath = item.screenshot_path || signals.screenshot_path || signals.screenshot;
+        return `
+          <div id="integrity-card-${esc(item.id)}" class="border-b border-zinc-900 hover:bg-zinc-900/30 transition-colors p-6 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+            <div class="min-w-0 flex-1 space-y-3">
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="px-2 py-0.5 border border-zinc-800 text-[10px] tracking-widest uppercase text-zinc-400 font-sans">${esc(integrityStatusText(item.status))}</span>
+                <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">${esc(item.checked_at || "")}</span>
+                ${item.manual_override ? `<span class="text-[10px] text-[#8b0000] font-sans tracking-wide uppercase">Manual override exists</span>` : ""}
+              </div>
+              <h3 class="text-lg text-zinc-200 font-serif leading-tight">${esc(item.original?.title || "Untitled")}</h3>
+              <p class="text-xs text-zinc-500 font-sans uppercase tracking-widest">${esc(item.original?.source || "")} / ${esc(item.original?.date || "")}</p>
+              <p class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(item.observed_issue || "")}</p>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-zinc-500 font-sans">
+                <div class="border border-zinc-900 bg-zinc-950/40 p-3">HTTP: ${esc(signals.status_code ?? "Unknown")}</div>
+                <div class="border border-zinc-900 bg-zinc-950/40 p-3">Similarity: ${esc(signals.similarity_score ?? "Unknown")}</div>
+                <div class="border border-zinc-900 bg-zinc-950/40 p-3">Redirected: ${signals.redirected ? "Yes" : "No"}</div>
+              </div>
+              <p class="text-xs text-zinc-600 font-sans break-all">Final URL: ${esc(signals.final_url || "")}</p>
+              ${signals.text_snippet ? `<p class="text-xs text-zinc-500 border-l border-zinc-800 pl-4">${esc(signals.text_snippet)}</p>` : ""}
+              ${screenshotPath ? `<p class="text-[10px] text-zinc-600 font-sans break-all uppercase tracking-widest">Screenshot: ${esc(screenshotPath)}</p>` : ""}
+              <div class="flex flex-wrap gap-3">
+                <a class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase" href="${esc(item.original?.url || "#")}" target="_blank" rel="noopener noreferrer">Open Live URL</a>
+                <a class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase" href="${esc(links.archiveIs)}" target="_blank" rel="noopener noreferrer">Archive.is</a>
+                <a class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase" href="${esc(links.archiveOrg)}" target="_blank" rel="noopener noreferrer">Archive.org</a>
+              </div>
+              <div id="integrity-error-${esc(item.id)}" class="hidden text-[#8b0000] text-xs font-sans"></div>
+            </div>
+            <div class="grid grid-cols-1 gap-2 w-full lg:w-52">
+              <button class="px-4 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase" onclick="window.handleIntegrityVerify('${esc(item.id)}', 'live')">Confirm Live</button>
+              <button class="px-4 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase" onclick="window.handleIntegrityVerify('${esc(item.id)}', 'confirmed_removed')">Confirm Removed</button>
+              <button class="px-4 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase" onclick="window.handleIntegrityVerify('${esc(item.id)}', 'changed_substantially')">Mark Changed</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function dispatchIntegrityOverride(articleId, status, reviewer, notes) {
+      const owner = document.getElementById("integrity-github-owner").value.trim();
+      const repo = document.getElementById("integrity-github-repo").value.trim();
+      const branch = document.getElementById("integrity-github-branch").value.trim() || "main";
+      const token = document.getElementById("integrity-github-token").value.trim();
+      const screenshotAction = document.getElementById("integrity-screenshot-action").value || "delete_after_review";
+      if (!owner || !repo || !token) return false;
+
+      const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/article-integrity-override.yml/dispatches`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Accept": "application/vnd.github+json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          ref: branch,
+          inputs: {
+            article_id: articleId,
+            manual_status: status,
+            verified_by: reviewer,
+            notes,
+            screenshot_action: screenshotAction
+          }
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`GitHub workflow dispatch failed: ${response.status}`);
+      }
+
+      return true;
+    }
+
+    window.handleIntegrityVerify = async (articleId, status) => {
+      if (isProcessing) return;
+
+      const reviewer = document.getElementById("integrity-reviewer-name").value.trim();
+      const statusEl = document.getElementById("integrity-review-status");
+      const errorDiv = document.getElementById(`integrity-error-${articleId}`);
+      if (!reviewer) {
+        statusEl.textContent = "Enter a reviewer name or email before verifying.";
+        return;
+      }
+
+      const notes = prompt("Neutral verification notes:") || "";
+      const screenshotAction = document.getElementById("integrity-screenshot-action").value || "delete_after_review";
+      isProcessing = true;
+      statusEl.textContent = "Recording verification...";
+      setStatus("Verifying integrity...");
+      if (errorDiv) errorDiv.classList.add("hidden");
+
+      const localOverrides = JSON.parse(localStorage.getItem("integrity-local-overrides") || "{}");
+      localOverrides[articleId] = {
+        manual_status: status,
+        verified_at: new Date().toISOString(),
+        verified_by: reviewer,
+        notes,
+        screenshot_reviewed: screenshotAction !== "no_screenshot",
+        screenshot_keep: screenshotAction === "keep_as_evidence",
+        screenshot_action: screenshotAction
+      };
+      localStorage.setItem("integrity-local-overrides", JSON.stringify(localOverrides, null, 2));
+
+      try {
+        const dispatched = await dispatchIntegrityOverride(articleId, status, reviewer, notes);
+        statusEl.textContent = dispatched
+          ? "Manual override workflow dispatched. GitHub Actions will update the repository dataset."
+          : "Saved locally. Add GitHub owner, repo, and token to write this override through GitHub Actions.";
+        integrityOverrides = { ...integrityOverrides, [articleId]: localOverrides[articleId] };
+        renderIntegrityReviewQueue();
+        setStatus(dispatched ? "Dispatched" : "Saved locally");
+      } catch (error) {
+        console.error(error);
+        statusEl.textContent = `${error.message}. Saved locally as a draft override.`;
+        if (errorDiv) {
+          errorDiv.textContent = error.message;
+          errorDiv.classList.remove("hidden");
+        }
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    };
 
     function renderSecondaryList(items) {
       if (!items.length) {
@@ -1214,7 +1558,7 @@
       }
     };
 
-    showSecondaryDashboard(false);
+    showDefaultPasswordDashboard();
   </script>
 </body>
 </html>
