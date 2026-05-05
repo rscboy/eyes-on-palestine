@@ -2,15 +2,19 @@ name: Article Integrity Monitor
 
 on:
   schedule:
-    - cron: "22 7 * * 1"
+    - cron: "0 8 * * 1"
   workflow_dispatch:
     inputs:
       limit:
         description: "Optional number of articles to check for a test run"
         required: false
-        default: ""
+        default: "25"
+      offset:
+        description: "Optional starting offset for rolling scans"
+        required: false
+        default: "0"
       screenshots:
-        description: "Capture screenshots for anomalous results"
+        description: "Capture screenshots for anomalous results only"
         required: false
         default: "false"
 
@@ -40,6 +44,9 @@ jobs:
           ARGS=""
           if [ -n "${{ github.event.inputs.limit }}" ]; then
             ARGS="$ARGS --limit ${{ github.event.inputs.limit }}"
+          fi
+          if [ -n "${{ github.event.inputs.offset }}" ]; then
+            ARGS="$ARGS --offset ${{ github.event.inputs.offset }}"
           fi
           if [ "${{ github.event.inputs.screenshots }}" = "true" ]; then
             ARGS="$ARGS --screenshots"
