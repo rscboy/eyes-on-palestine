@@ -24,9 +24,13 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -57,4 +61,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update article integrity monitor results"
-          file_pattern: data/integrity/latest.json data/integrity/history.jsonl data/integrity/screenshots/*.png
+          branch: main
+          file_pattern: data/integrity/
