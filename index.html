@@ -341,7 +341,8 @@
             background: rgba(139, 0, 0, 0.12);
         }
 
-        .integrity-status[data-status="changed_substantially"] {
+        .integrity-status[data-status="changed_substantially"],
+        .integrity-status[data-status="confirmed_changed"] {
             border-color: rgba(212, 175, 55, 0.42);
             background: rgba(212, 175, 55, 0.08);
         }
@@ -1101,7 +1102,7 @@
                     <div>
                         <span class="text-xs font-bold text-[#8B0000] uppercase tracking-[0.2em] block mb-4">Archive Integrity</span>
                         <h2 class="text-3xl font-serif font-bold text-white/90">Archive Integrity Report</h2>
-                        <p class="text-sm text-gray-500 font-light mt-3 max-w-2xl">Automated checks conservatively monitor whether original article URLs remain live, redirected, blocked, removed, or changed.</p>
+                        <p class="text-sm text-gray-500 font-light mt-3 max-w-2xl">Automated checks conservatively monitor whether original article URLs remain live, redirected, blocked, removed, or changed. Integrity checks run daily, but each article is rechecked only after 60 days unless manually forced.</p>
                     </div>
                     <p class="text-xs text-gray-600 uppercase tracking-widest max-w-xs md:text-right">Manual verification is handled through the admin portal.</p>
                 </div>
@@ -1784,6 +1785,10 @@
             return String(status || 'needs_manual_review').replace(/_/g, ' ');
         }
 
+        function integrityEffectiveStatus(result) {
+            return result.effective_status || result.status || 'needs_manual_review';
+        }
+
         function renderIntegrityReport(payload) {
             const summaryEl = document.getElementById('integrity-summary');
             const metaEl = document.getElementById('integrity-meta');
@@ -1793,40 +1798,54 @@
             integrityResults = Array.isArray(payload?.results) ? payload.results.map(effectiveIntegrityResult) : [];
             const counts = {
                 total: integrityResults.length,
+                unchecked: 0,
                 live: 0,
                 redirected_live: 0,
                 confirmed_removed: 0,
                 likely_removed: 0,
                 changed_substantially: 0,
                 blocked_unknown: 0,
-                needs_manual_review: 0
+                needs_manual_review: 0,
+                confirmed_live: 0,
+                confirmed_changed: 0
             };
             integrityResults.forEach(result => {
-                counts[result.status] = (counts[result.status] || 0) + 1;
+                const status = integrityEffectiveStatus(result);
+                counts[status] = (counts[status] || 0) + 1;
             });
 
             const statOrder = [
-                ['total', 'Total'],
-                ['live', 'Live'],
+                ['total_articles', 'Total'],
+                ['live_total', 'Live'],
                 ['redirected_live', 'Redirected'],
                 ['confirmed_removed', 'Confirmed Removed'],
                 ['likely_removed', 'Likely Removed'],
-                ['changed_substantially', 'Changed'],
-                ['needs_manual_review', 'Review']
+                ['changed_total', 'Changed'],
+                ['review_total', 'Review']
             ];
+            const statValues = {
+                ...counts,
+                total_articles: payload?.total_articles ?? counts.total,
+                live_total: (counts.live || 0) + (counts.confirmed_live || 0),
+                changed_total: (counts.changed_substantially || 0) + (counts.confirmed_changed || 0),
+                review_total: (counts.needs_manual_review || 0) + (counts.blocked_unknown || 0)
+            };
 
             summaryEl.innerHTML = statOrder.map(([key, label]) => `
                 <div class="integrity-stat">
                     <div class="text-gray-600 text-[10px] uppercase tracking-widest mb-2">${label}</div>
-                    <div class="text-white text-2xl font-serif">${counts[key] || 0}</div>
+                    <div class="text-white text-2xl font-serif">${statValues[key] || 0}</div>
                 </div>
             `).join('');
 
-            const checkedArticles = payload?.scan?.checked_articles ?? integrityResults.length;
+            const checkedArticles = payload?.scanned_this_run ?? payload?.scan?.checked_articles ?? integrityResults.length;
             const totalArticles = payload?.total_articles ?? integrityResults.length;
-            metaEl.textContent = `Last scan: ${payload?.last_scan_at || payload?.generated_at || 'Not available'} / Checked ${checkedArticles} of ${totalArticles} archived articles`;
+            const dueFound = payload?.due_articles_found ?? 0;
+            const skippedRecent = payload?.skipped_recent_count ?? 0;
+            const interval = payload?.review_interval_days ?? 60;
+            metaEl.textContent = `Last scan: ${payload?.last_scan_at || payload?.generated_at || 'Not available'} / Checked ${checkedArticles} this run / Total monitored: ${totalArticles} / Due found: ${dueFound} / Recently checked skipped: ${skippedRecent} / Review interval: ${interval} days`;
 
-            const flagged = integrityResults.filter(result => !['live', 'redirected_live'].includes(result.status));
+            const flagged = integrityResults.filter(result => !['live', 'redirected_live', 'confirmed_live'].includes(integrityEffectiveStatus(result)));
             if (!flagged.length) {
                 tableEl.innerHTML = `<div class="p-8 text-center text-gray-600 font-serif italic">No flagged articles in the latest integrity scan.</div>`;
                 return;
@@ -1850,8 +1869,8 @@
                                 <td class="text-sm text-gray-300">${result.original?.title || 'Untitled'}</td>
                                 <td class="text-xs text-gray-500">${result.original?.source || ''}</td>
                                 <td class="text-xs text-gray-500">${result.original?.date || ''}</td>
-                                <td><span class="integrity-status" data-status="${result.status}">${integrityStatusLabel(result.status)}</span>${result.manual_override ? '<div class="text-[10px] text-[#8B0000] uppercase tracking-widest mt-2">Manually Verified</div>' : ''}</td>
-                                <td class="text-xs text-gray-500">${result.checked_at || ''}</td>
+                                <td><span class="integrity-status" data-status="${integrityEffectiveStatus(result)}">${integrityStatusLabel(integrityEffectiveStatus(result))}</span>${result.manual_override ? `<div class="text-[10px] text-[#8B0000] uppercase tracking-widest mt-2">Manual verification overrides automated status: ${integrityStatusLabel(result.status)}</div>` : ''}</td>
+                                <td class="text-xs text-gray-500">${result.last_checked || result.checked_at || ''}</td>
                                 <td><button class="text-[10px] text-[#8B0000] hover:text-white uppercase tracking-widest" onclick="window.openIntegrityDetail('${result.id}')">View Details</button></td>
                             </tr>
                         `).join('')}
@@ -1888,8 +1907,8 @@
             body.innerHTML = `
                 <div class="space-y-6">
                     <div>
-                        <span class="integrity-status" data-status="${result.status}">${integrityStatusLabel(result.status)}</span>
-                        ${result.manual_override ? `<p class="text-xs text-[#8B0000] uppercase tracking-widest mt-3">Manual override by ${result.manual_override.verified_by || 'Unknown'} at ${result.manual_override.verified_at || ''}</p>` : ''}
+                        <span class="integrity-status" data-status="${integrityEffectiveStatus(result)}">${integrityStatusLabel(integrityEffectiveStatus(result))}</span>
+                        ${result.manual_override ? `<p class="text-xs text-[#8B0000] uppercase tracking-widest mt-3">Manual verification by ${result.manual_override.verified_by || 'Unknown'} at ${result.manual_override.verified_at || ''}. Automated status: ${integrityStatusLabel(result.status)}</p>` : ''}
                     </div>
                     <div>
                         <h4 class="text-white font-serif text-lg mb-2">${result.original?.title || 'Untitled'}</h4>
