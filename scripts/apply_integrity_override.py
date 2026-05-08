@@ -12,7 +12,9 @@ from pathlib import Path
 ALLOWED_STATUSES = {
     "live",
     "redirected_live",
+    "confirmed_live",
     "confirmed_removed",
+    "confirmed_changed",
     "likely_removed",
     "changed_substantially",
     "blocked_unknown",
