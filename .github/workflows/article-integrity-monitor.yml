@@ -2,19 +2,31 @@ name: Article Integrity Monitor
 
 on:
   schedule:
-    - cron: "0 8 * * 1"
+    - cron: "0 8 * * *"
   workflow_dispatch:
     inputs:
       limit:
-        description: "Optional number of articles to check for a test run"
+        description: "Optional article cap. In due mode this caps due articles; in force mode this caps selected articles."
         required: false
-        default: "25"
+        default: ""
       offset:
-        description: "Optional starting offset for rolling scans"
+        description: "Optional starting offset for forced scans"
         required: false
         default: "0"
       screenshots:
         description: "Capture screenshots for anomalous results only"
+        required: false
+        default: "false"
+      review_interval_days:
+        description: "Days before an article is due for automated recheck"
+        required: false
+        default: "60"
+      max_due:
+        description: "Maximum due articles to check when limit is blank"
+        required: false
+        default: "25"
+      force:
+        description: "Ignore due-only timing and use limit/offset"
         required: false
         default: "false"
 
@@ -24,7 +36,6 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -55,11 +66,24 @@ jobs:
           if [ "${{ github.event.inputs.screenshots }}" = "true" ]; then
             ARGS="$ARGS --screenshots"
           fi
+          if [ -n "${{ github.event.inputs.review_interval_days }}" ]; then
+            ARGS="$ARGS --review-interval-days ${{ github.event.inputs.review_interval_days }}"
+          else
+            ARGS="$ARGS --review-interval-days 60"
+          fi
+          if [ -n "${{ github.event.inputs.max_due }}" ]; then
+            ARGS="$ARGS --max-due ${{ github.event.inputs.max_due }}"
+          else
+            ARGS="$ARGS --max-due 25"
+          fi
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            ARGS="$ARGS --force"
+          fi
           python scripts/article_integrity_monitor.py $ARGS
 
       - name: Commit integrity results
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update article integrity monitor results"
-          branch: main
           file_pattern: data/integrity/
+          branch: main
