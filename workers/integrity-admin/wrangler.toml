@@ -1,0 +1,11 @@
+name = "echoes-integrity-admin"
+main = "src/index.js"
+compatibility_date = "2026-05-08"
+
+[vars]
+GITHUB_OWNER = "rscboy"
+GITHUB_REPO = "eyes-on-palestine"
+GITHUB_BRANCH = "main"
+GITHUB_BULK_OVERRIDE_WORKFLOW = "article-integrity-bulk-override.yml"
+GITHUB_MONITOR_WORKFLOW = "article-integrity-monitor.yml"
+ALLOWED_ORIGIN = "https://echoesofgaza.org"
