@@ -12,8 +12,10 @@ on:
         type: choice
         options:
           - live
+          - confirmed_live
           - redirected_live
           - confirmed_removed
+          - confirmed_changed
           - likely_removed
           - changed_substantially
           - blocked_unknown
