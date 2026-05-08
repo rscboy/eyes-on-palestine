@@ -29,7 +29,7 @@ except ModuleNotFoundError:  # Allows --help and argument validation before depe
     async_playwright = None
 
 
-SCANNER_VERSION = "1.1.0"
+SCANNER_VERSION = "1.2.0"
 REMOVAL_PATTERNS = [
     "404",
     "410",
@@ -139,9 +139,12 @@ class CheckConfig:
     offset: int
     timeout_ms: int
     screenshots: bool
+    review_interval_days: int
+    max_due: int
+    force: bool
 
 
-async def check_article(context: Any, article: dict[str, Any], config: CheckConfig) -> dict[str, Any]:
+async def check_article(context: Any, article: dict[str, Any], config: CheckConfig, scan_run_id: str) -> dict[str, Any]:
     checked_at = utc_now()
     aid = article_id(article)
     original_url = article.get("link", "")
@@ -203,7 +206,11 @@ async def check_article(context: Any, article: dict[str, Any], config: CheckConf
         "id": aid,
         "article_id": aid,
         "status": status,
+        "effective_status": status,
         "checked_at": checked_at,
+        "last_checked": checked_at,
+        "last_scan_run_id": scan_run_id,
+        "checked_this_run": True,
         "observed_issue": observed_issue,
         "screenshot_path": screenshot_path,
         "screenshot_reviewed": False if screenshot_path else None,
@@ -233,6 +240,7 @@ async def check_article(context: Any, article: dict[str, Any], config: CheckConf
 
 def summarize(results: list[dict[str, Any]]) -> dict[str, int]:
     statuses = [
+        "unchecked",
         "live",
         "redirected_live",
         "confirmed_removed",
@@ -240,15 +248,122 @@ def summarize(results: list[dict[str, Any]]) -> dict[str, int]:
         "changed_substantially",
         "blocked_unknown",
         "needs_manual_review",
+        "confirmed_live",
+        "confirmed_changed",
     ]
     summary = {"total": len(results), **{status: 0 for status in statuses}}
     for result in results:
-        summary[result["status"]] = summary.get(result["status"], 0) + 1
+        status = result.get("effective_status") or result.get("status") or "unchecked"
+        summary[status] = summary.get(status, 0) + 1
     return summary
 
 
 def flagged_results(results: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    return [result for result in results if result.get("status") not in {"live", "redirected_live"}]
+    safe_statuses = {"live", "redirected_live", "confirmed_live"}
+    return [result for result in results if (result.get("effective_status") or result.get("status")) not in safe_statuses]
+
+
+def parse_time(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def load_json(path: Path, fallback: Any) -> Any:
+    if not path.exists():
+        return fallback
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def manual_overrides_path(output_path: Path) -> Path:
+    return output_path.parent / "manual_overrides.json"
+
+
+def apply_manual_override(result: dict[str, Any], overrides: dict[str, Any]) -> dict[str, Any]:
+    aid = str(result.get("article_id") or result.get("id") or "")
+    override = overrides.get(aid)
+    if not override:
+        result["effective_status"] = result.get("status", "needs_manual_review")
+        return result
+    result["manual_override"] = override
+    result["effective_status"] = override.get("manual_status") or result.get("status", "needs_manual_review")
+    return result
+
+
+def article_stub(article: dict[str, Any]) -> dict[str, Any]:
+    aid = article_id(article)
+    return {
+        "id": aid,
+        "article_id": aid,
+        "status": "unchecked",
+        "effective_status": "unchecked",
+        "checked_at": None,
+        "last_checked": None,
+        "last_scan_run_id": None,
+        "checked_this_run": False,
+        "observed_issue": "This article has not been checked by the integrity monitor yet.",
+        "screenshot_path": None,
+        "screenshot_reviewed": None,
+        "screenshot_keep": None,
+        "original": {
+            "title": article.get("title", ""),
+            "date": article.get("date", ""),
+            "source": article.get("source", ""),
+            "summary": article.get("summary", ""),
+            "url": article.get("link", ""),
+        },
+        "signals": {
+            "status_code": None,
+            "final_url": article.get("link", ""),
+            "redirected": False,
+            "page_title": "",
+            "similarity_score": None,
+            "removal_indicators": [],
+            "block_indicators": [],
+            "error": None,
+            "text_snippet": "",
+            "screenshot": None,
+            "screenshot_path": None,
+        },
+    }
+
+
+def select_articles(
+    articles: list[dict[str, Any]],
+    previous_results: dict[str, dict[str, Any]],
+    config: CheckConfig,
+    now: datetime,
+) -> tuple[list[dict[str, Any]], int, int]:
+    if config.force:
+        selected = articles
+        if config.offset:
+            selected = selected[config.offset :]
+        if config.limit:
+            selected = selected[: config.limit]
+        return selected, len(selected), 0
+
+    due: list[tuple[datetime | None, dict[str, Any]]] = []
+    skipped_recent = 0
+    interval_seconds = config.review_interval_days * 24 * 60 * 60
+
+    for article in articles:
+        aid = article_id(article)
+        previous = previous_results.get(aid)
+        last_checked = parse_time(previous.get("last_checked") or previous.get("checked_at")) if previous else None
+        if last_checked is None:
+            due.append((None, article))
+            continue
+        if (now - last_checked).total_seconds() >= interval_seconds:
+            due.append((last_checked, article))
+        else:
+            skipped_recent += 1
+
+    due.sort(key=lambda item: (item[0] is not None, item[0] or datetime.min.replace(tzinfo=timezone.utc)))
+    cap = config.limit if config.limit is not None else config.max_due
+    return [article for _, article in due[:cap]], len(due), skipped_recent
 
 
 async def run(config: CheckConfig) -> None:
@@ -261,13 +376,24 @@ async def run(config: CheckConfig) -> None:
     total_articles = len(articles)
     if config.offset < 0:
         raise ValueError("--offset must be zero or greater")
-    if config.offset:
-        articles = articles[config.offset :]
-    if config.limit:
-        articles = articles[: config.limit]
+    if config.review_interval_days < 1:
+        raise ValueError("--review-interval-days must be at least 1")
+    if config.max_due < 1:
+        raise ValueError("--max-due must be at least 1")
 
     config.output_path.parent.mkdir(parents=True, exist_ok=True)
     config.history_path.parent.mkdir(parents=True, exist_ok=True)
+    previous_payload = load_json(config.output_path, {"results": []})
+    previous_results = {
+        str(result.get("article_id") or result.get("id")): {**result, "checked_this_run": False}
+        for result in previous_payload.get("results", [])
+        if result.get("article_id") or result.get("id")
+    }
+    overrides_payload = load_json(manual_overrides_path(config.output_path), {"overrides": {}})
+    overrides = overrides_payload.get("overrides", {})
+    now = datetime.now(timezone.utc)
+    articles_to_scan, due_articles_found, skipped_recent_count = select_articles(articles, previous_results, config, now)
+    scan_run_id = utc_now().replace(":", "").replace("-", "")
 
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch(headless=True)
@@ -280,36 +406,58 @@ async def run(config: CheckConfig) -> None:
             locale="en-US",
         )
 
-        results = []
-        for index, article in enumerate(articles, start=1):
-            print(f"[{index}/{len(articles)}] {article.get('source', '')}: {article.get('title', '')[:90]}")
-            results.append(await check_article(context, article, config))
+        scanned_results = []
+        for index, article in enumerate(articles_to_scan, start=1):
+            print(f"[{index}/{len(articles_to_scan)}] {article.get('source', '')}: {article.get('title', '')[:90]}")
+            scanned_results.append(await check_article(context, article, config, scan_run_id))
 
         await context.close()
         await browser.close()
 
+    by_id = dict(previous_results)
+    for result in scanned_results:
+        by_id[result["article_id"]] = result
+
+    merged_results = []
+    for article in articles:
+        aid = article_id(article)
+        result = by_id.get(aid, article_stub(article))
+        result.setdefault("article_id", aid)
+        result.setdefault("id", aid)
+        result["checked_this_run"] = bool(result.get("last_scan_run_id") == scan_run_id)
+        result = apply_manual_override(result, overrides)
+        merged_results.append(result)
+
     generated_at = utc_now()
-    summary = summarize(results)
+    summary = summarize(merged_results)
+    scanned_this_run = len(scanned_results)
     payload = {
         "generated_at": generated_at,
         "last_scan_at": generated_at,
         "scanner_version": SCANNER_VERSION,
         "total_articles": total_articles,
+        "scan_mode": "forced" if config.force else "due",
+        "review_interval_days": config.review_interval_days,
+        "max_due": config.max_due,
+        "due_articles_found": due_articles_found,
+        "scanned_this_run": scanned_this_run,
+        "skipped_recent_count": skipped_recent_count,
+        "forced": config.force,
         "scan": {
             "offset": config.offset,
             "limit": config.limit,
-            "checked_articles": len(results),
+            "checked_articles": scanned_this_run,
             "screenshots_enabled": config.screenshots,
         },
         "summary": summary,
         "counts": {key: value for key, value in summary.items() if key != "total"},
-        "flagged_articles": flagged_results(results),
-        "results": results,
+        "flagged_articles": flagged_results(merged_results),
+        "results": merged_results,
     }
     config.output_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     with config.history_path.open("a", encoding="utf-8") as history:
-        for result in results:
+        for result in scanned_results:
             history.write(json.dumps(result, ensure_ascii=False) + "\n")
 
 
@@ -323,6 +471,9 @@ def parse_args() -> CheckConfig:
     parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--timeout-ms", type=int, default=25000)
     parser.add_argument("--screenshots", action="store_true")
+    parser.add_argument("--review-interval-days", type=int, default=60)
+    parser.add_argument("--max-due", type=int, default=25)
+    parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
     return CheckConfig(
         articles_path=Path(args.articles),
@@ -333,6 +484,9 @@ def parse_args() -> CheckConfig:
         offset=args.offset,
         timeout_ms=args.timeout_ms,
         screenshots=args.screenshots,
+        review_interval_days=args.review_interval_days,
+        max_due=args.max_due,
+        force=args.force,
     )
 
 
