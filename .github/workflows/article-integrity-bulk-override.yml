@@ -1,0 +1,38 @@
+name: Article Integrity Bulk Override
+
+on:
+  workflow_dispatch:
+    inputs:
+      payload:
+        description: "Stringified JSON bulk override payload"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Apply bulk manual overrides
+        env:
+          BULK_OVERRIDE_PAYLOAD: ${{ github.event.inputs.payload }}
+        run: python scripts/apply_integrity_bulk_override.py
+
+      - name: Commit bulk manual overrides
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Apply article integrity bulk manual overrides"
+          file_pattern: data/integrity/
+          branch: main
