@@ -1,94 +1,215 @@
 {
-  "generated_at": "2026-05-08T19:11:41Z",
-  "last_scan_at": "2026-05-08T19:11:41Z",
+  "generated_at": "2026-05-08T19:39:29Z",
+  "last_scan_at": "2026-05-08T19:39:29Z",
   "scanner_version": "1.1.0",
   "total_articles": 1108,
   "scan": {
-    "offset": 0,
-    "limit": 5,
-    "checked_articles": 5,
+    "offset": 5,
+    "limit": 10,
+    "checked_articles": 10,
     "screenshots_enabled": false
   },
   "summary": {
-    "total": 5,
-    "live": 3,
+    "total": 10,
+    "live": 4,
     "redirected_live": 0,
-    "confirmed_removed": 0,
-    "likely_removed": 1,
+    "confirmed_removed": 1,
+    "likely_removed": 0,
     "changed_substantially": 0,
-    "blocked_unknown": 1,
+    "blocked_unknown": 5,
     "needs_manual_review": 0
   },
   "counts": {
-    "live": 3,
+    "live": 4,
     "redirected_live": 0,
-    "confirmed_removed": 0,
-    "likely_removed": 1,
+    "confirmed_removed": 1,
+    "likely_removed": 0,
     "changed_substantially": 0,
-    "blocked_unknown": 1,
+    "blocked_unknown": 5,
     "needs_manual_review": 0
   },
   "flagged_articles": [
     {
-      "id": "4cac0c3429c28136",
-      "article_id": "4cac0c3429c28136",
-      "status": "likely_removed",
-      "checked_at": "2026-05-08T19:11:10Z",
-      "observed_issue": "The page loaded but contains removal or soft-404 language.",
-      "screenshot_path": null,
-      "screenshot_reviewed": null,
-      "screenshot_keep": null,
-      "original": {
-        "title": "Skeletons in their clothing: Recovering bodies from the rubble in Gaza",
-        "date": "2026-05-07",
-        "source": "NPR",
-        "summary": "",
-        "url": "https://www.npr.org/2026/05/06/nx-s1-5811930/gaza-recovering-bodies"
-      },
-      "signals": {
-        "status_code": 200,
-        "final_url": "https://www.npr.org/2026/05/06/nx-s1-5811930/gaza-recovering-bodies",
-        "redirected": false,
-        "page_title": "Gaza family recovers relatives killed in one of Israel's deadliest strikes : NPR",
-        "similarity_score": 0.6786,
-        "removal_indicators": [
-          "not found"
-        ],
-        "block_indicators": [],
-        "error": null,
-        "text_snippet": "Accessibility links Skip to main content Keyboard shortcuts for audio player West Virginia Public Broadcasting On Air Now HOURLY NEWS LISTEN LIVE MY PLAYLIST NEWSLETTERS SIGN IN NPR SHOP DONATE NEWS CULTURE MUSIC PODCASTS & SHOWS SEARCH SPECIAL SERIES Middle East conflict Skeletons in their clothing: Recovering bodies from the rubble in Gaza MAY 6, 20265:00 AM ET By Anas Baba LISTEN· 11:08 11-Minute Listen PLAYLIST Toggle more options A neighborhood of Beit Lahia was destroyed in Israeli strikes in October 2024, including a strike on a building that killed 132 members of the extended Abu Naser family. Anas Baba/NPR Editor's note: This story contains images and descriptions of human remains. BEIT LAHIA, Gaza Strip — An Israeli drone buzzes over a sea of debris in northern Gaza, where homes were turned into mass graves. This is where a recovery crew has carried out one of its first mission",
-        "screenshot": null,
-        "screenshot_path": null
-      }
-    },
-    {
-      "id": "4cf029111a2171a9",
-      "article_id": "4cf029111a2171a9",
+      "id": "aa633defab2110b9",
+      "article_id": "aa633defab2110b9",
       "status": "blocked_unknown",
-      "checked_at": "2026-05-08T19:11:26Z",
+      "checked_at": "2026-05-08T19:38:46Z",
       "observed_issue": "The page appears blocked, access-controlled, rate-limited, or region/paywall restricted.",
       "screenshot_path": null,
       "screenshot_reviewed": null,
       "screenshot_keep": null,
       "original": {
-        "title": "Gaza rebuild priced at $71 billion, with most homes and nearly all businesses destroyed",
-        "date": "2026-05-06",
-        "source": "The Times of Israel",
+        "title": "Israeli strikes kill three Palestinians, including a child, in Gaza, medics say",
+        "date": "2026-05-05",
+        "source": "Reuters",
         "summary": "",
-        "url": "https://www.timesofisrael.com/gaza-rebuild-priced-at-71-billion-with-most-homes-and-nearly-all-businesses-destroyed/"
+        "url": "https://www.reuters.com/world/middle-east/israeli-strikes-kill-two-palestinians-gaza-medics-say-2026-05-05/"
+      },
+      "signals": {
+        "status_code": 401,
+        "final_url": "https://www.reuters.com/world/middle-east/israeli-strikes-kill-two-palestinians-gaza-medics-say-2026-05-05/",
+        "redirected": false,
+        "page_title": "reuters.com",
+        "similarity_score": 0.0828,
+        "removal_indicators": [],
+        "block_indicators": [],
+        "error": null,
+        "text_snippet": "",
+        "screenshot": null,
+        "screenshot_path": null
+      }
+    },
+    {
+      "id": "eaaa0d9e81e17b30",
+      "article_id": "eaaa0d9e81e17b30",
+      "status": "blocked_unknown",
+      "checked_at": "2026-05-08T19:38:47Z",
+      "observed_issue": "The page appears blocked, access-controlled, rate-limited, or region/paywall restricted.",
+      "screenshot_path": null,
+      "screenshot_reviewed": null,
+      "screenshot_keep": null,
+      "original": {
+        "title": "With World Distracted by War, Extremist Settlers Intensify Attacks in West Bank",
+        "date": "2026-05-05",
+        "source": "The New York Times",
+        "summary": "",
+        "url": "https://www.nytimes.com/2026/05/04/world/middleeast/israel-palestinians-west-bank-settler-violence-iran-war.html"
+      },
+      "signals": {
+        "status_code": 403,
+        "final_url": "https://www.nytimes.com/2026/05/04/world/middleeast/israel-palestinians-west-bank-settler-violence-iran-war.html",
+        "redirected": false,
+        "page_title": "nytimes.com",
+        "similarity_score": 0.0506,
+        "removal_indicators": [],
+        "block_indicators": [],
+        "error": null,
+        "text_snippet": "",
+        "screenshot": null,
+        "screenshot_path": null
+      }
+    },
+    {
+      "id": "e3b715738355615b",
+      "article_id": "e3b715738355615b",
+      "status": "blocked_unknown",
+      "checked_at": "2026-05-08T19:38:48Z",
+      "observed_issue": "The page appears blocked, access-controlled, rate-limited, or region/paywall restricted.",
+      "screenshot_path": null,
+      "screenshot_reviewed": null,
+      "screenshot_keep": null,
+      "original": {
+        "title": "Israel: White Phosphorus Used in Gaza, Lebanon",
+        "date": "2023-10-12",
+        "source": "Human Rights Watch",
+        "summary": "Human Rights Watch verified videos showing Israeli forces using white phosphorus over Gaza and Lebanon, exposing civilians to risk of serious and long-term injury.",
+        "url": "https://www.hrw.org/news/2023/10/12/israel-white-phosphorus-used-gaza-lebanon"
       },
       "signals": {
         "status_code": 200,
-        "final_url": "https://www.timesofisrael.com/gaza-rebuild-priced-at-71-billion-with-most-homes-and-nearly-all-businesses-destroyed/",
+        "final_url": "https://www.hrw.org/news/2023/10/12/israel-white-phosphorus-used-gaza-lebanon",
         "redirected": false,
-        "page_title": "Gaza rebuild priced at $71 billion, with most homes and nearly all businesses destroyed | The Times of Israel",
-        "similarity_score": 0.9526,
+        "page_title": "Israel: White Phosphorus Used in Gaza, Lebanon | Human Rights Watch",
+        "similarity_score": 0.9201,
         "removal_indicators": [],
         "block_indicators": [
           "region"
         ],
         "error": null,
-        "text_snippet": "Skip to main content Toggle Menu JOIN OUR COMMUNITY Support ToI and remove all ads GET THE DAILY EDITION ACCOUNT Toggle Menu INPUT SEARCH ENGLISH FRANÇAIS עברית Latest Articles Latest Alerts Israel & the Region Jewish Times Israel Inside Tech Israel Real Estate Israel The Blogs Podcasts Video NEWSLETTERS PARTNERS COMMUNITY About The Times of Israel Advertise on The Times of Israel Contact us Get the Daily Edition Follow us © 2026 The Times of Israel , All Rights Reserved Terms and conditions Privacy policy ADVERTISEMENT Homepage INSIDE STORY Gaza rebuild priced at $71 billion, with most homes and nearly all businesses destroyed First comprehensive report since ceasefire, compiled by World Bank, UN and EU, finds war caused over $35 billion of direct damage and over $22 billion more of economic losses By NURIT YOHANAN FOLLOW 6 May 2026, 4:53 pmUpdated: 7 May 2026, 11:36 am SHARE 17 In this",
+        "text_snippet": "Skip to cookie privacy notice Skip to main content العربية 简中 繁中 English Français Deutsch 日本語 Português Русский Español More languages Search DONATE NOW Countries Topics Reports Video & Photos Impact Join Us About Give Now Israel: White Phosphorus Used in Gaza, Lebanon Print DONATE NOW October 12, 2023 4:40PM EDT | News Release Available In English العربية 简体中文 繁體中文 Français Deutsch עברית Bahasa Indonesia Português Israel: White Phosphorus Used in Gaza, Lebanon Use in Populated Areas Poses Grave Risks to Civilians Click to expand Image Airbursts of artillery-fired white phosphorus fall over the Gaza city port, October 11, 2023. © 2023 Mohammed Adeb/AFP via Getty Images (Beirut, October 12, 2023) – Israel’s use of white phosphorus in military operations in Gaza and Lebanon puts civilians at risk of serious and long-term injuries, Human Rights Watch said today in releasing a question and a",
+        "screenshot": null,
+        "screenshot_path": null
+      }
+    },
+    {
+      "id": "bd677bcf234e22ad",
+      "article_id": "bd677bcf234e22ad",
+      "status": "blocked_unknown",
+      "checked_at": "2026-05-08T19:38:50Z",
+      "observed_issue": "The page appears blocked, access-controlled, rate-limited, or region/paywall restricted.",
+      "screenshot_path": null,
+      "screenshot_reviewed": null,
+      "screenshot_keep": null,
+      "original": {
+        "title": "Israeli strikes kill 33 people in Jabalia refugee camp in Gaza, medics say",
+        "date": "2023-10-18",
+        "source": "Reuters",
+        "summary": "Israel deepens military operations in northern Gaza with additional troop deployments as conflict intensifies.",
+        "url": "https://www.reuters.com/world/middle-east/israel-sends-more-troops-into-north-gaza-deepens-raid-2024-10-18/"
+      },
+      "signals": {
+        "status_code": 401,
+        "final_url": "https://www.reuters.com/world/middle-east/israel-sends-more-troops-into-north-gaza-deepens-raid-2024-10-18/",
+        "redirected": false,
+        "page_title": "reuters.com",
+        "similarity_score": 0.0857,
+        "removal_indicators": [],
+        "block_indicators": [],
+        "error": null,
+        "text_snippet": "",
+        "screenshot": null,
+        "screenshot_path": null
+      }
+    },
+    {
+      "id": "d04d722c6d03b655",
+      "article_id": "d04d722c6d03b655",
+      "status": "confirmed_removed",
+      "checked_at": "2026-05-08T19:39:10Z",
+      "observed_issue": "Browser navigation returned HTTP 404.",
+      "screenshot_path": null,
+      "screenshot_reviewed": null,
+      "screenshot_keep": null,
+      "original": {
+        "title": "War on Gaza: Israeli drones lure Palestinians with crying children recordings then shoot them",
+        "date": "2024-04-17",
+        "source": "Middle East Eye",
+        "summary": "Middle East Eye reports on recordings of crying babies being played from Israeli drones to lure Gaza residents into shooting range.",
+        "url": "https://www.middleeasteye.net/news/disturbing-recordings-crying-infants-played-israeli-quadcopters-lure-gaza-residents-shooting"
+      },
+      "signals": {
+        "status_code": 404,
+        "final_url": "https://www.middleeasteye.net/news/disturbing-recordings-crying-infants-played-israeli-quadcopters-lure-gaza-residents-shooting",
+        "redirected": false,
+        "page_title": "We've got some trouble | 404 - Resource not found",
+        "similarity_score": 0.138,
+        "removal_indicators": [
+          "404",
+          "not found"
+        ],
+        "block_indicators": [],
+        "error": null,
+        "text_snippet": "Resource not found Error 404 The requested resource could not be found.",
+        "screenshot": null,
+        "screenshot_path": null
+      }
+    },
+    {
+      "id": "bc91313763eb26bd",
+      "article_id": "bc91313763eb26bd",
+      "status": "blocked_unknown",
+      "checked_at": "2026-05-08T19:39:26Z",
+      "observed_issue": "The page appears blocked, access-controlled, rate-limited, or region/paywall restricted.",
+      "screenshot_path": null,
+      "screenshot_reviewed": null,
+      "screenshot_keep": null,
+      "original": {
+        "title": "Inside the Base Where Israel Has Detained Thousands of Gazans",
+        "date": "2024-06-06",
+        "source": "New York Times",
+        "summary": "The New York Times investigates Israeli detention facilities for Palestinians from Gaza, revealing concerning conditions.",
+        "url": "https://www.nytimes.com/2024/06/06/world/middleeast/israel-gaza-detention-base.html"
+      },
+      "signals": {
+        "status_code": 403,
+        "final_url": "https://www.nytimes.com/2024/06/06/world/middleeast/israel-gaza-detention-base.html",
+        "redirected": false,
+        "page_title": "nytimes.com",
+        "similarity_score": 0.0625,
+        "removal_indicators": [],
+        "block_indicators": [],
+        "error": null,
+        "text_snippet": "",
         "screenshot": null,
         "screenshot_path": null
       }
@@ -96,155 +217,306 @@
   ],
   "results": [
     {
-      "id": "4cac0c3429c28136",
-      "article_id": "4cac0c3429c28136",
-      "status": "likely_removed",
-      "checked_at": "2026-05-08T19:11:10Z",
-      "observed_issue": "The page loaded but contains removal or soft-404 language.",
-      "screenshot_path": null,
-      "screenshot_reviewed": null,
-      "screenshot_keep": null,
-      "original": {
-        "title": "Skeletons in their clothing: Recovering bodies from the rubble in Gaza",
-        "date": "2026-05-07",
-        "source": "NPR",
-        "summary": "",
-        "url": "https://www.npr.org/2026/05/06/nx-s1-5811930/gaza-recovering-bodies"
-      },
-      "signals": {
-        "status_code": 200,
-        "final_url": "https://www.npr.org/2026/05/06/nx-s1-5811930/gaza-recovering-bodies",
-        "redirected": false,
-        "page_title": "Gaza family recovers relatives killed in one of Israel's deadliest strikes : NPR",
-        "similarity_score": 0.6786,
-        "removal_indicators": [
-          "not found"
-        ],
-        "block_indicators": [],
-        "error": null,
-        "text_snippet": "Accessibility links Skip to main content Keyboard shortcuts for audio player West Virginia Public Broadcasting On Air Now HOURLY NEWS LISTEN LIVE MY PLAYLIST NEWSLETTERS SIGN IN NPR SHOP DONATE NEWS CULTURE MUSIC PODCASTS & SHOWS SEARCH SPECIAL SERIES Middle East conflict Skeletons in their clothing: Recovering bodies from the rubble in Gaza MAY 6, 20265:00 AM ET By Anas Baba LISTEN· 11:08 11-Minute Listen PLAYLIST Toggle more options A neighborhood of Beit Lahia was destroyed in Israeli strikes in October 2024, including a strike on a building that killed 132 members of the extended Abu Naser family. Anas Baba/NPR Editor's note: This story contains images and descriptions of human remains. BEIT LAHIA, Gaza Strip — An Israeli drone buzzes over a sea of debris in northern Gaza, where homes were turned into mass graves. This is where a recovery crew has carried out one of its first mission",
-        "screenshot": null,
-        "screenshot_path": null
-      }
-    },
-    {
-      "id": "eb6953b72bede91b",
-      "article_id": "eb6953b72bede91b",
+      "id": "dac3139bbc6a1de8",
+      "article_id": "dac3139bbc6a1de8",
       "status": "live",
-      "checked_at": "2026-05-08T19:11:22Z",
+      "checked_at": "2026-05-08T19:38:34Z",
       "observed_issue": "The page loaded and remains broadly consistent with archived metadata.",
       "screenshot_path": null,
       "screenshot_reviewed": null,
       "screenshot_keep": null,
       "original": {
-        "title": "Hamas says a son of its chief negotiator was killed in an Israeli strike on Gaza",
-        "date": "2026-05-07",
-        "source": "The Los Angeles Times",
+        "title": "West Bank IDF Chief Admits Unequal Rules for Shooting Palestinians and Jews, Citing 'Societal Consequences'",
+        "date": "2026-05-05",
+        "source": "Haaretz",
         "summary": "",
-        "url": "https://www.latimes.com/world-nation/story/2026-05-07/hamas-says-son-of-its-chief-negotiator-was-killed-in-israeli-strike-on-gaza"
+        "url": "https://www.haaretz.com/israel-news/israel-security/2026-05-04/ty-article/.premium/west-bank-idf-chief-defends-differing-open-fire-policies-for-palestinians-jews/0000019d-ef42-dd9a-a79d-efebfd2f0000"
       },
       "signals": {
         "status_code": 200,
-        "final_url": "https://www.latimes.com/world-nation/story/2026-05-07/hamas-says-son-of-its-chief-negotiator-was-killed-in-israeli-strike-on-gaza",
+        "final_url": "https://www.haaretz.com/israel-news/israel-security/2026-05-04/ty-article/.premium/west-bank-idf-chief-defends-differing-open-fire-policies-for-palestinians-jews/0000019d-ef42-dd9a-a79d-efebfd2f0000",
         "redirected": false,
-        "page_title": "Hamas says a son of its chief negotiator was killed in an Israeli strike on Gaza - Los Angeles Times",
-        "similarity_score": 0.9545,
+        "page_title": "West Bank IDF Chief Admits Unequal Rules for Shooting Palestinians and Jews, Citing 'Societal Consequences' - Israel Security",
+        "similarity_score": 0.9679,
         "removal_indicators": [],
         "block_indicators": [],
         "error": null,
-        "text_snippet": "Sections LOG IN Show Search ADVERTISEMENT WORLD & NATION Hamas says a son of its chief negotiator was killed in an Israeli strike on Gaza Mourners carry the body of Azzam al-Hayya, son of Hamas leader Khalil al-Hayya, after he was killed in an Israeli airstrike, at Shifa Hospital in Gaza City Thursday. (Jehad Alshrafi / Associated Press) By Wafaa Shurafa and Toqa Ezzidin May 7, 2026 9:38 AM PT 3 5 min Click here to listen to this article Hamas says an Israeli strike killed the 32-year-old son of its chief negotiator in Gaza City, with the group accusing Israel of targeting family members to pressure negotiators. Israel’s continued strikes coincide with a U.S.-brokered ceasefire that was supposed to halt major military operations, though critical provisions—including Hamas disarmament and Israeli troop withdrawal—remain unmet. More than 72,000 Palestinians have died in Gaza since the war ",
+        "text_snippet": "Navigation Login SUBSCRIBE Haaretz - back to home page Search Accessibility Current section Israel NewsIsrael Security West Bank IDF Chief Admits Unequal Rules for Shooting Palestinians and Jews, Citing 'Societal Consequences' IDF general Avi Bluth says troops avoid shooting Jewish stone-throwers while enforcing looser rules for shooting Palestinians. 'The Arabs understand that if someone comes to kill you, kill them first is the norm,' he added. 'So we're killing like we haven't since 1967' Gift this article Share to Facebook Share to X Print article Comments: 38 Save Zen Reading Josh Breiner Follow 12:51 AM • May 04 2026 IDT The Israeli military discriminates between Jews and Palestinians in its enforcement policy against rock throwers in the West Bank, the army's top commander in the area admitted, explaining that \"soldiers' firing on Jews has profound societal consequences.\" Under fi",
         "screenshot": null,
         "screenshot_path": null
       }
     },
     {
-      "id": "9337cf3d269f82b6",
-      "article_id": "9337cf3d269f82b6",
-      "status": "live",
-      "checked_at": "2026-05-08T19:11:23Z",
-      "observed_issue": "The page loaded and remains broadly consistent with archived metadata.",
-      "screenshot_path": null,
-      "screenshot_reviewed": null,
-      "screenshot_keep": null,
-      "original": {
-        "title": "Medical Teams Still Struggling to Treat Gaza Malnutrition Crisis ?Entirely Manufactured? by Israel",
-        "date": "2026-05-07",
-        "source": "Common Dreams",
-        "summary": "",
-        "url": "https://www.commondreams.org/news/gaza-malnutrition"
-      },
-      "signals": {
-        "status_code": 200,
-        "final_url": "https://www.commondreams.org/news/gaza-malnutrition",
-        "redirected": false,
-        "page_title": "Medical Teams Still Struggling to Treat Gaza Malnutrition Crisis 'Entirely Manufactured' by Israel | Common Dreams",
-        "similarity_score": 0.9694,
-        "removal_indicators": [],
-        "block_indicators": [],
-        "error": null,
-        "text_snippet": "LATEST NEWS OPINION CLIMATE ECONOMY POLITICS RIGHTS & JUSTICE WAR & PEACE PROGRESSIVE NEWSWIRE FURTHER NEWSLETTER SIGNUP About Us Our Team Manage Your Donation More Ways to Donate Contact Us LATEST NEWS OPINION NEWSLETTER SIGNUP HOME>NEWS>GAZA Ten-year-old Palestinian Mohammed Ahmed Masoud al-Susi struggles with malnutrition due to Israel’s attacks on the Gaza Strip and restrictions on aid entry, in Gaza City on April 30, 2026. (Photo by Abdalhkem Abu Riash/Anadolu via Getty Images) Medical Teams Still Struggling to Treat Gaza Malnutrition Crisis ‘Entirely Manufactured’ by Israel “Every six months, we might get a food parcel once. It’s barely enough,” said one mother. “We are forced to eat whatever is in front of us.” JULIA CONLEY May 07, 2026 A ceasefire was declared between Israel and Hamas seven months ago, but just as the deal has not stopped the killing of hundreds of Palestinians i",
-        "screenshot": null,
-        "screenshot_path": null
-      }
-    },
-    {
-      "id": "4cf029111a2171a9",
-      "article_id": "4cf029111a2171a9",
+      "id": "aa633defab2110b9",
+      "article_id": "aa633defab2110b9",
       "status": "blocked_unknown",
-      "checked_at": "2026-05-08T19:11:26Z",
+      "checked_at": "2026-05-08T19:38:46Z",
       "observed_issue": "The page appears blocked, access-controlled, rate-limited, or region/paywall restricted.",
       "screenshot_path": null,
       "screenshot_reviewed": null,
       "screenshot_keep": null,
       "original": {
-        "title": "Gaza rebuild priced at $71 billion, with most homes and nearly all businesses destroyed",
-        "date": "2026-05-06",
-        "source": "The Times of Israel",
+        "title": "Israeli strikes kill three Palestinians, including a child, in Gaza, medics say",
+        "date": "2026-05-05",
+        "source": "Reuters",
         "summary": "",
-        "url": "https://www.timesofisrael.com/gaza-rebuild-priced-at-71-billion-with-most-homes-and-nearly-all-businesses-destroyed/"
+        "url": "https://www.reuters.com/world/middle-east/israeli-strikes-kill-two-palestinians-gaza-medics-say-2026-05-05/"
       },
       "signals": {
-        "status_code": 200,
-        "final_url": "https://www.timesofisrael.com/gaza-rebuild-priced-at-71-billion-with-most-homes-and-nearly-all-businesses-destroyed/",
+        "status_code": 401,
+        "final_url": "https://www.reuters.com/world/middle-east/israeli-strikes-kill-two-palestinians-gaza-medics-say-2026-05-05/",
         "redirected": false,
-        "page_title": "Gaza rebuild priced at $71 billion, with most homes and nearly all businesses destroyed | The Times of Israel",
-        "similarity_score": 0.9526,
+        "page_title": "reuters.com",
+        "similarity_score": 0.0828,
         "removal_indicators": [],
-        "block_indicators": [
-          "region"
-        ],
+        "block_indicators": [],
         "error": null,
-        "text_snippet": "Skip to main content Toggle Menu JOIN OUR COMMUNITY Support ToI and remove all ads GET THE DAILY EDITION ACCOUNT Toggle Menu INPUT SEARCH ENGLISH FRANÇAIS עברית Latest Articles Latest Alerts Israel & the Region Jewish Times Israel Inside Tech Israel Real Estate Israel The Blogs Podcasts Video NEWSLETTERS PARTNERS COMMUNITY About The Times of Israel Advertise on The Times of Israel Contact us Get the Daily Edition Follow us © 2026 The Times of Israel , All Rights Reserved Terms and conditions Privacy policy ADVERTISEMENT Homepage INSIDE STORY Gaza rebuild priced at $71 billion, with most homes and nearly all businesses destroyed First comprehensive report since ceasefire, compiled by World Bank, UN and EU, finds war caused over $35 billion of direct damage and over $22 billion more of economic losses By NURIT YOHANAN FOLLOW 6 May 2026, 4:53 pmUpdated: 7 May 2026, 11:36 am SHARE 17 In this",
+        "text_snippet": "",
         "screenshot": null,
         "screenshot_path": null
       }
     },
     {
-      "id": "261aa15a8a537166",
-      "article_id": "261aa15a8a537166",
+      "id": "eaaa0d9e81e17b30",
+      "article_id": "eaaa0d9e81e17b30",
+      "status": "blocked_unknown",
+      "checked_at": "2026-05-08T19:38:47Z",
+      "observed_issue": "The page appears blocked, access-controlled, rate-limited, or region/paywall restricted.",
+      "screenshot_path": null,
+      "screenshot_reviewed": null,
+      "screenshot_keep": null,
+      "original": {
+        "title": "With World Distracted by War, Extremist Settlers Intensify Attacks in West Bank",
+        "date": "2026-05-05",
+        "source": "The New York Times",
+        "summary": "",
+        "url": "https://www.nytimes.com/2026/05/04/world/middleeast/israel-palestinians-west-bank-settler-violence-iran-war.html"
+      },
+      "signals": {
+        "status_code": 403,
+        "final_url": "https://www.nytimes.com/2026/05/04/world/middleeast/israel-palestinians-west-bank-settler-violence-iran-war.html",
+        "redirected": false,
+        "page_title": "nytimes.com",
+        "similarity_score": 0.0506,
+        "removal_indicators": [],
+        "block_indicators": [],
+        "error": null,
+        "text_snippet": "",
+        "screenshot": null,
+        "screenshot_path": null
+      }
+    },
+    {
+      "id": "e3b715738355615b",
+      "article_id": "e3b715738355615b",
+      "status": "blocked_unknown",
+      "checked_at": "2026-05-08T19:38:48Z",
+      "observed_issue": "The page appears blocked, access-controlled, rate-limited, or region/paywall restricted.",
+      "screenshot_path": null,
+      "screenshot_reviewed": null,
+      "screenshot_keep": null,
+      "original": {
+        "title": "Israel: White Phosphorus Used in Gaza, Lebanon",
+        "date": "2023-10-12",
+        "source": "Human Rights Watch",
+        "summary": "Human Rights Watch verified videos showing Israeli forces using white phosphorus over Gaza and Lebanon, exposing civilians to risk of serious and long-term injury.",
+        "url": "https://www.hrw.org/news/2023/10/12/israel-white-phosphorus-used-gaza-lebanon"
+      },
+      "signals": {
+        "status_code": 200,
+        "final_url": "https://www.hrw.org/news/2023/10/12/israel-white-phosphorus-used-gaza-lebanon",
+        "redirected": false,
+        "page_title": "Israel: White Phosphorus Used in Gaza, Lebanon | Human Rights Watch",
+        "similarity_score": 0.9201,
+        "removal_indicators": [],
+        "block_indicators": [
+          "region"
+        ],
+        "error": null,
+        "text_snippet": "Skip to cookie privacy notice Skip to main content العربية 简中 繁中 English Français Deutsch 日本語 Português Русский Español More languages Search DONATE NOW Countries Topics Reports Video & Photos Impact Join Us About Give Now Israel: White Phosphorus Used in Gaza, Lebanon Print DONATE NOW October 12, 2023 4:40PM EDT | News Release Available In English العربية 简体中文 繁體中文 Français Deutsch עברית Bahasa Indonesia Português Israel: White Phosphorus Used in Gaza, Lebanon Use in Populated Areas Poses Grave Risks to Civilians Click to expand Image Airbursts of artillery-fired white phosphorus fall over the Gaza city port, October 11, 2023. © 2023 Mohammed Adeb/AFP via Getty Images (Beirut, October 12, 2023) – Israel’s use of white phosphorus in military operations in Gaza and Lebanon puts civilians at risk of serious and long-term injuries, Human Rights Watch said today in releasing a question and a",
+        "screenshot": null,
+        "screenshot_path": null
+      }
+    },
+    {
+      "id": "bd677bcf234e22ad",
+      "article_id": "bd677bcf234e22ad",
+      "status": "blocked_unknown",
+      "checked_at": "2026-05-08T19:38:50Z",
+      "observed_issue": "The page appears blocked, access-controlled, rate-limited, or region/paywall restricted.",
+      "screenshot_path": null,
+      "screenshot_reviewed": null,
+      "screenshot_keep": null,
+      "original": {
+        "title": "Israeli strikes kill 33 people in Jabalia refugee camp in Gaza, medics say",
+        "date": "2023-10-18",
+        "source": "Reuters",
+        "summary": "Israel deepens military operations in northern Gaza with additional troop deployments as conflict intensifies.",
+        "url": "https://www.reuters.com/world/middle-east/israel-sends-more-troops-into-north-gaza-deepens-raid-2024-10-18/"
+      },
+      "signals": {
+        "status_code": 401,
+        "final_url": "https://www.reuters.com/world/middle-east/israel-sends-more-troops-into-north-gaza-deepens-raid-2024-10-18/",
+        "redirected": false,
+        "page_title": "reuters.com",
+        "similarity_score": 0.0857,
+        "removal_indicators": [],
+        "block_indicators": [],
+        "error": null,
+        "text_snippet": "",
+        "screenshot": null,
+        "screenshot_path": null
+      }
+    },
+    {
+      "id": "8308ba230cf94e49",
+      "article_id": "8308ba230cf94e49",
       "status": "live",
-      "checked_at": "2026-05-08T19:11:37Z",
+      "checked_at": "2026-05-08T19:38:51Z",
       "observed_issue": "The page loaded and remains broadly consistent with archived metadata.",
       "screenshot_path": null,
       "screenshot_reviewed": null,
       "screenshot_keep": null,
       "original": {
-        "title": "Ex-US spy for Israel calls for Gaza ethnic cleansing as he seeks Knesset seat",
-        "date": "2026-05-05",
+        "title": "Israeli military accused of targeting journalists and their families in Gaza",
+        "date": "2023-12-21",
         "source": "The Guardian",
-        "summary": "",
-        "url": "https://www.theguardian.com/world/2026/may/05/jonathan-pollard-israel-gaza-ethnic-cleansing"
+        "summary": "The Guardian reports on accusations that Israeli forces deliberately targeted journalists covering the conflict in Gaza.",
+        "url": "https://www.theguardian.com/world/2023/dec/21/israel-idf-accused-targeting-journalists-gaza"
       },
       "signals": {
         "status_code": 200,
-        "final_url": "https://www.theguardian.com/world/2026/may/05/jonathan-pollard-israel-gaza-ethnic-cleansing",
+        "final_url": "https://www.theguardian.com/world/2023/dec/21/israel-idf-accused-targeting-journalists-gaza",
         "redirected": false,
-        "page_title": "Ex-US spy for Israel calls for Gaza ethnic cleansing as he seeks Knesset seat | Israel | The Guardian",
-        "similarity_score": 0.9483,
+        "page_title": "Israeli military accused of targeting journalists and their families in Gaza | Israel-Gaza war | The Guardian",
+        "similarity_score": 0.8529,
         "removal_indicators": [],
         "block_indicators": [],
         "error": null,
-        "text_snippet": "Skip to main content Skip to navigation Skip to navigation Support the Guardian Fund independent journalism Support from $3.45 a week Print subscriptions Newsletters Sign in US The Guardian - Back to home The Guardian News Opinion Sport Culture Lifestyle Show more US news US politics World Climate crisis Middle East Ukraine US immigration Soccer Business Environment Tech Science Newsletters The Filter Wellness View image in fullscreen Jonathan Pollard, a former US navy intelligence officer convicted of spying for Israel, pictured in New York City in 2017. Photograph: Brendan McDermid/Reuters Israel Ex-US spy for Israel calls for Gaza ethnic cleansing as he seeks Knesset seat Jonathan Pollard, who served 30 years for selling US military secrets, advocates ‘forcible removal’ of Palestinians Julian Borger in Jerusalem Tue 5 May 2026 14.21 EDT Share Prefer the Guardian on Google Jonathan Pol",
+        "text_snippet": "Skip to main content Skip to navigation Skip to navigation Support the Guardian Fund independent journalism Support from $2.88 a week Print subscriptions Newsletters Sign in US The Guardian - Back to home The Guardian News Opinion Sport Culture Lifestyle Show more US news US politics World Climate crisis Middle East Ukraine US immigration Soccer Business Environment Tech Science Newsletters The Filter Wellness View image in fullscreen Israeli soldiers walk next to damaged buildings in the north of the Gaza Strip in a photo taken during a controlled tour on 19 December. Photograph: Gil Cohen-Magen/AFP/Getty Images Israel-Gaza war This article is more than 2 years old Israeli military accused of targeting journalists and their families in Gaza This article is more than 2 years old Committee to Protect Journalists says at least 68 journalists and media workers killed since 7 October Chris M",
+        "screenshot": null,
+        "screenshot_path": null
+      }
+    },
+    {
+      "id": "7b2f2bd1a182531f",
+      "article_id": "7b2f2bd1a182531f",
+      "status": "live",
+      "checked_at": "2026-05-08T19:38:56Z",
+      "observed_issue": "The page loaded and remains broadly consistent with archived metadata.",
+      "screenshot_path": null,
+      "screenshot_reviewed": null,
+      "screenshot_keep": null,
+      "original": {
+        "title": "Here's what we found after Israel's raid on Al-Shifa, Gaza's biggest hospital",
+        "date": "2024-04-06",
+        "source": "NPR",
+        "summary": "NPR reports on the Israeli raid of Al-Shifa Hospital in Gaza and the devastating aftermath of the operation.",
+        "url": "https://www.npr.org/2024/04/06/1243045199/al-shifa-hospital-gaza-israel-raid-before-aftermath"
+      },
+      "signals": {
+        "status_code": 200,
+        "final_url": "https://www.npr.org/2024/04/06/1243045199/al-shifa-hospital-gaza-israel-raid-before-aftermath",
+        "redirected": false,
+        "page_title": "Al Shifa hospital: What we found in the wake of Israel's raid : NPR",
+        "similarity_score": 0.7585,
+        "removal_indicators": [],
+        "block_indicators": [],
+        "error": null,
+        "text_snippet": "Accessibility links Skip to main content Keyboard shortcuts for audio player Play Live Radio HOURLY NEWS LISTEN LIVE MY PLAYLIST NEWSLETTERS SIGN IN NPR SHOP DONATE NEWS CULTURE MUSIC PODCASTS & SHOWS SEARCH SPECIAL SERIES Middle East conflict Here's what we found after Israel's raid on Al-Shifa, Gaza's biggest hospital APRIL 6, 20245:02 AM ET By Aya Batrawy , Omar El Qattaa DUBAI and GAZA CITY, Gaza Strip — For two weeks beginning in March, Israeli commandos besieged what was once the Gaza Strip's biggest and most advanced medical complex, Al-Shifa. Israel's military said the target was militants who'd regrouped there, using its premises for shelter and internet access. It said Hamas hid behind the sick and injured, and insisted no civilians were killed in the raid. Israeli statements described it as a precise operation — a model for future military action in Gaza. Early on Monday, Apri",
+        "screenshot": null,
+        "screenshot_path": null
+      }
+    },
+    {
+      "id": "d04d722c6d03b655",
+      "article_id": "d04d722c6d03b655",
+      "status": "confirmed_removed",
+      "checked_at": "2026-05-08T19:39:10Z",
+      "observed_issue": "Browser navigation returned HTTP 404.",
+      "screenshot_path": null,
+      "screenshot_reviewed": null,
+      "screenshot_keep": null,
+      "original": {
+        "title": "War on Gaza: Israeli drones lure Palestinians with crying children recordings then shoot them",
+        "date": "2024-04-17",
+        "source": "Middle East Eye",
+        "summary": "Middle East Eye reports on recordings of crying babies being played from Israeli drones to lure Gaza residents into shooting range.",
+        "url": "https://www.middleeasteye.net/news/disturbing-recordings-crying-infants-played-israeli-quadcopters-lure-gaza-residents-shooting"
+      },
+      "signals": {
+        "status_code": 404,
+        "final_url": "https://www.middleeasteye.net/news/disturbing-recordings-crying-infants-played-israeli-quadcopters-lure-gaza-residents-shooting",
+        "redirected": false,
+        "page_title": "We've got some trouble | 404 - Resource not found",
+        "similarity_score": 0.138,
+        "removal_indicators": [
+          "404",
+          "not found"
+        ],
+        "block_indicators": [],
+        "error": null,
+        "text_snippet": "Resource not found Error 404 The requested resource could not be found.",
+        "screenshot": null,
+        "screenshot_path": null
+      }
+    },
+    {
+      "id": "bc91313763eb26bd",
+      "article_id": "bc91313763eb26bd",
+      "status": "blocked_unknown",
+      "checked_at": "2026-05-08T19:39:26Z",
+      "observed_issue": "The page appears blocked, access-controlled, rate-limited, or region/paywall restricted.",
+      "screenshot_path": null,
+      "screenshot_reviewed": null,
+      "screenshot_keep": null,
+      "original": {
+        "title": "Inside the Base Where Israel Has Detained Thousands of Gazans",
+        "date": "2024-06-06",
+        "source": "New York Times",
+        "summary": "The New York Times investigates Israeli detention facilities for Palestinians from Gaza, revealing concerning conditions.",
+        "url": "https://www.nytimes.com/2024/06/06/world/middleeast/israel-gaza-detention-base.html"
+      },
+      "signals": {
+        "status_code": 403,
+        "final_url": "https://www.nytimes.com/2024/06/06/world/middleeast/israel-gaza-detention-base.html",
+        "redirected": false,
+        "page_title": "nytimes.com",
+        "similarity_score": 0.0625,
+        "removal_indicators": [],
+        "block_indicators": [],
+        "error": null,
+        "text_snippet": "",
+        "screenshot": null,
+        "screenshot_path": null
+      }
+    },
+    {
+      "id": "c15b98480a37856b",
+      "article_id": "c15b98480a37856b",
+      "status": "live",
+      "checked_at": "2026-05-08T19:39:27Z",
+      "observed_issue": "The page loaded and remains broadly consistent with archived metadata.",
+      "screenshot_path": null,
+      "screenshot_reviewed": null,
+      "screenshot_keep": null,
+      "original": {
+        "title": "Hind Rajab Killing: Analysis Finds Israeli Tank Fired 335 Bullets Into Car at Close Range",
+        "date": "2024-06-22",
+        "source": "Common Dreams",
+        "summary": "Common Dreams reports on forensic investigation into the killing of 5-year-old Hind Rajab and her family in Gaza.",
+        "url": "https://www.commondreams.org/news/hind-rajab-forensic-investigation"
+      },
+      "signals": {
+        "status_code": 200,
+        "final_url": "https://www.commondreams.org/news/hind-rajab-forensic-investigation",
+        "redirected": false,
+        "page_title": "Hind Rajab Killing: Analysis Finds Israeli Tank Fired 335 Bullets Into Car at Close Range | Common Dreams",
+        "similarity_score": 0.9314,
+        "removal_indicators": [],
+        "block_indicators": [],
+        "error": null,
+        "text_snippet": "LATEST NEWS OPINION CLIMATE ECONOMY POLITICS RIGHTS & JUSTICE WAR & PEACE PROGRESSIVE NEWSWIRE FURTHER NEWSLETTER SIGNUP About Us Our Team Manage Your Donation More Ways to Donate Contact Us LATEST NEWS OPINION NEWSLETTER SIGNUP HOME>NEWS>GAZA A pro-Palestinian protester holds up a painted image of Hind Rajab, a five-year-old girl killed in Gaza City in January 2024, during a demonstration in London in May 2024. (Photo: Mark Kerrison/In Pictures via Getty Images) Hind Rajab Killing: Analysis Finds Israeli Tank Fired 335 Bullets Into Car at Close Range “It’s not plausible that the shooter could not have seen that the car was occupied by civilians, including children,” an investigation of the five-year-old Palestinian girl’s death found. EDWARD CARVER Jun 22, 2024 An Israeli tank or tanks likely fired the bullets that killed five-year-old Palestinian Hind Rajab and six relatives as they sa",
         "screenshot": null,
         "screenshot_path": null
       }
