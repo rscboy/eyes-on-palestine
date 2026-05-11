@@ -94,7 +94,7 @@
             background-color: #601414;
         }
     </style>
-    <link rel="stylesheet" href="./assets/site-shell.css">
+    <link rel="stylesheet" href="./assets/site-shell.css?v=nav-contrast-1">
 </head>
 <body class="bg-void text-bone min-h-screen font-body selection:bg-blood selection:text-white antialiased">
 
@@ -212,7 +212,7 @@
                 </div>
 
                 <!-- Filters -->
-                <div class="flex gap-4">
+                <div class="flex flex-col sm:flex-row gap-4">
                     <select id="tagFilter" class="bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer min-w-[140px]">
                         <option value="">All Tags</option>
                         <!-- Populated dynamically -->
@@ -224,6 +224,17 @@
                         <!-- Note: 'title' sort requires composite index with status, sticking to time based for MVP stability -->
                     </select>
                 </div>
+            </div>
+            <div class="mt-4 flex flex-col sm:flex-row gap-4">
+                <select id="yearFilter" class="bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer min-w-[140px]">
+                    <option value="">All Years</option>
+                </select>
+                <select id="monthFilter" class="bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer min-w-[140px]">
+                    <option value="">All Months</option>
+                </select>
+                <button id="clearDateFilters" type="button" class="font-ui text-xs uppercase tracking-widest border border-border-dim px-4 py-3 text-ash hover:text-white hover:border-neutral-600 transition-colors">
+                    Clear Date Filters
+                </button>
             </div>
         </section>
 
@@ -306,6 +317,7 @@
         let lastVisible = null;
         let isFetching = false;
         let allTags = new Set();
+        let allYears = new Set();
         const recordsList = document.getElementById('recordsList');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
         const loadingState = document.getElementById('loadingState');
@@ -313,6 +325,24 @@
         const searchInput = document.getElementById('searchInput');
         const tagFilter = document.getElementById('tagFilter');
         const sortFilter = document.getElementById('sortFilter');
+        const yearFilter = document.getElementById('yearFilter');
+        const monthFilter = document.getElementById('monthFilter');
+        const clearDateFilters = document.getElementById('clearDateFilters');
+
+        const MONTHS = [
+            { value: "01", label: "January" },
+            { value: "02", label: "February" },
+            { value: "03", label: "March" },
+            { value: "04", label: "April" },
+            { value: "05", label: "May" },
+            { value: "06", label: "June" },
+            { value: "07", label: "July" },
+            { value: "08", label: "August" },
+            { value: "09", label: "September" },
+            { value: "10", label: "October" },
+            { value: "11", label: "November" },
+            { value: "12", label: "December" }
+        ];
 
         // Helper: Escape HTML for safety
         function escapeHtml(str) {
@@ -320,6 +350,20 @@
             const div = document.createElement('div');
             div.textContent = str;
             return div.innerHTML;
+        }
+
+        function getDateParts(value) {
+            const raw = String(value || "").trim();
+            if (!raw) return { year: "", month: "" };
+
+            let match = raw.match(/\b(20\d{2}|19\d{2})[-/.](0?[1-9]|1[0-2])\b/);
+            if (match) return { year: match[1], month: match[2].padStart(2, "0") };
+
+            match = raw.match(/\b(0?[1-9]|1[0-2])[-/.]\d{1,2}[-/.](20\d{2}|19\d{2})\b/);
+            if (match) return { year: match[2], month: match[1].padStart(2, "0") };
+
+            match = raw.match(/\b(20\d{2}|19\d{2})\b/);
+            return { year: match ? match[1] : "", month: "" };
         }
 
         // Helper: Create Record DOM Element
@@ -330,18 +374,23 @@
             // Fallbacks
             const title = data.title || "Untitled Record";
             const date = data.date || "Unknown Date";
+            const dateParts = getDateParts(date);
             const source = data.source ? ` ; ${data.source}` : "";
             const tag = data.tag || "Uncategorized";
             const previewUrl = data.drivePreviewUrl || "";
             
             // Track tag for filter
             if (tag) allTags.add(tag);
+            if (dateParts.year) allYears.add(dateParts.year);
 
             const article = document.createElement('article');
             article.className = "group record-item"; // class for local filtering
             article.dataset.title = title.toLowerCase();
             article.dataset.tag = tag;
             article.dataset.source = (data.source || "").toLowerCase();
+            article.dataset.date = date.toLowerCase();
+            article.dataset.year = dateParts.year;
+            article.dataset.month = dateParts.month;
 
             // Structure
             article.innerHTML = `
@@ -392,7 +441,9 @@
                 recordsList.innerHTML = '';
                 lastVisible = null;
                 allTags.clear();
+                allYears.clear();
                 updateTagFilter();
+                updateDateFilters();
                 loadingState.classList.remove('hidden');
                 emptyState.classList.add('hidden');
                 loadMoreBtn.classList.add('hidden');
@@ -442,6 +493,7 @@
 
                 // Update UI filters
                 updateTagFilter();
+                updateDateFilters();
                 // Re-apply current client-side text filter if exists
                 applyClientFilter();
 
@@ -478,23 +530,75 @@
             }
         }
 
-        // Client-side Filter Logic (Search + Tag)
+        function updateDateFilters() {
+            const currentYear = yearFilter.value;
+            const currentMonth = monthFilter.value;
+
+            while (yearFilter.options.length > 1) {
+                yearFilter.remove(1);
+            }
+
+            Array.from(allYears)
+                .sort((a, b) => Number(b) - Number(a))
+                .forEach(year => {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    yearFilter.appendChild(option);
+                });
+
+            if (allYears.has(currentYear)) {
+                yearFilter.value = currentYear;
+            }
+
+            const availableMonths = new Set();
+            document.querySelectorAll('.record-item').forEach(item => {
+                const matchesYear = yearFilter.value === "" || item.dataset.year === yearFilter.value;
+                if (matchesYear && item.dataset.month) availableMonths.add(item.dataset.month);
+            });
+
+            while (monthFilter.options.length > 1) {
+                monthFilter.remove(1);
+            }
+
+            MONTHS
+                .filter(month => availableMonths.has(month.value))
+                .forEach(month => {
+                    const option = document.createElement('option');
+                    option.value = month.value;
+                    option.textContent = month.label;
+                    monthFilter.appendChild(option);
+                });
+
+            if (availableMonths.has(currentMonth)) {
+                monthFilter.value = currentMonth;
+            } else {
+                monthFilter.value = "";
+            }
+        }
+
+        // Client-side Filter Logic (Search + Tag + Date)
         // Note: Firestore text search is expensive/complex. 
         // We filter the *loaded* DOM elements for immediate feedback.
         function applyClientFilter() {
             const search = searchInput.value.toLowerCase();
             const tag = tagFilter.value;
+            const year = yearFilter.value;
+            const month = monthFilter.value;
             const items = document.querySelectorAll('.record-item');
 
             items.forEach(item => {
                 const t = item.dataset.title;
                 const s = item.dataset.source;
                 const tg = item.dataset.tag;
+                const d = item.dataset.date;
 
-                const matchesSearch = t.includes(search) || s.includes(search) || tg.toLowerCase().includes(search);
+                const matchesSearch = t.includes(search) || s.includes(search) || tg.toLowerCase().includes(search) || d.includes(search);
                 const matchesTag = tag === "" || tg === tag;
+                const matchesYear = year === "" || item.dataset.year === year;
+                const matchesMonth = month === "" || item.dataset.month === month;
 
-                if (matchesSearch && matchesTag) {
+                if (matchesSearch && matchesTag && matchesYear && matchesMonth) {
                     item.classList.remove('hidden');
                 } else {
                     item.classList.add('hidden');
@@ -511,12 +615,26 @@
 
         sortFilter.addEventListener('change', () => fetchRecords(true));
 
+        yearFilter.addEventListener('change', () => {
+            updateDateFilters();
+            applyClientFilter();
+        });
+
+        monthFilter.addEventListener('change', applyClientFilter);
+
+        clearDateFilters.addEventListener('click', () => {
+            yearFilter.value = "";
+            monthFilter.value = "";
+            updateDateFilters();
+            applyClientFilter();
+        });
+
         // Initial Load
         document.addEventListener('DOMContentLoaded', () => {
             fetchRecords(true);
         });
 
     </script>
-    <script src="./assets/site-shell.js" defer></script>
+    <script src="./assets/site-shell.js?v=integrity-1" defer></script>
 </body>
 </html>
