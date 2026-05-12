@@ -33,6 +33,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: article-integrity-writes-main
+  cancel-in-progress: false
+
 jobs:
   scan:
     runs-on: ubuntu-latest
@@ -42,6 +46,7 @@ jobs:
         with:
           ref: main
           persist-credentials: true
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -80,6 +85,12 @@ jobs:
             ARGS="$ARGS --force"
           fi
           python scripts/article_integrity_monitor.py $ARGS
+
+      - name: Sync latest main before commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main
 
       - name: Commit integrity results
         uses: stefanzweifel/git-auto-commit-action@v5
