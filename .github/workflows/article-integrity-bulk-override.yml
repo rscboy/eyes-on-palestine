@@ -10,6 +10,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: article-integrity-writes-main
+  cancel-in-progress: false
+
 jobs:
   apply:
     runs-on: ubuntu-latest
@@ -19,6 +23,7 @@ jobs:
         with:
           ref: main
           persist-credentials: true
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -29,6 +34,12 @@ jobs:
         env:
           BULK_OVERRIDE_PAYLOAD: ${{ github.event.inputs.payload }}
         run: python scripts/apply_integrity_bulk_override.py
+
+      - name: Sync latest main before commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main
 
       - name: Commit bulk manual overrides
         uses: stefanzweifel/git-auto-commit-action@v5
