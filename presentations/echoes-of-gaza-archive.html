@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echoes of Gaza Archive | Slide Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" type="image/png" />
+  <style>
+    :root {
+      --void: #050505;
+      --black: #0a0a0a;
+      --charcoal: #121212;
+      --paper: #f2eadc;
+      --bone: #e8e2d6;
+      --ash: #a79f91;
+      --red: #8b0000;
+      --red-hot: #c8102e;
+      --olive: #6f7b42;
+      --gold: #b79852;
+      --line: rgba(232, 226, 214, 0.16);
+      --soft: rgba(242, 234, 220, 0.72);
+      --shadow: 0 35px 100px rgba(0, 0, 0, 0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--void);
+      color: var(--bone);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      background:
+        radial-gradient(circle at 15% 16%, rgba(139, 0, 0, 0.32), transparent 28%),
+        radial-gradient(circle at 85% 8%, rgba(111, 123, 66, 0.2), transparent 30%),
+        radial-gradient(circle at 50% 85%, rgba(183, 152, 82, 0.16), transparent 34%),
+        linear-gradient(135deg, #050505 0%, #0b0a08 50%, #050505 100%);
+    }
+
+    body::after {
+      opacity: 0.14;
+      mix-blend-mode: screen;
+      background-image:
+        linear-gradient(90deg, transparent 0 48%, rgba(255, 255, 255, 0.08) 49% 51%, transparent 52% 100%),
+        linear-gradient(0deg, transparent 0 48%, rgba(255, 255, 255, 0.05) 49% 51%, transparent 52% 100%);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(circle at center, black 0 50%, transparent 78%);
+    }
+
+    .grain {
+      position: fixed;
+      inset: -25%;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+      animation: drift 14s steps(8) infinite;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      25% { transform: translate3d(-3%, 2%, 0); }
+      50% { transform: translate3d(2%, -2%, 0); }
+      75% { transform: translate3d(3%, 3%, 0); }
+    }
+
+    .deck-shell {
+      position: relative;
+      z-index: 2;
+      height: 100vh;
+      display: grid;
+      grid-template-rows: 72px 1fr 72px;
+      padding: 0 clamp(18px, 3vw, 44px);
+    }
+
+    .topbar,
+    .bottombar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      color: rgba(232, 226, 214, 0.68);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      position: relative;
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(232, 226, 214, 0.34);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+    }
+
+    .brand-mark::before,
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      background: var(--red-hot);
+    }
+
+    .brand-mark::before { width: 15px; height: 2px; }
+    .brand-mark::after { width: 2px; height: 15px; }
+
+    .brand span:last-child {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+    }
+
+    .deck-stage {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 0;
+    }
+
+    .slide {
+      position: absolute;
+      width: min(1200px, 94vw);
+      height: min(675px, calc(100vh - 160px));
+      min-height: 520px;
+      padding: clamp(36px, 5vw, 72px);
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.085), transparent 36%),
+        linear-gradient(180deg, rgba(12, 12, 12, 0.96), rgba(5, 5, 5, 0.95)),
+        var(--black);
+      box-shadow: var(--shadow), inset 0 0 0 1px rgba(255, 255, 255, 0.035);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateX(54px) scale(0.985);
+      transition: opacity 420ms ease, transform 520ms cubic-bezier(0.2, 0.9, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .slide.previous {
+      transform: translateX(-54px) scale(0.985);
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border: 1px solid rgba(232, 226, 214, 0.11);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.2;
+      background:
+        linear-gradient(45deg, transparent 0 47%, rgba(232, 226, 214, 0.34) 48% 52%, transparent 53% 100%),
+        linear-gradient(-45deg, transparent 0 47%, rgba(232, 226, 214, 0.18) 48% 52%, transparent 53% 100%);
+      background-size: 38px 38px;
+      mask-image: linear-gradient(90deg, black 0 11%, transparent 27% 73%, black 89% 100%);
+    }
+
+    .slide-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: grid;
+      gap: 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 46px;
+      height: 1px;
+      background: var(--red-hot);
+      box-shadow: 0 0 18px rgba(200, 16, 46, 0.72);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1,
+    h2 {
+      font-family: "Playfair Display", Georgia, serif;
+      color: #fff;
+      letter-spacing: -0.045em;
+    }
+
+    h1 {
+      font-size: clamp(58px, 8vw, 116px);
+      line-height: 0.88;
+      max-width: 900px;
+    }
+
+    h2 {
+      font-size: clamp(44px, 5.4vw, 78px);
+      line-height: 0.94;
+      max-width: 850px;
+    }
+
+    .red-word {
+      color: var(--red-hot);
+      text-shadow: 0 0 36px rgba(139, 0, 0, 0.55);
+    }
+
+    .lead {
+      max-width: 720px;
+      color: var(--soft);
+      font-family: Lora, Georgia, serif;
+      font-size: clamp(18px, 2vw, 24px);
+      line-height: 1.65;
+    }
+
+    .small-copy {
+      color: rgba(232, 226, 214, 0.64);
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 680px;
+    }
+
+    .title-slide .slide-content {
+      align-content: center;
+    }
+
+    .title-grid {
+      display: grid;
+      grid-template-columns: 1fr minmax(240px, 360px);
+      align-items: end;
+      gap: 42px;
+    }
+
+    .seal {
+      justify-self: end;
+      width: min(32vw, 330px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid rgba(232, 226, 214, 0.22);
+      display: grid;
+      place-items: center;
+      position: relative;
+      background:
+        radial-gradient(circle, rgba(200, 16, 46, 0.2), transparent 46%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent);
+    }
+
+    .seal::before,
+    .seal::after {
+      content: "";
+      position: absolute;
+      inset: 11%;
+      border: 1px solid rgba(232, 226, 214, 0.16);
+      border-radius: 50%;
+    }
+
+    .seal::after {
+      inset: 28%;
+      border-color: rgba(200, 16, 46, 0.55);
+      box-shadow: 0 0 45px rgba(139, 0, 0, 0.36);
+    }
+
+    .seal-text {
+      text-align: center;
+      font-family: "Playfair Display", Georgia, serif;
+      color: #fff;
+      font-size: clamp(38px, 5vw, 68px);
+      line-height: 0.85;
+      z-index: 1;
+    }
+
+    .two-column {
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card,
+    .stat,
+    .timeline-item {
+      border: 1px solid rgba(232, 226, 214, 0.13);
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+    }
+
+    .card {
+      min-height: 150px;
+      padding: 24px;
+    }
+
+    .card strong {
+      display: block;
+      color: #fff;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .card p,
+    .timeline-item p {
+      color: rgba(232, 226, 214, 0.62);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      align-self: end;
+    }
+
+    .stat {
+      padding: 28px 22px;
+    }
+
+    .stat .number {
+      display: block;
+      color: #fff;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(42px, 5vw, 64px);
+      line-height: 0.9;
+      margin-bottom: 12px;
+    }
+
+    .stat .label {
+      color: rgba(232, 226, 214, 0.64);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    .mosaic {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      min-height: 410px;
+      border: 1px solid rgba(232, 226, 214, 0.12);
+      background: #080808;
+    }
+
+    .tile {
+      position: relative;
+      border: 1px solid rgba(232, 226, 214, 0.08);
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent),
+        radial-gradient(circle at 50% 15%, rgba(200, 16, 46, 0.22), transparent 42%),
+        #0d0d0d;
+    }
+
+    .tile:nth-child(2n) { background-color: #15110d; }
+    .tile:nth-child(3n) { background-color: #0f130d; }
+    .tile:nth-child(5n) { background-color: #180c0c; }
+
+    .tile::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 14px;
+      bottom: 12px;
+      color: rgba(242, 234, 220, 0.74);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .tile.large { grid-column: span 2; grid-row: span 2; }
+    .tile.tall { grid-row: span 2; }
+    .tile.wide { grid-column: span 2; }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      align-items: stretch;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 28px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--red-hot), rgba(183, 152, 82, 0.6), transparent);
+    }
+
+    .timeline-item {
+      min-height: 300px;
+      padding: 62px 24px 24px;
+      position: relative;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025));
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--red-hot);
+      box-shadow: 0 0 0 8px rgba(200, 16, 46, 0.16), 0 0 34px rgba(200, 16, 46, 0.55);
+    }
+
+    .timeline-item h3 {
+      font-family: "Playfair Display", Georgia, serif;
+      color: #fff;
+      font-size: 26px;
+      margin-bottom: 14px;
+    }
+
+    .quote-slide blockquote {
+      margin: 0;
+      max-width: 960px;
+      color: #fff;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(38px, 5.7vw, 76px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .quote-slide cite {
+      display: block;
+      margin-top: 26px;
+      color: var(--gold);
+      font-style: normal;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .cta {
+      display: grid;
+      grid-template-columns: 1fr 0.72fr;
+      gap: 38px;
+      align-items: center;
+    }
+
+    .action-panel {
+      border: 1px solid rgba(200, 16, 46, 0.46);
+      background:
+        linear-gradient(135deg, rgba(139, 0, 0, 0.36), transparent),
+        rgba(255, 255, 255, 0.04);
+      padding: 34px;
+    }
+
+    .action-panel a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 28px;
+      width: 100%;
+      min-height: 58px;
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: 0 18px 52px rgba(139, 0, 0, 0.36);
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .control {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(232, 226, 214, 0.18);
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--bone);
+      cursor: pointer;
+      font-size: 18px;
+      transition: 180ms ease;
+    }
+
+    .control:hover {
+      border-color: rgba(200, 16, 46, 0.8);
+      background: rgba(139, 0, 0, 0.28);
+    }
+
+    .progress {
+      width: min(360px, 36vw);
+      height: 2px;
+      background: rgba(232, 226, 214, 0.14);
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--red-hot), var(--gold));
+      transition: width 320ms ease;
+    }
+
+    .hint {
+      font-size: 10px;
+      color: rgba(232, 226, 214, 0.46);
+    }
+
+    @media (max-width: 900px) {
+      body { overflow: auto; }
+      .deck-shell {
+        height: auto;
+        min-height: 100vh;
+        display: block;
+        padding: 0 14px 28px;
+      }
+      .topbar,
+      .bottombar {
+        height: 64px;
+      }
+      .bottombar {
+        position: sticky;
+        bottom: 0;
+        padding: 10px 0;
+        background: linear-gradient(180deg, transparent, rgba(5, 5, 5, 0.95) 20%);
+      }
+      .deck-stage {
+        display: block;
+      }
+      .slide,
+      .slide.active,
+      .slide.previous {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: 76vh;
+        margin-bottom: 22px;
+        padding: 34px 26px;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+      }
+      .slide:not(.active) {
+        display: none;
+      }
+      .title-grid,
+      .two-column,
+      .cta {
+        grid-template-columns: 1fr;
+      }
+      .seal { display: none; }
+      .cards,
+      .stats-row,
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+      .timeline::before { display: none; }
+      .mosaic { min-height: 320px; }
+    }
+
+    @media print {
+      html,
+      body {
+        overflow: visible;
+        background: white;
+      }
+      .grain,
+      .topbar,
+      .bottombar {
+        display: none !important;
+      }
+      .deck-shell {
+        display: block;
+        height: auto;
+        padding: 0;
+      }
+      .deck-stage {
+        display: block;
+      }
+      .slide,
+      .slide.active,
+      .slide.previous {
+        position: relative;
+        opacity: 1;
+        transform: none;
+        width: 11in;
+        height: 6.1875in;
+        min-height: 0;
+        page-break-after: always;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <main class="deck-shell" aria-label="Echoes of Gaza Archive slide deck">
+    <header class="topbar">
+      <a class="brand" href="https://echoesofgaza.org" aria-label="Echoes of Gaza home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Echoes of Gaza</span>
+      </a>
+      <span>Archive presentation</span>
+    </header>
+
+    <section class="deck-stage">
+      <article class="slide title-slide active" data-title="Opening">
+        <div class="slide-content title-grid">
+          <div>
+            <div class="eyebrow">Living archive</div>
+            <h1>Echoes of <span class="red-word">Gaza</span> Archive</h1>
+            <p class="lead">A public record built to preserve memory, surface primary sources, and resist the erasure of Palestinian testimony.</p>
+          </div>
+          <div class="seal" aria-hidden="true"><div class="seal-text">Record<br />Resist<br />Remember</div></div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Why it exists">
+        <div class="slide-content two-column">
+          <div>
+            <div class="eyebrow">Why it exists</div>
+            <h2>When history is targeted, documentation becomes protection.</h2>
+            <p class="lead">Echoes of Gaza organizes public evidence into a durable, searchable, and shareable archive for educators, journalists, researchers, organizers, and witnesses.</p>
+          </div>
+          <div class="cards">
+            <div class="card"><strong>Preserve memory</strong><p>Keep testimony, reporting, scholarship, and visual documentation accessible across time.</p></div>
+            <div class="card"><strong>Build accountability</strong><p>Collect reliable sources that help trace events, actors, policies, and patterns.</p></div>
+            <div class="card"><strong>Promote clarity</strong><p>Offer structured context so people can move from headlines toward source-based understanding.</p></div>
+            <div class="card"><strong>Resist erasure</strong><p>Make the record easier to mirror, cite, teach, and defend against censorship.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Archive map">
+        <div class="slide-content two-column">
+          <div>
+            <div class="eyebrow">Archive map</div>
+            <h2>Multiple formats. One historical record.</h2>
+            <p class="small-copy">The archive brings together articles, reports, books, interviews, films, and on-the-ground footage so visitors can compare perspectives and follow source trails.</p>
+          </div>
+          <div class="mosaic" aria-label="Archive content types">
+            <div class="tile large" data-label="Articles"></div>
+            <div class="tile tall" data-label="Reports"></div>
+            <div class="tile" data-label="Books"></div>
+            <div class="tile" data-label="Film"></div>
+            <div class="tile wide" data-label="Interviews"></div>
+            <div class="tile" data-label="Primary"></div>
+            <div class="tile tall" data-label="Witness"></div>
+            <div class="tile" data-label="Legal"></div>
+            <div class="tile wide" data-label="Context"></div>
+            <div class="tile" data-label="Media"></div>
+            <div class="tile" data-label="Research"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="What makes it useful">
+        <div class="slide-content">
+          <div>
+            <div class="eyebrow">Usability</div>
+            <h2>Designed for fast orientation and careful verification.</h2>
+          </div>
+          <div class="stats-row">
+            <div class="stat"><span class="number">01</span><span class="label">Searchable pathways by source, topic, date, and medium</span></div>
+            <div class="stat"><span class="number">02</span><span class="label">Primary-source emphasis for journalists and educators</span></div>
+            <div class="stat"><span class="number">03</span><span class="label">Open web structure that supports replication and sharing</span></div>
+          </div>
+          <p class="lead">The result is not just a library; it is a navigation system for people trying to understand events without losing the humanity behind them.</p>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Workflow">
+        <div class="slide-content">
+          <div>
+            <div class="eyebrow">Archival workflow</div>
+            <h2>From public source to preserved context.</h2>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item"><h3>Collect</h3><p>Identify credible articles, reports, media, testimony, and scholarship that document Palestinian life and systems of harm.</p></div>
+            <div class="timeline-item"><h3>Verify</h3><p>Review attribution, dates, authorship, source reputation, and cross-reference value before publication.</p></div>
+            <div class="timeline-item"><h3>Contextualize</h3><p>Add concise descriptions and categorization so visitors can understand why a source matters.</p></div>
+            <div class="timeline-item"><h3>Share</h3><p>Publish in accessible formats that can be cited, taught, mirrored, and expanded by contributors.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide quote-slide" data-title="Design principle">
+        <div class="slide-content" style="align-content:center;">
+          <div class="eyebrow">Design principle</div>
+          <blockquote>Make the record feel impossible to ignore, yet careful enough to trust.</blockquote>
+          <cite>Echoes of Gaza Archive</cite>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Audience">
+        <div class="slide-content two-column">
+          <div>
+            <div class="eyebrow">Who it serves</div>
+            <h2>A public tool for people carrying the record forward.</h2>
+            <p class="lead">The archive supports anyone who needs a grounded path into documented history, current reporting, and source-backed advocacy.</p>
+          </div>
+          <div class="cards">
+            <div class="card"><strong>Educators</strong><p>Build reading lists, classroom context, and media literacy exercises.</p></div>
+            <div class="card"><strong>Journalists</strong><p>Locate background, leads, and corroborating documentation.</p></div>
+            <div class="card"><strong>Researchers</strong><p>Trace patterns across law, policy, media, and lived experience.</p></div>
+            <div class="card"><strong>Community</strong><p>Share resources for teach-ins, campaigns, and public memory work.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" data-title="Call to action">
+        <div class="slide-content cta">
+          <div>
+            <div class="eyebrow">Join the record</div>
+            <h2>Submit sources. Mirror the archive. Teach from evidence.</h2>
+            <p class="lead">Echoes of Gaza grows through careful contribution: reliable links, publication dates, author or organizational attribution, and brief contextual notes.</p>
+          </div>
+          <div class="action-panel">
+            <h3 style="font-family:'Playfair Display', Georgia, serif; font-size:34px; margin:0 0 14px; color:#fff;">Keep watch.</h3>
+            <p class="small-copy">Visit the archive, cite the sources, and help preserve public memory in the face of erasure.</p>
+            <a href="https://echoesofgaza.org">echoesofgaza.org</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <footer class="bottombar">
+      <div class="nav-controls" aria-label="Slide controls">
+        <button class="control" type="button" data-prev aria-label="Previous slide">‹</button>
+        <button class="control" type="button" data-next aria-label="Next slide">›</button>
+        <span id="slide-count">01 / 08</span>
+      </div>
+      <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+      <span class="hint">Use arrow keys · print to export PDF</span>
+    </footer>
+  </main>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const count = document.getElementById('slide-count');
+    const progress = document.getElementById('progress-bar');
+    let index = 0;
+
+    function pad(value) {
+      return String(value).padStart(2, '0');
+    }
+
+    function showSlide(nextIndex) {
+      const previous = index;
+      index = (nextIndex + slides.length) % slides.length;
+
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle('active', slideIndex === index);
+        slide.classList.toggle('previous', slideIndex < index || (slideIndex === previous && previous > index));
+      });
+
+      count.textContent = `${pad(index + 1)} / ${pad(slides.length)}`;
+      progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+      document.title = `${slides[index].dataset.title} | Echoes of Gaza Archive`;
+    }
+
+    document.querySelector('[data-prev]').addEventListener('click', () => showSlide(index - 1));
+    document.querySelector('[data-next]').addEventListener('click', () => showSlide(index + 1));
+
+    document.addEventListener('keydown', (event) => {
+      if (['ArrowRight', 'PageDown', ' '].includes(event.key)) {
+        event.preventDefault();
+        showSlide(index + 1);
+      }
+      if (['ArrowLeft', 'PageUp'].includes(event.key)) {
+        event.preventDefault();
+        showSlide(index - 1);
+      }
+      if (event.key === 'Home') showSlide(0);
+      if (event.key === 'End') showSlide(slides.length - 1);
+    });
+
+    showSlide(0);
+  </script>
+</body>
+</html>
