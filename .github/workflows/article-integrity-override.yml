@@ -40,12 +40,20 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: article-integrity-writes-main
+  cancel-in-progress: false
+
 jobs:
   apply:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -61,8 +69,15 @@ jobs:
             --notes "${{ github.event.inputs.notes }}" \
             --screenshot-action "${{ github.event.inputs.screenshot_action }}"
 
+      - name: Sync latest main before commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main
+
       - name: Commit manual override
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Apply article integrity manual override"
-          file_pattern: data/integrity/manual_overrides.json data/integrity/screenshots/*.png
+          file_pattern: data/integrity/
+          branch: main
