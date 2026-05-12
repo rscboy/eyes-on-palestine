@@ -1108,17 +1108,6 @@
                 </div>
 
                 <div id="integrity-summary" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-8"></div>
-                <div id="integrity-meta" class="text-xs text-gray-600 uppercase tracking-widest mb-6">Last scan: Not available</div>
-
-                <div class="integrity-panel p-5 md:p-6">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
-                        <h3 class="text-xl font-serif text-white/90">Flagged Articles</h3>
-                        <p class="text-xs text-gray-600 uppercase tracking-widest">Manual verification overrides automated status when present.</p>
-                    </div>
-                    <div id="integrity-table-container" class="integrity-table-wrap">
-                        <div class="p-8 text-center text-gray-600 font-serif italic">Integrity results have not been generated yet.</div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -1802,7 +1791,7 @@
             const summaryEl = document.getElementById('integrity-summary');
             const metaEl = document.getElementById('integrity-meta');
             const tableEl = document.getElementById('integrity-table-container');
-            if (!summaryEl || !metaEl || !tableEl) return;
+            if (!summaryEl) return;
 
             integrityResults = Array.isArray(payload?.results) ? payload.results.map(effectiveIntegrityResult) : [];
             const checkedResults = integrityResults.filter(integrityHasBeenChecked);
@@ -1867,7 +1856,11 @@
             const dueFound = payload?.due_articles_found ?? 0;
             const skippedRecent = payload?.skipped_recent_count ?? 0;
             const interval = payload?.review_interval_days ?? 60;
-            metaEl.textContent = `Last scan: ${payload?.last_scan_at || payload?.generated_at || 'Not available'} / Total monitored: ${totalArticles} / Checked articles: ${checkedArticleCount} / Unchecked articles: ${uncheckedArticleCount} / Checked this run: ${checkedThisRun} / Due found: ${dueFound} / Recently checked skipped: ${skippedRecent} / Review interval: ${interval} days`;
+            if (metaEl) {
+                metaEl.textContent = `Last scan: ${payload?.last_scan_at || payload?.generated_at || 'Not available'} / Total monitored: ${totalArticles} / Checked articles: ${checkedArticleCount} / Unchecked articles: ${uncheckedArticleCount} / Checked this run: ${checkedThisRun} / Due found: ${dueFound} / Recently checked skipped: ${skippedRecent} / Review interval: ${interval} days`;
+            }
+
+            if (!tableEl) return;
 
             const visibleFlaggedStatuses = new Set(['likely_removed', 'blocked_unknown', 'needs_manual_review', 'changed_substantially', 'confirmed_removed']);
             const flagged = checkedResults.filter(result => visibleFlaggedStatuses.has(integrityEffectiveStatus(result)));
