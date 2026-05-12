@@ -1771,12 +1771,16 @@
         }
 
         function effectiveIntegrityResult(result) {
-            const override = integrityOverrides[result.id];
+            const articleId = result.article_id || result.id;
+            const override = integrityOverrides[articleId];
             if (!override) return result;
             return {
                 ...result,
+                id: result.id || articleId,
+                article_id: articleId,
                 automated_status: result.status,
                 status: override.manual_status || result.status,
+                effective_status: override.manual_status || result.effective_status || result.status,
                 manual_override: override
             };
         }
@@ -1789,6 +1793,11 @@
             return result.effective_status || result.status || 'needs_manual_review';
         }
 
+        function integrityHasBeenChecked(result) {
+            const status = integrityEffectiveStatus(result);
+            return Boolean((result.last_checked || result.checked_at) && status !== 'unchecked' && status !== 'never_scanned');
+        }
+
         function renderIntegrityReport(payload) {
             const summaryEl = document.getElementById('integrity-summary');
             const metaEl = document.getElementById('integrity-meta');
@@ -1796,6 +1805,7 @@
             if (!summaryEl || !metaEl || !tableEl) return;
 
             integrityResults = Array.isArray(payload?.results) ? payload.results.map(effectiveIntegrityResult) : [];
+            const checkedResults = integrityResults.filter(integrityHasBeenChecked);
             const counts = {
                 total: integrityResults.length,
                 unchecked: 0,
@@ -1816,6 +1826,12 @@
 
             const statOrder = [
                 ['total_articles', 'Total'],
+                ['checked_articles', 'Checked'],
+                ['unchecked_articles', 'Unchecked'],
+                ['scanned_this_run', 'Scanned This Run'],
+                ['due_articles_found', 'Due Found'],
+                ['skipped_recent_count', 'Skipped Recent'],
+                ['review_interval_days', 'Interval'],
                 ['live_total', 'Live'],
                 ['redirected_live', 'Redirected'],
                 ['confirmed_removed', 'Confirmed Removed'],
@@ -1823,9 +1839,18 @@
                 ['changed_total', 'Changed'],
                 ['review_total', 'Review']
             ];
+            const totalArticles = payload?.total_articles ?? counts.total;
+            const checkedArticleCount = checkedResults.length;
+            const uncheckedArticleCount = Math.max(0, totalArticles - checkedArticleCount);
             const statValues = {
                 ...counts,
-                total_articles: payload?.total_articles ?? counts.total,
+                total_articles: totalArticles,
+                checked_articles: checkedArticleCount,
+                unchecked_articles: uncheckedArticleCount,
+                scanned_this_run: payload?.scanned_this_run ?? payload?.scan?.checked_articles ?? 0,
+                due_articles_found: payload?.due_articles_found ?? 0,
+                skipped_recent_count: payload?.skipped_recent_count ?? 0,
+                review_interval_days: `${payload?.review_interval_days ?? 60} days`,
                 live_total: (counts.live || 0) + (counts.confirmed_live || 0),
                 changed_total: (counts.changed_substantially || 0) + (counts.confirmed_changed || 0),
                 review_total: (counts.needs_manual_review || 0) + (counts.blocked_unknown || 0)
@@ -1838,16 +1863,16 @@
                 </div>
             `).join('');
 
-            const checkedArticles = payload?.scanned_this_run ?? payload?.scan?.checked_articles ?? integrityResults.length;
-            const totalArticles = payload?.total_articles ?? integrityResults.length;
+            const checkedThisRun = payload?.scanned_this_run ?? payload?.scan?.checked_articles ?? 0;
             const dueFound = payload?.due_articles_found ?? 0;
             const skippedRecent = payload?.skipped_recent_count ?? 0;
             const interval = payload?.review_interval_days ?? 60;
-            metaEl.textContent = `Last scan: ${payload?.last_scan_at || payload?.generated_at || 'Not available'} / Checked ${checkedArticles} this run / Total monitored: ${totalArticles} / Due found: ${dueFound} / Recently checked skipped: ${skippedRecent} / Review interval: ${interval} days`;
+            metaEl.textContent = `Last scan: ${payload?.last_scan_at || payload?.generated_at || 'Not available'} / Total monitored: ${totalArticles} / Checked articles: ${checkedArticleCount} / Unchecked articles: ${uncheckedArticleCount} / Checked this run: ${checkedThisRun} / Due found: ${dueFound} / Recently checked skipped: ${skippedRecent} / Review interval: ${interval} days`;
 
-            const flagged = integrityResults.filter(result => !['live', 'redirected_live', 'confirmed_live'].includes(integrityEffectiveStatus(result)));
+            const visibleFlaggedStatuses = new Set(['likely_removed', 'blocked_unknown', 'needs_manual_review', 'changed_substantially', 'confirmed_removed']);
+            const flagged = checkedResults.filter(result => visibleFlaggedStatuses.has(integrityEffectiveStatus(result)));
             if (!flagged.length) {
-                tableEl.innerHTML = `<div class="p-8 text-center text-gray-600 font-serif italic">No flagged articles in the latest integrity scan.</div>`;
+                tableEl.innerHTML = `<div class="p-8 text-center text-gray-600 font-serif italic">No checked articles currently require review.</div>`;
                 return;
             }
 
