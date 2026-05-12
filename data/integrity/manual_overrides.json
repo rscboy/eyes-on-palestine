@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-12T18:40:33Z",
+  "updated_at": "2026-05-12T18:41:13Z",
   "overrides": {
     "5bcf7647cfd9336b": {
       "article_id": "5bcf7647cfd9336b",
@@ -56,6 +56,106 @@
       "manual_status": "confirmed_live",
       "verified_by": "EOG Admin",
       "verified_at": "2026-05-12T18:40:33Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "4cf029111a2171a9": {
+      "article_id": "4cf029111a2171a9",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:41:13Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "aa633defab2110b9": {
+      "article_id": "aa633defab2110b9",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:41:13Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "eaaa0d9e81e17b30": {
+      "article_id": "eaaa0d9e81e17b30",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:41:13Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "e3b715738355615b": {
+      "article_id": "e3b715738355615b",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:41:13Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "bd677bcf234e22ad": {
+      "article_id": "bd677bcf234e22ad",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:41:13Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "bc91313763eb26bd": {
+      "article_id": "bc91313763eb26bd",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:41:13Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "d150e40bc52a89b0": {
+      "article_id": "d150e40bc52a89b0",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:41:13Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "b5fd67a7e79c1ee1": {
+      "article_id": "b5fd67a7e79c1ee1",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:41:13Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "f35aaef4d552a200": {
+      "article_id": "f35aaef4d552a200",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:41:13Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "3ba54542f0d3477b": {
+      "article_id": "3ba54542f0d3477b",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:41:13Z",
       "notes": "",
       "screenshot_action": "delete_after_review",
       "screenshot_reviewed": false,
