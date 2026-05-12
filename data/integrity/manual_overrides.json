@@ -1,4 +1,65 @@
 {
-  "updated_at": null,
-  "overrides": {}
+  "updated_at": "2026-05-12T18:40:33Z",
+  "overrides": {
+    "5bcf7647cfd9336b": {
+      "article_id": "5bcf7647cfd9336b",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:40:33Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "6ee7e12df5421b5d": {
+      "article_id": "6ee7e12df5421b5d",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:40:33Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "2d5f2176175be7fa": {
+      "article_id": "2d5f2176175be7fa",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:40:33Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "61b9f92fef13a7a0": {
+      "article_id": "61b9f92fef13a7a0",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:40:33Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "d23ce430be0cd7ef": {
+      "article_id": "d23ce430be0cd7ef",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:40:33Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    },
+    "b86861bc3b4ca8f6": {
+      "article_id": "b86861bc3b4ca8f6",
+      "manual_status": "confirmed_live",
+      "verified_by": "EOG Admin",
+      "verified_at": "2026-05-12T18:40:33Z",
+      "notes": "",
+      "screenshot_action": "delete_after_review",
+      "screenshot_reviewed": false,
+      "screenshot_keep": false
+    }
+  }
 }
