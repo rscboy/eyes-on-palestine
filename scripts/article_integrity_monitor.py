@@ -259,8 +259,21 @@ def summarize(results: list[dict[str, Any]]) -> dict[str, int]:
 
 
 def flagged_results(results: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    safe_statuses = {"live", "redirected_live", "confirmed_live"}
-    return [result for result in results if (result.get("effective_status") or result.get("status")) not in safe_statuses]
+    flagged_statuses = {
+        "likely_removed",
+        "blocked_unknown",
+        "needs_manual_review",
+        "changed_substantially",
+        "confirmed_removed",
+    }
+    flagged = []
+    for result in results:
+        status = result.get("effective_status") or result.get("status")
+        if not result.get("last_checked") and not result.get("checked_at"):
+            continue
+        if status in flagged_statuses:
+            flagged.append(result)
+    return flagged
 
 
 def parse_time(value: str | None) -> datetime | None:
