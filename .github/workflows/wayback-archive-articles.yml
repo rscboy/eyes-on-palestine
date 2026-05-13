@@ -1,0 +1,98 @@
+name: Wayback Archive Articles
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Maximum URLs to submit in this run. Use 0 for all pending URLs."
+        required: false
+        default: "0"
+      force:
+        description: "Resubmit URLs even if already archived or submitted"
+        required: false
+        default: "false"
+      capture_outlinks:
+        description: "Ask Save Page Now to capture outbound links"
+        required: false
+        default: "false"
+      capture_screenshot:
+        description: "Ask Save Page Now to capture a screenshot"
+        required: false
+        default: "false"
+      batch_size:
+        description: "Authenticated requests per batch. Keep at 6 or less."
+        required: false
+        default: "6"
+      sleep_seconds:
+        description: "Seconds to wait between batches. Keep at 65 or more."
+        required: false
+        default: "65"
+  push:
+    branches:
+      - main
+    paths:
+      - "data/articles.json"
+  schedule:
+    - cron: "30 9 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wayback-archive-writes-main
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Submit pending article URLs to Wayback
+        env:
+          IA_S3_ACCESS_KEY: ${{ secrets.IA_S3_ACCESS_KEY }}
+          IA_S3_SECRET_KEY: ${{ secrets.IA_S3_SECRET_KEY }}
+          LIMIT: ${{ github.event.inputs.limit || '0' }}
+          FORCE: ${{ github.event.inputs.force || 'false' }}
+          CAPTURE_OUTLINKS: ${{ github.event.inputs.capture_outlinks || 'false' }}
+          CAPTURE_SCREENSHOT: ${{ github.event.inputs.capture_screenshot || 'false' }}
+          BATCH_SIZE: ${{ github.event.inputs.batch_size || '6' }}
+          SLEEP_SECONDS: ${{ github.event.inputs.sleep_seconds || '65' }}
+        run: |
+          ARGS="--batch-size ${BATCH_SIZE} --sleep-seconds ${SLEEP_SECONDS}"
+          if [ "${LIMIT}" != "0" ]; then
+            ARGS="$ARGS --limit ${LIMIT}"
+          fi
+          if [ "${FORCE}" = "true" ]; then
+            ARGS="$ARGS --force"
+          fi
+          if [ "${CAPTURE_OUTLINKS}" = "true" ]; then
+            ARGS="$ARGS --capture-outlinks"
+          fi
+          if [ "${CAPTURE_SCREENSHOT}" = "true" ]; then
+            ARGS="$ARGS --capture-screenshot"
+          fi
+          python scripts/wayback_archive_articles.py $ARGS
+
+      - name: Sync latest main before commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main
+
+      - name: Commit Wayback archive status
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update Wayback archive status"
+          file_pattern: data/wayback/
+          branch: main
