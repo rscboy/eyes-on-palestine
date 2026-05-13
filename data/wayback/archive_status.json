@@ -1,0 +1,24 @@
+{
+  "generated_at": null,
+  "last_run": {
+    "started_at": null,
+    "finished_at": null,
+    "attempted": 0,
+    "succeeded_or_submitted": 0,
+    "failed": 0,
+    "skipped_existing": 0,
+    "batch_size": 6,
+    "sleep_seconds": 65,
+    "force": false,
+    "capture_outlinks": false,
+    "capture_screenshot": false
+  },
+  "summary": {
+    "total_articles": 0,
+    "archived": 0,
+    "submitted": 0,
+    "failed": 0,
+    "pending": 0
+  },
+  "records": {}
+}
