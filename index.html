@@ -1406,6 +1406,7 @@
         let currentSlide = 0;
    
         let articles = [];
+        let waybackArchiveByUrl = new Map();
         let videos = [
             { title: "MSNBC EXCLUSIVE: Full interview with Mahmoud Khalil and his wife, Dr. Noor Abdalla", creator: "MSNBC", link: "https://www.msnbc.com/", imageUrl: "https://media13.s-nbcnews.com/i/mpx/2704722219/2025_06/1751072250948_n_msnbc_mahmoud_khalil_noor_abdalla_gaza_250627_1920x1080-3kw5co.jpg", platform: "MSNBC" },
                 { title: "Mahmoud Khalil Is Free: Follow His Journey from ICE Jail Back to Gates of Columbia University", creator: "Democracy Now!", link: "https://www.democracynow.org/", imageUrl: "https://i.ytimg.com/vi/BWpRCoQ2wWE/maxresdefault.jpg", platform: "Democracy Now!" },
@@ -1989,6 +1990,33 @@
             if (daysEl) daysEl.innerText = calculateDaysOfConflict().toLocaleString();
         }
 
+        function normalizeArchiveLookupUrl(url) {
+            return String(url || '').trim();
+        }
+
+        async function loadWaybackArchiveStatus() {
+            try {
+                const response = await fetch('./data/wayback/archive_status.json?v=' + Date.now());
+                if (!response.ok) return;
+                const payload = await response.json();
+                const records = payload?.records || {};
+                waybackArchiveByUrl = new Map();
+                Object.values(records).forEach((record) => {
+                    if (record?.url && record?.archive_url && record?.status === 'archived') {
+                        waybackArchiveByUrl.set(normalizeArchiveLookupUrl(record.url), record);
+                    }
+                });
+            } catch (error) {
+                console.warn('Wayback archive status unavailable:', error);
+                waybackArchiveByUrl = new Map();
+            }
+        }
+
+        function getArticleOpenUrl(article) {
+            const record = waybackArchiveByUrl.get(normalizeArchiveLookupUrl(article?.link));
+            return record?.archive_url || article?.link || '#';
+        }
+
         async function loadArticles() {
             try {
                 const response = await fetch('./data/articles.json?v=' + Date.now());
@@ -2007,6 +2035,7 @@
 
                 console.log(`Loaded ${articles.length} articles`);
 
+                await loadWaybackArchiveStatus();
                 populateFilters();
                 renderArticles(currentlyDisplayedArticles);
                 return true;
@@ -2135,7 +2164,7 @@
             }
 
             grid.innerHTML = sliced.map((article) => {
-                const archiveLink = `https://archive.is/oldest/${article.link}`;
+                const articleOpenLink = escapeHtmlAttribute(getArticleOpenUrl(article));
                 const safeTitle = escapeHtmlAttribute(article.title);
                 const safeSummary = escapeHtmlAttribute(article.summary);
                 const cleanLink = escapeHtmlAttribute(article.link);
@@ -2151,7 +2180,7 @@
 
                 return `
                     <div class="group flex flex-col rounded bg-[#0a0a0a] border border-[#222] overflow-hidden transition-colors hover:border-[#333]">
-                        <div onclick="window.open('${archiveLink}', '_blank')" class="relative h-56 w-full overflow-hidden bg-[#111] cursor-pointer">
+                        <div onclick="window.open('${articleOpenLink}', '_blank')" class="relative h-56 w-full overflow-hidden bg-[#111] cursor-pointer">
                             <img src="${article.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
                         </div>
                         <div class="article-card-body flex flex-col flex-grow p-6">
@@ -2159,8 +2188,8 @@
                                 <div class="article-category-list">${categoryHtml}</div>
                                 <span class="text-gray-600 text-[10px] uppercase tracking-widest">${formatDate(article.date)}</span>
                             </div>
-                            <h3 onclick="window.open('${archiveLink}', '_blank')" class="text-white font-serif font-bold text-lg mb-3 leading-snug cursor-pointer hover:text-gray-300 transition-colors">${displayTitle}</h3>
-                            <p onclick="window.open('${archiveLink}', '_blank')" class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow font-light cursor-pointer">${displaySummary}</p>
+                            <h3 onclick="window.open('${articleOpenLink}', '_blank')" class="text-white font-serif font-bold text-lg mb-3 leading-snug cursor-pointer hover:text-gray-300 transition-colors">${displayTitle}</h3>
+                            <p onclick="window.open('${articleOpenLink}', '_blank')" class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow font-light cursor-pointer">${displaySummary}</p>
                             
                             <div class="article-card-footer mt-auto flex justify-between pt-4 border-t border-[#1a1a1a] items-center gap-4">
                                 <div class="article-author-line flex-1 text-gray-600 text-[10px] uppercase tracking-wider truncate">
