@@ -2015,7 +2015,7 @@
         function getArticleOpenUrl(article) {
             const record = waybackArchiveByUrl.get(normalizeArchiveLookupUrl(article?.link));
             const originalUrl = normalizeArchiveLookupUrl(article?.link);
-            return record?.archive_url || (originalUrl ? `https://web.archive.org/web/${originalUrl}` : '#');
+            return record?.archive_url || (originalUrl ? `https://web.archive.org/web/*/${originalUrl}` : '#');
         }
 
         async function loadArticles() {
