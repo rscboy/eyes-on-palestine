@@ -274,6 +274,7 @@
             line-height: 1;
             text-transform: uppercase;
             letter-spacing: 0.08em;
+            min-width: 0;
             transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
         }
 
@@ -287,6 +288,51 @@
             width: 0.85rem;
             height: 0.85rem;
             flex: 0 0 auto;
+        }
+
+        .article-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.45rem;
+            flex: 1 1 15rem;
+            width: min(100%, 18rem);
+        }
+
+        .article-actions .relative,
+        .article-actions .article-action-btn {
+            width: 100%;
+        }
+
+        .archive-tool-strip {
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #090909;
+        }
+
+        .archive-tool-card {
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #0d0d0d;
+        }
+
+        .archive-tool-disclosure {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1.15rem;
+            margin-top: 1.15rem;
+        }
+
+        .archive-tool-disclosure summary {
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .archive-tool-disclosure summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .archive-tool-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
         }
 
         .archive-intelligence-panel {
@@ -443,6 +489,12 @@
 
         .article-author-line {
             min-width: 0;
+            flex: 1 1 10rem;
+        }
+
+        .article-card-footer {
+            flex-wrap: wrap;
+            align-items: flex-start;
         }
 
         .integrity-panel {
@@ -693,6 +745,15 @@
                 grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 0.5rem;
                 width: 100%;
+            }
+
+            .archive-tool-strip {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .archive-tool-card {
+                padding: 1rem;
             }
 
             .article-action-btn {
@@ -1120,16 +1181,23 @@
         <!-- Controls Section (Tools): Bias Tool -->
         <section id="bias-tool-controls" class="py-12 bg-[#050505] border-y border-white/5 hidden">
             <div class="container mx-auto px-6">
-                <div class="max-w-4xl mx-auto filter-panel p-12 rounded-sm text-center">
-                    <svg class="w-12 h-12 text-gray-600 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 7h12m0 0l-4-4m4 4l-4 4m-8 7h12m0 0l-4-4m4 4l-4 4" />
-                    </svg>
-                    <h3 class="text-3xl font-serif font-bold mb-4 text-white">Expose the Double Standard</h3>
-                    <p class="text-base text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-                        Confront <span class="text-[#8B0000]">genocide denial</span> and Western hypocrisy. Use the toggle below to swap key terms in all archive headlines.
-                    </p>
-                    <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-8 mt-10">
-                        <div class="flex items-center space-x-4 flex-shrink-0">
+                <div class="max-w-6xl mx-auto filter-panel p-6 md:p-8 rounded-sm">
+                    <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center">
+                        <div>
+                            <span class="text-[10px] text-[#8B0000] uppercase tracking-[0.2em] font-bold">Framing Lens</span>
+                            <h3 class="text-2xl md:text-3xl font-serif font-bold mt-2 mb-4 text-white">Racial Bias Tool</h3>
+                            <p class="text-sm md:text-base text-gray-400 max-w-2xl leading-relaxed">
+                                Turn on the reversed frame to see how archive headlines read when key terms are swapped. The article list updates live, and turning it off restores the original wording.
+                            </p>
+                            <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-gray-500 leading-5">
+                                <div class="border border-white/5 bg-[#0a0a0a] p-3">1. Toggle the frame.</div>
+                                <div class="border border-white/5 bg-[#0a0a0a] p-3">2. Scan the headline preview.</div>
+                                <div class="border border-white/5 bg-[#0a0a0a] p-3">3. Compare the archive language.</div>
+                            </div>
+                        </div>
+                        <div class="archive-tool-card p-5">
+                            <p class="text-gray-600 text-xs uppercase tracking-widest mb-4">Live Control</p>
+                            <div class="flex items-center justify-between gap-4 mb-5">
                             <span class="text-xs font-bold text-gray-500 uppercase tracking-wider" id="view-label-original">Standard Frame</span>
                             <label for="double-standard-toggle" class="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" value="" id="double-standard-toggle" class="sr-only peer">
@@ -1137,14 +1205,15 @@
                             </label>
                             <span class="text-xs font-bold text-gray-500 uppercase tracking-wider" id="view-label-swapped">Reversed Frame</span>
                         </div>
-                        <button id="toggle-comparison-btn" class="filter-chip px-6 py-2 rounded text-xs uppercase tracking-wider transition hover:border-gray-500">
-                            <span id="toggle-comparison-text">Analysis</span>
-                        </button>
-                    </div>
-                    <div id="bias-tool-preview-container" class="mt-12 pt-8 border-t border-white/5 text-left">
-                        <p class="text-gray-600 text-xs uppercase tracking-widest mb-4">Live Preview</p>
-                        <div class="text-xl font-serif text-gray-300 p-6 bg-[#0a0a0a] border border-[#222]">
-                            <span id="preview-headline">...</span>
+                            <div id="bias-tool-preview-container" class="pt-5 border-t border-white/5 text-left">
+                                <p class="text-gray-600 text-xs uppercase tracking-widest mb-3">Headline Preview</p>
+                                <div class="text-lg font-serif text-gray-300 p-4 bg-[#050505] border border-[#222] leading-snug">
+                                    <span id="preview-headline">...</span>
+                                </div>
+                            </div>
+                            <button id="toggle-comparison-btn" class="filter-chip px-6 py-3 mt-5 w-full rounded text-xs uppercase tracking-wider transition hover:border-gray-500">
+                                <span id="toggle-comparison-text">View Language Analysis</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1272,27 +1341,52 @@
                     </div>
                 </div>
 
+                <div class="archive-tool-strip p-5 md:p-6 mb-10">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+                        <div>
+                            <span class="text-[10px] text-[#8B0000] uppercase tracking-[0.2em] font-bold">Research Tools</span>
+                            <h3 class="text-xl font-serif text-white/90 mt-2">Timeline & Framing Lens</h3>
+                            <p class="text-sm text-gray-500 mt-2 max-w-2xl leading-6">Use these tools while reading the archive: open the casualty timeline, or turn on the framing lens to compare how headlines read when key terms are reversed.</p>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:min-w-[360px]">
+                            <button id="view-timeline-btn" type="button" class="archive-tool-card p-4 text-left hover:border-white/20 transition">
+                                <span class="block text-[10px] text-[#8B0000] uppercase tracking-widest font-bold mb-2">Timeline</span>
+                                <span class="block text-sm text-gray-300 font-serif">Open casualty timeline</span>
+                            </button>
+                            <button id="view-bias-tool-btn" type="button" class="archive-tool-card p-4 text-left hover:border-white/20 transition">
+                                <span class="block text-[10px] text-[#8B0000] uppercase tracking-widest font-bold mb-2">Framing Lens</span>
+                                <span class="block text-sm text-gray-300 font-serif">Open racial bias tool</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="archive-intelligence" class="archive-intelligence-panel p-5 md:p-6 mb-10">
                     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-6">
                         <div>
                             <span class="text-[10px] text-[#8B0000] uppercase tracking-[0.2em] font-bold">Archive Intelligence</span>
-                            <h3 class="text-2xl font-serif font-bold text-white/90 mt-2">Chronology & Research Map</h3>
+                            <h3 class="text-xl md:text-2xl font-serif font-bold text-white/90 mt-2">Research Map</h3>
+                            <p class="text-sm text-gray-500 mt-2 max-w-2xl leading-6">A compact way to filter the archive by month, research lens, source, or topic.</p>
                         </div>
-                        <div id="archive-coverage-stats" class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs"></div>
+                        <div id="archive-coverage-stats" class="flex flex-wrap gap-2 text-xs lg:justify-end"></div>
                     </div>
-                    <div class="flex items-center justify-between gap-4 mb-3">
-                        <p class="text-xs text-gray-600 uppercase tracking-widest">Click a month to filter the archive</p>
-                        <button id="clear-timeline-filter" class="text-[10px] text-gray-500 hover:text-white uppercase tracking-widest hidden">Clear timeline</button>
-                    </div>
-                    <div id="archive-timeline-bars" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-12 gap-2"></div>
-                    <div id="archive-timeline-status" class="text-xs text-gray-600 uppercase tracking-widest mt-4"></div>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8 pt-6 border-t border-white/5">
+                    <details class="archive-tool-disclosure" open>
+                        <summary class="archive-tool-summary">
+                            <div>
+                                <h4 class="font-serif text-white/80">Timeline by Month</h4>
+                                <p id="archive-timeline-status" class="text-xs text-gray-600 mt-1">Showing recent active months.</p>
+                            </div>
+                            <button id="clear-timeline-filter" class="text-[10px] text-gray-500 hover:text-white uppercase tracking-widest hidden" type="button">Clear</button>
+                        </summary>
+                        <div id="archive-timeline-bars" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-12 gap-2 mt-4"></div>
+                    </details>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 pt-6 border-t border-white/5">
                         <div>
-                            <h4 class="font-serif text-white/80 mb-3">Guided Research Modes</h4>
+                            <h4 class="font-serif text-white/80 mb-3">Guided Lenses</h4>
                             <div id="guided-research-modes" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
                         </div>
                         <div>
-                            <h4 class="font-serif text-white/80 mb-3">Relationship Map</h4>
+                            <h4 class="font-serif text-white/80 mb-3">Source & Topic Map</h4>
                             <div id="archive-relationship-map" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
                         </div>
                     </div>
@@ -2637,9 +2731,9 @@
                 ['Topics', topicCount],
                 ['Span', span]
             ].map(([label, value]) => `
-                <div class="border border-white/5 bg-[#080808] p-3">
-                    <div class="text-[10px] text-gray-600 uppercase tracking-widest mb-1">${label}</div>
-                    <div class="font-serif text-white text-lg">${value}</div>
+                <div class="border border-white/5 bg-[#080808] px-3 py-2 min-w-[6rem]">
+                    <div class="text-[9px] text-gray-600 uppercase tracking-widest">${label}</div>
+                    <div class="font-serif text-white text-base mt-0.5">${value}</div>
                 </div>
             `).join('');
 
@@ -2666,7 +2760,7 @@
             if (statusEl) {
                 statusEl.textContent = activeTimelineKey
                     ? `Timeline filter active: ${monthKeyLabel(activeTimelineKey)}`
-                    : 'Showing the most recent 24 active months in the archive.';
+                    : 'Recent active months. Select a month to filter the archive.';
             }
             const clearTimelineBtn = document.getElementById('clear-timeline-filter');
             if (clearTimelineBtn) clearTimelineBtn.classList.toggle('hidden', !activeTimelineKey);
@@ -2852,6 +2946,36 @@
                     </div>
                 </div>`;
             document.getElementById('random-article-modal').classList.add('is-visible');
+        }
+
+        function revealTimelineTool() {
+            const section = document.getElementById('casualty-graph');
+            const button = document.getElementById('view-timeline-btn');
+            if (!section) return;
+            const isHidden = section.classList.contains('hidden');
+            section.classList.toggle('hidden', !isHidden);
+            if (button) {
+                button.querySelector('span:last-child').textContent = isHidden ? 'Close casualty timeline' : 'Open casualty timeline';
+            }
+            if (isHidden) {
+                renderCasualtyChart();
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function revealBiasTool() {
+            const section = document.getElementById('bias-tool-controls');
+            const button = document.getElementById('view-bias-tool-btn');
+            if (!section) return;
+            const isHidden = section.classList.contains('hidden');
+            section.classList.toggle('hidden', !isHidden);
+            if (button) {
+                button.querySelector('span:last-child').textContent = isHidden ? 'Close racial bias tool' : 'Open racial bias tool';
+            }
+            if (isHidden) {
+                updateBiasToolPreview();
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
         function setTimelineMonthFilter(key) {
@@ -3643,7 +3767,8 @@
                     label.classList.toggle('hidden', query && !label.dataset.filterLabel.includes(query));
                 });
             });
-            document.getElementById('clear-timeline-filter')?.addEventListener('click', () => {
+            document.getElementById('clear-timeline-filter')?.addEventListener('click', (event) => {
+                event.stopPropagation();
                 activeTimelineKey = '';
                 document.getElementById('start-date').value = '';
                 document.getElementById('end-date').value = '';
@@ -3659,6 +3784,8 @@
             });
             document.getElementById('view-cards-btn')?.addEventListener('click', () => setArchiveView('cards'));
             document.getElementById('view-table-btn')?.addEventListener('click', () => setArchiveView('table'));
+            document.getElementById('view-timeline-btn')?.addEventListener('click', revealTimelineTool);
+            document.getElementById('view-bias-tool-btn')?.addEventListener('click', revealBiasTool);
 
             updateHeroStats();
             const articlesLoaded = await loadArticles();
@@ -3679,6 +3806,24 @@
                 link.addEventListener('click', (e) => {
                     const href = link.getAttribute('href');
                     if (href && href.startsWith('#')) {
+                        if (href === '#casualty-graph') {
+                            e.preventDefault();
+                            if (document.getElementById('casualty-graph')?.classList.contains('hidden')) {
+                                revealTimelineTool();
+                            } else {
+                                document.getElementById('casualty-graph')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                            return;
+                        }
+                        if (href === '#bias-tool-controls') {
+                            e.preventDefault();
+                            if (document.getElementById('bias-tool-controls')?.classList.contains('hidden')) {
+                                revealBiasTool();
+                            } else {
+                                document.getElementById('bias-tool-controls')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                            return;
+                        }
                         const targetSection = document.querySelector(href);
                         if (targetSection && targetSection.classList.contains('hidden')) {
                             targetSection.classList.remove('hidden');
@@ -3737,21 +3882,7 @@
                 setupCarousel();
             });
 
-            const biasBtn = document.getElementById('view-bias-tool-btn');
-            const biasSection = document.getElementById('bias-tool-controls');
-            if (biasBtn) biasBtn.addEventListener('click', () => {
-                const isHidden = biasSection.classList.contains('hidden');
-                if (isHidden) {
-                    biasSection.classList.remove('hidden');
-                    biasBtn.innerText = 'Close Bias Tool';
-                    biasSection.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    biasSection.classList.add('hidden');
-                    biasBtn.innerText = 'Racial Bias Tool';
-                }
-            });
-
-            document.getElementById('double-standard-toggle').addEventListener('change', (e) => {
+            document.getElementById('double-standard-toggle')?.addEventListener('change', (e) => {
                 titlesSwapped = e.target.checked; 
                 renderArticles(currentlyDisplayedArticles);
                 updateBiasToolPreview(); 
