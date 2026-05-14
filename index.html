@@ -1669,7 +1669,15 @@
 
         // Helper to escape single quotes
         function escapeHtmlAttribute(str) {
-            return str.replace(/'/g, "\\'");
+            return String(str ?? '').replace(/'/g, "\\'");
+        }
+
+        function escapeDataAttribute(str) {
+            return String(str ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
         }
 
         // Helper to format date
@@ -2018,6 +2026,64 @@
             return record?.archive_url || (originalUrl ? `https://web.archive.org/web/*/${originalUrl}` : '#');
         }
 
+        window.openArticleLinkChoiceFromElement = function(element) {
+            const liveUrl = element?.dataset?.liveUrl || '#';
+            const archivedUrl = element?.dataset?.archivedUrl || '#';
+            window.openArticleLinkChoice(liveUrl, archivedUrl);
+        };
+
+        window.openArticleLinkChoice = function(liveUrl, archivedUrl) {
+            const existing = document.getElementById('article-link-choice-modal');
+            if (existing) existing.remove();
+
+            const modal = document.createElement('div');
+            modal.id = 'article-link-choice-modal';
+            modal.className = 'fixed inset-0 z-[10000] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4';
+
+            const panel = document.createElement('div');
+            panel.className = 'w-full max-w-sm bg-[#0a0a0a] border border-[#222] p-6 shadow-2xl';
+
+            const title = document.createElement('h3');
+            title.className = 'text-white font-serif text-xl mb-2';
+            title.textContent = 'Open Article';
+
+            const copy = document.createElement('p');
+            copy.className = 'text-sm text-gray-500 leading-relaxed mb-5';
+            copy.textContent = 'Choose whether to open the preserved Wayback copy or the live source page.';
+
+            const actions = document.createElement('div');
+            actions.className = 'grid grid-cols-1 gap-3';
+
+            const archivedButton = document.createElement('button');
+            archivedButton.className = 'btn-primary px-5 py-3 rounded-sm text-xs uppercase tracking-widest';
+            archivedButton.textContent = 'Archived Copy';
+            archivedButton.addEventListener('click', () => {
+                modal.remove();
+                window.open(archivedUrl || '#', '_blank', 'noopener,noreferrer');
+            });
+
+            const liveButton = document.createElement('button');
+            liveButton.className = 'btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest';
+            liveButton.textContent = 'Live Source';
+            liveButton.addEventListener('click', () => {
+                modal.remove();
+                window.open(liveUrl || '#', '_blank', 'noopener,noreferrer');
+            });
+
+            const cancelButton = document.createElement('button');
+            cancelButton.className = 'text-gray-500 hover:text-white text-[10px] uppercase tracking-widest mt-2';
+            cancelButton.textContent = 'Cancel';
+            cancelButton.addEventListener('click', () => modal.remove());
+
+            actions.append(archivedButton, liveButton, cancelButton);
+            panel.append(title, copy, actions);
+            modal.append(panel);
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) modal.remove();
+            });
+            document.body.appendChild(modal);
+        };
+
         async function loadArticles() {
             try {
                 const response = await fetch('./data/articles.json?v=' + Date.now());
@@ -2165,10 +2231,11 @@
             }
 
             grid.innerHTML = sliced.map((article) => {
-                const articleOpenLink = escapeHtmlAttribute(getArticleOpenUrl(article));
+                const archivedArticleLink = escapeDataAttribute(getArticleOpenUrl(article));
                 const safeTitle = escapeHtmlAttribute(article.title);
                 const safeSummary = escapeHtmlAttribute(article.summary);
                 const cleanLink = escapeHtmlAttribute(article.link);
+                const liveArticleLink = escapeDataAttribute(article.link);
                 const safeImage = article.imageUrl;
                 const uniqueId = 'share-' + Math.random().toString(36).substr(2, 9);
                 const categories = getArticleCategories(article);
@@ -2181,7 +2248,7 @@
 
                 return `
                     <div class="group flex flex-col rounded bg-[#0a0a0a] border border-[#222] overflow-hidden transition-colors hover:border-[#333]">
-                        <div onclick="window.open('${articleOpenLink}', '_blank')" class="relative h-56 w-full overflow-hidden bg-[#111] cursor-pointer">
+                        <div onclick="window.openArticleLinkChoiceFromElement(this)" data-live-url="${liveArticleLink}" data-archived-url="${archivedArticleLink}" class="relative h-56 w-full overflow-hidden bg-[#111] cursor-pointer">
                             <img src="${article.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
                         </div>
                         <div class="article-card-body flex flex-col flex-grow p-6">
@@ -2189,8 +2256,8 @@
                                 <div class="article-category-list">${categoryHtml}</div>
                                 <span class="text-gray-600 text-[10px] uppercase tracking-widest">${formatDate(article.date)}</span>
                             </div>
-                            <h3 onclick="window.open('${articleOpenLink}', '_blank')" class="text-white font-serif font-bold text-lg mb-3 leading-snug cursor-pointer hover:text-gray-300 transition-colors">${displayTitle}</h3>
-                            <p onclick="window.open('${articleOpenLink}', '_blank')" class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow font-light cursor-pointer">${displaySummary}</p>
+                            <h3 onclick="window.openArticleLinkChoiceFromElement(this)" data-live-url="${liveArticleLink}" data-archived-url="${archivedArticleLink}" class="text-white font-serif font-bold text-lg mb-3 leading-snug cursor-pointer hover:text-gray-300 transition-colors">${displayTitle}</h3>
+                            <p onclick="window.openArticleLinkChoiceFromElement(this)" data-live-url="${liveArticleLink}" data-archived-url="${archivedArticleLink}" class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow font-light cursor-pointer">${displaySummary}</p>
                             
                             <div class="article-card-footer mt-auto flex justify-between pt-4 border-t border-[#1a1a1a] items-center gap-4">
                                 <div class="article-author-line flex-1 text-gray-600 text-[10px] uppercase tracking-wider truncate">
