@@ -260,20 +260,19 @@
         }
 
         .article-action-btn {
+            width: 2.25rem;
+            height: 2.25rem;
             min-height: 2.25rem;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.4rem;
             border: 1px solid rgba(255, 255, 255, 0.08);
             background: #111;
             color: #999;
             border-radius: 4px;
-            padding: 0.5rem 0.7rem;
-            font-size: 0.68rem;
+            padding: 0;
+            font-size: 0;
             line-height: 1;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
             min-width: 0;
             transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
         }
@@ -285,17 +284,17 @@
         }
 
         .article-action-btn svg {
-            width: 0.85rem;
-            height: 0.85rem;
+            width: 0.95rem;
+            height: 0.95rem;
             flex: 0 0 auto;
         }
 
         .article-actions {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 0.45rem;
-            flex: 1 1 15rem;
-            width: min(100%, 18rem);
+            grid-template-columns: repeat(4, 2.25rem);
+            gap: 0.4rem;
+            flex: 0 0 auto;
+            width: auto;
         }
 
         .article-actions .relative,
@@ -305,73 +304,25 @@
 
         .archive-tool-strip {
             border: 1px solid rgba(255, 255, 255, 0.06);
-            background: #090909;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.018), rgba(255, 255, 255, 0.005));
         }
 
         .archive-tool-card {
             border: 1px solid rgba(255, 255, 255, 0.06);
             background: #0d0d0d;
-        }
-
-        .archive-tool-disclosure {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 1.15rem;
-            margin-top: 1.15rem;
-        }
-
-        .archive-tool-disclosure summary {
-            cursor: pointer;
-            list-style: none;
-        }
-
-        .archive-tool-disclosure summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .archive-tool-summary {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-
-        .archive-intelligence-panel {
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: #0a0a0a;
-        }
-
-        .archive-timeline-bar {
-            min-height: 2.25rem;
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            background: #111;
-            color: #777;
+            color: #bdbdbd;
             transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
         }
 
-        .archive-timeline-bar:hover,
-        .archive-timeline-bar.active {
-            border-color: rgba(139, 0, 0, 0.55);
-            background: rgba(139, 0, 0, 0.12);
+        .archive-tool-card:hover {
+            border-color: rgba(139, 0, 0, 0.45);
+            background: rgba(139, 0, 0, 0.08);
             color: #fff;
         }
 
         .research-tool-card {
             border: 1px solid rgba(255, 255, 255, 0.06);
             background: #080808;
-        }
-
-        .relationship-node {
-            min-height: 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: #101010;
-            color: #aaa;
-            transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
-        }
-
-        .relationship-node:hover {
-            border-color: rgba(139, 0, 0, 0.55);
-            background: rgba(139, 0, 0, 0.1);
-            color: #fff;
         }
 
         .mobile-density-control {
@@ -388,34 +339,6 @@
 
         .archive-view-mode {
             width: auto;
-        }
-
-        .source-profile-disclosure {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: 1.5rem;
-            padding-top: 1.25rem;
-        }
-
-        .source-profile-disclosure summary {
-            cursor: pointer;
-            list-style: none;
-        }
-
-        .source-profile-disclosure summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .source-profile-summary {
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            background: #0c0c0c;
-            padding: 0.85rem 1rem;
-            transition: border-color 0.2s ease, background-color 0.2s ease;
-        }
-
-        .source-profile-summary:hover,
-        .source-profile-disclosure[open] .source-profile-summary {
-            border-color: rgba(139, 0, 0, 0.45);
-            background: rgba(139, 0, 0, 0.08);
         }
 
         .archive-table-wrap {
@@ -627,19 +550,9 @@
                 margin-bottom: 2rem;
             }
 
-            .archive-intelligence-panel,
             #research-packet-panel {
                 padding: 1rem;
                 margin-bottom: 1.5rem;
-            }
-
-            .archive-timeline-bar {
-                padding: 0.55rem;
-            }
-
-            .relationship-node {
-                min-height: auto;
-                padding: 0.7rem;
             }
 
             .archive-display-toolbar {
@@ -682,15 +595,6 @@
 
             .archive-view-mode > div {
                 width: 100%;
-            }
-
-            .source-profile-disclosure {
-                margin-top: 1rem;
-                padding-top: 1rem;
-            }
-
-            .source-profile-summary {
-                padding: 0.75rem;
             }
 
             .archive-table-wrap {
@@ -748,7 +652,6 @@
             }
 
             .archive-tool-strip {
-                padding: 1rem;
                 margin-bottom: 1.5rem;
             }
 
@@ -1341,72 +1244,24 @@
                     </div>
                 </div>
 
-                <div class="archive-tool-strip p-5 md:p-6 mb-10">
-                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
-                        <div>
-                            <span class="text-[10px] text-[#8B0000] uppercase tracking-[0.2em] font-bold">Research Tools</span>
-                            <h3 class="text-xl font-serif text-white/90 mt-2">Timeline & Framing Lens</h3>
-                            <p class="text-sm text-gray-500 mt-2 max-w-2xl leading-6">Use these tools while reading the archive: open the casualty timeline, or turn on the framing lens to compare how headlines read when key terms are reversed.</p>
+                <div class="archive-tool-strip px-4 py-3 md:px-5 md:py-4 mb-8">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                        <div class="min-w-0">
+                            <span class="text-[9px] text-[#8B0000] uppercase tracking-[0.2em] font-bold">Research Tools</span>
+                            <h3 class="text-lg font-serif text-white/90 mt-1">Timeline & Framing Lens</h3>
+                            <p class="text-xs text-gray-500 mt-1 max-w-2xl leading-5">Open the casualty timeline or compare headline framing while reading the archive.</p>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:min-w-[360px]">
-                            <button id="view-timeline-btn" type="button" class="archive-tool-card p-4 text-left hover:border-white/20 transition">
-                                <span class="block text-[10px] text-[#8B0000] uppercase tracking-widest font-bold mb-2">Timeline</span>
-                                <span class="block text-sm text-gray-300 font-serif">Open casualty timeline</span>
+                        <div class="grid grid-cols-2 gap-2 w-full lg:w-auto lg:min-w-[340px]">
+                            <button id="view-timeline-btn" type="button" class="archive-tool-card px-4 py-3 text-left">
+                                <span class="block text-[9px] text-[#8B0000] uppercase tracking-widest font-bold">Timeline</span>
+                                <span class="block text-xs text-gray-300 mt-1">Open casualty timeline</span>
                             </button>
-                            <button id="view-bias-tool-btn" type="button" class="archive-tool-card p-4 text-left hover:border-white/20 transition">
-                                <span class="block text-[10px] text-[#8B0000] uppercase tracking-widest font-bold mb-2">Framing Lens</span>
-                                <span class="block text-sm text-gray-300 font-serif">Open racial bias tool</span>
+                            <button id="view-bias-tool-btn" type="button" class="archive-tool-card px-4 py-3 text-left">
+                                <span class="block text-[9px] text-[#8B0000] uppercase tracking-widest font-bold">Framing Lens</span>
+                                <span class="block text-xs text-gray-300 mt-1">Open racial bias tool</span>
                             </button>
                         </div>
                     </div>
-                </div>
-
-                <div id="archive-intelligence" class="archive-intelligence-panel p-5 md:p-6 mb-10">
-                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-6">
-                        <div>
-                            <span class="text-[10px] text-[#8B0000] uppercase tracking-[0.2em] font-bold">Archive Intelligence</span>
-                            <h3 class="text-xl md:text-2xl font-serif font-bold text-white/90 mt-2">Research Map</h3>
-                            <p class="text-sm text-gray-500 mt-2 max-w-2xl leading-6">A compact way to filter the archive by month, research lens, source, or topic.</p>
-                        </div>
-                        <div id="archive-coverage-stats" class="flex flex-wrap gap-2 text-xs lg:justify-end"></div>
-                    </div>
-                    <details class="archive-tool-disclosure" open>
-                        <summary class="archive-tool-summary">
-                            <div>
-                                <h4 class="font-serif text-white/80">Timeline by Month</h4>
-                                <p id="archive-timeline-status" class="text-xs text-gray-600 mt-1">Showing recent active months.</p>
-                            </div>
-                            <button id="clear-timeline-filter" class="text-[10px] text-gray-500 hover:text-white uppercase tracking-widest hidden" type="button">Clear</button>
-                        </summary>
-                        <div id="archive-timeline-bars" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-12 gap-2 mt-4"></div>
-                    </details>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 pt-6 border-t border-white/5">
-                        <div>
-                            <h4 class="font-serif text-white/80 mb-3">Guided Lenses</h4>
-                            <div id="guided-research-modes" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
-                        </div>
-                        <div>
-                            <h4 class="font-serif text-white/80 mb-3">Source & Topic Map</h4>
-                            <div id="archive-relationship-map" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
-                        </div>
-                    </div>
-                    <details class="source-profile-disclosure">
-                        <summary class="source-profile-summary">
-                            <div class="flex items-center justify-between gap-4">
-                                <div>
-                                    <h4 class="font-serif text-white/80">Source Profiles</h4>
-                                    <p class="text-xs text-gray-600 mt-1">Open source-level context without crowding the archive.</p>
-                                </div>
-                                <span class="text-[10px] text-[#8B0000] uppercase tracking-widest">Open</span>
-                            </div>
-                        </summary>
-                        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 mt-5">
-                            <div class="flex-1">
-                                <div id="source-profile-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2"></div>
-                            </div>
-                            <div id="source-profile-detail" class="research-tool-card p-4 lg:w-[38%] text-sm text-gray-500"></div>
-                        </div>
-                    </details>
                 </div>
 
                 <div id="research-packet-panel" class="research-tool-card p-5 md:p-6 mb-10">
@@ -2052,7 +1907,6 @@
         let integrityResults = [];
         let integrityOverrides = {};
         let articleDetailRecords = {};
-        let activeTimelineKey = '';
         let researchPacket = [];
         const RESEARCH_PACKET_KEY = 'echoes_research_packet';
         const GUIDED_RESEARCH_MODES = [
@@ -2712,166 +2566,6 @@
             drawer.setAttribute('aria-hidden', 'false');
         };
 
-        function renderArchiveIntelligence() {
-            const statsEl = document.getElementById('archive-coverage-stats');
-            const barsEl = document.getElementById('archive-timeline-bars');
-            const statusEl = document.getElementById('archive-timeline-status');
-            if (!statsEl || !barsEl) return;
-
-            const sourceCount = new Set(articles.map(article => article.source).filter(Boolean)).size;
-            const topicCount = new Set(articles.flatMap(getArticleCategories)).size;
-            const datedArticles = articles.map(article => ({ article, date: parseArticleDate(article) })).filter(item => item.date);
-            const minDate = datedArticles.reduce((min, item) => !min || item.date < min ? item.date : min, null);
-            const maxDate = datedArticles.reduce((max, item) => !max || item.date > max ? item.date : max, null);
-            const span = minDate && maxDate ? `${minDate.getFullYear()}-${maxDate.getFullYear()}` : 'Not dated';
-
-            statsEl.innerHTML = [
-                ['Records', articles.length],
-                ['Sources', sourceCount],
-                ['Topics', topicCount],
-                ['Span', span]
-            ].map(([label, value]) => `
-                <div class="border border-white/5 bg-[#080808] px-3 py-2 min-w-[6rem]">
-                    <div class="text-[9px] text-gray-600 uppercase tracking-widest">${label}</div>
-                    <div class="font-serif text-white text-base mt-0.5">${value}</div>
-                </div>
-            `).join('');
-
-            const monthCounts = Array.from(countBy(articles, articleMonthKey).entries())
-                .filter(([key]) => key)
-                .sort(([a], [b]) => a.localeCompare(b));
-            const visibleMonths = monthCounts.slice(-24);
-            const maxCount = Math.max(...visibleMonths.map(([, count]) => count), 1);
-
-            barsEl.innerHTML = visibleMonths.map(([key, count]) => {
-                const strength = Math.max(0.12, count / maxCount);
-                return `
-                    <button type="button" class="archive-timeline-bar ${key === activeTimelineKey ? 'active' : ''} p-2 text-left" data-month-key="${key}" style="box-shadow: inset 0 -${Math.round(strength * 32)}px 0 rgba(139, 0, 0, 0.22);">
-                        <span class="block text-[10px] uppercase tracking-widest">${monthKeyLabel(key)}</span>
-                        <span class="block font-serif text-lg text-white mt-1">${count}</span>
-                    </button>
-                `;
-            }).join('');
-
-            barsEl.querySelectorAll('[data-month-key]').forEach(button => {
-                button.addEventListener('click', () => setTimelineMonthFilter(button.dataset.monthKey));
-            });
-
-            if (statusEl) {
-                statusEl.textContent = activeTimelineKey
-                    ? `Timeline filter active: ${monthKeyLabel(activeTimelineKey)}`
-                    : 'Recent active months. Select a month to filter the archive.';
-            }
-            const clearTimelineBtn = document.getElementById('clear-timeline-filter');
-            if (clearTimelineBtn) clearTimelineBtn.classList.toggle('hidden', !activeTimelineKey);
-            renderGuidedResearchModes();
-            renderRelationshipMap(currentlyDisplayedArticles.length ? currentlyDisplayedArticles : articles);
-            renderSourceProfiles(currentlyDisplayedArticles.length ? currentlyDisplayedArticles : articles);
-        }
-
-        function renderGuidedResearchModes() {
-            const target = document.getElementById('guided-research-modes');
-            if (!target) return;
-            target.innerHTML = GUIDED_RESEARCH_MODES.map(mode => {
-                const matchingCategories = mode.categories.filter(category =>
-                    articles.some(article => getArticleCategories(article).includes(category))
-                );
-                const count = articles.filter(article =>
-                    getArticleCategories(article).some(category => matchingCategories.includes(category))
-                ).length;
-                return `
-                    <button type="button" class="relationship-node text-left p-3" data-guide-mode="${escapeDataAttribute(mode.label)}">
-                        <span class="block text-[10px] uppercase tracking-widest text-[#8B0000]">${escapeHtml(mode.label)}</span>
-                        <span class="block text-xs text-gray-500 mt-1">${count.toLocaleString()} matching records</span>
-                    </button>
-                `;
-            }).join('');
-            target.querySelectorAll('[data-guide-mode]').forEach(button => {
-                button.addEventListener('click', () => applyGuidedResearchMode(button.dataset.guideMode));
-            });
-        }
-
-        function applyGuidedResearchMode(label) {
-            const mode = GUIDED_RESEARCH_MODES.find(item => item.label === label);
-            if (!mode) return;
-            document.getElementById('filter-controls').classList.remove('hidden');
-            document.getElementById('toggle-filter-btn').classList.add('active');
-            document.querySelectorAll('input[data-filter-type="tag"]').forEach(input => input.checked = false);
-            mode.categories.forEach(category => setCheckboxFilter('tag', category, true));
-            applyArchiveFilters();
-            document.getElementById('articles').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function renderRelationshipMap(scope = articles) {
-            const target = document.getElementById('archive-relationship-map');
-            if (!target) return;
-            const topSources = topEntries(countBy(scope, article => article.source), 4).map(([value, count]) => ({ type: 'source', value, count }));
-            const topTopics = topEntries(countBy(scope, getArticleCategories), 4).map(([value, count]) => ({ type: 'tag', value, count }));
-            const nodes = [...topSources, ...topTopics].slice(0, 8);
-            target.innerHTML = nodes.length ? nodes.map(node => `
-                <button type="button" class="relationship-node p-3 text-left" data-node-type="${node.type}" data-node-value="${escapeDataAttribute(node.value)}">
-                    <span class="block text-[10px] uppercase tracking-widest text-gray-600">${node.type === 'source' ? 'Source' : 'Topic'}</span>
-                    <span class="block text-sm text-gray-200 mt-1 truncate">${escapeHtml(node.value)}</span>
-                    <span class="block text-xs text-gray-600 mt-1">${node.count.toLocaleString()} records</span>
-                </button>
-            `).join('') : '<p class="text-xs text-gray-600 italic">Map appears after articles load.</p>';
-
-            target.querySelectorAll('[data-node-type]').forEach(button => {
-                button.addEventListener('click', () => {
-                    document.getElementById('filter-controls').classList.remove('hidden');
-                    document.getElementById('toggle-filter-btn').classList.add('active');
-                    setCheckboxFilter(button.dataset.nodeType, button.dataset.nodeValue, true);
-                    applyArchiveFilters();
-                });
-            });
-        }
-
-        function renderSourceProfiles(scope = articles) {
-            const list = document.getElementById('source-profile-list');
-            const detail = document.getElementById('source-profile-detail');
-            if (!list || !detail) return;
-            const topSources = topEntries(countBy(scope, article => article.source), 8);
-            list.innerHTML = topSources.map(([source, count], index) => `
-                <button type="button" class="relationship-node p-3 text-left" data-source-profile="${escapeDataAttribute(source)}">
-                    <span class="block text-[10px] uppercase tracking-widest text-gray-600">Source ${index + 1}</span>
-                    <span class="block text-sm text-gray-200 mt-1 truncate">${escapeHtml(source)}</span>
-                    <span class="block text-xs text-gray-600 mt-1">${count.toLocaleString()} records</span>
-                </button>
-            `).join('');
-
-            const renderDetail = (source) => {
-                const sourceArticles = articles.filter(article => article.source === source);
-                const sourceScope = scope.filter(article => article.source === source);
-                const dates = sourceArticles.map(parseArticleDate).filter(Boolean).sort((a, b) => a - b);
-                const topTopics = topEntries(countBy(sourceArticles, getArticleCategories), 4);
-                const topAuthors = topEntries(countBy(sourceArticles, getArticleAuthors), 3);
-                detail.innerHTML = source ? `
-                    <div class="text-[10px] text-[#8B0000] uppercase tracking-[0.2em] font-bold mb-2">Source Profile</div>
-                    <h5 class="font-serif text-white text-xl mb-3">${escapeHtml(source)}</h5>
-                    <div class="grid grid-cols-2 gap-2 mb-4">
-                        <div class="border border-white/5 p-3"><span class="block text-[10px] text-gray-600 uppercase tracking-widest mb-1">Total</span><span class="text-white font-serif text-lg">${sourceArticles.length}</span></div>
-                        <div class="border border-white/5 p-3"><span class="block text-[10px] text-gray-600 uppercase tracking-widest mb-1">In View</span><span class="text-white font-serif text-lg">${sourceScope.length}</span></div>
-                    </div>
-                    <p class="text-xs text-gray-500 leading-6 mb-4">Date range: ${dates.length ? `${formatDate(dates[0].toISOString().slice(0, 10))} to ${formatDate(dates[dates.length - 1].toISOString().slice(0, 10))}` : 'Not available'}</p>
-                    <p class="text-xs text-gray-500 leading-6 mb-4">Top topics: ${topTopics.map(([topic, count]) => `${escapeHtml(topic)} (${count})`).join(', ') || 'Not available'}</p>
-                    <p class="text-xs text-gray-500 leading-6 mb-5">Authors: ${topAuthors.map(([author, count]) => `${escapeHtml(author)} (${count})`).join(', ') || 'Not available'}</p>
-                    <button class="btn-primary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.filterBySourceProfile('${escapeHtmlAttribute(source)}')">Filter This Source</button>
-                ` : '<p class="text-sm text-gray-600 italic">Source profiles appear after articles load.</p>';
-            };
-
-            list.querySelectorAll('[data-source-profile]').forEach(button => {
-                button.addEventListener('click', () => renderDetail(button.dataset.sourceProfile));
-            });
-            renderDetail(topSources[0]?.[0] || '');
-        }
-
-        window.filterBySourceProfile = function(source) {
-            document.getElementById('filter-controls').classList.remove('hidden');
-            document.getElementById('toggle-filter-btn').classList.add('active');
-            setCheckboxFilter('source', source, true);
-            applyArchiveFilters();
-        };
-
         function renderResearchPacket() {
             const summary = document.getElementById('research-packet-summary');
             const list = document.getElementById('research-packet-list');
@@ -2978,19 +2672,6 @@
             }
         }
 
-        function setTimelineMonthFilter(key) {
-            const [year, month] = String(key).split('-').map(Number);
-            if (!year || !month) return;
-            const start = new Date(year, month - 1, 1);
-            const end = new Date(year, month, 0);
-            const fmt = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-            document.getElementById('start-date').value = fmt(start);
-            document.getElementById('end-date').value = fmt(end);
-            activeTimelineKey = key;
-            applyArchiveFilters();
-            renderArchiveIntelligence();
-        }
-
         function updateArchiveResultSummary(filtered) {
             const summaryEl = document.getElementById('active-filter-summary');
             if (!summaryEl) return;
@@ -3064,7 +2745,6 @@
                 await loadWaybackArchiveStatus();
                 loadResearchPacket();
                 populateFilters();
-                renderArchiveIntelligence();
                 updateArchiveResultSummary(currentlyDisplayedArticles);
                 renderRelatedCategorySuggestions(currentlyDisplayedArticles);
                 renderResearchPacket();
@@ -3262,18 +2942,18 @@
                                     <span class="text-gray-700"> / </span>
                                     <span>${authorText}</span>
                                 </div>
-                                <div class="article-actions flex items-center gap-2 relative flex-shrink-0">
-                                    <button onclick="window.openArticleDetail('${detailId}'); event.stopPropagation();" class="article-action-btn" aria-label="View details">
+                                <div class="article-actions">
+                                    <button onclick="window.openArticleDetail('${detailId}'); event.stopPropagation();" class="article-action-btn" aria-label="View details" title="Details">
                                         ${createIcon('source')}<span>Details</span>
                                     </button>
-                                    <button onclick="window.togglePacketByDetailId('${detailId}'); event.stopPropagation();" class="article-action-btn" aria-label="Save article">
+                                    <button onclick="window.togglePacketByDetailId('${detailId}'); event.stopPropagation();" class="article-action-btn" aria-label="Save article" title="${isSaved ? 'Saved' : 'Save'}">
                                         ${createIcon('save')}<span>${isSaved ? 'Saved' : 'Save'}</span>
                                     </button>
-                                    <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="article-action-btn" aria-label="Create story">
+                                    <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="article-action-btn" aria-label="Create story" title="Story">
                                         ${createIcon('story')}<span>Story</span>
                                     </button>
                                     <div class="relative">
-                                        <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="article-action-btn" aria-label="Share article">
+                                        <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="article-action-btn" aria-label="Share article" title="Share">
                                             ${createIcon('share')}<span>Share</span>
                                         </button>
                                         ${generateShareMenu(cleanLink, safeTitle, 'article', uniqueId)} 
@@ -3635,8 +3315,6 @@
             currentlyDisplayedArticles = filtered;
             updateArchiveResultSummary(filtered);
             renderRelatedCategorySuggestions(filtered, selectedTags);
-            renderRelationshipMap(filtered);
-            renderSourceProfiles(filtered);
             renderArticles(currentlyDisplayedArticles);
         }
 
@@ -3767,14 +3445,6 @@
                     label.classList.toggle('hidden', query && !label.dataset.filterLabel.includes(query));
                 });
             });
-            document.getElementById('clear-timeline-filter')?.addEventListener('click', (event) => {
-                event.stopPropagation();
-                activeTimelineKey = '';
-                document.getElementById('start-date').value = '';
-                document.getElementById('end-date').value = '';
-                applyArchiveFilters();
-                renderArchiveIntelligence();
-            });
             document.getElementById('copy-research-packet')?.addEventListener('click', copyResearchPacketCitations);
             document.getElementById('clear-research-packet')?.addEventListener('click', () => {
                 researchPacket = [];
@@ -3904,12 +3574,10 @@
                 document.querySelectorAll('input[type="checkbox"][data-filter-type]').forEach(cb => cb.checked = false);
                 document.querySelectorAll('#tag-filters label[data-filter-label]').forEach(label => label.classList.remove('hidden'));
                 document.querySelectorAll('#source-filters label[data-filter-label], #author-filters label[data-filter-label]').forEach(label => label.classList.remove('hidden'));
-                activeTimelineKey = '';
                 articleLimit = 30;
                 currentlyDisplayedArticles = [...articles];
                 updateArchiveResultSummary(currentlyDisplayedArticles);
                 renderRelatedCategorySuggestions(currentlyDisplayedArticles);
-                renderArchiveIntelligence();
                 renderArticles(currentlyDisplayedArticles);
             });
 
