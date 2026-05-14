@@ -289,6 +289,144 @@
             flex: 0 0 auto;
         }
 
+        .archive-intelligence-panel {
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #0a0a0a;
+        }
+
+        .archive-timeline-bar {
+            min-height: 2.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            background: #111;
+            color: #777;
+            transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .archive-timeline-bar:hover,
+        .archive-timeline-bar.active {
+            border-color: rgba(139, 0, 0, 0.55);
+            background: rgba(139, 0, 0, 0.12);
+            color: #fff;
+        }
+
+        .research-tool-card {
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #080808;
+        }
+
+        .relationship-node {
+            min-height: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #101010;
+            color: #aaa;
+            transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .relationship-node:hover {
+            border-color: rgba(139, 0, 0, 0.55);
+            background: rgba(139, 0, 0, 0.1);
+            color: #fff;
+        }
+
+        .mobile-density-control {
+            display: none;
+        }
+
+        .archive-display-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .archive-view-mode {
+            width: auto;
+        }
+
+        .source-profile-disclosure {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+        }
+
+        .source-profile-disclosure summary {
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .source-profile-disclosure summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .source-profile-summary {
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            background: #0c0c0c;
+            padding: 0.85rem 1rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .source-profile-summary:hover,
+        .source-profile-disclosure[open] .source-profile-summary {
+            border-color: rgba(139, 0, 0, 0.45);
+            background: rgba(139, 0, 0, 0.08);
+        }
+
+        .archive-table-wrap {
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #080808;
+        }
+
+        .archive-table {
+            width: 100%;
+            min-width: 860px;
+            border-collapse: collapse;
+        }
+
+        .archive-table th,
+        .archive-table td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.78rem 0.9rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .archive-table th {
+            color: #777;
+            font-size: 0.62rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        mark.search-hit {
+            background: rgba(139, 0, 0, 0.38);
+            color: #fff;
+            padding: 0 0.12rem;
+        }
+
+        .article-detail-drawer {
+            position: fixed;
+            inset: 0;
+            z-index: 7000;
+            display: none;
+            background: rgba(0, 0, 0, 0.78);
+        }
+
+        .article-detail-drawer.is-visible {
+            display: block;
+        }
+
+        .article-detail-panel {
+            margin-left: auto;
+            width: min(620px, 100%);
+            height: 100%;
+            overflow-y: auto;
+            background: #080808;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: -24px 0 80px rgba(0, 0, 0, 0.45);
+        }
+
         .article-category-list {
             display: flex;
             flex-wrap: wrap;
@@ -305,10 +443,6 @@
 
         .article-author-line {
             min-width: 0;
-        }
-
-        .mobile-density-control {
-            display: none;
         }
 
         .integrity-panel {
@@ -437,7 +571,28 @@
             }
 
             #filter-controls {
-                padding: 1.25rem;
+                padding: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .archive-intelligence-panel,
+            #research-packet-panel {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .archive-timeline-bar {
+                padding: 0.55rem;
+            }
+
+            .relationship-node {
+                min-height: auto;
+                padding: 0.7rem;
+            }
+
+            .archive-display-toolbar {
+                display: block;
+                margin-bottom: 1rem;
             }
 
             .mobile-density-control {
@@ -450,7 +605,7 @@
                 background: #0a0a0a;
                 padding: 0.65rem;
                 margin-top: -0.3rem;
-                margin-bottom: 1.25rem;
+                margin-bottom: 0.65rem;
             }
 
             .mobile-density-label {
@@ -467,6 +622,39 @@
                 grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 0.35rem;
                 flex: 1;
+            }
+
+            .archive-view-mode {
+                width: 100%;
+            }
+
+            .archive-view-mode > div {
+                width: 100%;
+            }
+
+            .source-profile-disclosure {
+                margin-top: 1rem;
+                padding-top: 1rem;
+            }
+
+            .source-profile-summary {
+                padding: 0.75rem;
+            }
+
+            .archive-table-wrap {
+                margin-left: -1rem;
+                margin-right: -1rem;
+                border-left: 0;
+                border-right: 0;
+            }
+
+            .archive-table {
+                min-width: 720px;
+            }
+
+            .archive-table th,
+            .archive-table td {
+                padding: 0.65rem;
             }
 
             .mobile-density-btn {
@@ -502,7 +690,7 @@
 
             .article-actions {
                 display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 0.5rem;
                 width: 100%;
             }
@@ -1056,9 +1244,27 @@
                             <input type="text" id="category-filter-search" class="search-modern w-full px-3 py-2 text-xs mb-3" placeholder="Search categories...">
                             <div id="tag-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div>
                         </div>
-                        <div><h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Sources</h4><div id="source-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div></div>
-                        <div><h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Authors</h4><div id="author-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div></div>
+                        <div>
+                            <h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Sources</h4>
+                            <input type="text" id="source-filter-search" class="search-modern w-full px-3 py-2 text-xs mb-3" placeholder="Search sources...">
+                            <div id="source-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div>
+                        </div>
+                        <div>
+                            <h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Authors</h4>
+                            <input type="text" id="author-filter-search" class="search-modern w-full px-3 py-2 text-xs mb-3" placeholder="Search authors...">
+                            <div id="author-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div>
+                        </div>
                         <div><h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Document Type</h4><div id="document-type-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div></div>
+                    </div>
+                    <div id="filter-intelligence" class="mt-8 pt-6 border-t border-white/5 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-serif text-white/80 mb-3">Active Research Lens</h4>
+                            <div id="active-filter-summary" class="text-xs text-gray-500 leading-6">No filters selected.</div>
+                        </div>
+                        <div>
+                            <h4 class="font-serif text-white/80 mb-3">Related Topics</h4>
+                            <div id="related-category-suggestions" class="flex flex-wrap gap-2"></div>
+                        </div>
                     </div>
                     <div class="mt-8 pt-6 border-t border-white/5 flex items-center gap-4">
                         <button id="filter-button" class="btn-primary text-xs uppercase tracking-wider px-6 py-2 rounded">Apply</button>
@@ -1066,16 +1272,87 @@
                     </div>
                 </div>
 
-                <div class="mobile-density-control" aria-label="Mobile archive display density">
-                    <span class="mobile-density-label">View</span>
-                    <div class="mobile-density-options" role="group" aria-label="Archive density">
-                        <button type="button" class="mobile-density-btn" data-density="1x">1x</button>
-                        <button type="button" class="mobile-density-btn" data-density="2x">2x</button>
-                        <button type="button" class="mobile-density-btn" data-density="3x">3x</button>
+                <div id="archive-intelligence" class="archive-intelligence-panel p-5 md:p-6 mb-10">
+                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-6">
+                        <div>
+                            <span class="text-[10px] text-[#8B0000] uppercase tracking-[0.2em] font-bold">Archive Intelligence</span>
+                            <h3 class="text-2xl font-serif font-bold text-white/90 mt-2">Chronology & Research Map</h3>
+                        </div>
+                        <div id="archive-coverage-stats" class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs"></div>
+                    </div>
+                    <div class="flex items-center justify-between gap-4 mb-3">
+                        <p class="text-xs text-gray-600 uppercase tracking-widest">Click a month to filter the archive</p>
+                        <button id="clear-timeline-filter" class="text-[10px] text-gray-500 hover:text-white uppercase tracking-widest hidden">Clear timeline</button>
+                    </div>
+                    <div id="archive-timeline-bars" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-12 gap-2"></div>
+                    <div id="archive-timeline-status" class="text-xs text-gray-600 uppercase tracking-widest mt-4"></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8 pt-6 border-t border-white/5">
+                        <div>
+                            <h4 class="font-serif text-white/80 mb-3">Guided Research Modes</h4>
+                            <div id="guided-research-modes" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+                        </div>
+                        <div>
+                            <h4 class="font-serif text-white/80 mb-3">Relationship Map</h4>
+                            <div id="archive-relationship-map" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+                        </div>
+                    </div>
+                    <details class="source-profile-disclosure">
+                        <summary class="source-profile-summary">
+                            <div class="flex items-center justify-between gap-4">
+                                <div>
+                                    <h4 class="font-serif text-white/80">Source Profiles</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Open source-level context without crowding the archive.</p>
+                                </div>
+                                <span class="text-[10px] text-[#8B0000] uppercase tracking-widest">Open</span>
+                            </div>
+                        </summary>
+                        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 mt-5">
+                            <div class="flex-1">
+                                <div id="source-profile-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2"></div>
+                            </div>
+                            <div id="source-profile-detail" class="research-tool-card p-4 lg:w-[38%] text-sm text-gray-500"></div>
+                        </div>
+                    </details>
+                </div>
+
+                <div id="research-packet-panel" class="research-tool-card p-5 md:p-6 mb-10">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                        <div>
+                            <span class="text-[10px] text-[#8B0000] uppercase tracking-[0.2em] font-bold">Research Packet</span>
+                            <h3 class="text-xl font-serif text-white/90 mt-2">Saved Articles</h3>
+                            <p id="research-packet-summary" class="text-sm text-gray-500 mt-2">No articles saved yet.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button id="copy-research-packet" class="btn-primary px-5 py-3 rounded-sm text-xs uppercase tracking-widest">Copy Citations</button>
+                            <button id="clear-research-packet" class="btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest">Clear Packet</button>
+                        </div>
+                    </div>
+                    <div id="research-packet-list" class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+                </div>
+
+                <div class="archive-display-toolbar">
+                    <div class="mobile-density-control" aria-label="Mobile archive display density">
+                        <span class="mobile-density-label">Density</span>
+                        <div class="mobile-density-options" role="group" aria-label="Archive density">
+                            <button type="button" class="mobile-density-btn" data-density="1x">1x</button>
+                            <button type="button" class="mobile-density-btn" data-density="2x">2x</button>
+                            <button type="button" class="mobile-density-btn" data-density="3x">3x</button>
+                        </div>
+                    </div>
+
+                    <div class="archive-view-mode flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3">
+                        <div class="text-xs text-gray-600 uppercase tracking-widest">
+                            View Mode
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 w-full sm:w-auto">
+                            <button id="view-cards-btn" class="filter-chip active text-xs uppercase tracking-wider font-medium py-2 px-4">Cards</button>
+                            <button id="view-table-btn" class="filter-chip text-xs uppercase tracking-wider font-medium py-2 px-4">Table</button>
+                        </div>
                     </div>
                 </div>
 
                 <div id="article-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+                <div id="article-table-wrap" class="archive-table-wrap hidden"></div>
                 
                 <div class="flex flex-col items-center justify-center mt-20 space-y-6">
                     <div class="text-xs text-gray-600 uppercase tracking-widest">
@@ -1360,6 +1637,19 @@
         <div class="modal-content-article">
             <span class="close-button text-2xl text-white bg-black/50 rounded-full p-2 transition-colors hover:bg-black/80" onclick="document.getElementById('random-article-modal').classList.remove('is-visible')">&times;</span>
             <div id="random-article-body"></div>
+        </div>
+    </div>
+
+    <div id="article-detail-drawer" class="article-detail-drawer" aria-hidden="true">
+        <div class="article-detail-panel">
+            <div class="sticky top-0 z-10 bg-[#080808]/95 backdrop-blur border-b border-white/10 p-5 flex items-center justify-between gap-4">
+                <div>
+                    <span class="text-[10px] text-[#8B0000] uppercase tracking-[0.2em] font-bold">Article Record</span>
+                    <h3 class="font-serif text-white text-xl mt-1">Source Detail</h3>
+                </div>
+                <button class="text-gray-500 hover:text-white text-2xl leading-none" onclick="window.closeArticleDetailDrawer()">&times;</button>
+            </div>
+            <div id="article-detail-body"></div>
         </div>
     </div>
 
@@ -1662,14 +1952,36 @@
         ];
          let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
         let articleLimit = 30; // Current view limit
+        let currentArchiveView = 'cards';
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
         const MOBILE_DENSITY_KEY = 'echoes_mobile_archive_density';
         let integrityResults = [];
         let integrityOverrides = {};
+        let articleDetailRecords = {};
+        let activeTimelineKey = '';
+        let researchPacket = [];
+        const RESEARCH_PACKET_KEY = 'echoes_research_packet';
+        const GUIDED_RESEARCH_MODES = [
+            { label: 'Healthcare Attacks', categories: ['Targeting Healthcare', 'Healthcare', 'Hospitals', 'Medical Workers'] },
+            { label: 'Displacement', categories: ['Displacement', 'Gaza', 'Humanitarian Crisis'] },
+            { label: 'Children', categories: ['Children', 'Women and Children', 'Infants', 'Newborns'] },
+            { label: 'Famine', categories: ['Famine', 'Starvation', 'Malnutrition'] },
+            { label: 'Press Freedom', categories: ['Press Freedom', 'Journalists', 'Media'] },
+            { label: 'Legal Evidence', categories: ['War Crimes', 'International Law', 'Genocide', 'Human Rights'] }
+        ];
 
         // Helper to escape single quotes
         function escapeHtmlAttribute(str) {
             return String(str ?? '').replace(/'/g, "\\'");
+        }
+
+        function escapeHtml(str) {
+            return String(str ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
         }
 
         function escapeDataAttribute(str) {
@@ -1678,6 +1990,27 @@
                 .replace(/"/g, '&quot;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;');
+        }
+
+        function escapeRegExp(str) {
+            return String(str ?? '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        function highlightedText(text) {
+            const query = document.getElementById('article-search')?.value.trim();
+            const escaped = escapeHtml(text);
+            if (!query) return escaped;
+            const words = query.split(/\s+/).filter(word => word.length > 1).slice(0, 6);
+            if (!words.length) return escaped;
+            const pattern = new RegExp(`(${words.map(escapeRegExp).join('|')})`, 'gi');
+            return escaped.replace(pattern, '<mark class="search-hit">$1</mark>');
+        }
+
+        function setArchiveView(view) {
+            currentArchiveView = view === 'table' ? 'table' : 'cards';
+            document.getElementById('view-cards-btn')?.classList.toggle('active', currentArchiveView === 'cards');
+            document.getElementById('view-table-btn')?.classList.toggle('active', currentArchiveView === 'table');
+            renderArticles(currentlyDisplayedArticles);
         }
 
         // Helper to format date
@@ -1716,7 +2049,114 @@
         }
 
         function getArticleDocumentType(article) {
-            return article.documentType || 'Article';
+            return article.documentType || article.type || 'Article';
+        }
+
+        function parseArticleDate(article) {
+            const value = article?.date;
+            if (!value) return null;
+            const parsed = new Date(String(value).replace(/-/g, '/'));
+            return Number.isNaN(parsed.getTime()) ? null : parsed;
+        }
+
+        function articleMonthKey(article) {
+            const date = parseArticleDate(article);
+            if (!date) return '';
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        }
+
+        function monthKeyLabel(key) {
+            const [year, month] = String(key).split('-').map(Number);
+            if (!year || !month) return key;
+            return new Date(year, month - 1, 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        }
+
+        function countBy(items, getValues) {
+            const counts = new Map();
+            items.forEach(item => {
+                const values = Array.isArray(getValues(item)) ? getValues(item) : [getValues(item)];
+                values.filter(Boolean).forEach(value => counts.set(value, (counts.get(value) || 0) + 1));
+            });
+            return counts;
+        }
+
+        function topEntries(counts, limit = 5) {
+            return Array.from(counts.entries()).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, limit);
+        }
+
+        function setCheckboxFilter(type, value, checked = true) {
+            document.querySelectorAll(`input[data-filter-type="${type}"]`).forEach(input => {
+                if (input.value === value) input.checked = checked;
+            });
+        }
+
+        function showSimpleAlert(message) {
+            const modal = document.getElementById('simple-alert-modal');
+            const messageEl = document.getElementById('modal-message');
+            if (!modal || !messageEl) return;
+            messageEl.textContent = message;
+            modal.classList.add('is-visible');
+        }
+
+        function articlePacketId(article) {
+            return btoa(unescape(encodeURIComponent(article?.link || `${article?.source || ''}:${article?.title || ''}:${article?.date || ''}`))).replace(/=+$/g, '').slice(0, 32);
+        }
+
+        function getArticleByPacketId(id) {
+            return articles.find(article => articlePacketId(article) === id);
+        }
+
+        function citationForArticle(article, style = 'plain') {
+            const authors = getArticleAuthors(article).filter(author => author && author !== 'Unknown author');
+            const authorText = authors.length ? authors.join(', ') : article.source || 'Unknown source';
+            const date = article.date || 'n.d.';
+            const title = article.title || 'Untitled';
+            const source = article.source || 'Unknown source';
+            const archivedUrl = getArticleOpenUrl(article);
+            const liveUrl = article.link || '';
+
+            if (style === 'apa') return `${authorText}. (${date}). ${title}. ${source}. ${archivedUrl}`;
+            if (style === 'mla') return `${authorText}. "${title}." ${source}, ${date}, ${archivedUrl}.`;
+            if (style === 'chicago') return `${authorText}. "${title}." ${source}. ${date}. ${archivedUrl}.`;
+            return `${title} — ${source}, ${date}\nArchived: ${archivedUrl}\nLive: ${liveUrl}`;
+        }
+
+        async function copyTextWithFallback(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                showSimpleAlert('Copied to clipboard.');
+            } catch (error) {
+                const modal = document.getElementById('simple-alert-modal');
+                const message = document.getElementById('modal-message');
+                if (modal && message) {
+                    message.innerHTML = `<textarea class="w-full h-56 bg-[#050505] border border-white/10 text-gray-300 p-3 text-xs">${escapeHtml(text)}</textarea>`;
+                    modal.classList.add('is-visible');
+                }
+            }
+        }
+
+        function loadResearchPacket() {
+            try {
+                researchPacket = JSON.parse(localStorage.getItem(RESEARCH_PACKET_KEY) || '[]');
+            } catch (error) {
+                researchPacket = [];
+            }
+        }
+
+        function saveResearchPacket() {
+            localStorage.setItem(RESEARCH_PACKET_KEY, JSON.stringify(researchPacket));
+        }
+
+        function toggleResearchPacket(article) {
+            const id = articlePacketId(article);
+            if (researchPacket.includes(id)) {
+                researchPacket = researchPacket.filter(item => item !== id);
+            } else {
+                researchPacket.push(id);
+            }
+            saveResearchPacket();
+            renderResearchPacket();
+            renderArticles(currentlyDisplayedArticles);
         }
 
         function chronologicalValue(item) {
@@ -1734,6 +2174,8 @@
 
         function createIcon(name) {
             const icons = {
+                source: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01"/><path d="M11 12h1v5h1"/></svg>',
+                save: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg>',
                 story: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h9.5L20 7.5V19a2 2 0 0 1-2 2H6.5A2.5 2.5 0 0 1 4 18.5"/><path d="M14 3v5h5"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>',
                 share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4"/><path d="m15.4 6.5-6.8 4"/></svg>'
             };
@@ -2026,6 +2468,14 @@
             return record?.archive_url || (originalUrl ? `https://web.archive.org/web/*/${originalUrl}` : '#');
         }
 
+        function archiveStatusLabel(article) {
+            const record = waybackArchiveByUrl.get(normalizeArchiveLookupUrl(article?.link));
+            if (record?.status === 'archived') return 'Archived';
+            if (record?.status === 'submitted') return 'Archive pending';
+            if (record?.status === 'failed') return 'Archive retry needed';
+            return 'Wayback lookup';
+        }
+
         window.openArticleLinkChoiceFromElement = function(element) {
             const liveUrl = element?.dataset?.liveUrl || '#';
             const archivedUrl = element?.dataset?.archivedUrl || '#';
@@ -2084,6 +2534,391 @@
             document.body.appendChild(modal);
         };
 
+        window.closeArticleDetailDrawer = function() {
+            const drawer = document.getElementById('article-detail-drawer');
+            if (!drawer) return;
+            drawer.classList.remove('is-visible');
+            drawer.setAttribute('aria-hidden', 'true');
+        };
+
+        window.openArticleDetail = function(detailId) {
+            const article = articleDetailRecords[detailId];
+            const drawer = document.getElementById('article-detail-drawer');
+            const body = document.getElementById('article-detail-body');
+            if (!article || !drawer || !body) return;
+
+            const archivedUrl = getArticleOpenUrl(article);
+            const liveUrl = article.link || '#';
+            const categories = getArticleCategories(article);
+            const authors = getArticleAuthors(article);
+            const related = articles
+                .filter(candidate => candidate.link !== article.link)
+                .map(candidate => {
+                    const sharedCategories = getArticleCategories(candidate).filter(category => categories.includes(category)).length;
+                    const sameSource = candidate.source === article.source ? 1 : 0;
+                    return { candidate, score: sharedCategories * 2 + sameSource };
+                })
+                .filter(item => item.score > 0)
+                .sort((a, b) => b.score - a.score || chronologicalValue(b.candidate) - chronologicalValue(a.candidate))
+                .slice(0, 4)
+                .map(item => item.candidate);
+
+            body.innerHTML = `
+                <div class="p-5 md:p-7">
+                    <div class="aspect-[16/9] bg-[#111] border border-white/5 overflow-hidden mb-6">
+                        <img src="${escapeDataAttribute(article.imageUrl || '')}" alt="" class="w-full h-full object-cover opacity-85" onerror="this.src='https://placehold.co/900x500/1a1a1a/ffffff?text=No+Image';">
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        ${categories.map(category => `<span class="px-2 py-1 border border-white/10 text-[#8B0000] text-[10px] uppercase tracking-widest">${escapeHtml(category)}</span>`).join('')}
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-serif font-bold text-white leading-tight mb-4">${escapeHtml(article.title || 'Untitled')}</h2>
+                    <div class="grid grid-cols-2 gap-3 text-xs text-gray-500 uppercase tracking-widest mb-6">
+                        <div class="border border-white/5 bg-[#0a0a0a] p-3"><span class="block text-gray-700 mb-1">Source</span>${escapeHtml(article.source || 'Unknown')}</div>
+                        <div class="border border-white/5 bg-[#0a0a0a] p-3"><span class="block text-gray-700 mb-1">Date</span>${escapeHtml(formatDate(article.date))}</div>
+                        <div class="border border-white/5 bg-[#0a0a0a] p-3"><span class="block text-gray-700 mb-1">Type</span>${escapeHtml(getArticleDocumentType(article))}</div>
+                        <div class="border border-white/5 bg-[#0a0a0a] p-3"><span class="block text-gray-700 mb-1">Archive</span>${escapeHtml(archiveStatusLabel(article))}</div>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-7 mb-6">${escapeHtml(article.summary || 'No summary available.')}</p>
+                    <div class="text-xs text-gray-500 uppercase tracking-widest mb-6">
+                        <span class="text-gray-700">Author(s)</span>
+                        <div class="text-gray-300 mt-2 normal-case tracking-normal">${authors.map(escapeHtml).join(', ')}</div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+                        <button class="btn-primary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.open('${escapeHtmlAttribute(escapeDataAttribute(archivedUrl))}', '_blank', 'noopener,noreferrer')">Archived Copy</button>
+                        <button class="btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.open('${escapeHtmlAttribute(escapeDataAttribute(liveUrl))}', '_blank', 'noopener,noreferrer')">Live Source</button>
+                        <button class="btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.togglePacketByDetailId('${detailId}')">${researchPacket.includes(articlePacketId(article)) ? 'Saved' : 'Save'}</button>
+                    </div>
+                    <div class="border-t border-white/10 pt-6 mb-8">
+                        <h3 class="font-serif text-white text-lg mb-4">Citation Tools</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            <button class="btn-secondary px-4 py-3 rounded-sm text-[10px] uppercase tracking-widest" onclick="window.copyArticleCitation('${detailId}', 'mla')">MLA</button>
+                            <button class="btn-secondary px-4 py-3 rounded-sm text-[10px] uppercase tracking-widest" onclick="window.copyArticleCitation('${detailId}', 'apa')">APA</button>
+                            <button class="btn-secondary px-4 py-3 rounded-sm text-[10px] uppercase tracking-widest" onclick="window.copyArticleCitation('${detailId}', 'chicago')">Chicago</button>
+                            <button class="btn-secondary px-4 py-3 rounded-sm text-[10px] uppercase tracking-widest" onclick="window.copyArticleCitation('${detailId}', 'plain')">Plain</button>
+                        </div>
+                    </div>
+                    <div class="border-t border-white/10 pt-6">
+                        <h3 class="font-serif text-white text-lg mb-4">Related Records</h3>
+                        <div class="space-y-3">
+                            ${related.length ? related.map(item => {
+                                const relatedId = `detail-${Math.random().toString(36).slice(2, 10)}`;
+                                articleDetailRecords[relatedId] = item;
+                                return `
+                                    <button class="w-full text-left border border-white/5 bg-[#0a0a0a] p-4 hover:border-white/20 transition" onclick="window.openArticleDetail('${relatedId}')">
+                                        <span class="block text-[10px] text-gray-600 uppercase tracking-widest mb-2">${escapeHtml(item.source || '')} / ${escapeHtml(item.date || '')}</span>
+                                        <span class="block text-sm text-gray-300 font-serif leading-snug">${escapeHtml(item.title || 'Untitled')}</span>
+                                    </button>
+                                `;
+                            }).join('') : '<p class="text-sm text-gray-600 italic">No related records found for this source or topic.</p>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+            drawer.classList.add('is-visible');
+            drawer.setAttribute('aria-hidden', 'false');
+        };
+
+        function renderArchiveIntelligence() {
+            const statsEl = document.getElementById('archive-coverage-stats');
+            const barsEl = document.getElementById('archive-timeline-bars');
+            const statusEl = document.getElementById('archive-timeline-status');
+            if (!statsEl || !barsEl) return;
+
+            const sourceCount = new Set(articles.map(article => article.source).filter(Boolean)).size;
+            const topicCount = new Set(articles.flatMap(getArticleCategories)).size;
+            const datedArticles = articles.map(article => ({ article, date: parseArticleDate(article) })).filter(item => item.date);
+            const minDate = datedArticles.reduce((min, item) => !min || item.date < min ? item.date : min, null);
+            const maxDate = datedArticles.reduce((max, item) => !max || item.date > max ? item.date : max, null);
+            const span = minDate && maxDate ? `${minDate.getFullYear()}-${maxDate.getFullYear()}` : 'Not dated';
+
+            statsEl.innerHTML = [
+                ['Records', articles.length],
+                ['Sources', sourceCount],
+                ['Topics', topicCount],
+                ['Span', span]
+            ].map(([label, value]) => `
+                <div class="border border-white/5 bg-[#080808] p-3">
+                    <div class="text-[10px] text-gray-600 uppercase tracking-widest mb-1">${label}</div>
+                    <div class="font-serif text-white text-lg">${value}</div>
+                </div>
+            `).join('');
+
+            const monthCounts = Array.from(countBy(articles, articleMonthKey).entries())
+                .filter(([key]) => key)
+                .sort(([a], [b]) => a.localeCompare(b));
+            const visibleMonths = monthCounts.slice(-24);
+            const maxCount = Math.max(...visibleMonths.map(([, count]) => count), 1);
+
+            barsEl.innerHTML = visibleMonths.map(([key, count]) => {
+                const strength = Math.max(0.12, count / maxCount);
+                return `
+                    <button type="button" class="archive-timeline-bar ${key === activeTimelineKey ? 'active' : ''} p-2 text-left" data-month-key="${key}" style="box-shadow: inset 0 -${Math.round(strength * 32)}px 0 rgba(139, 0, 0, 0.22);">
+                        <span class="block text-[10px] uppercase tracking-widest">${monthKeyLabel(key)}</span>
+                        <span class="block font-serif text-lg text-white mt-1">${count}</span>
+                    </button>
+                `;
+            }).join('');
+
+            barsEl.querySelectorAll('[data-month-key]').forEach(button => {
+                button.addEventListener('click', () => setTimelineMonthFilter(button.dataset.monthKey));
+            });
+
+            if (statusEl) {
+                statusEl.textContent = activeTimelineKey
+                    ? `Timeline filter active: ${monthKeyLabel(activeTimelineKey)}`
+                    : 'Showing the most recent 24 active months in the archive.';
+            }
+            const clearTimelineBtn = document.getElementById('clear-timeline-filter');
+            if (clearTimelineBtn) clearTimelineBtn.classList.toggle('hidden', !activeTimelineKey);
+            renderGuidedResearchModes();
+            renderRelationshipMap(currentlyDisplayedArticles.length ? currentlyDisplayedArticles : articles);
+            renderSourceProfiles(currentlyDisplayedArticles.length ? currentlyDisplayedArticles : articles);
+        }
+
+        function renderGuidedResearchModes() {
+            const target = document.getElementById('guided-research-modes');
+            if (!target) return;
+            target.innerHTML = GUIDED_RESEARCH_MODES.map(mode => {
+                const matchingCategories = mode.categories.filter(category =>
+                    articles.some(article => getArticleCategories(article).includes(category))
+                );
+                const count = articles.filter(article =>
+                    getArticleCategories(article).some(category => matchingCategories.includes(category))
+                ).length;
+                return `
+                    <button type="button" class="relationship-node text-left p-3" data-guide-mode="${escapeDataAttribute(mode.label)}">
+                        <span class="block text-[10px] uppercase tracking-widest text-[#8B0000]">${escapeHtml(mode.label)}</span>
+                        <span class="block text-xs text-gray-500 mt-1">${count.toLocaleString()} matching records</span>
+                    </button>
+                `;
+            }).join('');
+            target.querySelectorAll('[data-guide-mode]').forEach(button => {
+                button.addEventListener('click', () => applyGuidedResearchMode(button.dataset.guideMode));
+            });
+        }
+
+        function applyGuidedResearchMode(label) {
+            const mode = GUIDED_RESEARCH_MODES.find(item => item.label === label);
+            if (!mode) return;
+            document.getElementById('filter-controls').classList.remove('hidden');
+            document.getElementById('toggle-filter-btn').classList.add('active');
+            document.querySelectorAll('input[data-filter-type="tag"]').forEach(input => input.checked = false);
+            mode.categories.forEach(category => setCheckboxFilter('tag', category, true));
+            applyArchiveFilters();
+            document.getElementById('articles').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function renderRelationshipMap(scope = articles) {
+            const target = document.getElementById('archive-relationship-map');
+            if (!target) return;
+            const topSources = topEntries(countBy(scope, article => article.source), 4).map(([value, count]) => ({ type: 'source', value, count }));
+            const topTopics = topEntries(countBy(scope, getArticleCategories), 4).map(([value, count]) => ({ type: 'tag', value, count }));
+            const nodes = [...topSources, ...topTopics].slice(0, 8);
+            target.innerHTML = nodes.length ? nodes.map(node => `
+                <button type="button" class="relationship-node p-3 text-left" data-node-type="${node.type}" data-node-value="${escapeDataAttribute(node.value)}">
+                    <span class="block text-[10px] uppercase tracking-widest text-gray-600">${node.type === 'source' ? 'Source' : 'Topic'}</span>
+                    <span class="block text-sm text-gray-200 mt-1 truncate">${escapeHtml(node.value)}</span>
+                    <span class="block text-xs text-gray-600 mt-1">${node.count.toLocaleString()} records</span>
+                </button>
+            `).join('') : '<p class="text-xs text-gray-600 italic">Map appears after articles load.</p>';
+
+            target.querySelectorAll('[data-node-type]').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.getElementById('filter-controls').classList.remove('hidden');
+                    document.getElementById('toggle-filter-btn').classList.add('active');
+                    setCheckboxFilter(button.dataset.nodeType, button.dataset.nodeValue, true);
+                    applyArchiveFilters();
+                });
+            });
+        }
+
+        function renderSourceProfiles(scope = articles) {
+            const list = document.getElementById('source-profile-list');
+            const detail = document.getElementById('source-profile-detail');
+            if (!list || !detail) return;
+            const topSources = topEntries(countBy(scope, article => article.source), 8);
+            list.innerHTML = topSources.map(([source, count], index) => `
+                <button type="button" class="relationship-node p-3 text-left" data-source-profile="${escapeDataAttribute(source)}">
+                    <span class="block text-[10px] uppercase tracking-widest text-gray-600">Source ${index + 1}</span>
+                    <span class="block text-sm text-gray-200 mt-1 truncate">${escapeHtml(source)}</span>
+                    <span class="block text-xs text-gray-600 mt-1">${count.toLocaleString()} records</span>
+                </button>
+            `).join('');
+
+            const renderDetail = (source) => {
+                const sourceArticles = articles.filter(article => article.source === source);
+                const sourceScope = scope.filter(article => article.source === source);
+                const dates = sourceArticles.map(parseArticleDate).filter(Boolean).sort((a, b) => a - b);
+                const topTopics = topEntries(countBy(sourceArticles, getArticleCategories), 4);
+                const topAuthors = topEntries(countBy(sourceArticles, getArticleAuthors), 3);
+                detail.innerHTML = source ? `
+                    <div class="text-[10px] text-[#8B0000] uppercase tracking-[0.2em] font-bold mb-2">Source Profile</div>
+                    <h5 class="font-serif text-white text-xl mb-3">${escapeHtml(source)}</h5>
+                    <div class="grid grid-cols-2 gap-2 mb-4">
+                        <div class="border border-white/5 p-3"><span class="block text-[10px] text-gray-600 uppercase tracking-widest mb-1">Total</span><span class="text-white font-serif text-lg">${sourceArticles.length}</span></div>
+                        <div class="border border-white/5 p-3"><span class="block text-[10px] text-gray-600 uppercase tracking-widest mb-1">In View</span><span class="text-white font-serif text-lg">${sourceScope.length}</span></div>
+                    </div>
+                    <p class="text-xs text-gray-500 leading-6 mb-4">Date range: ${dates.length ? `${formatDate(dates[0].toISOString().slice(0, 10))} to ${formatDate(dates[dates.length - 1].toISOString().slice(0, 10))}` : 'Not available'}</p>
+                    <p class="text-xs text-gray-500 leading-6 mb-4">Top topics: ${topTopics.map(([topic, count]) => `${escapeHtml(topic)} (${count})`).join(', ') || 'Not available'}</p>
+                    <p class="text-xs text-gray-500 leading-6 mb-5">Authors: ${topAuthors.map(([author, count]) => `${escapeHtml(author)} (${count})`).join(', ') || 'Not available'}</p>
+                    <button class="btn-primary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.filterBySourceProfile('${escapeHtmlAttribute(source)}')">Filter This Source</button>
+                ` : '<p class="text-sm text-gray-600 italic">Source profiles appear after articles load.</p>';
+            };
+
+            list.querySelectorAll('[data-source-profile]').forEach(button => {
+                button.addEventListener('click', () => renderDetail(button.dataset.sourceProfile));
+            });
+            renderDetail(topSources[0]?.[0] || '');
+        }
+
+        window.filterBySourceProfile = function(source) {
+            document.getElementById('filter-controls').classList.remove('hidden');
+            document.getElementById('toggle-filter-btn').classList.add('active');
+            setCheckboxFilter('source', source, true);
+            applyArchiveFilters();
+        };
+
+        function renderResearchPacket() {
+            const summary = document.getElementById('research-packet-summary');
+            const list = document.getElementById('research-packet-list');
+            if (!summary || !list) return;
+            const savedArticles = researchPacket.map(getArticleByPacketId).filter(Boolean);
+            summary.textContent = savedArticles.length
+                ? `${savedArticles.length.toLocaleString()} saved article${savedArticles.length === 1 ? '' : 's'} ready for citation export.`
+                : 'No articles saved yet.';
+            list.innerHTML = savedArticles.length ? savedArticles.slice(0, 8).map(article => {
+                const id = articlePacketId(article);
+                return `
+                    <div class="border border-white/5 bg-[#0a0a0a] p-4">
+                        <div class="text-[10px] text-gray-600 uppercase tracking-widest mb-2">${escapeHtml(article.source || '')} / ${escapeHtml(article.date || '')}</div>
+                        <div class="text-sm text-gray-300 font-serif leading-snug mb-3">${escapeHtml(article.title || 'Untitled')}</div>
+                        <button class="text-[10px] text-[#8B0000] hover:text-white uppercase tracking-widest" onclick="window.removeFromResearchPacket('${id}')">Remove</button>
+                    </div>
+                `;
+            }).join('') : '<p class="text-sm text-gray-600 italic">Use the Save button on article cards or details to build a research packet.</p>';
+        }
+
+        window.removeFromResearchPacket = function(id) {
+            researchPacket = researchPacket.filter(item => item !== id);
+            saveResearchPacket();
+            renderResearchPacket();
+            renderArticles(currentlyDisplayedArticles);
+        };
+
+        window.togglePacketByDetailId = function(detailId) {
+            const article = articleDetailRecords[detailId];
+            if (!article) return;
+            toggleResearchPacket(article);
+            if (document.getElementById('article-detail-drawer')?.classList.contains('is-visible')) {
+                const refreshedId = `detail-${Math.random().toString(36).slice(2, 10)}`;
+                articleDetailRecords[refreshedId] = article;
+                window.openArticleDetail(refreshedId);
+            }
+        };
+
+        window.copyArticleCitation = function(detailId, style) {
+            const article = articleDetailRecords[detailId];
+            if (!article) return;
+            copyTextWithFallback(citationForArticle(article, style));
+        };
+
+        function copyResearchPacketCitations() {
+            const savedArticles = researchPacket.map(getArticleByPacketId).filter(Boolean);
+            if (!savedArticles.length) {
+                showSimpleAlert('No saved articles yet.');
+                return;
+            }
+            const text = savedArticles.map((article, index) => `${index + 1}. ${citationForArticle(article, 'plain')}`).join('\n\n');
+            copyTextWithFallback(text);
+        }
+
+        function openRandomArticle() {
+            if (!articles.length) return;
+            const article = articles[Math.floor(Math.random() * articles.length)];
+            const safeTitle = escapeHtmlAttribute(article.title);
+            const safeSummary = escapeHtmlAttribute(article.summary);
+            const safeImage = escapeHtmlAttribute(article.imageUrl);
+            const archivedUrl = escapeDataAttribute(getArticleOpenUrl(article));
+            const liveUrl = escapeDataAttribute(article.link);
+            document.getElementById('random-article-body').innerHTML = `
+                <div class="relative h-40 sm:h-64 overflow-hidden rounded-t-sm"><img src="${escapeDataAttribute(article.imageUrl)}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';"></div>
+                <div class="p-8 space-y-4">
+                    <h2 class="text-2xl font-serif font-bold text-white leading-tight">${escapeHtml(article.title)}</h2>
+                    <div class="text-xs text-gray-500 border-b border-gray-800 pb-4 uppercase tracking-widest">${escapeHtml(formatDate(article.date))}</div>
+                    <p class="text-gray-400 text-sm leading-7 font-light">${escapeHtml(article.summary)}</p>
+                    <div class="pt-6 border-t border-gray-800 flex flex-wrap justify-end gap-4">
+                        <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="btn-secondary py-2 px-4 rounded-sm text-xs uppercase tracking-widest">Create Story</button>
+                        <button onclick="window.openArticleLinkChoiceFromElement(this)" data-live-url="${liveUrl}" data-archived-url="${archivedUrl}" class="btn-primary py-2 px-4 rounded-sm text-xs uppercase tracking-widest">Open Article</button>
+                    </div>
+                </div>`;
+            document.getElementById('random-article-modal').classList.add('is-visible');
+        }
+
+        function setTimelineMonthFilter(key) {
+            const [year, month] = String(key).split('-').map(Number);
+            if (!year || !month) return;
+            const start = new Date(year, month - 1, 1);
+            const end = new Date(year, month, 0);
+            const fmt = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+            document.getElementById('start-date').value = fmt(start);
+            document.getElementById('end-date').value = fmt(end);
+            activeTimelineKey = key;
+            applyArchiveFilters();
+            renderArchiveIntelligence();
+        }
+
+        function updateArchiveResultSummary(filtered) {
+            const summaryEl = document.getElementById('active-filter-summary');
+            if (!summaryEl) return;
+            const selected = Array.from(document.querySelectorAll('input[data-filter-type]:checked')).map(input => input.value);
+            const search = document.getElementById('article-search')?.value.trim();
+            const dateStart = document.getElementById('start-date')?.value;
+            const dateEnd = document.getElementById('end-date')?.value;
+            const parts = [];
+            if (search) parts.push(`Search: “${escapeHtml(search)}”`);
+            if (dateStart || dateEnd) parts.push(`Dates: ${escapeHtml(dateStart || 'start')} to ${escapeHtml(dateEnd || 'end')}`);
+            if (selected.length) parts.push(`Filters: ${selected.slice(0, 6).map(escapeHtml).join(', ')}${selected.length > 6 ? '...' : ''}`);
+            summaryEl.innerHTML = parts.length
+                ? `${filtered.length.toLocaleString()} matching records. ${parts.join(' / ')}`
+                : `${filtered.length.toLocaleString()} records available. Use search, timeline, source, author, topic, and document type filters to narrow the archive.`;
+        }
+
+        function renderRelatedCategorySuggestions(filtered, selectedTags = []) {
+            const targetEl = document.getElementById('related-category-suggestions');
+            if (!targetEl) return;
+            const query = document.getElementById('category-filter-search')?.value.trim().toLowerCase();
+            const queryMatches = query
+                ? articles.filter(article =>
+                    String(article.title || '').toLowerCase().includes(query) ||
+                    String(article.summary || '').toLowerCase().includes(query) ||
+                    String(article.source || '').toLowerCase().includes(query) ||
+                    getArticleCategories(article).some(category => category.toLowerCase().includes(query))
+                )
+                : [];
+            const base = queryMatches.length ? queryMatches : (filtered.length ? filtered : articles);
+            const counts = countBy(base, getArticleCategories);
+            const suggestions = topEntries(counts, 8)
+                .filter(([category]) => !selectedTags.includes(category));
+
+            if (!suggestions.length) {
+                targetEl.innerHTML = '<span class="text-xs text-gray-600 italic">Related topics appear after search or filter results.</span>';
+                return;
+            }
+
+            targetEl.innerHTML = suggestions.map(([category, count]) => `
+                <button type="button" class="filter-chip text-[10px] uppercase tracking-wider py-2 px-3" data-suggest-category="${escapeDataAttribute(category)}">
+                    ${escapeHtml(category)} <span class="text-gray-600">(${count})</span>
+                </button>
+            `).join('');
+
+            targetEl.querySelectorAll('[data-suggest-category]').forEach(button => {
+                button.addEventListener('click', () => {
+                    setCheckboxFilter('tag', button.dataset.suggestCategory, true);
+                    applyArchiveFilters();
+                });
+            });
+        }
+
         async function loadArticles() {
             try {
                 const response = await fetch('./data/articles.json?v=' + Date.now());
@@ -2103,7 +2938,12 @@
                 console.log(`Loaded ${articles.length} articles`);
 
                 await loadWaybackArchiveStatus();
+                loadResearchPacket();
                 populateFilters();
+                renderArchiveIntelligence();
+                updateArchiveResultSummary(currentlyDisplayedArticles);
+                renderRelatedCategorySuggestions(currentlyDisplayedArticles);
+                renderResearchPacket();
                 renderArticles(currentlyDisplayedArticles);
                 return true;
             } catch (error) {
@@ -2199,6 +3039,7 @@
 
         function renderArticles(articlesToDisplay) {
             const grid = document.getElementById('article-grid');
+            const tableWrap = document.getElementById('article-table-wrap');
             if (!grid) return;
             
             // Sort full dataset first
@@ -2225,12 +3066,19 @@
                 loadMoreBtn.style.display = 'block';
             }
 
+            grid.classList.toggle('hidden', currentArchiveView !== 'cards');
+            if (tableWrap) tableWrap.classList.toggle('hidden', currentArchiveView !== 'table');
+
             if (sliced.length === 0) {
                 grid.innerHTML = `<p class="text-gray-500 md:col-span-2 lg:col-span-3 text-center py-20 font-light">No records found.</p>`;
+                if (tableWrap) {
+                    tableWrap.innerHTML = `<div class="p-8 text-center text-gray-500 font-light">No records found.</div>`;
+                }
                 return;
             }
 
-            grid.innerHTML = sliced.map((article) => {
+            articleDetailRecords = {};
+            const contexts = sliced.map((article) => {
                 const archivedArticleLink = escapeDataAttribute(getArticleOpenUrl(article));
                 const safeTitle = escapeHtmlAttribute(article.title);
                 const safeSummary = escapeHtmlAttribute(article.summary);
@@ -2238,14 +3086,39 @@
                 const liveArticleLink = escapeDataAttribute(article.link);
                 const safeImage = article.imageUrl;
                 const uniqueId = 'share-' + Math.random().toString(36).substr(2, 9);
+                const detailId = 'detail-' + Math.random().toString(36).substr(2, 9);
+                articleDetailRecords[detailId] = article;
+                const isSaved = researchPacket.includes(articlePacketId(article));
                 const categories = getArticleCategories(article);
                 const authors = getArticleAuthors(article);
-                const categoryHtml = categories.slice(0, 3).map(category => `<span class="article-category-pill">${category}</span>`).join('');
-                const authorText = authors.join(', ');
+                const categoryHtml = categories.slice(0, 3).map(category => `<span class="article-category-pill">${escapeHtml(category)}</span>`).join('');
+                const authorText = authors.map(escapeHtml).join(', ');
                 
-                const displayTitle = titlesSwapped ? getSwappedText(article.title) : article.title;
-                const displaySummary = titlesSwapped ? getSwappedText(article.summary) : article.summary;
+                const displayTitle = highlightedText(titlesSwapped ? getSwappedText(article.title || '') : article.title || '');
+                const displaySummary = highlightedText(titlesSwapped ? getSwappedText(article.summary || '') : article.summary || '');
 
+                return {
+                    article,
+                    archivedArticleLink,
+                    safeTitle,
+                    safeSummary,
+                    cleanLink,
+                    liveArticleLink,
+                    safeImage,
+                    uniqueId,
+                    detailId,
+                    isSaved,
+                    categories,
+                    authors,
+                    categoryHtml,
+                    authorText,
+                    displayTitle,
+                    displaySummary
+                };
+            });
+
+            grid.innerHTML = contexts.map((ctx) => {
+                const { article, archivedArticleLink, safeTitle, safeSummary, cleanLink, liveArticleLink, safeImage, uniqueId, detailId, isSaved, categoryHtml, authorText, displayTitle, displaySummary } = ctx;
                 return `
                     <div class="group flex flex-col rounded bg-[#0a0a0a] border border-[#222] overflow-hidden transition-colors hover:border-[#333]">
                         <div onclick="window.openArticleLinkChoiceFromElement(this)" data-live-url="${liveArticleLink}" data-archived-url="${archivedArticleLink}" class="relative h-56 w-full overflow-hidden bg-[#111] cursor-pointer">
@@ -2261,11 +3134,17 @@
                             
                             <div class="article-card-footer mt-auto flex justify-between pt-4 border-t border-[#1a1a1a] items-center gap-4">
                                 <div class="article-author-line flex-1 text-gray-600 text-[10px] uppercase tracking-wider truncate">
-                                    <span>${article.source}</span>
+                                    <span>${escapeHtml(article.source)}</span>
                                     <span class="text-gray-700"> / </span>
                                     <span>${authorText}</span>
                                 </div>
                                 <div class="article-actions flex items-center gap-2 relative flex-shrink-0">
+                                    <button onclick="window.openArticleDetail('${detailId}'); event.stopPropagation();" class="article-action-btn" aria-label="View details">
+                                        ${createIcon('source')}<span>Details</span>
+                                    </button>
+                                    <button onclick="window.togglePacketByDetailId('${detailId}'); event.stopPropagation();" class="article-action-btn" aria-label="Save article">
+                                        ${createIcon('save')}<span>${isSaved ? 'Saved' : 'Save'}</span>
+                                    </button>
                                     <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="article-action-btn" aria-label="Create story">
                                         ${createIcon('story')}<span>Story</span>
                                     </button>
@@ -2280,6 +3159,49 @@
                         </div>
                     </div>`;
             }).join('');
+
+            if (tableWrap) {
+                tableWrap.innerHTML = `
+                    <table class="archive-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Title</th>
+                                <th>Source</th>
+                                <th>Author(s)</th>
+                                <th>Topics</th>
+                                <th>Archive</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${contexts.map((ctx) => {
+                                const { article, archivedArticleLink, liveArticleLink, detailId, categories, authorText, displayTitle, isSaved } = ctx;
+                                return `
+                                    <tr>
+                                        <td>${escapeHtml(formatDate(article.date))}</td>
+                                        <td>
+                                            <button class="text-left text-white font-serif text-sm leading-snug hover:text-gray-300 transition" onclick="window.openArticleLinkChoiceFromElement(this)" data-live-url="${liveArticleLink}" data-archived-url="${archivedArticleLink}">
+                                                ${displayTitle}
+                                            </button>
+                                        </td>
+                                        <td>${escapeHtml(article.source || 'Unknown')}</td>
+                                        <td>${authorText || 'Unknown author'}</td>
+                                        <td>${categories.slice(0, 3).map(escapeHtml).join(', ') || 'Uncategorized'}</td>
+                                        <td>${escapeHtml(archiveStatusLabel(article))}</td>
+                                        <td>
+                                            <div class="flex flex-wrap gap-2">
+                                                <button onclick="window.openArticleDetail('${detailId}')" class="article-action-btn">Details</button>
+                                                <button onclick="window.togglePacketByDetailId('${detailId}')" class="article-action-btn">${isSaved ? 'Saved' : 'Save'}</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
         }
 
         function renderBooks() {
@@ -2520,11 +3442,18 @@
             const sources = [...new Set(articles.map(a => a.source))].sort();
             const authors = [...new Set(articles.flatMap(getArticleAuthors))].sort();
             const documentTypes = [...new Set(articles.map(getArticleDocumentType))].sort();
+            const tagCounts = countBy(articles, getArticleCategories);
+            const sourceCounts = countBy(articles, article => article.source);
+            const authorCounts = countBy(articles, getArticleAuthors);
+            const documentTypeCounts = countBy(articles, getArticleDocumentType);
 
-            const createCheckbox = (value, type) => `
-                <label class="flex items-center space-x-3 cursor-pointer group" data-filter-label="${value.toLowerCase()}">
-                    <input type="checkbox" value="${value}" data-filter-type="${type}" class="form-checkbox h-3 w-3 text-[#8B0000] bg-[#111] border-gray-700 rounded focus:ring-0 focus:ring-offset-0 transition duration-150 ease-in-out">
-                    <span class="text-gray-400 group-hover:text-white transition text-xs uppercase tracking-wide">${value}</span>
+            const createCheckbox = (value, type, counts) => `
+                <label class="flex items-center justify-between gap-3 cursor-pointer group" data-filter-label="${escapeDataAttribute(value.toLowerCase())}">
+                    <span class="flex items-center min-w-0 gap-3">
+                        <input type="checkbox" value="${escapeDataAttribute(value)}" data-filter-type="${type}" class="form-checkbox h-3 w-3 text-[#8B0000] bg-[#111] border-gray-700 rounded focus:ring-0 focus:ring-offset-0 transition duration-150 ease-in-out">
+                        <span class="text-gray-400 group-hover:text-white transition text-xs uppercase tracking-wide truncate">${escapeHtml(value)}</span>
+                    </span>
+                    <span class="text-[10px] text-gray-700">${counts.get(value) || 0}</span>
                 </label>`;
 
             const tagContainer = document.getElementById('tag-filters');
@@ -2532,10 +3461,10 @@
             const authorContainer = document.getElementById('author-filters');
             const documentTypeContainer = document.getElementById('document-type-filters');
 
-            if (tagContainer) tagContainer.innerHTML = tags.map(t => createCheckbox(t, 'tag')).join('');
-            if (sourceContainer) sourceContainer.innerHTML = sources.map(s => createCheckbox(s, 'source')).join('');
-            if (authorContainer) authorContainer.innerHTML = authors.map(a => createCheckbox(a, 'author')).join('');
-            if (documentTypeContainer) documentTypeContainer.innerHTML = documentTypes.map(t => createCheckbox(t, 'documentType')).join('');
+            if (tagContainer) tagContainer.innerHTML = tags.map(t => createCheckbox(t, 'tag', tagCounts)).join('');
+            if (sourceContainer) sourceContainer.innerHTML = sources.map(s => createCheckbox(s, 'source', sourceCounts)).join('');
+            if (authorContainer) authorContainer.innerHTML = authors.map(a => createCheckbox(a, 'author', authorCounts)).join('');
+            if (documentTypeContainer) documentTypeContainer.innerHTML = documentTypes.map(t => createCheckbox(t, 'documentType', documentTypeCounts)).join('');
         }
 
         // --- SEARCH & FILTER LOGIC ---
@@ -2554,9 +3483,9 @@
             // Search Term Logic
             if (searchTerm) {
                 filtered = filtered.filter(a => 
-                    a.title.toLowerCase().includes(searchTerm) || 
-                    a.summary.toLowerCase().includes(searchTerm) ||
-                    a.source.toLowerCase().includes(searchTerm) ||
+                    String(a.title || '').toLowerCase().includes(searchTerm) || 
+                    String(a.summary || '').toLowerCase().includes(searchTerm) ||
+                    String(a.source || '').toLowerCase().includes(searchTerm) ||
                     getArticleCategories(a).some(category => category.toLowerCase().includes(searchTerm)) ||
                     getArticleAuthors(a).some(author => author.toLowerCase().includes(searchTerm)) ||
                     getArticleDocumentType(a).toLowerCase().includes(searchTerm)
@@ -2580,6 +3509,10 @@
             if (selectedDocumentTypes.length > 0) filtered = filtered.filter(a => selectedDocumentTypes.includes(getArticleDocumentType(a)));
 
             currentlyDisplayedArticles = filtered;
+            updateArchiveResultSummary(filtered);
+            renderRelatedCategorySuggestions(filtered, selectedTags);
+            renderRelationshipMap(filtered);
+            renderSourceProfiles(filtered);
             renderArticles(currentlyDisplayedArticles);
         }
 
@@ -2696,7 +3629,36 @@
                 document.querySelectorAll('#tag-filters label[data-filter-label]').forEach(label => {
                     label.classList.toggle('hidden', query && !label.dataset.filterLabel.includes(query));
                 });
+                renderRelatedCategorySuggestions(currentlyDisplayedArticles, Array.from(document.querySelectorAll('input[data-filter-type="tag"]:checked')).map(cb => cb.value));
             });
+            document.getElementById('source-filter-search')?.addEventListener('input', (e) => {
+                const query = e.target.value.trim().toLowerCase();
+                document.querySelectorAll('#source-filters label[data-filter-label]').forEach(label => {
+                    label.classList.toggle('hidden', query && !label.dataset.filterLabel.includes(query));
+                });
+            });
+            document.getElementById('author-filter-search')?.addEventListener('input', (e) => {
+                const query = e.target.value.trim().toLowerCase();
+                document.querySelectorAll('#author-filters label[data-filter-label]').forEach(label => {
+                    label.classList.toggle('hidden', query && !label.dataset.filterLabel.includes(query));
+                });
+            });
+            document.getElementById('clear-timeline-filter')?.addEventListener('click', () => {
+                activeTimelineKey = '';
+                document.getElementById('start-date').value = '';
+                document.getElementById('end-date').value = '';
+                applyArchiveFilters();
+                renderArchiveIntelligence();
+            });
+            document.getElementById('copy-research-packet')?.addEventListener('click', copyResearchPacketCitations);
+            document.getElementById('clear-research-packet')?.addEventListener('click', () => {
+                researchPacket = [];
+                saveResearchPacket();
+                renderResearchPacket();
+                renderArticles(currentlyDisplayedArticles);
+            });
+            document.getElementById('view-cards-btn')?.addEventListener('click', () => setArchiveView('cards'));
+            document.getElementById('view-table-btn')?.addEventListener('click', () => setArchiveView('table'));
 
             updateHeroStats();
             const articlesLoaded = await loadArticles();
@@ -2736,24 +3698,7 @@
             });
             
             // RANDOM ARTICLE Logic
-            document.getElementById('random-article-btn').addEventListener('click', () => {
-                const article = articles[Math.floor(Math.random() * articles.length)];
-                const safeTitle = escapeHtmlAttribute(article.title);
-                const safeSummary = escapeHtmlAttribute(article.summary);
-                const safeImage = article.imageUrl;
-                document.getElementById('random-article-body').innerHTML = `
-                    <div class="relative h-40 sm:h-64 overflow-hidden rounded-t-sm"><img src="${article.imageUrl}" class="w-full h-full object-cover"></div>
-                    <div class="p-8 space-y-4">
-                        <h2 class="text-2xl font-serif font-bold text-white leading-tight">${article.title}</h2>
-                        <div class="text-xs text-gray-500 border-b border-gray-800 pb-4 uppercase tracking-widest">${formatDate(article.date)}</div>
-                        <p class="text-gray-400 text-sm leading-7 font-light">${article.summary}</p>
-                        <div class="pt-6 border-t border-gray-800 flex justify-end gap-4">
-                            <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="btn-secondary py-2 px-4 rounded-sm text-xs uppercase tracking-widest">Create Story</button>
-                            <a href="${article.link}" target="_blank" class="btn-primary py-2 px-4 rounded-sm text-xs uppercase tracking-widest">Original Source</a>
-                        </div>
-                    </div>`;
-                document.getElementById('random-article-modal').classList.add('is-visible');
-            });
+            document.getElementById('random-article-btn')?.addEventListener('click', openRandomArticle);
 
             // Sort Buttons Logic
             const sortNewestBtn = document.getElementById('sort-newest');
@@ -2823,10 +3768,17 @@
                 document.getElementById('end-date').value = '';
                 document.getElementById('article-search').value = '';
                 document.getElementById('category-filter-search').value = '';
+                document.getElementById('source-filter-search').value = '';
+                document.getElementById('author-filter-search').value = '';
                 document.querySelectorAll('input[type="checkbox"][data-filter-type]').forEach(cb => cb.checked = false);
                 document.querySelectorAll('#tag-filters label[data-filter-label]').forEach(label => label.classList.remove('hidden'));
+                document.querySelectorAll('#source-filters label[data-filter-label], #author-filters label[data-filter-label]').forEach(label => label.classList.remove('hidden'));
+                activeTimelineKey = '';
                 articleLimit = 30;
                 currentlyDisplayedArticles = [...articles];
+                updateArchiveResultSummary(currentlyDisplayedArticles);
+                renderRelatedCategorySuggestions(currentlyDisplayedArticles);
+                renderArchiveIntelligence();
                 renderArticles(currentlyDisplayedArticles);
             });
 
