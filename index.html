@@ -302,11 +302,6 @@
             width: 100%;
         }
 
-        .archive-tool-strip {
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.018), rgba(255, 255, 255, 0.005));
-        }
-
         .archive-tool-card {
             border: 1px solid rgba(255, 255, 255, 0.06);
             background: #0d0d0d;
@@ -649,10 +644,6 @@
                 grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 0.5rem;
                 width: 100%;
-            }
-
-            .archive-tool-strip {
-                margin-bottom: 1.5rem;
             }
 
             .archive-tool-card {
@@ -1241,26 +1232,6 @@
                     <div class="mt-8 pt-6 border-t border-white/5 flex items-center gap-4">
                         <button id="filter-button" class="btn-primary text-xs uppercase tracking-wider px-6 py-2 rounded">Apply</button>
                         <button id="clear-button" class="text-xs text-gray-500 hover:text-white uppercase tracking-wider transition">Clear</button>
-                    </div>
-                </div>
-
-                <div class="archive-tool-strip px-4 py-3 md:px-5 md:py-4 mb-8">
-                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                        <div class="min-w-0">
-                            <span class="text-[9px] text-[#8B0000] uppercase tracking-[0.2em] font-bold">Research Tools</span>
-                            <h3 class="text-lg font-serif text-white/90 mt-1">Timeline & Framing Lens</h3>
-                            <p class="text-xs text-gray-500 mt-1 max-w-2xl leading-5">Open the casualty timeline or compare headline framing while reading the archive.</p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2 w-full lg:w-auto lg:min-w-[340px]">
-                            <button id="view-timeline-btn" type="button" class="archive-tool-card px-4 py-3 text-left">
-                                <span class="block text-[9px] text-[#8B0000] uppercase tracking-widest font-bold">Timeline</span>
-                                <span class="block text-xs text-gray-300 mt-1">Open casualty timeline</span>
-                            </button>
-                            <button id="view-bias-tool-btn" type="button" class="archive-tool-card px-4 py-3 text-left">
-                                <span class="block text-[9px] text-[#8B0000] uppercase tracking-widest font-bold">Framing Lens</span>
-                                <span class="block text-xs text-gray-300 mt-1">Open racial bias tool</span>
-                            </button>
-                        </div>
                     </div>
                 </div>
 
