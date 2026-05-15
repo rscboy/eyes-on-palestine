@@ -320,6 +320,12 @@
             background: #080808;
         }
 
+        .research-style-control {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
         .mobile-density-control {
             display: none;
         }
@@ -361,6 +367,39 @@
             font-size: 0.62rem;
             letter-spacing: 0.12em;
             text-transform: uppercase;
+        }
+
+        .archive-table .article-action-btn {
+            width: auto;
+            height: auto;
+            min-height: 2rem;
+            padding: 0.45rem 0.65rem;
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .citation-card {
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #0a0a0a;
+            padding: 1rem;
+        }
+
+        .citation-copy-btn {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #111;
+            color: #999;
+            padding: 0.45rem 0.7rem;
+            font-size: 0.62rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .citation-copy-btn:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: #161616;
+            color: #fff;
         }
 
         mark.search-hit {
@@ -546,8 +585,60 @@
             }
 
             #research-packet-panel {
-                padding: 1rem;
+                padding: 1.25rem;
                 margin-bottom: 1.5rem;
+            }
+
+            .research-packet-header {
+                gap: 1.25rem;
+            }
+
+            #research-packet-panel h3 {
+                font-size: 1.65rem;
+                line-height: 1.1;
+                margin-top: 0.65rem;
+            }
+
+            #research-packet-summary {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+
+            .research-packet-actions {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+                width: 100%;
+                align-items: stretch;
+            }
+
+            .research-style-control {
+                display: grid;
+                grid-template-columns: auto minmax(0, 1fr);
+                align-items: center;
+                gap: 0.75rem;
+                width: 100%;
+                border: 1px solid rgba(255, 255, 255, 0.06);
+                background: #0b0b0b;
+                padding: 0.65rem 0.75rem;
+            }
+
+            #research-citation-style {
+                width: 100%;
+                padding: 0.8rem 0.9rem;
+                min-height: 2.8rem;
+            }
+
+            #copy-research-packet,
+            #clear-research-packet {
+                width: 100%;
+                min-height: 3rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            #research-packet-list {
+                margin-top: 1.25rem;
             }
 
             .archive-display-toolbar {
@@ -1236,13 +1327,22 @@
                 </div>
 
                 <div id="research-packet-panel" class="research-tool-card p-5 md:p-6 mb-10">
-                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                    <div class="research-packet-header flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                         <div>
                             <span class="text-[10px] text-[#8B0000] uppercase tracking-[0.2em] font-bold">Research Packet</span>
                             <h3 class="text-xl font-serif text-white/90 mt-2">Saved Articles</h3>
                             <p id="research-packet-summary" class="text-sm text-gray-500 mt-2">No articles saved yet.</p>
                         </div>
-                        <div class="flex flex-wrap gap-2">
+                        <div class="research-packet-actions flex flex-wrap gap-2 items-center">
+                            <div class="research-style-control">
+                                <label for="research-citation-style" class="text-[10px] text-gray-600 uppercase tracking-widest">Style</label>
+                                <select id="research-citation-style" class="search-modern px-3 py-3 text-xs uppercase tracking-wider">
+                                    <option value="plain">Plain</option>
+                                    <option value="mla">MLA</option>
+                                    <option value="apa">APA</option>
+                                    <option value="chicago">Chicago</option>
+                                </select>
+                            </div>
                             <button id="copy-research-packet" class="btn-primary px-5 py-3 rounded-sm text-xs uppercase tracking-widest">Copy Citations</button>
                             <button id="clear-research-packet" class="btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest">Clear Packet</button>
                         </div>
@@ -1888,6 +1988,12 @@
             { label: 'Press Freedom', categories: ['Press Freedom', 'Journalists', 'Media'] },
             { label: 'Legal Evidence', categories: ['War Crimes', 'International Law', 'Genocide', 'Human Rights'] }
         ];
+        const CITATION_STYLES = [
+            { id: 'plain', label: 'Plain' },
+            { id: 'mla', label: 'MLA' },
+            { id: 'apa', label: 'APA' },
+            { id: 'chicago', label: 'Chicago' }
+        ];
 
         // Helper to escape single quotes
         function escapeHtmlAttribute(str) {
@@ -2470,6 +2576,9 @@
             const liveUrl = article.link || '#';
             const categories = getArticleCategories(article);
             const authors = getArticleAuthors(article);
+            const citationButtons = CITATION_STYLES.map(style => `
+                <button class="btn-secondary px-4 py-3 rounded-sm text-[10px] uppercase tracking-widest" onclick="window.showArticleCitation('${detailId}', '${style.id}')">${escapeHtml(style.label)}</button>
+            `).join('');
             const related = articles
                 .filter(candidate => candidate.link !== article.link)
                 .map(candidate => {
@@ -2508,13 +2617,12 @@
                         <button class="btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.togglePacketByDetailId('${detailId}')">${researchPacket.includes(articlePacketId(article)) ? 'Saved' : 'Save'}</button>
                     </div>
                     <div class="border-t border-white/10 pt-6 mb-8">
-                        <h3 class="font-serif text-white text-lg mb-4">Citation Tools</h3>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                            <button class="btn-secondary px-4 py-3 rounded-sm text-[10px] uppercase tracking-widest" onclick="window.copyArticleCitation('${detailId}', 'mla')">MLA</button>
-                            <button class="btn-secondary px-4 py-3 rounded-sm text-[10px] uppercase tracking-widest" onclick="window.copyArticleCitation('${detailId}', 'apa')">APA</button>
-                            <button class="btn-secondary px-4 py-3 rounded-sm text-[10px] uppercase tracking-widest" onclick="window.copyArticleCitation('${detailId}', 'chicago')">Chicago</button>
-                            <button class="btn-secondary px-4 py-3 rounded-sm text-[10px] uppercase tracking-widest" onclick="window.copyArticleCitation('${detailId}', 'plain')">Plain</button>
+                        <h3 class="font-serif text-white text-lg mb-2">Citation Tools</h3>
+                        <p class="text-xs text-gray-600 mb-4 leading-5">Choose a citation style to preview and copy it.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+                            ${citationButtons}
                         </div>
+                        <div id="citation-preview-${detailId}" class="hidden citation-card"></div>
                     </div>
                     <div class="border-t border-white/10 pt-6">
                         <h3 class="font-serif text-white text-lg mb-4">Related Records</h3>
@@ -2542,8 +2650,10 @@
             const list = document.getElementById('research-packet-list');
             if (!summary || !list) return;
             const savedArticles = researchPacket.map(getArticleByPacketId).filter(Boolean);
+            const citationStyle = document.getElementById('research-citation-style')?.value || 'plain';
+            const citationLabel = CITATION_STYLES.find(style => style.id === citationStyle)?.label || 'Plain';
             summary.textContent = savedArticles.length
-                ? `${savedArticles.length.toLocaleString()} saved article${savedArticles.length === 1 ? '' : 's'} ready for citation export.`
+                ? `${savedArticles.length.toLocaleString()} saved article${savedArticles.length === 1 ? '' : 's'} ready for ${citationLabel} citation export.`
                 : 'No articles saved yet.';
             list.innerHTML = savedArticles.length ? savedArticles.slice(0, 8).map(article => {
                 const id = articlePacketId(article);
@@ -2581,13 +2691,30 @@
             copyTextWithFallback(citationForArticle(article, style));
         };
 
+        window.showArticleCitation = function(detailId, style) {
+            const article = articleDetailRecords[detailId];
+            const preview = document.getElementById(`citation-preview-${detailId}`);
+            if (!article || !preview) return;
+            const citation = citationForArticle(article, style);
+            const label = CITATION_STYLES.find(item => item.id === style)?.label || style;
+            preview.innerHTML = `
+                <div class="flex items-center justify-between gap-3 mb-3">
+                    <span class="text-[10px] text-[#8B0000] uppercase tracking-widest font-bold">${escapeHtml(label)}</span>
+                    <button class="citation-copy-btn" onclick="window.copyArticleCitation('${detailId}', '${style}')">Copy</button>
+                </div>
+                <p class="text-xs text-gray-400 leading-6 break-words whitespace-pre-line">${escapeHtml(citation)}</p>
+            `;
+            preview.classList.remove('hidden');
+        };
+
         function copyResearchPacketCitations() {
             const savedArticles = researchPacket.map(getArticleByPacketId).filter(Boolean);
             if (!savedArticles.length) {
                 showSimpleAlert('No saved articles yet.');
                 return;
             }
-            const text = savedArticles.map((article, index) => `${index + 1}. ${citationForArticle(article, 'plain')}`).join('\n\n');
+            const style = document.getElementById('research-citation-style')?.value || 'plain';
+            const text = savedArticles.map((article, index) => `${index + 1}. ${citationForArticle(article, style)}`).join('\n\n');
             copyTextWithFallback(text);
         }
 
@@ -3417,6 +3544,7 @@
                 });
             });
             document.getElementById('copy-research-packet')?.addEventListener('click', copyResearchPacketCitations);
+            document.getElementById('research-citation-style')?.addEventListener('change', renderResearchPacket);
             document.getElementById('clear-research-packet')?.addEventListener('click', () => {
                 researchPacket = [];
                 saveResearchPacket();
