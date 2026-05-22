@@ -171,10 +171,10 @@
 
     <!-- Main Container -->
     <!-- Increased top padding from pt-24 to pt-32 -->
-    <main class="max-w-3xl mx-auto px-6 pt-32 pb-16 md:pb-24">
+    <main class="max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-16 md:pb-24">
         
         <!-- Header Section -->
-        <header class="mb-10 text-center">
+        <header class="mb-12 text-center max-w-3xl mx-auto">
             <h1 class="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold mb-6 text-white">Direct Evidence</h1>
             
             <div class="max-w-xl mx-auto space-y-4 text-base leading-relaxed text-ash">
@@ -199,65 +199,81 @@
             </div>
         </header>
 
-        <!-- Controls Section -->
-        <section class="mb-12 border-y border-border-dim py-6">
-            <div class="flex flex-col md:flex-row gap-4">
-                
-                <!-- Search -->
-                <div class="flex-grow">
-                    <label for="searchInput" class="sr-only">Search archive</label>
-                    <input type="text" id="searchInput" 
-                        placeholder="Filter by title, tag, or source..." 
-                        class="w-full bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm placeholder-neutral-600 rounded-none focus:border-neutral-500 transition-colors">
+        <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-10 lg:gap-14 items-start">
+            <!-- Controls Section -->
+            <aside class="lg:sticky lg:top-28">
+                <section class="border-y lg:border border-border-dim py-6 lg:p-5">
+                    <div class="mb-5 hidden lg:block">
+                        <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold">Filter Records</span>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Search -->
+                        <div>
+                            <label for="searchInput" class="sr-only">Search archive</label>
+                            <input type="text" id="searchInput" 
+                                placeholder="Filter by title, tag, source, or format..." 
+                                class="w-full bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm placeholder-neutral-600 rounded-none focus:border-neutral-500 transition-colors">
+                        </div>
+
+                        <!-- Filters -->
+                        <select id="tagFilter" class="w-full bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer">
+                            <option value="">All Tags</option>
+                            <!-- Populated dynamically -->
+                        </select>
+
+                        <select id="formatFilter" class="w-full bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer">
+                            <option value="">All Formats</option>
+                            <option value="video">Video</option>
+                            <option value="picture">Picture</option>
+                            <option value="audio">Audio</option>
+                        </select>
+
+                        <select id="sortFilter" class="w-full bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer">
+                            <option value="newest">Newest Added</option>
+                            <option value="oldest">Oldest Added</option>
+                            <!-- Note: 'title' sort requires composite index with status, sticking to time based for MVP stability -->
+                        </select>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+                            <select id="yearFilter" class="w-full bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer">
+                                <option value="">All Years</option>
+                            </select>
+                            <select id="monthFilter" class="w-full bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer">
+                                <option value="">All Months</option>
+                            </select>
+                        </div>
+
+                        <button id="clearDateFilters" type="button" class="w-full font-ui text-xs uppercase tracking-widest border border-border-dim px-4 py-3 text-ash hover:text-white hover:border-neutral-600 transition-colors">
+                            Clear Date Filters
+                        </button>
+                    </div>
+                </section>
+            </aside>
+
+            <section class="min-w-0">
+                <!-- Loading State -->
+                <div id="loadingState" class="text-center py-20 hidden">
+                    <span class="font-ui text-sm tracking-widest uppercase text-ash animate-pulse">Loading archive records...</span>
                 </div>
 
-                <!-- Filters -->
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <select id="tagFilter" class="bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer min-w-[140px]">
-                        <option value="">All Tags</option>
-                        <!-- Populated dynamically -->
-                    </select>
-
-                    <select id="sortFilter" class="bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer min-w-[140px]">
-                        <option value="newest">Newest Added</option>
-                        <option value="oldest">Oldest Added</option>
-                        <!-- Note: 'title' sort requires composite index with status, sticking to time based for MVP stability -->
-                    </select>
+                <!-- Empty State -->
+                <div id="emptyState" class="text-center py-20 hidden border border-border-dim border-dashed">
+                    <p class="font-heading text-xl text-neutral-500 italic">No approved primary sources are currently published.</p>
                 </div>
-            </div>
-            <div class="mt-4 flex flex-col sm:flex-row gap-4">
-                <select id="yearFilter" class="bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer min-w-[140px]">
-                    <option value="">All Years</option>
-                </select>
-                <select id="monthFilter" class="bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer min-w-[140px]">
-                    <option value="">All Months</option>
-                </select>
-                <button id="clearDateFilters" type="button" class="font-ui text-xs uppercase tracking-widest border border-border-dim px-4 py-3 text-ash hover:text-white hover:border-neutral-600 transition-colors">
-                    Clear Date Filters
-                </button>
-            </div>
-        </section>
 
-        <!-- Loading State -->
-        <div id="loadingState" class="text-center py-20 hidden">
-            <span class="font-ui text-sm tracking-widest uppercase text-ash animate-pulse">Loading archive records...</span>
-        </div>
+                <!-- Records Grid -->
+                <div id="recordsList" class="space-y-20">
+                    <!-- Records injected here -->
+                </div>
 
-        <!-- Empty State -->
-        <div id="emptyState" class="text-center py-20 hidden border border-border-dim border-dashed">
-            <p class="font-heading text-xl text-neutral-500 italic">No approved primary sources are currently published.</p>
-        </div>
-
-        <!-- Records Grid -->
-        <div id="recordsList" class="space-y-20">
-            <!-- Records injected here -->
-        </div>
-
-        <!-- Pagination -->
-        <div class="mt-20 text-center">
-            <button id="loadMoreBtn" class="hidden font-ui text-sm uppercase tracking-widest border border-border-dim px-8 py-3 hover:bg-white hover:text-black transition-colors duration-300 rounded-none disabled:opacity-50 disabled:cursor-not-allowed">
-                Load More Records
-            </button>
+                <!-- Pagination -->
+                <div class="mt-20 text-center">
+                    <button id="loadMoreBtn" class="hidden font-ui text-sm uppercase tracking-widest border border-border-dim px-8 py-3 hover:bg-white hover:text-black transition-colors duration-300 rounded-none disabled:opacity-50 disabled:cursor-not-allowed">
+                        Load More Records
+                    </button>
+                </div>
+            </section>
         </div>
 
     </main>
@@ -324,6 +340,7 @@
         const emptyState = document.getElementById('emptyState');
         const searchInput = document.getElementById('searchInput');
         const tagFilter = document.getElementById('tagFilter');
+        const formatFilter = document.getElementById('formatFilter');
         const sortFilter = document.getElementById('sortFilter');
         const yearFilter = document.getElementById('yearFilter');
         const monthFilter = document.getElementById('monthFilter');
@@ -366,6 +383,31 @@
             return { year: match ? match[1] : "", month: "" };
         }
 
+        function getRecordFormat(data) {
+            const raw = [
+                data.format,
+                data.mediaFormat,
+                data.fileFormat,
+                data.type,
+                data.contentType,
+                data.mimeType,
+                data.originalFileName,
+                data.tag,
+                data.title
+            ].map(value => String(value || "").toLowerCase()).join(" ");
+
+            if (raw.includes("video") || /\.(mp4|mov|m4v|webm|avi|mkv)(\?|#|$)/i.test(raw)) return "video";
+            if (raw.includes("audio") || /\.(mp3|wav|m4a|aac|ogg|flac)(\?|#|$)/i.test(raw)) return "audio";
+            if (
+                raw.includes("image") ||
+                raw.includes("picture") ||
+                raw.includes("photo") ||
+                /\.(jpe?g|png|gif|webp|heic|tiff?)(\?|#|$)/i.test(raw)
+            ) return "picture";
+
+            return "";
+        }
+
         // Helper: Create Record DOM Element
         function createRecordElement(doc) {
             const data = doc.data();
@@ -378,6 +420,7 @@
             const source = data.source ? ` ; ${data.source}` : "";
             const tag = data.tag || "Uncategorized";
             const previewUrl = data.drivePreviewUrl || "";
+            const format = getRecordFormat(data);
             
             // Track tag for filter
             if (tag) allTags.add(tag);
@@ -391,6 +434,7 @@
             article.dataset.date = date.toLowerCase();
             article.dataset.year = dateParts.year;
             article.dataset.month = dateParts.month;
+            article.dataset.format = format;
 
             // Structure
             article.innerHTML = `
@@ -583,6 +627,7 @@
         function applyClientFilter() {
             const search = searchInput.value.toLowerCase();
             const tag = tagFilter.value;
+            const format = formatFilter.value;
             const year = yearFilter.value;
             const month = monthFilter.value;
             const items = document.querySelectorAll('.record-item');
@@ -592,13 +637,15 @@
                 const s = item.dataset.source;
                 const tg = item.dataset.tag;
                 const d = item.dataset.date;
+                const f = item.dataset.format || "";
 
-                const matchesSearch = t.includes(search) || s.includes(search) || tg.toLowerCase().includes(search) || d.includes(search);
+                const matchesSearch = t.includes(search) || s.includes(search) || tg.toLowerCase().includes(search) || d.includes(search) || f.includes(search);
                 const matchesTag = tag === "" || tg === tag;
+                const matchesFormat = format === "" || f === format;
                 const matchesYear = year === "" || item.dataset.year === year;
                 const matchesMonth = month === "" || item.dataset.month === month;
 
-                if (matchesSearch && matchesTag && matchesYear && matchesMonth) {
+                if (matchesSearch && matchesTag && matchesFormat && matchesYear && matchesMonth) {
                     item.classList.remove('hidden');
                 } else {
                     item.classList.add('hidden');
@@ -612,6 +659,8 @@
         searchInput.addEventListener('input', applyClientFilter);
         
         tagFilter.addEventListener('change', applyClientFilter);
+
+        formatFilter.addEventListener('change', applyClientFilter);
 
         sortFilter.addEventListener('change', () => fetchRecords(true));
 
