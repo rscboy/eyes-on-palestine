@@ -3191,6 +3191,68 @@
             }
         }
 
+        function revealToolSectionByHash(hash, shouldScroll = true) {
+            if (hash === '#casualty-graph') {
+                const section = document.getElementById('casualty-graph');
+                if (!section) return false;
+                if (section.classList.contains('hidden')) {
+                    section.classList.remove('hidden');
+                    renderCasualtyChart();
+                }
+                if (shouldScroll) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return true;
+            }
+
+            if (hash === '#bias-tool-controls') {
+                const section = document.getElementById('bias-tool-controls');
+                if (!section) return false;
+                if (section.classList.contains('hidden')) {
+                    section.classList.remove('hidden');
+                    updateBiasToolPreview();
+                }
+                if (shouldScroll) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return true;
+            }
+
+            return false;
+        }
+
+        function getToolHashFromLink(link) {
+            const href = link?.getAttribute('href') || '';
+            if (href === '#casualty-graph' || href === '#bias-tool-controls') return href;
+
+            try {
+                const url = new URL(href, window.location.href);
+                if (url.hash === '#casualty-graph' || url.hash === '#bias-tool-controls') {
+                    return url.hash;
+                }
+            } catch (error) {
+                return '';
+            }
+
+            return '';
+        }
+
+        function setupHiddenToolNavigation() {
+            document.addEventListener('click', (event) => {
+                if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+                const target = event.target instanceof Element ? event.target : event.target?.parentElement;
+                const link = target?.closest('a[href]');
+                const hash = getToolHashFromLink(link);
+                if (!hash) return;
+
+                event.preventDefault();
+                if (revealToolSectionByHash(hash, true)) {
+                    history.pushState(null, '', hash);
+                }
+            });
+
+            if (window.location.hash === '#casualty-graph' || window.location.hash === '#bias-tool-controls') {
+                window.setTimeout(() => revealToolSectionByHash(window.location.hash, true), 0);
+            }
+        }
+
         function updateArchiveResultSummary(filtered) {
             const summaryEl = document.getElementById('active-filter-summary');
             if (!summaryEl) return;
@@ -3930,6 +3992,7 @@
                 });
             }
             setupDropdowns();
+            setupHiddenToolNavigation();
             initMobileDensityControl();
 
             // Victim Pagination and Search
