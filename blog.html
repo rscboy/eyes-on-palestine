@@ -25,7 +25,7 @@
                 ? {
                     title: "Incident at Beth Jacob: My Response",
                     description: "I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
-                    url: "https://echoesofgaza.org/blog/incident-at-beth-jacob.html",
+                    url: "https://echoesofgaza.org/blog?post=incident-at-beth-jacob",
                     image: "https://echoesofgaza.org/alexandria_blog_image.png",
                     imageAlt: "Alexandria at the Jewish Cultural Festival in Dayton",
                     twitterCard: "summary_large_image",
@@ -211,6 +211,100 @@
         .action-btn:hover {
             color: #EDEDED;
             background-color: rgba(255,255,255,0.05);
+        }
+
+        .blog-index-card {
+            border-top: 1px solid #2A2A2A;
+            padding-top: 26px;
+        }
+
+        .blog-index-card:first-child {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+        .blog-index-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 88px;
+            gap: 14px;
+            align-items: start;
+        }
+
+        .blog-index-grid.no-thumbnail {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .blog-index-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            border: 1px solid #333;
+            background: #171717;
+            color: #EDEDED;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            font-style: italic;
+        }
+
+        .blog-index-avatar img,
+        .blog-index-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .blog-index-thumb {
+            width: 88px;
+            aspect-ratio: 1 / 1;
+            border: 1px solid #2A2A2A;
+            background: #101010;
+            overflow: hidden;
+            opacity: 0.88;
+            transition: opacity 0.2s, border-color 0.2s, transform 0.2s;
+        }
+
+        .group:hover .blog-index-thumb {
+            opacity: 1;
+            border-color: #3A3A3A;
+            transform: translateY(-1px);
+        }
+
+        .blog-index-title {
+            font-size: 22px;
+            line-height: 1.13;
+        }
+
+        .blog-index-subtitle {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .blog-index-card {
+                padding-top: 34px;
+            }
+
+            .blog-index-grid {
+                grid-template-columns: minmax(0, 1fr) 148px;
+                gap: 24px;
+            }
+
+            .blog-index-thumb {
+                width: 148px;
+                aspect-ratio: 4 / 3;
+            }
+
+            .blog-index-title {
+                font-size: 26px;
+            }
         }
 
         .blog-share-menu {
@@ -732,7 +826,6 @@
         }
 
         function getPostUrl(post) {
-            if (post.path) return `https://echoesofgaza.org/blog/${post.path}`;
             return `https://echoesofgaza.org/blog?post=${encodeURIComponent(post.slug || post.id)}`;
         }
 
@@ -1218,23 +1311,39 @@
 
             posts.forEach(post => {
                 const postUrl = getPostUrl(post);
+                const thumbnail = post.featureImage || post.shareImage || "";
+                const bylineAuthor = post.displayAuthor || post.author || "Anonymous contributor";
+                const authorInitial = String(bylineAuthor || "A").trim().charAt(0) || "A";
                 html += `
-                    <article class="group">
+                    <article class="blog-index-card group">
                         <a href="${postUrl}" class="block cursor-pointer">
-                        <!-- Meta -->
-                        <div class="flex items-center gap-2 mb-2 text-sm text-ash-gray font-sans">
-                            <span class="font-medium text-off-white">${escapeHTML(post.displayAuthor || post.author)}</span>
-                            <span>&bull;</span>
-                            <span>${escapeHTML(post.displayDateShort || post.date)}</span>
-                        </div>
-                        
-                        <!-- Titles -->
-                        <h2 class="text-[24px] font-serif font-bold text-off-white leading-tight mb-2 group-hover:text-ash-gray transition-colors">${escapeHTML(post.title)}</h2>
-                        <p class="text-ash-gray text-[16px] leading-snug mb-4 font-sans line-clamp-2">${escapeHTML(post.subtitle)}</p>
-                        
+                            <div class="blog-index-grid ${thumbnail ? "" : "no-thumbnail"}">
+                                <div class="min-w-0">
+                                    <!-- Meta -->
+                                    <div class="flex items-center gap-3 mb-3 text-sm text-ash-gray font-sans min-w-0">
+                                        <span class="blog-index-avatar" aria-hidden="true">
+                                            ${post.authorImg ? `<img src="${escapeHTML(post.authorImg)}" alt="">` : escapeHTML(authorInitial)}
+                                        </span>
+                                        <span class="min-w-0">
+                                            <span class="block font-medium text-off-white truncate">${escapeHTML(bylineAuthor)}</span>
+                                            <span class="block text-xs text-ash-gray">${escapeHTML(post.displayDateShort || post.date)}</span>
+                                        </span>
+                                    </div>
+
+                                    <!-- Titles -->
+                                    <h2 class="blog-index-title font-serif font-bold text-off-white mb-2 group-hover:text-ash-gray transition-colors">${escapeHTML(post.title)}</h2>
+                                    <p class="blog-index-subtitle text-ash-gray text-[15px] md:text-[16px] leading-snug mb-4 font-sans">${escapeHTML(post.subtitle)}</p>
+                                </div>
+
+                                ${thumbnail ? `
+                                    <div class="blog-index-thumb" aria-hidden="true">
+                                        <img src="${escapeHTML(thumbnail)}" alt="">
+                                    </div>
+                                ` : ""}
+                            </div>
                         </a>
                         <!-- Action Row -->
-                        <div class="flex items-center gap-6 mt-4 border-t border-border-gray pt-4 opacity-70 group-hover:opacity-100 transition-opacity">
+                        <div class="flex items-center gap-6 mt-4 border-t border-border-gray pt-3 opacity-80 group-hover:opacity-100 transition-opacity">
                             <div class="action-btn" title="View Citations">
                                 <i class="ph ph-seal-check text-lg"></i>
                                 <span>${post.citations}</span>
