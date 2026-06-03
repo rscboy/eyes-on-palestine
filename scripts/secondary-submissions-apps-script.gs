@@ -221,37 +221,39 @@ function submitArticle_(payload) {
 }
 
 function approveArticle_(payload) {
-  const sheet = getSheet_();
-  const { rowNumber, rowObj, headers } = findRowById_(sheet, payload.id);
+  return withGithubWriteLock_(function() {
+    const sheet = getSheet_();
+    const { rowNumber, rowObj, headers } = findRowById_(sheet, payload.id);
 
-  if (rowObj.status !== "pending") {
-    throw new Error("Only pending articles can be approved.");
-  }
+    if (rowObj.status !== "pending") {
+      throw new Error("Only pending articles can be approved.");
+    }
 
-  const article = {
-    date: isoDate_(rowObj.date),
-    title: rowObj.title,
-    summary: rowObj.summary,
-    link: rowObj.link,
-    imageUrl: rowObj.imageUrl || "https://placeholder.com/image.jpg",
-    category: rowObj.category,
-    categories: rowObj.categories || [],
-    categoryColor: rowObj.categoryColor,
-    source: rowObj.source,
-    author: rowObj.author || "Unknown author",
-    authors: rowObj.authors && rowObj.authors.length ? rowObj.authors : ["Unknown author"],
-    documentType: rowObj.documentType || "Article"
-  };
+    const article = {
+      date: isoDate_(rowObj.date),
+      title: rowObj.title,
+      summary: rowObj.summary,
+      link: rowObj.link,
+      imageUrl: rowObj.imageUrl || "https://placeholder.com/image.jpg",
+      category: rowObj.category,
+      categories: rowObj.categories || [],
+      categoryColor: rowObj.categoryColor,
+      source: rowObj.source,
+      author: rowObj.author || "Unknown author",
+      authors: rowObj.authors && rowObj.authors.length ? rowObj.authors : ["Unknown author"],
+      documentType: rowObj.documentType || "Article"
+    };
 
-  validateArticle_(article);
-  updateGithubArticlesJson_(article);
+    validateArticle_(article);
+    updateGithubArticlesJson_(article);
 
-  const now = new Date().toISOString();
-  setCell_(sheet, headers, rowNumber, "status", "approved");
-  setCell_(sheet, headers, rowNumber, "approvedAt", now);
-  setCell_(sheet, headers, rowNumber, "approvedBy", payload.adminEmail || "");
+    const now = new Date().toISOString();
+    setCell_(sheet, headers, rowNumber, "status", "approved");
+    setCell_(sheet, headers, rowNumber, "approvedAt", now);
+    setCell_(sheet, headers, rowNumber, "approvedBy", payload.adminEmail || "");
 
-  return json_({ result: "success", article });
+    return json_({ result: "success", article });
+  });
 }
 
 function rejectArticle_(payload) {
@@ -335,48 +337,50 @@ function submitBlogPost_(payload) {
 }
 
 function approveBlogPost_(payload) {
-  const sheet = getSheetByName_(BLOG_SHEET_NAME);
-  const { rowNumber, rowObj, headers } = findRowById_(sheet, payload.id);
+  return withGithubWriteLock_(function() {
+    const sheet = getSheetByName_(BLOG_SHEET_NAME);
+    const { rowNumber, rowObj, headers } = findRowById_(sheet, payload.id);
 
-  if (rowObj.status !== "pending") {
-    throw new Error("Only pending blog submissions can be approved.");
-  }
+    if (rowObj.status !== "pending") {
+      throw new Error("Only pending blog submissions can be approved.");
+    }
 
-  const now = new Date().toISOString();
-  const slug = uniqueBlogSlug_(rowObj.slug || rowObj.title, rowObj.id);
-  const post = {
-    id: rowObj.id,
-    slug,
-    path: `${slug}.html`,
-    title: rowObj.title,
-    subtitle: rowObj.subtitle,
-    shareDescription: rowObj.subtitle,
-    category: rowObj.category || "Personal essay",
-    author: rowObj.author && Object.keys(rowObj.author).length ? rowObj.author : {
-      name: rowObj.authorName || "Anonymous contributor",
-      anonymous: rowObj.anonymous === "true"
-    },
-    images: rowObj.images || [],
-    featureImage: rowObj.images && rowObj.images.length ? rowObj.images[0] : "",
-    shareImage: rowObj.images && rowObj.images.length ? rowObj.images[0] : "",
-    date: Utilities.formatDate(new Date(), "UTC", "yyyy-MM-dd"),
-    publishedAt: now,
-    readTime: estimateReadTime_(rowObj.body),
-    citations: 0,
-    comments: 0,
-    content: blogBodyToHtml_(rowObj.body)
-  };
+    const now = new Date().toISOString();
+    const slug = uniqueBlogSlug_(rowObj.slug || rowObj.title, rowObj.id);
+    const post = {
+      id: rowObj.id,
+      slug,
+      path: `${slug}.html`,
+      title: rowObj.title,
+      subtitle: rowObj.subtitle,
+      shareDescription: rowObj.subtitle,
+      category: rowObj.category || "Personal essay",
+      author: rowObj.author && Object.keys(rowObj.author).length ? rowObj.author : {
+        name: rowObj.authorName || "Anonymous contributor",
+        anonymous: rowObj.anonymous === "true"
+      },
+      images: rowObj.images || [],
+      featureImage: rowObj.images && rowObj.images.length ? rowObj.images[0] : "",
+      shareImage: rowObj.images && rowObj.images.length ? rowObj.images[0] : "",
+      date: Utilities.formatDate(new Date(), "UTC", "yyyy-MM-dd"),
+      publishedAt: now,
+      readTime: estimateReadTime_(rowObj.body),
+      citations: 0,
+      comments: 0,
+      content: blogBodyToHtml_(rowObj.body)
+    };
 
-  validateBlogPost_(post);
-  updateGithubBlogPostsJson_(post);
-  updateGithubBlogPostPage_(post);
+    validateBlogPost_(post);
+    updateGithubBlogPostsJson_(post);
+    updateGithubBlogPostPage_(post);
 
-  setCell_(sheet, headers, rowNumber, "status", "approved");
-  setCell_(sheet, headers, rowNumber, "approvedAt", now);
-  setCell_(sheet, headers, rowNumber, "approvedBy", payload.adminEmail || "");
-  setCell_(sheet, headers, rowNumber, "slug", post.slug);
+    setCell_(sheet, headers, rowNumber, "status", "approved");
+    setCell_(sheet, headers, rowNumber, "approvedAt", now);
+    setCell_(sheet, headers, rowNumber, "approvedBy", payload.adminEmail || "");
+    setCell_(sheet, headers, rowNumber, "slug", post.slug);
 
-  return json_({ result: "success", post });
+    return json_({ result: "success", post });
+  });
 }
 
 function rejectBlogPost_(payload) {
@@ -394,6 +398,26 @@ function rejectBlogPost_(payload) {
   setCell_(sheet, headers, rowNumber, "rejectionReason", payload.reason || "");
 
   return json_({ result: "success" });
+}
+
+function withGithubWriteLock_(callback) {
+  const lock = LockService.getScriptLock();
+  let hasLock = false;
+
+  try {
+    lock.waitLock(45000);
+    hasLock = true;
+    return callback();
+  } catch (err) {
+    if (!hasLock) {
+      throw new Error("Another approval is updating GitHub. Please wait a few seconds and try again.");
+    }
+    throw err;
+  } finally {
+    if (hasLock) {
+      lock.releaseLock();
+    }
+  }
 }
 
 function validateArticle_(article) {
