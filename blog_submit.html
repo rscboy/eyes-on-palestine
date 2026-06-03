@@ -98,16 +98,93 @@
       opacity: 1;
       transform: translate(-50%, -0.25rem);
     }
+
+    .blog-hero-video,
+    .blog-footer-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .blog-hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(11, 11, 11, 0.08) 0%, rgba(11, 11, 11, 0.2) 58%, #0B0B0B 100%),
+        linear-gradient(90deg, rgba(11, 11, 11, 0.9) 0%, rgba(11, 11, 11, 0.72) 54%, rgba(11, 11, 11, 0.62) 100%),
+        rgba(0, 0, 0, 0.36);
+    }
+
+    .blog-footer-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, #0B0B0B 0%, rgba(11, 11, 11, 0.84) 24%, rgba(11, 11, 11, 0.58) 100%),
+        linear-gradient(90deg, rgba(11, 11, 11, 0.78) 0%, rgba(11, 11, 11, 0.48) 100%);
+    }
+
+    .typewriter-caret::after {
+      content: "";
+      display: inline-block;
+      width: 0.08em;
+      height: 0.85em;
+      margin-left: 0.08em;
+      background: #8C0D0D;
+      animation: writerCaret 0.9s steps(1) infinite;
+      vertical-align: -0.05em;
+    }
+
+    .typewriter-complete::after {
+      display: none;
+    }
+
+    @keyframes writerCaret {
+      0%, 45% { opacity: 1; }
+      46%, 100% { opacity: 0; }
+    }
   </style>
-  <link rel="stylesheet" href="./assets/site-shell.css?v=nav-contrast-1">
 </head>
 <body>
-  <main class="min-h-screen">
+  <section class="relative overflow-hidden w-full border-b border-border-gray bg-deep-black py-8 md:py-12">
+    <video class="blog-hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+      <source src="https://pub-3592c0f33d62473e96882cebf2720dba.r2.dev/84006-584870923_medium(1).mp4" type="video/mp4">
+    </video>
+    <div class="blog-hero-overlay" aria-hidden="true"></div>
+    <div class="relative z-10 max-w-[1100px] mx-auto px-5">
+      <div class="flex items-center justify-between gap-4 mb-8 md:mb-10">
+        <a href="https://echoesofgaza.org" class="flex items-center gap-3 min-w-0 group">
+          <img src="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" alt="Logo" class="h-9 md:h-10 w-auto object-contain group-hover:opacity-80 transition-opacity shrink-0">
+          <span class="hidden sm:block text-[11px] font-sans text-ash-gray uppercase tracking-[0.22em] group-hover:text-off-white transition-colors">Echoes of Gaza</span>
+        </a>
+        <a href="./blog.html" class="inline-flex items-center gap-2 border border-white/15 bg-black/45 backdrop-blur-sm px-3.5 py-2 text-[10px] md:text-xs font-sans text-off-white font-bold uppercase tracking-[0.16em] hover:border-deep-red hover:bg-hover-bg transition-colors whitespace-nowrap">
+          <i class="ph ph-house text-sm" aria-hidden="true"></i>
+          Blog Home
+        </a>
+      </div>
+
+      <div class="max-w-2xl">
+        <h1 class="font-serif text-3xl md:text-5xl font-bold text-off-white tracking-tight leading-none">
+          <a href="https://echoesofgaza.org" class="hover:underline decoration-deep-red underline-offset-8 transition-all">Echoes of Gaza</a>: Voices
+        </h1>
+
+        <p class="text-ash-gray text-sm md:text-base max-w-lg leading-relaxed font-sans mt-4">
+          Stories, testimonies, and the lived consequences of standing for Palestine.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <main class="min-h-screen bg-deep-black">
     <section class="max-w-[1120px] mx-auto px-5 pt-12 pb-8 md:pt-16">
       <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 border-b border-border-gray pb-8">
         <div class="max-w-3xl">
           <p class="text-deep-red text-xs font-bold uppercase tracking-[0.25em] mb-4">Blog Contributor Intake</p>
-          <h1 class="font-serif text-4xl md:text-6xl leading-tight text-off-white mb-4">Write for Echoes of Gaza</h1>
+          <h1 id="writer-typewriter" class="font-serif text-4xl md:text-6xl leading-tight text-off-white mb-4 min-h-[3.25rem] md:min-h-[4.75rem]" data-typewriter-text="Write for Echoes of Gaza">Write for Echoes of Gaza</h1>
           <p class="text-ash-gray text-base md:text-lg leading-relaxed">
             Submit a personal essay, testimony, reflection, or research-informed piece for editorial review. Approved posts appear on the public blog with a unique link.
           </p>
@@ -253,8 +330,54 @@
     </section>
   </main>
 
+  <footer id="footer" class="relative overflow-hidden bg-deep-black border-t border-border-gray pt-12 pb-10 mt-auto">
+    <video class="blog-footer-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+      <source src="https://pub-3592c0f33d62473e96882cebf2720dba.r2.dev/84006-584870923_medium(1).mp4" type="video/mp4">
+    </video>
+    <div class="blog-footer-overlay" aria-hidden="true"></div>
+    <div class="relative z-10 max-w-[1100px] mx-auto px-5 flex flex-col md:flex-row justify-between gap-12">
+      <div class="md:w-1/3 space-y-6">
+        <div class="flex flex-col items-start opacity-100">
+          <span class="text-xs font-serif text-off-white tracking-[0.2em] uppercase">Echoes of Gaza</span>
+        </div>
+        <p class="text-ash-gray text-xs leading-relaxed font-sans">Preserving truth, resisting erasure.</p>
+        <div id="google_translate_element"></div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 md:w-2/3">
+        <div>
+          <h4 class="text-off-white/80 mb-6 text-xs uppercase tracking-widest font-sans font-bold">Archive</h4>
+          <ul class="space-y-3 text-xs text-ash-gray font-sans">
+            <li><a href="https://echoesofgaza.org/#articles" class="hover:text-off-white transition-colors">Articles</a></li>
+            <li><a href="https://echoesofgaza.org/#victims" class="hover:text-off-white transition-colors">Martyrs</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-off-white/80 mb-6 text-xs uppercase tracking-widest font-sans font-bold">Resources</h4>
+          <ul class="space-y-3 text-xs text-ash-gray font-sans">
+            <li><a href="https://echoesofgaza.org/#quotes" class="hover:text-off-white transition-colors">Quotes</a></li>
+            <li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" rel="noopener noreferrer" class="hover:text-off-white transition-colors">Raw Data</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-off-white/80 mb-6 text-xs uppercase tracking-widest font-sans font-bold">Support</h4>
+          <div class="flex flex-col space-y-3 font-sans">
+            <a href="https://buymeacoffee.com/echoesofgaza" target="_blank" rel="noopener noreferrer" class="text-xs text-ash-gray hover:text-off-white transition-colors">Donate</a>
+            <a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" rel="noopener noreferrer" class="text-xs text-deep-red hover:text-white transition-colors font-medium">Monthly Support</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative z-10 max-w-[1100px] mx-auto px-5 mt-20 border-t border-border-gray pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-ash-gray uppercase tracking-wider font-sans">
+      <p>© 2026 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="underline hover:text-off-white transition-colors">CC BY-NC-SA 4.0</a>.</p>
+      <a href="https://echoesofgaza.org/admin.html" class="mt-4 md:mt-0 hover:text-off-white transition-colors">Admin Portal</a>
+    </div>
+  </footer>
+
   <div id="toast">Saved</div>
-  <script src="./assets/site-shell.js?v=integrity-1"></script>
   <script>
     const BLOG_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec";
     const PROFILE_KEY = "echoes_blog_writer_profile";
@@ -350,6 +473,59 @@
       el("word-count").textContent = `${words} word${words === 1 ? "" : "s"}`;
     }
 
+    function startWriterTypewriter() {
+      const headline = el("writer-typewriter");
+      if (!headline || headline.dataset.typed === "true") return;
+
+      const fullText = headline.dataset.typewriterText || headline.textContent.trim();
+      headline.dataset.typed = "true";
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        headline.textContent = fullText;
+        return;
+      }
+
+      headline.textContent = "";
+      headline.classList.add("typewriter-caret");
+
+      let index = 0;
+      const typeNext = () => {
+        headline.textContent = fullText.slice(0, index);
+        index += 1;
+
+        if (index <= fullText.length) {
+          window.setTimeout(typeNext, 48);
+        } else {
+          headline.classList.add("typewriter-complete");
+        }
+      };
+
+      typeNext();
+    }
+
+    function setupWriterTypewriter() {
+      const headline = el("writer-typewriter");
+      if (!headline) return;
+
+      if (!("IntersectionObserver" in window)) {
+        startWriterTypewriter();
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        if (entry && entry.isIntersecting) {
+          startWriterTypewriter();
+          observer.disconnect();
+        }
+      }, {
+        threshold: 0.45,
+        rootMargin: "0px 0px -8% 0px"
+      });
+
+      observer.observe(headline);
+    }
+
     function submissionPayload() {
       const profile = getProfile();
       const contactEmail = el("post-contact").value.trim() || profile.email;
@@ -430,6 +606,7 @@
 
     loadSavedProfile();
     loadDraft();
+    setupWriterTypewriter();
   </script>
 </body>
 </html>
