@@ -397,7 +397,7 @@ function rejectBlogPost_(payload) {
 }
 
 function validateArticle_(article) {
-  const required = ["date", "title", "summary", "link", "imageUrl", "category", "categoryColor", "source"];
+  const required = ["date", "title", "link", "imageUrl", "category", "categoryColor", "source"];
   const missing = required.filter(key => !article[key]);
 
   if (missing.length) {
