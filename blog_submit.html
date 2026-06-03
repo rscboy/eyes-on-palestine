@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit to the Blog | Echoes of Gaza</title>
+  <meta name="description" content="Submit a personal essay, testimony, or reflection for review by the Echoes of Gaza editorial team.">
+  <link rel="icon" href="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "deep-black": "#0B0B0B",
+            "deep-red": "#8C0D0D",
+            "off-white": "#EDEDED",
+            "ash-gray": "#7A7A7A",
+            "border-gray": "#2A2A2A",
+            "hover-bg": "#1A1A1A"
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', "serif"],
+            sans: ['"Inter"', "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background: #0B0B0B;
+      color: #EDEDED;
+      font-family: "Inter", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .field {
+      width: 100%;
+      border: 1px solid #2A2A2A;
+      background: #101010;
+      color: #EDEDED;
+      padding: 0.9rem 1rem;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .field:focus {
+      border-color: #8C0D0D;
+      background: #141414;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 0.55rem;
+      color: #7A7A7A;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .panel {
+      border: 1px solid #2A2A2A;
+      background: rgba(17, 17, 17, 0.7);
+    }
+
+    .mode-card[aria-pressed="true"] {
+      border-color: #8C0D0D;
+      background: rgba(140, 13, 13, 0.14);
+      color: #EDEDED;
+    }
+
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1.25rem;
+      transform: translateX(-50%);
+      z-index: 50;
+      max-width: calc(100vw - 2rem);
+      border: 1px solid #2A2A2A;
+      background: #EDEDED;
+      color: #0B0B0B;
+      padding: 0.85rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translate(-50%, -0.25rem);
+    }
+  </style>
+  <link rel="stylesheet" href="./assets/site-shell.css?v=nav-contrast-1">
+</head>
+<body>
+  <main class="min-h-screen">
+    <section class="max-w-[1120px] mx-auto px-5 pt-12 pb-8 md:pt-16">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 border-b border-border-gray pb-8">
+        <div class="max-w-3xl">
+          <p class="text-deep-red text-xs font-bold uppercase tracking-[0.25em] mb-4">Blog Contributor Intake</p>
+          <h1 class="font-serif text-4xl md:text-6xl leading-tight text-off-white mb-4">Write for Echoes of Gaza</h1>
+          <p class="text-ash-gray text-base md:text-lg leading-relaxed">
+            Submit a personal essay, testimony, reflection, or research-informed piece for editorial review. Approved posts appear on the public blog with a unique link.
+          </p>
+        </div>
+        <a href="./blog.html" class="inline-flex items-center gap-2 border border-border-gray px-5 py-3 text-xs font-bold uppercase tracking-[0.18em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
+          <i class="ph ph-arrow-left"></i>
+          Blog Home
+        </a>
+      </div>
+    </section>
+
+    <section class="max-w-[1120px] mx-auto px-5 pb-16 grid grid-cols-1 lg:grid-cols-[0.92fr_1.35fr] gap-8">
+      <aside class="space-y-5">
+        <div class="panel p-5 md:p-6">
+          <h2 class="font-serif text-2xl text-off-white mb-3">Contributor profile</h2>
+          <p class="text-sm text-ash-gray leading-relaxed mb-5">
+            Save a simple writer profile for this browser, or submit anonymously. Anonymous submissions still go to review before publication.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+            <button type="button" id="mode-profile" class="mode-card border border-border-gray p-4 text-left text-ash-gray hover:text-off-white hover:border-deep-red transition" aria-pressed="true">
+              <i class="ph ph-user-circle text-2xl block mb-3"></i>
+              <span class="block text-xs font-bold uppercase tracking-[0.18em] mb-1">Writer Profile</span>
+              <span class="text-xs leading-relaxed">Use your name, bio, photo, and links.</span>
+            </button>
+            <button type="button" id="mode-anonymous" class="mode-card border border-border-gray p-4 text-left text-ash-gray hover:text-off-white hover:border-deep-red transition" aria-pressed="false">
+              <i class="ph ph-mask-happy text-2xl block mb-3"></i>
+              <span class="block text-xs font-bold uppercase tracking-[0.18em] mb-1">Anonymous</span>
+              <span class="text-xs leading-relaxed">Hide public identity details.</span>
+            </button>
+          </div>
+
+          <form id="profile-form" class="space-y-4">
+            <div>
+              <label class="label" for="writer-name">Display name</label>
+              <input id="writer-name" class="field" placeholder="Name shown on the post">
+            </div>
+            <div>
+              <label class="label" for="writer-email">Email for editors</label>
+              <input id="writer-email" class="field" type="email" placeholder="Only used for review follow-up">
+            </div>
+            <div>
+              <label class="label" for="writer-role">Role or affiliation</label>
+              <input id="writer-role" class="field" placeholder="Student, organizer, researcher, community member">
+            </div>
+            <div>
+              <label class="label" for="writer-photo">Profile photo URL</label>
+              <input id="writer-photo" class="field" type="url" placeholder="https://...">
+            </div>
+            <div>
+              <label class="label" for="writer-location">Location</label>
+              <input id="writer-location" class="field" placeholder="Optional">
+            </div>
+            <div>
+              <label class="label" for="writer-links">Public links</label>
+              <input id="writer-links" class="field" placeholder="Website, social profile, portfolio">
+            </div>
+            <div>
+              <label class="label" for="writer-bio">Bio</label>
+              <textarea id="writer-bio" class="field min-h-[130px]" placeholder="A short public bio readers can see when they click your writer profile."></textarea>
+            </div>
+            <button type="button" id="save-profile" class="w-full border border-border-gray px-5 py-3 text-xs font-bold uppercase tracking-[0.18em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
+              Save Writer Profile
+            </button>
+          </form>
+
+          <div id="anonymous-note" class="hidden border border-border-gray bg-[#090909] p-4 text-sm text-ash-gray leading-relaxed">
+            Anonymous mode will publish the author as “Anonymous contributor.” Editors may still use your contact email if you provide it in the submission form.
+          </div>
+        </div>
+
+        <div class="panel p-5 md:p-6">
+          <h2 class="font-serif text-2xl text-off-white mb-3">What happens next</h2>
+          <ol class="space-y-4 text-sm text-ash-gray leading-relaxed">
+            <li><span class="text-off-white">1.</span> Your draft is sent to the private admin queue.</li>
+            <li><span class="text-off-white">2.</span> Editors review it for clarity, safety, and fit.</li>
+            <li><span class="text-off-white">3.</span> Approved posts are added to the public blog with a unique link.</li>
+          </ol>
+        </div>
+      </aside>
+
+      <section class="panel p-5 md:p-7">
+        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-7">
+          <div>
+            <p class="text-deep-red text-xs font-bold uppercase tracking-[0.22em] mb-3">Submission</p>
+            <h2 class="font-serif text-3xl md:text-4xl text-off-white leading-tight">Draft your piece</h2>
+          </div>
+          <div id="word-count" class="text-xs text-ash-gray font-bold uppercase tracking-[0.16em]">0 words</div>
+        </div>
+
+        <form id="blog-submission-form" class="space-y-5">
+          <div>
+            <label class="label" for="post-title">Title</label>
+            <input id="post-title" class="field" required placeholder="Give the piece a clear title">
+          </div>
+          <div>
+            <label class="label" for="post-subtitle">Short description</label>
+            <textarea id="post-subtitle" class="field min-h-[95px]" required maxlength="500" placeholder="One or two sentences for the blog index and share preview."></textarea>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="label" for="post-category">Type</label>
+              <select id="post-category" class="field">
+                <option>Personal essay</option>
+                <option>Testimony</option>
+                <option>Reflection</option>
+                <option>Research note</option>
+                <option>Community update</option>
+                <option>Poetry or creative writing</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="post-contact">Contact email</label>
+              <input id="post-contact" class="field" type="email" placeholder="Required if profile email is empty">
+            </div>
+          </div>
+          <div>
+            <label class="label" for="post-images">Image URLs</label>
+            <textarea id="post-images" class="field min-h-[92px]" placeholder="Optional. Add one image URL per line. The first image becomes the feature image."></textarea>
+          </div>
+          <div>
+            <label class="label" for="post-body">Body</label>
+            <textarea id="post-body" class="field min-h-[360px] leading-relaxed" required placeholder="Write or paste your piece here. Paragraph breaks are preserved."></textarea>
+          </div>
+          <div>
+            <label class="label" for="post-notes">Private note to editors</label>
+            <textarea id="post-notes" class="field min-h-[90px]" placeholder="Optional context, safety concerns, edits requested, or how you would like to be contacted."></textarea>
+          </div>
+          <label class="flex items-start gap-3 text-sm text-ash-gray leading-relaxed">
+            <input id="author-consent" type="checkbox" required class="mt-1 accent-[#8C0D0D]">
+            <span>I confirm this is my work, I have permission to submit any included images, and I understand the Echoes of Gaza team may edit or decline the piece before publication.</span>
+          </label>
+          <div class="flex flex-col sm:flex-row gap-3 pt-2">
+            <button id="submit-post" type="submit" class="flex-1 bg-deep-red px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-off-white hover:bg-[#6d0a0a] transition">
+              Submit for Review
+            </button>
+            <button id="save-draft" type="button" class="border border-border-gray px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
+              Save Draft
+            </button>
+          </div>
+          <p id="submission-status" class="text-sm text-ash-gray leading-relaxed"></p>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast">Saved</div>
+  <script src="./assets/site-shell.js?v=integrity-1"></script>
+  <script>
+    const BLOG_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec";
+    const PROFILE_KEY = "echoes_blog_writer_profile";
+    const DRAFT_KEY = "echoes_blog_submission_draft";
+    const state = { anonymous: false };
+
+    const el = (id) => document.getElementById(id);
+
+    function showToast(message) {
+      const toast = el("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2400);
+    }
+
+    function splitLines(value) {
+      return String(value || "").split(/\n+/).map((line) => line.trim()).filter(Boolean);
+    }
+
+    function getProfile() {
+      return {
+        name: el("writer-name").value.trim(),
+        email: el("writer-email").value.trim(),
+        role: el("writer-role").value.trim(),
+        photoUrl: el("writer-photo").value.trim(),
+        location: el("writer-location").value.trim(),
+        links: splitLines(el("writer-links").value.replace(/,/g, "\n")),
+        bio: el("writer-bio").value.trim()
+      };
+    }
+
+    function setProfile(profile) {
+      el("writer-name").value = profile.name || "";
+      el("writer-email").value = profile.email || "";
+      el("writer-role").value = profile.role || "";
+      el("writer-photo").value = profile.photoUrl || "";
+      el("writer-location").value = profile.location || "";
+      el("writer-links").value = Array.isArray(profile.links) ? profile.links.join("\n") : (profile.links || "");
+      el("writer-bio").value = profile.bio || "";
+    }
+
+    function setMode(anonymous) {
+      state.anonymous = anonymous;
+      el("mode-profile").setAttribute("aria-pressed", String(!anonymous));
+      el("mode-anonymous").setAttribute("aria-pressed", String(anonymous));
+      el("profile-form").classList.toggle("hidden", anonymous);
+      el("anonymous-note").classList.toggle("hidden", !anonymous);
+    }
+
+    function loadSavedProfile() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(PROFILE_KEY) || "{}");
+        setProfile(saved);
+      } catch (error) {
+        console.warn("Could not load saved profile", error);
+      }
+    }
+
+    function saveDraft() {
+      const draft = {
+        title: el("post-title").value,
+        subtitle: el("post-subtitle").value,
+        category: el("post-category").value,
+        contactEmail: el("post-contact").value,
+        images: el("post-images").value,
+        body: el("post-body").value,
+        editorNotes: el("post-notes").value,
+        anonymous: state.anonymous
+      };
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+      showToast("Draft saved in this browser");
+    }
+
+    function loadDraft() {
+      try {
+        const draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
+        el("post-title").value = draft.title || "";
+        el("post-subtitle").value = draft.subtitle || "";
+        el("post-category").value = draft.category || "Personal essay";
+        el("post-contact").value = draft.contactEmail || "";
+        el("post-images").value = draft.images || "";
+        el("post-body").value = draft.body || "";
+        el("post-notes").value = draft.editorNotes || "";
+        setMode(Boolean(draft.anonymous));
+        updateWordCount();
+      } catch (error) {
+        console.warn("Could not load saved draft", error);
+      }
+    }
+
+    function updateWordCount() {
+      const words = el("post-body").value.trim().split(/\s+/).filter(Boolean).length;
+      el("word-count").textContent = `${words} word${words === 1 ? "" : "s"}`;
+    }
+
+    function submissionPayload() {
+      const profile = getProfile();
+      const contactEmail = el("post-contact").value.trim() || profile.email;
+      return {
+        action: "submitBlogPost",
+        status: "pending",
+        submittedAt: new Date().toISOString(),
+        title: el("post-title").value.trim(),
+        subtitle: el("post-subtitle").value.trim(),
+        category: el("post-category").value,
+        body: el("post-body").value.trim(),
+        images: splitLines(el("post-images").value),
+        editorNotes: el("post-notes").value.trim(),
+        contactEmail,
+        anonymous: state.anonymous,
+        author: state.anonymous ? {
+          name: "Anonymous contributor",
+          anonymous: true
+        } : {
+          ...profile,
+          anonymous: false
+        }
+      };
+    }
+
+    async function submitPost(event) {
+      event.preventDefault();
+      const status = el("submission-status");
+      const payload = submissionPayload();
+
+      if (!payload.title || !payload.subtitle || !payload.body) {
+        status.textContent = "Please add a title, short description, and body before submitting.";
+        return;
+      }
+
+      if (!payload.contactEmail) {
+        status.textContent = "Please add a contact email so editors can follow up, or save one in your profile.";
+        return;
+      }
+
+      el("submit-post").disabled = true;
+      el("submit-post").textContent = "Submitting...";
+      status.textContent = "Sending your piece to the editorial queue...";
+
+      try {
+        const response = await fetch(BLOG_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        if (data.result !== "success") {
+          throw new Error(data.message || "Submission failed.");
+        }
+        localStorage.removeItem(DRAFT_KEY);
+        status.textContent = `Submitted for review. Reference: ${data.id}`;
+        showToast("Submission received");
+        el("blog-submission-form").reset();
+        updateWordCount();
+      } catch (error) {
+        console.error(error);
+        status.textContent = `Error: ${error.message}`;
+      } finally {
+        el("submit-post").disabled = false;
+        el("submit-post").textContent = "Submit for Review";
+      }
+    }
+
+    el("mode-profile").addEventListener("click", () => setMode(false));
+    el("mode-anonymous").addEventListener("click", () => setMode(true));
+    el("save-profile").addEventListener("click", () => {
+      localStorage.setItem(PROFILE_KEY, JSON.stringify(getProfile()));
+      showToast("Writer profile saved");
+    });
+    el("save-draft").addEventListener("click", saveDraft);
+    el("post-body").addEventListener("input", updateWordCount);
+    el("blog-submission-form").addEventListener("submit", submitPost);
+
+    loadSavedProfile();
+    loadDraft();
+  </script>
+</body>
+</html>
