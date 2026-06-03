@@ -312,9 +312,46 @@
             flex: 0 0 auto;
         }
 
+        .article-save-overlay {
+            position: absolute;
+            top: 0.8rem;
+            left: 0.8rem;
+            z-index: 5;
+            width: 2.45rem;
+            height: 2.45rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(5, 5, 5, 0.78);
+            color: #e5e5e5;
+            border-radius: 999px;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.34);
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .article-save-overlay:hover {
+            transform: translateY(-1px);
+            border-color: rgba(139, 0, 0, 0.72);
+            background: rgba(15, 15, 15, 0.9);
+            color: #fff;
+        }
+
+        .article-save-overlay.is-saved {
+            border-color: rgba(139, 0, 0, 0.88);
+            background: rgba(139, 0, 0, 0.86);
+            color: #fff;
+        }
+
+        .article-save-overlay svg {
+            width: 1.05rem;
+            height: 1.05rem;
+        }
+
         .article-actions {
             display: grid;
-            grid-template-columns: repeat(4, 2.25rem);
+            grid-template-columns: repeat(3, 2.25rem);
             gap: 0.4rem;
             flex: 0 0 auto;
             width: auto;
@@ -363,6 +400,193 @@
 
         .archive-view-mode {
             width: auto;
+        }
+
+        .desktop-display-zoom {
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            .desktop-display-zoom {
+                position: fixed;
+                left: 1rem;
+                top: 50%;
+                z-index: 45;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.65rem;
+                width: 3rem;
+                padding: 0.85rem 0.45rem;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                background: rgba(5, 5, 5, 0.78);
+                border-radius: 999px;
+                box-shadow: 0 18px 48px rgba(0, 0, 0, 0.42);
+                backdrop-filter: blur(14px);
+                transform: translateY(-50%);
+            }
+
+            .desktop-display-zoom span {
+                color: #8B0000;
+                font-size: 0.62rem;
+                font-weight: 800;
+                line-height: 1;
+                text-transform: uppercase;
+            }
+
+            .desktop-display-zoom-label {
+                writing-mode: vertical-rl;
+                transform: rotate(180deg);
+                color: #777 !important;
+                letter-spacing: 0.12em;
+            }
+
+            .desktop-display-zoom input[type="range"] {
+                width: 8.5rem;
+                height: 1.1rem;
+                accent-color: #8B0000;
+                cursor: pointer;
+                transform: rotate(-90deg);
+                margin: 3.75rem 0;
+            }
+
+            .desktop-display-zoom-value {
+                min-width: 1.55rem;
+                min-height: 1.55rem;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 999px;
+                background: #111;
+                color: #eee !important;
+                font-size: 0.64rem !important;
+                letter-spacing: 0;
+            }
+
+            html[data-display-zoom="1"] #article-grid,
+            html[data-display-zoom="1"] #book-grid,
+            html[data-display-zoom="1"] #video-grid,
+            html[data-display-zoom="1"] #film-grid {
+                grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+                gap: 1rem !important;
+            }
+
+            html[data-display-zoom="2"] #article-grid,
+            html[data-display-zoom="2"] #book-grid,
+            html[data-display-zoom="2"] #video-grid,
+            html[data-display-zoom="2"] #film-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+                gap: 1.25rem !important;
+            }
+
+            html[data-display-zoom="3"] #article-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            }
+
+            html[data-display-zoom="3"] #book-grid,
+            html[data-display-zoom="3"] #video-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            }
+
+            html[data-display-zoom="3"] #film-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            }
+
+            html[data-display-zoom="4"] #article-grid,
+            html[data-display-zoom="4"] #book-grid,
+            html[data-display-zoom="4"] #video-grid,
+            html[data-display-zoom="4"] #film-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 2rem !important;
+            }
+
+            html[data-display-zoom="5"] #article-grid,
+            html[data-display-zoom="5"] #book-grid,
+            html[data-display-zoom="5"] #video-grid,
+            html[data-display-zoom="5"] #film-grid {
+                grid-template-columns: minmax(0, 1fr) !important;
+                gap: 2.35rem !important;
+                max-width: 48rem;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            html[data-display-zoom="1"] #article-grid > div > div:first-child,
+            html[data-display-zoom="1"] #book-grid .card-modern > div:first-child,
+            html[data-display-zoom="1"] #film-grid .card-modern > div:first-child {
+                height: 9.5rem !important;
+            }
+
+            html[data-display-zoom="2"] #article-grid > div > div:first-child,
+            html[data-display-zoom="2"] #book-grid .card-modern > div:first-child,
+            html[data-display-zoom="2"] #film-grid .card-modern > div:first-child {
+                height: 12rem !important;
+            }
+
+            html[data-display-zoom="4"] #article-grid > div > div:first-child,
+            html[data-display-zoom="4"] #book-grid .card-modern > div:first-child,
+            html[data-display-zoom="4"] #film-grid .card-modern > div:first-child {
+                height: 18rem !important;
+            }
+
+            html[data-display-zoom="5"] #article-grid > div > div:first-child,
+            html[data-display-zoom="5"] #book-grid .card-modern > div:first-child,
+            html[data-display-zoom="5"] #film-grid .card-modern > div:first-child {
+                height: 24rem !important;
+            }
+
+            html[data-display-zoom="1"] .article-card-body,
+            html[data-display-zoom="1"] #book-grid .card-modern > div:last-child,
+            html[data-display-zoom="1"] #video-grid .card-modern > div:last-child,
+            html[data-display-zoom="1"] #film-grid .card-modern > div:last-child {
+                padding: 0.85rem !important;
+            }
+
+            html[data-display-zoom="4"] .article-card-body,
+            html[data-display-zoom="4"] #book-grid .card-modern > div:last-child,
+            html[data-display-zoom="4"] #video-grid .card-modern > div:last-child,
+            html[data-display-zoom="4"] #film-grid .card-modern > div:last-child {
+                padding: 1.5rem !important;
+            }
+
+            html[data-display-zoom="5"] .article-card-body,
+            html[data-display-zoom="5"] #book-grid .card-modern > div:last-child,
+            html[data-display-zoom="5"] #video-grid .card-modern > div:last-child,
+            html[data-display-zoom="5"] #film-grid .card-modern > div:last-child {
+                padding: 1.9rem !important;
+            }
+
+            html[data-display-zoom="1"] #article-grid h3,
+            html[data-display-zoom="1"] #book-grid h4,
+            html[data-display-zoom="1"] #video-grid h4,
+            html[data-display-zoom="1"] #film-grid h4 {
+                font-size: 0.88rem !important;
+                line-height: 1.18 !important;
+            }
+
+            html[data-display-zoom="4"] #article-grid h3,
+            html[data-display-zoom="4"] #book-grid h4,
+            html[data-display-zoom="4"] #video-grid h4,
+            html[data-display-zoom="4"] #film-grid h4 {
+                font-size: 1.28rem !important;
+                line-height: 1.2 !important;
+            }
+
+            html[data-display-zoom="5"] #article-grid h3,
+            html[data-display-zoom="5"] #book-grid h4,
+            html[data-display-zoom="5"] #video-grid h4,
+            html[data-display-zoom="5"] #film-grid h4 {
+                font-size: 1.5rem !important;
+                line-height: 1.18 !important;
+            }
+
+            html[data-display-zoom="1"] #article-grid p,
+            html[data-display-zoom="1"] #book-grid p,
+            html[data-display-zoom="1"] #video-grid p,
+            html[data-display-zoom="1"] #film-grid p {
+                display: none !important;
+            }
         }
 
         .archive-table-wrap {
@@ -1418,6 +1642,14 @@
 </head>
 
 <body class="antialiased selection:bg-red-900 selection:text-white">
+    <aside class="desktop-display-zoom" aria-label="Display zoom controls">
+        <span>+</span>
+        <input id="desktop-display-zoom-range" type="range" min="1" max="5" step="1" value="3" aria-label="Adjust archive display zoom">
+        <span>-</span>
+        <span id="desktop-display-zoom-value" class="desktop-display-zoom-value" aria-hidden="true">3</span>
+        <span class="desktop-display-zoom-label">Display</span>
+    </aside>
+
     <!-- Navigation -->
     <header class="nav-glass fixed w-full top-0 z-50 flex items-center">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
@@ -1464,7 +1696,7 @@
                         </button>
                         <div id="resources-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
                             <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
-                             <a href="https://echoesofgaza.org/blog" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">EoG Blog</a>
+                             <a href="https://echoesofgaza.org/blog" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Voices</a>
                              <a href="https://echoesofgaza.org/podcast" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">EoG Podcast</a>
                                 <a href="#quotes" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Quotes & Resources</a>
                                 <a href="https://echoesofgaza.org/events" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Events</a>
@@ -1839,7 +2071,7 @@
         <section id="videos" class="py-12">
             <div class="container mx-auto px-6">
                 <h3 class="text-2xl font-serif font-bold mb-16 text-center text-white/90">Video Reports</h3>
-                <div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto"></div>
+                <div id="video-grid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5 max-w-7xl mx-auto"></div>
             </div>
         </section>
 
@@ -2394,6 +2626,7 @@
         let currentArchiveView = 'cards';
         let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
         const MOBILE_DENSITY_KEY = 'echoes_mobile_archive_density';
+        const DISPLAY_ZOOM_KEY = 'echoes_desktop_display_zoom';
         let integrityResults = [];
         let integrityOverrides = {};
         let articleDetailRecords = {};
@@ -2542,12 +2775,58 @@
             modal.classList.add('is-visible');
         }
 
+        function packetHash(value) {
+            return btoa(unescape(encodeURIComponent(String(value || '')))).replace(/=+$/g, '').slice(0, 48);
+        }
+
+        function normalizePacketPart(value) {
+            return String(value || '').trim().replace(/\s+/g, ' ').toLowerCase();
+        }
+
         function articlePacketId(article) {
-            return btoa(unescape(encodeURIComponent(article?.link || `${article?.source || ''}:${article?.title || ''}:${article?.date || ''}`))).replace(/=+$/g, '').slice(0, 32);
+            const fingerprint = [
+                'v2',
+                normalizePacketPart(article?.source),
+                normalizePacketPart(article?.date),
+                normalizePacketPart(article?.title),
+                normalizePacketPart(article?.link)
+            ].join('|');
+            return packetHash(fingerprint);
+        }
+
+        function legacyArticlePacketIds(article) {
+            const legacyValue = article?.link || `${article?.source || ''}:${article?.title || ''}:${article?.date || ''}`;
+            return [packetHash(legacyValue)];
+        }
+
+        function articlePacketIds(article) {
+            return [...new Set([articlePacketId(article), ...legacyArticlePacketIds(article)])];
+        }
+
+        function isArticleSaved(article) {
+            const ids = articlePacketIds(article);
+            return ids.some(id => researchPacket.includes(id));
         }
 
         function getArticleByPacketId(id) {
-            return articles.find(article => articlePacketId(article) === id);
+            return articles.find(article => articlePacketIds(article).includes(id));
+        }
+
+        function normalizeResearchPacket() {
+            const nextPacket = [];
+            const seen = new Set();
+            researchPacket.forEach((id) => {
+                const article = getArticleByPacketId(id);
+                if (!article) return;
+                const primaryId = articlePacketId(article);
+                if (seen.has(primaryId)) return;
+                seen.add(primaryId);
+                nextPacket.push(primaryId);
+            });
+            if (nextPacket.length !== researchPacket.length || nextPacket.some((id, index) => id !== researchPacket[index])) {
+                researchPacket = nextPacket;
+                saveResearchPacket();
+            }
         }
 
         function citationForArticle(article, style = 'plain') {
@@ -2582,9 +2861,11 @@
         function loadResearchPacket() {
             try {
                 researchPacket = JSON.parse(localStorage.getItem(RESEARCH_PACKET_KEY) || '[]');
+                if (!Array.isArray(researchPacket)) researchPacket = [];
             } catch (error) {
                 researchPacket = [];
             }
+            normalizeResearchPacket();
         }
 
         function saveResearchPacket() {
@@ -2592,9 +2873,10 @@
         }
 
         function toggleResearchPacket(article) {
+            const ids = articlePacketIds(article);
             const id = articlePacketId(article);
-            if (researchPacket.includes(id)) {
-                researchPacket = researchPacket.filter(item => item !== id);
+            if (ids.some(item => researchPacket.includes(item))) {
+                researchPacket = researchPacket.filter(item => !ids.includes(item));
             } else {
                 researchPacket.push(id);
             }
@@ -2619,7 +2901,7 @@
         function createIcon(name) {
             const icons = {
                 source: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01"/><path d="M11 12h1v5h1"/></svg>',
-                save: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg>',
+                save: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M10 7h7v7"/><path d="M5 9v6"/><path d="M2 12h6"/></svg>',
                 story: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h9.5L20 7.5V19a2 2 0 0 1-2 2H6.5A2.5 2.5 0 0 1 4 18.5"/><path d="M14 3v5h5"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>',
                 share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4"/><path d="m15.4 6.5-6.8 4"/></svg>'
             };
@@ -2651,6 +2933,30 @@
             setMobileDensity(savedDensity);
             document.querySelectorAll('.mobile-density-btn').forEach((button) => {
                 button.addEventListener('click', () => setMobileDensity(button.dataset.density));
+            });
+        }
+
+        function setDesktopDisplayZoom(value) {
+            const normalized = String(Math.min(5, Math.max(1, Number(value) || 3)));
+            document.documentElement.dataset.displayZoom = normalized;
+            const range = document.getElementById('desktop-display-zoom-range');
+            const valueLabel = document.getElementById('desktop-display-zoom-value');
+            if (range) range.value = normalized;
+            if (valueLabel) valueLabel.textContent = normalized;
+            try {
+                localStorage.setItem(DISPLAY_ZOOM_KEY, normalized);
+            } catch (error) {}
+        }
+
+        function initDesktopDisplayZoomControl() {
+            let savedZoom = '3';
+            try {
+                savedZoom = localStorage.getItem(DISPLAY_ZOOM_KEY) || '3';
+            } catch (error) {}
+
+            setDesktopDisplayZoom(savedZoom);
+            document.getElementById('desktop-display-zoom-range')?.addEventListener('input', (event) => {
+                setDesktopDisplayZoom(event.target.value);
             });
         }
 
@@ -2985,6 +3291,20 @@
             drawer.setAttribute('aria-hidden', 'true');
         };
 
+        function getSavedResearchArticles() {
+            const savedArticles = [];
+            const seen = new Set();
+            researchPacket.forEach((id) => {
+                const article = getArticleByPacketId(id);
+                if (!article) return;
+                const primaryId = articlePacketId(article);
+                if (seen.has(primaryId)) return;
+                seen.add(primaryId);
+                savedArticles.push(article);
+            });
+            return savedArticles;
+        }
+
         window.openArticleDetail = function(detailId) {
             const article = articleDetailRecords[detailId];
             const drawer = document.getElementById('article-detail-drawer');
@@ -3033,7 +3353,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
                         <button class="btn-primary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.open('${escapeHtmlAttribute(escapeDataAttribute(archivedUrl))}', '_blank', 'noopener,noreferrer')">Archived Copy</button>
                         <button class="btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.open('${escapeHtmlAttribute(escapeDataAttribute(liveUrl))}', '_blank', 'noopener,noreferrer')">Live Source</button>
-                        <button class="btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.togglePacketByDetailId('${detailId}')">${researchPacket.includes(articlePacketId(article)) ? 'Saved' : 'Save'}</button>
+                        <button class="btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.togglePacketByDetailId('${detailId}')">${isArticleSaved(article) ? 'Saved' : 'Save'}</button>
                     </div>
                     <div class="border-t border-white/10 pt-6 mb-8">
                         <h3 class="font-serif text-white text-lg mb-2">Citation Tools</h3>
@@ -3069,7 +3389,7 @@
             const list = document.getElementById('research-packet-list');
             const actions = document.getElementById('research-packet-actions');
             if (!summary || !list) return;
-            const savedArticles = researchPacket.map(getArticleByPacketId).filter(Boolean);
+            const savedArticles = getSavedResearchArticles();
             const citationStyle = document.getElementById('research-citation-style')?.value || 'plain';
             const citationLabel = CITATION_STYLES.find(style => style.id === citationStyle)?.label || 'Plain';
             if (actions) actions.classList.toggle('hidden', !savedArticles.length);
@@ -3089,7 +3409,9 @@
         }
 
         window.removeFromResearchPacket = function(id) {
-            researchPacket = researchPacket.filter(item => item !== id);
+            const article = getArticleByPacketId(id);
+            const ids = article ? articlePacketIds(article) : [id];
+            researchPacket = researchPacket.filter(item => !ids.includes(item));
             saveResearchPacket();
             renderResearchPacket();
             renderArticles(currentlyDisplayedArticles);
@@ -3129,7 +3451,7 @@
         };
 
         function copyResearchPacketCitations() {
-            const savedArticles = researchPacket.map(getArticleByPacketId).filter(Boolean);
+            const savedArticles = getSavedResearchArticles();
             if (!savedArticles.length) {
                 showSimpleAlert('No saved articles yet.');
                 return;
@@ -3473,7 +3795,7 @@
                 const uniqueId = 'share-' + Math.random().toString(36).substr(2, 9);
                 const detailId = 'detail-' + Math.random().toString(36).substr(2, 9);
                 articleDetailRecords[detailId] = article;
-                const isSaved = researchPacket.includes(articlePacketId(article));
+                const isSaved = isArticleSaved(article);
                 const categories = getArticleCategories(article);
                 const authors = getArticleAuthors(article);
                 const categoryHtml = categories.slice(0, 3).map(category => `<span class="article-category-pill">${escapeHtml(category)}</span>`).join('');
@@ -3507,6 +3829,9 @@
                 return `
                     <div class="group flex flex-col rounded bg-[#0a0a0a] border border-[#222] overflow-hidden transition-colors hover:border-[#333]">
                         <div onclick="window.openArticleLinkChoiceFromElement(this)" data-live-url="${liveArticleLink}" data-archived-url="${archivedArticleLink}" class="relative h-56 w-full overflow-hidden bg-[#111] cursor-pointer">
+                            <button onclick="window.togglePacketByDetailId('${detailId}'); event.stopPropagation();" class="article-save-overlay ${isSaved ? 'is-saved' : ''}" aria-label="${isSaved ? 'Remove saved article' : 'Save article'}" title="${isSaved ? 'Saved' : 'Save article'}">
+                                ${createIcon('save')}
+                            </button>
                             <img src="${article.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
                         </div>
                         <div class="article-card-body flex flex-col flex-grow p-6">
@@ -3526,9 +3851,6 @@
                                 <div class="article-actions">
                                     <button onclick="window.openArticleDetail('${detailId}'); event.stopPropagation();" class="article-action-btn" aria-label="View details" title="Details">
                                         ${createIcon('source')}<span>Details</span>
-                                    </button>
-                                    <button onclick="window.togglePacketByDetailId('${detailId}'); event.stopPropagation();" class="article-action-btn" aria-label="Save article" title="${isSaved ? 'Saved' : 'Save'}">
-                                        ${createIcon('save')}<span>${isSaved ? 'Saved' : 'Save'}</span>
                                     </button>
                                     <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="article-action-btn" aria-label="Create story" title="Story">
                                         ${createIcon('story')}<span>Story</span>
@@ -3618,21 +3940,21 @@
             const grid = document.getElementById('video-grid'); if(!grid) return;
             grid.innerHTML = newestFirst(videos).map(v => `
             <div class="card-modern group flex flex-col h-full bg-[#0a0a0a] border border-[#222]">
-                <div class="relative h-64 sm:h-72 overflow-hidden bg-[#111]">
+                <div class="relative aspect-video overflow-hidden bg-[#111]">
                     <img src="${v.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Thumbnail';">
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center backdrop-blur-sm">
-                            <svg class="w-4 h-4 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <div class="w-9 h-9 md:w-10 md:h-10 rounded-full border border-white/20 flex items-center justify-center backdrop-blur-sm bg-black/20">
+                            <svg class="w-3 h-3 md:w-3.5 md:h-3.5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                         </div>
                     </div>
                     <a href="${v.link}" target="_blank" class="absolute inset-0 z-10" aria-label="Watch video"></a>
                 </div>
-                <div class="p-8 flex-grow flex flex-col">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-[#8B0000] text-[10px] font-bold uppercase tracking-widest">${v.platform}</span>
+                <div class="p-3 md:p-4 flex-grow flex flex-col">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[#8B0000] text-[9px] md:text-[10px] font-bold uppercase tracking-widest">${v.platform}</span>
                     </div>
-                    <h4 class="font-serif font-bold text-lg text-white mb-4 leading-snug group-hover:text-gray-300 transition-colors"><a href="${v.link}" target="_blank">${v.title}</a></h4>
-                    <p class="text-gray-600 text-xs mt-auto uppercase tracking-wider">By ${v.creator}</p>
+                    <h4 class="font-serif font-bold text-sm md:text-base text-white mb-3 leading-snug group-hover:text-gray-300 transition-colors line-clamp-3"><a href="${v.link}" target="_blank">${v.title}</a></h4>
+                    <p class="text-gray-600 text-[10px] md:text-[11px] mt-auto uppercase tracking-wider truncate">By ${v.creator}</p>
                 </div>
             </div>`).join('');
         }
@@ -3994,6 +4316,7 @@
             setupDropdowns();
             setupHiddenToolNavigation();
             initMobileDensityControl();
+            initDesktopDisplayZoomControl();
 
             // Victim Pagination and Search
             document.getElementById('victim-prev-btn').addEventListener('click', () => handleVictimPageChange(-1));
