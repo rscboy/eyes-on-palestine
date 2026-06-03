@@ -17,7 +17,7 @@
       --text-zinc: #e4e4e7;
       --text-muted: #71717a;
     }
-    body { background-color: var(--bg-dark); color: var(--text-zinc); font-family: 'Playfair Display', serif; }
+    body { background-color: var(--bg-dark); color: var(--text-zinc); font-family: 'Playfair Display', serif; overflow-x: hidden; }
     .font-sans { font-family: 'Inter', sans-serif; }
     .tracking-wide-caps { letter-spacing: 0.2em; text-transform: uppercase; }
 
@@ -130,6 +130,27 @@
     #primary-admin-panel,
     #secondary-admin-panel,
     #blog-admin-panel {
+      overflow: hidden;
+    }
+
+    #blog-admin-panel,
+    #blog-admin-panel * {
+      min-width: 0;
+    }
+
+    #blog-admin-panel p,
+    #blog-admin-panel h3,
+    #blog-admin-panel h4 {
+      overflow-wrap: anywhere;
+    }
+
+    #blog-published-manager {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
+
+    #blog-published-list article p {
       overflow: hidden;
     }
 
@@ -309,6 +330,11 @@
         padding-top: 1.25rem !important;
         padding-bottom: 1.25rem !important;
       }
+
+      #blog-published-manager {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
     }
 
     @media (max-width: 420px) {
@@ -434,19 +460,19 @@
 
       <div id="blog-admin-panel" class="hidden">
         <div class="border border-zinc-900 bg-zinc-950/40 p-5 md:p-6 mb-5">
-          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-            <div>
+          <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
+            <div class="min-w-0 flex-1">
               <h3 class="text-lg text-zinc-200 font-serif mb-2">Blog Review Queue</h3>
-              <p class="text-sm text-zinc-500 font-sans leading-relaxed max-w-3xl">
+              <p class="text-sm text-zinc-500 font-sans leading-relaxed max-w-2xl">
                 Review contributor essays, writer profiles, images, and private editor notes. Approval publishes the post into the blog JSON with its own unique link.
               </p>
             </div>
-            <a href="./blog_submit.html" target="_blank" rel="noopener noreferrer" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase text-center">
+            <a href="./blog_submit.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase text-center w-full sm:w-auto shrink-0">
               Open Writer Page
             </a>
           </div>
         </div>
-        <div class="flex flex-col sm:flex-row gap-3 mb-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
           <button id="btn-blog-load-pending" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">
             Pending Queue
           </button>
@@ -459,7 +485,7 @@
             Blog submission queue not loaded.
           </div>
         </div>
-        <div id="blog-published-manager" class="hidden mt-8 border-t border-zinc-900 pt-6">
+        <div id="blog-published-manager" class="hidden mt-6 border-t border-zinc-900 pt-6">
           <div id="blog-published-list" class="space-y-4"></div>
           <div id="blog-editor-panel" class="hidden mt-8 border border-zinc-900 bg-zinc-950/40 p-5 md:p-6"></div>
         </div>
@@ -685,6 +711,7 @@
     let activeAdminTab = "primary";
     let secondaryAdminCode = "";
     let publishedBlogPosts = [];
+    let pendingBlogItems = [];
     let activeBlogEditorPost = null;
     let integrityLatestPayload = null;
     let integrityOverrides = {};
@@ -1410,27 +1437,27 @@
       }
 
       blogPublishedList.innerHTML = `
-        <div class="flex items-center justify-between gap-4 mb-4">
-          <div>
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
+          <div class="min-w-0">
             <h3 class="text-lg text-zinc-200 font-serif">Published Blog Manager</h3>
-            <p class="text-xs text-zinc-500 font-sans">Edit text, images, author details, preview layout, or remove a post from the public blog.</p>
+            <p class="text-xs text-zinc-500 font-sans leading-relaxed max-w-2xl">Edit text, images, author details, preview layout, or remove a post from the public blog.</p>
           </div>
-          <button onclick="fetchPublishedBlogPosts()" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase">Refresh</button>
+          <button onclick="window.fetchPublishedBlogPosts()" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase w-full sm:w-auto shrink-0">Refresh</button>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
           ${publishedBlogPosts.map((post) => `
             <article class="border border-zinc-900 bg-[#080808] p-4">
-              <div class="flex items-start justify-between gap-4">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div class="min-w-0">
                   <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">${esc(post.date || post.publishedAt || "")}</p>
                   <h4 class="text-zinc-200 font-serif text-lg leading-tight mb-2">${esc(post.title || "Untitled")}</h4>
-                  <p class="text-xs text-zinc-500 font-sans line-clamp-2">${esc(post.subtitle || post.shareDescription || "")}</p>
+                  <p class="text-xs text-zinc-500 font-sans leading-relaxed max-h-[3.1rem]">${esc(post.subtitle || post.shareDescription || "")}</p>
                 </div>
-                ${post.shareImage || post.featureImage ? `<img src="${esc(post.shareImage || post.featureImage)}" alt="" class="w-20 h-20 object-cover border border-zinc-900 shrink-0">` : ""}
+                ${post.shareImage || post.featureImage ? `<img src="${esc(post.shareImage || post.featureImage)}" alt="" class="w-full sm:w-20 h-24 sm:h-20 object-cover border border-zinc-900 shrink-0">` : ""}
               </div>
               <div class="flex flex-wrap gap-2 mt-4">
-                <button onclick='openBlogEditor(${JSON.stringify(post.id || post.slug)})' class="px-3 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">Edit</button>
-                <a href="${esc(post.path ? `https://echoesofgaza.org/blog/${post.path}` : `https://echoesofgaza.org/blog?post=${encodeURIComponent(post.slug || post.id)}`)}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase">View</a>
+                <button onclick='window.openBlogEditor(${JSON.stringify(post.id || post.slug)})' class="px-3 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase min-w-[6.5rem]">Edit</button>
+                <a href="${esc(post.path ? `https://echoesofgaza.org/blog/${post.path}` : `https://echoesofgaza.org/blog?post=${encodeURIComponent(post.slug || post.id)}`)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase min-w-[6.5rem]">View</a>
               </div>
             </article>
           `).join("")}
@@ -1460,7 +1487,7 @@
                 <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-2">Published Editor</p>
                 <h3 class="text-xl text-zinc-200 font-serif leading-tight">Edit Blog Post</h3>
               </div>
-              <button type="button" onclick="closeBlogEditor()" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans uppercase tracking-widest">Close</button>
+              <button type="button" onclick="window.closeBlogEditor()" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans uppercase tracking-widest">Close</button>
             </div>
 
             ${blogEditorField_("Title", "title", post.title || "", "input")}
@@ -1469,22 +1496,56 @@
               ${blogEditorField_("Date", "date", post.date || "", "input")}
               ${blogEditorField_("Category", "category", post.category || "Personal essay", "input")}
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-              ${blogEditorField_("Author name", "authorName", author.name || "", "input")}
-              ${blogEditorField_("Author role", "authorRole", author.role || post.role || "", "input")}
-            </div>
-            ${blogEditorField_("Author photo URL", "authorPhotoUrl", author.photoUrl || post.authorImg || "", "input")}
-            ${blogEditorField_("Author bio", "authorBio", author.bio || post.authorBio || "", "textarea")}
-            ${blogEditorField_("Feature/share image URL", "featureImage", post.featureImage || post.shareImage || images[0] || "", "input")}
-            ${blogEditorField_("Additional image URLs, one per line", "images", images.join("\\n"), "textarea")}
+
+            <section class="border border-zinc-900 bg-[#070707] p-4 space-y-3">
+              <div>
+                <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-1">Writer Profile</p>
+                <p class="text-xs text-zinc-500 font-sans leading-relaxed">Update the byline, bio, and author photo that appear on the published article.</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-[4rem_1fr] gap-3 items-start">
+                <div id="blog-author-photo-preview" class="w-16 h-16 rounded-full bg-zinc-950 overflow-hidden border border-zinc-800 flex items-center justify-center text-zinc-500 font-serif text-lg"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  ${blogEditorField_("Author name", "authorName", author.name || "", "input")}
+                  ${blogEditorField_("Author role", "authorRole", author.role || post.role || "", "input")}
+                </div>
+              </div>
+              ${blogEditorField_("Author photo URL", "authorPhotoUrl", author.photoUrl || post.authorImg || "", "input")}
+              ${blogEditorField_("Author location", "authorLocation", author.location || post.authorLocation || "", "input")}
+              ${blogEditorField_("Author links, one per line", "authorLinks", Array.isArray(author.links) ? author.links.join("\\n") : "", "textarea")}
+              ${blogEditorField_("Author bio", "authorBio", author.bio || post.authorBio || "", "textarea")}
+            </section>
+
+            <section class="border border-zinc-900 bg-[#070707] p-4 space-y-3">
+              <div>
+                <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-1">Article Pictures</p>
+                <p class="text-xs text-zinc-500 font-sans leading-relaxed">Use the feature image as the article thumbnail, or insert images directly into the body exactly where your cursor is placed.</p>
+              </div>
+              ${blogEditorField_("Feature/share image URL", "featureImage", post.featureImage || post.shareImage || images[0] || "", "input")}
+              ${blogEditorField_("Additional image URLs, one per line", "images", images.join("\\n"), "textarea")}
+              <div class="border border-zinc-900 bg-black p-3 space-y-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  ${blogEditorField_("Picture URL to insert", "insertImageUrl", "", "input")}
+                  ${blogEditorField_("Caption / alt text", "insertImageCaption", "", "input")}
+                </div>
+                <label class="block">
+                  <span class="block text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">Placement</span>
+                  <select name="insertImagePlacement" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]">
+                    <option value="full">Full width between paragraphs</option>
+                    <option value="left">Small image floated left</option>
+                    <option value="right">Small image floated right</option>
+                  </select>
+                </label>
+                <button type="button" onclick="window.insertBlogEditorImage()" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">Insert Picture At Cursor</button>
+              </div>
+            </section>
             ${blogEditorField_("Article HTML/body", "content", post.content || "", "textarea tall")}
 
             <div id="blog-edit-error" class="hidden text-[#8b0000] text-xs font-sans"></div>
             <div id="blog-edit-success" class="hidden text-green-700 text-xs font-sans"></div>
 
             <div class="flex flex-col sm:flex-row gap-3 pt-2">
-              <button type="button" onclick="saveBlogEditor()" class="px-5 py-2 border border-[#8b0000] text-zinc-100 hover:bg-[#8b0000]/10 text-[11px] font-sans tracking-[0.15em] uppercase">Save Changes</button>
-              <button type="button" onclick="deletePublishedBlogPost()" class="px-5 py-2 border border-zinc-800 text-zinc-500 hover:border-[#8b0000] hover:text-white text-[11px] font-sans tracking-[0.15em] uppercase">Delete Post</button>
+              <button type="button" onclick="window.saveBlogEditor()" class="px-5 py-2 border border-[#8b0000] text-zinc-100 hover:bg-[#8b0000]/10 text-[11px] font-sans tracking-[0.15em] uppercase">Save Changes</button>
+              <button type="button" onclick="window.deletePublishedBlogPost()" class="px-5 py-2 border border-zinc-800 text-zinc-500 hover:border-[#8b0000] hover:text-white text-[11px] font-sans tracking-[0.15em] uppercase">Delete Post</button>
             </div>
           </form>
 
@@ -1497,7 +1558,7 @@
         </div>
       `;
 
-      document.querySelectorAll("#blog-edit-form input, #blog-edit-form textarea").forEach((field) => {
+      document.querySelectorAll("#blog-edit-form input, #blog-edit-form textarea, #blog-edit-form select").forEach((field) => {
         field.addEventListener("input", renderBlogEditorPreview);
       });
       renderBlogEditorPreview();
@@ -1524,6 +1585,7 @@
       const imageList = value("images").split(/\n|,/).map(item => item.trim()).filter(Boolean);
       const featureImage = value("featureImage").trim();
       const images = featureImage ? [featureImage].concat(imageList.filter(url => url !== featureImage)) : imageList;
+      const authorLinks = value("authorLinks").split(/\n|,/).map(item => item.trim()).filter(Boolean);
       return {
         id: activeBlogEditorPost.id,
         slug: activeBlogEditorPost.slug,
@@ -1539,12 +1601,67 @@
           name: value("authorName").trim(),
           role: value("authorRole").trim(),
           photoUrl: value("authorPhotoUrl").trim(),
+          location: value("authorLocation").trim(),
           bio: value("authorBio").trim(),
-          links: activeBlogEditorPost.author?.links || [],
+          links: authorLinks,
           anonymous: Boolean(activeBlogEditorPost.author?.anonymous)
         },
         content: value("content")
       };
+    }
+
+    function blogEditorImageMarkup_(url, caption, placement) {
+      const safeUrl = esc(url);
+      const safeCaption = esc(caption);
+      const alt = safeCaption || "Article image";
+      const captionHtml = safeCaption ? `\n  <figcaption class="mt-2 text-[11px] text-zinc-500 font-sans leading-relaxed">${safeCaption}</figcaption>` : "";
+      if (placement === "left" || placement === "right") {
+        const sideClass = placement === "left"
+          ? "float-left w-40 sm:w-52 mr-5 mb-4 mt-1"
+          : "float-right w-40 sm:w-52 ml-5 mb-4 mt-1";
+        return `<figure class="${sideClass}">
+  <img src="${safeUrl}" alt="${alt}" class="w-full border border-zinc-800 object-cover">
+  ${captionHtml}
+</figure>`;
+      }
+      return `<figure class="my-8">
+  <img src="${safeUrl}" alt="${alt}" class="w-full max-h-[520px] border border-zinc-800 object-cover">
+  ${captionHtml}
+</figure>`;
+    }
+
+    function insertBlogEditorImage() {
+      const form = document.getElementById("blog-edit-form");
+      if (!form) return;
+      const urlField = form.elements.insertImageUrl;
+      const captionField = form.elements.insertImageCaption;
+      const placementField = form.elements.insertImagePlacement;
+      const contentField = form.elements.content;
+      const url = String(urlField?.value || "").trim();
+      const caption = String(captionField?.value || "").trim();
+      const placement = String(placementField?.value || "full");
+      const errorDiv = document.getElementById("blog-edit-error");
+
+      if (!url || !/^https?:\/\//i.test(url)) {
+        if (errorDiv) {
+          errorDiv.textContent = "Add a valid image URL beginning with http:// or https://.";
+          errorDiv.classList.remove("hidden");
+        }
+        urlField?.focus();
+        return;
+      }
+
+      if (errorDiv) errorDiv.classList.add("hidden");
+      const markup = `\n\n${blogEditorImageMarkup_(url, caption, placement)}\n\n`;
+      const start = contentField.selectionStart ?? contentField.value.length;
+      const end = contentField.selectionEnd ?? contentField.value.length;
+      contentField.value = `${contentField.value.slice(0, start)}${markup}${contentField.value.slice(end)}`;
+      const cursor = start + markup.length;
+      contentField.focus();
+      contentField.setSelectionRange(cursor, cursor);
+      if (urlField) urlField.value = "";
+      if (captionField) captionField.value = "";
+      renderBlogEditorPreview();
     }
 
     function renderBlogEditorPreview() {
@@ -1552,6 +1669,12 @@
       const preview = document.getElementById("blog-edit-preview");
       if (!preview) return;
       const post = collectBlogEditorPost();
+      const authorPreview = document.getElementById("blog-author-photo-preview");
+      if (authorPreview) {
+        authorPreview.innerHTML = post.author.photoUrl
+          ? `<img src="${esc(post.author.photoUrl)}" alt="" class="w-full h-full object-cover">`
+          : esc(String(post.author.name || "A").charAt(0));
+      }
       preview.innerHTML = `
         <article class="max-w-[680px] mx-auto">
           <h1 class="font-serif text-[34px] leading-tight text-zinc-100 mb-3">${esc(post.title || "Untitled")}</h1>
@@ -1562,13 +1685,19 @@
             </div>
             <div>
               <div class="text-sm text-zinc-200 font-sans">${esc(post.author.name || "Anonymous contributor")}</div>
-              <div class="text-xs text-zinc-500 font-sans">${esc(post.date || "")}</div>
+              <div class="text-xs text-zinc-500 font-sans">${esc([post.author.role, post.author.location, post.date].filter(Boolean).join(" / "))}</div>
             </div>
           </div>
           ${post.featureImage ? `<img src="${esc(post.featureImage)}" alt="" class="w-full max-h-[320px] object-cover border border-zinc-800 mb-6">` : ""}
           <div class="prose-preview text-zinc-100 font-serif text-[18px] leading-relaxed">
             ${post.content || "<p>Article body preview...</p>"}
           </div>
+          ${post.author.bio ? `
+            <div class="mt-10 border-t border-zinc-800 pt-6">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">About the writer</p>
+              <p class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(post.author.bio)}</p>
+            </div>
+          ` : ""}
         </article>
       `;
     }
@@ -1651,6 +1780,13 @@
       }
     }
 
+    window.fetchPublishedBlogPosts = fetchPublishedBlogPosts;
+    window.openBlogEditor = openBlogEditor;
+    window.closeBlogEditor = closeBlogEditor;
+    window.insertBlogEditorImage = insertBlogEditorImage;
+    window.saveBlogEditor = saveBlogEditor;
+    window.deletePublishedBlogPost = deletePublishedBlogPost;
+
     function parseMaybeJsonArray(value) {
       if (Array.isArray(value)) return value;
       try {
@@ -1676,7 +1812,17 @@
       return text.length > 520 ? `${text.slice(0, 520)}...` : text;
     }
 
+    function blogBodyToPreviewHtml(body) {
+      return String(body || "")
+        .split(/\n{2,}/)
+        .map((paragraph) => paragraph.trim())
+        .filter(Boolean)
+        .map((paragraph) => `<p class="mb-5">${esc(paragraph).replace(/\n/g, "<br>")}</p>`)
+        .join("");
+    }
+
     function renderBlogList(items) {
+      pendingBlogItems = items || [];
       if (!items.length) {
         blogListContainer.innerHTML = `
           <div class="py-20 text-center text-zinc-600 italic font-serif">
@@ -1751,6 +1897,22 @@
 
             <div class="grid grid-cols-1 gap-2 w-full xl:w-48">
               <button
+                onclick="window.openPendingBlogPreview('${esc(item.id)}')"
+                id="btn-blog-preview-${esc(item.id)}"
+                class="px-5 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Preview
+              </button>
+              <div class="border border-zinc-900 bg-black/40 p-3 space-y-2">
+                <label class="flex items-center gap-2 text-[10px] text-zinc-400 font-sans uppercase tracking-[0.13em]">
+                  <input id="blog-publish-now-${esc(item.id)}" type="checkbox" checked class="accent-[#8b0000]" onchange="window.toggleBlogSchedule('${esc(item.id)}')">
+                  Publish now
+                </label>
+                <input
+                  id="blog-scheduled-${esc(item.id)}"
+                  type="datetime-local"
+                  class="hidden w-full bg-black border border-zinc-800 text-zinc-300 px-2 py-2 text-xs font-sans outline-none focus:border-[#8b0000]">
+              </div>
+              <button
                 onclick="window.handleApproveBlog('${esc(item.id)}')"
                 id="btn-blog-approve-${esc(item.id)}"
                 class="px-5 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
@@ -1763,14 +1925,83 @@
                 Reject
               </button>
             </div>
+            <div id="blog-preview-${esc(item.id)}" class="hidden w-full border-t border-zinc-900 bg-black/50 p-5"></div>
           </div>
         `;
       }).join("");
     }
 
+    window.toggleBlogSchedule = (id) => {
+      const nowBox = document.getElementById(`blog-publish-now-${id}`);
+      const scheduleInput = document.getElementById(`blog-scheduled-${id}`);
+      if (!scheduleInput || !nowBox) return;
+      scheduleInput.classList.toggle("hidden", nowBox.checked);
+      if (!nowBox.checked && !scheduleInput.value) {
+        const nextHour = new Date(Date.now() + 60 * 60 * 1000);
+        nextHour.setMinutes(0, 0, 0);
+        scheduleInput.value = nextHour.toISOString().slice(0, 16);
+      }
+    };
+
+    window.openPendingBlogPreview = (id) => {
+      const item = pendingBlogItems.find((entry) => String(entry.id) === String(id));
+      const preview = document.getElementById(`blog-preview-${id}`);
+      if (!item || !preview) return;
+
+      if (!preview.classList.contains("hidden")) {
+        preview.classList.add("hidden");
+        preview.innerHTML = "";
+        return;
+      }
+
+      const author = parseMaybeJsonObject(item.author);
+      const images = parseMaybeJsonArray(item.images);
+      const heroImage = images[0] || "";
+      const authorName = author.name || item.authorName || "Anonymous contributor";
+
+      preview.innerHTML = `
+        <div class="max-w-[680px] mx-auto">
+          <div class="mb-6">
+            <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-2">Published Preview</p>
+            <h1 class="font-serif text-[34px] leading-tight text-zinc-100 mb-3">${esc(item.title || "Untitled")}</h1>
+            <p class="text-zinc-500 text-base leading-relaxed font-sans">${esc(item.subtitle || "")}</p>
+          </div>
+          <div class="flex items-center gap-3 py-4 border-y border-zinc-800 mb-7">
+            <div class="w-10 h-10 rounded-full bg-zinc-900 overflow-hidden border border-zinc-800 flex items-center justify-center text-zinc-400 font-serif">
+              ${author.photoUrl ? `<img src="${esc(author.photoUrl)}" alt="" class="w-full h-full object-cover">` : esc(String(authorName || "A").charAt(0))}
+            </div>
+            <div>
+              <div class="text-sm text-zinc-200 font-sans">${esc(authorName)}</div>
+              <div class="text-xs text-zinc-500 font-sans">${esc(author.role || "")}</div>
+            </div>
+          </div>
+          ${heroImage ? `<img src="${esc(heroImage)}" alt="" class="w-full max-h-[340px] object-cover border border-zinc-800 mb-7">` : ""}
+          <article class="font-serif text-[18px] leading-relaxed text-zinc-100">
+            ${blogBodyToPreviewHtml(item.body) || "<p>Article body preview...</p>"}
+          </article>
+        </div>
+      `;
+      preview.classList.remove("hidden");
+      preview.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    };
+
     window.handleApproveBlog = async (id) => {
       if (isProcessing) return;
-      const ok = confirm("Approve this blog submission?\n\nThis will publish it to data/blog_posts.json on GitHub.");
+      const publishNow = document.getElementById(`blog-publish-now-${id}`)?.checked !== false;
+      const scheduledInput = document.getElementById(`blog-scheduled-${id}`);
+      let scheduledAt = "";
+      if (!publishNow) {
+        if (!scheduledInput?.value) {
+          alert("Choose a date and time, or select Publish now.");
+          scheduledInput?.focus();
+          return;
+        }
+        scheduledAt = new Date(scheduledInput.value).toISOString();
+      }
+
+      const ok = confirm(publishNow
+        ? "Approve and publish this blog submission immediately?"
+        : `Approve and schedule this blog submission for ${new Date(scheduledAt).toLocaleString()}?`);
       if (!ok) return;
 
       const approveBtn = document.getElementById(`btn-blog-approve-${id}`);
@@ -1795,6 +2026,7 @@
           body: JSON.stringify({
             action: "approveBlogPost",
             id,
+            scheduledAt,
             adminCode: getSecondaryAdminCode(),
             adminEmail: currentUser?.email || "Password admin"
           })
