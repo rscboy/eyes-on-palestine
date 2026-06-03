@@ -1,5 +1,23 @@
 [
   {
+    "date": "2026-05-04",
+    "title": "test",
+    "summary": "what about this?",
+    "link": "https://www.timesofisrael.com/court-extends-detention-of-2-gaza-flotilla-activists-accused-of-hamas-links/",
+    "imageUrl": "https://ropercenter.cornell.edu/sites/default/files/styles/800x600/public/Images/New-York-Times-Logo8x6_0.png?itok=7YqGOSMA",
+    "category": "Abuse",
+    "categories": [
+      "Abuse"
+    ],
+    "categoryColor": "#C7CEEA",
+    "source": "The New York Times",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-06-03",
     "title": "Israeli study finds starvation in Gaza was result of deliberate policy ",
     "summary": "",
