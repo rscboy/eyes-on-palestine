@@ -249,6 +249,43 @@
             bottom: 50px;
         }
 
+        .blog-hero-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .blog-hero-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background:
+                linear-gradient(180deg, rgba(11, 11, 11, 0.08) 0%, rgba(11, 11, 11, 0.2) 58%, #0B0B0B 100%),
+                linear-gradient(90deg, rgba(11, 11, 11, 0.9) 0%, rgba(11, 11, 11, 0.72) 54%, rgba(11, 11, 11, 0.62) 100%),
+                rgba(0, 0, 0, 0.36);
+        }
+
+        .blog-footer-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .blog-footer-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background:
+                linear-gradient(180deg, #0B0B0B 0%, rgba(11, 11, 11, 0.84) 24%, rgba(11, 11, 11, 0.58) 100%),
+                linear-gradient(90deg, rgba(11, 11, 11, 0.78) 0%, rgba(11, 11, 11, 0.48) 100%);
+        }
+
         /* Animation */
         .fade-in {
             animation: fadeIn 0.3s ease-out;
@@ -262,39 +299,47 @@
 <body class="min-h-screen flex flex-col">
 
     <!-- Blog Masthead / Hero Section -->
-    <section class="w-full border-b border-border-gray bg-deep-black py-12 fade-in">
-        <div class="max-w-[1100px] mx-auto px-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <div class="flex flex-col gap-4">
-                <!-- Brand Identity -->
-                <div class="flex items-center gap-4">
-                    <a href="https://echoesofgaza.org">
-                        <img src="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" alt="Logo" class="h-10 w-auto object-contain hover:opacity-80 transition-opacity">
-                    </a>
-                    <a href="https://echoesofgaza.org/blog" class="text-xs font-sans text-deep-red font-bold uppercase tracking-widest hover:text-off-white transition-colors">
-                        Blog Home
-                    </a>
-                </div>
-                
+    <section class="relative overflow-hidden w-full border-b border-border-gray bg-deep-black py-8 md:py-12 fade-in">
+        <video class="blog-hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+            <source src="https://pub-3592c0f33d62473e96882cebf2720dba.r2.dev/84006-584870923_medium(1).mp4" type="video/mp4">
+        </video>
+        <div class="blog-hero-overlay" aria-hidden="true"></div>
+        <div class="relative z-10 max-w-[1100px] mx-auto px-5">
+            <div class="flex items-center justify-between gap-4 mb-8 md:mb-10">
+                <a href="https://echoesofgaza.org" class="flex items-center gap-3 min-w-0 group">
+                    <img src="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" alt="Logo" class="h-9 md:h-10 w-auto object-contain group-hover:opacity-80 transition-opacity shrink-0">
+                    <span class="hidden sm:block text-[11px] font-sans text-ash-gray uppercase tracking-[0.22em] group-hover:text-off-white transition-colors">Echoes of Gaza</span>
+                </a>
+                <a href="https://echoesofgaza.org/blog" class="inline-flex items-center gap-2 border border-white/15 bg-black/45 backdrop-blur-sm px-3.5 py-2 text-[10px] md:text-xs font-sans text-off-white font-bold uppercase tracking-[0.16em] hover:border-deep-red hover:bg-hover-bg transition-colors whitespace-nowrap">
+                    <i class="ph ph-house text-sm" aria-hidden="true"></i>
+                    Blog Home
+                </a>
+            </div>
+
+            <div class="max-w-2xl">
                 <h1 class="font-serif text-3xl md:text-5xl font-bold text-off-white tracking-tight leading-none">
                     <a href="https://echoesofgaza.org" class="hover:underline decoration-deep-red underline-offset-8 transition-all">Echoes of Gaza</a>: Voices
                 </h1>
-                
-                <p class="text-ash-gray text-sm md:text-base max-w-lg leading-relaxed font-sans">
+
+                <p class="text-ash-gray text-sm md:text-base max-w-lg leading-relaxed font-sans mt-4">
                     Stories, testimonies, and the lived consequences of standing for Palestine.
                 </p>
             </div>
-            
         </div>
     </section>
 
     <!-- Main Content Area -->
-    <main id="app-container" class="flex-grow w-full mx-auto fade-in">
+    <main id="app-container" class="flex-grow w-full mx-auto fade-in bg-deep-black">
         <!-- Content injected via JavaScript -->
     </main>
 
     <!-- Footer -->
-    <footer id="footer" class="bg-deep-black border-t border-border-gray pt-12 pb-10 mt-auto">
-        <div class="max-w-[1100px] mx-auto px-5 flex flex-col md:flex-row justify-between gap-12">
+    <footer id="footer" class="relative overflow-hidden bg-deep-black border-t border-border-gray pt-12 pb-10 mt-auto">
+        <video class="blog-footer-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+            <source src="https://pub-3592c0f33d62473e96882cebf2720dba.r2.dev/84006-584870923_medium(1).mp4" type="video/mp4">
+        </video>
+        <div class="blog-footer-overlay" aria-hidden="true"></div>
+        <div class="relative z-10 max-w-[1100px] mx-auto px-5 flex flex-col md:flex-row justify-between gap-12">
             <!-- Brand Column -->
             <div class="md:w-1/3 space-y-6">
                 <div class="flex flex-col items-start opacity-100">
@@ -336,7 +381,7 @@
         </div>
         
         <!-- Bottom Bar -->
-        <div class="max-w-[1100px] mx-auto px-5 mt-20 border-t border-border-gray pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-ash-gray uppercase tracking-wider font-sans">
+        <div class="relative z-10 max-w-[1100px] mx-auto px-5 mt-20 border-t border-border-gray pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-ash-gray uppercase tracking-wider font-sans">
             <p>© 2026 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="underline hover:text-off-white transition-colors">CC BY-NC-SA 4.0</a>.</p>
             <a href="https://echoesofgaza.org/admin.html" class="mt-4 md:mt-0 hover:text-off-white transition-colors">Admin Portal</a>
         </div>
@@ -348,7 +393,7 @@
     <!-- JavaScript Logic -->
     <script>
         // --- DATA STORE ---
-        const posts = [
+        let posts = [
             {
                 id: 1,
                 slug: "incident-at-beth-jacob",
@@ -392,6 +437,70 @@
         const SITE_DESCRIPTION = "Stories, testimonies, and the lived consequences of standing for Palestine.";
         const SITE_URL = "https://echoesofgaza.org/blog";
         const SITE_FAVICON = "https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png";
+
+        function escapeHTML(value) {
+            return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                "\"": "&quot;",
+                "'": "&#39;"
+            }[char]));
+        }
+
+        function normalizeBlogPost(post, index) {
+            const id = post.id || post.slug || `published-${index}`;
+            const author = post.author || {};
+            const authorName = typeof author === "string" ? author : (author.name || "Anonymous contributor");
+            return {
+                id,
+                slug: post.slug || String(id).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+                title: post.title || "Untitled",
+                subtitle: post.subtitle || post.shareDescription || "",
+                shareDescription: post.shareDescription || post.subtitle || "",
+                shareImage: post.shareImage || post.featureImage || (Array.isArray(post.images) ? post.images[0] : ""),
+                author: authorName,
+                authorImg: author.photoUrl || post.authorImg || "",
+                role: author.role || post.role || "",
+                authorBio: author.bio || post.authorBio || "",
+                authorLinks: author.links || [],
+                date: post.date || post.publishedAt || "",
+                readTime: post.readTime || estimateReadTime(post.content || post.body || ""),
+                citations: Number(post.citations || 0),
+                comments: Number(post.comments || 0),
+                content: post.content || post.body || "",
+                publishedAt: post.publishedAt || post.date || ""
+            };
+        }
+
+        function estimateReadTime(content) {
+            const words = String(content || "").replace(/<[^>]+>/g, " ").trim().split(/\s+/).filter(Boolean).length;
+            return `${Math.max(1, Math.ceil(words / 220))} min read`;
+        }
+
+        function parseBlogDate(value) {
+            const parsed = Date.parse(value || "");
+            return Number.isFinite(parsed) ? parsed : 0;
+        }
+
+        async function loadPublishedBlogPosts() {
+            try {
+                const response = await fetch("./data/blog_posts.json?v=" + Date.now());
+                if (!response.ok) return;
+                const data = await response.json();
+                const published = Array.isArray(data) ? data : (data.posts || []);
+                const normalized = published.map(normalizeBlogPost);
+                const existingSlugs = new Set(posts.map(post => post.slug || String(post.id)));
+                normalized.forEach((post) => {
+                    if (!existingSlugs.has(post.slug) && !existingSlugs.has(String(post.id))) {
+                        posts.push(post);
+                    }
+                });
+                posts.sort((a, b) => parseBlogDate(b.publishedAt || b.date) - parseBlogDate(a.publishedAt || a.date));
+            } catch (error) {
+                console.warn("Published blog JSON could not be loaded", error);
+            }
+        }
 
         function removeMeta(selector) {
             const tag = document.head.querySelector(selector);
@@ -511,6 +620,188 @@
         }
 
         // --- RENDER FUNCTIONS ---
+        let contributorCatalogPage = 1;
+        const CONTRIBUTORS_PER_PAGE = 5;
+
+        function contributorKey(name) {
+            return String(name || "Anonymous contributor").trim().toLowerCase();
+        }
+
+        function getContributorCatalog() {
+            const map = new Map();
+
+            posts.forEach((post) => {
+                const name = post.author || "Anonymous contributor";
+                const key = contributorKey(name);
+                const existing = map.get(key) || {
+                    name,
+                    role: post.role || "",
+                    image: post.authorImg || "",
+                    bio: post.authorBio || "",
+                    links: Array.isArray(post.authorLinks) ? post.authorLinks : [],
+                    postCount: 0,
+                    latestDate: "",
+                    posts: []
+                };
+
+                existing.postCount += 1;
+                if (!existing.role && post.role) existing.role = post.role;
+                if (!existing.image && post.authorImg) existing.image = post.authorImg;
+                if (!existing.bio && post.authorBio) existing.bio = post.authorBio;
+                if ((!existing.links || !existing.links.length) && Array.isArray(post.authorLinks)) existing.links = post.authorLinks;
+                if (parseBlogDate(post.publishedAt || post.date) >= parseBlogDate(existing.latestDate)) {
+                    existing.latestDate = post.publishedAt || post.date || existing.latestDate;
+                }
+                existing.posts.push({
+                    id: post.id,
+                    slug: post.slug,
+                    title: post.title,
+                    date: post.date,
+                    url: getPostUrl(post)
+                });
+
+                map.set(key, existing);
+            });
+
+            return Array.from(map.values()).sort((a, b) => {
+                const dateDiff = parseBlogDate(b.latestDate) - parseBlogDate(a.latestDate);
+                if (dateDiff) return dateDiff;
+                return a.name.localeCompare(b.name);
+            });
+        }
+
+        function contributorAvatar(contributor, sizeClass = "w-8 h-8", textClass = "text-xs") {
+            const initial = escapeHTML(String(contributor.name || "A").charAt(0));
+            return `
+                <div class="${sizeClass} rounded-full bg-hover-bg border border-border-gray flex items-center justify-center ${textClass} text-ash-gray font-serif overflow-hidden shrink-0">
+                    ${contributor.image ? `<img src="${escapeHTML(contributor.image)}" alt="${escapeHTML(contributor.name)}" class="w-full h-full object-cover">` : initial}
+                </div>
+            `;
+        }
+
+        function renderContributorSidebar() {
+            const contributors = getContributorCatalog();
+            const visible = contributors.slice(0, CONTRIBUTORS_PER_PAGE);
+
+            if (!contributors.length) {
+                return `
+                    <div>
+                        <h3 class="text-off-white font-sans font-bold text-sm tracking-widest uppercase mb-4">Contributors</h3>
+                        <p class="text-ash-gray text-sm leading-relaxed">No contributors are listed yet.</p>
+                    </div>
+                `;
+            }
+
+            return `
+                <div>
+                    <button type="button" onclick="openContributorCatalog(1)" class="w-full flex items-center justify-between gap-3 text-left text-off-white hover:text-ash-gray transition-colors mb-4">
+                        <span class="font-sans font-bold text-sm tracking-widest uppercase">Contributors</span>
+                        <span class="text-[10px] text-deep-red font-sans uppercase tracking-[0.16em]">${contributors.length} total</span>
+                    </button>
+                    <ul class="space-y-4">
+                        ${visible.map((contributor) => `
+                            <li class="flex items-center gap-3">
+                                ${contributorAvatar(contributor)}
+                                <div class="min-w-0">
+                                    <div class="text-sm text-off-white font-medium truncate">${escapeHTML(contributor.name)}</div>
+                                    <div class="text-xs text-ash-gray truncate">${escapeHTML(contributor.role || `${contributor.postCount} piece${contributor.postCount === 1 ? "" : "s"}`)}</div>
+                                </div>
+                            </li>
+                        `).join("")}
+                    </ul>
+                    ${contributors.length > CONTRIBUTORS_PER_PAGE ? `
+                        <button type="button" onclick="openContributorCatalog(1)" class="mt-5 text-deep-red text-sm font-medium hover:text-off-white transition-colors">
+                            View all contributors
+                        </button>
+                    ` : ""}
+                </div>
+            `;
+        }
+
+        function renderContributorCatalogModal(page = contributorCatalogPage) {
+            const contributors = getContributorCatalog();
+            const totalPages = Math.max(1, Math.ceil(contributors.length / CONTRIBUTORS_PER_PAGE));
+            contributorCatalogPage = Math.min(Math.max(1, page), totalPages);
+            const start = (contributorCatalogPage - 1) * CONTRIBUTORS_PER_PAGE;
+            const visible = contributors.slice(start, start + CONTRIBUTORS_PER_PAGE);
+            const modalBody = document.getElementById("contributors-catalog-body");
+            const modalMeta = document.getElementById("contributors-catalog-meta");
+            const prev = document.getElementById("contributors-prev");
+            const next = document.getElementById("contributors-next");
+
+            if (!modalBody || !modalMeta) return;
+
+            modalMeta.textContent = contributors.length
+                ? `Page ${contributorCatalogPage} of ${totalPages} / ${contributors.length} contributor${contributors.length === 1 ? "" : "s"}`
+                : "No contributors listed yet";
+
+            modalBody.innerHTML = visible.map((contributor) => `
+                <article class="border border-border-gray bg-[#101010] p-4 md:p-5">
+                    <div class="flex items-start gap-4">
+                        ${contributorAvatar(contributor, "w-12 h-12", "text-lg")}
+                        <div class="min-w-0 flex-1">
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-2">
+                                <div>
+                                    <h3 class="text-off-white font-sans font-semibold leading-tight">${escapeHTML(contributor.name)}</h3>
+                                    ${contributor.role ? `<p class="text-xs text-ash-gray mt-1">${escapeHTML(contributor.role)}</p>` : ""}
+                                </div>
+                                <span class="text-[10px] text-deep-red uppercase tracking-[0.16em] font-sans">${contributor.postCount} piece${contributor.postCount === 1 ? "" : "s"}</span>
+                            </div>
+                            ${contributor.bio ? `<p class="text-sm text-ash-gray leading-relaxed mt-3">${escapeHTML(contributor.bio)}</p>` : ""}
+                            ${Array.isArray(contributor.links) && contributor.links.length ? `
+                                <div class="flex flex-wrap gap-2 mt-3">
+                                    ${contributor.links.map((link) => `<a href="${escapeHTML(link)}" target="_blank" rel="noopener noreferrer" class="text-xs text-deep-red hover:text-off-white transition-colors break-all">${escapeHTML(link)}</a>`).join("")}
+                                </div>
+                            ` : ""}
+                            <div class="mt-4 border-t border-border-gray pt-3 space-y-2">
+                                ${contributor.posts.slice(0, 4).map((post) => `
+                                    <a href="${escapeHTML(post.url)}" class="block text-sm text-off-white hover:text-ash-gray transition-colors">
+                                        ${escapeHTML(post.title)}
+                                        ${post.date ? `<span class="text-xs text-ash-gray"> / ${escapeHTML(post.date)}</span>` : ""}
+                                    </a>
+                                `).join("")}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            `).join("");
+
+            if (prev) prev.disabled = contributorCatalogPage <= 1;
+            if (next) next.disabled = contributorCatalogPage >= totalPages;
+        }
+
+        function openContributorCatalog(page = 1) {
+            const modal = document.getElementById("contributors-catalog-modal");
+            if (!modal) return;
+            modal.classList.remove("hidden");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+            renderContributorCatalogModal(page);
+        }
+
+        function closeContributorCatalog() {
+            const modal = document.getElementById("contributors-catalog-modal");
+            if (!modal) return;
+            modal.classList.add("hidden");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        }
+
+        function changeContributorCatalogPage(direction) {
+            renderContributorCatalogModal(contributorCatalogPage + direction);
+        }
+
+        document.addEventListener("click", (event) => {
+            if (event.target && event.target.id === "contributors-catalog-modal") {
+                closeContributorCatalog();
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeContributorCatalog();
+            }
+        });
 
         // View 1: The Blog Index
         function updatePostQuery(post) {
@@ -565,7 +856,7 @@
                                 <i class="ph ph-chat-circle text-lg"></i>
                                 <span>${post.comments}</span>
                             </div>
-                            <div class="action-btn ml-auto" onclick="sharePost(event, ${post.id})" title="Copy Link">
+                            <div class="action-btn ml-auto" onclick='sharePost(event, ${JSON.stringify(post.id)})' title="Copy Link">
                                 <i class="ph ph-share-network text-lg"></i>
                             </div>
                         </div>
@@ -587,27 +878,38 @@
                                     The Blog is the narrative layer of the Archive. While Echoes of Gaza documents the historical record, this space centers the lived experiences behind it.
                                 </p>
                                 <p class="text-ash-gray text-sm leading-relaxed mb-4">
-                                    Here, community members, activists, academics, and local voices share personal stories, reflections, and testimonies that reveal the emotional weight, trauma, and real-world consequences of speaking out for Palestine. These stories transform documentation into human experience, ensuring that what is recorded is also felt.
+                                    We welcome thoughtful essays, personal stories, and creative work from new and returning writers.
+                                </p>
+                                <p class="text-ash-gray text-sm leading-relaxed">
+                                    Interested in writing for the blog? Reach out to us at
+                                    <a href="mailto:blog@echoesofgaza.org" class="text-deep-red hover:text-off-white transition-colors">blog@echoesofgaza.org</a>
+                                    with your idea.
                                 </p>
                             </div>
 
                             <!-- Contributors -->
-                            <div>
-                                <h3 class="text-off-white font-sans font-bold text-sm tracking-widest uppercase mb-4">Contributors</h3>
-                                <ul class="space-y-4">
-                                    <li class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-full bg-hover-bg border border-border-gray flex items-center justify-center text-xs text-ash-gray font-serif overflow-hidden">
-                                            <img src="https://media.licdn.com/dms/image/v2/D5603AQG6acvhb-oGDA/profile-displayphoto-shrink_200_200/B56ZcdWNreHgBY-/0/1748544053088?e=2147483647&v=beta&t=VN-lQa9_dfE2HY8zy_NVmZETmdk53ZNjNEWqZ98Qsfc" class="w-full h-full object-cover">
-                                        </div>
-                                        <div>
-                                            <div class="text-sm text-off-white font-medium">Alexandria Gary King</div>
-                                            <div class="text-xs text-ash-gray">Direct Support Professional</div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                            ${renderContributorSidebar()}
 
                         </aside>
+                    </div>
+                    <div id="contributors-catalog-modal" class="hidden fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm px-4 py-6 md:py-10" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="contributors-catalog-title">
+                        <div class="max-w-3xl mx-auto max-h-[calc(100vh-3rem)] md:max-h-[calc(100vh-5rem)] border border-border-gray bg-deep-black shadow-2xl flex flex-col">
+                            <div class="flex items-start justify-between gap-4 border-b border-border-gray p-5 md:p-6">
+                                <div>
+                                    <p class="text-deep-red text-xs font-bold uppercase tracking-[0.22em] mb-2">Blog Catalog</p>
+                                    <h2 id="contributors-catalog-title" class="font-serif text-3xl text-off-white leading-tight">Contributors</h2>
+                                    <p id="contributors-catalog-meta" class="text-xs text-ash-gray mt-2 font-sans uppercase tracking-[0.14em]"></p>
+                                </div>
+                                <button type="button" onclick="closeContributorCatalog()" class="border border-border-gray px-3 py-2 text-xs text-off-white hover:border-deep-red hover:bg-hover-bg transition" aria-label="Close contributors catalog">
+                                    Close
+                                </button>
+                            </div>
+                            <div id="contributors-catalog-body" class="overflow-y-auto p-4 md:p-6 space-y-4"></div>
+                            <div class="flex items-center justify-between gap-3 border-t border-border-gray p-4 md:p-5">
+                                <button id="contributors-prev" type="button" onclick="changeContributorCatalogPage(-1)" class="border border-border-gray px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-off-white hover:border-deep-red hover:bg-hover-bg transition disabled:opacity-30 disabled:pointer-events-none">Previous</button>
+                                <button id="contributors-next" type="button" onclick="changeContributorCatalogPage(1)" class="border border-border-gray px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-off-white hover:border-deep-red hover:bg-hover-bg transition disabled:opacity-30 disabled:pointer-events-none">Next</button>
+                            </div>
+                        </div>
                     </div>
                 </div>`;
             
@@ -652,7 +954,7 @@
                                     <i class="ph ph-seal-check text-xl"></i>
                                     <span class="text-sm">${post.citations}</span>
                                 </div>
-                                <div class="action-btn" onclick="sharePost(event, ${post.id})" title="Copy Link">
+                                <div class="action-btn" onclick='sharePost(event, ${JSON.stringify(post.id)})' title="Copy Link">
                                     <i class="ph ph-share-network text-xl"></i>
                                 </div>
                             </div>
@@ -663,6 +965,27 @@
                     <article class="prose-content">
                         ${post.content}
                     </article>
+
+                    ${post.authorBio ? `
+                      <section class="mt-10 p-5 border border-border-gray bg-[#111] rounded-sm">
+                        <div class="flex items-start gap-4">
+                          <div class="w-12 h-12 bg-border-gray rounded-full flex items-center justify-center text-off-white font-serif italic text-lg border border-[#333] overflow-hidden shrink-0">
+                            ${post.authorImg ? `<img src="${escapeHTML(post.authorImg)}" alt="${escapeHTML(post.author)}" class="w-full h-full object-cover">` : escapeHTML(String(post.author || "A").charAt(0))}
+                          </div>
+                          <div>
+                            <p class="text-xs uppercase tracking-[0.18em] text-deep-red font-bold mb-2">About the writer</p>
+                            <h3 class="text-off-white font-sans font-semibold mb-1">${escapeHTML(post.author)}</h3>
+                            ${post.role ? `<p class="text-xs text-ash-gray mb-3">${escapeHTML(post.role)}</p>` : ""}
+                            <p class="text-sm text-ash-gray leading-relaxed">${escapeHTML(post.authorBio)}</p>
+                            ${Array.isArray(post.authorLinks) && post.authorLinks.length ? `
+                              <div class="flex flex-wrap gap-3 mt-3">
+                                ${post.authorLinks.map((link) => `<a href="${escapeHTML(link)}" target="_blank" rel="noopener noreferrer" class="text-xs text-deep-red hover:text-off-white transition-colors break-all">${escapeHTML(link)}</a>`).join("")}
+                              </div>
+                            ` : ""}
+                          </div>
+                        </div>
+                      </section>
+                    ` : ""}
 
                     <!-- Editor's Note -->
                     <section class="mt-8 p-4 border border-border-gray bg-[#111] rounded-sm">
@@ -686,7 +1009,7 @@
                                 <i class="ph ph-chat-circle text-xl"></i>
                                 <span class="text-sm">${post.comments} Responses</span>
                             </div>
-                             <div class="action-btn ml-auto" onclick="sharePost(event, ${post.id})" title="Copy Link">
+                             <div class="action-btn ml-auto" onclick='sharePost(event, ${JSON.stringify(post.id)})' title="Copy Link">
                                 <i class="ph ph-share-network text-xl"></i>
                             </div>
                         </div>
@@ -702,7 +1025,8 @@
         }
 
         // Initialize
-        function initializePage() {
+        async function initializePage() {
+            await loadPublishedBlogPosts();
             const params = new URLSearchParams(window.location.search);
             const requestedPost = params.get("post");
             if (!requestedPost) {
@@ -717,7 +1041,7 @@
             );
 
             if (post) {
-                window.location.replace(getPostUrl(post));
+                renderPost(post.id);
             } else {
                 renderIndex();
             }
