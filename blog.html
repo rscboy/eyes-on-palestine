@@ -213,6 +213,29 @@
             background-color: rgba(255,255,255,0.05);
         }
 
+        .blog-engagement-panel {
+            border-top: 1px solid #2A2A2A;
+            border-bottom: 1px solid #2A2A2A;
+            background: #0B0B0B;
+        }
+
+        .comment-field {
+            width: 100%;
+            border: 1px solid #2A2A2A;
+            background: #080808;
+            color: #EDEDED;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            outline: none;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .comment-field:focus {
+            border-color: #8C0D0D;
+            background: #101010;
+        }
+
         .btn-primary {
             background-color: #8C0D0D;
             color: #EDEDED;
@@ -497,6 +520,7 @@
         const SITE_DESCRIPTION = "Stories, testimonies, and the lived consequences of standing for Palestine.";
         const SITE_URL = "https://echoesofgaza.org/blog";
         const SITE_FAVICON = "https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png";
+        const BLOG_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec";
 
         function escapeHTML(value) {
             return String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -528,6 +552,7 @@
                 readTime: post.readTime || estimateReadTime(post.content || post.body || ""),
                 citations: Number(post.citations || 0),
                 comments: Number(post.comments || 0),
+                viewCount: Number(post.viewCount || 0),
                 content: post.content || post.body || "",
                 publishedAt: post.publishedAt || post.date || ""
             };
@@ -642,6 +667,174 @@
         function getPostUrl(post) {
             if (post.path) return `https://echoesofgaza.org/blog/${post.path}`;
             return `https://echoesofgaza.org/blog?post=${encodeURIComponent(post.slug || post.id)}`;
+        }
+
+        function formatCount(value) {
+            const number = Number(value || 0);
+            return number.toLocaleString();
+        }
+
+        function formatCommentDate(value) {
+            const parsed = Date.parse(value || "");
+            if (!Number.isFinite(parsed)) return "";
+            return new Date(parsed).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "short",
+                day: "numeric"
+            });
+        }
+
+        function blogVisitorKey() {
+            const storageKey = "echoesBlogVisitorKey";
+            let value = localStorage.getItem(storageKey);
+            if (!value) {
+                value = `visitor-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+                localStorage.setItem(storageKey, value);
+            }
+            return value;
+        }
+
+        function shouldRecordView(post) {
+            const key = `echoesBlogViewed:${post.slug || post.id}`;
+            const last = Number(localStorage.getItem(key) || 0);
+            const twelveHours = 12 * 60 * 60 * 1000;
+            if (Date.now() - last < twelveHours) return false;
+            localStorage.setItem(key, String(Date.now()));
+            return true;
+        }
+
+        async function fetchBlogEngagement(post, recordView = false) {
+            const params = new URLSearchParams({
+                action: "getBlogEngagement",
+                postId: post.id || "",
+                postSlug: post.slug || ""
+            });
+
+            const response = await fetch(`${BLOG_BACKEND_URL}?${params.toString()}`);
+            const data = await response.json();
+            if (data.result !== "success") {
+                throw new Error(data.message || "Could not load blog engagement.");
+            }
+
+            if (recordView && shouldRecordView(post)) {
+                return recordBlogView(post);
+            }
+
+            return data;
+        }
+
+        async function recordBlogView(post) {
+            const response = await fetch(BLOG_BACKEND_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                    action: "recordBlogView",
+                    postId: post.id || "",
+                    postSlug: post.slug || "",
+                    visitorKey: blogVisitorKey(),
+                    userAgent: navigator.userAgent || ""
+                })
+            });
+            const data = await response.json();
+            if (data.result !== "success") {
+                throw new Error(data.message || "Could not record blog view.");
+            }
+            return data;
+        }
+
+        function renderBlogEngagement(data) {
+            const views = document.getElementById("post-view-count");
+            const comments = document.getElementById("post-comments-count");
+            const heading = document.getElementById("post-comment-count-heading");
+            const list = document.getElementById("comments-list");
+
+            if (views) views.textContent = `${formatCount(data.viewCount)} view${Number(data.viewCount) === 1 ? "" : "s"}`;
+            if (comments) comments.textContent = `${formatCount(data.commentCount)} response${Number(data.commentCount) === 1 ? "" : "s"}`;
+            if (heading) heading.textContent = `Responses (${formatCount(data.commentCount)})`;
+
+            if (!list) return;
+            const items = Array.isArray(data.comments) ? data.comments : [];
+            if (!items.length) {
+                list.innerHTML = `<p class="text-sm text-ash-gray font-sans italic">No responses yet. Be the first to leave one.</p>`;
+                return;
+            }
+
+            list.innerHTML = items.map((comment) => `
+                <article class="border-t border-border-gray py-4">
+                    <div class="flex items-baseline justify-between gap-3 mb-2">
+                        <h4 class="text-sm text-off-white font-sans font-semibold">${escapeHTML(comment.authorName || "Anonymous")}</h4>
+                        <time class="text-[11px] text-ash-gray font-sans uppercase tracking-[0.12em]">${escapeHTML(formatCommentDate(comment.submittedAt))}</time>
+                    </div>
+                    <p class="text-sm text-ash-gray font-sans leading-relaxed whitespace-pre-line">${escapeHTML(comment.comment || "")}</p>
+                </article>
+            `).join("");
+        }
+
+        async function loadBlogEngagement(post, recordView = false) {
+            try {
+                const data = await fetchBlogEngagement(post, recordView);
+                post.viewCount = Number(data.viewCount || 0);
+                post.comments = Number(data.commentCount || 0);
+                renderBlogEngagement(data);
+            } catch (error) {
+                console.warn("Blog engagement could not be loaded", error);
+                const status = document.getElementById("comment-status");
+                if (status) status.textContent = "Responses are temporarily unavailable.";
+            }
+        }
+
+        async function submitBlogComment(event, postId, postSlug) {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const status = document.getElementById("comment-status");
+            const submitButton = form.querySelector("button[type='submit']");
+            const nameInput = form.querySelector("[name='authorName']");
+            const commentInput = form.querySelector("[name='comment']");
+            const authorName = nameInput.value.trim();
+            const comment = commentInput.value.trim();
+
+            if (!authorName) {
+                status.textContent = "Please add a name before commenting.";
+                nameInput.focus();
+                return;
+            }
+
+            if (!comment) {
+                status.textContent = "Please write a response before submitting.";
+                commentInput.focus();
+                return;
+            }
+
+            localStorage.setItem("echoesBlogCommentName", authorName);
+            submitButton.disabled = true;
+            submitButton.textContent = "Posting...";
+            status.textContent = "";
+
+            try {
+                const response = await fetch(BLOG_BACKEND_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({
+                        action: "submitBlogComment",
+                        postId,
+                        postSlug,
+                        authorName,
+                        comment
+                    })
+                });
+                const data = await response.json();
+                if (data.result !== "success") {
+                    throw new Error(data.message || "Could not post response.");
+                }
+                commentInput.value = "";
+                status.textContent = "Response posted.";
+                renderBlogEngagement(data);
+            } catch (error) {
+                status.textContent = error.message || "Could not post response.";
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = "Post Response";
+            }
         }
 
         function sharePost(event, id) {
@@ -1057,31 +1250,48 @@
                         </p>
                     </section>
 
-                    <!-- Engagement / Footer Area -->
-                    <div class="mt-16 mb-20">
-                        <!-- Engagement Row -->
-                        <div class="flex items-center gap-6 py-4 border-t border-border-gray">
-                             <div class="action-btn hover:text-deep-red" title="View Citations">
-                                <i class="ph ph-seal-check text-xl"></i>
-                                <span class="text-sm">${post.citations} Citations</span>
+                    <div class="mt-16 mb-20 blog-engagement-panel py-5">
+                        <div class="flex flex-wrap items-center gap-5 pb-5">
+                            <div class="action-btn cursor-default" title="Article views">
+                                <i class="ph ph-eye text-xl"></i>
+                                <span id="post-view-count" class="text-sm">${formatCount(post.viewCount)} views</span>
                             </div>
-                            <div class="action-btn" title="View Comments">
+                            <div class="action-btn cursor-default" title="Responses">
                                 <i class="ph ph-chat-circle text-xl"></i>
-                                <span class="text-sm">${post.comments} Responses</span>
+                                <span id="post-comments-count" class="text-sm">${formatCount(post.comments)} responses</span>
                             </div>
-                             <div class="action-btn ml-auto" onclick='sharePost(event, ${JSON.stringify(post.id)})' title="Copy Link">
+                            <div class="action-btn ml-auto" onclick='sharePost(event, ${JSON.stringify(post.id)})' title="Copy Link">
                                 <i class="ph ph-share-network text-xl"></i>
                             </div>
                         </div>
 
-                        <!-- Comments Section (Preview) -->
-                        <div class="bg-black py-4">
-                            <h3 class="font-sans font-bold text-sm uppercase tracking-widest text-off-white mb-6">Responses (${post.comments})</h3>
-                             <button class="text-deep-red text-sm font-medium hover:underline">Write a response...</button>
-                        </div>
+                        <section class="pt-5 border-t border-border-gray">
+                            <h3 id="post-comment-count-heading" class="font-sans font-bold text-sm uppercase tracking-widest text-off-white mb-5">Responses (${formatCount(post.comments)})</h3>
+                            <div id="comments-list" class="mb-7">
+                                <p class="text-sm text-ash-gray font-sans italic">Loading responses...</p>
+                            </div>
+
+                            <form class="space-y-3" onsubmit='submitBlogComment(event, ${JSON.stringify(post.id)}, ${JSON.stringify(post.slug)})'>
+                                <div>
+                                    <label class="block text-[10px] text-ash-gray font-sans uppercase tracking-[0.18em] mb-2">Name</label>
+                                    <input name="authorName" class="comment-field px-3 py-2" maxlength="80" required placeholder="Your name" value="${escapeHTML(localStorage.getItem("echoesBlogCommentName") || "")}">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] text-ash-gray font-sans uppercase tracking-[0.18em] mb-2">Response</label>
+                                    <textarea name="comment" class="comment-field px-3 py-3 min-h-[110px]" maxlength="2000" required placeholder="Write a response..."></textarea>
+                                </div>
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
+                                    <p id="comment-status" class="text-xs text-ash-gray font-sans min-h-4"></p>
+                                    <button type="submit" class="border border-[#8C0D0D] px-4 py-2 text-[11px] text-off-white font-sans uppercase tracking-[0.16em] hover:bg-[#8C0D0D]/15 transition disabled:opacity-50 disabled:pointer-events-none">
+                                        Post Response
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
                     </div>
                 </div>
             `;
+            loadBlogEngagement(post, true);
         }
 
         // Initialize
