@@ -39,7 +39,7 @@
             <span class="site-shell-menu">
               <span class="site-shell-menu-panel">
                 <a href="${home}/#quotes">Quotes & Resources</a>
-                <a href="${home}/#integrity-report">Integrity Report</a>
+                <a href="${home}/blog">Voices</a>
                 <a href="${home}/events">Events</a>
                 <a href="${home}/#faq">FAQ</a>
               </span>
@@ -60,11 +60,12 @@
       </div>
       <nav class="site-shell-mobile-links" aria-label="Mobile navigation">
         <a href="${home}/#articles">Archive</a>
+        <a href="${home}/#casualty-graph">Timeline</a>
+        <a href="${home}/#bias-tool-controls">Racial Bias Tool</a>
         <a href="${home}/#geolocation">Maps</a>
         <a href="${home}/#victims">Victims</a>
         <a href="${home}/events">Events</a>
-        <a href="${home}/blog">Blog</a>
-        <a href="${home}/#integrity-report">Integrity Report</a>
+        <a href="${home}/blog">Voices</a>
         <a href="${home}/collab" class="site-shell-submit">Submit Evidence</a>
       </nav>
     </div>`;
@@ -107,7 +108,7 @@
               <h4>Resources</h4>
               <ul>
                 <li><a href="${home}/#quotes">Quotes</a></li>
-                <li><a href="${home}/#integrity-report">Integrity Report</a></li>
+                <li><a href="${home}/blog">Voices</a></li>
                 <li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" rel="noopener noreferrer">Raw Data</a></li>
                 <li><a href="${home}/blog">Blog</a></li>
               </ul>
