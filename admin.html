@@ -1217,6 +1217,27 @@
 
     const SECONDARY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec";
 
+    async function readJsonResponse(response, fallbackMessage) {
+      const text = await response.text();
+      if (!text.trim()) {
+        throw new Error(`${fallbackMessage} Empty response from server (HTTP ${response.status}).`);
+      }
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (error) {
+        const preview = text.replace(/\s+/g, " ").trim().slice(0, 180);
+        throw new Error(`${fallbackMessage} Server returned non-JSON response (HTTP ${response.status}): ${preview || error.message}`);
+      }
+
+      if (!response.ok && data.result !== "success") {
+        throw new Error(data.message || `${fallbackMessage} HTTP ${response.status}.`);
+      }
+
+      return data;
+    }
+
     function getSecondaryAdminCode() {
       if (secondaryAdminCode) return secondaryAdminCode;
 
@@ -1240,7 +1261,7 @@
         const url = `${SECONDARY_SCRIPT_URL}?action=listPending&adminCode=${encodeURIComponent(adminCode)}`;
 
         const response = await fetch(url);
-        const data = await response.json();
+        const data = await readJsonResponse(response, "Failed to load secondary submissions.");
 
         if (data.result !== "success") {
           throw new Error(data.message || "Failed to load secondary submissions.");
@@ -1272,7 +1293,7 @@
         const adminCode = getSecondaryAdminCode();
         const url = `${SECONDARY_SCRIPT_URL}?action=listPendingBlog&adminCode=${encodeURIComponent(adminCode)}`;
         const response = await fetch(url);
-        const data = await response.json();
+        const data = await readJsonResponse(response, "Failed to load blog submissions.");
 
         if (data.result !== "success") {
           throw new Error(data.message || "Failed to load blog submissions.");
@@ -1440,7 +1461,7 @@
             adminEmail: currentUser?.email || "Password admin"
           })
         });
-        const data = await response.json();
+        const data = await readJsonResponse(response, "Blog approval failed.");
         if (data.result !== "success") {
           throw new Error(data.message || "Blog approval failed.");
         }
@@ -1506,7 +1527,7 @@
             adminEmail: currentUser?.email || "Password admin"
           })
         });
-        const data = await response.json();
+        const data = await readJsonResponse(response, "Blog rejection failed.");
         if (data.result !== "success") {
           throw new Error(data.message || "Blog rejection failed.");
         }
@@ -1996,7 +2017,7 @@
           })
         });
 
-        const data = await response.json();
+        const data = await readJsonResponse(response, "Approval failed.");
 
         if (data.result !== "success") {
           throw new Error(data.message || "Approval failed.");
@@ -2068,7 +2089,7 @@
           })
         });
 
-        const data = await response.json();
+        const data = await readJsonResponse(response, "Rejection failed.");
 
         if (data.result !== "success") {
           throw new Error(data.message || "Rejection failed.");
