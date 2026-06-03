@@ -446,10 +446,22 @@
             </a>
           </div>
         </div>
+        <div class="flex flex-col sm:flex-row gap-3 mb-5">
+          <button id="btn-blog-load-pending" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">
+            Pending Queue
+          </button>
+          <button id="btn-blog-load-published" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">
+            Published Manager
+          </button>
+        </div>
         <div id="blog-submissions-list" class="space-y-0 border-t border-zinc-900">
           <div class="py-12 text-center text-zinc-600 font-serif italic">
             Blog submission queue not loaded.
           </div>
+        </div>
+        <div id="blog-published-manager" class="hidden mt-8 border-t border-zinc-900 pt-6">
+          <div id="blog-published-list" class="space-y-4"></div>
+          <div id="blog-editor-panel" class="hidden mt-8 border border-zinc-900 bg-zinc-950/40 p-5 md:p-6"></div>
         </div>
       </div>
 
@@ -639,6 +651,11 @@
     const integrityAdminPanel = document.getElementById("integrity-admin-panel");
     const secondaryListContainer = document.getElementById("secondary-submissions-list");
     const blogListContainer = document.getElementById("blog-submissions-list");
+    const btnBlogLoadPending = document.getElementById("btn-blog-load-pending");
+    const btnBlogLoadPublished = document.getElementById("btn-blog-load-published");
+    const blogPublishedManager = document.getElementById("blog-published-manager");
+    const blogPublishedList = document.getElementById("blog-published-list");
+    const blogEditorPanel = document.getElementById("blog-editor-panel");
     const integrityReviewList = document.getElementById("integrity-review-list");
     const integrityLockedPanel = document.getElementById("integrity-locked-panel");
     const integrityReviewContent = document.getElementById("integrity-review-content");
@@ -667,6 +684,8 @@
     let isProcessing = false;
     let activeAdminTab = "primary";
     let secondaryAdminCode = "";
+    let publishedBlogPosts = [];
+    let activeBlogEditorPost = null;
     let integrityLatestPayload = null;
     let integrityOverrides = {};
     let integrityAdminKey = "";
@@ -859,7 +878,10 @@
         adminEmailDisplay.textContent = "";
       }
       setStatus(shouldFetch ? "Loading blog..." : "Blog review access");
-      if (shouldFetch) fetchBlogSubmissions();
+      if (shouldFetch) {
+        showBlogPendingView();
+        fetchBlogSubmissions();
+      }
     }
 
     function showDefaultPasswordDashboard() {
@@ -886,6 +908,7 @@
       } else if (activeAdminTab === "integrity") {
         fetchIntegrityReviewQueue();
       } else if (activeAdminTab === "blog") {
+        showBlogPendingView();
         fetchBlogSubmissions();
       } else {
         fetchSecondarySubmissions();
@@ -989,6 +1012,19 @@
       showBlogDashboard(true);
     });
 
+    if (btnBlogLoadPending) {
+      btnBlogLoadPending.addEventListener("click", () => {
+        showBlogPendingView();
+        fetchBlogSubmissions();
+      });
+    }
+
+    if (btnBlogLoadPublished) {
+      btnBlogLoadPublished.addEventListener("click", () => {
+        showBlogPublishedView();
+      });
+    }
+
     tabIntegrityAdmin.addEventListener("click", () => {
       showIntegrityDashboard(true);
     });
@@ -1078,7 +1114,11 @@
       } else if (activeAdminTab === "integrity") {
         fetchIntegrityReviewQueue();
       } else if (activeAdminTab === "blog") {
-        fetchBlogSubmissions();
+        if (blogPublishedManager && !blogPublishedManager.classList.contains("hidden")) {
+          fetchPublishedBlogPosts();
+        } else {
+          fetchBlogSubmissions();
+        }
       } else {
         fetchSecondarySubmissions();
       }
@@ -1310,6 +1350,304 @@
           </div>
         `;
         setStatus("Error");
+      }
+    }
+
+    function showBlogPendingView() {
+      blogListContainer.classList.remove("hidden");
+      blogPublishedManager.classList.add("hidden");
+      blogEditorPanel.classList.add("hidden");
+      if (btnBlogLoadPending) btnBlogLoadPending.classList.add("border-[#8b0000]", "text-zinc-100");
+      if (btnBlogLoadPublished) btnBlogLoadPublished.classList.remove("border-[#8b0000]", "text-zinc-100");
+    }
+
+    function showBlogPublishedView() {
+      blogListContainer.classList.add("hidden");
+      blogPublishedManager.classList.remove("hidden");
+      if (btnBlogLoadPublished) btnBlogLoadPublished.classList.add("border-[#8b0000]", "text-zinc-100");
+      if (btnBlogLoadPending) btnBlogLoadPending.classList.remove("border-[#8b0000]", "text-zinc-100");
+      fetchPublishedBlogPosts();
+    }
+
+    async function fetchPublishedBlogPosts() {
+      setStatus("Loading published blog...");
+      blogPublishedList.innerHTML = `
+        <div class="py-10 text-center text-zinc-500 font-sans tracking-widest text-xs uppercase animate-pulse">
+          Loading published posts...
+        </div>
+      `;
+
+      try {
+        const adminCode = getSecondaryAdminCode();
+        const url = `${SECONDARY_SCRIPT_URL}?action=listPublishedBlogPosts&adminCode=${encodeURIComponent(adminCode)}`;
+        const response = await fetch(url);
+        const data = await readJsonResponse(response, "Failed to load published blog posts.");
+        if (data.result !== "success") {
+          throw new Error(data.message || "Failed to load published blog posts.");
+        }
+        publishedBlogPosts = data.posts || [];
+        renderPublishedBlogList();
+        setStatus("Idle");
+      } catch (error) {
+        blogPublishedList.innerHTML = `
+          <div class="py-8 text-center border border-red-900/30 bg-red-900/10 p-4">
+            <p class="text-[#8b0000] font-sans text-sm mb-2">Error loading published posts</p>
+            <p class="text-zinc-500 text-xs font-mono">${esc(error.message)}</p>
+          </div>
+        `;
+        setStatus("Error");
+      }
+    }
+
+    function renderPublishedBlogList() {
+      if (!publishedBlogPosts.length) {
+        blogPublishedList.innerHTML = `
+          <div class="py-16 text-center text-zinc-600 italic font-serif">
+            No published blog posts found.
+          </div>
+        `;
+        return;
+      }
+
+      blogPublishedList.innerHTML = `
+        <div class="flex items-center justify-between gap-4 mb-4">
+          <div>
+            <h3 class="text-lg text-zinc-200 font-serif">Published Blog Manager</h3>
+            <p class="text-xs text-zinc-500 font-sans">Edit text, images, author details, preview layout, or remove a post from the public blog.</p>
+          </div>
+          <button onclick="fetchPublishedBlogPosts()" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase">Refresh</button>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          ${publishedBlogPosts.map((post) => `
+            <article class="border border-zinc-900 bg-[#080808] p-4">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">${esc(post.date || post.publishedAt || "")}</p>
+                  <h4 class="text-zinc-200 font-serif text-lg leading-tight mb-2">${esc(post.title || "Untitled")}</h4>
+                  <p class="text-xs text-zinc-500 font-sans line-clamp-2">${esc(post.subtitle || post.shareDescription || "")}</p>
+                </div>
+                ${post.shareImage || post.featureImage ? `<img src="${esc(post.shareImage || post.featureImage)}" alt="" class="w-20 h-20 object-cover border border-zinc-900 shrink-0">` : ""}
+              </div>
+              <div class="flex flex-wrap gap-2 mt-4">
+                <button onclick='openBlogEditor(${JSON.stringify(post.id || post.slug)})' class="px-3 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">Edit</button>
+                <a href="${esc(post.path ? `https://echoesofgaza.org/blog/${post.path}` : `https://echoesofgaza.org/blog?post=${encodeURIComponent(post.slug || post.id)}`)}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase">View</a>
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function getPostAuthor(post) {
+      return post.author && typeof post.author === "object"
+        ? post.author
+        : { name: post.author || "Anonymous contributor" };
+    }
+
+    function openBlogEditor(postKey) {
+      const post = publishedBlogPosts.find(item => String(item.id || item.slug) === String(postKey));
+      if (!post) return;
+      activeBlogEditorPost = post;
+      const author = getPostAuthor(post);
+      const images = Array.isArray(post.images) ? post.images : [];
+
+      blogEditorPanel.classList.remove("hidden");
+      blogEditorPanel.innerHTML = `
+        <div class="flex flex-col xl:flex-row gap-6">
+          <form id="blog-edit-form" class="xl:w-1/2 space-y-4">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-2">Published Editor</p>
+                <h3 class="text-xl text-zinc-200 font-serif leading-tight">Edit Blog Post</h3>
+              </div>
+              <button type="button" onclick="closeBlogEditor()" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans uppercase tracking-widest">Close</button>
+            </div>
+
+            ${blogEditorField_("Title", "title", post.title || "", "input")}
+            ${blogEditorField_("Short description", "subtitle", post.subtitle || post.shareDescription || "", "textarea")}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              ${blogEditorField_("Date", "date", post.date || "", "input")}
+              ${blogEditorField_("Category", "category", post.category || "Personal essay", "input")}
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              ${blogEditorField_("Author name", "authorName", author.name || "", "input")}
+              ${blogEditorField_("Author role", "authorRole", author.role || post.role || "", "input")}
+            </div>
+            ${blogEditorField_("Author photo URL", "authorPhotoUrl", author.photoUrl || post.authorImg || "", "input")}
+            ${blogEditorField_("Author bio", "authorBio", author.bio || post.authorBio || "", "textarea")}
+            ${blogEditorField_("Feature/share image URL", "featureImage", post.featureImage || post.shareImage || images[0] || "", "input")}
+            ${blogEditorField_("Additional image URLs, one per line", "images", images.join("\\n"), "textarea")}
+            ${blogEditorField_("Article HTML/body", "content", post.content || "", "textarea tall")}
+
+            <div id="blog-edit-error" class="hidden text-[#8b0000] text-xs font-sans"></div>
+            <div id="blog-edit-success" class="hidden text-green-700 text-xs font-sans"></div>
+
+            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+              <button type="button" onclick="saveBlogEditor()" class="px-5 py-2 border border-[#8b0000] text-zinc-100 hover:bg-[#8b0000]/10 text-[11px] font-sans tracking-[0.15em] uppercase">Save Changes</button>
+              <button type="button" onclick="deletePublishedBlogPost()" class="px-5 py-2 border border-zinc-800 text-zinc-500 hover:border-[#8b0000] hover:text-white text-[11px] font-sans tracking-[0.15em] uppercase">Delete Post</button>
+            </div>
+          </form>
+
+          <div class="xl:w-1/2">
+            <div class="sticky top-4">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-3">Live Preview</p>
+              <div id="blog-edit-preview" class="border border-zinc-900 bg-[#0B0B0B] p-5 max-h-[760px] overflow-y-auto"></div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.querySelectorAll("#blog-edit-form input, #blog-edit-form textarea").forEach((field) => {
+        field.addEventListener("input", renderBlogEditorPreview);
+      });
+      renderBlogEditorPreview();
+      blogEditorPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function blogEditorField_(label, name, value, type) {
+      const isTextarea = String(type).includes("textarea");
+      const tall = String(type).includes("tall");
+      const common = `name="${name}" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]"`;
+      return `
+        <label class="block">
+          <span class="block text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">${esc(label)}</span>
+          ${isTextarea
+            ? `<textarea ${common} rows="${tall ? 14 : 4}">${esc(value)}</textarea>`
+            : `<input ${common} value="${esc(value)}">`}
+        </label>
+      `;
+    }
+
+    function collectBlogEditorPost() {
+      const form = document.getElementById("blog-edit-form");
+      const value = (name) => form.elements[name]?.value || "";
+      const imageList = value("images").split(/\n|,/).map(item => item.trim()).filter(Boolean);
+      const featureImage = value("featureImage").trim();
+      const images = featureImage ? [featureImage].concat(imageList.filter(url => url !== featureImage)) : imageList;
+      return {
+        id: activeBlogEditorPost.id,
+        slug: activeBlogEditorPost.slug,
+        title: value("title").trim(),
+        subtitle: value("subtitle").trim(),
+        shareDescription: value("subtitle").trim(),
+        category: value("category").trim(),
+        date: value("date").trim(),
+        featureImage,
+        shareImage: featureImage,
+        images,
+        author: {
+          name: value("authorName").trim(),
+          role: value("authorRole").trim(),
+          photoUrl: value("authorPhotoUrl").trim(),
+          bio: value("authorBio").trim(),
+          links: activeBlogEditorPost.author?.links || [],
+          anonymous: Boolean(activeBlogEditorPost.author?.anonymous)
+        },
+        content: value("content")
+      };
+    }
+
+    function renderBlogEditorPreview() {
+      if (!activeBlogEditorPost) return;
+      const preview = document.getElementById("blog-edit-preview");
+      if (!preview) return;
+      const post = collectBlogEditorPost();
+      preview.innerHTML = `
+        <article class="max-w-[680px] mx-auto">
+          <h1 class="font-serif text-[34px] leading-tight text-zinc-100 mb-3">${esc(post.title || "Untitled")}</h1>
+          <p class="text-zinc-500 text-base leading-relaxed mb-6 font-sans">${esc(post.subtitle || "")}</p>
+          <div class="flex items-center gap-3 py-4 border-y border-zinc-800 mb-7">
+            <div class="w-10 h-10 rounded-full bg-zinc-900 overflow-hidden border border-zinc-800 flex items-center justify-center text-zinc-400 font-serif">
+              ${post.author.photoUrl ? `<img src="${esc(post.author.photoUrl)}" alt="" class="w-full h-full object-cover">` : esc(String(post.author.name || "A").charAt(0))}
+            </div>
+            <div>
+              <div class="text-sm text-zinc-200 font-sans">${esc(post.author.name || "Anonymous contributor")}</div>
+              <div class="text-xs text-zinc-500 font-sans">${esc(post.date || "")}</div>
+            </div>
+          </div>
+          ${post.featureImage ? `<img src="${esc(post.featureImage)}" alt="" class="w-full max-h-[320px] object-cover border border-zinc-800 mb-6">` : ""}
+          <div class="prose-preview text-zinc-100 font-serif text-[18px] leading-relaxed">
+            ${post.content || "<p>Article body preview...</p>"}
+          </div>
+        </article>
+      `;
+    }
+
+    function closeBlogEditor() {
+      activeBlogEditorPost = null;
+      blogEditorPanel.classList.add("hidden");
+      blogEditorPanel.innerHTML = "";
+    }
+
+    async function saveBlogEditor() {
+      if (isProcessing || !activeBlogEditorPost) return;
+      const errorDiv = document.getElementById("blog-edit-error");
+      const successDiv = document.getElementById("blog-edit-success");
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (successDiv) successDiv.classList.add("hidden");
+      isProcessing = true;
+      setStatus("Saving blog...");
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "updateBlogPost",
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || "Password admin",
+            post: collectBlogEditorPost()
+          })
+        });
+        const data = await readJsonResponse(response, "Blog update failed.");
+        if (data.result !== "success") throw new Error(data.message || "Blog update failed.");
+        if (successDiv) {
+          successDiv.textContent = "Saved. GitHub Pages will publish the change shortly.";
+          successDiv.classList.remove("hidden");
+        }
+        await fetchPublishedBlogPosts();
+        activeBlogEditorPost = data.post;
+        setStatus("Saved");
+      } catch (error) {
+        if (errorDiv) {
+          errorDiv.textContent = "Error: " + error.message;
+          errorDiv.classList.remove("hidden");
+        }
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    }
+
+    async function deletePublishedBlogPost() {
+      if (isProcessing || !activeBlogEditorPost) return;
+      const ok = confirm(`Delete this published blog post?\n\n${activeBlogEditorPost.title || activeBlogEditorPost.slug}\n\nThis removes it from the public blog JSON.`);
+      if (!ok) return;
+      isProcessing = true;
+      setStatus("Deleting blog...");
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "deleteBlogPost",
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || "Password admin",
+            id: activeBlogEditorPost.id,
+            slug: activeBlogEditorPost.slug
+          })
+        });
+        const data = await readJsonResponse(response, "Blog delete failed.");
+        if (data.result !== "success") throw new Error(data.message || "Blog delete failed.");
+        closeBlogEditor();
+        await fetchPublishedBlogPosts();
+        setStatus("Deleted");
+      } catch (error) {
+        alert("Delete failed: " + error.message);
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
       }
     }
 
