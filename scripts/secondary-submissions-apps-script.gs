@@ -166,6 +166,16 @@ function doPost(e) {
       return rejectArticle_(payload);
     }
 
+    if (action === "repairApprovedArticles") {
+      requireAdmin_(payload);
+      return json_(repairApprovedArticlesData_());
+    }
+
+    if (action === "repairArticleTextEncoding") {
+      requireAdmin_(payload);
+      return json_(repairArticleTextEncodingData_());
+    }
+
     if (action === "approveBlogPost") {
       requireAdmin_(payload);
       return approveBlogPost_(payload);
@@ -188,25 +198,27 @@ function submitArticle_(payload) {
 
   const id = Utilities.getUuid();
   const now = new Date().toISOString();
+  const categories = cleanDisplayList_(payload.categories || []);
+  const authors = cleanDisplayList_(payload.authors || []);
 
   const record = {
     id,
     status: "pending",
-    type: payload.type || "secondary_source",
+    type: cleanDisplayText_(payload.type || "secondary_source"),
     submittedAt: payload.submittedAt || now,
-    submitted_by: payload.submitted_by || "",
+    submitted_by: cleanDisplayText_(payload.submitted_by || ""),
     date: payload.date || "",
-    title: payload.title || "",
-    summary: payload.summary || "",
+    title: cleanDisplayText_(payload.title || ""),
+    summary: cleanDisplayText_(payload.summary || ""),
     link: payload.link || "",
     imageUrl: payload.imageUrl || "https://placeholder.com/image.jpg",
-    category: payload.category || "",
-    categories: JSON.stringify(payload.categories || []),
+    category: cleanDisplayText_(payload.category || ""),
+    categories: JSON.stringify(categories),
     categoryColor: payload.categoryColor || "",
-    source: payload.source || "",
-    author: payload.author || "",
-    authors: JSON.stringify(payload.authors || []),
-    documentType: payload.documentType || "",
+    source: cleanDisplayText_(payload.source || ""),
+    author: cleanDisplayText_(payload.author || ""),
+    authors: JSON.stringify(authors),
+    documentType: cleanDisplayText_(payload.documentType || ""),
     approvedAt: "",
     approvedBy: "",
     rejectedAt: "",
@@ -229,20 +241,7 @@ function approveArticle_(payload) {
       throw new Error("Only pending articles can be approved.");
     }
 
-    const article = {
-      date: isoDate_(rowObj.date),
-      title: rowObj.title,
-      summary: rowObj.summary,
-      link: rowObj.link,
-      imageUrl: rowObj.imageUrl || "https://placeholder.com/image.jpg",
-      category: rowObj.category,
-      categories: rowObj.categories || [],
-      categoryColor: rowObj.categoryColor,
-      source: rowObj.source,
-      author: rowObj.author || "Unknown author",
-      authors: rowObj.authors && rowObj.authors.length ? rowObj.authors : ["Unknown author"],
-      documentType: rowObj.documentType || "Article"
-    };
+    const article = rowToArticle_(rowObj);
 
     validateArticle_(article);
     updateGithubArticlesJson_(article);
@@ -271,6 +270,189 @@ function rejectArticle_(payload) {
   setCell_(sheet, headers, rowNumber, "rejectionReason", payload.reason || "");
 
   return json_({ result: "success" });
+}
+
+function repairApprovedArticlesFromSheet() {
+  const result = repairApprovedArticlesData_();
+  Logger.log(JSON.stringify(result, null, 2));
+  return result;
+}
+
+function repairApprovedArticlesData_() {
+  return withGithubWriteLock_(function() {
+    const sheet = getSheet_();
+    const headers = getHeaders_(sheet);
+    const values = sheet.getDataRange().getValues();
+    const approvedRows = values
+      .slice(1)
+      .map((row, index) => rowToObject_(headers, row, index + 2))
+      .filter(rowObj => rowObj.status === "approved");
+
+    const articlesPath = getProps_().getProperty("ARTICLES_PATH") || "data/articles.json";
+    const { fileData, currentContent } = getGithubFile_(articlesPath);
+
+    if (!String(currentContent || "").trim()) {
+      throw new Error(`${articlesPath} on GitHub is empty, so approved articles cannot be repaired.`);
+    }
+
+    let articles;
+    try {
+      articles = JSON.parse(currentContent);
+    } catch (err) {
+      throw new Error(`${articlesPath} on GitHub is not valid JSON: ${err.message}`);
+    }
+
+    if (!Array.isArray(articles)) {
+      throw new Error("articles.json must be a JSON array.");
+    }
+
+    const existingLinks = new Set(articles.map(article => String(article.link || "")));
+    const skipped = [];
+    const missingArticles = [];
+
+    approvedRows.forEach(rowObj => {
+      const article = rowToArticle_(rowObj);
+      try {
+        validateArticle_(article);
+      } catch (err) {
+        skipped.push({
+          rowNumber: rowObj.rowNumber,
+          title: rowObj.title || "",
+          reason: err.message || String(err)
+        });
+        return;
+      }
+
+      const link = String(article.link || "");
+      if (!existingLinks.has(link)) {
+        existingLinks.add(link);
+        missingArticles.push(article);
+      }
+    });
+
+    if (missingArticles.length) {
+      missingArticles
+        .slice()
+        .reverse()
+        .forEach(article => articles.unshift(article));
+
+      putGithubFile_(
+        articlesPath,
+        fileData,
+        JSON.stringify(articles, null, 2),
+        `Repair approved articles: add ${missingArticles.length} missing`
+      );
+    }
+
+    return {
+      result: "success",
+      checked: approvedRows.length,
+      repaired: missingArticles.length,
+      skipped,
+      addedTitles: missingArticles.map(article => article.title)
+    };
+  });
+}
+
+function repairArticleTextEncodingOnGithub() {
+  const result = repairArticleTextEncodingData_();
+  Logger.log(JSON.stringify(result, null, 2));
+  return result;
+}
+
+function repairArticleTextEncodingData_() {
+  return withGithubWriteLock_(function() {
+    const articlesPath = getProps_().getProperty("ARTICLES_PATH") || "data/articles.json";
+    const { fileData, currentContent } = getGithubFile_(articlesPath);
+
+    if (!String(currentContent || "").trim()) {
+      throw new Error(`${articlesPath} on GitHub is empty, so article text cannot be repaired.`);
+    }
+
+    let articles;
+    try {
+      articles = JSON.parse(currentContent);
+    } catch (err) {
+      throw new Error(`${articlesPath} on GitHub is not valid JSON: ${err.message}`);
+    }
+
+    if (!Array.isArray(articles)) {
+      throw new Error("articles.json must be a JSON array.");
+    }
+
+    const changedTitles = [];
+    const cleanedArticles = articles.map(article => {
+      const cleaned = cleanArticleDisplayText_(article);
+      if (JSON.stringify(cleaned) !== JSON.stringify(article)) {
+        changedTitles.push(cleaned.title || article.title || article.link || "Untitled article");
+      }
+      return cleaned;
+    });
+
+    if (changedTitles.length) {
+      putGithubFile_(
+        articlesPath,
+        fileData,
+        JSON.stringify(cleanedArticles, null, 2),
+        `Repair article text encoding: ${changedTitles.length} updated`
+      );
+    }
+
+    return {
+      result: "success",
+      checked: articles.length,
+      repaired: changedTitles.length,
+      repairedTitles: changedTitles
+    };
+  });
+}
+
+function cleanArticleDisplayText_(article) {
+  const cleaned = Object.assign({}, article);
+  ["title", "summary", "category", "source", "author", "documentType"].forEach(key => {
+    cleaned[key] = cleanDisplayText_(cleaned[key]);
+  });
+  cleaned.categories = cleanDisplayList_(cleaned.categories || []);
+  cleaned.authors = cleanDisplayList_(cleaned.authors && cleaned.authors.length ? cleaned.authors : ["Unknown author"]);
+  return cleaned;
+}
+
+function rowToArticle_(rowObj) {
+  return cleanArticleDisplayText_({
+    date: isoDate_(rowObj.date),
+    title: rowObj.title,
+    summary: rowObj.summary,
+    link: rowObj.link,
+    imageUrl: rowObj.imageUrl || "https://placeholder.com/image.jpg",
+    category: rowObj.category,
+    categories: rowObj.categories || [],
+    categoryColor: rowObj.categoryColor,
+    source: rowObj.source,
+    author: rowObj.author || "Unknown author",
+    authors: rowObj.authors && rowObj.authors.length ? rowObj.authors : ["Unknown author"],
+    documentType: rowObj.documentType || "Article"
+  });
+}
+
+function cleanDisplayList_(values) {
+  return (Array.isArray(values) ? values : [])
+    .map(value => cleanDisplayText_(value))
+    .filter(Boolean);
+}
+
+function cleanDisplayText_(value) {
+  return String(value || "")
+    .replace(/â€™|â€˜|�/g, "'")
+    .replace(/â€œ|â€�/g, '"')
+    .replace(/â€“|â€”/g, "-")
+    .replace(/Â/g, "")
+    .replace(/\bM\?decins Sans Fronti\?res\b/g, "Medecins Sans Frontieres")
+    .replace(/\bM\?decins\b/g, "Medecins")
+    .replace(/\bFronti\?res\b/g, "Frontieres")
+    .replace(/([A-Za-z])\?s\b/g, "$1's")
+    .replace(/([A-Za-z])\?t\b/g, "$1't")
+    .replace(/([A-Za-z])\?([A-Za-z])/g, "$1-$2")
+    .trim();
 }
 
 function submitBlogPost_(payload) {
