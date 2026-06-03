@@ -539,16 +539,18 @@
             return {
                 id,
                 slug: post.slug || String(id).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+                path: post.path || (post.slug ? `${post.slug}.html` : ""),
                 title: post.title || "Untitled",
                 subtitle: post.subtitle || post.shareDescription || "",
                 shareDescription: post.shareDescription || post.subtitle || "",
                 shareImage: post.shareImage || post.featureImage || (Array.isArray(post.images) ? post.images[0] : ""),
+                featureImage: post.featureImage || post.shareImage || (Array.isArray(post.images) ? post.images[0] : ""),
                 author: authorName,
                 authorImg: author.photoUrl || post.authorImg || "",
                 role: author.role || post.role || "",
                 authorBio: author.bio || post.authorBio || "",
                 authorLinks: author.links || [],
-                date: post.date || post.publishedAt || "",
+                date: post.displayDate || post.date || post.publishedAt || "",
                 readTime: post.readTime || estimateReadTime(post.content || post.body || ""),
                 citations: Number(post.citations || 0),
                 comments: Number(post.comments || 0),
@@ -575,9 +577,14 @@
                 const data = await response.json();
                 const published = Array.isArray(data) ? data : (data.posts || []);
                 const normalized = published.map(normalizeBlogPost);
-                const existingSlugs = new Set(posts.map(post => post.slug || String(post.id)));
                 normalized.forEach((post) => {
-                    if (!existingSlugs.has(post.slug) && !existingSlugs.has(String(post.id))) {
+                    const existingIndex = posts.findIndex(existing =>
+                        String(existing.id) === String(post.id) ||
+                        (existing.slug && post.slug && existing.slug === post.slug)
+                    );
+                    if (existingIndex >= 0) {
+                        posts[existingIndex] = Object.assign({}, posts[existingIndex], post);
+                    } else {
                         posts.push(post);
                     }
                 });
@@ -682,6 +689,12 @@
                 month: "short",
                 day: "numeric"
             });
+        }
+
+        function shouldRenderFeatureImage(post) {
+            const image = post.featureImage || post.shareImage || "";
+            if (!image) return false;
+            return !String(post.content || "").includes(image);
         }
 
         function blogVisitorKey() {
@@ -1213,6 +1226,12 @@
                             </div>
                         </div>
                     </header>
+
+                    ${shouldRenderFeatureImage(post) ? `
+                        <figure class="mb-8">
+                            <img src="${escapeHTML(post.featureImage || post.shareImage)}" alt="${escapeHTML(post.title)}" class="w-full rounded-sm object-cover border border-border-gray opacity-90">
+                        </figure>
+                    ` : ""}
 
                     <!-- Body -->
                     <article class="prose-content">
