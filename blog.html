@@ -213,6 +213,44 @@
             background-color: rgba(255,255,255,0.05);
         }
 
+        .blog-share-menu {
+            position: fixed;
+            z-index: 140;
+            width: min(220px, calc(100vw - 24px));
+            border: 1px solid #2A2A2A;
+            background: #080808;
+            box-shadow: 0 18px 48px rgba(0,0,0,0.55);
+            padding: 8px;
+        }
+
+        .blog-share-menu button,
+        .blog-share-menu a {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            width: 100%;
+            padding: 10px 11px;
+            color: #A1A1AA;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            text-align: left;
+            transition: color 0.2s, background-color 0.2s;
+        }
+
+        .blog-share-menu button:hover,
+        .blog-share-menu a:hover {
+            color: #EDEDED;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .blog-share-menu i {
+            font-size: 18px;
+            color: #8C0D0D;
+        }
+
         .blog-engagement-panel {
             border-top: 1px solid #2A2A2A;
             border-bottom: 1px solid #2A2A2A;
@@ -548,6 +586,7 @@
                 author: authorName,
                 authorImg: author.photoUrl || post.authorImg || "",
                 role: author.role || post.role || "",
+                authorLocation: author.location || post.authorLocation || "",
                 authorBio: author.bio || post.authorBio || "",
                 authorLinks: author.links || [],
                 date: post.displayDate || post.date || post.publishedAt || "",
@@ -556,7 +595,9 @@
                 comments: Number(post.comments || 0),
                 viewCount: Number(post.viewCount || 0),
                 content: post.content || post.body || "",
-                publishedAt: post.publishedAt || post.date || ""
+                publishedAt: post.publishedAt || post.date || "",
+                scheduledAt: post.scheduledAt || "",
+                status: post.status || "published"
             };
         }
 
@@ -570,13 +611,19 @@
             return Number.isFinite(parsed) ? parsed : 0;
         }
 
+        function isPostPublic(post) {
+            const scheduledTime = parseBlogDate(post.scheduledAt || post.publishedAt);
+            if (post.status === "scheduled" && scheduledTime && scheduledTime > Date.now()) return false;
+            return post.status !== "draft" && post.status !== "deleted";
+        }
+
         async function loadPublishedBlogPosts() {
             try {
                 const response = await fetch("./data/blog_posts.json?v=" + Date.now());
                 if (!response.ok) return;
                 const data = await response.json();
                 const published = Array.isArray(data) ? data : (data.posts || []);
-                const normalized = published.map(normalizeBlogPost);
+                const normalized = published.map(normalizeBlogPost).filter(isPostPublic);
                 normalized.forEach((post) => {
                     const existingIndex = posts.findIndex(existing =>
                         String(existing.id) === String(post.id) ||
@@ -850,24 +897,85 @@
             }
         }
 
+        function removeShareMenu() {
+            document.querySelectorAll(".blog-share-menu").forEach((menu) => menu.remove());
+        }
+
         function sharePost(event, id) {
-            if (event) event.stopPropagation();
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
             const post = posts.find(p => p.id === id);
             if (!post) return;
             const postUrl = getPostUrl(post);
-            
+
+            removeShareMenu();
+            const menu = document.createElement("div");
+            menu.className = "blog-share-menu";
+            menu.setAttribute("role", "menu");
+            menu.innerHTML = `
+                <a href="${escapeHTML(getShareUrl("x", post))}" target="_blank" rel="noopener noreferrer" role="menuitem">
+                    <i class="ph ph-x-logo"></i>
+                    <span>Share to X</span>
+                </a>
+                <a href="${escapeHTML(getShareUrl("facebook", post))}" target="_blank" rel="noopener noreferrer" role="menuitem">
+                    <i class="ph ph-facebook-logo"></i>
+                    <span>Share to Facebook</span>
+                </a>
+                <button type="button" onclick='shareToInstagram(${JSON.stringify(post.id)})' role="menuitem">
+                    <i class="ph ph-instagram-logo"></i>
+                    <span>Instagram</span>
+                </button>
+                <button type="button" onclick='copyPostLink(${JSON.stringify(post.id)})' role="menuitem">
+                    <i class="ph ph-link-simple"></i>
+                    <span>Copy Link</span>
+                </button>
+            `;
+
+            document.body.appendChild(menu);
+            const rect = event?.currentTarget?.getBoundingClientRect();
+            const left = Math.min(Math.max(12, rect ? rect.right - menu.offsetWidth : window.innerWidth - menu.offsetWidth - 12), window.innerWidth - menu.offsetWidth - 12);
+            const top = Math.min(Math.max(12, rect ? rect.bottom + 8 : 80), window.innerHeight - menu.offsetHeight - 12);
+            menu.style.left = `${left}px`;
+            menu.style.top = `${top}px`;
+
+            setTimeout(() => {
+                document.addEventListener("click", removeShareMenu, { once: true });
+            }, 0);
+        }
+
+        function getShareUrl(platform, post) {
+            const postUrl = getPostUrl(post);
+            const title = post.title || "Echoes of Gaza";
+            if (platform === "facebook") {
+                return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`;
+            }
+            return `https://twitter.com/intent/tweet?url=${encodeURIComponent(postUrl)}&text=${encodeURIComponent(title)}`;
+        }
+
+        function copyPostLink(id, message = "Link copied to clipboard") {
+            const post = posts.find(p => p.id === id);
+            if (!post) return;
+            removeShareMenu();
+            const postUrl = getPostUrl(post);
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(postUrl).then(() => {
-                    showToast("Link copied to clipboard");
+                    showToast(message);
                 }).catch(() => {
-                    fallbackCopyTextToClipboard(postUrl);
+                    fallbackCopyTextToClipboard(postUrl, message);
                 });
             } else {
-                fallbackCopyTextToClipboard(postUrl);
+                fallbackCopyTextToClipboard(postUrl, message);
             }
         }
 
-        function fallbackCopyTextToClipboard(text) {
+        function shareToInstagram(id) {
+            copyPostLink(id, "Link copied. Paste it into your Instagram post or story.");
+            window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+        }
+
+        function fallbackCopyTextToClipboard(text, successMessage = "Link copied to clipboard") {
             const textArea = document.createElement("textarea");
             textArea.value = text;
             textArea.style.position = "fixed"; 
@@ -877,7 +985,7 @@
             
             try {
                 const successful = document.execCommand('copy');
-                if(successful) showToast("Link copied to clipboard");
+                if(successful) showToast(successMessage);
                 else showToast("Failed to copy link");
             } catch (err) {
                 showToast("Failed to copy link");
@@ -1122,7 +1230,7 @@
                                 <i class="ph ph-chat-circle text-lg"></i>
                                 <span>${post.comments}</span>
                             </div>
-                            <div class="action-btn ml-auto" onclick='sharePost(event, ${JSON.stringify(post.id)})' title="Copy Link">
+                            <div class="action-btn ml-auto" onclick='sharePost(event, ${JSON.stringify(post.id)})' title="Share">
                                 <i class="ph ph-share-network text-lg"></i>
                             </div>
                         </div>
@@ -1210,6 +1318,7 @@
                                 </div>
                                 <div class="flex flex-col">
                                     <span class="text-sm font-medium text-off-white cursor-pointer hover:underline">${post.author}</span>
+                                    ${post.role || post.authorLocation ? `<span class="text-xs text-ash-gray">${[post.role, post.authorLocation].filter(Boolean).join(" / ")}</span>` : ""}
                                     <span class="text-xs text-ash-gray">${post.date} &bull; ${post.readTime}</span>
                                 </div>
                             </div>
@@ -1220,7 +1329,7 @@
                                     <i class="ph ph-seal-check text-xl"></i>
                                     <span class="text-sm">${post.citations}</span>
                                 </div>
-                                <div class="action-btn" onclick='sharePost(event, ${JSON.stringify(post.id)})' title="Copy Link">
+                                <div class="action-btn" onclick='sharePost(event, ${JSON.stringify(post.id)})' title="Share">
                                     <i class="ph ph-share-network text-xl"></i>
                                 </div>
                             </div>
@@ -1279,7 +1388,7 @@
                                 <i class="ph ph-chat-circle text-xl"></i>
                                 <span id="post-comments-count" class="text-sm">${formatCount(post.comments)} responses</span>
                             </div>
-                            <div class="action-btn ml-auto" onclick='sharePost(event, ${JSON.stringify(post.id)})' title="Copy Link">
+                            <div class="action-btn ml-auto" onclick='sharePost(event, ${JSON.stringify(post.id)})' title="Share">
                                 <i class="ph ph-share-network text-xl"></i>
                             </div>
                         </div>
