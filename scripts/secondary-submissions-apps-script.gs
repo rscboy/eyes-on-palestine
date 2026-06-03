@@ -343,9 +343,11 @@ function approveBlogPost_(payload) {
   }
 
   const now = new Date().toISOString();
+  const slug = uniqueBlogSlug_(rowObj.slug || rowObj.title, rowObj.id);
   const post = {
     id: rowObj.id,
-    slug: uniqueBlogSlug_(rowObj.slug || rowObj.title),
+    slug,
+    path: `${slug}.html`,
     title: rowObj.title,
     subtitle: rowObj.subtitle,
     shareDescription: rowObj.subtitle,
@@ -367,6 +369,7 @@ function approveBlogPost_(payload) {
 
   validateBlogPost_(post);
   updateGithubBlogPostsJson_(post);
+  updateGithubBlogPostPage_(post);
 
   setCell_(sheet, headers, rowNumber, "status", "approved");
   setCell_(sheet, headers, rowNumber, "approvedAt", now);
@@ -556,6 +559,53 @@ function putGithubFile_(path, fileData, updatedContent, message) {
   return JSON.parse(response.getContentText());
 }
 
+function putGithubFileAllowCreate_(path, updatedContent, message) {
+  const props = getProps_();
+  const token = props.getProperty("GITHUB_TOKEN");
+  const owner = props.getProperty("GITHUB_OWNER");
+  const repo = props.getProperty("GITHUB_REPO");
+  const branch = props.getProperty("GITHUB_BRANCH") || "main";
+
+  let sha = "";
+  const getResponse = UrlFetchApp.fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`, {
+    method: "get",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github+json"
+    },
+    muteHttpExceptions: true
+  });
+
+  if (getResponse.getResponseCode() >= 200 && getResponse.getResponseCode() < 300) {
+    sha = JSON.parse(getResponse.getContentText()).sha || "";
+  }
+
+  const putPayload = {
+    message,
+    content: Utilities.base64Encode(updatedContent),
+    branch
+  };
+  if (sha) putPayload.sha = sha;
+
+  const response = UrlFetchApp.fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+    method: "put",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github+json"
+    },
+    contentType: "application/json",
+    payload: JSON.stringify(putPayload),
+    muteHttpExceptions: true
+  });
+
+  const code = response.getResponseCode();
+  if (code < 200 || code >= 300) {
+    throw new Error("GitHub PUT failed for " + path + ": " + response.getContentText());
+  }
+
+  return JSON.parse(response.getContentText());
+}
+
 function updateGithubBlogPostsJson_(newPost) {
   const path = getProps_().getProperty("BLOG_POSTS_PATH") || "data/blog_posts.json";
   const { fileData, currentContent } = getGithubFile_(path);
@@ -567,23 +617,62 @@ function updateGithubBlogPostsJson_(newPost) {
     throw new Error("blog_posts.json must be a JSON array or an object with a posts array.");
   }
 
-  const duplicate = posts.some(post => post.id === newPost.id || post.slug === newPost.slug);
-  if (duplicate) {
-    throw new Error("This blog post already exists in blog_posts.json.");
+  const existingIndex = posts.findIndex(post => post.id === newPost.id || post.slug === newPost.slug);
+  if (existingIndex >= 0) {
+    posts[existingIndex] = newPost;
+  } else {
+    posts.unshift(newPost);
   }
-
-  posts.unshift(newPost);
   putGithubFile_(path, fileData, JSON.stringify(posts, null, 2), `Approve blog post: ${newPost.title}`);
 }
 
-function uniqueBlogSlug_(value) {
+function updateGithubBlogPostPage_(post) {
+  const pagePath = `blog/${post.path}`;
+  const canonicalUrl = `https://echoesofgaza.org/blog/${post.path}`;
+  const appUrl = `https://echoesofgaza.org/blog?post=${encodeURIComponent(post.slug)}`;
+  const description = escapeHtml_(post.shareDescription || post.subtitle || "");
+  const title = escapeHtml_(post.title || "Echoes of Gaza Blog");
+  const image = post.shareImage || post.featureImage || "https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png";
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title}</title>
+  <meta name="description" content="${description}">
+  <link rel="canonical" href="${canonicalUrl}">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Echoes of Gaza">
+  <meta property="og:title" content="${title}">
+  <meta property="og:description" content="${description}">
+  <meta property="og:url" content="${canonicalUrl}">
+  <meta property="og:image" content="${escapeHtml_(image)}">
+  <meta name="twitter:card" content="${image ? "summary_large_image" : "summary"}">
+  <meta name="twitter:title" content="${title}">
+  <meta name="twitter:description" content="${description}">
+  <meta name="twitter:image" content="${escapeHtml_(image)}">
+  <meta http-equiv="refresh" content="0; url=${appUrl}">
+  <script>window.location.replace(${JSON.stringify(appUrl)});</script>
+</head>
+<body>
+  <p>Opening <a href="${appUrl}">${title}</a>.</p>
+</body>
+</html>`;
+
+  putGithubFileAllowCreate_(pagePath, html, `Create blog post page: ${post.title}`);
+}
+
+function uniqueBlogSlug_(value, currentId) {
   const base = slugify_(value || "blog-post") || "blog-post";
   const path = getProps_().getProperty("BLOG_POSTS_PATH") || "data/blog_posts.json";
   try {
     const { currentContent } = getGithubFile_(path);
     let posts = JSON.parse(currentContent || "[]");
     posts = Array.isArray(posts) ? posts : (posts.posts || []);
-    const used = new Set(posts.map(post => String(post.slug || "")));
+    const used = new Set(posts
+      .filter(post => String(post.id || "") !== String(currentId || ""))
+      .map(post => String(post.slug || "")));
     if (!used.has(base)) return base;
     let index = 2;
     while (used.has(`${base}-${index}`)) index++;
@@ -625,7 +714,7 @@ function estimateReadTime_(content) {
 }
 
 function validateBlogPost_(post) {
-  const required = ["id", "slug", "title", "subtitle", "author", "date", "publishedAt", "content"];
+  const required = ["id", "slug", "path", "title", "subtitle", "author", "date", "publishedAt", "content"];
   const missing = required.filter(key => !post[key]);
   if (missing.length) {
     throw new Error("Missing required blog post fields: " + missing.join(", "));
