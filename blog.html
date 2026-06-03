@@ -524,9 +524,11 @@
                 shareDescription: "I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
                 shareImage: "https://echoesofgaza.org/alexandria_blog_image.png",
                 author: "Alexandria Gary King / נחמה בת אברהם ושרה",
+                displayAuthor: "Alexandria Gary King",
                 authorImg: "https://media.licdn.com/dms/image/v2/D5603AQG6acvhb-oGDA/profile-displayphoto-shrink_200_200/B56ZcdWNreHgBY-/0/1748544053088?e=2147483647&v=beta&t=VN-lQa9_dfE2HY8zy_NVmZETmdk53ZNjNEWqZ98Qsfc",
                 role: "Direct Support Professional",
                 date: "3/31/2026 / י\"ג בניסן תשפ\"ו",
+                displayDateShort: "3/31/2026",
                 readTime: "4 min read",
                 citations: 0,
                 comments: 0,
@@ -570,10 +572,19 @@
             }[char]));
         }
 
+        function compactBylineText(value) {
+            const text = String(value || "").trim();
+            if (!text) return "";
+            return text.split(/\s+\/\s+/)[0].trim() || text;
+        }
+
         function normalizeBlogPost(post, index) {
             const id = post.id || post.slug || `published-${index}`;
             const author = post.author || {};
             const authorName = typeof author === "string" ? author : (author.name || "Anonymous contributor");
+            const displayAuthor = post.displayAuthor || post.bylineAuthor || compactBylineText(authorName);
+            const fullDisplayDate = post.displayDate || post.date || post.publishedAt || "";
+            const displayDateShort = post.displayDateShort || post.compactDate || compactBylineText(fullDisplayDate);
             return {
                 id,
                 slug: post.slug || String(id).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
@@ -584,12 +595,14 @@
                 shareImage: post.shareImage || post.featureImage || (Array.isArray(post.images) ? post.images[0] : ""),
                 featureImage: post.featureImage || post.shareImage || (Array.isArray(post.images) ? post.images[0] : ""),
                 author: authorName,
+                displayAuthor,
                 authorImg: author.photoUrl || post.authorImg || "",
                 role: author.role || post.role || "",
                 authorLocation: author.location || post.authorLocation || "",
                 authorBio: author.bio || post.authorBio || "",
                 authorLinks: author.links || [],
-                date: post.displayDate || post.date || post.publishedAt || "",
+                date: fullDisplayDate,
+                displayDateShort,
                 readTime: post.readTime || estimateReadTime(post.content || post.body || ""),
                 citations: Number(post.citations || 0),
                 comments: Number(post.comments || 0),
@@ -1005,7 +1018,7 @@
             const map = new Map();
 
             posts.forEach((post) => {
-                const name = post.author || "Anonymous contributor";
+                const name = post.displayAuthor || post.author || "Anonymous contributor";
                 const key = contributorKey(name);
                 const existing = map.get(key) || {
                     name,
@@ -1030,7 +1043,7 @@
                     id: post.id,
                     slug: post.slug,
                     title: post.title,
-                    date: post.date,
+                    date: post.displayDateShort || post.date,
                     url: getPostUrl(post)
                 });
 
@@ -1210,14 +1223,14 @@
                         <a href="${postUrl}" class="block cursor-pointer">
                         <!-- Meta -->
                         <div class="flex items-center gap-2 mb-2 text-sm text-ash-gray font-sans">
-                            <span class="font-medium text-off-white">${post.author}</span>
+                            <span class="font-medium text-off-white">${escapeHTML(post.displayAuthor || post.author)}</span>
                             <span>&bull;</span>
-                            <span>${post.date}</span>
+                            <span>${escapeHTML(post.displayDateShort || post.date)}</span>
                         </div>
                         
                         <!-- Titles -->
-                        <h2 class="text-[24px] font-serif font-bold text-off-white leading-tight mb-2 group-hover:text-ash-gray transition-colors">${post.title}</h2>
-                        <p class="text-ash-gray text-[16px] leading-snug mb-4 font-sans line-clamp-2">${post.subtitle}</p>
+                        <h2 class="text-[24px] font-serif font-bold text-off-white leading-tight mb-2 group-hover:text-ash-gray transition-colors">${escapeHTML(post.title)}</h2>
+                        <p class="text-ash-gray text-[16px] leading-snug mb-4 font-sans line-clamp-2">${escapeHTML(post.subtitle)}</p>
                         
                         </a>
                         <!-- Action Row -->
@@ -1297,6 +1310,8 @@
             if (!post) return;
             if (updateUrl) updatePostQuery(post);
             setSeoMeta(post);
+            const bylineAuthor = post.displayAuthor || post.author;
+            const bylineDate = post.displayDateShort || post.date;
 
             container.innerHTML = `
                 <div class="max-w-[680px] mx-auto px-5 py-10 fade-in">
@@ -1314,12 +1329,12 @@
                         <div class="flex items-center justify-between py-5 border-y border-border-gray">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 bg-border-gray rounded-full flex items-center justify-center text-off-white font-serif italic text-lg border border-[#333] overflow-hidden">
-                                    ${post.authorImg ? `<img src="${post.authorImg}" alt="${post.author}" class="w-full h-full object-cover">` : post.author.charAt(0)}
+                                    ${post.authorImg ? `<img src="${escapeHTML(post.authorImg)}" alt="${escapeHTML(bylineAuthor)}" class="w-full h-full object-cover">` : escapeHTML(bylineAuthor.charAt(0))}
                                 </div>
                                 <div class="flex flex-col">
-                                    <span class="text-sm font-medium text-off-white cursor-pointer hover:underline">${post.author}</span>
-                                    ${post.role || post.authorLocation ? `<span class="text-xs text-ash-gray">${[post.role, post.authorLocation].filter(Boolean).join(" / ")}</span>` : ""}
-                                    <span class="text-xs text-ash-gray">${post.date} &bull; ${post.readTime}</span>
+                                    <span class="text-sm font-medium text-off-white cursor-pointer hover:underline">${escapeHTML(bylineAuthor)}</span>
+                                    ${post.role || post.authorLocation ? `<span class="text-xs text-ash-gray">${escapeHTML([post.role, post.authorLocation].filter(Boolean).join(" / "))}</span>` : ""}
+                                    <span class="text-xs text-ash-gray">${escapeHTML(bylineDate)} &bull; ${escapeHTML(post.readTime)}</span>
                                 </div>
                             </div>
                             
