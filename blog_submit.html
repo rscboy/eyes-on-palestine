@@ -70,6 +70,34 @@
       background: rgba(17, 17, 17, 0.7);
     }
 
+    .published-preview {
+      background: #050505;
+      border: 1px solid #2A2A2A;
+    }
+
+    .published-preview-body p {
+      margin-bottom: 1.25rem;
+    }
+
+    .published-preview-body figure {
+      margin: 2rem 0;
+    }
+
+    .published-preview-body img {
+      width: 100%;
+      max-height: 520px;
+      object-fit: cover;
+      border: 1px solid #2A2A2A;
+    }
+
+    .published-preview-body figcaption {
+      margin-top: 0.5rem;
+      color: #7A7A7A;
+      font-family: "Inter", sans-serif;
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+
     .mode-card[aria-pressed="true"] {
       border-color: #8C0D0D;
       background: rgba(140, 13, 13, 0.14);
@@ -270,6 +298,13 @@
             <label class="label" for="post-title">Title</label>
             <input id="post-title" class="field" required placeholder="Give the piece a clear title">
           </div>
+          <div class="border border-border-gray bg-[#080808] p-4">
+            <div class="label mb-2">Expected public link</div>
+            <div id="post-url-preview" class="break-all font-sans text-sm text-off-white">https://echoesofgaza.org/blog/your-title.html</div>
+            <p id="post-url-note" class="mt-2 text-xs text-ash-gray leading-relaxed">
+              This updates from your title and uses the same slug format as the publishing system.
+            </p>
+          </div>
           <div>
             <label class="label" for="post-subtitle">Short description</label>
             <textarea id="post-subtitle" class="field min-h-[95px]" required maxlength="500" placeholder="One or two sentences for the blog index and share preview."></textarea>
@@ -317,6 +352,19 @@
           </div>
           <p id="submission-status" class="text-sm text-ash-gray leading-relaxed"></p>
         </form>
+
+        <section class="mt-8">
+          <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
+            <div>
+              <p class="text-deep-red text-xs font-bold uppercase tracking-[0.22em] mb-2">Live Published Preview</p>
+              <h3 class="font-serif text-2xl text-off-white leading-tight">How readers will see it</h3>
+            </div>
+            <a id="preview-url-link" href="https://echoesofgaza.org/blog/your-title.html" target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-[0.16em] text-ash-gray hover:text-off-white transition break-all">
+              echoesofgaza.org/blog/your-title.html
+            </a>
+          </div>
+          <div id="published-preview" class="published-preview p-5 md:p-7"></div>
+        </section>
       </section>
     </section>
   </main>
@@ -374,8 +422,19 @@
     const PROFILE_KEY = "echoes_blog_writer_profile";
     const DRAFT_KEY = "echoes_blog_submission_draft";
     const state = { anonymous: false };
+    let publishedSlugs = new Set();
 
     const el = (id) => document.getElementById(id);
+
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
 
     function showToast(message) {
       const toast = el("toast");
@@ -386,6 +445,61 @@
 
     function splitLines(value) {
       return String(value || "").split(/\n+/).map((line) => line.trim()).filter(Boolean);
+    }
+
+    function slugify(value) {
+      return String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 80);
+    }
+
+    function uniquePreviewSlug(value) {
+      const base = slugify(value || "blog-post") || "blog-post";
+      if (!publishedSlugs.has(base)) return base;
+      let index = 2;
+      while (publishedSlugs.has(`${base}-${index}`)) index += 1;
+      return `${base}-${index}`;
+    }
+
+    async function loadPublishedSlugs() {
+      try {
+        const response = await fetch(`./data/blog_posts.json?v=${Date.now()}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        let posts = await response.json();
+        posts = Array.isArray(posts) ? posts : (posts.posts || []);
+        publishedSlugs = new Set(posts.map((post) => String(post.slug || "")).filter(Boolean));
+      } catch (error) {
+        console.warn("Could not load published blog slugs for preview", error);
+        publishedSlugs = new Set();
+      }
+      updateSubmissionPreview();
+    }
+
+    function blogBodyToPreviewHtml(body) {
+      const text = String(body || "").trim();
+      if (!text) {
+        return `<p class="text-ash-gray font-sans text-sm">Your article body preview will appear here as you write.</p>`;
+      }
+      if (/<\/?[a-z][\s\S]*>/i.test(text)) {
+        return text;
+      }
+      return text
+        .split(/\n{2,}/)
+        .map((paragraph) => paragraph.trim())
+        .filter(Boolean)
+        .map((paragraph) => `<p>${esc(paragraph).replace(/\n/g, "<br>")}</p>`)
+        .join("");
+    }
+
+    function previewPostUrl() {
+      const slug = uniquePreviewSlug(el("post-title").value.trim() || "your-title");
+      return {
+        slug,
+        path: `${slug}.html`,
+        url: `https://echoesofgaza.org/blog/${slug}.html`
+      };
     }
 
     function getProfile() {
@@ -416,6 +530,7 @@
       el("mode-anonymous").setAttribute("aria-pressed", String(anonymous));
       el("profile-form").classList.toggle("hidden", anonymous);
       el("anonymous-note").classList.toggle("hidden", !anonymous);
+      updateSubmissionPreview();
     }
 
     function loadSavedProfile() {
@@ -454,6 +569,7 @@
         el("post-notes").value = draft.editorNotes || "";
         setMode(Boolean(draft.anonymous));
         updateWordCount();
+        updateSubmissionPreview();
       } catch (error) {
         console.warn("Could not load saved draft", error);
       }
@@ -462,6 +578,66 @@
     function updateWordCount() {
       const words = el("post-body").value.trim().split(/\s+/).filter(Boolean).length;
       el("word-count").textContent = `${words} word${words === 1 ? "" : "s"}`;
+      updateSubmissionPreview();
+    }
+
+    function updateSubmissionPreview() {
+      const profile = getProfile();
+      const title = el("post-title").value.trim() || "Your article title";
+      const subtitle = el("post-subtitle").value.trim() || "Your short description will appear here.";
+      const category = el("post-category").value || "Personal essay";
+      const images = splitLines(el("post-images").value);
+      const featureImage = images[0] || "";
+      const author = state.anonymous ? {
+        name: "Anonymous contributor",
+        role: "",
+        photoUrl: "",
+        location: "",
+        bio: ""
+      } : {
+        name: profile.name || "Anonymous contributor",
+        role: profile.role || "",
+        photoUrl: profile.photoUrl || "",
+        location: profile.location || "",
+        bio: profile.bio || ""
+      };
+      const { slug, url } = previewPostUrl();
+      const shortUrl = `echoesofgaza.org/blog/${slug}.html`;
+      const duplicate = publishedSlugs.has(slugify(title || "blog-post"));
+
+      el("post-url-preview").textContent = url;
+      el("preview-url-link").textContent = shortUrl;
+      el("preview-url-link").href = url;
+      el("post-url-note").textContent = duplicate
+        ? "A published post already uses this title slug, so the publishing system adds the next available number."
+        : "This updates from your title and uses the same slug format as the publishing system.";
+
+      el("published-preview").innerHTML = `
+        <article class="max-w-[700px] mx-auto">
+          <p class="text-deep-red text-[10px] font-bold uppercase tracking-[0.22em] mb-3">${esc(category)}</p>
+          <h1 class="font-serif text-4xl md:text-5xl leading-tight text-off-white mb-4">${esc(title)}</h1>
+          <p class="text-ash-gray text-base md:text-lg leading-relaxed mb-7">${esc(subtitle)}</p>
+          <div class="flex items-center gap-3 py-4 border-y border-border-gray mb-7">
+            <div class="w-11 h-11 rounded-full overflow-hidden border border-border-gray bg-[#151515] flex items-center justify-center font-serif text-ash-gray">
+              ${author.photoUrl ? `<img src="${esc(author.photoUrl)}" alt="" class="w-full h-full object-cover">` : esc(String(author.name || "A").charAt(0))}
+            </div>
+            <div class="min-w-0">
+              <div class="text-sm text-off-white font-sans">${esc(author.name || "Anonymous contributor")}</div>
+              <div class="text-xs text-ash-gray font-sans">${esc([author.role, author.location].filter(Boolean).join(" / "))}</div>
+            </div>
+          </div>
+          ${featureImage ? `<img src="${esc(featureImage)}" alt="" class="w-full max-h-[360px] object-cover border border-border-gray mb-7">` : ""}
+          <div class="published-preview-body font-serif text-[18px] leading-relaxed text-off-white">
+            ${blogBodyToPreviewHtml(el("post-body").value)}
+          </div>
+          ${author.bio ? `
+            <div class="mt-10 border-t border-border-gray pt-6">
+              <p class="text-[10px] text-ash-gray uppercase tracking-[0.18em] font-sans font-bold mb-2">About the writer</p>
+              <p class="text-sm text-ash-gray font-sans leading-relaxed">${esc(author.bio)}</p>
+            </div>
+          ` : ""}
+        </article>
+      `;
     }
 
     function startWriterTypewriter() {
@@ -592,11 +768,19 @@
       showToast("Writer profile saved");
     });
     el("save-draft").addEventListener("click", saveDraft);
-    el("post-body").addEventListener("input", updateWordCount);
+    ["post-title", "post-subtitle", "post-category", "post-images", "post-body", "writer-name", "writer-role", "writer-photo", "writer-location", "writer-bio"].forEach((id) => {
+      el(id)?.addEventListener("input", () => {
+        if (id === "post-body") updateWordCount();
+        else updateSubmissionPreview();
+      });
+      el(id)?.addEventListener("change", updateSubmissionPreview);
+    });
     el("blog-submission-form").addEventListener("submit", submitPost);
 
     loadSavedProfile();
     loadDraft();
+    updateSubmissionPreview();
+    loadPublishedSlugs();
     setupWriterTypewriter();
   </script>
 </body>
