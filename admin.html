@@ -69,7 +69,8 @@
     #view-login > div > div:first-child,
     #view-dashboard > div:first-child,
     #primary-admin-panel,
-    #secondary-admin-panel {
+    #secondary-admin-panel,
+    #blog-admin-panel {
       border: 1px solid rgba(39, 39, 42, 0.9);
       background: rgba(12, 12, 12, 0.72);
     }
@@ -90,6 +91,7 @@
     #tab-primary-admin,
     #tab-secondary-admin,
     #tab-integrity-admin,
+    #tab-blog-admin,
     #btn-refresh,
     #btn-login,
     #btn-logout,
@@ -106,7 +108,8 @@
     #btn-refresh,
     #tab-primary-admin,
     #tab-secondary-admin,
-    #tab-integrity-admin {
+    #tab-integrity-admin,
+    #tab-blog-admin {
       background: rgba(15, 15, 15, 0.78);
     }
 
@@ -115,6 +118,7 @@
     #tab-primary-admin:hover,
     #tab-secondary-admin:hover,
     #tab-integrity-admin:hover,
+    #tab-blog-admin:hover,
     [id^="btn-approve-"]:hover,
     [id^="btn-reject-"]:hover,
     [id^="btn-secondary-approve-"]:hover,
@@ -124,28 +128,33 @@
     }
 
     #primary-admin-panel,
-    #secondary-admin-panel {
+    #secondary-admin-panel,
+    #blog-admin-panel {
       overflow: hidden;
     }
 
     #submissions-list,
-    #secondary-submissions-list {
+    #secondary-submissions-list,
+    #blog-submissions-list {
       border-top: 0;
     }
 
     [id^="card-"],
-    [id^="secondary-card-"] {
+    [id^="secondary-card-"],
+    [id^="blog-card-"] {
       border-color: rgba(39, 39, 42, 0.85) !important;
       background: rgba(9, 9, 9, 0.55);
     }
 
     [id^="card-"]:hover,
-    [id^="secondary-card-"]:hover {
+    [id^="secondary-card-"]:hover,
+    [id^="blog-card-"]:hover {
       background: rgba(18, 18, 18, 0.9) !important;
     }
 
     [id^="card-"] h3,
-    [id^="secondary-card-"] h3 {
+    [id^="secondary-card-"] h3,
+    [id^="blog-card-"] h3 {
       max-width: 66ch;
     }
 
@@ -227,36 +236,43 @@
 
       #tab-primary-admin,
       #tab-secondary-admin,
-      #tab-integrity-admin {
+      #tab-integrity-admin,
+      #tab-blog-admin {
         width: 100%;
       }
 
       [id^="card-"],
-      [id^="secondary-card-"] {
+      [id^="secondary-card-"],
+      [id^="blog-card-"] {
         padding: 1rem !important;
         gap: 1rem !important;
       }
 
       [id^="card-"] > div:first-child > div:first-child,
-      [id^="secondary-card-"] > div:first-child > div:first-child {
+      [id^="secondary-card-"] > div:first-child > div:first-child,
+      [id^="blog-card-"] > div:first-child > div:first-child {
         align-items: flex-start;
         gap: 0.45rem;
       }
 
       [id^="card-"] h3,
-      [id^="secondary-card-"] h3 {
+      [id^="secondary-card-"] h3,
+      [id^="blog-card-"] h3 {
         font-size: 1rem !important;
       }
 
       [id^="card-"] span,
       [id^="secondary-card-"] span,
+      [id^="blog-card-"] span,
       [id^="card-"] a,
-      [id^="secondary-card-"] a {
+      [id^="secondary-card-"] a,
+      [id^="blog-card-"] a {
         white-space: normal;
       }
 
       [id^="card-"] > div:last-child,
-      [id^="secondary-card-"] > div:last-child {
+      [id^="secondary-card-"] > div:last-child,
+      [id^="blog-card-"] > div:last-child {
         width: 100%;
         min-width: 0 !important;
       }
@@ -303,7 +319,8 @@
       }
 
       [id^="card-"],
-      [id^="secondary-card-"] {
+      [id^="secondary-card-"],
+      [id^="blog-card-"] {
         padding: 0.85rem !important;
       }
     }
@@ -357,6 +374,9 @@
         <button id="btn-secondary-access" class="px-8 py-3 border border-zinc-800 hover:border-[#8b0000] text-zinc-400 hover:text-zinc-200 font-sans text-xs tracking-widest uppercase transition-all w-full">
           Secondary Articles Password Access
         </button>
+        <button id="btn-blog-access" class="px-8 py-3 border border-zinc-800 hover:border-[#8b0000] text-zinc-400 hover:text-zinc-200 font-sans text-xs tracking-widest uppercase transition-all w-full">
+          Blog Review Password Access
+        </button>
         <button id="btn-integrity-access" class="px-8 py-3 border border-zinc-800 hover:border-[#8b0000] text-zinc-400 hover:text-zinc-200 font-sans text-xs tracking-widest uppercase transition-all w-full">
           Integrity Review Password Access
         </button>
@@ -388,6 +408,9 @@
         <button id="tab-secondary-admin" class="px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase">
           Secondary Articles
         </button>
+        <button id="tab-blog-admin" class="px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase">
+          Blog Review
+        </button>
         <button id="tab-integrity-admin" class="px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase">
           Article Integrity
         </button>
@@ -405,6 +428,27 @@
         <div id="secondary-submissions-list" class="space-y-0 border-t border-zinc-900">
           <div class="py-12 text-center text-zinc-600 font-serif italic">
             Secondary source queue not loaded.
+          </div>
+        </div>
+      </div>
+
+      <div id="blog-admin-panel" class="hidden">
+        <div class="border border-zinc-900 bg-zinc-950/40 p-5 md:p-6 mb-5">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+            <div>
+              <h3 class="text-lg text-zinc-200 font-serif mb-2">Blog Review Queue</h3>
+              <p class="text-sm text-zinc-500 font-sans leading-relaxed max-w-3xl">
+                Review contributor essays, writer profiles, images, and private editor notes. Approval publishes the post into the blog JSON with its own unique link.
+              </p>
+            </div>
+            <a href="./blog_submit.html" target="_blank" rel="noopener noreferrer" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase text-center">
+              Open Writer Page
+            </a>
+          </div>
+        </div>
+        <div id="blog-submissions-list" class="space-y-0 border-t border-zinc-900">
+          <div class="py-12 text-center text-zinc-600 font-serif italic">
+            Blog submission queue not loaded.
           </div>
         </div>
       </div>
@@ -580,17 +624,21 @@
     const adminEmailDisplay = document.getElementById("admin-email");
     const btnLogin = document.getElementById("btn-login");
     const btnSecondaryAccess = document.getElementById("btn-secondary-access");
+    const btnBlogAccess = document.getElementById("btn-blog-access");
     const btnIntegrityAccess = document.getElementById("btn-integrity-access");
     const btnLogout = document.getElementById("btn-logout");
     const btnRefresh = document.getElementById("btn-refresh");
     const listContainer = document.getElementById("submissions-list");
     const tabPrimaryAdmin = document.getElementById("tab-primary-admin");
     const tabSecondaryAdmin = document.getElementById("tab-secondary-admin");
+    const tabBlogAdmin = document.getElementById("tab-blog-admin");
     const tabIntegrityAdmin = document.getElementById("tab-integrity-admin");
     const primaryAdminPanel = document.getElementById("primary-admin-panel");
     const secondaryAdminPanel = document.getElementById("secondary-admin-panel");
+    const blogAdminPanel = document.getElementById("blog-admin-panel");
     const integrityAdminPanel = document.getElementById("integrity-admin-panel");
     const secondaryListContainer = document.getElementById("secondary-submissions-list");
+    const blogListContainer = document.getElementById("blog-submissions-list");
     const integrityReviewList = document.getElementById("integrity-review-list");
     const integrityLockedPanel = document.getElementById("integrity-locked-panel");
     const integrityReviewContent = document.getElementById("integrity-review-content");
@@ -704,9 +752,11 @@
       activeAdminTab = "primary";
       tabPrimaryAdmin.className = activeTabClass;
       tabSecondaryAdmin.className = inactiveTabClass;
+      tabBlogAdmin.className = inactiveTabClass;
       tabIntegrityAdmin.className = inactiveTabClass;
       primaryAdminPanel.classList.remove("hidden");
       secondaryAdminPanel.classList.add("hidden");
+      blogAdminPanel.classList.add("hidden");
       integrityAdminPanel.classList.add("hidden");
     }
 
@@ -714,9 +764,23 @@
       activeAdminTab = "secondary";
       tabSecondaryAdmin.className = activeTabClass;
       tabPrimaryAdmin.className = inactiveTabClass;
+      tabBlogAdmin.className = inactiveTabClass;
       tabIntegrityAdmin.className = inactiveTabClass;
       primaryAdminPanel.classList.add("hidden");
       secondaryAdminPanel.classList.remove("hidden");
+      blogAdminPanel.classList.add("hidden");
+      integrityAdminPanel.classList.add("hidden");
+    }
+
+    function activateBlogTab() {
+      activeAdminTab = "blog";
+      tabBlogAdmin.className = activeTabClass;
+      tabPrimaryAdmin.className = inactiveTabClass;
+      tabSecondaryAdmin.className = inactiveTabClass;
+      tabIntegrityAdmin.className = inactiveTabClass;
+      primaryAdminPanel.classList.add("hidden");
+      secondaryAdminPanel.classList.add("hidden");
+      blogAdminPanel.classList.remove("hidden");
       integrityAdminPanel.classList.add("hidden");
     }
 
@@ -725,8 +789,10 @@
       tabIntegrityAdmin.className = activeTabClass;
       tabPrimaryAdmin.className = inactiveTabClass;
       tabSecondaryAdmin.className = inactiveTabClass;
+      tabBlogAdmin.className = inactiveTabClass;
       primaryAdminPanel.classList.add("hidden");
       secondaryAdminPanel.classList.add("hidden");
+      blogAdminPanel.classList.add("hidden");
       integrityAdminPanel.classList.remove("hidden");
     }
 
@@ -781,9 +847,26 @@
       }
     }
 
+    function showBlogDashboard(shouldFetch = false) {
+      activateBlogTab();
+      viewLogin.classList.add("hidden");
+      viewDashboard.classList.remove("hidden");
+      if (currentUser) {
+        authStatus.classList.remove("hidden");
+        adminEmailDisplay.textContent = currentUser.email || "";
+      } else {
+        authStatus.classList.add("hidden");
+        adminEmailDisplay.textContent = "";
+      }
+      setStatus(shouldFetch ? "Loading blog..." : "Blog review access");
+      if (shouldFetch) fetchBlogSubmissions();
+    }
+
     function showDefaultPasswordDashboard() {
       if (window.location.hash === "#integrity-review") {
         showIntegrityDashboard(false);
+      } else if (window.location.hash === "#blog-review") {
+        showBlogDashboard(false);
       } else {
         showSecondaryDashboard(false);
       }
@@ -802,6 +885,8 @@
         fetchSubmissions();
       } else if (activeAdminTab === "integrity") {
         fetchIntegrityReviewQueue();
+      } else if (activeAdminTab === "blog") {
+        fetchBlogSubmissions();
       } else {
         fetchSecondarySubmissions();
       }
@@ -870,6 +955,11 @@
       showSecondaryDashboard(true);
     });
 
+    btnBlogAccess.addEventListener("click", () => {
+      loginError.classList.add("hidden");
+      showBlogDashboard(true);
+    });
+
     btnIntegrityAccess.addEventListener("click", () => {
       loginError.classList.add("hidden");
       showIntegrityDashboard(true);
@@ -893,6 +983,10 @@
 
     tabSecondaryAdmin.addEventListener("click", () => {
       showSecondaryDashboard(true);
+    });
+
+    tabBlogAdmin.addEventListener("click", () => {
+      showBlogDashboard(true);
     });
 
     tabIntegrityAdmin.addEventListener("click", () => {
@@ -983,6 +1077,8 @@
         fetchSubmissions();
       } else if (activeAdminTab === "integrity") {
         fetchIntegrityReviewQueue();
+      } else if (activeAdminTab === "blog") {
+        fetchBlogSubmissions();
       } else {
         fetchSecondarySubmissions();
       }
@@ -1163,6 +1259,273 @@
         setStatus("Error");
       }
     }
+
+    async function fetchBlogSubmissions() {
+      setStatus("Loading blog...");
+      blogListContainer.innerHTML = `
+        <div class="py-12 text-center text-zinc-500 font-sans tracking-widest text-xs uppercase animate-pulse">
+          Loading blog review queue...
+        </div>
+      `;
+
+      try {
+        const adminCode = getSecondaryAdminCode();
+        const url = `${SECONDARY_SCRIPT_URL}?action=listPendingBlog&adminCode=${encodeURIComponent(adminCode)}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.result !== "success") {
+          throw new Error(data.message || "Failed to load blog submissions.");
+        }
+
+        renderBlogList(data.items || []);
+        setStatus("Idle");
+      } catch (error) {
+        console.error(error);
+        blogListContainer.innerHTML = `
+          <div class="py-8 text-center border border-red-900/30 bg-red-900/10 p-4">
+            <p class="text-[#8b0000] font-sans text-sm mb-2">Error loading blog submissions</p>
+            <p class="text-zinc-500 text-xs font-mono">${esc(error.message)}</p>
+          </div>
+        `;
+        setStatus("Error");
+      }
+    }
+
+    function parseMaybeJsonArray(value) {
+      if (Array.isArray(value)) return value;
+      try {
+        const parsed = JSON.parse(value || "[]");
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        return String(value || "").split(",").map((item) => item.trim()).filter(Boolean);
+      }
+    }
+
+    function parseMaybeJsonObject(value) {
+      if (value && typeof value === "object" && !Array.isArray(value)) return value;
+      try {
+        const parsed = JSON.parse(value || "{}");
+        return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function blogBodyPreview(body) {
+      const text = String(body || "").replace(/\s+/g, " ").trim();
+      return text.length > 520 ? `${text.slice(0, 520)}...` : text;
+    }
+
+    function renderBlogList(items) {
+      if (!items.length) {
+        blogListContainer.innerHTML = `
+          <div class="py-20 text-center text-zinc-600 italic font-serif">
+            No pending blog submissions.
+          </div>
+        `;
+        return;
+      }
+
+      blogListContainer.innerHTML = items.map((item) => {
+        const author = parseMaybeJsonObject(item.author);
+        const images = parseMaybeJsonArray(item.images);
+        const slug = item.slug || "";
+        return `
+          <div id="blog-card-${esc(item.id)}" class="group border-b border-zinc-900 hover:bg-zinc-900/30 transition-colors p-6 flex flex-col xl:flex-row items-start justify-between gap-6">
+            <div class="flex-1 space-y-4 w-full min-w-0">
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="px-2 py-0.5 border border-zinc-800 text-[10px] tracking-widest uppercase text-zinc-500 font-sans">${esc(item.category || "Blog Post")}</span>
+                <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">${esc(item.submittedAt || "")}</span>
+                <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">Ref: ${esc(item.id)}</span>
+              </div>
+
+              <div>
+                <h3 class="text-xl text-zinc-200 font-serif leading-tight mb-2">${esc(item.title || "Untitled Blog Submission")}</h3>
+                <p class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(item.subtitle || "")}</p>
+              </div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 text-xs text-zinc-500 font-sans">
+                <div class="border border-zinc-900 bg-zinc-950/40 p-3">
+                  <div class="text-[10px] uppercase tracking-widest text-zinc-600 mb-2">Writer</div>
+                  <div class="text-zinc-300">${esc(author.name || item.authorName || "Anonymous contributor")}</div>
+                  ${author.role ? `<div>${esc(author.role)}</div>` : ""}
+                  ${author.location ? `<div>${esc(author.location)}</div>` : ""}
+                  ${item.contactEmail ? `<div class="break-all">Contact: ${esc(item.contactEmail)}</div>` : ""}
+                </div>
+                <div class="border border-zinc-900 bg-zinc-950/40 p-3">
+                  <div class="text-[10px] uppercase tracking-widest text-zinc-600 mb-2">Publication</div>
+                  <div>Slug: ${esc(slug || "Will be generated")}</div>
+                  <div>Anonymous: ${item.anonymous === true || item.anonymous === "true" ? "Yes" : "No"}</div>
+                  <div>Images: ${images.length}</div>
+                </div>
+              </div>
+
+              ${author.bio ? `
+                <div class="border-l border-zinc-800 pl-4">
+                  <div class="text-[10px] uppercase tracking-widest text-zinc-600 font-sans mb-2">Bio</div>
+                  <p class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(author.bio)}</p>
+                </div>
+              ` : ""}
+
+              <details class="border border-zinc-900 bg-[#080808] p-4">
+                <summary class="cursor-pointer text-[10px] text-zinc-500 font-sans uppercase tracking-widest">Preview submitted piece</summary>
+                <div class="mt-4 space-y-4">
+                  <p class="text-sm text-zinc-400 font-sans leading-relaxed whitespace-pre-line">${esc(blogBodyPreview(item.body))}</p>
+                  ${images.length ? `
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      ${images.slice(0, 6).map((image) => `<a href="${esc(image)}" target="_blank" rel="noopener noreferrer"><img src="${esc(image)}" alt="" class="w-full aspect-video object-cover border border-zinc-900 bg-zinc-950"></a>`).join("")}
+                    </div>
+                  ` : ""}
+                  ${item.editorNotes ? `
+                    <div class="border border-zinc-900 bg-zinc-950/40 p-3">
+                      <div class="text-[10px] uppercase tracking-widest text-zinc-600 font-sans mb-2">Private editor note</div>
+                      <p class="text-xs text-zinc-500 font-sans leading-relaxed">${esc(item.editorNotes)}</p>
+                    </div>
+                  ` : ""}
+                </div>
+              </details>
+
+              <div id="blog-error-${esc(item.id)}" class="hidden mt-2 text-[#8b0000] text-xs font-sans"></div>
+              <div id="blog-success-${esc(item.id)}" class="hidden mt-2 text-green-700 text-xs font-sans">Processed</div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-2 w-full xl:w-48">
+              <button
+                onclick="window.handleApproveBlog('${esc(item.id)}')"
+                id="btn-blog-approve-${esc(item.id)}"
+                class="px-5 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Approve
+              </button>
+              <button
+                onclick="window.handleRejectBlog('${esc(item.id)}')"
+                id="btn-blog-reject-${esc(item.id)}"
+                class="px-5 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Reject
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    window.handleApproveBlog = async (id) => {
+      if (isProcessing) return;
+      const ok = confirm("Approve this blog submission?\n\nThis will publish it to data/blog_posts.json on GitHub.");
+      if (!ok) return;
+
+      const approveBtn = document.getElementById(`btn-blog-approve-${id}`);
+      const rejectBtn = document.getElementById(`btn-blog-reject-${id}`);
+      const errorDiv = document.getElementById(`blog-error-${id}`);
+      const successDiv = document.getElementById(`blog-success-${id}`);
+
+      isProcessing = true;
+      setStatus("Approving blog...");
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (approveBtn) {
+        approveBtn.disabled = true;
+        approveBtn.textContent = "...";
+        approveBtn.classList.add("opacity-50", "cursor-not-allowed");
+      }
+      if (rejectBtn) rejectBtn.classList.add("hidden");
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "approveBlogPost",
+            id,
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || "Password admin"
+          })
+        });
+        const data = await response.json();
+        if (data.result !== "success") {
+          throw new Error(data.message || "Blog approval failed.");
+        }
+        if (successDiv) {
+          const publicUrl = data.post?.slug ? `https://echoesofgaza.org/blog?post=${encodeURIComponent(data.post.slug)}` : "Published";
+          successDiv.innerHTML = `Approved. <a class="underline" href="${esc(publicUrl)}" target="_blank" rel="noopener noreferrer">Open public link</a>`;
+          successDiv.classList.remove("hidden");
+        }
+        const card = document.getElementById(`blog-card-${id}`);
+        if (card) setTimeout(() => card.remove(), 900);
+        setStatus("Approved");
+      } catch (error) {
+        console.error(error);
+        if (errorDiv) {
+          errorDiv.textContent = "Error: " + error.message;
+          errorDiv.classList.remove("hidden");
+        }
+        if (approveBtn) {
+          approveBtn.disabled = false;
+          approveBtn.textContent = "Approve";
+          approveBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+        if (rejectBtn) rejectBtn.classList.remove("hidden");
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    };
+
+    window.handleRejectBlog = async (id) => {
+      if (isProcessing) return;
+      const reason = prompt("Optional reason for rejection:") || "";
+      const ok = confirm("Reject this blog submission?");
+      if (!ok) return;
+
+      const rejectBtn = document.getElementById(`btn-blog-reject-${id}`);
+      const approveBtn = document.getElementById(`btn-blog-approve-${id}`);
+      const errorDiv = document.getElementById(`blog-error-${id}`);
+
+      isProcessing = true;
+      setStatus("Rejecting blog...");
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (rejectBtn) {
+        rejectBtn.disabled = true;
+        rejectBtn.textContent = "...";
+        rejectBtn.classList.add("opacity-50", "cursor-not-allowed");
+      }
+      if (approveBtn) approveBtn.disabled = true;
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "rejectBlogPost",
+            id,
+            reason,
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || "Password admin"
+          })
+        });
+        const data = await response.json();
+        if (data.result !== "success") {
+          throw new Error(data.message || "Blog rejection failed.");
+        }
+        const card = document.getElementById(`blog-card-${id}`);
+        if (card) card.remove();
+        setStatus("Rejected");
+      } catch (error) {
+        console.error(error);
+        if (errorDiv) {
+          errorDiv.textContent = "Reject error: " + error.message;
+          errorDiv.classList.remove("hidden");
+        }
+        if (rejectBtn) {
+          rejectBtn.disabled = false;
+          rejectBtn.textContent = "Reject";
+          rejectBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+        if (approveBtn) approveBtn.disabled = false;
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    };
 
     const INTEGRITY_REVIEW_STATUSES = new Set(["likely_removed", "blocked_unknown", "needs_manual_review", "changed_substantially"]);
     const MANUAL_REVIEW_STATUSES = new Set(["confirmed_live", "confirmed_removed", "confirmed_changed", "blocked_unknown", "needs_manual_review"]);
