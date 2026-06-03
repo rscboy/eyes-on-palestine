@@ -1837,6 +1837,3118 @@
         const images = parseMaybeJsonArray(item.images);
         const slug = item.slug || "";
         return `
+          <div id="blog-card-${esc(item.id)}" class="group border-b border-zinc-900 hover:bg-zinc-900/30 transition-colors p-6">
+            <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_12rem] items-start gap-6">
+            <div class="space-y-4 w-full min-w-0">
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="px-2 py-0.5 border border-zinc-800 text-[10px] tracking-widest uppercase text-zinc-500 font-sans">${esc(item.category || "Blog Post")}</span>
+                <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">${esc(item.submittedAt || "")}</span>
+                <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">Ref: ${esc(item.id)}</span>
+              </div>
+
+              <div>
+                <h3 class="text-xl text-zinc-200 font-serif leading-tight mb-2">${esc(item.title || "Untitled Blog Submission")}</h3>
+                <p class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(item.subtitle || "")}</p>
+              </div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 text-xs text-zinc-500 font-sans">
+                <div class="border border-zinc-900 bg-zinc-950/40 p-3">
+                  <div class="text-[10px] uppercase tracking-widest text-zinc-600 mb-2">Submitted By / Writer</div>
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-zinc-950 border border-zinc-800 overflow-hidden flex items-center justify-center text-zinc-500 font-serif">
+                      ${author.photoUrl ? `<img src="${esc(author.photoUrl)}" alt="" class="w-full h-full object-cover">` : esc(String(author.name || item.authorName || "A").charAt(0))}
+                    </div>
+                    <div class="min-w-0">
+                      <div class="text-zinc-300 truncate">${esc(author.name || item.authorName || "Anonymous contributor")}</div>
+                      ${author.role ? `<div>${esc(author.role)}</div>` : ""}
+                      ${author.location ? `<div>${esc(author.location)}</div>` : ""}
+                    </div>
+                  </div>
+                  ${item.contactEmail ? `<div class="break-all">Contact: ${esc(item.contactEmail)}</div>` : ""}
+                  <div class="break-all">Submitted: ${esc(item.submittedAt || "")}</div>
+                </div>
+                <div class="border border-zinc-900 bg-zinc-950/40 p-3">
+                  <div class="text-[10px] uppercase tracking-widest text-zinc-600 mb-2">Publication</div>
+                  <div>Slug: ${esc(slug || "Will be generated")}</div>
+                  <div>Anonymous: ${item.anonymous === true || item.anonymous === "true" ? "Yes" : "No"}</div>
+                  <div>Images: ${images.length}</div>
+                </div>
+              </div>
+
+              ${author.bio ? `
+                <div class="border-l border-zinc-800 pl-4">
+                  <div class="text-[10px] uppercase tracking-widest text-zinc-600 font-sans mb-2">Bio</div>
+                  <p class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(author.bio)}</p>
+                </div>
+              ` : ""}
+
+              <details class="border border-zinc-900 bg-[#080808] p-4">
+                <summary class="cursor-pointer text-[10px] text-zinc-500 font-sans uppercase tracking-widest">Preview submitted piece</summary>
+                <div class="mt-4 space-y-4">
+                  <p class="text-sm text-zinc-400 font-sans leading-relaxed whitespace-pre-line">${esc(blogBodyPreview(item.body))}</p>
+                  ${images.length ? `
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      ${images.slice(0, 6).map((image) => `<a href="${esc(image)}" target="_blank" rel="noopener noreferrer"><img src="${esc(image)}" alt="" class="w-full aspect-video object-cover border border-zinc-900 bg-zinc-950"></a>`).join("")}
+                    </div>
+                  ` : ""}
+                  ${item.editorNotes ? `
+                    <div class="border border-zinc-900 bg-zinc-950/40 p-3">
+                      <div class="text-[10px] uppercase tracking-widest text-zinc-600 font-sans mb-2">Private editor note</div>
+                      <p class="text-xs text-zinc-500 font-sans leading-relaxed">${esc(item.editorNotes)}</p>
+                    </div>
+                  ` : ""}
+                </div>
+              </details>
+
+              <div id="blog-error-${esc(item.id)}" class="hidden mt-2 text-[#8b0000] text-xs font-sans"></div>
+              <div id="blog-success-${esc(item.id)}" class="hidden mt-2 text-green-700 text-xs font-sans">Processed</div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-2 w-full xl:w-48">
+              <button
+                onclick="window.openPendingBlogPreview('${esc(item.id)}')"
+                id="btn-blog-preview-${esc(item.id)}"
+                class="px-5 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Edit / Preview
+              </button>
+              <div class="border border-zinc-900 bg-black/40 p-3 space-y-2">
+                <label class="flex items-center gap-2 text-[10px] text-zinc-400 font-sans uppercase tracking-[0.13em]">
+                  <input id="blog-publish-now-${esc(item.id)}" type="checkbox" checked class="accent-[#8b0000]" onchange="window.toggleBlogSchedule('${esc(item.id)}')">
+                  Publish now
+                </label>
+                <input
+                  id="blog-scheduled-${esc(item.id)}"
+                  type="datetime-local"
+                  class="hidden w-full bg-black border border-zinc-800 text-zinc-300 px-2 py-2 text-xs font-sans outline-none focus:border-[#8b0000]">
+              </div>
+              <button
+                onclick="window.handleApproveBlog('${esc(item.id)}')"
+                id="btn-blog-approve-${esc(item.id)}"
+                class="px-5 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Approve
+              </button>
+              <button
+                onclick="window.handleRejectBlog('${esc(item.id)}')"
+                id="btn-blog-reject-${esc(item.id)}"
+                class="px-5 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Reject
+              </button>
+            </div>
+            </div>
+            <div id="blog-preview-${esc(item.id)}" class="hidden mt-6 w-full border-t border-zinc-900 bg-black/50 p-5"></div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    window.toggleBlogSchedule = (id) => {
+      const nowBox = document.getElementById(`blog-publish-now-${id}`);
+      const scheduleInput = document.getElementById(`blog-scheduled-${id}`);
+      if (!scheduleInput || !nowBox) return;
+      scheduleInput.classList.toggle("hidden", nowBox.checked);
+      if (!nowBox.checked && !scheduleInput.value) {
+        const nextHour = new Date(Date.now() + 60 * 60 * 1000);
+        nextHour.setMinutes(0, 0, 0);
+        scheduleInput.value = nextHour.toISOString().slice(0, 16);
+      }
+    };
+
+    function pendingBlogEditablePost_(item) {
+      const author = parseMaybeJsonObject(item.author);
+      const images = parseMaybeJsonArray(item.images);
+      const anonymous = item.anonymous === true || item.anonymous === "true";
+      return {
+        id: item.id,
+        submittedAt: item.submittedAt || "",
+        contactEmail: item.contactEmail || "",
+        title: item.title || "",
+        subtitle: item.subtitle || "",
+        category: item.category || "Personal essay",
+        body: item.body || "",
+        images,
+        featureImage: images[0] || "",
+        author: {
+          name: author.name || item.authorName || "Anonymous contributor",
+          role: author.role || "",
+          photoUrl: author.photoUrl || "",
+          location: author.location || "",
+          links: Array.isArray(author.links) ? author.links : [],
+          bio: author.bio || "",
+          anonymous
+        },
+        anonymous,
+        editorNotes: item.editorNotes || ""
+      };
+    }
+
+    function collectPendingBlogPost(id) {
+      const item = pendingBlogItems.find((entry) => String(entry.id) === String(id));
+      const form = document.getElementById(`pending-blog-form-${id}`);
+      if (!item) return null;
+      if (!form) return pendingBlogEditablePost_(item);
+
+      const value = (name) => form.elements[name]?.value || "";
+      const imageList = value("images").split(/\n|,/).map(entry => entry.trim()).filter(Boolean);
+      const featureImage = value("featureImage").trim();
+      const images = featureImage ? [featureImage].concat(imageList.filter(url => url !== featureImage)) : imageList;
+      const authorLinks = value("authorLinks").split(/\n|,/).map(entry => entry.trim()).filter(Boolean);
+      const body = value("body");
+      const hasInlineHtml = /<\/?[a-z][\s\S]*>/i.test(body);
+
+      return {
+        id,
+        title: value("title").trim(),
+        subtitle: value("subtitle").trim(),
+        shareDescription: value("subtitle").trim(),
+        category: value("category").trim() || "Personal essay",
+        body,
+        content: hasInlineHtml ? body : "",
+        featureImage,
+        shareImage: featureImage,
+        images,
+        author: {
+          name: value("authorName").trim() || "Anonymous contributor",
+          role: value("authorRole").trim(),
+          photoUrl: value("authorPhotoUrl").trim(),
+          location: value("authorLocation").trim(),
+          bio: value("authorBio").trim(),
+          links: authorLinks,
+          anonymous: item.anonymous === true || item.anonymous === "true"
+        },
+        authorName: value("authorName").trim() || "Anonymous contributor",
+        anonymous: item.anonymous === true || item.anonymous === "true",
+        editorNotes: item.editorNotes || ""
+      };
+    }
+
+    function renderPendingBlogEditorPreview(id) {
+      const post = collectPendingBlogPost(id);
+      if (!post) return;
+
+      const authorPreview = document.getElementById(`pending-author-photo-preview-${id}`);
+      if (authorPreview) {
+        authorPreview.innerHTML = post.author.photoUrl
+          ? `<img src="${esc(post.author.photoUrl)}" alt="" class="w-full h-full object-cover" onerror="this.remove(); this.parentElement.textContent='${esc(String(post.author.name || "A").charAt(0))}';">`
+          : esc(String(post.author.name || "A").charAt(0));
+      }
+
+      const preview = document.getElementById(`pending-blog-rendered-preview-${id}`);
+      if (!preview) return;
+      const bodyHtml = post.content || blogBodyToPreviewHtml(post.body) || "<p>Article body preview...</p>";
+      preview.innerHTML = `
+        <article class="max-w-[680px] mx-auto">
+          <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-3">Published Preview</p>
+          <h1 class="font-serif text-[34px] leading-tight text-zinc-100 mb-3">${esc(post.title || "Untitled")}</h1>
+          <p class="text-zinc-500 text-base leading-relaxed mb-6 font-sans">${esc(post.subtitle || "")}</p>
+          <div class="flex items-center gap-3 py-4 border-y border-zinc-800 mb-7">
+            <div class="w-10 h-10 rounded-full bg-zinc-900 overflow-hidden border border-zinc-800 flex items-center justify-center text-zinc-400 font-serif">
+              ${post.author.photoUrl ? `<img src="${esc(post.author.photoUrl)}" alt="" class="w-full h-full object-cover">` : esc(String(post.author.name || "A").charAt(0))}
+            </div>
+            <div>
+              <div class="text-sm text-zinc-200 font-sans">${esc(post.author.name || "Anonymous contributor")}</div>
+              <div class="text-xs text-zinc-500 font-sans">${esc([post.author.role, post.author.location].filter(Boolean).join(" / "))}</div>
+            </div>
+          </div>
+          ${post.featureImage ? `<img src="${esc(post.featureImage)}" alt="" class="w-full max-h-[340px] object-cover border border-zinc-800 mb-7">` : ""}
+          <div class="prose-preview text-zinc-100 font-serif text-[18px] leading-relaxed">
+            ${bodyHtml}
+          </div>
+          ${post.author.bio ? `
+            <div class="mt-10 border-t border-zinc-800 pt-6">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">About the writer</p>
+              <p class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(post.author.bio)}</p>
+            </div>
+          ` : ""}
+        </article>
+      `;
+    }
+
+    function insertPendingBlogEditorImage(id) {
+      const form = document.getElementById(`pending-blog-form-${id}`);
+      if (!form) return;
+      const urlField = form.elements.insertImageUrl;
+      const captionField = form.elements.insertImageCaption;
+      const placementField = form.elements.insertImagePlacement;
+      const bodyField = form.elements.body;
+      const url = String(urlField?.value || "").trim();
+      const caption = String(captionField?.value || "").trim();
+      const placement = String(placementField?.value || "full");
+      const errorDiv = document.getElementById(`blog-error-${id}`);
+
+      if (!url || !/^https?:\/\//i.test(url)) {
+        if (errorDiv) {
+          errorDiv.textContent = "Add a valid image URL beginning with http:// or https://.";
+          errorDiv.classList.remove("hidden");
+        }
+        urlField?.focus();
+        return;
+      }
+
+      if (errorDiv) errorDiv.classList.add("hidden");
+      const markup = `\n\n${blogEditorImageMarkup_(url, caption, placement)}\n\n`;
+      const start = bodyField.selectionStart ?? bodyField.value.length;
+      const end = bodyField.selectionEnd ?? bodyField.value.length;
+      bodyField.value = `${bodyField.value.slice(0, start)}${markup}${bodyField.value.slice(end)}`;
+      const cursor = start + markup.length;
+      bodyField.focus();
+      bodyField.setSelectionRange(cursor, cursor);
+      if (urlField) urlField.value = "";
+      if (captionField) captionField.value = "";
+      renderPendingBlogEditorPreview(id);
+    }
+
+    window.insertPendingBlogEditorImage = insertPendingBlogEditorImage;
+
+    window.openPendingBlogPreview = (id) => {
+      const item = pendingBlogItems.find((entry) => String(entry.id) === String(id));
+      const preview = document.getElementById(`blog-preview-${id}`);
+      if (!item || !preview) return;
+
+      if (!preview.classList.contains("hidden")) {
+        preview.classList.add("hidden");
+        preview.innerHTML = "";
+        return;
+      }
+
+      const post = pendingBlogEditablePost_(item);
+
+      preview.innerHTML = `
+        <div class="grid grid-cols-1 2xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] gap-6">
+          <form id="pending-blog-form-${esc(id)}" class="space-y-4 min-w-0">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+              <div>
+                <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-2">Review And Edit</p>
+                <h3 class="text-xl text-zinc-200 font-serif leading-tight">Pending Blog Submission</h3>
+                <p class="text-xs text-zinc-500 font-sans leading-relaxed mt-2">Edits made here are the version that will be approved and written to the public blog.</p>
+              </div>
+              <button type="button" onclick="window.openPendingBlogPreview('${esc(id)}')" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans uppercase tracking-widest">Close</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-zinc-500 font-sans">
+              <div class="border border-zinc-900 bg-[#070707] p-3">
+                <div class="text-[10px] uppercase tracking-widest text-zinc-600 mb-2">Submitter Contact</div>
+                <div class="break-all">${esc(post.contactEmail || "No contact email")}</div>
+              </div>
+              <div class="border border-zinc-900 bg-[#070707] p-3">
+                <div class="text-[10px] uppercase tracking-widest text-zinc-600 mb-2">Submitted</div>
+                <div class="break-all">${esc(post.submittedAt || "Unknown")}</div>
+              </div>
+              <div class="border border-zinc-900 bg-[#070707] p-3">
+                <div class="text-[10px] uppercase tracking-widest text-zinc-600 mb-2">Reference</div>
+                <div class="break-all">${esc(post.id || "")}</div>
+              </div>
+            </div>
+
+            ${blogEditorField_("Title", "title", post.title, "input")}
+            ${blogEditorField_("Short description", "subtitle", post.subtitle, "textarea")}
+            ${blogEditorField_("Category", "category", post.category, "input")}
+
+            <section class="border border-zinc-900 bg-[#070707] p-4 space-y-3">
+              <div>
+                <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-1">Writer Profile</p>
+                <p class="text-xs text-zinc-500 font-sans leading-relaxed">Check the byline, profile image, bio, and public writer details before approving.</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-[4rem_1fr] gap-3 items-start">
+                <div id="pending-author-photo-preview-${esc(id)}" class="w-16 h-16 rounded-full bg-zinc-950 overflow-hidden border border-zinc-800 flex items-center justify-center text-zinc-500 font-serif text-lg"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  ${blogEditorField_("Author name", "authorName", post.author.name, "input")}
+                  ${blogEditorField_("Author role", "authorRole", post.author.role, "input")}
+                </div>
+              </div>
+              ${blogEditorField_("Author photo URL", "authorPhotoUrl", post.author.photoUrl, "input")}
+              ${blogEditorField_("Author location", "authorLocation", post.author.location, "input")}
+              ${blogEditorField_("Author links, one per line", "authorLinks", post.author.links.join("\\n"), "textarea")}
+              ${blogEditorField_("Author bio", "authorBio", post.author.bio, "textarea")}
+            </section>
+
+            <section class="border border-zinc-900 bg-[#070707] p-4 space-y-3">
+              <div>
+                <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-1">Article Pictures</p>
+                <p class="text-xs text-zinc-500 font-sans leading-relaxed">The feature image becomes the article thumbnail. Insert extra images at the cursor to choose where they appear.</p>
+              </div>
+              ${blogEditorField_("Feature/share image URL", "featureImage", post.featureImage, "input")}
+              ${blogEditorField_("Additional image URLs, one per line", "images", post.images.join("\\n"), "textarea")}
+              <div class="border border-zinc-900 bg-black p-3 space-y-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  ${blogEditorField_("Picture URL to insert", "insertImageUrl", "", "input")}
+                  ${blogEditorField_("Caption / alt text", "insertImageCaption", "", "input")}
+                </div>
+                <label class="block">
+                  <span class="block text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">Placement</span>
+                  <select name="insertImagePlacement" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]">
+                    <option value="full">Full width between paragraphs</option>
+                    <option value="left">Small image floated left</option>
+                    <option value="right">Small image floated right</option>
+                  </select>
+                </label>
+                <button type="button" onclick="window.insertPendingBlogEditorImage('${esc(id)}')" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">Insert Picture At Cursor</button>
+              </div>
+            </section>
+
+            ${blogEditorField_("Article body", "body", post.body, "textarea tall")}
+
+            ${post.editorNotes ? `
+              <div class="border border-zinc-900 bg-black p-3">
+                <div class="text-[10px] uppercase tracking-widest text-zinc-600 font-sans mb-2">Private editor note</div>
+                <p class="text-xs text-zinc-500 font-sans leading-relaxed">${esc(post.editorNotes)}</p>
+              </div>
+            ` : ""}
+
+            <button
+              type="button"
+              onclick="window.handleApproveBlog('${esc(id)}')"
+              class="w-full px-5 py-3 border border-[#8b0000] text-zinc-100 hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+              Approve This Version
+            </button>
+          </form>
+
+          <div class="min-w-0">
+            <div class="sticky top-4">
+              <div id="pending-blog-rendered-preview-${esc(id)}" class="border border-zinc-900 bg-[#0B0B0B] p-5 max-h-[780px] overflow-y-auto"></div>
+            </div>
+          </div>
+        </div>
+      `;
+      preview.querySelectorAll("input, textarea, select").forEach((field) => {
+        field.addEventListener("input", () => renderPendingBlogEditorPreview(id));
+        field.addEventListener("change", () => renderPendingBlogEditorPreview(id));
+      });
+      renderPendingBlogEditorPreview(id);
+      preview.classList.remove("hidden");
+      preview.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    window.handleApproveBlog = async (id) => {
+      if (isProcessing) return;
+      const publishNow = document.getElementById(`blog-publish-now-${id}`)?.checked !== false;
+      const scheduledInput = document.getElementById(`blog-scheduled-${id}`);
+      let scheduledAt = "";
+      if (!publishNow) {
+        if (!scheduledInput?.value) {
+          alert("Choose a date and time, or select Publish now.");
+          scheduledInput?.focus();
+          return;
+        }
+        scheduledAt = new Date(scheduledInput.value).toISOString();
+      }
+
+      const editedPost = collectPendingBlogPost(id);
+      if (!editedPost?.title || !editedPost?.subtitle || !editedPost?.body) {
+        alert("The blog post needs a title, short description, and body before approval.");
+        return;
+      }
+
+      const ok = confirm(publishNow
+        ? `Approve and publish this edited version immediately?\n\n${editedPost.title}`
+        : `Approve and schedule this edited version for ${new Date(scheduledAt).toLocaleString()}?\n\n${editedPost.title}`);
+      if (!ok) return;
+
+      const approveBtn = document.getElementById(`btn-blog-approve-${id}`);
+      const rejectBtn = document.getElementById(`btn-blog-reject-${id}`);
+      const errorDiv = document.getElementById(`blog-error-${id}`);
+      const successDiv = document.getElementById(`blog-success-${id}`);
+
+      isProcessing = true;
+      setStatus("Approving blog...");
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (approveBtn) {
+        approveBtn.disabled = true;
+        approveBtn.textContent = "...";
+        approveBtn.classList.add("opacity-50", "cursor-not-allowed");
+      }
+      if (rejectBtn) rejectBtn.classList.add("hidden");
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "approveBlogPost",
+            id,
+            scheduledAt,
+            post: editedPost,
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || "Password admin"
+          })
+        });
+        const data = await readJsonResponse(response, "Blog approval failed.");
+        if (data.result !== "success") {
+          throw new Error(data.message || "Blog approval failed.");
+        }
+        if (successDiv) {
+          const publicUrl = data.post?.path
+            ? `https://echoesofgaza.org/blog/${encodeURIComponent(data.post.path)}`
+            : data.post?.slug
+              ? `https://echoesofgaza.org/blog?post=${encodeURIComponent(data.post.slug)}`
+              : "Published";
+          successDiv.innerHTML = `Approved. <a class="underline" href="${esc(publicUrl)}" target="_blank" rel="noopener noreferrer">Open public link</a>`;
+          successDiv.classList.remove("hidden");
+        }
+        const card = document.getElementById(`blog-card-${id}`);
+        if (card) setTimeout(() => card.remove(), 900);
+        setStatus("Approved");
+      } catch (error) {
+        console.error(error);
+        if (errorDiv) {
+          errorDiv.textContent = "Error: " + error.message;
+          errorDiv.classList.remove("hidden");
+        }
+        if (approveBtn) {
+          approveBtn.disabled = false;
+          approveBtn.textContent = "Approve";
+          approveBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+        if (rejectBtn) rejectBtn.classList.remove("hidden");
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    };
+
+    window.handleRejectBlog = async (id) => {
+      if (isProcessing) return;
+      const reason = prompt("Optional reason for rejection:") || "";
+      const ok = confirm("Reject this blog submission?");
+      if (!ok) return;
+
+      const rejectBtn = document.getElementById(`btn-blog-reject-${id}`);
+      const approveBtn = document.getElementById(`btn-blog-approve-${id}`);
+      const errorDiv = document.getElementById(`blog-error-${id}`);
+
+      isProcessing = true;
+      setStatus("Rejecting blog...");
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (rejectBtn) {
+        rejectBtn.disabled = true;
+        rejectBtn.textContent = "...";
+        rejectBtn.classList.add("opacity-50", "cursor-not-allowed");
+      }
+      if (approveBtn) approveBtn.disabled = true;
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "rejectBlogPost",
+            id,
+            reason,
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || "Password admin"
+          })
+        });
+        const data = await readJsonResponse(response, "Blog rejection failed.");
+        if (data.result !== "success") {
+          throw new Error(data.message || "Blog rejection failed.");
+        }
+        const card = document.getElementById(`blog-card-${id}`);
+        if (card) card.remove();
+        setStatus("Rejected");
+      } catch (error) {
+        console.error(error);
+        if (errorDiv) {
+          errorDiv.textContent = "Reject error: " + error.message;
+          errorDiv.classList.remove("hidden");
+        }
+        if (rejectBtn) {
+          rejectBtn.disabled = false;
+          rejectBtn.textContent = "Reject";
+          rejectBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+        if (approveBtn) approveBtn.disabled = false;
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    };
+
+    const INTEGRITY_REVIEW_STATUSES = new Set(["likely_removed", "blocked_unknown", "needs_manual_review", "changed_substantially"]);
+    const MANUAL_REVIEW_STATUSES = new Set(["confirmed_live", "confirmed_removed", "confirmed_changed", "blocked_unknown", "needs_manual_review"]);
+
+    function integrityStatusText(value) {
+      return String(value || "needs_manual_review").replace(/_/g, " ");
+    }
+
+    function integrityEffectiveStatus(result) {
+      return result.effective_status || result.status || "needs_manual_review";
+    }
+
+    function integrityHasBeenChecked(result) {
+      const status = integrityEffectiveStatus(result);
+      return Boolean((result.last_checked || result.checked_at) && status !== "unchecked" && status !== "never_scanned");
+    }
+
+    function integrityRecentCutoff() {
+      const days = Number(integrityLatestPayload?.review_interval_days || 60);
+      return Date.now() - days * 24 * 60 * 60 * 1000;
+    }
+
+    function isRecentlyChecked(result) {
+      const checkedAt = result.last_checked || result.checked_at;
+      if (!checkedAt) return false;
+      const parsed = Date.parse(checkedAt);
+      return Number.isFinite(parsed) && parsed >= integrityRecentCutoff();
+    }
+
+    function saveIntegritySettings() {
+      [
+        "integrity-reviewer-name",
+        "integrity-backend-url",
+        "integrity-screenshot-action",
+        "integrity-show-verified",
+        "integrity-queue-filter"
+      ].forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        localStorage.setItem(id, el.type === "checkbox" ? String(el.checked) : el.value);
+      });
+    }
+
+    function loadIntegritySettings() {
+      [
+        "integrity-reviewer-name",
+        "integrity-backend-url",
+        "integrity-screenshot-action",
+        "integrity-show-verified",
+        "integrity-queue-filter"
+      ].forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const saved = localStorage.getItem(id);
+        if (saved !== null && el.type === "checkbox") el.checked = saved === "true";
+        else if (saved !== null) el.value = saved;
+        el.addEventListener("input", saveIntegritySettings);
+        el.addEventListener("change", saveIntegritySettings);
+      });
+      const backendEl = document.getElementById("integrity-backend-url");
+      if (backendEl && (!backendEl.value || backendEl.value === "https://echoes-integrity-admin.workers.dev")) {
+        backendEl.value = INTEGRITY_DEFAULT_BACKEND_URL;
+      }
+    }
+
+    function effectiveIntegrityResult(result) {
+      const articleId = result.article_id || result.id;
+      const override = integrityOverrides[articleId];
+      if (!override) {
+        return {
+          ...result,
+          article_id: articleId,
+          automated_status: result.status,
+          effective_status: result.effective_status || result.status
+        };
+      }
+      return {
+        ...result,
+        article_id: articleId,
+        automated_status: result.status,
+        effective_status: override.manual_status || result.effective_status || result.status,
+        manual_override: override
+      };
+    }
+
+    function archiveLinks(url) {
+      return {
+        archiveIs: `https://archive.is/oldest/${encodeURIComponent(url || "")}`,
+        archiveOrg: `https://web.archive.org/web/*/${url || ""}`
+      };
+    }
+
+    async function fetchIntegrityReviewQueue() {
+      setStatus("Loading integrity...");
+      integrityReviewList.innerHTML = `
+        <div class="py-12 text-center text-zinc-500 font-sans tracking-widest text-xs uppercase animate-pulse">
+          Loading manual integrity queue...
+        </div>
+      `;
+
+      try {
+        ensureIntegrityAdminKey();
+        integrityLockedPanel.classList.add("hidden");
+        integrityReviewContent.classList.remove("hidden");
+        loadIntegritySettings();
+        const [latestResponse, overrideResponse] = await Promise.all([
+          fetch("./data/integrity/latest.json?v=" + Date.now()),
+          fetch("./data/integrity/manual_overrides.json?v=" + Date.now())
+        ]);
+        integrityLatestPayload = latestResponse.ok ? await latestResponse.json() : { results: [] };
+        const overridePayload = overrideResponse.ok ? await overrideResponse.json() : { overrides: {} };
+        integrityOverrides = {
+          ...(overridePayload.overrides || {})
+        };
+        renderIntegrityMonitorSummary();
+        renderIntegrityReviewQueue();
+        setStatus("Idle");
+      } catch (error) {
+        console.error(error);
+        if (String(error.message || "").includes("admin API key required")) {
+          integrityLockedPanel.classList.remove("hidden");
+          integrityReviewContent.classList.add("hidden");
+        }
+        integrityReviewList.innerHTML = `
+          <div class="py-8 text-center border border-red-900/30 bg-red-900/10 p-4">
+            <p class="text-[#8b0000] font-sans text-sm mb-2">Error loading integrity review</p>
+            <p class="text-zinc-500 text-xs font-mono">${esc(error.message)}</p>
+          </div>
+        `;
+        setStatus("Error");
+      }
+    }
+
+    function renderIntegrityMonitorSummary() {
+      if (!integrityMonitorSummary) return;
+      const counts = integrityLatestPayload?.counts || {};
+      const results = (integrityLatestPayload?.results || []).map(effectiveIntegrityResult);
+      const checkedCount = results.filter(integrityHasBeenChecked).length;
+      const totalArticles = integrityLatestPayload?.total_articles ?? results.length;
+      const uncheckedCount = Math.max(0, totalArticles - checkedCount);
+      const fields = [
+        ["last_scan_at", "Last Scan", integrityLatestPayload?.last_scan_at || integrityLatestPayload?.generated_at || "Not available"],
+        ["total_articles", "Total Articles", totalArticles],
+        ["checked_articles", "Checked Articles", checkedCount],
+        ["unchecked_articles", "Unchecked Articles", uncheckedCount],
+        ["scanned_this_run", "Checked This Run", integrityLatestPayload?.scanned_this_run ?? integrityLatestPayload?.scan?.checked_articles ?? 0],
+        ["due_articles_found", "Due Found", integrityLatestPayload?.due_articles_found ?? 0],
+        ["skipped_recent_count", "Skipped Recent", integrityLatestPayload?.skipped_recent_count ?? 0],
+        ["review_interval_days", "Interval", `${integrityLatestPayload?.review_interval_days ?? 60} days`],
+        ["live", "Live", (counts.live ?? 0) + (counts.confirmed_live ?? 0)],
+        ["removed", "Removed", counts.confirmed_removed ?? 0],
+        ["changed", "Changed", (counts.changed_substantially ?? 0) + (counts.confirmed_changed ?? 0)],
+        ["blocked_unknown", "Blocked", counts.blocked_unknown ?? 0],
+        ["needs_manual_review", "Needs Review", counts.needs_manual_review ?? 0]
+      ];
+      integrityMonitorSummary.innerHTML = fields.map(([, label, value]) => `
+        <div class="border border-zinc-900 bg-[#080808] p-3">
+          <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">${label}</div>
+          <div class="text-zinc-200 font-serif text-lg break-words">${esc(value)}</div>
+        </div>
+      `).join("");
+
+      if (integrityCoverageCounts) {
+        integrityCoverageCounts.innerHTML = [
+          ["Total archive records", totalArticles],
+          ["Checked by monitor", checkedCount],
+          ["Not checked yet", uncheckedCount],
+          ["Manual overrides", Object.keys(integrityOverrides || {}).length]
+        ].map(([label, value]) => `
+          <div class="border border-zinc-900 bg-zinc-950/40 p-3">
+            <div class="text-[10px] text-zinc-600 uppercase tracking-widest mb-2">${esc(label)}</div>
+            <div class="text-zinc-200 font-serif text-lg">${esc(value)}</div>
+          </div>
+        `).join("");
+      }
+    }
+
+    function renderIntegrityReviewQueue() {
+      const showVerified = Boolean(integrityShowVerified?.checked);
+      const queueFilter = integrityQueueFilter?.value || "needs_review";
+      const items = (integrityLatestPayload?.results || [])
+        .map(effectiveIntegrityResult)
+        .filter((item) => {
+          const automated = item.automated_status || item.status;
+          const effective = integrityEffectiveStatus(item);
+          const checked = integrityHasBeenChecked(item);
+          if (!checked) return false;
+          if (queueFilter === "manual_confirmed") return Boolean(item.manual_override);
+          if (queueFilter === "recently_checked") return isRecentlyChecked(item);
+          if (queueFilter === "all_checked") return true;
+          if (!showVerified && item.manual_override) return false;
+          return INTEGRITY_REVIEW_STATUSES.has(automated) || INTEGRITY_REVIEW_STATUSES.has(effective);
+        });
+
+      if (!items.length) {
+        integrityReviewList.innerHTML = `
+          <div class="py-20 text-center text-zinc-600 italic font-serif">
+            No checked articles currently require review.
+          </div>
+        `;
+        return;
+      }
+
+      integrityReviewList.innerHTML = items.map((item) => {
+        const links = archiveLinks(item.original?.url || "");
+        const signals = item.signals || {};
+        const screenshotPath = item.screenshot_path || signals.screenshot_path || signals.screenshot;
+        const articleId = item.article_id || item.id;
+        const effective = integrityEffectiveStatus(item);
+        return `
+          <div id="integrity-card-${esc(articleId)}" class="border-b border-zinc-900 hover:bg-zinc-900/30 transition-colors p-6 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+            <div class="min-w-0 flex-1 space-y-3">
+              <div class="flex items-center gap-3 flex-wrap">
+                <label class="flex items-center gap-2 text-[10px] text-zinc-500 uppercase tracking-widest font-sans">
+                  <input type="checkbox" class="integrity-select accent-[#8b0000]" data-article-id="${esc(articleId)}">
+                  Select
+                </label>
+                <span class="px-2 py-0.5 border border-zinc-800 text-[10px] tracking-widest uppercase text-zinc-400 font-sans">Automated: ${esc(integrityStatusText(item.automated_status || item.status))}</span>
+                <span class="px-2 py-0.5 border border-zinc-800 text-[10px] tracking-widest uppercase text-zinc-400 font-sans">Effective: ${esc(integrityStatusText(effective))}</span>
+                <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">${esc(item.last_checked || item.checked_at || "")}</span>
+                ${item.manual_override ? `<span class="text-[10px] text-[#8b0000] font-sans tracking-wide uppercase">Manual override exists</span>` : ""}
+              </div>
+              <h3 class="text-lg text-zinc-200 font-serif leading-tight">${esc(item.original?.title || "Untitled")}</h3>
+              <p class="text-xs text-zinc-500 font-sans uppercase tracking-widest">${esc(item.original?.source || "")} / ${esc(item.original?.date || "")}</p>
+              <p class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(item.observed_issue || "")}</p>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-zinc-500 font-sans">
+                <div class="border border-zinc-900 bg-zinc-950/40 p-3">HTTP: ${esc(signals.status_code ?? "Unknown")}</div>
+                <div class="border border-zinc-900 bg-zinc-950/40 p-3">Similarity: ${esc(signals.similarity_score ?? "Unknown")}</div>
+                <div class="border border-zinc-900 bg-zinc-950/40 p-3">Redirected: ${signals.redirected ? "Yes" : "No"}</div>
+              </div>
+              <p class="text-xs text-zinc-600 font-sans break-all">Final URL: ${esc(signals.final_url || "")}</p>
+              ${signals.text_snippet ? `<p class="text-xs text-zinc-500 border-l border-zinc-800 pl-4">${esc(signals.text_snippet)}</p>` : ""}
+              ${screenshotPath ? `<img src="./${esc(screenshotPath)}" alt="" class="w-full max-w-xl border border-zinc-900 bg-zinc-950">` : ""}
+              <div class="flex flex-wrap gap-3">
+                <a class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase" href="${esc(item.original?.url || "#")}" target="_blank" rel="noopener noreferrer">Open Live URL</a>
+                <a class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase" href="${esc(links.archiveIs)}" target="_blank" rel="noopener noreferrer">Archive.is</a>
+                <a class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase" href="${esc(links.archiveOrg)}" target="_blank" rel="noopener noreferrer">Archive.org</a>
+              </div>
+              <div id="integrity-error-${esc(articleId)}" class="hidden text-[#8b0000] text-xs font-sans"></div>
+            </div>
+            <div class="grid grid-cols-1 gap-2 w-full lg:w-52">
+              <button class="px-4 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase" onclick="window.handleIntegrityVerify('${esc(articleId)}', 'confirmed_live')">Confirm Live</button>
+              <button class="px-4 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase" onclick="window.handleIntegrityVerify('${esc(articleId)}', 'confirmed_removed')">Confirm Removed</button>
+              <button class="px-4 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase" onclick="window.handleIntegrityVerify('${esc(articleId)}', 'confirmed_changed')">Mark Changed</button>
+              <button class="px-4 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase" onclick="window.handleIntegrityVerify('${esc(articleId)}', 'needs_manual_review')">Needs More Review</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function getIntegrityBackendConfig() {
+      const backendInput = document.getElementById("integrity-backend-url");
+      const backendUrl = (backendInput?.value.trim() || INTEGRITY_DEFAULT_BACKEND_URL).replace(/\/+$/, "");
+      const adminKey = ensureIntegrityAdminKey();
+      if (!backendUrl) throw new Error("Enter the Worker backend URL.");
+      return { backendUrl, adminKey };
+    }
+
+    async function postIntegrityBackend(path, payload) {
+      const { backendUrl, adminKey } = getIntegrityBackendConfig();
+      const response = await fetch(`${backendUrl}${path}`, {
+        method: "POST",
+        headers: {
+          "X-Admin-Key": adminKey,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || data.message || `Request failed: ${response.status}`);
+      }
+      return data;
+    }
+
+    function selectedIntegrityIds() {
+      return Array.from(document.querySelectorAll(".integrity-select:checked")).map((input) => input.dataset.articleId).filter(Boolean);
+    }
+
+    async function submitIntegrityOverrides(articleIds, manualStatus) {
+      if (isProcessing) return;
+
+      const reviewer = document.getElementById("integrity-reviewer-name").value.trim();
+      if (!reviewer) {
+        integrityReviewStatus.textContent = "Enter a reviewer name or email before verifying.";
+        return;
+      }
+      if (!articleIds.length) {
+        integrityReviewStatus.textContent = "Select at least one article.";
+        return;
+      }
+
+      const notes = document.getElementById("integrity-review-notes").value.trim();
+      const screenshotAction = document.getElementById("integrity-screenshot-action").value || "delete_after_review";
+      isProcessing = true;
+      integrityReviewStatus.textContent = "Dispatching bulk manual verification...";
+      setStatus("Verifying integrity...");
+
+      try {
+        const data = await postIntegrityBackend("/api/integrity/bulk-override", {
+          reviewer,
+          notes,
+          screenshot_action: screenshotAction,
+          overrides: articleIds.map((article_id) => ({ article_id, manual_status: manualStatus }))
+        });
+        const localOverride = {
+          manual_status: manualStatus,
+          verified_at: new Date().toISOString(),
+          verified_by: reviewer,
+          notes,
+          screenshot_action: screenshotAction,
+          screenshot_reviewed: screenshotAction !== "no_screenshot",
+          screenshot_keep: screenshotAction === "keep_as_evidence"
+        };
+        articleIds.forEach((articleId) => {
+          integrityOverrides[articleId] = { article_id: articleId, ...localOverride };
+        });
+        integrityReviewStatus.textContent = data.message || "Bulk manual verification workflow dispatched.";
+        renderIntegrityReviewQueue();
+        setStatus("Dispatched");
+      } catch (error) {
+        console.error(error);
+        integrityReviewStatus.textContent = error.message;
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    }
+
+    window.handleIntegrityVerify = async (articleId, status) => {
+      await submitIntegrityOverrides([articleId], status);
+    };
+
+    async function runIntegrityMonitor(payload) {
+      const requestedBy = document.getElementById("integrity-reviewer-name").value.trim();
+      if (!requestedBy) {
+        integrityMonitorStatus.textContent = "Enter a reviewer name or email before running the monitor.";
+        return;
+      }
+      integrityMonitorStatus.textContent = "Dispatching monitor workflow...";
+      setStatus("Dispatching monitor...");
+      try {
+        const data = await postIntegrityBackend("/api/integrity/run-monitor", {
+          requested_by: requestedBy,
+          note: "Triggered from Echoes of Gaza admin portal.",
+          ...payload
+        });
+        integrityMonitorStatus.textContent = `${data.message || "Monitor workflow dispatched"}. GitHub Actions may take several minutes and GitHub Pages may take another minute to rebuild.`;
+        setStatus("Dispatched");
+      } catch (error) {
+        console.error(error);
+        integrityMonitorStatus.textContent = error.message;
+        setStatus("Error");
+      }
+    }
+
+    function renderSecondaryList(items) {
+      if (!items.length) {
+        secondaryListContainer.innerHTML = `
+          <div class="py-20 text-center text-zinc-600 italic font-serif">
+            No pending secondary article submissions.
+          </div>
+        `;
+        return;
+      }
+
+      let html = "";
+
+      for (const item of items) {
+        html += `
+          <div id="secondary-card-${esc(item.id)}" class="group border-b border-zinc-900 hover:bg-zinc-900/30 transition-colors p-6 flex flex-col md:flex-row items-start justify-between gap-6">
+            <div class="flex-1 space-y-3 w-full">
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="px-2 py-0.5 border border-zinc-800 text-[10px] tracking-widest uppercase text-zinc-500 font-sans">${esc(item.category || "Uncategorized")}</span>
+                <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">${esc(item.submittedAt || "")}</span>
+                <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">Submitted by: ${esc(item.submitted_by || "Unknown")}</span>
+              </div>
+
+              <h3 class="text-lg text-zinc-200 font-serif leading-tight">
+                ${esc(item.title || "Untitled Article")}
+              </h3>
+
+              <p class="text-sm text-zinc-500 font-sans leading-relaxed">
+                ${esc(item.summary || "No summary provided.")}
+              </p>
+
+              <div class="text-xs text-zinc-500 font-sans flex flex-col gap-1">
+                <span>Date: ${esc(item.date || "")}</span>
+                <span>Source: ${esc(item.source || "")}</span>
+                <span>Author: ${esc(item.author || "")}</span>
+                <span>Document Type: ${esc(item.documentType || "")}</span>
+                <a href="${esc(item.link || "#")}" target="_blank" rel="noopener noreferrer" class="text-zinc-300 underline hover:text-white">
+                  Open article
+                </a>
+              </div>
+
+              ${item.imageUrl ? `
+                <div class="mt-3 flex items-center gap-3">
+                  <img src="${esc(item.imageUrl)}" alt="" class="w-16 h-16 object-cover border border-zinc-800 bg-zinc-950">
+                  <span class="text-[10px] text-zinc-600 font-sans break-all">${esc(item.imageUrl)}</span>
+                </div>
+              ` : ""}
+
+              <div id="secondary-error-${esc(item.id)}" class="hidden mt-2 text-[#8b0000] text-xs font-sans"></div>
+              <div id="secondary-success-${esc(item.id)}" class="hidden mt-2 text-green-700 text-xs font-sans">Processed</div>
+            </div>
+
+            <div class="flex gap-2 min-w-[180px] justify-start mt-2">
+              <button
+                onclick="window.handleRejectSecondary('${esc(item.id)}')"
+                id="btn-secondary-reject-${esc(item.id)}"
+                class="px-5 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Reject
+              </button>
+
+              <button
+                onclick="window.handleApproveSecondary('${esc(item.id)}')"
+                id="btn-secondary-approve-${esc(item.id)}"
+                class="px-5 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Approve
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      secondaryListContainer.innerHTML = html;
+    }
+
+    window.handleApproveSecondary = async (id) => {
+      if (isProcessing) return;
+
+      const ok = confirm("Approve this article?\n\nThis will add it to data/articles.json on GitHub.");
+      if (!ok) return;
+
+      const btn = document.getElementById(`btn-secondary-approve-${id}`);
+      const rejectBtn = document.getElementById(`btn-secondary-reject-${id}`);
+      const errorDiv = document.getElementById(`secondary-error-${id}`);
+      const successDiv = document.getElementById(`secondary-success-${id}`);
+
+      isProcessing = true;
+      setStatus("Approving secondary...");
+
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "...";
+        btn.classList.add("opacity-50", "cursor-not-allowed");
+      }
+      if (rejectBtn) rejectBtn.classList.add("hidden");
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({
+            action: "approveArticle",
+            id,
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || ""
+          })
+        });
+
+        const data = await readJsonResponse(response, "Approval failed.");
+
+        if (data.result !== "success") {
+          throw new Error(data.message || "Approval failed.");
+        }
+
+        if (successDiv) {
+          successDiv.textContent = "Approved and added to articles.json";
+          successDiv.classList.remove("hidden");
+        }
+
+        const card = document.getElementById(`secondary-card-${id}`);
+        if (card) setTimeout(() => card.remove(), 800);
+
+        setStatus("Approved");
+      } catch (error) {
+        console.error(error);
+        if (errorDiv) {
+          errorDiv.textContent = "Error: " + error.message;
+          errorDiv.classList.remove("hidden");
+        }
+
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "Approve";
+          btn.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+        if (rejectBtn) rejectBtn.classList.remove("hidden");
+
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    };
+
+    window.handleRejectSecondary = async (id) => {
+      if (isProcessing) return;
+
+      const reason = prompt("Optional reason for rejection:") || "";
+      const ok = confirm("Reject this article submission?");
+      if (!ok) return;
+
+      const btn = document.getElementById(`btn-secondary-reject-${id}`);
+      const approveBtn = document.getElementById(`btn-secondary-approve-${id}`);
+      const errorDiv = document.getElementById(`secondary-error-${id}`);
+
+      isProcessing = true;
+      setStatus("Rejecting secondary...");
+
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "...";
+        btn.classList.add("opacity-50", "cursor-not-allowed");
+      }
+      if (approveBtn) approveBtn.disabled = true;
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({
+            action: "rejectArticle",
+            id,
+            reason,
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || ""
+          })
+        });
+
+        const data = await readJsonResponse(response, "Rejection failed.");
+
+        if (data.result !== "success") {
+          throw new Error(data.message || "Rejection failed.");
+        }
+
+        const card = document.getElementById(`secondary-card-${id}`);
+        if (card) card.remove();
+
+        setStatus("Rejected");
+      } catch (error) {
+        console.error(error);
+        if (errorDiv) {
+          errorDiv.textContent = "Reject error: " + error.message;
+          errorDiv.classList.remove("hidden");
+        }
+
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "Reject";
+          btn.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+        if (approveBtn) approveBtn.disabled = false;
+
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    };
+
+    // Preview Logic
+    window.handlePreview = async (docId, storagePath, contentType) => {
+      const previewBox = document.getElementById(`preview-${docId}`);
+      const errorBox = document.getElementById(`error-${docId}`);
+
+      if (errorBox) errorBox.classList.add("hidden");
+
+      try {
+        if (!storagePath) {
+          throw new Error("No storagePath yet. Try refresh in a few seconds.");
+        }
+
+        if (!previewBox.classList.contains("hidden")) {
+          previewBox.classList.add("hidden");
+          previewBox.innerHTML = "";
+          return;
+        }
+
+        previewBox.classList.remove("hidden");
+        previewBox.innerHTML = `<div class="text-xs text-zinc-500 font-sans tracking-widest uppercase">Loading preview...</div>`;
+
+        const url = await getDownloadURL(ref(storage, storagePath));
+
+        previewBox.innerHTML = "";
+
+        if ((contentType || "").startsWith("image/")) {
+          const img = document.createElement("img");
+          img.src = url;
+          img.className = "w-full border border-zinc-800";
+          previewBox.appendChild(img);
+          return;
+        }
+
+        if ((contentType || "").startsWith("video/")) {
+          const video = document.createElement("video");
+          video.src = url;
+          video.controls = true;
+          video.className = "w-full border border-zinc-800";
+          previewBox.appendChild(video);
+          return;
+        }
+
+        const iframe = document.createElement("iframe");
+        iframe.src = url;
+        iframe.className = "w-full border border-zinc-800";
+        iframe.style.height = "520px";
+        previewBox.appendChild(iframe);
+
+      } catch (e) {
+        console.error(e);
+        if (previewBox) {
+          previewBox.classList.add("hidden");
+          previewBox.innerHTML = "";
+        }
+        if (errorBox) {
+          errorBox.textContent = "Preview error: " + (e.message || String(e));
+          errorBox.classList.remove("hidden");
+        } else {
+          alert("Preview error: " + (e.message || String(e)));
+        }
+      }
+    };
+
+    // Approve Logic
+    window.handleApprove = async (submissionId) => {
+      if (isProcessing) return;
+
+      const ok = confirm(
+        "Approve this submission?\n\nThis will move the file to the public Drive folder and publish it."
+      );
+      if (!ok) return;
+
+      const btn = document.getElementById(`btn-approve-${submissionId}`);
+      const btnReject = document.getElementById(`btn-reject-${submissionId}`);
+      const errorDiv = document.getElementById(`error-${submissionId}`);
+      const successDiv = document.getElementById(`success-${submissionId}`);
+      const successMsg = document.getElementById(`success-msg-${submissionId}`);
+
+      isProcessing = true;
+      btn.disabled = true;
+      btn.textContent = "...";
+      btn.classList.add("opacity-50", "cursor-not-allowed");
+      if(btnReject) btnReject.classList.add("hidden");
+
+      errorDiv.classList.add("hidden");
+      setStatus("Approving...");
+
+      try {
+        const approveFn = httpsCallable(functions, "approvePrimarySource");
+        const result = await approveFn({ submissionId });
+
+        const data = result.data || {};
+        console.log("Approval success:", data);
+
+        btn.classList.add("hidden");
+        successDiv.classList.remove("hidden");
+        successMsg.textContent = "Approved and archived";
+
+        const linkEl = document.getElementById(`link-${submissionId}`);
+        linkEl.classList.remove("hidden");
+        if (data.drivePreviewUrl) {
+          linkEl.href = data.drivePreviewUrl;
+        } else {
+          linkEl.href = "#";
+        }
+
+        if (data.driveFileName) {
+          linkEl.innerHTML = `Open ${esc(data.driveFileName)} in Drive <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`;
+        }
+
+        setStatus("Approved");
+      } catch (error) {
+        console.error("Approval failed:", error);
+        errorDiv.textContent = "Error: " + (error?.message || "Unknown error");
+        errorDiv.classList.remove("hidden");
+
+        btn.disabled = false;
+        btn.textContent = "Approve";
+        btn.classList.remove("opacity-50", "cursor-not-allowed");
+        if(btnReject) btnReject.classList.remove("hidden");
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    };
+
+    // Reject Logic
+    window.handleReject = async (submissionId) => {
+      if (isProcessing) return;
+
+      const reason = prompt("Optional: reason for rejection (leave blank for none)") || "";
+      const ok = confirm("Reject this submission?\n\nThis will delete the pending upload and mark it rejected.");
+      if (!ok) return;
+
+      const rejectBtn = document.getElementById(`btn-reject-${submissionId}`);
+      const approveBtn = document.getElementById(`btn-approve-${submissionId}`);
+      const errorDiv = document.getElementById(`error-${submissionId}`);
+
+      isProcessing = true;
+      setStatus("Rejecting...");
+
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (rejectBtn) {
+        rejectBtn.disabled = true;
+        rejectBtn.textContent = "Rejecting...";
+        rejectBtn.classList.add("opacity-50", "cursor-not-allowed");
+      }
+      if (approveBtn) approveBtn.disabled = true;
+
+      try {
+        const res = await rejectFn({ submissionId, reason });
+        console.log("Reject success:", res.data);
+
+        const card = document.getElementById(`card-${submissionId}`);
+        if (card) card.remove();
+
+        setStatus("Rejected");
+      } catch (err) {
+        console.error("Reject failed:", err);
+        if (errorDiv) {
+          errorDiv.textContent = "Reject error: " + (err?.message || String(err));
+          errorDiv.classList.remove("hidden");
+        } else {
+          alert("Reject error: " + (err?.message || String(err)));
+        }
+        setStatus("Error");
+        if (approveBtn) approveBtn.disabled = false;
+        if (rejectBtn) {
+          rejectBtn.disabled = false;
+          rejectBtn.textContent = "Reject";
+          rejectBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+      } finally {
+        isProcessing = false;
+      }
+    };
+
+    showDefaultPasswordDashboard();
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Portal | Echoes of Gaza</title>
+<meta name="robots" content="index, follow">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" type="image/png">
+
+  <style>
+    :root {
+      --bg-dark: #0a0a0a;
+      --accent-red: #8b0000;
+      --text-zinc: #e4e4e7;
+      --text-muted: #71717a;
+    }
+    body { background-color: var(--bg-dark); color: var(--text-zinc); font-family: 'Playfair Display', serif; overflow-x: hidden; }
+    .font-sans { font-family: 'Inter', sans-serif; }
+    .tracking-wide-caps { letter-spacing: 0.2em; text-transform: uppercase; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0f0f0f; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+    .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(139, 0, 0, 0.16), transparent 32rem),
+        linear-gradient(180deg, #0c0c0c 0%, #070707 48%, #0a0a0a 100%);
+    }
+
+    body > header,
+    body > main,
+    body > footer {
+      max-width: 1180px;
+    }
+
+    body > header {
+      margin-top: 1rem;
+      border: 1px solid rgba(39, 39, 42, 0.9);
+      background: rgba(10, 10, 10, 0.76);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    body > main {
+      padding-top: 2rem;
+    }
+
+    body > footer {
+      margin-bottom: 1rem;
+      border: 1px solid rgba(39, 39, 42, 0.72);
+      background: rgba(9, 9, 9, 0.72);
+    }
+
+    #auth-status {
+      padding: 0.5rem 0.6rem 0.5rem 0.8rem;
+      border: 1px solid rgba(39, 39, 42, 0.9);
+      background: rgba(15, 15, 15, 0.72);
+    }
+
+    #view-login > div > div:first-child,
+    #view-dashboard > div:first-child,
+    #primary-admin-panel,
+    #secondary-admin-panel,
+    #blog-admin-panel {
+      border: 1px solid rgba(39, 39, 42, 0.9);
+      background: rgba(12, 12, 12, 0.72);
+    }
+
+    #view-login > div > div:first-child {
+      padding: 1.35rem;
+    }
+
+    #view-dashboard > div:first-child {
+      padding: 1.25rem;
+    }
+
+    #view-dashboard > div:first-child,
+    #view-dashboard > div:nth-child(2) {
+      margin-bottom: 1rem;
+    }
+
+    #tab-primary-admin,
+    #tab-secondary-admin,
+    #tab-integrity-admin,
+    #tab-blog-admin,
+    #btn-refresh,
+    #btn-login,
+    #btn-logout,
+    [id^="btn-approve-"],
+    [id^="btn-reject-"],
+    [id^="btn-secondary-approve-"],
+    [id^="btn-secondary-reject-"],
+    button[onclick^="window.handlePreview"] {
+      min-height: 2.55rem;
+      border-radius: 0;
+    }
+
+    #btn-login,
+    #btn-refresh,
+    #tab-primary-admin,
+    #tab-secondary-admin,
+    #tab-integrity-admin,
+    #tab-blog-admin {
+      background: rgba(15, 15, 15, 0.78);
+    }
+
+    #btn-login:hover,
+    #btn-refresh:hover,
+    #tab-primary-admin:hover,
+    #tab-secondary-admin:hover,
+    #tab-integrity-admin:hover,
+    #tab-blog-admin:hover,
+    [id^="btn-approve-"]:hover,
+    [id^="btn-reject-"]:hover,
+    [id^="btn-secondary-approve-"]:hover,
+    [id^="btn-secondary-reject-"]:hover,
+    button[onclick^="window.handlePreview"]:hover {
+      background: rgba(139, 0, 0, 0.12);
+    }
+
+    #primary-admin-panel,
+    #secondary-admin-panel,
+    #blog-admin-panel {
+      overflow: hidden;
+    }
+
+    #blog-admin-panel,
+    #blog-admin-panel * {
+      min-width: 0;
+    }
+
+    #blog-admin-panel p,
+    #blog-admin-panel h3,
+    #blog-admin-panel h4 {
+      overflow-wrap: anywhere;
+    }
+
+    #blog-published-manager {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
+
+    #blog-published-list article p {
+      overflow: hidden;
+    }
+
+    #submissions-list,
+    #secondary-submissions-list,
+    #blog-submissions-list {
+      border-top: 0;
+    }
+
+    [id^="card-"],
+    [id^="secondary-card-"],
+    [id^="blog-card-"] {
+      border-color: rgba(39, 39, 42, 0.85) !important;
+      background: rgba(9, 9, 9, 0.55);
+    }
+
+    [id^="card-"]:hover,
+    [id^="secondary-card-"]:hover,
+    [id^="blog-card-"]:hover {
+      background: rgba(18, 18, 18, 0.9) !important;
+    }
+
+    [id^="card-"] h3,
+    [id^="secondary-card-"] h3,
+    [id^="blog-card-"] h3 {
+      max-width: 66ch;
+    }
+
+    [id^="preview-"] iframe {
+      min-height: 420px;
+      background: #050505;
+    }
+
+    [id^="secondary-card-"] img {
+      flex: 0 0 auto;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 1px solid var(--accent-red);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 760px) {
+      body > header,
+      body > main,
+      body > footer {
+        width: calc(100% - 1.5rem);
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+
+      body > header {
+        margin-top: 0.75rem;
+        padding-top: 1.25rem !important;
+        padding-bottom: 1.25rem !important;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      body > header h1 {
+        font-size: 1rem !important;
+        line-height: 1.4;
+      }
+
+      #auth-status {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      #admin-email {
+        max-width: calc(100vw - 7rem);
+        overflow-wrap: anywhere;
+      }
+
+      body > main {
+        padding-top: 1rem !important;
+        padding-bottom: 1.5rem !important;
+      }
+
+      #view-login {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+      }
+
+      #view-dashboard > div:first-child {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+      }
+
+      #btn-refresh {
+        width: 100%;
+        justify-content: center;
+      }
+
+      #view-dashboard > div:nth-child(2) {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      #tab-primary-admin,
+      #tab-secondary-admin,
+      #tab-integrity-admin,
+      #tab-blog-admin {
+        width: 100%;
+      }
+
+      [id^="card-"],
+      [id^="secondary-card-"],
+      [id^="blog-card-"] {
+        padding: 1rem !important;
+        gap: 1rem !important;
+      }
+
+      [id^="card-"] > div:first-child > div:first-child,
+      [id^="secondary-card-"] > div:first-child > div:first-child,
+      [id^="blog-card-"] > div:first-child > div:first-child {
+        align-items: flex-start;
+        gap: 0.45rem;
+      }
+
+      [id^="card-"] h3,
+      [id^="secondary-card-"] h3,
+      [id^="blog-card-"] h3 {
+        font-size: 1rem !important;
+      }
+
+      [id^="card-"] span,
+      [id^="secondary-card-"] span,
+      [id^="blog-card-"] span,
+      [id^="card-"] a,
+      [id^="secondary-card-"] a,
+      [id^="blog-card-"] a {
+        white-space: normal;
+      }
+
+      [id^="card-"] > div:last-child,
+      [id^="secondary-card-"] > div:last-child,
+      [id^="blog-card-"] > div:last-child {
+        width: 100%;
+        min-width: 0 !important;
+      }
+
+      [id^="card-"] > div:last-child > div,
+      [id^="secondary-card-"] > div:last-child {
+        display: grid !important;
+        grid-template-columns: 1fr;
+      }
+
+      [id^="btn-approve-"],
+      [id^="btn-reject-"],
+      [id^="btn-secondary-approve-"],
+      [id^="btn-secondary-reject-"],
+      button[onclick^="window.handlePreview"] {
+        width: 100% !important;
+        justify-content: center;
+      }
+
+      [id^="secondary-card-"] img + span {
+        display: block;
+        min-width: 0;
+      }
+
+      [id^="preview-"] iframe {
+        height: 360px !important;
+        min-height: 360px;
+      }
+
+      body > footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding-top: 1.25rem !important;
+        padding-bottom: 1.25rem !important;
+      }
+
+      #blog-published-manager {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      body > header,
+      body > main,
+      body > footer {
+        width: calc(100% - 1rem);
+      }
+
+      [id^="card-"],
+      [id^="secondary-card-"],
+      [id^="blog-card-"] {
+        padding: 0.85rem !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto w-full px-8 pt-12 pb-6 flex justify-between items-start border-b border-zinc-900">
+    <div class="space-y-1">
+      <h1 class="text-2xl font-bold tracking-wide-caps font-sans text-zinc-100">
+        <a href="https://echoesofgaza.org" class="hover:text-zinc-300 transition-colors">Echoes of Gaza</a>
+      </h1>
+      <div class="flex items-center gap-2 text-zinc-500 font-sans text-[10px] tracking-widest uppercase">
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        Secure Admin Portal
+      </div>
+    </div>
+
+    <div id="auth-status" class="hidden flex items-center gap-4">
+      <div class="text-right">
+        <div id="admin-email" class="text-[10px] font-sans tracking-widest uppercase text-zinc-400">Loading...</div>
+        <button id="btn-logout" class="text-xs text-[#8b0000] hover:text-red-400 font-sans underline transition-colors">Sign Out</button>
+      </div>
+      <div class="w-10 h-10 border border-zinc-800 bg-zinc-900 rounded-full flex items-center justify-center text-zinc-500">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-grow max-w-7xl mx-auto w-full px-8 py-10">
+    <!-- Login View -->
+    <div id="view-login" class="flex flex-col items-center justify-center py-20 hidden">
+      <div class="max-w-md w-full text-center space-y-8">
+        <div class="border-l border-[#8b0000] pl-6 py-2 text-left bg-[#0f0f0f]">
+          <h4 class="text-[10px] font-sans tracking-widest uppercase text-[#8b0000] mb-2 font-bold">Authorized Personnel Only</h4>
+          <p class="text-sm text-zinc-500 font-sans leading-relaxed">
+            This system is monitored. Access is restricted to specific administrative accounts.
+          </p>
+        </div>
+        <button id="btn-login" class="px-8 py-3 bg-zinc-900 border border-zinc-700 hover:border-[#8b0000] text-zinc-200 font-sans text-xs tracking-widest uppercase transition-all w-full">
+          Authenticate with Google
+        </button>
+        <button id="btn-secondary-access" class="px-8 py-3 border border-zinc-800 hover:border-[#8b0000] text-zinc-400 hover:text-zinc-200 font-sans text-xs tracking-widest uppercase transition-all w-full">
+          Secondary Articles Password Access
+        </button>
+        <button id="btn-blog-access" class="px-8 py-3 border border-zinc-800 hover:border-[#8b0000] text-zinc-400 hover:text-zinc-200 font-sans text-xs tracking-widest uppercase transition-all w-full">
+          Blog Review Password Access
+        </button>
+        <button id="btn-integrity-access" class="px-8 py-3 border border-zinc-800 hover:border-[#8b0000] text-zinc-400 hover:text-zinc-200 font-sans text-xs tracking-widest uppercase transition-all w-full">
+          Integrity Review Password Access
+        </button>
+        <p id="login-error" class="text-[#8b0000] text-sm font-sans hidden"></p>
+      </div>
+    </div>
+
+    <!-- Dashboard View -->
+    <div id="view-dashboard" class="hidden">
+      <div class="flex justify-between items-end mb-8">
+        <div>
+          <h2 class="text-xl font-serif text-zinc-200 mb-2">Pending Submissions</h2>
+          <p class="text-sm text-zinc-500 font-sans italic">Review primary source uploads and secondary article submissions.</p>
+        </div>
+        <button id="btn-refresh" class="px-4 py-2 text-[10px] font-sans tracking-widest uppercase border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-600 transition-colors flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 4v6h-6"></path>
+            <path d="M1 20v-6h6"></path>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+          Refresh List
+        </button>
+      </div>
+
+      <div class="flex gap-3 mb-8 border-b border-zinc-900 pb-4">
+        <button id="tab-primary-admin" class="px-4 py-2 border border-[#8b0000] text-zinc-200 font-sans text-[10px] tracking-widest uppercase">
+          Primary Sources
+        </button>
+        <button id="tab-secondary-admin" class="px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase">
+          Secondary Articles
+        </button>
+        <button id="tab-blog-admin" class="px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase">
+          Blog Review
+        </button>
+        <button id="tab-integrity-admin" class="px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase">
+          Article Integrity
+        </button>
+      </div>
+
+      <div id="primary-admin-panel">
+        <div id="submissions-list" class="space-y-0 border-t border-zinc-900">
+          <div class="py-12 text-center text-zinc-600 font-serif italic animate-pulse-slow">
+            Connecting to secure archive...
+          </div>
+        </div>
+      </div>
+
+      <div id="secondary-admin-panel" class="hidden">
+        <div id="secondary-submissions-list" class="space-y-0 border-t border-zinc-900">
+          <div class="py-12 text-center text-zinc-600 font-serif italic">
+            Secondary source queue not loaded.
+          </div>
+        </div>
+      </div>
+
+      <div id="blog-admin-panel" class="hidden">
+        <div class="border border-zinc-900 bg-zinc-950/40 p-5 md:p-6 mb-5">
+          <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
+            <div class="min-w-0 flex-1">
+              <h3 class="text-lg text-zinc-200 font-serif mb-2">Blog Review Queue</h3>
+              <p class="text-sm text-zinc-500 font-sans leading-relaxed max-w-2xl">
+                Review contributor essays, writer profiles, images, and private editor notes. Approval publishes the post into the blog JSON with its own unique link.
+              </p>
+            </div>
+            <a href="./blog_submit.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase text-center w-full sm:w-auto shrink-0">
+              Open Writer Page
+            </a>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+          <button id="btn-blog-load-pending" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">
+            Pending Queue
+          </button>
+          <button id="btn-blog-load-published" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">
+            Published Manager
+          </button>
+        </div>
+        <div id="blog-submissions-list" class="space-y-0 border-t border-zinc-900">
+          <div class="py-12 text-center text-zinc-600 font-serif italic">
+            Blog submission queue not loaded.
+          </div>
+        </div>
+        <div id="blog-published-manager" class="hidden mt-6 border-t border-zinc-900 pt-6">
+          <div id="blog-published-list" class="space-y-4"></div>
+          <div id="blog-editor-panel" class="hidden mt-8 border border-zinc-900 bg-zinc-950/40 p-5 md:p-6"></div>
+        </div>
+      </div>
+
+      <div id="integrity-admin-panel" class="hidden">
+        <div id="integrity-locked-panel" class="border border-zinc-900 bg-zinc-950/40 p-8 mb-6 text-center">
+          <h3 class="text-lg text-zinc-200 font-serif mb-2">Integrity Review Locked</h3>
+          <p class="text-sm text-zinc-500 font-sans leading-relaxed max-w-2xl mx-auto mb-5">
+            Manual integrity verification is private. Enter the Article Integrity admin API key once to unlock these tools for this browser session.
+          </p>
+          <button id="btn-unlock-integrity" class="px-5 py-2 border border-[#8b0000] text-zinc-200 hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+            Unlock Article Integrity
+          </button>
+        </div>
+        <div id="integrity-review-content" class="hidden space-y-6">
+          <section class="border border-zinc-900 bg-zinc-950/40 p-5 md:p-6">
+            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
+              <div>
+                <h3 class="text-lg text-zinc-200 font-serif mb-2">Article Integrity</h3>
+                <p class="text-sm text-zinc-500 font-sans leading-relaxed max-w-3xl">
+                  Review flagged article links, apply manual verification, and run small integrity monitor jobs. Normal scans only review articles that have never been checked or have not been checked in the last 60 days.
+                </p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button id="btn-forget-integrity-key" class="px-4 py-2 border border-zinc-800 text-zinc-400 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase text-center">
+                  Forget Admin Key
+                </button>
+                <a href="https://github.com/rscboy/eyes-on-palestine/actions/workflows/article-integrity-monitor.yml" target="_blank" rel="noopener noreferrer" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase text-center">
+                  GitHub Actions
+                </a>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mt-5">
+              <input id="integrity-reviewer-name" class="bg-[#080808] border border-zinc-800 text-zinc-300 p-3 text-xs font-sans outline-none focus:border-zinc-600" placeholder="Reviewer name or email">
+              <select id="integrity-screenshot-action" class="bg-[#080808] border border-zinc-800 text-zinc-300 p-3 text-xs font-sans outline-none focus:border-zinc-600">
+                <option value="delete_after_review">Delete screenshot after review</option>
+                <option value="keep_as_evidence">Keep screenshot as evidence</option>
+                <option value="no_screenshot">No screenshot action</option>
+              </select>
+              <label class="border border-zinc-800 bg-[#080808] text-zinc-400 p-3 text-xs font-sans flex items-center gap-2">
+                <input id="integrity-show-verified" type="checkbox" class="accent-[#8b0000]">
+                Show verified
+              </label>
+            </div>
+            <textarea id="integrity-review-notes" class="bg-[#080808] border border-zinc-800 text-zinc-300 p-3 text-xs font-sans outline-none focus:border-zinc-600 w-full mt-3 min-h-[76px]" maxlength="500" placeholder="Neutral verification notes, optional"></textarea>
+            <details class="mt-3 border border-zinc-900 bg-[#080808] p-3">
+              <summary class="cursor-pointer text-[10px] text-zinc-500 font-sans uppercase tracking-widest">Advanced settings</summary>
+              <div class="mt-3">
+                <label for="integrity-backend-url" class="block text-[10px] text-zinc-600 font-sans uppercase tracking-widest mb-2">Worker backend URL</label>
+                <input id="integrity-backend-url" class="bg-[#050505] border border-zinc-800 text-zinc-300 p-3 text-xs font-sans outline-none focus:border-zinc-600 w-full" placeholder="Worker backend URL">
+              </div>
+            </details>
+            <p class="text-[10px] text-zinc-600 font-sans uppercase tracking-widest mt-3">Admin API key is stored in sessionStorage only after unlock. It is not saved to localStorage or committed to the repository.</p>
+            <div id="integrity-review-status" class="text-xs text-zinc-500 font-sans mt-4"></div>
+          </section>
+
+          <section class="border border-zinc-900 bg-zinc-950/40 p-5 md:p-6">
+            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 mb-5">
+              <div>
+                <h3 class="text-lg text-zinc-200 font-serif mb-2">Integrity Monitor Controls</h3>
+                <p class="text-sm text-zinc-500 font-sans leading-relaxed max-w-3xl">
+                  Integrity checks run daily, but each article is rechecked only after 60 days unless manually forced. GitHub Actions may take several minutes and GitHub Pages may take another minute to rebuild.
+                </p>
+              </div>
+              <button id="btn-integrity-refresh-data" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">
+                Refresh Integrity Data
+              </button>
+            </div>
+            <div id="integrity-monitor-summary" class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-3 mb-5"></div>
+            <details id="integrity-coverage-summary" class="mb-5 border border-zinc-900 bg-[#080808] p-3">
+              <summary class="cursor-pointer text-[10px] text-zinc-500 font-sans uppercase tracking-widest">Unreviewed archive coverage</summary>
+              <div id="integrity-coverage-counts" class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3 text-xs text-zinc-500 font-sans"></div>
+            </details>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+              <button id="btn-run-due-monitor" class="px-4 py-3 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">Run Due Articles Now</button>
+              <button id="btn-run-quick-monitor" class="px-4 py-3 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">Run Quick Forced Test</button>
+              <button id="btn-run-standard-monitor" class="px-4 py-3 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">Run Standard Forced Test</button>
+              <div class="border border-zinc-900 bg-[#080808] p-3 space-y-2">
+                <div class="text-[10px] text-zinc-500 uppercase tracking-widest font-sans">Advanced Custom Forced Scan</div>
+                <div class="grid grid-cols-2 gap-2">
+                  <input id="integrity-custom-limit" class="bg-[#050505] border border-zinc-800 text-zinc-300 p-2 text-xs font-sans outline-none focus:border-zinc-600" type="number" min="1" max="250" value="25" placeholder="Limit">
+                  <input id="integrity-custom-offset" class="bg-[#050505] border border-zinc-800 text-zinc-300 p-2 text-xs font-sans outline-none focus:border-zinc-600" type="number" min="0" value="0" placeholder="Offset">
+                </div>
+                <label class="text-xs text-zinc-500 font-sans flex items-center gap-2">
+                  <input id="integrity-custom-screenshots" type="checkbox" class="accent-[#8b0000]">
+                  Capture flagged screenshots
+                </label>
+                <button id="btn-run-custom-monitor" class="w-full px-4 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">Run Custom Forced Scan</button>
+              </div>
+            </div>
+            <div id="integrity-monitor-status" class="text-xs text-zinc-500 font-sans mt-4"></div>
+          </section>
+
+          <section class="border border-zinc-900 bg-zinc-950/40 p-5 md:p-6">
+            <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4 mb-5">
+              <div>
+                <h3 class="text-lg text-zinc-200 font-serif mb-2">Integrity Review Queue</h3>
+                <p class="text-sm text-zinc-500 font-sans leading-relaxed">Flagged records are shown with their stored article id internally; no manual copying from JSON is needed.</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <select id="integrity-queue-filter" class="bg-[#080808] border border-zinc-800 text-zinc-300 px-4 py-2 text-[10px] font-sans tracking-widest uppercase outline-none focus:border-zinc-600">
+                  <option value="needs_review">Needs review</option>
+                  <option value="manual_confirmed">Confirmed by manual review</option>
+                  <option value="recently_checked">Recently checked</option>
+                  <option value="all_checked">All checked</option>
+                </select>
+                <button id="btn-bulk-live" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">Confirm selected as Live</button>
+                <button id="btn-bulk-removed" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">Confirm selected as Removed</button>
+                <button id="btn-bulk-changed" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">Mark selected as Changed</button>
+                <button id="btn-bulk-review" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">Send selected back to Review</button>
+              </div>
+            </div>
+            <div id="integrity-review-list" class="space-y-0 border-t border-zinc-900">
+              <div class="py-12 text-center text-zinc-600 font-serif italic">
+                Integrity review queue not loaded.
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto w-full px-8 py-12 border-t border-zinc-900 flex justify-between items-center text-[10px] font-sans tracking-widest text-zinc-700 uppercase">
+    <div>&copy; 2026 ECHOES OF GAZA | ADMIN SYSTEM</div>
+    <div class="flex gap-4">
+      <span>Status: <span id="system-status" class="text-zinc-500">Idle</span></span>
+    </div>
+  </footer>
+
+  <!-- Firebase Logic -->
+  <script type="module">
+    // Firebase SDK imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithPopup,
+      GoogleAuthProvider,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      query,
+      where,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+    import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-functions.js";
+    import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-storage.js";
+
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDWpXfcX0T3ceI4zSe5hADkcundb3TqqeM",
+      authDomain: "echoes-of-gaza.firebaseapp.com",
+      projectId: "echoes-of-gaza",
+      storageBucket: "echoes-of-gaza.firebasestorage.app",
+      messagingSenderId: "592151003023",
+      appId: "1:592151003023:web:b3c7db040a0afb87a555fa"
+    };
+
+    const ALLOWED_EMAILS = new Set([
+      "goblue.c.2001@gmail.com",
+      "fatimahgula83@gmail.com",
+      "admin@echoesofgaza.com"
+    ]);
+
+    // DOM Elements
+    const viewLogin = document.getElementById("view-login");
+    const viewDashboard = document.getElementById("view-dashboard");
+    const authStatus = document.getElementById("auth-status");
+    const adminEmailDisplay = document.getElementById("admin-email");
+    const btnLogin = document.getElementById("btn-login");
+    const btnSecondaryAccess = document.getElementById("btn-secondary-access");
+    const btnBlogAccess = document.getElementById("btn-blog-access");
+    const btnIntegrityAccess = document.getElementById("btn-integrity-access");
+    const btnLogout = document.getElementById("btn-logout");
+    const btnRefresh = document.getElementById("btn-refresh");
+    const listContainer = document.getElementById("submissions-list");
+    const tabPrimaryAdmin = document.getElementById("tab-primary-admin");
+    const tabSecondaryAdmin = document.getElementById("tab-secondary-admin");
+    const tabBlogAdmin = document.getElementById("tab-blog-admin");
+    const tabIntegrityAdmin = document.getElementById("tab-integrity-admin");
+    const primaryAdminPanel = document.getElementById("primary-admin-panel");
+    const secondaryAdminPanel = document.getElementById("secondary-admin-panel");
+    const blogAdminPanel = document.getElementById("blog-admin-panel");
+    const integrityAdminPanel = document.getElementById("integrity-admin-panel");
+    const secondaryListContainer = document.getElementById("secondary-submissions-list");
+    const blogListContainer = document.getElementById("blog-submissions-list");
+    const btnBlogLoadPending = document.getElementById("btn-blog-load-pending");
+    const btnBlogLoadPublished = document.getElementById("btn-blog-load-published");
+    const blogPublishedManager = document.getElementById("blog-published-manager");
+    const blogPublishedList = document.getElementById("blog-published-list");
+    const blogEditorPanel = document.getElementById("blog-editor-panel");
+    const integrityReviewList = document.getElementById("integrity-review-list");
+    const integrityLockedPanel = document.getElementById("integrity-locked-panel");
+    const integrityReviewContent = document.getElementById("integrity-review-content");
+    const btnUnlockIntegrity = document.getElementById("btn-unlock-integrity");
+    const integrityMonitorSummary = document.getElementById("integrity-monitor-summary");
+    const integrityCoverageCounts = document.getElementById("integrity-coverage-counts");
+    const integrityMonitorStatus = document.getElementById("integrity-monitor-status");
+    const integrityReviewStatus = document.getElementById("integrity-review-status");
+    const btnIntegrityRefreshData = document.getElementById("btn-integrity-refresh-data");
+    const btnForgetIntegrityKey = document.getElementById("btn-forget-integrity-key");
+    const btnRunDueMonitor = document.getElementById("btn-run-due-monitor");
+    const btnRunQuickMonitor = document.getElementById("btn-run-quick-monitor");
+    const btnRunStandardMonitor = document.getElementById("btn-run-standard-monitor");
+    const btnRunCustomMonitor = document.getElementById("btn-run-custom-monitor");
+    const btnBulkLive = document.getElementById("btn-bulk-live");
+    const btnBulkRemoved = document.getElementById("btn-bulk-removed");
+    const btnBulkChanged = document.getElementById("btn-bulk-changed");
+    const btnBulkReview = document.getElementById("btn-bulk-review");
+    const integrityShowVerified = document.getElementById("integrity-show-verified");
+    const integrityQueueFilter = document.getElementById("integrity-queue-filter");
+    const systemStatus = document.getElementById("system-status");
+    const loginError = document.getElementById("login-error");
+
+    // State
+    let currentUser = null;
+    let isProcessing = false;
+    let activeAdminTab = "primary";
+    let secondaryAdminCode = "";
+    let publishedBlogPosts = [];
+    let pendingBlogItems = [];
+    let activeBlogEditorPost = null;
+    let integrityLatestPayload = null;
+    let integrityOverrides = {};
+    let integrityAdminKey = "";
+
+    const INTEGRITY_DEFAULT_BACKEND_URL = "https://echoes-integrity-admin.goblue-c-2001.workers.dev";
+    const INTEGRITY_ADMIN_KEY_STORAGE = "echoes-integrity-admin-key";
+
+    // Helpers
+    function setStatus(msg) {
+      systemStatus.textContent = msg;
+    }
+
+    function esc(s) {
+      return String(s ?? "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[c]));
+    }
+
+    function getStoredIntegrityAdminKey() {
+      try {
+        return sessionStorage.getItem(INTEGRITY_ADMIN_KEY_STORAGE) || "";
+      } catch (error) {
+        console.warn("Unable to read Article Integrity admin key from sessionStorage", error);
+        return "";
+      }
+    }
+
+    function setStoredIntegrityAdminKey(value) {
+      integrityAdminKey = String(value || "").trim();
+      if (!integrityAdminKey) return;
+      try {
+        sessionStorage.setItem(INTEGRITY_ADMIN_KEY_STORAGE, integrityAdminKey);
+      } catch (error) {
+        console.warn("Unable to store Article Integrity admin key in sessionStorage", error);
+      }
+    }
+
+    function clearStoredIntegrityAdminKey() {
+      integrityAdminKey = "";
+      try {
+        sessionStorage.removeItem(INTEGRITY_ADMIN_KEY_STORAGE);
+      } catch (error) {
+        console.warn("Unable to clear Article Integrity admin key from sessionStorage", error);
+      }
+    }
+
+    function hasIntegrityAdminKey() {
+      return Boolean(integrityAdminKey || getStoredIntegrityAdminKey());
+    }
+
+    function ensureIntegrityAdminKey() {
+      const existing = integrityAdminKey || getStoredIntegrityAdminKey();
+      if (existing) {
+        integrityAdminKey = existing;
+        return integrityAdminKey;
+      }
+
+      const entered = prompt("Enter Article Integrity admin API key:");
+      if (!entered || !entered.trim()) {
+        throw new Error("Article Integrity admin API key required.");
+      }
+      setStoredIntegrityAdminKey(entered);
+      return integrityAdminKey;
+    }
+
+    function formatBytes(bytes, decimals = 2) {
+      if (!Number(bytes)) return "0 Bytes";
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ["Bytes", "KiB", "MiB", "GiB"];
+      const i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1);
+      return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+    }
+
+    const activeTabClass = "px-4 py-2 border border-[#8b0000] text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+    const inactiveTabClass = "px-4 py-2 border border-zinc-800 text-zinc-500 hover:text-zinc-200 font-sans text-[10px] tracking-widest uppercase";
+
+    function activatePrimaryTab() {
+      activeAdminTab = "primary";
+      tabPrimaryAdmin.className = activeTabClass;
+      tabSecondaryAdmin.className = inactiveTabClass;
+      tabBlogAdmin.className = inactiveTabClass;
+      tabIntegrityAdmin.className = inactiveTabClass;
+      primaryAdminPanel.classList.remove("hidden");
+      secondaryAdminPanel.classList.add("hidden");
+      blogAdminPanel.classList.add("hidden");
+      integrityAdminPanel.classList.add("hidden");
+    }
+
+    function activateSecondaryTab() {
+      activeAdminTab = "secondary";
+      tabSecondaryAdmin.className = activeTabClass;
+      tabPrimaryAdmin.className = inactiveTabClass;
+      tabBlogAdmin.className = inactiveTabClass;
+      tabIntegrityAdmin.className = inactiveTabClass;
+      primaryAdminPanel.classList.add("hidden");
+      secondaryAdminPanel.classList.remove("hidden");
+      blogAdminPanel.classList.add("hidden");
+      integrityAdminPanel.classList.add("hidden");
+    }
+
+    function activateBlogTab() {
+      activeAdminTab = "blog";
+      tabBlogAdmin.className = activeTabClass;
+      tabPrimaryAdmin.className = inactiveTabClass;
+      tabSecondaryAdmin.className = inactiveTabClass;
+      tabIntegrityAdmin.className = inactiveTabClass;
+      primaryAdminPanel.classList.add("hidden");
+      secondaryAdminPanel.classList.add("hidden");
+      blogAdminPanel.classList.remove("hidden");
+      integrityAdminPanel.classList.add("hidden");
+    }
+
+    function activateIntegrityTab() {
+      activeAdminTab = "integrity";
+      tabIntegrityAdmin.className = activeTabClass;
+      tabPrimaryAdmin.className = inactiveTabClass;
+      tabSecondaryAdmin.className = inactiveTabClass;
+      tabBlogAdmin.className = inactiveTabClass;
+      primaryAdminPanel.classList.add("hidden");
+      secondaryAdminPanel.classList.add("hidden");
+      blogAdminPanel.classList.add("hidden");
+      integrityAdminPanel.classList.remove("hidden");
+    }
+
+    function showLogin(msg) {
+      activatePrimaryTab();
+      viewLogin.classList.remove("hidden");
+      viewDashboard.classList.add("hidden");
+      authStatus.classList.add("hidden");
+      if (msg) {
+        loginError.innerHTML = msg;
+        loginError.classList.remove("hidden");
+      } else {
+        loginError.classList.add("hidden");
+      }
+      setStatus("Waiting for auth");
+    }
+
+    function showSecondaryDashboard(shouldFetch = false) {
+      activateSecondaryTab();
+      viewLogin.classList.add("hidden");
+      viewDashboard.classList.remove("hidden");
+      if (currentUser) {
+        authStatus.classList.remove("hidden");
+        adminEmailDisplay.textContent = currentUser.email || "";
+      } else {
+        authStatus.classList.add("hidden");
+        adminEmailDisplay.textContent = "";
+      }
+      setStatus(shouldFetch ? "Loading secondary..." : "Secondary access");
+      if (shouldFetch) fetchSecondarySubmissions();
+    }
+
+    function showIntegrityDashboard(shouldFetch = false) {
+      activateIntegrityTab();
+      viewLogin.classList.add("hidden");
+      viewDashboard.classList.remove("hidden");
+      if (currentUser) {
+        authStatus.classList.remove("hidden");
+        adminEmailDisplay.textContent = currentUser.email || "";
+      } else {
+        authStatus.classList.add("hidden");
+        adminEmailDisplay.textContent = "";
+      }
+      setStatus(shouldFetch ? "Loading integrity..." : "Integrity access");
+      loadIntegritySettings();
+
+      if (shouldFetch || hasIntegrityAdminKey()) {
+        fetchIntegrityReviewQueue();
+      } else {
+        integrityLockedPanel.classList.remove("hidden");
+        integrityReviewContent.classList.add("hidden");
+      }
+    }
+
+    function showBlogDashboard(shouldFetch = false) {
+      activateBlogTab();
+      viewLogin.classList.add("hidden");
+      viewDashboard.classList.remove("hidden");
+      if (currentUser) {
+        authStatus.classList.remove("hidden");
+        adminEmailDisplay.textContent = currentUser.email || "";
+      } else {
+        authStatus.classList.add("hidden");
+        adminEmailDisplay.textContent = "";
+      }
+      setStatus(shouldFetch ? "Loading blog..." : "Blog review access");
+      if (shouldFetch) {
+        showBlogPendingView();
+        fetchBlogSubmissions();
+      }
+    }
+
+    function showDefaultPasswordDashboard() {
+      if (window.location.hash === "#integrity-review") {
+        showIntegrityDashboard(false);
+      } else if (window.location.hash === "#blog-review") {
+        showBlogDashboard(false);
+      } else {
+        showSecondaryDashboard(false);
+      }
+    }
+
+    function showDashboard() {
+      viewLogin.classList.add("hidden");
+      viewDashboard.classList.remove("hidden");
+      if (currentUser) {
+        authStatus.classList.remove("hidden");
+      } else {
+        authStatus.classList.add("hidden");
+      }
+      adminEmailDisplay.textContent = currentUser?.email || "";
+      if (activeAdminTab === "primary") {
+        fetchSubmissions();
+      } else if (activeAdminTab === "integrity") {
+        fetchIntegrityReviewQueue();
+      } else if (activeAdminTab === "blog") {
+        showBlogPendingView();
+        fetchBlogSubmissions();
+      } else {
+        fetchSecondarySubmissions();
+      }
+    }
+
+    async function handleUnauthorized(email) {
+      await signOut(auth);
+      showLogin(`Access Denied for <strong>${esc(email)}</strong>.<br>This account is not on the admin whitelist.`);
+    }
+
+    // Init Firebase
+    let app, auth, db, functions, storage, rejectFn;
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+      functions = getFunctions(app, "us-central1");
+      storage = getStorage(app);
+      
+      // Initialize rejectFn callable globally so it's available in handleReject
+      rejectFn = httpsCallable(functions, "rejectPrimarySource");
+    } catch (e) {
+      console.error("Firebase init error", e);
+      showLogin("Firebase configuration missing or invalid.");
+      listContainer.innerHTML = `
+        <div class="py-12 text-center text-[#8b0000] font-sans">
+          Error: Firebase configuration missing or invalid.
+        </div>
+      `;
+      throw e;
+    }
+
+    // Auth
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        currentUser = null;
+        showDefaultPasswordDashboard();
+        return;
+      }
+
+      if (!ALLOWED_EMAILS.has(user.email)) {
+        console.warn("Unauthorized access attempt:", user.email);
+        handleUnauthorized(user.email);
+        return;
+      }
+
+      currentUser = user;
+      showDashboard();
+    });
+
+    btnLogin.addEventListener("click", async () => {
+      const provider = new GoogleAuthProvider();
+      try {
+        loginError.classList.add("hidden");
+        setStatus("Signing in...");
+        await signInWithPopup(auth, provider);
+      } catch (error) {
+        console.error("Login failed", error);
+        showLogin("Authentication failed: " + esc(error.message));
+        setStatus("Error");
+      }
+    });
+
+    btnSecondaryAccess.addEventListener("click", () => {
+      loginError.classList.add("hidden");
+      showSecondaryDashboard(true);
+    });
+
+    btnBlogAccess.addEventListener("click", () => {
+      loginError.classList.add("hidden");
+      showBlogDashboard(true);
+    });
+
+    btnIntegrityAccess.addEventListener("click", () => {
+      loginError.classList.add("hidden");
+      showIntegrityDashboard(true);
+    });
+
+    btnLogout.addEventListener("click", async () => {
+      await signOut(auth);
+      showDefaultPasswordDashboard();
+    });
+
+    tabPrimaryAdmin.addEventListener("click", () => {
+      activatePrimaryTab();
+
+      if (!currentUser) {
+        showLogin();
+        return;
+      }
+
+      showDashboard();
+    });
+
+    tabSecondaryAdmin.addEventListener("click", () => {
+      showSecondaryDashboard(true);
+    });
+
+    tabBlogAdmin.addEventListener("click", () => {
+      showBlogDashboard(true);
+    });
+
+    if (btnBlogLoadPending) {
+      btnBlogLoadPending.addEventListener("click", () => {
+        showBlogPendingView();
+        fetchBlogSubmissions();
+      });
+    }
+
+    if (btnBlogLoadPublished) {
+      btnBlogLoadPublished.addEventListener("click", () => {
+        showBlogPublishedView();
+      });
+    }
+
+    tabIntegrityAdmin.addEventListener("click", () => {
+      showIntegrityDashboard(true);
+    });
+
+    btnUnlockIntegrity.addEventListener("click", () => {
+      fetchIntegrityReviewQueue();
+    });
+
+    btnForgetIntegrityKey.addEventListener("click", () => {
+      clearStoredIntegrityAdminKey();
+      integrityReviewStatus.textContent = "Article Integrity admin key forgotten for this session.";
+      integrityLockedPanel.classList.remove("hidden");
+      integrityReviewContent.classList.add("hidden");
+      setStatus("Integrity locked");
+    });
+
+    btnIntegrityRefreshData.addEventListener("click", () => {
+      fetchIntegrityReviewQueue();
+    });
+
+    integrityShowVerified.addEventListener("change", () => {
+      saveIntegritySettings();
+      renderIntegrityReviewQueue();
+    });
+
+    integrityQueueFilter.addEventListener("change", () => {
+      saveIntegritySettings();
+      renderIntegrityReviewQueue();
+    });
+
+    btnBulkLive.addEventListener("click", () => submitIntegrityOverrides(selectedIntegrityIds(), "confirmed_live"));
+    btnBulkRemoved.addEventListener("click", () => submitIntegrityOverrides(selectedIntegrityIds(), "confirmed_removed"));
+    btnBulkChanged.addEventListener("click", () => submitIntegrityOverrides(selectedIntegrityIds(), "confirmed_changed"));
+    btnBulkReview.addEventListener("click", () => submitIntegrityOverrides(selectedIntegrityIds(), "needs_manual_review"));
+
+    btnRunDueMonitor.addEventListener("click", () => runIntegrityMonitor({
+      scan_mode: "due",
+      review_interval_days: 60,
+      max_due: 25,
+      limit: "",
+      offset: 0,
+      screenshots: false,
+      force: false
+    }));
+
+    btnRunQuickMonitor.addEventListener("click", () => runIntegrityMonitor({
+      scan_mode: "quick_test",
+      review_interval_days: 60,
+      max_due: 25,
+      limit: 5,
+      offset: 0,
+      screenshots: false,
+      force: true
+    }));
+
+    btnRunStandardMonitor.addEventListener("click", () => runIntegrityMonitor({
+      scan_mode: "standard",
+      review_interval_days: 60,
+      max_due: 25,
+      limit: 25,
+      offset: 0,
+      screenshots: false,
+      force: true
+    }));
+
+    btnRunCustomMonitor.addEventListener("click", () => {
+      const limit = Math.min(250, Math.max(1, Number(document.getElementById("integrity-custom-limit").value || 25)));
+      const offset = Math.max(0, Number(document.getElementById("integrity-custom-offset").value || 0));
+      runIntegrityMonitor({
+        scan_mode: "forced_custom",
+        review_interval_days: 60,
+        max_due: 25,
+        limit,
+        offset,
+        screenshots: Boolean(document.getElementById("integrity-custom-screenshots").checked),
+        force: true
+      });
+    });
+
+    btnRefresh.addEventListener("click", () => {
+      if (activeAdminTab === "primary") {
+        if (!currentUser) {
+          showLogin();
+          return;
+        }
+        fetchSubmissions();
+      } else if (activeAdminTab === "integrity") {
+        fetchIntegrityReviewQueue();
+      } else if (activeAdminTab === "blog") {
+        if (blogPublishedManager && !blogPublishedManager.classList.contains("hidden")) {
+          fetchPublishedBlogPosts();
+        } else {
+          fetchBlogSubmissions();
+        }
+      } else {
+        fetchSecondarySubmissions();
+      }
+    });
+
+    async function fetchSubmissions() {
+      if (!currentUser) return;
+
+      setStatus("Loading pending...");
+      listContainer.innerHTML = `
+        <div class="py-12 text-center text-zinc-500 font-sans tracking-widest text-xs uppercase animate-pulse">
+          Querying secure database...
+        </div>
+      `;
+
+      try {
+        const q = query(
+          collection(db, "primary_sources"),
+          where("status", "==", "pending")
+        );
+
+        const snap = await getDocs(q);
+
+        const submissions = [];
+        snap.forEach((d) => submissions.push({ id: d.id, ...d.data() }));
+
+        submissions.sort((a, b) => {
+          const da = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(0);
+          const dbb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(0);
+          return dbb - da;
+        });
+
+        renderList(submissions);
+        setStatus("Idle");
+      } catch (error) {
+        console.error("Error fetching submissions:", error);
+        listContainer.innerHTML = `
+          <div class="py-8 text-center border border-red-900/30 bg-red-900/10 p-4">
+            <p class="text-[#8b0000] font-sans text-sm mb-2">Error loading data</p>
+            <p class="text-zinc-500 text-xs font-mono">${esc(error.message)}</p>
+          </div>
+        `;
+        setStatus("Error loading");
+      }
+    }
+
+    function renderList(items) {
+      if (!items.length) {
+        listContainer.innerHTML = `
+          <div class="py-20 text-center text-zinc-600 italic font-serif">
+            No pending submissions found in the queue.
+          </div>
+        `;
+        return;
+      }
+
+      let html = "";
+      for (const item of items) {
+        const createdStr = item.createdAt?.toDate ? item.createdAt.toDate().toLocaleString() : "Unknown submitted time";
+        const fileSize = item.sizeBytes ? formatBytes(item.sizeBytes) : "";
+        const safeStoragePath = item.storagePath || "";
+        const safeContentType = item.contentType || item.mimeType || "";
+
+        html += `
+          <div id="card-${esc(item.id)}" class="group border-b border-zinc-900 hover:bg-zinc-900/30 transition-colors p-6 flex flex-col md:flex-row items-start justify-between gap-6">
+            <div class="flex-1 space-y-2 w-full">
+              <div class="flex items-center gap-3">
+                <span class="px-2 py-0.5 border border-zinc-800 text-[10px] tracking-widest uppercase text-zinc-500 font-sans">${esc(item.tag || "General")}</span>
+                <span class="text-[10px] text-zinc-600 font-sans tracking-wide uppercase">${esc(createdStr)}</span>
+              </div>
+
+              <h3 class="text-lg text-zinc-200 font-serif leading-tight">
+                ${esc(item.title || "Untitled Submission")}
+              </h3>
+
+              <div class="text-xs text-zinc-500 font-sans flex flex-col gap-1">
+                ${item.date ? `<span>Date: ${esc(item.date)}</span>` : ""}
+                ${item.originalFileName ? `<span class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  ${esc(item.originalFileName)} ${fileSize ? `<span class="text-zinc-600">(${esc(fileSize)})</span>` : ""}
+                </span>` : ""}
+                ${item.source ? `<span class="truncate max-w-md">Source: ${esc(item.source)}</span>` : ""}
+              </div>
+
+              <div id="preview-${esc(item.id)}" class="hidden mt-4"></div>
+
+              <div id="success-${esc(item.id)}" class="hidden mt-4 p-3 border border-zinc-800 bg-zinc-950/50">
+                <p id="success-msg-${esc(item.id)}" class="text-[#8b0000] text-xs font-sans mb-2 uppercase tracking-wider">Processed</p>
+                <a id="link-${esc(item.id)}" href="#" target="_blank" rel="noopener noreferrer" class="hidden text-xs text-zinc-300 underline hover:text-white flex items-center gap-2">
+                  View in Drive
+                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
+
+              <div id="error-${esc(item.id)}" class="hidden mt-2 text-[#8b0000] text-xs font-sans"></div>
+            </div>
+
+            <div class="flex flex-col gap-2 min-w-[140px] justify-start mt-2">
+              <button
+                onclick="window.handlePreview('${esc(item.id)}', '${esc(safeStoragePath)}', '${esc(safeContentType)}')"
+                class="px-6 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase w-full md:w-auto">
+                Preview
+              </button>
+
+              <div class="flex gap-2 w-full md:w-auto">
+                <!-- Reject Button -->
+                <button
+                  onclick="window.handleReject('${esc(item.id)}')"
+                  id="btn-reject-${esc(item.id)}"
+                  class="px-6 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase w-full md:w-auto">
+                  Reject
+                </button>
+
+                <!-- Approve Button -->
+                <button
+                  onclick="window.handleApprove('${esc(item.id)}')"
+                  id="btn-approve-${esc(item.id)}"
+                  class="flex-1 px-3 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                  Approve
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      listContainer.innerHTML = html;
+    }
+
+    const SECONDARY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec";
+
+    async function readJsonResponse(response, fallbackMessage) {
+      const text = await response.text();
+      if (!text.trim()) {
+        throw new Error(`${fallbackMessage} Empty response from server (HTTP ${response.status}).`);
+      }
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (error) {
+        const preview = text.replace(/\s+/g, " ").trim().slice(0, 180);
+        throw new Error(`${fallbackMessage} Server returned non-JSON response (HTTP ${response.status}): ${preview || error.message}`);
+      }
+
+      if (!response.ok && data.result !== "success") {
+        throw new Error(data.message || `${fallbackMessage} HTTP ${response.status}.`);
+      }
+
+      return data;
+    }
+
+    function getSecondaryAdminCode() {
+      if (secondaryAdminCode) return secondaryAdminCode;
+
+      const entered = prompt("Enter admin password:");
+      if (!entered) throw new Error("Admin code required.");
+
+      secondaryAdminCode = entered.trim();
+      return secondaryAdminCode;
+    }
+
+    async function fetchSecondarySubmissions() {
+      setStatus("Loading secondary...");
+      secondaryListContainer.innerHTML = `
+        <div class="py-12 text-center text-zinc-500 font-sans tracking-widest text-xs uppercase animate-pulse">
+          Loading secondary article queue...
+        </div>
+      `;
+
+      try {
+        const adminCode = getSecondaryAdminCode();
+        const url = `${SECONDARY_SCRIPT_URL}?action=listPending&adminCode=${encodeURIComponent(adminCode)}`;
+
+        const response = await fetch(url);
+        const data = await readJsonResponse(response, "Failed to load secondary submissions.");
+
+        if (data.result !== "success") {
+          throw new Error(data.message || "Failed to load secondary submissions.");
+        }
+
+        renderSecondaryList(data.items || []);
+        setStatus("Idle");
+      } catch (error) {
+        console.error(error);
+        secondaryListContainer.innerHTML = `
+          <div class="py-8 text-center border border-red-900/30 bg-red-900/10 p-4">
+            <p class="text-[#8b0000] font-sans text-sm mb-2">Error loading secondary articles</p>
+            <p class="text-zinc-500 text-xs font-mono">${esc(error.message)}</p>
+          </div>
+        `;
+        setStatus("Error");
+      }
+    }
+
+    async function fetchBlogSubmissions() {
+      setStatus("Loading blog...");
+      blogListContainer.innerHTML = `
+        <div class="py-12 text-center text-zinc-500 font-sans tracking-widest text-xs uppercase animate-pulse">
+          Loading blog review queue...
+        </div>
+      `;
+
+      try {
+        const adminCode = getSecondaryAdminCode();
+        const url = `${SECONDARY_SCRIPT_URL}?action=listPendingBlog&adminCode=${encodeURIComponent(adminCode)}`;
+        const response = await fetch(url);
+        const data = await readJsonResponse(response, "Failed to load blog submissions.");
+
+        if (data.result !== "success") {
+          throw new Error(data.message || "Failed to load blog submissions.");
+        }
+
+        renderBlogList(data.items || []);
+        setStatus("Idle");
+      } catch (error) {
+        console.error(error);
+        blogListContainer.innerHTML = `
+          <div class="py-8 text-center border border-red-900/30 bg-red-900/10 p-4">
+            <p class="text-[#8b0000] font-sans text-sm mb-2">Error loading blog submissions</p>
+            <p class="text-zinc-500 text-xs font-mono">${esc(error.message)}</p>
+          </div>
+        `;
+        setStatus("Error");
+      }
+    }
+
+    function showBlogPendingView() {
+      blogListContainer.classList.remove("hidden");
+      blogPublishedManager.classList.add("hidden");
+      blogEditorPanel.classList.add("hidden");
+      if (btnBlogLoadPending) btnBlogLoadPending.classList.add("border-[#8b0000]", "text-zinc-100");
+      if (btnBlogLoadPublished) btnBlogLoadPublished.classList.remove("border-[#8b0000]", "text-zinc-100");
+    }
+
+    function showBlogPublishedView() {
+      blogListContainer.classList.add("hidden");
+      blogPublishedManager.classList.remove("hidden");
+      if (btnBlogLoadPublished) btnBlogLoadPublished.classList.add("border-[#8b0000]", "text-zinc-100");
+      if (btnBlogLoadPending) btnBlogLoadPending.classList.remove("border-[#8b0000]", "text-zinc-100");
+      fetchPublishedBlogPosts();
+    }
+
+    async function fetchPublishedBlogPosts() {
+      setStatus("Loading published blog...");
+      blogPublishedList.innerHTML = `
+        <div class="py-10 text-center text-zinc-500 font-sans tracking-widest text-xs uppercase animate-pulse">
+          Loading published posts...
+        </div>
+      `;
+
+      try {
+        const adminCode = getSecondaryAdminCode();
+        const url = `${SECONDARY_SCRIPT_URL}?action=listPublishedBlogPosts&adminCode=${encodeURIComponent(adminCode)}`;
+        const response = await fetch(url);
+        const data = await readJsonResponse(response, "Failed to load published blog posts.");
+        if (data.result !== "success") {
+          throw new Error(data.message || "Failed to load published blog posts.");
+        }
+        publishedBlogPosts = data.posts || [];
+        renderPublishedBlogList();
+        setStatus("Idle");
+      } catch (error) {
+        blogPublishedList.innerHTML = `
+          <div class="py-8 text-center border border-red-900/30 bg-red-900/10 p-4">
+            <p class="text-[#8b0000] font-sans text-sm mb-2">Error loading published posts</p>
+            <p class="text-zinc-500 text-xs font-mono">${esc(error.message)}</p>
+          </div>
+        `;
+        setStatus("Error");
+      }
+    }
+
+    function renderPublishedBlogList() {
+      if (!publishedBlogPosts.length) {
+        blogPublishedList.innerHTML = `
+          <div class="py-16 text-center text-zinc-600 italic font-serif">
+            No published blog posts found.
+          </div>
+        `;
+        return;
+      }
+
+      blogPublishedList.innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
+          <div class="min-w-0">
+            <h3 class="text-lg text-zinc-200 font-serif">Published Blog Manager</h3>
+            <p class="text-xs text-zinc-500 font-sans leading-relaxed max-w-2xl">Edit text, images, author details, preview layout, or remove a post from the public blog.</p>
+          </div>
+          <button onclick="window.fetchPublishedBlogPosts()" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase w-full sm:w-auto shrink-0">Refresh</button>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          ${publishedBlogPosts.map((post) => `
+            <article class="border border-zinc-900 bg-[#080808] p-4">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">${esc(post.date || post.publishedAt || "")}</p>
+                  <h4 class="text-zinc-200 font-serif text-lg leading-tight mb-2">${esc(post.title || "Untitled")}</h4>
+                  <p class="text-xs text-zinc-500 font-sans leading-relaxed max-h-[3.1rem]">${esc(post.subtitle || post.shareDescription || "")}</p>
+                </div>
+                ${post.shareImage || post.featureImage ? `<img src="${esc(post.shareImage || post.featureImage)}" alt="" class="w-full sm:w-20 h-24 sm:h-20 object-cover border border-zinc-900 shrink-0">` : ""}
+              </div>
+              <div class="flex flex-wrap gap-2 mt-4">
+                <button onclick='window.openBlogEditor(${JSON.stringify(post.id || post.slug)})' class="px-3 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase min-w-[6.5rem]">Edit</button>
+                <a href="${esc(post.path ? `https://echoesofgaza.org/blog/${post.path}` : `https://echoesofgaza.org/blog?post=${encodeURIComponent(post.slug || post.id)}`)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase min-w-[6.5rem]">View</a>
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function getPostAuthor(post) {
+      return post.author && typeof post.author === "object"
+        ? post.author
+        : { name: post.author || "Anonymous contributor" };
+    }
+
+    function openBlogEditor(postKey) {
+      const post = publishedBlogPosts.find(item => String(item.id || item.slug) === String(postKey));
+      if (!post) return;
+      activeBlogEditorPost = post;
+      const author = getPostAuthor(post);
+      const images = Array.isArray(post.images) ? post.images : [];
+
+      blogEditorPanel.classList.remove("hidden");
+      blogEditorPanel.innerHTML = `
+        <div class="flex flex-col xl:flex-row gap-6">
+          <form id="blog-edit-form" class="xl:w-1/2 space-y-4">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-2">Published Editor</p>
+                <h3 class="text-xl text-zinc-200 font-serif leading-tight">Edit Blog Post</h3>
+              </div>
+              <button type="button" onclick="window.closeBlogEditor()" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans uppercase tracking-widest">Close</button>
+            </div>
+
+            ${blogEditorField_("Title", "title", post.title || "", "input")}
+            ${blogEditorField_("Short description", "subtitle", post.subtitle || post.shareDescription || "", "textarea")}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              ${blogEditorField_("Date", "date", post.date || "", "input")}
+              ${blogEditorField_("Category", "category", post.category || "Personal essay", "input")}
+            </div>
+
+            <section class="border border-zinc-900 bg-[#070707] p-4 space-y-3">
+              <div>
+                <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-1">Writer Profile</p>
+                <p class="text-xs text-zinc-500 font-sans leading-relaxed">Update the byline, bio, and author photo that appear on the published article.</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-[4rem_1fr] gap-3 items-start">
+                <div id="blog-author-photo-preview" class="w-16 h-16 rounded-full bg-zinc-950 overflow-hidden border border-zinc-800 flex items-center justify-center text-zinc-500 font-serif text-lg"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  ${blogEditorField_("Author name", "authorName", author.name || "", "input")}
+                  ${blogEditorField_("Author role", "authorRole", author.role || post.role || "", "input")}
+                </div>
+              </div>
+              ${blogEditorField_("Author photo URL", "authorPhotoUrl", author.photoUrl || post.authorImg || "", "input")}
+              ${blogEditorField_("Author location", "authorLocation", author.location || post.authorLocation || "", "input")}
+              ${blogEditorField_("Author links, one per line", "authorLinks", Array.isArray(author.links) ? author.links.join("\\n") : "", "textarea")}
+              ${blogEditorField_("Author bio", "authorBio", author.bio || post.authorBio || "", "textarea")}
+            </section>
+
+            <section class="border border-zinc-900 bg-[#070707] p-4 space-y-3">
+              <div>
+                <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-1">Article Pictures</p>
+                <p class="text-xs text-zinc-500 font-sans leading-relaxed">Use the feature image as the article thumbnail, or insert images directly into the body exactly where your cursor is placed.</p>
+              </div>
+              ${blogEditorField_("Feature/share image URL", "featureImage", post.featureImage || post.shareImage || images[0] || "", "input")}
+              ${blogEditorField_("Additional image URLs, one per line", "images", images.join("\\n"), "textarea")}
+              <div class="border border-zinc-900 bg-black p-3 space-y-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  ${blogEditorField_("Picture URL to insert", "insertImageUrl", "", "input")}
+                  ${blogEditorField_("Caption / alt text", "insertImageCaption", "", "input")}
+                </div>
+                <label class="block">
+                  <span class="block text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">Placement</span>
+                  <select name="insertImagePlacement" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]">
+                    <option value="full">Full width between paragraphs</option>
+                    <option value="left">Small image floated left</option>
+                    <option value="right">Small image floated right</option>
+                  </select>
+                </label>
+                <button type="button" onclick="window.insertBlogEditorImage()" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">Insert Picture At Cursor</button>
+              </div>
+            </section>
+            ${blogEditorField_("Article HTML/body", "content", post.content || "", "textarea tall")}
+
+            <div id="blog-edit-error" class="hidden text-[#8b0000] text-xs font-sans"></div>
+            <div id="blog-edit-success" class="hidden text-green-700 text-xs font-sans"></div>
+
+            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+              <button type="button" onclick="window.saveBlogEditor()" class="px-5 py-2 border border-[#8b0000] text-zinc-100 hover:bg-[#8b0000]/10 text-[11px] font-sans tracking-[0.15em] uppercase">Save Changes</button>
+              <button type="button" onclick="window.deletePublishedBlogPost()" class="px-5 py-2 border border-zinc-800 text-zinc-500 hover:border-[#8b0000] hover:text-white text-[11px] font-sans tracking-[0.15em] uppercase">Delete Post</button>
+            </div>
+          </form>
+
+          <div class="xl:w-1/2">
+            <div class="sticky top-4">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-3">Live Preview</p>
+              <div id="blog-edit-preview" class="border border-zinc-900 bg-[#0B0B0B] p-5 max-h-[760px] overflow-y-auto"></div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.querySelectorAll("#blog-edit-form input, #blog-edit-form textarea, #blog-edit-form select").forEach((field) => {
+        field.addEventListener("input", renderBlogEditorPreview);
+      });
+      renderBlogEditorPreview();
+      blogEditorPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function blogEditorField_(label, name, value, type) {
+      const isTextarea = String(type).includes("textarea");
+      const tall = String(type).includes("tall");
+      const common = `name="${name}" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]"`;
+      return `
+        <label class="block">
+          <span class="block text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">${esc(label)}</span>
+          ${isTextarea
+            ? `<textarea ${common} rows="${tall ? 14 : 4}">${esc(value)}</textarea>`
+            : `<input ${common} value="${esc(value)}">`}
+        </label>
+      `;
+    }
+
+    function collectBlogEditorPost() {
+      const form = document.getElementById("blog-edit-form");
+      const value = (name) => form.elements[name]?.value || "";
+      const imageList = value("images").split(/\n|,/).map(item => item.trim()).filter(Boolean);
+      const featureImage = value("featureImage").trim();
+      const images = featureImage ? [featureImage].concat(imageList.filter(url => url !== featureImage)) : imageList;
+      const authorLinks = value("authorLinks").split(/\n|,/).map(item => item.trim()).filter(Boolean);
+      return {
+        id: activeBlogEditorPost.id,
+        slug: activeBlogEditorPost.slug,
+        title: value("title").trim(),
+        subtitle: value("subtitle").trim(),
+        shareDescription: value("subtitle").trim(),
+        category: value("category").trim(),
+        date: value("date").trim(),
+        featureImage,
+        shareImage: featureImage,
+        images,
+        author: {
+          name: value("authorName").trim(),
+          role: value("authorRole").trim(),
+          photoUrl: value("authorPhotoUrl").trim(),
+          location: value("authorLocation").trim(),
+          bio: value("authorBio").trim(),
+          links: authorLinks,
+          anonymous: Boolean(activeBlogEditorPost.author?.anonymous)
+        },
+        content: value("content")
+      };
+    }
+
+    function blogEditorImageMarkup_(url, caption, placement) {
+      const safeUrl = esc(url);
+      const safeCaption = esc(caption);
+      const alt = safeCaption || "Article image";
+      const captionHtml = safeCaption ? `\n  <figcaption class="mt-2 text-[11px] text-zinc-500 font-sans leading-relaxed">${safeCaption}</figcaption>` : "";
+      if (placement === "left" || placement === "right") {
+        const sideClass = placement === "left"
+          ? "float-left w-40 sm:w-52 mr-5 mb-4 mt-1"
+          : "float-right w-40 sm:w-52 ml-5 mb-4 mt-1";
+        return `<figure class="${sideClass}">
+  <img src="${safeUrl}" alt="${alt}" class="w-full border border-zinc-800 object-cover">
+  ${captionHtml}
+</figure>`;
+      }
+      return `<figure class="my-8">
+  <img src="${safeUrl}" alt="${alt}" class="w-full max-h-[520px] border border-zinc-800 object-cover">
+  ${captionHtml}
+</figure>`;
+    }
+
+    function insertBlogEditorImage() {
+      const form = document.getElementById("blog-edit-form");
+      if (!form) return;
+      const urlField = form.elements.insertImageUrl;
+      const captionField = form.elements.insertImageCaption;
+      const placementField = form.elements.insertImagePlacement;
+      const contentField = form.elements.content;
+      const url = String(urlField?.value || "").trim();
+      const caption = String(captionField?.value || "").trim();
+      const placement = String(placementField?.value || "full");
+      const errorDiv = document.getElementById("blog-edit-error");
+
+      if (!url || !/^https?:\/\//i.test(url)) {
+        if (errorDiv) {
+          errorDiv.textContent = "Add a valid image URL beginning with http:// or https://.";
+          errorDiv.classList.remove("hidden");
+        }
+        urlField?.focus();
+        return;
+      }
+
+      if (errorDiv) errorDiv.classList.add("hidden");
+      const markup = `\n\n${blogEditorImageMarkup_(url, caption, placement)}\n\n`;
+      const start = contentField.selectionStart ?? contentField.value.length;
+      const end = contentField.selectionEnd ?? contentField.value.length;
+      contentField.value = `${contentField.value.slice(0, start)}${markup}${contentField.value.slice(end)}`;
+      const cursor = start + markup.length;
+      contentField.focus();
+      contentField.setSelectionRange(cursor, cursor);
+      if (urlField) urlField.value = "";
+      if (captionField) captionField.value = "";
+      renderBlogEditorPreview();
+    }
+
+    function renderBlogEditorPreview() {
+      if (!activeBlogEditorPost) return;
+      const preview = document.getElementById("blog-edit-preview");
+      if (!preview) return;
+      const post = collectBlogEditorPost();
+      const authorPreview = document.getElementById("blog-author-photo-preview");
+      if (authorPreview) {
+        authorPreview.innerHTML = post.author.photoUrl
+          ? `<img src="${esc(post.author.photoUrl)}" alt="" class="w-full h-full object-cover">`
+          : esc(String(post.author.name || "A").charAt(0));
+      }
+      preview.innerHTML = `
+        <article class="max-w-[680px] mx-auto">
+          <h1 class="font-serif text-[34px] leading-tight text-zinc-100 mb-3">${esc(post.title || "Untitled")}</h1>
+          <p class="text-zinc-500 text-base leading-relaxed mb-6 font-sans">${esc(post.subtitle || "")}</p>
+          <div class="flex items-center gap-3 py-4 border-y border-zinc-800 mb-7">
+            <div class="w-10 h-10 rounded-full bg-zinc-900 overflow-hidden border border-zinc-800 flex items-center justify-center text-zinc-400 font-serif">
+              ${post.author.photoUrl ? `<img src="${esc(post.author.photoUrl)}" alt="" class="w-full h-full object-cover">` : esc(String(post.author.name || "A").charAt(0))}
+            </div>
+            <div>
+              <div class="text-sm text-zinc-200 font-sans">${esc(post.author.name || "Anonymous contributor")}</div>
+              <div class="text-xs text-zinc-500 font-sans">${esc([post.author.role, post.author.location, post.date].filter(Boolean).join(" / "))}</div>
+            </div>
+          </div>
+          ${post.featureImage ? `<img src="${esc(post.featureImage)}" alt="" class="w-full max-h-[320px] object-cover border border-zinc-800 mb-6">` : ""}
+          <div class="prose-preview text-zinc-100 font-serif text-[18px] leading-relaxed">
+            ${post.content || "<p>Article body preview...</p>"}
+          </div>
+          ${post.author.bio ? `
+            <div class="mt-10 border-t border-zinc-800 pt-6">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">About the writer</p>
+              <p class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(post.author.bio)}</p>
+            </div>
+          ` : ""}
+        </article>
+      `;
+    }
+
+    function closeBlogEditor() {
+      activeBlogEditorPost = null;
+      blogEditorPanel.classList.add("hidden");
+      blogEditorPanel.innerHTML = "";
+    }
+
+    async function saveBlogEditor() {
+      if (isProcessing || !activeBlogEditorPost) return;
+      const errorDiv = document.getElementById("blog-edit-error");
+      const successDiv = document.getElementById("blog-edit-success");
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (successDiv) successDiv.classList.add("hidden");
+      isProcessing = true;
+      setStatus("Saving blog...");
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "updateBlogPost",
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || "Password admin",
+            post: collectBlogEditorPost()
+          })
+        });
+        const data = await readJsonResponse(response, "Blog update failed.");
+        if (data.result !== "success") throw new Error(data.message || "Blog update failed.");
+        if (successDiv) {
+          successDiv.textContent = "Saved. GitHub Pages will publish the change shortly.";
+          successDiv.classList.remove("hidden");
+        }
+        await fetchPublishedBlogPosts();
+        activeBlogEditorPost = data.post;
+        setStatus("Saved");
+      } catch (error) {
+        if (errorDiv) {
+          errorDiv.textContent = "Error: " + error.message;
+          errorDiv.classList.remove("hidden");
+        }
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    }
+
+    async function deletePublishedBlogPost() {
+      if (isProcessing || !activeBlogEditorPost) return;
+      const ok = confirm(`Delete this published blog post?\n\n${activeBlogEditorPost.title || activeBlogEditorPost.slug}\n\nThis removes it from the public blog JSON.`);
+      if (!ok) return;
+      isProcessing = true;
+      setStatus("Deleting blog...");
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "deleteBlogPost",
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || "Password admin",
+            id: activeBlogEditorPost.id,
+            slug: activeBlogEditorPost.slug
+          })
+        });
+        const data = await readJsonResponse(response, "Blog delete failed.");
+        if (data.result !== "success") throw new Error(data.message || "Blog delete failed.");
+        closeBlogEditor();
+        await fetchPublishedBlogPosts();
+        setStatus("Deleted");
+      } catch (error) {
+        alert("Delete failed: " + error.message);
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    }
+
+    window.fetchPublishedBlogPosts = fetchPublishedBlogPosts;
+    window.openBlogEditor = openBlogEditor;
+    window.closeBlogEditor = closeBlogEditor;
+    window.insertBlogEditorImage = insertBlogEditorImage;
+    window.saveBlogEditor = saveBlogEditor;
+    window.deletePublishedBlogPost = deletePublishedBlogPost;
+
+    function parseMaybeJsonArray(value) {
+      if (Array.isArray(value)) return value;
+      try {
+        const parsed = JSON.parse(value || "[]");
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        return String(value || "").split(",").map((item) => item.trim()).filter(Boolean);
+      }
+    }
+
+    function parseMaybeJsonObject(value) {
+      if (value && typeof value === "object" && !Array.isArray(value)) return value;
+      try {
+        const parsed = JSON.parse(value || "{}");
+        return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function blogBodyPreview(body) {
+      const text = String(body || "").replace(/\s+/g, " ").trim();
+      return text.length > 520 ? `${text.slice(0, 520)}...` : text;
+    }
+
+    function blogBodyToPreviewHtml(body) {
+      return String(body || "")
+        .split(/\n{2,}/)
+        .map((paragraph) => paragraph.trim())
+        .filter(Boolean)
+        .map((paragraph) => `<p class="mb-5">${esc(paragraph).replace(/\n/g, "<br>")}</p>`)
+        .join("");
+    }
+
+    function renderBlogList(items) {
+      pendingBlogItems = items || [];
+      if (!items.length) {
+        blogListContainer.innerHTML = `
+          <div class="py-20 text-center text-zinc-600 italic font-serif">
+            No pending blog submissions.
+          </div>
+        `;
+        return;
+      }
+
+      blogListContainer.innerHTML = items.map((item) => {
+        const author = parseMaybeJsonObject(item.author);
+        const images = parseMaybeJsonArray(item.images);
+        const slug = item.slug || "";
+        return `
           <div id="blog-card-${esc(item.id)}" class="group border-b border-zinc-900 hover:bg-zinc-900/30 transition-colors p-6 flex flex-col xl:flex-row items-start justify-between gap-6">
             <div class="flex-1 space-y-4 w-full min-w-0">
               <div class="flex items-center gap-3 flex-wrap">
