@@ -887,6 +887,8 @@ Echoes of Gaza</textarea>
 
     const INTEGRITY_DEFAULT_BACKEND_URL = "https://echoes-integrity-admin.goblue-c-2001.workers.dev";
     const INTEGRITY_ADMIN_KEY_STORAGE = "echoes-integrity-admin-key";
+    const SECONDARY_ADMIN_SESSION_STORAGE = "echoes-secondary-admin-session";
+    const PASSWORD_SESSION_MS = 7 * 24 * 60 * 60 * 1000;
 
     // Helpers
     function setStatus(msg) {
@@ -941,6 +943,44 @@ Echoes of Gaza</textarea>
         sessionStorage.removeItem(INTEGRITY_ADMIN_KEY_STORAGE);
       } catch (error) {
         console.warn("Unable to clear Article Integrity admin key from sessionStorage", error);
+      }
+    }
+
+    function getStoredSecondaryAdminCode() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(SECONDARY_ADMIN_SESSION_STORAGE) || "null");
+        if (!stored || !stored.code || !stored.expiresAt) return "";
+        if (Number(stored.expiresAt) <= Date.now()) {
+          localStorage.removeItem(SECONDARY_ADMIN_SESSION_STORAGE);
+          return "";
+        }
+        secondaryAdminCode = String(stored.code);
+        return secondaryAdminCode;
+      } catch (error) {
+        console.warn("Unable to read saved admin session from localStorage", error);
+        return "";
+      }
+    }
+
+    function setStoredSecondaryAdminCode(value) {
+      secondaryAdminCode = String(value || "").trim();
+      if (!secondaryAdminCode) return;
+      try {
+        localStorage.setItem(SECONDARY_ADMIN_SESSION_STORAGE, JSON.stringify({
+          code: secondaryAdminCode,
+          expiresAt: Date.now() + PASSWORD_SESSION_MS
+        }));
+      } catch (error) {
+        console.warn("Unable to save admin session to localStorage", error);
+      }
+    }
+
+    function clearStoredSecondaryAdminCode() {
+      secondaryAdminCode = "";
+      try {
+        localStorage.removeItem(SECONDARY_ADMIN_SESSION_STORAGE);
+      } catch (error) {
+        console.warn("Unable to clear saved admin session from localStorage", error);
       }
     }
 
@@ -1067,6 +1107,9 @@ Echoes of Gaza</textarea>
       if (currentUser) {
         authStatus.classList.remove("hidden");
         adminEmailDisplay.textContent = currentUser.email || "";
+      } else if (secondaryAdminCode || getStoredSecondaryAdminCode()) {
+        authStatus.classList.remove("hidden");
+        adminEmailDisplay.textContent = "Password access";
       } else {
         authStatus.classList.add("hidden");
         adminEmailDisplay.textContent = "";
@@ -1104,6 +1147,9 @@ Echoes of Gaza</textarea>
       if (currentUser) {
         authStatus.classList.remove("hidden");
         adminEmailDisplay.textContent = currentUser.email || "";
+      } else if (secondaryAdminCode || getStoredSecondaryAdminCode()) {
+        authStatus.classList.remove("hidden");
+        adminEmailDisplay.textContent = "Password access";
       } else {
         authStatus.classList.add("hidden");
         adminEmailDisplay.textContent = "";
@@ -1135,6 +1181,9 @@ Echoes of Gaza</textarea>
       if (currentUser) {
         authStatus.classList.remove("hidden");
         adminEmailDisplay.textContent = currentUser.email || "";
+      } else if (secondaryAdminCode || getStoredSecondaryAdminCode()) {
+        authStatus.classList.remove("hidden");
+        adminEmailDisplay.textContent = "Password access";
       } else {
         authStatus.classList.add("hidden");
         adminEmailDisplay.textContent = "";
@@ -1143,6 +1192,11 @@ Echoes of Gaza</textarea>
     }
 
     function showDefaultPasswordDashboard() {
+      if (!secondaryAdminCode && !getStoredSecondaryAdminCode()) {
+        showLogin();
+        return;
+      }
+
       if (window.location.hash === "#blog-review") {
         showBlogDashboard(false);
       } else if (window.location.hash === "#resources") {
@@ -1247,10 +1301,10 @@ Echoes of Gaza</textarea>
     });
 
     btnLogout.addEventListener("click", async () => {
-      secondaryAdminCode = "";
+      clearStoredSecondaryAdminCode();
       clearStoredIntegrityAdminKey();
       await signOut(auth);
-      showDefaultPasswordDashboard();
+      showLogin();
     });
 
     tabPrimaryAdmin.addEventListener("click", () => {
@@ -1578,10 +1632,13 @@ Echoes of Gaza</textarea>
     function getSecondaryAdminCode() {
       if (secondaryAdminCode) return secondaryAdminCode;
 
+      const saved = getStoredSecondaryAdminCode();
+      if (saved) return saved;
+
       const entered = prompt("Enter admin password:");
       if (!entered) throw new Error("Admin code required.");
 
-      secondaryAdminCode = entered.trim();
+      setStoredSecondaryAdminCode(entered);
       return secondaryAdminCode;
     }
 
