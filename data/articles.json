@@ -1,5 +1,96 @@
 [
   {
+    "date": "2026-05-04",
+    "title": "test",
+    "summary": "what about this?",
+    "link": "https://www.timesofisrael.com/court-extends-detention-of-2-gaza-flotilla-activists-accused-of-hamas-links/",
+    "imageUrl": "https://ropercenter.cornell.edu/sites/default/files/styles/800x600/public/Images/New-York-Times-Logo8x6_0.png?itok=7YqGOSMA",
+    "category": "Abuse",
+    "categories": [
+      "Abuse"
+    ],
+    "categoryColor": "#C7CEEA",
+    "source": "The New York Times",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-03",
+    "title": "Israeli study finds starvation in Gaza was result of deliberate policy ",
+    "summary": "",
+    "link": "https://www.middleeasteye.net/news/israeli-study-finds-starvation-gaza-was-result-deliberate-policy",
+    "imageUrl": "https://yt3.googleusercontent.com/ytc/AIdro_lRzIchs74TuzdT7g_vmgeoD_KFN5kmLk_I3GlVmBl8Z_g=s900-c-k-c0x00ffffff-no-rj",
+    "category": "Starvation",
+    "categories": [
+      "Starvation"
+    ],
+    "categoryColor": "#83D6E3",
+    "source": "Middle East Eye",
+    "author": "Nadav Rapaport",
+    "authors": [
+      "Nadav Rapaport"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-03",
+    "title": "Displaced Palestinians crowd WFP food distribution point on Gaza City",
+    "summary": "",
+    "link": "https://www.reutersconnect.com/item/displaced-palestinians-crowd-wfp-food-distribution-point-on-gaza-city/dGFnOnJldXRlcnMuY29tLDIwMjY6bmV3c21sX01UMUFOQURMMDAwODRSQ0NW",
+    "imageUrl": "https://i0.wp.com/janoberg.me/wp-content/uploads/2023/05/logo-Reuters.jpg?fit=5000%2C2435&ssl=1",
+    "category": "Displacement",
+    "categories": [
+      "Displacement"
+    ],
+    "categoryColor": "#FF6B6B",
+    "source": "Reuters",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-03",
+    "title": "Gaza?s public servants systematically targeted in Israeli strikes",
+    "summary": "",
+    "link": "https://news.un.org/en/story/2026/06/1167631",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_fX1IInw6-jZjHP5ZrFGxx7ak0x1q_r_FKw&s",
+    "category": "Human Rights",
+    "categories": [
+      "Human Rights",
+      "Genocide Accusations"
+    ],
+    "categoryColor": "#77DD77",
+    "source": "United Nations",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-03",
+    "title": "Israeli Forces Kill at Least Four Palestinians in Gaza",
+    "summary": "",
+    "link": "https://www.democracynow.org/2026/6/3/headlines/israeli_forces_kill_at_least_four_palestinians_in_gaza",
+    "imageUrl": "https://yt3.googleusercontent.com/ytc/AIdro_k13evyGyej3TcaRYOEUzR4OSYdCEHnHeQipbK0lJZOs5o=s900-c-k-c0x00ffffff-no-rj",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Democracy Now!",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-06-03",
     "title": " Gaza records highest death toll in six months as Israel intensifies bombing ",
     "summary": "",
