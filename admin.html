@@ -1445,7 +1445,11 @@
           throw new Error(data.message || "Blog approval failed.");
         }
         if (successDiv) {
-          const publicUrl = data.post?.slug ? `https://echoesofgaza.org/blog?post=${encodeURIComponent(data.post.slug)}` : "Published";
+          const publicUrl = data.post?.path
+            ? `https://echoesofgaza.org/blog/${encodeURIComponent(data.post.path)}`
+            : data.post?.slug
+              ? `https://echoesofgaza.org/blog?post=${encodeURIComponent(data.post.slug)}`
+              : "Published";
           successDiv.innerHTML = `Approved. <a class="underline" href="${esc(publicUrl)}" target="_blank" rel="noopener noreferrer">Open public link</a>`;
           successDiv.classList.remove("hidden");
         }
