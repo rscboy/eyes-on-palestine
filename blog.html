@@ -268,6 +268,16 @@
                 rgba(0, 0, 0, 0.36);
         }
 
+        .blog-masthead {
+            min-height: 230px;
+            display: flex;
+            align-items: center;
+        }
+
+        .blog-home-button {
+            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
+        }
+
         .blog-footer-video {
             position: absolute;
             inset: 0;
@@ -294,34 +304,84 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
+        @media (max-width: 640px) {
+            .blog-masthead {
+                min-height: 0;
+                padding-top: 1.15rem !important;
+                padding-bottom: 1.8rem !important;
+            }
+
+            .blog-masthead-inner {
+                padding-left: 1.15rem !important;
+                padding-right: 1.15rem !important;
+            }
+
+            .blog-masthead-top {
+                gap: 0.75rem !important;
+                margin-bottom: 1.35rem !important;
+            }
+
+            .blog-masthead-logo-img {
+                height: 2.4rem !important;
+            }
+
+            .blog-home-button {
+                gap: 0.4rem !important;
+                padding: 0.55rem 0.7rem !important;
+                font-size: 0.58rem !important;
+                letter-spacing: 0.13em !important;
+            }
+
+            .blog-home-button i {
+                font-size: 0.72rem !important;
+            }
+
+            .blog-masthead-copy-wrap {
+                max-width: 20rem;
+            }
+
+            .blog-masthead-title {
+                font-size: clamp(2.05rem, 10.5vw, 2.95rem) !important;
+                line-height: 0.98 !important;
+                text-wrap: balance;
+            }
+
+            .blog-masthead-subtitle {
+                max-width: 19rem;
+                margin-top: 0.85rem !important;
+                font-size: 0.94rem !important;
+                line-height: 1.48 !important;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
     <!-- Blog Masthead / Hero Section -->
-    <section class="relative overflow-hidden w-full border-b border-border-gray bg-deep-black py-8 md:py-12 fade-in">
+    <section class="blog-masthead relative overflow-hidden w-full border-b border-border-gray bg-deep-black py-8 md:py-12 fade-in">
         <video class="blog-hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
             <source src="https://pub-3592c0f33d62473e96882cebf2720dba.r2.dev/84006-584870923_medium(1).mp4" type="video/mp4">
         </video>
         <div class="blog-hero-overlay" aria-hidden="true"></div>
-        <div class="relative z-10 max-w-[1100px] mx-auto px-5">
-            <div class="flex items-center justify-between gap-4 mb-8 md:mb-10">
-                <a href="https://echoesofgaza.org" class="flex items-center gap-3 min-w-0 group">
-                    <img src="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" alt="Logo" class="h-9 md:h-10 w-auto object-contain group-hover:opacity-80 transition-opacity shrink-0">
+        <div class="blog-masthead-inner relative z-10 w-full max-w-[1100px] mx-auto px-5">
+            <div class="blog-masthead-top flex items-center justify-between gap-4 mb-8 md:mb-10">
+                <a href="https://echoesofgaza.org" class="blog-masthead-brand flex items-center gap-3 min-w-0 group">
+                    <img src="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" alt="Logo" class="blog-masthead-logo-img h-9 md:h-10 w-auto object-contain group-hover:opacity-80 transition-opacity shrink-0">
                     <span class="hidden sm:block text-[11px] font-sans text-ash-gray uppercase tracking-[0.22em] group-hover:text-off-white transition-colors">Echoes of Gaza</span>
                 </a>
-                <a href="https://echoesofgaza.org/blog" class="inline-flex items-center gap-2 border border-white/15 bg-black/45 backdrop-blur-sm px-3.5 py-2 text-[10px] md:text-xs font-sans text-off-white font-bold uppercase tracking-[0.16em] hover:border-deep-red hover:bg-hover-bg transition-colors whitespace-nowrap">
+                <a href="https://echoesofgaza.org/blog" class="blog-home-button inline-flex items-center gap-2 border border-white/15 bg-black/45 backdrop-blur-sm px-3.5 py-2 text-[10px] md:text-xs font-sans text-off-white font-bold uppercase tracking-[0.16em] hover:border-deep-red hover:bg-hover-bg transition-colors whitespace-nowrap">
                     <i class="ph ph-house text-sm" aria-hidden="true"></i>
                     Blog Home
                 </a>
             </div>
 
-            <div class="max-w-2xl">
-                <h1 class="font-serif text-3xl md:text-5xl font-bold text-off-white tracking-tight leading-none">
+            <div class="blog-masthead-copy-wrap max-w-2xl">
+                <h1 class="blog-masthead-title font-serif text-3xl md:text-5xl font-bold text-off-white tracking-tight leading-none">
                     <a href="https://echoesofgaza.org" class="hover:underline decoration-deep-red underline-offset-8 transition-all">Echoes of Gaza</a>: Voices
                 </h1>
 
-                <p class="text-ash-gray text-sm md:text-base max-w-lg leading-relaxed font-sans mt-4">
+                <p class="blog-masthead-subtitle text-ash-gray text-sm md:text-base max-w-lg leading-relaxed font-sans mt-4">
                     Stories, testimonies, and the lived consequences of standing for Palestine.
                 </p>
             </div>
