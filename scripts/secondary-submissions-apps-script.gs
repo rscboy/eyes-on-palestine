@@ -447,11 +447,19 @@ function updateGithubArticlesJson_(newArticle) {
   }
 
   const fileData = JSON.parse(getResponse.getContentText());
-  const currentContent = Utilities.newBlob(
-    Utilities.base64Decode(fileData.content)
-  ).getDataAsString();
+  const currentContent = getGithubFileContentText_(fileData, token);
 
-  let articles = JSON.parse(currentContent);
+  if (!String(currentContent || "").trim()) {
+    throw new Error(`${path} on GitHub is empty, so the approved article cannot be added.`);
+  }
+
+  let articles;
+  try {
+    articles = JSON.parse(currentContent);
+  } catch (err) {
+    throw new Error(`${path} on GitHub is not valid JSON: ${err.message}`);
+  }
+
   if (!Array.isArray(articles)) {
     throw new Error("articles.json must be a JSON array.");
   }
@@ -492,6 +500,34 @@ function updateGithubArticlesJson_(newArticle) {
   return JSON.parse(putResponse.getContentText());
 }
 
+function getGithubFileContentText_(fileData, token) {
+  if (fileData.content && fileData.encoding === "base64") {
+    return Utilities.newBlob(
+      Utilities.base64Decode(fileData.content)
+    ).getDataAsString();
+  }
+
+  if (fileData.download_url) {
+    const rawResponse = UrlFetchApp.fetch(fileData.download_url, {
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github.raw"
+      },
+      muteHttpExceptions: true
+    });
+
+    const rawCode = rawResponse.getResponseCode();
+    if (rawCode < 200 || rawCode >= 300) {
+      throw new Error("GitHub raw file download failed: " + rawResponse.getContentText());
+    }
+
+    return rawResponse.getContentText();
+  }
+
+  throw new Error("GitHub did not return file content or a raw download URL.");
+}
+
 function getGithubFile_(path) {
   const props = getProps_();
   const token = props.getProperty("GITHUB_TOKEN");
@@ -519,9 +555,7 @@ function getGithubFile_(path) {
   }
 
   const fileData = JSON.parse(response.getContentText());
-  const currentContent = Utilities.newBlob(
-    Utilities.base64Decode(fileData.content)
-  ).getDataAsString();
+  const currentContent = getGithubFileContentText_(fileData, token);
 
   return { fileData, currentContent, token, owner, repo, branch };
 }
