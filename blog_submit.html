@@ -44,8 +44,8 @@
       border: 1px solid #2A2A2A;
       background: #101010;
       color: #EDEDED;
-      padding: 0.9rem 1rem;
-      font-size: 0.95rem;
+      padding: 0.72rem 0.85rem;
+      font-size: 0.86rem;
       outline: none;
       transition: border-color 0.2s, background 0.2s;
     }
@@ -59,7 +59,7 @@
       display: block;
       margin-bottom: 0.55rem;
       color: #7A7A7A;
-      font-size: 0.7rem;
+      font-size: 0.64rem;
       font-weight: 700;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -102,6 +102,64 @@
       border-color: #8C0D0D;
       background: rgba(140, 13, 13, 0.14);
       color: #EDEDED;
+    }
+
+    .submit-shell {
+      max-width: 1040px;
+    }
+
+    .step-panel {
+      display: block;
+    }
+
+    .step-panel.hidden {
+      display: none;
+    }
+
+    .step-tab {
+      border: 1px solid #2A2A2A;
+      background: rgba(16, 16, 16, 0.62);
+      color: #7A7A7A;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .step-tab[aria-current="step"] {
+      border-color: #8C0D0D;
+      background: rgba(140, 13, 13, 0.12);
+      color: #EDEDED;
+    }
+
+    .flow-button {
+      min-height: 2.65rem;
+    }
+
+    .draft-card {
+      border: 1px solid #2A2A2A;
+      background: #0D0D0D;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .draft-card:hover,
+    .draft-card.is-active {
+      border-color: #8C0D0D;
+      background: rgba(140, 13, 13, 0.08);
+    }
+
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .field {
+        padding: 0.68rem 0.78rem;
+      }
+
+      .panel {
+        background: rgba(14, 14, 14, 0.66);
+      }
     }
 
     #toast {
@@ -183,7 +241,7 @@
       <source src="https://pub-3592c0f33d62473e96882cebf2720dba.r2.dev/84006-584870923_medium(1).mp4" type="video/mp4">
     </video>
     <div class="blog-hero-overlay" aria-hidden="true"></div>
-    <div class="relative z-10 max-w-[1100px] mx-auto px-5">
+    <div class="relative z-10 submit-shell mx-auto px-5">
       <div class="flex items-center justify-between gap-4 mb-8 md:mb-10">
         <a href="https://echoesofgaza.org" class="flex items-center gap-3 min-w-0 group">
           <img src="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" alt="Logo" class="h-9 md:h-10 w-auto object-contain group-hover:opacity-80 transition-opacity shrink-0">
@@ -199,173 +257,231 @@
   </section>
 
   <main class="min-h-screen bg-deep-black">
-    <section class="max-w-[1120px] mx-auto px-5 pt-12 pb-8 md:pt-16">
-      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 border-b border-border-gray pb-8">
+    <section class="submit-shell mx-auto px-5 pt-9 pb-6 md:pt-12">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-5 border-b border-border-gray pb-6">
         <div class="max-w-3xl">
-          <p class="text-deep-red text-xs font-bold uppercase tracking-[0.25em] mb-4">Blog Contributor Intake</p>
-          <h1 id="writer-typewriter" class="font-serif text-4xl md:text-6xl leading-tight text-off-white mb-4 min-h-[3.25rem] md:min-h-[4.75rem]" data-typewriter-text="Write for Echoes of Gaza">Write for Echoes of Gaza</h1>
-          <p class="text-ash-gray text-base md:text-lg leading-relaxed">
+          <p class="text-deep-red text-[10px] font-bold uppercase tracking-[0.25em] mb-3">Blog Contributor Intake</p>
+          <h1 id="writer-typewriter" class="font-serif text-4xl md:text-5xl leading-tight text-off-white mb-3 min-h-[3rem] md:min-h-[4rem]" data-typewriter-text="Write for Echoes of Gaza">Write for Echoes of Gaza</h1>
+          <p class="text-ash-gray text-sm md:text-base leading-relaxed">
             Submit a personal essay, testimony, reflection, or research-informed piece for editorial review. Approved posts appear on the public blog with a unique link.
           </p>
         </div>
-        <a href="./blog.html" class="inline-flex items-center gap-2 border border-border-gray px-5 py-3 text-xs font-bold uppercase tracking-[0.18em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
+        <a href="./blog.html" class="inline-flex items-center gap-2 border border-border-gray px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.18em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
           <i class="ph ph-arrow-left"></i>
           Blog Home
         </a>
       </div>
     </section>
 
-    <section class="max-w-[1120px] mx-auto px-5 pb-16 grid grid-cols-1 lg:grid-cols-[0.92fr_1.35fr] gap-8">
-      <aside class="space-y-5">
-        <div class="panel p-5 md:p-6">
-          <h2 class="font-serif text-2xl text-off-white mb-3">Contributor profile</h2>
-          <p class="text-sm text-ash-gray leading-relaxed mb-5">
-            Save a simple writer profile for this browser, or submit anonymously. Anonymous submissions still go to review before publication.
-          </p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-            <button type="button" id="mode-profile" class="mode-card border border-border-gray p-4 text-left text-ash-gray hover:text-off-white hover:border-deep-red transition" aria-pressed="true">
-              <i class="ph ph-user-circle text-2xl block mb-3"></i>
-              <span class="block text-xs font-bold uppercase tracking-[0.18em] mb-1">Writer Profile</span>
-              <span class="text-xs leading-relaxed">Use your name, bio, photo, and links.</span>
-            </button>
-            <button type="button" id="mode-anonymous" class="mode-card border border-border-gray p-4 text-left text-ash-gray hover:text-off-white hover:border-deep-red transition" aria-pressed="false">
-              <i class="ph ph-mask-happy text-2xl block mb-3"></i>
-              <span class="block text-xs font-bold uppercase tracking-[0.18em] mb-1">Anonymous</span>
-              <span class="text-xs leading-relaxed">Hide public identity details.</span>
-            </button>
-          </div>
+    <section class="submit-shell mx-auto px-5 pb-14">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-5">
+        <button type="button" class="step-tab px-4 py-3 text-left" data-step-tab="profile" aria-current="step">
+          <span class="block text-[10px] font-bold uppercase tracking-[0.2em] text-deep-red mb-1">Step 1</span>
+          <span class="block font-serif text-lg text-off-white">Contributor profile</span>
+        </button>
+        <button type="button" class="step-tab px-4 py-3 text-left" data-step-tab="submission">
+          <span class="block text-[10px] font-bold uppercase tracking-[0.2em] text-deep-red mb-1">Step 2</span>
+          <span class="block font-serif text-lg">Submission</span>
+        </button>
+        <button type="button" class="step-tab px-4 py-3 text-left" data-step-tab="preview">
+          <span class="block text-[10px] font-bold uppercase tracking-[0.2em] text-deep-red mb-1">Step 3</span>
+          <span class="block font-serif text-lg">Preview & submit</span>
+        </button>
+      </div>
 
-          <form id="profile-form" class="space-y-4">
-            <div>
-              <label class="label" for="writer-name">Display name</label>
-              <input id="writer-name" class="field" placeholder="Name shown on the post">
-            </div>
-            <div>
-              <label class="label" for="writer-email">Email for editors</label>
-              <input id="writer-email" class="field" type="email" placeholder="Only used for review follow-up">
-            </div>
-            <div>
-              <label class="label" for="writer-role">Role or affiliation</label>
-              <input id="writer-role" class="field" placeholder="Student, organizer, researcher, community member">
-            </div>
-            <div>
-              <label class="label" for="writer-photo">Profile photo URL</label>
-              <input id="writer-photo" class="field" type="url" placeholder="https://...">
-            </div>
-            <div>
-              <label class="label" for="writer-location">Location</label>
-              <input id="writer-location" class="field" placeholder="Optional">
-            </div>
-            <div>
-              <label class="label" for="writer-links">Public links</label>
-              <input id="writer-links" class="field" placeholder="Website, social profile, portfolio">
-            </div>
-            <div>
-              <label class="label" for="writer-bio">Bio</label>
-              <textarea id="writer-bio" class="field min-h-[130px]" placeholder="A short public bio readers can see when they click your writer profile."></textarea>
-            </div>
-            <button type="button" id="save-profile" class="w-full border border-border-gray px-5 py-3 text-xs font-bold uppercase tracking-[0.18em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
-              Save Writer Profile
-            </button>
-          </form>
-
-          <div id="anonymous-note" class="hidden border border-border-gray bg-[#090909] p-4 text-sm text-ash-gray leading-relaxed">
-            Anonymous mode will publish the author as “Anonymous contributor.” Editors may still use your contact email if you provide it in the submission form.
-          </div>
-        </div>
-
-        <div class="panel p-5 md:p-6">
-          <h2 class="font-serif text-2xl text-off-white mb-3">What happens next</h2>
-          <ol class="space-y-4 text-sm text-ash-gray leading-relaxed">
-            <li><span class="text-off-white">1.</span> Your draft is sent to the private admin queue.</li>
-            <li><span class="text-off-white">2.</span> Editors review it for clarity, safety, and fit.</li>
-            <li><span class="text-off-white">3.</span> Approved posts are added to the public blog with a unique link.</li>
-          </ol>
-        </div>
-      </aside>
-
-      <section class="panel p-5 md:p-7">
-        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-7">
+      <section class="panel p-4 md:p-5 mb-5">
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
           <div>
-            <p class="text-deep-red text-xs font-bold uppercase tracking-[0.22em] mb-3">Submission</p>
-            <h2 class="font-serif text-3xl md:text-4xl text-off-white leading-tight">Draft your piece</h2>
+            <p class="text-deep-red text-[10px] font-bold uppercase tracking-[0.22em] mb-2">Saved folder</p>
+            <h2 class="font-serif text-2xl text-off-white leading-tight flex items-center gap-2">
+              <i class="ph ph-folder-open text-xl text-deep-red" aria-hidden="true"></i>
+              Drafts
+            </h2>
+            <p id="saved-drafts-meta" class="text-xs text-ash-gray font-sans mt-2">Drafts are saved privately in this browser.</p>
           </div>
-          <div id="word-count" class="text-xs text-ash-gray font-bold uppercase tracking-[0.16em]">0 words</div>
+          <button type="button" id="new-draft" class="flow-button border border-border-gray px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.18em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
+            New Draft
+          </button>
         </div>
+        <div id="saved-drafts-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+      </section>
 
-        <form id="blog-submission-form" class="space-y-5">
-          <div>
-            <label class="label" for="post-title">Title</label>
-            <input id="post-title" class="field" required placeholder="Give the piece a clear title">
-          </div>
-          <div class="border border-border-gray bg-[#080808] p-4">
-            <div class="label mb-2">Expected public link</div>
-            <div id="post-url-preview" class="break-all font-sans text-sm text-off-white">https://echoesofgaza.org/blog?post=your-title</div>
-            <p id="post-url-note" class="mt-2 text-xs text-ash-gray leading-relaxed">
-              This updates from your title and uses the same slug format as the publishing system.
+      <div id="step-profile" class="step-panel">
+        <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(260px,0.72fr)] gap-5">
+          <section class="panel p-4 md:p-5">
+            <h2 class="font-serif text-2xl text-off-white mb-2">Contributor profile</h2>
+            <p class="text-sm text-ash-gray leading-relaxed mb-4">
+              Save a simple writer profile for this browser, or submit anonymously. Anonymous submissions still go to review before publication.
             </p>
-          </div>
-          <div>
-            <label class="label" for="post-subtitle">Short description</label>
-            <textarea id="post-subtitle" class="field min-h-[95px]" required maxlength="500" placeholder="One or two sentences for the blog index and share preview."></textarea>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="label" for="post-category">Type</label>
-              <select id="post-category" class="field">
-                <option>Personal essay</option>
-                <option>Testimony</option>
-                <option>Reflection</option>
-                <option>Research note</option>
-                <option>Community update</option>
-                <option>Poetry or creative writing</option>
-              </select>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+              <button type="button" id="mode-profile" class="mode-card border border-border-gray p-3 text-left text-ash-gray hover:text-off-white hover:border-deep-red transition" aria-pressed="true">
+                <i class="ph ph-user-circle text-xl block mb-2"></i>
+                <span class="block text-[11px] font-bold uppercase tracking-[0.18em] mb-1">Writer Profile</span>
+                <span class="text-xs leading-relaxed">Use your name, bio, photo, and links.</span>
+              </button>
+              <button type="button" id="mode-anonymous" class="mode-card border border-border-gray p-3 text-left text-ash-gray hover:text-off-white hover:border-deep-red transition" aria-pressed="false">
+                <i class="ph ph-mask-happy text-xl block mb-2"></i>
+                <span class="block text-[11px] font-bold uppercase tracking-[0.18em] mb-1">Anonymous</span>
+                <span class="text-xs leading-relaxed">Hide public identity details.</span>
+              </button>
             </div>
-            <div>
-              <label class="label" for="post-contact">Contact email</label>
-              <input id="post-contact" class="field" type="email" placeholder="Required if profile email is empty">
-            </div>
-          </div>
-          <div>
-            <label class="label" for="post-images">Image URLs</label>
-            <textarea id="post-images" class="field min-h-[92px]" placeholder="Optional. Add one image URL per line. The first image becomes the feature image."></textarea>
-          </div>
-          <div>
-            <label class="label" for="post-body">Body</label>
-            <textarea id="post-body" class="field min-h-[360px] leading-relaxed" required placeholder="Write or paste your piece here. Paragraph breaks are preserved."></textarea>
-          </div>
-          <div>
-            <label class="label" for="post-notes">Private note to editors</label>
-            <textarea id="post-notes" class="field min-h-[90px]" placeholder="Optional context, safety concerns, edits requested, or how you would like to be contacted."></textarea>
-          </div>
-          <label class="flex items-start gap-3 text-sm text-ash-gray leading-relaxed">
-            <input id="author-consent" type="checkbox" required class="mt-1 accent-[#8C0D0D]">
-            <span>I confirm this is my work, I have permission to submit any included images, and I understand the Echoes of Gaza team may edit or decline the piece before publication.</span>
-          </label>
-          <div class="flex flex-col sm:flex-row gap-3 pt-2">
-            <button id="submit-post" type="submit" class="flex-1 bg-deep-red px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-off-white hover:bg-[#6d0a0a] transition">
-              Submit for Review
-            </button>
-            <button id="save-draft" type="button" class="border border-border-gray px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
-              Save Draft
-            </button>
-          </div>
-          <p id="submission-status" class="text-sm text-ash-gray leading-relaxed"></p>
-        </form>
 
-        <section class="mt-8">
+            <form id="profile-form" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label class="label" for="writer-name">Display name</label>
+                <input id="writer-name" class="field" placeholder="Name shown on the post">
+              </div>
+              <div>
+                <label class="label" for="writer-email">Email for editors</label>
+                <input id="writer-email" class="field" type="email" placeholder="Only used for review follow-up">
+              </div>
+              <div>
+                <label class="label" for="writer-role">Role or affiliation</label>
+                <input id="writer-role" class="field" placeholder="Student, organizer, researcher, community member">
+              </div>
+              <div>
+                <label class="label" for="writer-photo">Profile photo URL</label>
+                <input id="writer-photo" class="field" type="url" placeholder="https://...">
+              </div>
+              <div>
+                <label class="label" for="writer-location">Location</label>
+                <input id="writer-location" class="field" placeholder="Optional">
+              </div>
+              <div>
+                <label class="label" for="writer-links">Public links</label>
+                <input id="writer-links" class="field" placeholder="Website, social profile, portfolio">
+              </div>
+              <div class="md:col-span-2">
+                <label class="label" for="writer-bio">Bio</label>
+                <textarea id="writer-bio" class="field min-h-[92px]" placeholder="A short public bio readers can see when they click your writer profile."></textarea>
+              </div>
+              <button type="button" id="save-profile" class="md:col-span-2 w-full border border-border-gray px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.18em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
+                Save Writer Profile
+              </button>
+            </form>
+
+            <div id="anonymous-note" class="hidden border border-border-gray bg-[#090909] p-4 text-sm text-ash-gray leading-relaxed">
+              Anonymous mode will publish the author as “Anonymous contributor.” Editors may still use your contact email if you provide it in the submission form.
+            </div>
+          </section>
+
+          <aside class="panel p-4 md:p-5 h-fit">
+            <h2 class="font-serif text-2xl text-off-white mb-2">What happens next</h2>
+            <ol class="space-y-3 text-sm text-ash-gray leading-relaxed">
+              <li><span class="text-off-white">1.</span> Your draft is sent to the private admin queue.</li>
+              <li><span class="text-off-white">2.</span> Editors review it for clarity, safety, and fit.</li>
+              <li><span class="text-off-white">3.</span> Approved posts are added to the public blog with a unique link.</li>
+            </ol>
+          </aside>
+        </div>
+        <div class="flex justify-end mt-4">
+          <button type="button" id="next-profile" class="flow-button bg-deep-red px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-off-white hover:bg-[#6d0a0a] transition">
+            Next: Submission
+          </button>
+        </div>
+      </div>
+
+      <form id="blog-submission-form">
+        <section id="step-submission" class="step-panel hidden panel p-4 md:p-5">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
+            <div>
+              <p class="text-deep-red text-[10px] font-bold uppercase tracking-[0.22em] mb-2">Submission</p>
+              <h2 class="font-serif text-3xl text-off-white leading-tight">Draft your piece</h2>
+            </div>
+            <div id="word-count" class="text-[10px] text-ash-gray font-bold uppercase tracking-[0.16em]">0 words</div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="label" for="post-title">Title</label>
+              <input id="post-title" class="field" required placeholder="Give the piece a clear title">
+            </div>
+            <div class="border border-border-gray bg-[#080808] p-3">
+              <div class="label mb-2">Expected public link</div>
+              <div id="post-url-preview" class="break-all font-sans text-xs md:text-sm text-off-white">https://echoesofgaza.org/blog?post=your-title</div>
+              <p id="post-url-note" class="mt-2 text-xs text-ash-gray leading-relaxed">
+                This updates from your title and uses the same slug format as the publishing system.
+              </p>
+            </div>
+            <div>
+              <label class="label" for="post-subtitle">Short description</label>
+              <textarea id="post-subtitle" class="field min-h-[78px]" required maxlength="500" placeholder="One or two sentences for the blog index and share preview."></textarea>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="label" for="post-category">Type</label>
+                <select id="post-category" class="field">
+                  <option>Personal essay</option>
+                  <option>Testimony</option>
+                  <option>Reflection</option>
+                  <option>Research note</option>
+                  <option>Community update</option>
+                  <option>Poetry or creative writing</option>
+                </select>
+              </div>
+              <div>
+                <label class="label" for="post-contact">Contact email</label>
+                <input id="post-contact" class="field" type="email" placeholder="Required if profile email is empty">
+              </div>
+            </div>
+            <div>
+              <label class="label" for="post-images">Image URLs</label>
+              <textarea id="post-images" class="field min-h-[76px]" placeholder="Optional. Add one image URL per line. The first image becomes the feature image."></textarea>
+            </div>
+            <div>
+              <label class="label" for="post-body">Body</label>
+              <textarea id="post-body" class="field min-h-[280px] leading-relaxed" required placeholder="Write or paste your piece here. Paragraph breaks are preserved."></textarea>
+            </div>
+            <div>
+              <label class="label" for="post-notes">Private note to editors</label>
+              <textarea id="post-notes" class="field min-h-[76px]" placeholder="Optional context, safety concerns, edits requested, or how you would like to be contacted."></textarea>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-5">
+            <button id="back-submission" type="button" class="flow-button border border-border-gray px-5 py-3 text-[10px] font-bold uppercase tracking-[0.18em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
+              Back
+            </button>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <button id="save-draft" type="button" class="flow-button border border-border-gray px-5 py-3 text-[10px] font-bold uppercase tracking-[0.18em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
+                Save Draft
+              </button>
+              <button id="next-submission" type="button" class="flow-button bg-deep-red px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-off-white hover:bg-[#6d0a0a] transition">
+                Next: Preview
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section id="step-preview" class="step-panel hidden panel p-4 md:p-5">
           <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
             <div>
-              <p class="text-deep-red text-xs font-bold uppercase tracking-[0.22em] mb-2">Live Published Preview</p>
-              <h3 class="font-serif text-2xl text-off-white leading-tight">How readers will see it</h3>
+              <p class="text-deep-red text-[10px] font-bold uppercase tracking-[0.22em] mb-2">Preview & submit</p>
+              <h2 class="font-serif text-3xl text-off-white leading-tight">How readers will see it</h2>
             </div>
             <a id="preview-url-link" href="https://echoesofgaza.org/blog?post=your-title" target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-[0.16em] text-ash-gray hover:text-off-white transition break-all">
               echoesofgaza.org/blog?post=your-title
             </a>
           </div>
-          <div id="published-preview" class="published-preview p-5 md:p-7"></div>
+          <div id="published-preview" class="published-preview p-4 md:p-5"></div>
+
+          <div class="mt-5 space-y-4">
+            <label class="flex items-start gap-3 text-sm text-ash-gray leading-relaxed">
+              <input id="author-consent" type="checkbox" required class="mt-1 accent-[#8C0D0D]">
+              <span>I confirm this is my work, I have permission to submit any included images, and I understand the Echoes of Gaza team may edit or decline the piece before publication.</span>
+            </label>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <button id="back-preview" type="button" class="flow-button border border-border-gray px-5 py-3 text-[10px] font-bold uppercase tracking-[0.18em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
+                Back to Draft
+              </button>
+              <button id="submit-post" type="submit" class="flow-button flex-1 bg-deep-red px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-off-white hover:bg-[#6d0a0a] transition">
+                Submit for Review
+              </button>
+            </div>
+            <p id="submission-status" class="text-sm text-ash-gray leading-relaxed"></p>
+          </div>
         </section>
-      </section>
+      </form>
     </section>
   </main>
 
@@ -421,7 +537,9 @@
     const BLOG_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec";
     const PROFILE_KEY = "echoes_blog_writer_profile";
     const DRAFT_KEY = "echoes_blog_submission_draft";
-    const state = { anonymous: false };
+    const DRAFTS_KEY = "echoes_blog_submission_drafts";
+    const ACTIVE_DRAFT_KEY = "echoes_blog_active_draft_id";
+    const state = { anonymous: false, step: "profile", currentDraftId: "" };
     let publishedSlugs = new Set();
 
     const el = (id) => document.getElementById(id);
@@ -445,6 +563,42 @@
 
     function splitLines(value) {
       return String(value || "").split(/\n+/).map((line) => line.trim()).filter(Boolean);
+    }
+
+    function setStep(step, shouldScroll = true) {
+      state.step = step;
+      ["profile", "submission", "preview"].forEach((name) => {
+        el(`step-${name}`)?.classList.toggle("hidden", name !== step);
+        document.querySelector(`[data-step-tab="${name}"]`)?.setAttribute("aria-current", name === step ? "step" : "false");
+      });
+      updateSubmissionPreview();
+      if (shouldScroll) {
+        document.querySelector("main")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function validateDraftBeforePreview() {
+      const status = el("submission-status");
+      const title = el("post-title").value.trim();
+      const subtitle = el("post-subtitle").value.trim();
+      const body = el("post-body").value.trim();
+      const profile = getProfile();
+      const contactEmail = el("post-contact").value.trim() || profile.email;
+
+      if (!title || !subtitle || !body) {
+        showToast("Add a title, short description, and body first");
+        if (status) status.textContent = "Please add a title, short description, and body before previewing.";
+        return false;
+      }
+
+      if (!contactEmail) {
+        showToast("Add a contact email for editors");
+        if (status) status.textContent = "Please add a contact email so editors can follow up, or save one in your profile.";
+        return false;
+      }
+
+      if (status) status.textContent = "";
+      return true;
     }
 
     function slugify(value) {
@@ -533,6 +687,134 @@
       updateSubmissionPreview();
     }
 
+    function draftId() {
+      return `draft-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    }
+
+    function readDrafts() {
+      try {
+        const drafts = JSON.parse(localStorage.getItem(DRAFTS_KEY) || "[]");
+        return Array.isArray(drafts)
+          ? drafts.filter(Boolean).sort((a, b) => Date.parse(b.updatedAt || "") - Date.parse(a.updatedAt || ""))
+          : [];
+      } catch (error) {
+        console.warn("Could not read saved drafts", error);
+        return [];
+      }
+    }
+
+    function writeDrafts(drafts) {
+      localStorage.setItem(DRAFTS_KEY, JSON.stringify(drafts));
+    }
+
+    function draftRecordFromForm(existing = {}) {
+      const now = new Date().toISOString();
+      const profile = getProfile();
+      const title = el("post-title").value.trim();
+      return {
+        id: existing.id || state.currentDraftId || draftId(),
+        createdAt: existing.createdAt || now,
+        updatedAt: now,
+        title,
+        subtitle: el("post-subtitle").value,
+        category: el("post-category").value,
+        contactEmail: el("post-contact").value,
+        images: el("post-images").value,
+        body: el("post-body").value,
+        editorNotes: el("post-notes").value,
+        anonymous: state.anonymous,
+        authorName: state.anonymous ? "Anonymous contributor" : (profile.name || "Anonymous contributor"),
+        wordCount: el("post-body").value.trim().split(/\s+/).filter(Boolean).length
+      };
+    }
+
+    function migrateLegacyDraft() {
+      const legacyRaw = localStorage.getItem(DRAFT_KEY);
+      if (!legacyRaw) return;
+      try {
+        const legacy = JSON.parse(legacyRaw || "{}");
+        if (legacy && Object.keys(legacy).length) {
+          const drafts = readDrafts();
+          drafts.unshift({
+            id: draftId(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            title: legacy.title || "",
+            subtitle: legacy.subtitle || "",
+            category: legacy.category || "Personal essay",
+            contactEmail: legacy.contactEmail || "",
+            images: legacy.images || "",
+            body: legacy.body || "",
+            editorNotes: legacy.editorNotes || "",
+            anonymous: Boolean(legacy.anonymous),
+            authorName: legacy.anonymous ? "Anonymous contributor" : (getProfile().name || "Anonymous contributor"),
+            wordCount: String(legacy.body || "").trim().split(/\s+/).filter(Boolean).length
+          });
+          writeDrafts(drafts);
+        }
+      } catch (error) {
+        console.warn("Could not migrate old saved draft", error);
+      } finally {
+        localStorage.removeItem(DRAFT_KEY);
+      }
+    }
+
+    function formatDraftDate(value) {
+      const parsed = Date.parse(value || "");
+      if (!Number.isFinite(parsed)) return "Saved locally";
+      return new Date(parsed).toLocaleString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+      });
+    }
+
+    function renderSavedDrafts() {
+      const list = el("saved-drafts-list");
+      const meta = el("saved-drafts-meta");
+      const drafts = readDrafts();
+      meta.textContent = drafts.length
+        ? `${drafts.length} saved draft${drafts.length === 1 ? "" : "s"} in this browser.`
+        : "Drafts are saved privately in this browser.";
+
+      if (!drafts.length) {
+        list.innerHTML = `
+          <div class="border border-border-gray bg-[#080808] p-4 text-sm text-ash-gray leading-relaxed md:col-span-2">
+            No saved drafts yet. Start writing, then use Save Draft to add one here.
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = drafts.map((draft) => `
+        <article class="draft-card ${draft.id === state.currentDraftId ? "is-active" : ""} p-4">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <div class="min-w-0">
+              <h3 class="font-serif text-lg text-off-white leading-tight truncate">${esc(draft.title || "Untitled draft")}</h3>
+              <p class="text-[10px] text-ash-gray uppercase tracking-[0.16em] font-bold mt-1">${esc(formatDraftDate(draft.updatedAt))}</p>
+            </div>
+            ${draft.id === state.currentDraftId ? `<span class="text-[10px] text-deep-red font-bold uppercase tracking-[0.16em]">Open</span>` : ""}
+          </div>
+          <p class="text-xs text-ash-gray leading-relaxed line-clamp-2 mb-3">${esc(draft.subtitle || draft.body || "No text yet.")}</p>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-ash-gray uppercase tracking-[0.14em] mb-4">
+            <span>${esc(draft.category || "Personal essay")}</span>
+            <span>${Number(draft.wordCount || 0)} words</span>
+            <span>${esc(draft.authorName || "Anonymous contributor")}</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-draft-action="load" data-draft-id="${esc(draft.id)}" class="border border-border-gray px-3 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-off-white hover:border-deep-red hover:bg-hover-bg transition">
+              Load
+            </button>
+            <button type="button" data-draft-action="delete" data-draft-id="${esc(draft.id)}" class="border border-border-gray px-3 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-ash-gray hover:text-off-white hover:border-deep-red transition">
+              Delete
+            </button>
+          </div>
+        </article>
+      `).join("");
+    }
+
     function loadSavedProfile() {
       try {
         const saved = JSON.parse(localStorage.getItem(PROFILE_KEY) || "{}");
@@ -543,35 +825,90 @@
     }
 
     function saveDraft() {
-      const draft = {
-        title: el("post-title").value,
-        subtitle: el("post-subtitle").value,
-        category: el("post-category").value,
-        contactEmail: el("post-contact").value,
-        images: el("post-images").value,
-        body: el("post-body").value,
-        editorNotes: el("post-notes").value,
-        anonymous: state.anonymous
-      };
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-      showToast("Draft saved in this browser");
+      const drafts = readDrafts();
+      const existing = drafts.find((draft) => draft.id === state.currentDraftId);
+      const saved = draftRecordFromForm(existing || {});
+      const nextDrafts = existing
+        ? drafts.map((draft) => draft.id === saved.id ? saved : draft)
+        : [saved, ...drafts];
+
+      state.currentDraftId = saved.id;
+      localStorage.setItem(ACTIVE_DRAFT_KEY, saved.id);
+      writeDrafts(nextDrafts);
+      renderSavedDrafts();
+      showToast("Draft saved in your Drafts folder");
     }
 
-    function loadDraft() {
-      try {
-        const draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "{}");
-        el("post-title").value = draft.title || "";
-        el("post-subtitle").value = draft.subtitle || "";
-        el("post-category").value = draft.category || "Personal essay";
-        el("post-contact").value = draft.contactEmail || "";
-        el("post-images").value = draft.images || "";
-        el("post-body").value = draft.body || "";
-        el("post-notes").value = draft.editorNotes || "";
-        setMode(Boolean(draft.anonymous));
-        updateWordCount();
-        updateSubmissionPreview();
-      } catch (error) {
-        console.warn("Could not load saved draft", error);
+    function loadDraftRecord(draft, shouldNavigate = true) {
+      if (!draft) return;
+      state.currentDraftId = draft.id || "";
+      localStorage.setItem(ACTIVE_DRAFT_KEY, state.currentDraftId);
+      el("post-title").value = draft.title || "";
+      el("post-subtitle").value = draft.subtitle || "";
+      el("post-category").value = draft.category || "Personal essay";
+      el("post-contact").value = draft.contactEmail || "";
+      el("post-images").value = draft.images || "";
+      el("post-body").value = draft.body || "";
+      el("post-notes").value = draft.editorNotes || "";
+      setMode(Boolean(draft.anonymous));
+      updateWordCount();
+      updateSubmissionPreview();
+      renderSavedDrafts();
+      if (shouldNavigate) {
+        setStep("submission");
+        showToast("Draft loaded");
+      }
+    }
+
+    function deleteDraft(id) {
+      const drafts = readDrafts();
+      const draft = drafts.find((item) => item.id === id);
+      if (!draft) return;
+      const label = draft.title || "this draft";
+      if (!confirm(`Delete "${label}" from saved drafts?`)) return;
+
+      writeDrafts(drafts.filter((item) => item.id !== id));
+      if (state.currentDraftId === id) {
+        state.currentDraftId = "";
+        localStorage.removeItem(ACTIVE_DRAFT_KEY);
+      }
+      renderSavedDrafts();
+      showToast("Draft deleted");
+    }
+
+    function hasDraftContent() {
+      return ["post-title", "post-subtitle", "post-contact", "post-images", "post-body", "post-notes"]
+        .some((id) => el(id).value.trim());
+    }
+
+    function newDraft() {
+      if (hasDraftContent()) {
+        saveDraft();
+      }
+      state.currentDraftId = "";
+      localStorage.removeItem(ACTIVE_DRAFT_KEY);
+      ["post-title", "post-subtitle", "post-contact", "post-images", "post-body", "post-notes"].forEach((id) => {
+        el(id).value = "";
+      });
+      el("post-category").value = "Personal essay";
+      el("author-consent").checked = false;
+      updateWordCount();
+      updateSubmissionPreview();
+      renderSavedDrafts();
+      setStep("submission");
+      showToast("New draft ready");
+    }
+
+    function loadInitialDraft() {
+      migrateLegacyDraft();
+      const drafts = readDrafts();
+      const activeId = localStorage.getItem(ACTIVE_DRAFT_KEY) || "";
+      const activeDraft = drafts.find((draft) => draft.id === activeId);
+      renderSavedDrafts();
+      if (activeDraft) {
+        loadDraftRecord(activeDraft, false);
+      } else if (drafts.length === 1) {
+        loadDraftRecord(drafts[0], false);
       }
     }
 
@@ -747,11 +1084,17 @@
         if (data.result !== "success") {
           throw new Error(data.message || "Submission failed.");
         }
+        if (state.currentDraftId) {
+          writeDrafts(readDrafts().filter((draft) => draft.id !== state.currentDraftId));
+          state.currentDraftId = "";
+          localStorage.removeItem(ACTIVE_DRAFT_KEY);
+        }
         localStorage.removeItem(DRAFT_KEY);
         status.textContent = `Submitted for review. Reference: ${data.id}`;
         showToast("Submission received");
         el("blog-submission-form").reset();
         updateWordCount();
+        renderSavedDrafts();
       } catch (error) {
         console.error(error);
         status.textContent = `Error: ${error.message}`;
@@ -763,6 +1106,33 @@
 
     el("mode-profile").addEventListener("click", () => setMode(false));
     el("mode-anonymous").addEventListener("click", () => setMode(true));
+    document.querySelectorAll("[data-step-tab]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const target = button.dataset.stepTab;
+        if (target === "preview" && !validateDraftBeforePreview()) {
+          setStep("submission");
+          return;
+        }
+        setStep(target);
+      });
+    });
+    el("next-profile").addEventListener("click", () => setStep("submission"));
+    el("back-submission").addEventListener("click", () => setStep("profile"));
+    el("next-submission").addEventListener("click", () => {
+      if (validateDraftBeforePreview()) setStep("preview");
+    });
+    el("back-preview").addEventListener("click", () => setStep("submission"));
+    el("new-draft").addEventListener("click", newDraft);
+    el("saved-drafts-list").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-draft-action]");
+      if (!button) return;
+      const id = button.dataset.draftId;
+      if (button.dataset.draftAction === "load") {
+        loadDraftRecord(readDrafts().find((draft) => draft.id === id));
+      } else if (button.dataset.draftAction === "delete") {
+        deleteDraft(id);
+      }
+    });
     el("save-profile").addEventListener("click", () => {
       localStorage.setItem(PROFILE_KEY, JSON.stringify(getProfile()));
       showToast("Writer profile saved");
@@ -778,9 +1148,10 @@
     el("blog-submission-form").addEventListener("submit", submitPost);
 
     loadSavedProfile();
-    loadDraft();
+    loadInitialDraft();
     updateSubmissionPreview();
     loadPublishedSlugs();
+    setStep("profile", false);
     setupWriterTypewriter();
   </script>
 </body>
