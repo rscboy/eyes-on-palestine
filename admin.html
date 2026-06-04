@@ -2331,6 +2331,9 @@ Echoes of Gaza</textarea>
 
       return {
         id,
+        slug: item.slug || "",
+        submittedAt: item.submittedAt || "",
+        contactEmail: item.contactEmail || "",
         title: value("title").trim(),
         subtitle: value("subtitle").trim(),
         shareDescription: value("subtitle").trim(),
@@ -2528,12 +2531,21 @@ Echoes of Gaza</textarea>
               </div>
             ` : ""}
 
-            <button
-              type="button"
-              onclick="window.handleApproveBlog('${esc(id)}')"
-              class="w-full px-5 py-3 border border-[#8b0000] text-zinc-100 hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
-              Approve This Version
-            </button>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button
+                type="button"
+                onclick="window.handleSavePendingBlog('${esc(id)}')"
+                id="btn-blog-save-pending-${esc(id)}"
+                class="w-full px-5 py-3 border border-zinc-700 text-zinc-200 hover:border-[#8b0000] hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Save Changes
+              </button>
+              <button
+                type="button"
+                onclick="window.handleApproveBlog('${esc(id)}')"
+                class="w-full px-5 py-3 border border-[#8b0000] text-zinc-100 hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Approve This Version
+              </button>
+            </div>
           </form>
 
           <div class="min-w-0">
@@ -2550,6 +2562,68 @@ Echoes of Gaza</textarea>
       renderPendingBlogEditorPreview(id);
       preview.classList.remove("hidden");
       preview.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    window.handleSavePendingBlog = async (id) => {
+      if (isProcessing) return;
+      const editedPost = collectPendingBlogPost(id);
+      if (!editedPost?.title || !editedPost?.subtitle || !editedPost?.body) {
+        alert("The pending draft needs a title, short description, and body before saving.");
+        return;
+      }
+
+      const saveBtn = document.getElementById(`btn-blog-save-pending-${id}`);
+      const errorDiv = document.getElementById(`blog-error-${id}`);
+      const successDiv = document.getElementById(`blog-success-${id}`);
+      const originalText = saveBtn?.textContent || "Save Changes";
+
+      isProcessing = true;
+      setStatus("Saving pending draft...");
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (successDiv) successDiv.classList.add("hidden");
+      if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Saving...";
+      }
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "updatePendingBlogPost",
+            id,
+            post: editedPost,
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || "Password admin"
+          })
+        });
+        const data = await readJsonResponse(response, "Pending blog save failed.");
+        if (data.result !== "success") {
+          throw new Error(data.message || "Pending blog save failed.");
+        }
+
+        if (data.item) {
+          pendingBlogItems = pendingBlogItems.map((entry) => String(entry.id) === String(id) ? data.item : entry);
+        }
+        if (successDiv) {
+          successDiv.textContent = "Draft changes saved. It remains pending until you approve it.";
+          successDiv.classList.remove("hidden");
+        }
+        setStatus("Pending draft saved");
+      } catch (error) {
+        if (errorDiv) {
+          errorDiv.textContent = "Error: " + error.message;
+          errorDiv.classList.remove("hidden");
+        }
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+        if (saveBtn) {
+          saveBtn.disabled = false;
+          saveBtn.textContent = originalText;
+        }
+      }
     };
 
     window.handleApproveBlog = async (id) => {
