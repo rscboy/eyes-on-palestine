@@ -5,20 +5,20 @@
     <lastmod>2026-06-01</lastmod>
   </url>
   <url>
-    <loc>https://echoesofgaza.org/primary</loc>
-    <lastmod>2026-05-22</lastmod>
-  </url>
-  <url>
-    <loc>https://echoesofgaza.org/collab</loc>
-    <lastmod>2026-05-05</lastmod>
-  </url>
-  <url>
     <loc>https://echoesofgaza.org/blog</loc>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-06-05</lastmod>
+  </url>
+  <url>
+    <loc>https://echoesofgaza.org/blog/incident-at-beth-jacob.html</loc>
+    <lastmod>2026-03-31</lastmod>
   </url>
   <url>
     <loc>https://echoesofgaza.org/blog_submit</loc>
     <lastmod>2026-06-02</lastmod>
+  </url>
+  <url>
+    <loc>https://echoesofgaza.org/collab</loc>
+    <lastmod>2026-05-05</lastmod>
   </url>
   <url>
     <loc>https://echoesofgaza.org/events</loc>
@@ -27,6 +27,10 @@
   <url>
     <loc>https://echoesofgaza.org/podcast</loc>
     <lastmod>2026-05-05</lastmod>
+  </url>
+  <url>
+    <loc>https://echoesofgaza.org/primary</loc>
+    <lastmod>2026-05-22</lastmod>
   </url>
   <url>
     <loc>https://echoesofgaza.org/toolkit</loc>
