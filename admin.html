@@ -84,6 +84,22 @@
       display: flex;
     }
 
+    .preview-editable {
+      outline: 1px dashed transparent;
+      outline-offset: 4px;
+      transition: outline-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .preview-editable:hover,
+    .preview-editable:focus {
+      outline-color: rgba(139, 0, 0, 0.72);
+      background: rgba(139, 0, 0, 0.06);
+    }
+
+    .preview-editable:focus {
+      box-shadow: 0 0 0 1px rgba(139, 0, 0, 0.28);
+    }
+
     #view-dashboard > div:first-child {
       padding: 1.25rem;
     }
@@ -1918,7 +1934,10 @@ Echoes of Gaza</textarea>
 
           <div class="xl:w-1/2">
             <div class="sticky top-4">
-              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-3">Live Preview</p>
+              <div class="flex items-center justify-between gap-3 mb-3">
+                <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans">Live Preview</p>
+                <p class="text-[10px] text-zinc-700 font-sans uppercase tracking-widest">Click text to edit</p>
+              </div>
               <div id="blog-edit-preview" class="border border-zinc-900 bg-[#0B0B0B] p-5 max-h-[760px] overflow-y-auto"></div>
             </div>
           </div>
@@ -2319,23 +2338,92 @@ ${detailsImages}
       field.value = `${field.value.slice(0, insertAt)}${markup}${field.value.slice(insertAt)}`;
     }
 
+    function cleanPreviewEditedHtml_(element) {
+      const clone = element.cloneNode(true);
+      clone.querySelectorAll(".editor-image-toolbar").forEach((node) => node.remove());
+      clone.querySelectorAll("[contenteditable], [draggable], [spellcheck], [data-sync-field]").forEach((node) => {
+        node.removeAttribute("contenteditable");
+        node.removeAttribute("draggable");
+        node.removeAttribute("spellcheck");
+        node.removeAttribute("data-sync-field");
+      });
+      clone.querySelectorAll(".editor-image-shell").forEach((node) => {
+        node.classList.remove("editor-image-shell", "relative", "outline", "outline-1", "outline-transparent", "hover:outline-[#8b0000]");
+      });
+      clone.querySelectorAll(".preview-editable").forEach((node) => {
+        node.classList.remove("preview-editable");
+      });
+      return clone.innerHTML.trim();
+    }
+
+    function setupPreviewInlineEditing_(preview, form, fieldMap) {
+      if (!preview || !form) return;
+      Object.entries(fieldMap).forEach(([selector, fieldName]) => {
+        const node = preview.querySelector(selector);
+        const field = form.elements[fieldName];
+        if (!node || !field) return;
+        node.setAttribute("contenteditable", "true");
+        node.setAttribute("spellcheck", "true");
+        node.setAttribute("data-sync-field", fieldName);
+        node.classList.add("preview-editable");
+        node.addEventListener("input", () => {
+          if (fieldName === "content" || fieldName === "body") {
+            field.value = cleanPreviewEditedHtml_(node);
+          } else {
+            field.value = node.textContent.trim();
+          }
+        });
+        node.addEventListener("blur", () => {
+          if (fieldName === "content" || fieldName === "body") {
+            field.value = cleanPreviewEditedHtml_(node);
+          }
+        });
+      });
+    }
+
+    function moveFigureAfterBlock_(field, figureIndex, blockIndex) {
+      const figures = findFigureBlocks_(field.value);
+      const figure = figures[figureIndex];
+      if (!figure) return;
+      let withoutFigure = `${field.value.slice(0, figure.index)}${field.value.slice(figure.index + figure.html.length)}`;
+      const blocks = [...withoutFigure.matchAll(/(<p\b[\s\S]*?<\/p>|<figure\b[\s\S]*?<\/figure>|<details\b[\s\S]*?<\/details>)/gi)];
+      const adjustedBlockIndex = Math.max(0, Math.min(blockIndex, blocks.length - 1));
+      const target = blocks[adjustedBlockIndex];
+      if (!target) {
+        field.value = `${withoutFigure}\n\n${figure.html}\n\n`;
+        return;
+      }
+      const insertAt = target.index + target[0].length;
+      field.value = `${withoutFigure.slice(0, insertAt)}\n\n${figure.html}\n\n${withoutFigure.slice(insertAt)}`;
+    }
+
     function enhancePreviewImageEditing_(preview, form, fieldName, renderFn) {
       const field = form?.elements[fieldName];
       if (!preview || !field) return;
       const figures = preview.querySelectorAll(".prose-preview figure, .prose-preview details");
       figures.forEach((figure, index) => {
         figure.classList.add("relative", "editor-image-shell", "outline", "outline-1", "outline-transparent", "hover:outline-[#8b0000]");
+        figure.setAttribute("draggable", "true");
         const toolbar = document.createElement("div");
         toolbar.className = "editor-image-toolbar absolute right-2 top-2 z-20 hidden flex-wrap gap-1 bg-black/90 border border-zinc-800 p-1";
+        toolbar.setAttribute("contenteditable", "false");
         toolbar.innerHTML = `
+          <span class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-500 cursor-move">Drag</span>
           <button type="button" data-action="up" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Up</button>
           <button type="button" data-action="down" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Down</button>
+          <button type="button" data-action="left" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Left</button>
+          <button type="button" data-action="right" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Right</button>
           <button type="button" data-action="medium" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Med</button>
+          <button type="button" data-action="wide" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Wide</button>
           <button type="button" data-action="full" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Full</button>
           <button type="button" data-action="feature" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Thumb</button>
           <button type="button" data-action="remove" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-[#8b0000] hover:text-red-400">Remove</button>
         `;
         figure.prepend(toolbar);
+        figure.addEventListener("dragstart", (event) => {
+          event.dataTransfer.setData("application/x-editor-figure-index", String(index));
+          event.dataTransfer.effectAllowed = "move";
+        });
         toolbar.querySelectorAll("button").forEach((button) => {
           button.addEventListener("click", (event) => {
             event.preventDefault();
@@ -2343,7 +2431,7 @@ ${detailsImages}
             const action = button.dataset.action;
             if (action === "up") moveFigureBlock_(field, index, -1);
             if (action === "down") moveFigureBlock_(field, index, 1);
-            if (action === "medium" || action === "full") resizeFigureBlock_(field, index, action);
+            if (["left", "right", "medium", "wide", "full"].includes(action)) resizeFigureBlock_(field, index, action);
             if (action === "feature") {
               const src = firstImageFromHtml_(figure.outerHTML);
               if (src && form.elements.featureImage) form.elements.featureImage.value = src;
@@ -2364,6 +2452,12 @@ ${detailsImages}
         block.addEventListener("drop", (event) => {
           event.preventDefault();
           block.classList.remove("outline", "outline-1", "outline-[#8b0000]");
+          const figureIndex = event.dataTransfer.getData("application/x-editor-figure-index");
+          if (figureIndex !== "") {
+            moveFigureAfterBlock_(field, Number(figureIndex), index);
+            renderFn();
+            return;
+          }
           const url = event.dataTransfer.getData("text/plain");
           if (!url) return;
           const markup = `\n\n${blogEditorImageMarkup_(url, form.elements.insertImageCaption?.value || "", form.elements.insertImagePlacement?.value || "full", "single")}\n\n`;
@@ -2386,8 +2480,8 @@ ${detailsImages}
       }
       preview.innerHTML = `
         <article class="max-w-[680px] mx-auto">
-          <h1 class="font-serif text-[34px] leading-tight text-zinc-100 mb-3">${esc(post.title || "Untitled")}</h1>
-          <p class="text-zinc-500 text-base leading-relaxed mb-6 font-sans">${esc(post.subtitle || "")}</p>
+          <h1 data-preview-title class="font-serif text-[34px] leading-tight text-zinc-100 mb-3">${esc(post.title || "Untitled")}</h1>
+          <p data-preview-subtitle class="text-zinc-500 text-base leading-relaxed mb-6 font-sans">${esc(post.subtitle || "")}</p>
           <div class="flex items-center gap-3 py-4 border-y border-zinc-800 mb-7">
             <div class="w-10 h-10 rounded-full bg-zinc-900 overflow-hidden border border-zinc-800 flex items-center justify-center text-zinc-400 font-serif">
               ${post.author.photoUrl ? `<img src="${esc(post.author.photoUrl)}" alt="" class="w-full h-full object-cover">` : esc(String(post.author.name || "A").charAt(0))}
@@ -2398,18 +2492,24 @@ ${detailsImages}
             </div>
           </div>
           ${post.featureImage ? `<img src="${esc(post.featureImage)}" alt="" class="w-full max-h-[320px] object-cover border border-zinc-800 mb-6">` : ""}
-          <div class="prose-preview text-zinc-100 font-serif text-[18px] leading-relaxed">
+          <div data-preview-body class="prose-preview text-zinc-100 font-serif text-[18px] leading-relaxed">
             ${post.content || "<p>Article body preview...</p>"}
           </div>
           ${post.author.bio ? `
             <div class="mt-10 border-t border-zinc-800 pt-6">
               <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">About the writer</p>
-              <p class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(post.author.bio)}</p>
+              <p data-preview-author-bio class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(post.author.bio)}</p>
             </div>
           ` : ""}
         </article>
       `;
       enhancePreviewImageEditing_(preview, document.getElementById("blog-edit-form"), "content", renderBlogEditorPreview);
+      setupPreviewInlineEditing_(preview, document.getElementById("blog-edit-form"), {
+        "[data-preview-title]": "title",
+        "[data-preview-subtitle]": "subtitle",
+        "[data-preview-body]": "content",
+        "[data-preview-author-bio]": "authorBio"
+      });
     }
 
     function closeBlogEditor() {
@@ -2765,8 +2865,8 @@ ${detailsImages}
       preview.innerHTML = `
         <article class="max-w-[680px] mx-auto">
           <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-3">Published Preview</p>
-          <h1 class="font-serif text-[34px] leading-tight text-zinc-100 mb-3">${esc(post.title || "Untitled")}</h1>
-          <p class="text-zinc-500 text-base leading-relaxed mb-6 font-sans">${esc(post.subtitle || "")}</p>
+          <h1 data-preview-title class="font-serif text-[34px] leading-tight text-zinc-100 mb-3">${esc(post.title || "Untitled")}</h1>
+          <p data-preview-subtitle class="text-zinc-500 text-base leading-relaxed mb-6 font-sans">${esc(post.subtitle || "")}</p>
           <div class="flex items-center gap-3 py-4 border-y border-zinc-800 mb-7">
             <div class="w-10 h-10 rounded-full bg-zinc-900 overflow-hidden border border-zinc-800 flex items-center justify-center text-zinc-400 font-serif">
               ${post.author.photoUrl ? `<img src="${esc(post.author.photoUrl)}" alt="" class="w-full h-full object-cover">` : esc(String(post.author.name || "A").charAt(0))}
@@ -2777,18 +2877,24 @@ ${detailsImages}
             </div>
           </div>
           ${post.featureImage ? `<img src="${esc(post.featureImage)}" alt="" class="w-full max-h-[340px] object-cover border border-zinc-800 mb-7">` : ""}
-          <div class="prose-preview text-zinc-100 font-serif text-[18px] leading-relaxed">
+          <div data-preview-body class="prose-preview text-zinc-100 font-serif text-[18px] leading-relaxed">
             ${bodyHtml}
           </div>
           ${post.author.bio ? `
             <div class="mt-10 border-t border-zinc-800 pt-6">
               <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">About the writer</p>
-              <p class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(post.author.bio)}</p>
+              <p data-preview-author-bio class="text-sm text-zinc-500 font-sans leading-relaxed">${esc(post.author.bio)}</p>
             </div>
           ` : ""}
         </article>
       `;
       enhancePreviewImageEditing_(preview, document.getElementById(`pending-blog-form-${id}`), "body", () => renderPendingBlogEditorPreview(id));
+      setupPreviewInlineEditing_(preview, document.getElementById(`pending-blog-form-${id}`), {
+        "[data-preview-title]": "title",
+        "[data-preview-subtitle]": "subtitle",
+        "[data-preview-body]": "body",
+        "[data-preview-author-bio]": "authorBio"
+      });
     }
 
     function insertPendingBlogEditorImage(id) {
@@ -2893,6 +2999,10 @@ ${detailsImages}
 
           <div class="min-w-0">
             <div class="sticky top-4">
+              <div class="flex items-center justify-between gap-3 mb-3">
+                <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans">Live Preview</p>
+                <p class="text-[10px] text-zinc-700 font-sans uppercase tracking-widest">Click text to edit</p>
+              </div>
               <div id="pending-blog-rendered-preview-${esc(id)}" class="border border-zinc-900 bg-[#0B0B0B] p-5 max-h-[780px] overflow-y-auto"></div>
             </div>
           </div>
