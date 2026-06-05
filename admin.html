@@ -487,6 +487,25 @@
       </div>
 
       <div id="secondary-admin-panel" class="hidden">
+        <div class="border border-zinc-900 bg-zinc-950/40 p-5 md:p-6 mb-5">
+          <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
+            <div class="min-w-0 flex-1">
+              <h3 class="text-lg text-zinc-200 font-serif mb-2">Secondary Article Queue</h3>
+              <p class="text-sm text-zinc-500 font-sans leading-relaxed max-w-2xl">
+                Review submitted sources, then approve every valid pending article in one GitHub update to avoid overlapping publishes.
+              </p>
+              <p id="secondary-bulk-status" class="mt-3 text-xs text-zinc-600 font-sans"></p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+              <button id="btn-secondary-refresh" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">
+                Refresh Queue
+              </button>
+              <button id="btn-secondary-approve-all" class="px-4 py-2 border border-[#8b0000] bg-[#8b0000]/20 text-zinc-100 hover:bg-[#8b0000]/35 text-[10px] font-sans tracking-widest uppercase">
+                Approve All
+              </button>
+            </div>
+          </div>
+        </div>
         <div id="secondary-submissions-list" class="space-y-0 border-t border-zinc-900">
           <div class="py-12 text-center text-zinc-600 font-serif italic">
             Secondary source queue not loaded.
@@ -843,6 +862,9 @@ Echoes of Gaza</textarea>
     const integrityAdminPanel = document.getElementById("integrity-admin-panel");
     const resourcesAdminPanel = document.getElementById("resources-admin-panel");
     const secondaryListContainer = document.getElementById("secondary-submissions-list");
+    const btnSecondaryRefresh = document.getElementById("btn-secondary-refresh");
+    const btnSecondaryApproveAll = document.getElementById("btn-secondary-approve-all");
+    const secondaryBulkStatus = document.getElementById("secondary-bulk-status");
     const blogListContainer = document.getElementById("blog-submissions-list");
     const btnBlogLoadPending = document.getElementById("btn-blog-load-pending");
     const btnBlogLoadPublished = document.getElementById("btn-blog-load-published");
@@ -1794,7 +1816,10 @@ Echoes of Gaza</textarea>
             <h3 class="text-lg text-zinc-200 font-serif">Published Blog Manager</h3>
             <p class="text-xs text-zinc-500 font-sans leading-relaxed max-w-2xl">Edit text, images, author details, preview layout, or remove a post from the public blog.</p>
           </div>
-          <button onclick="window.fetchPublishedBlogPosts()" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase w-full sm:w-auto shrink-0">Refresh</button>
+          <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <button onclick="window.repairBlogPostTextEncoding()" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase w-full sm:w-auto shrink-0">Repair Text/Thumbs</button>
+            <button onclick="window.fetchPublishedBlogPosts()" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase w-full sm:w-auto shrink-0">Refresh</button>
+          </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
           ${publishedBlogPosts.map((post) => `
@@ -1829,6 +1854,7 @@ Echoes of Gaza</textarea>
       activeBlogEditorPost = post;
       const author = getPostAuthor(post);
       const images = Array.isArray(post.images) ? post.images : [];
+      const editableFeatureImage = post.generatedThumbnail ? "" : (post.featureImage || post.shareImage || images[0] || "");
 
       blogEditorPanel.classList.remove("hidden");
       blogEditorPanel.innerHTML = `
@@ -1872,7 +1898,7 @@ Echoes of Gaza</textarea>
                 <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-1">Article Pictures</p>
                 <p class="text-xs text-zinc-500 font-sans leading-relaxed">Use the feature image as the article thumbnail, or insert images directly into the body exactly where your cursor is placed.</p>
               </div>
-              ${blogEditorField_("Feature/share image URL", "featureImage", post.featureImage || post.shareImage || images[0] || "", "input")}
+              ${blogEditorField_("Feature/share image URL", "featureImage", editableFeatureImage, "input")}
               ${blogEditorField_("Additional image URLs, one per line", "images", images.join("\\n"), "textarea")}
               <div class="border border-zinc-900 bg-black p-3 space-y-3">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -1936,7 +1962,9 @@ Echoes of Gaza</textarea>
       const value = (name) => form.elements[name]?.value || "";
       const imageList = value("images").split(/\n|,/).map(item => item.trim()).filter(Boolean);
       const featureImage = value("featureImage").trim();
-      const images = featureImage ? [featureImage].concat(imageList.filter(url => url !== featureImage)) : imageList;
+      const existingGenerated = activeBlogEditorPost.generatedThumbnail ? String(activeBlogEditorPost.featureImage || activeBlogEditorPost.shareImage || "") : "";
+      const realFeatureImage = featureImage && featureImage !== existingGenerated ? featureImage : "";
+      const images = realFeatureImage ? [realFeatureImage].concat(imageList.filter(url => url !== realFeatureImage)) : imageList.filter(url => url !== existingGenerated);
       const authorLinks = value("authorLinks").split(/\n|,/).map(item => item.trim()).filter(Boolean);
       return {
         id: activeBlogEditorPost.id,
@@ -1946,8 +1974,8 @@ Echoes of Gaza</textarea>
         shareDescription: value("subtitle").trim(),
         category: value("category").trim(),
         date: value("date").trim(),
-        featureImage,
-        shareImage: featureImage,
+        featureImage: realFeatureImage,
+        shareImage: realFeatureImage,
         images,
         author: {
           name: value("authorName").trim(),
@@ -2132,12 +2160,44 @@ Echoes of Gaza</textarea>
       }
     }
 
+    async function repairBlogPostTextEncoding() {
+      if (isProcessing) return;
+      const ok = confirm("Repair broken punctuation and missing generated thumbnails in published blog posts?\n\nThis fixes cases like Didn?t / Couldn?t and creates fallback thumbnails for posts without images.");
+      if (!ok) return;
+
+      isProcessing = true;
+      setStatus("Repairing blog text...");
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "repairBlogPostTextEncoding",
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || "Password admin"
+          })
+        });
+        const data = await readJsonResponse(response, "Blog text repair failed.");
+        if (data.result !== "success") throw new Error(data.message || "Blog text repair failed.");
+        alert(`Repair complete. Updated ${data.repaired || 0} blog post(s).`);
+        await fetchPublishedBlogPosts();
+        setStatus("Repaired");
+      } catch (error) {
+        alert("Repair failed: " + error.message);
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+      }
+    }
+
     window.fetchPublishedBlogPosts = fetchPublishedBlogPosts;
     window.openBlogEditor = openBlogEditor;
     window.closeBlogEditor = closeBlogEditor;
     window.insertBlogEditorImage = insertBlogEditorImage;
     window.saveBlogEditor = saveBlogEditor;
     window.deletePublishedBlogPost = deletePublishedBlogPost;
+    window.repairBlogPostTextEncoding = repairBlogPostTextEncoding;
 
     function parseMaybeJsonArray(value) {
       if (Array.isArray(value)) return value;
@@ -3267,6 +3327,77 @@ Echoes of Gaza</textarea>
         isProcessing = false;
       }
     };
+
+    async function approveAllSecondaryArticles() {
+      if (isProcessing) return;
+
+      const ok = confirm("Approve all pending secondary articles?\n\nThis will add every valid pending item to data/articles.json in one GitHub update. Invalid rows will stay pending with a skipped message.");
+      if (!ok) return;
+
+      isProcessing = true;
+      setStatus("Approving all secondary...");
+      if (secondaryBulkStatus) {
+        secondaryBulkStatus.textContent = "Approving all valid pending articles in one GitHub update...";
+        secondaryBulkStatus.className = "mt-3 text-xs text-zinc-500 font-sans";
+      }
+      if (btnSecondaryApproveAll) {
+        btnSecondaryApproveAll.disabled = true;
+        btnSecondaryApproveAll.textContent = "Approving...";
+        btnSecondaryApproveAll.classList.add("opacity-50", "cursor-not-allowed");
+      }
+
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({
+            action: "approveAllPendingArticles",
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || ""
+          })
+        });
+
+        const data = await readJsonResponse(response, "Bulk approval failed.");
+        if (data.result !== "success") {
+          throw new Error(data.message || "Bulk approval failed.");
+        }
+
+        const skippedText = data.skipped && data.skipped.length
+          ? ` ${data.skipped.length} skipped and left pending.`
+          : "";
+        if (secondaryBulkStatus) {
+          secondaryBulkStatus.textContent = `Approved ${data.approved || 0} article(s). ${data.addedToGithub || 0} confirmed in GitHub.${skippedText}`;
+          secondaryBulkStatus.className = "mt-3 text-xs text-green-700 font-sans";
+        }
+
+        await fetchSecondarySubmissions();
+        setStatus("Approved all");
+      } catch (error) {
+        console.error(error);
+        if (secondaryBulkStatus) {
+          secondaryBulkStatus.textContent = "Bulk approval error: " + error.message;
+          secondaryBulkStatus.className = "mt-3 text-xs text-[#8b0000] font-sans";
+        }
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+        if (btnSecondaryApproveAll) {
+          btnSecondaryApproveAll.disabled = false;
+          btnSecondaryApproveAll.textContent = "Approve All";
+          btnSecondaryApproveAll.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+      }
+    }
+
+    if (btnSecondaryRefresh) {
+      btnSecondaryRefresh.addEventListener("click", fetchSecondarySubmissions);
+    }
+
+    if (btnSecondaryApproveAll) {
+      btnSecondaryApproveAll.addEventListener("click", approveAllSecondaryArticles);
+    }
 
     window.handleRejectSecondary = async (id) => {
       if (isProcessing) return;
