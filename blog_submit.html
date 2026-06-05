@@ -398,7 +398,7 @@
             </div>
             <div class="border border-border-gray bg-[#080808] p-3">
               <div class="label mb-2">Expected public link</div>
-              <div id="post-url-preview" class="break-all font-sans text-xs md:text-sm text-off-white">https://echoesofgaza.org/blog?post=your-title</div>
+              <div id="post-url-preview" class="break-all font-sans text-xs md:text-sm text-off-white">https://echoesofgaza.org/blog/your-title.html</div>
               <p id="post-url-note" class="mt-2 text-xs text-ash-gray leading-relaxed">
                 This updates from your title and uses the same slug format as the publishing system.
               </p>
@@ -459,8 +459,8 @@
               <p class="text-deep-red text-[10px] font-bold uppercase tracking-[0.22em] mb-2">Preview & submit</p>
               <h2 class="font-serif text-3xl text-off-white leading-tight">How readers will see it</h2>
             </div>
-            <a id="preview-url-link" href="https://echoesofgaza.org/blog?post=your-title" target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-[0.16em] text-ash-gray hover:text-off-white transition break-all">
-              echoesofgaza.org/blog?post=your-title
+            <a id="preview-url-link" href="https://echoesofgaza.org/blog/your-title.html" target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-[0.16em] text-ash-gray hover:text-off-white transition break-all">
+              echoesofgaza.org/blog/your-title.html
             </a>
           </div>
           <div id="published-preview" class="published-preview p-4 md:p-5"></div>
@@ -562,7 +562,23 @@
     }
 
     function splitLines(value) {
-      return String(value || "").split(/\n+/).map((line) => line.trim()).filter(Boolean);
+      return String(value || "").split(/\n+/).map((line) => normalizeBlogImageUrl(line.trim())).filter(Boolean);
+    }
+
+    function normalizeBlogImageUrl(url) {
+      const clean = String(url || "").trim().replace(/&amp;/g, "&");
+      const match = clean.match(/^https:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+?)(?:\?.*)?$/i);
+      if (match) {
+        return `https://raw.githubusercontent.com/${match[1]}/${match[2]}/${match[3]}/${match[4]}`;
+      }
+      return clean;
+    }
+
+    function normalizeBlogImageSources(html) {
+      return String(html || "").replace(/(<img\b[^>]*\bsrc=)(["'])(.*?)\2/gi, (match, prefix, quote, url) => {
+        const normalized = normalizeBlogImageUrl(url).replace(/"/g, "%22").replace(/'/g, "%27");
+        return `${prefix}${quote}${normalized}${quote}`;
+      });
     }
 
     function setStep(step, shouldScroll = true) {
@@ -637,7 +653,7 @@
         return `<p class="text-ash-gray font-sans text-sm">Your article body preview will appear here as you write.</p>`;
       }
       if (/<\/?[a-z][\s\S]*>/i.test(text)) {
-        return text;
+        return normalizeBlogImageSources(text);
       }
       return text
         .split(/\n{2,}/)
@@ -652,7 +668,7 @@
       return {
         slug,
         path: `${slug}.html`,
-        url: `https://echoesofgaza.org/blog?post=${encodeURIComponent(slug)}`
+        url: `https://echoesofgaza.org/blog/${encodeURI(`${slug}.html`)}`
       };
     }
 
@@ -939,7 +955,7 @@
         bio: profile.bio || ""
       };
       const { slug, url } = previewPostUrl();
-      const shortUrl = `echoesofgaza.org/blog?post=${slug}`;
+      const shortUrl = `echoesofgaza.org/blog/${slug}.html`;
       const duplicate = publishedSlugs.has(slugify(title || "blog-post"));
 
       el("post-url-preview").textContent = url;
