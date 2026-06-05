@@ -1834,12 +1834,18 @@ Echoes of Gaza</textarea>
               </div>
               <div class="flex flex-wrap gap-2 mt-4">
                 <button onclick='window.openBlogEditor(${JSON.stringify(post.id || post.slug)})' class="px-3 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase min-w-[6.5rem]">Edit</button>
-                <a href="${esc(`https://echoesofgaza.org/blog?post=${encodeURIComponent(post.slug || post.id)}`)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase min-w-[6.5rem]">View</a>
+                <a href="${esc(getPublishedBlogUrl(post))}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase min-w-[6.5rem]">View</a>
               </div>
             </article>
           `).join("")}
         </div>
       `;
+    }
+
+    function getPublishedBlogUrl(post) {
+      const slug = post?.slug || post?.id || "post";
+      const path = post?.path || `${slug}.html`;
+      return `https://echoesofgaza.org/blog/${encodeURI(path)}`;
     }
 
     function getPostAuthor(post) {
@@ -2744,8 +2750,8 @@ Echoes of Gaza</textarea>
           throw new Error(data.message || "Blog approval failed.");
         }
         if (successDiv) {
-          const publicUrl = data.post?.slug
-            ? `https://echoesofgaza.org/blog?post=${encodeURIComponent(data.post.slug)}`
+          const publicUrl = data.post?.slug || data.post?.path
+            ? getPublishedBlogUrl(data.post)
             : "Published";
           successDiv.innerHTML = `Approved. <a class="underline" href="${esc(publicUrl)}" target="_blank" rel="noopener noreferrer">Open public link</a>`;
           successDiv.classList.remove("hidden");
