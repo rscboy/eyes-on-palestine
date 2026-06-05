@@ -79,6 +79,11 @@
       padding: 1.35rem;
     }
 
+    .editor-image-shell:hover .editor-image-toolbar,
+    .editor-image-shell:focus-within .editor-image-toolbar {
+      display: flex;
+    }
+
     #view-dashboard > div:first-child {
       padding: 1.25rem;
     }
@@ -1899,29 +1904,7 @@ Echoes of Gaza</textarea>
               ${blogEditorField_("Author bio", "authorBio", author.bio || post.authorBio || "", "textarea")}
             </section>
 
-            <section class="border border-zinc-900 bg-[#070707] p-4 space-y-3">
-              <div>
-                <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-1">Article Pictures</p>
-                <p class="text-xs text-zinc-500 font-sans leading-relaxed">Use the feature image as the article thumbnail, or insert images directly into the body exactly where your cursor is placed.</p>
-              </div>
-              ${blogEditorField_("Feature/share image URL", "featureImage", editableFeatureImage, "input")}
-              ${blogEditorField_("Additional image URLs, one per line", "images", images.join("\\n"), "textarea")}
-              <div class="border border-zinc-900 bg-black p-3 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  ${blogEditorField_("Picture URL to insert", "insertImageUrl", "", "input")}
-                  ${blogEditorField_("Caption / alt text", "insertImageCaption", "", "input")}
-                </div>
-                <label class="block">
-                  <span class="block text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">Placement</span>
-                  <select name="insertImagePlacement" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]">
-                    <option value="full">Full width between paragraphs</option>
-                    <option value="left">Small image floated left</option>
-                    <option value="right">Small image floated right</option>
-                  </select>
-                </label>
-                <button type="button" onclick="window.insertBlogEditorImage()" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">Insert Picture At Cursor</button>
-              </div>
-            </section>
+            ${blogPictureManager_("published", editableFeatureImage, images, "Use the feature image as the article thumbnail, build a reusable image library, or insert single images, galleries, and collapsible picture sets into the body.")}
             ${blogEditorField_("Article HTML/body", "content", post.content || "", "textarea tall")}
 
             <div id="blog-edit-error" class="hidden text-[#8b0000] text-xs font-sans"></div>
@@ -1945,6 +1928,7 @@ Echoes of Gaza</textarea>
       document.querySelectorAll("#blog-edit-form input, #blog-edit-form textarea, #blog-edit-form select").forEach((field) => {
         field.addEventListener("input", renderBlogEditorPreview);
       });
+      setupPictureManager_("published", document.getElementById("blog-edit-form"), () => renderBlogEditorPreview(), "content");
       renderBlogEditorPreview();
       blogEditorPanel.scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -1963,11 +1947,109 @@ Echoes of Gaza</textarea>
       `;
     }
 
+    function normalizeAdminImageUrl(url) {
+      const clean = String(url || "").trim().replace(/&amp;/g, "&");
+      const match = clean.match(/^https:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+?)(?:\?.*)?$/i);
+      if (match) return `https://raw.githubusercontent.com/${match[1]}/${match[2]}/${match[3]}/${match[4]}`;
+      return clean;
+    }
+
+    function splitAdminUrlList(value) {
+      return String(value || "")
+        .split(/\n|,/)
+        .map((item) => normalizeAdminImageUrl(item))
+        .filter(Boolean);
+    }
+
+    function imageFieldMarkup_(label, name, value, textarea = false) {
+      return `
+        <label class="block">
+          <span class="block text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">${esc(label)}</span>
+          ${textarea
+            ? `<textarea name="${name}" rows="4" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]">${esc(value)}</textarea>`
+            : `<input name="${name}" value="${esc(value)}" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]">`}
+        </label>
+      `;
+    }
+
+    function blogPictureManager_(scope, featureImage, images, description) {
+      return `
+        <section class="border border-zinc-900 bg-[#070707] p-4 space-y-4" data-picture-scope="${esc(scope)}">
+          <div>
+            <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-1">Article Pictures</p>
+            <p class="text-xs text-zinc-500 font-sans leading-relaxed">${esc(description)}</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-4">
+            <div class="space-y-3">
+              ${imageFieldMarkup_("Feature/share image URL", "featureImage", featureImage, false)}
+              ${imageFieldMarkup_("Picture library URLs, one per line", "images", images.join("\\n"), true)}
+              <div class="flex flex-wrap gap-2">
+                <button type="button" data-picture-action="refresh" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase">Refresh Library</button>
+                <button type="button" data-picture-action="feature-first" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans tracking-widest uppercase">Use First As Thumbnail</button>
+              </div>
+            </div>
+
+            <div class="border border-zinc-900 bg-black p-3">
+              <div class="flex items-center justify-between gap-3 mb-3">
+                <span class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans">Visual Picture Tray</span>
+                <span class="text-[10px] text-zinc-700 font-sans">Drag into preview or click Insert</span>
+              </div>
+              <div id="${esc(scope)}-picture-tray" class="grid grid-cols-2 sm:grid-cols-3 gap-2 min-h-[5.5rem]"></div>
+            </div>
+          </div>
+
+          <div class="border border-zinc-900 bg-black p-3 space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              ${imageFieldMarkup_("Picture URL(s) to insert", "insertImageUrl", "", true)}
+              ${imageFieldMarkup_("Caption / alt text", "insertImageCaption", "", false)}
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+              <label class="block">
+                <span class="block text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">Display style</span>
+                <select name="insertImageMode" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]">
+                  <option value="single">Single image</option>
+                  <option value="gallery">Image gallery</option>
+                  <option value="slider">Horizontal slideshow</option>
+                  <option value="details">Collapsible image set</option>
+                </select>
+              </label>
+              <label class="block">
+                <span class="block text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">Size / alignment</span>
+                <select name="insertImagePlacement" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]">
+                  <option value="full">Full width</option>
+                  <option value="wide">Wide feature</option>
+                  <option value="medium">Medium centered</option>
+                  <option value="left">Small floated left</option>
+                  <option value="right">Small floated right</option>
+                </select>
+              </label>
+              <label class="block">
+                <span class="block text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">Insert position</span>
+                <select name="insertImagePosition" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]">
+                  <option value="cursor">Current cursor</option>
+                  <option value="top">Top of article</option>
+                  <option value="end">End of article</option>
+                  <option value="after">After paragraph #</option>
+                </select>
+              </label>
+              <label class="block">
+                <span class="block text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">Paragraph #</span>
+                <input name="insertAfterParagraph" type="number" min="1" value="1" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]">
+              </label>
+            </div>
+            <button type="button" data-picture-action="insert" class="px-4 py-2 border border-[#8b0000] text-zinc-200 hover:bg-[#8b0000]/10 text-[10px] font-sans tracking-widest uppercase">Insert Picture Block</button>
+            <p class="text-[11px] text-zinc-600 font-sans leading-relaxed">In the preview, hover any inserted image to move it, resize it, remove it, or make it the share thumbnail. You can also drag an image from the tray onto a paragraph in the preview.</p>
+          </div>
+        </section>
+      `;
+    }
+
     function collectBlogEditorPost() {
       const form = document.getElementById("blog-edit-form");
       const value = (name) => form.elements[name]?.value || "";
-      const imageList = value("images").split(/\n|,/).map(item => item.trim()).filter(Boolean);
-      const featureImage = value("featureImage").trim();
+      const imageList = splitAdminUrlList(value("images"));
+      const featureImage = normalizeAdminImageUrl(value("featureImage"));
       const existingGenerated = activeBlogEditorPost.generatedThumbnail ? String(activeBlogEditorPost.featureImage || activeBlogEditorPost.shareImage || "") : "";
       const realFeatureImage = featureImage && featureImage !== existingGenerated ? featureImage : "";
       const images = realFeatureImage ? [realFeatureImage].concat(imageList.filter(url => url !== realFeatureImage)) : imageList.filter(url => url !== existingGenerated);
@@ -1996,22 +2078,56 @@ Echoes of Gaza</textarea>
       };
     }
 
-    function blogEditorImageMarkup_(url, caption, placement) {
-      const safeUrl = esc(url);
+    function figureClassForSize_(size) {
+      if (size === "left") return "float-left w-40 sm:w-52 mr-5 mb-4 mt-1";
+      if (size === "right") return "float-right w-40 sm:w-52 ml-5 mb-4 mt-1";
+      if (size === "medium") return "my-8 max-w-xl mx-auto";
+      if (size === "wide") return "my-10 -mx-4 md:-mx-12";
+      return "my-8";
+    }
+
+    function blogEditorImageMarkup_(urls, caption, placement, mode = "single") {
+      const imageUrls = splitAdminUrlList(Array.isArray(urls) ? urls.join("\n") : urls);
+      const firstUrl = imageUrls[0] || "";
+      const safeUrl = esc(firstUrl);
       const safeCaption = esc(caption);
       const alt = safeCaption || "Article image";
       const captionHtml = safeCaption ? `\n  <figcaption class="mt-2 text-[11px] text-zinc-500 font-sans leading-relaxed">${safeCaption}</figcaption>` : "";
-      if (placement === "left" || placement === "right") {
-        const sideClass = placement === "left"
-          ? "float-left w-40 sm:w-52 mr-5 mb-4 mt-1"
-          : "float-right w-40 sm:w-52 ml-5 mb-4 mt-1";
-        return `<figure class="${sideClass}">
-  <img src="${safeUrl}" alt="${alt}" class="w-full border border-zinc-800 object-cover">
-  ${captionHtml}
+      const figureClass = figureClassForSize_(placement);
+
+      if (mode === "gallery" && imageUrls.length > 1) {
+        const gallery = imageUrls.map((url, index) => `
+    <img src="${esc(url)}" alt="${alt}${imageUrls.length > 1 ? ` ${index + 1}` : ""}" class="w-full h-52 object-cover border border-zinc-800">`).join("");
+        return `<figure class="${figureClass}" data-editor-figure="true" data-editor-mode="gallery">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+${gallery}
+  </div>${captionHtml}
 </figure>`;
       }
-      return `<figure class="my-8">
-  <img src="${safeUrl}" alt="${alt}" class="w-full max-h-[520px] border border-zinc-800 object-cover">
+
+      if (mode === "slider" && imageUrls.length > 1) {
+        const slides = imageUrls.map((url, index) => `
+    <img src="${esc(url)}" alt="${alt}${imageUrls.length > 1 ? ` ${index + 1}` : ""}" class="w-[82%] sm:w-[64%] shrink-0 max-h-[440px] object-cover border border-zinc-800 snap-center">`).join("");
+        return `<figure class="${figureClass}" data-editor-figure="true" data-editor-mode="slider">
+  <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3">
+${slides}
+  </div>${captionHtml}
+</figure>`;
+      }
+
+      if (mode === "details" && imageUrls.length > 1) {
+        const detailsImages = imageUrls.map((url, index) => `
+      <img src="${esc(url)}" alt="${alt}${imageUrls.length > 1 ? ` ${index + 1}` : ""}" class="w-full max-h-[420px] object-cover border border-zinc-800">`).join("");
+        return `<details class="my-8 border border-zinc-800 bg-black/40 p-4" data-editor-figure="true" data-editor-mode="details" open>
+  <summary class="cursor-pointer text-sm font-sans text-zinc-300 uppercase tracking-widest">${safeCaption || "Open image set"}</summary>
+  <div class="mt-4 grid grid-cols-1 gap-3">
+${detailsImages}
+  </div>
+</details>`;
+      }
+
+      return `<figure class="${figureClass}" data-editor-figure="true">
+  <img src="${safeUrl}" alt="${alt}" class="w-full border border-zinc-800 object-cover">
   ${captionHtml}
 </figure>`;
     }
@@ -2019,16 +2135,26 @@ Echoes of Gaza</textarea>
     function insertBlogEditorImage() {
       const form = document.getElementById("blog-edit-form");
       if (!form) return;
+      const contentField = form.elements.content;
+      const errorDiv = document.getElementById("blog-edit-error");
+      insertImageIntoEditor_(form, contentField, errorDiv, renderBlogEditorPreview);
+    }
+
+    function insertImageIntoEditor_(form, contentField, errorDiv, renderFn, forcedUrl = "") {
       const urlField = form.elements.insertImageUrl;
       const captionField = form.elements.insertImageCaption;
       const placementField = form.elements.insertImagePlacement;
-      const contentField = form.elements.content;
-      const url = String(urlField?.value || "").trim();
+      const modeField = form.elements.insertImageMode;
+      const positionField = form.elements.insertImagePosition;
+      const afterField = form.elements.insertAfterParagraph;
+      const urls = splitAdminUrlList(forcedUrl || urlField?.value || "");
       const caption = String(captionField?.value || "").trim();
       const placement = String(placementField?.value || "full");
-      const errorDiv = document.getElementById("blog-edit-error");
+      const mode = String(modeField?.value || "single");
+      const position = String(positionField?.value || "cursor");
+      const afterParagraph = Number(afterField?.value || 1);
 
-      if (!url || !/^https?:\/\//i.test(url)) {
+      if (!urls.length || urls.some((url) => !/^https?:\/\//i.test(url))) {
         if (errorDiv) {
           errorDiv.textContent = "Add a valid image URL beginning with http:// or https://.";
           errorDiv.classList.remove("hidden");
@@ -2038,16 +2164,213 @@ Echoes of Gaza</textarea>
       }
 
       if (errorDiv) errorDiv.classList.add("hidden");
-      const markup = `\n\n${blogEditorImageMarkup_(url, caption, placement)}\n\n`;
+      const markup = `\n\n${blogEditorImageMarkup_(urls, caption, placement, mode)}\n\n`;
+      insertMarkupIntoField_(contentField, markup, position, afterParagraph);
+      if (!forcedUrl && urlField) urlField.value = "";
+      if (!forcedUrl && captionField) captionField.value = "";
+      renderFn();
+    }
+
+    function insertMarkupIntoField_(contentField, markup, position, afterParagraph = 1) {
+      if (!contentField) return;
+      if (position === "top") {
+        contentField.value = `${markup}${contentField.value}`;
+        return;
+      }
+      if (position === "end") {
+        contentField.value = `${contentField.value}${markup}`;
+        return;
+      }
+      if (position === "after") {
+        contentField.value = insertMarkupAfterParagraph_(contentField.value, markup, afterParagraph);
+        return;
+      }
       const start = contentField.selectionStart ?? contentField.value.length;
       const end = contentField.selectionEnd ?? contentField.value.length;
       contentField.value = `${contentField.value.slice(0, start)}${markup}${contentField.value.slice(end)}`;
       const cursor = start + markup.length;
       contentField.focus();
       contentField.setSelectionRange(cursor, cursor);
-      if (urlField) urlField.value = "";
-      if (captionField) captionField.value = "";
-      renderBlogEditorPreview();
+    }
+
+    function insertMarkupAfterParagraph_(html, markup, paragraphNumber) {
+      const text = String(html || "");
+      const paragraphMatches = [...text.matchAll(/<\/p>/gi)];
+      const index = Math.max(1, paragraphNumber) - 1;
+      const target = paragraphMatches[index];
+      if (!target) return `${text}${markup}`;
+      const insertAt = target.index + target[0].length;
+      return `${text.slice(0, insertAt)}${markup}${text.slice(insertAt)}`;
+    }
+
+    function setupPictureManager_(scope, form, renderFn, contentFieldName) {
+      if (!form) return;
+      renderPictureTray_(scope, form);
+      form.querySelectorAll(`[data-picture-scope] input[name="featureImage"], [data-picture-scope] textarea[name="images"]`).forEach((field) => {
+        field.addEventListener("input", () => renderPictureTray_(scope, form));
+      });
+      form.querySelectorAll(`[data-picture-action]`).forEach((button) => {
+        button.addEventListener("click", () => {
+          const action = button.dataset.pictureAction;
+          if (action === "refresh") renderPictureTray_(scope, form);
+          if (action === "feature-first") {
+            const first = getPictureLibraryUrls_(form)[0] || "";
+            if (first) form.elements.featureImage.value = first;
+            renderPictureTray_(scope, form);
+            renderFn();
+          }
+          if (action === "insert") {
+            const errorDiv = form.id === "blog-edit-form"
+              ? document.getElementById("blog-edit-error")
+              : form.closest("[id^='blog-card-']")?.querySelector("[id^='blog-error-']");
+            insertImageIntoEditor_(form, form.elements[contentFieldName], errorDiv, renderFn);
+          }
+        });
+      });
+    }
+
+    function getPictureLibraryUrls_(form) {
+      const feature = normalizeAdminImageUrl(form.elements.featureImage?.value || "");
+      const extras = splitAdminUrlList(form.elements.images?.value || "");
+      return [feature].concat(extras).filter(Boolean).filter((url, index, list) => list.indexOf(url) === index);
+    }
+
+    function renderPictureTray_(scope, form) {
+      const tray = document.getElementById(`${scope}-picture-tray`);
+      if (!tray || !form) return;
+      const urls = getPictureLibraryUrls_(form);
+      if (!urls.length) {
+        tray.innerHTML = `<div class="col-span-full border border-dashed border-zinc-900 p-4 text-xs text-zinc-600 font-sans leading-relaxed">Paste image URLs into the fields, then refresh the tray. GitHub blob links are cleaned automatically.</div>`;
+        return;
+      }
+      tray.innerHTML = urls.map((url, index) => `
+        <button type="button" draggable="true" data-picture-url="${esc(url)}" class="group text-left border border-zinc-900 bg-[#080808] hover:border-[#8b0000] transition overflow-hidden">
+          <img src="${esc(url)}" alt="" class="w-full h-20 object-cover bg-black" onerror="this.classList.add('hidden')">
+          <span class="block p-2 text-[10px] text-zinc-500 font-sans leading-tight break-all">${index === 0 ? "Thumbnail / " : ""}${esc(url.split("/").pop() || url)}</span>
+        </button>
+      `).join("");
+      tray.querySelectorAll("[data-picture-url]").forEach((card) => {
+        card.addEventListener("click", () => {
+          form.elements.insertImageUrl.value = card.dataset.pictureUrl || "";
+          form.elements.insertImagePosition.value = "cursor";
+        });
+        card.addEventListener("dragstart", (event) => {
+          event.dataTransfer.setData("text/plain", card.dataset.pictureUrl || "");
+          event.dataTransfer.effectAllowed = "copy";
+        });
+      });
+    }
+
+    function findFigureBlocks_(html) {
+      return [...String(html || "").matchAll(/<(figure|details)\b[\s\S]*?<\/\1>/gi)].map((match) => ({
+        html: match[0],
+        index: match.index
+      }));
+    }
+
+    function replaceFigureBlock_(field, figureIndex, nextHtml) {
+      const blocks = findFigureBlocks_(field.value);
+      const block = blocks[figureIndex];
+      if (!block) return;
+      field.value = `${field.value.slice(0, block.index)}${nextHtml}${field.value.slice(block.index + block.html.length)}`;
+    }
+
+    function moveFigureBlock_(field, figureIndex, direction) {
+      const blocks = findFigureBlocks_(field.value);
+      const targetIndex = figureIndex + direction;
+      if (!blocks[figureIndex] || !blocks[targetIndex]) return;
+      const ordered = blocks.map((block) => block.html);
+      [ordered[figureIndex], ordered[targetIndex]] = [ordered[targetIndex], ordered[figureIndex]];
+      let cursor = 0;
+      let nextValue = "";
+      blocks.forEach((block, index) => {
+        nextValue += field.value.slice(cursor, block.index) + ordered[index];
+        cursor = block.index + block.html.length;
+      });
+      field.value = nextValue + field.value.slice(cursor);
+    }
+
+    function resizeFigureBlock_(field, figureIndex, size) {
+      const blocks = findFigureBlocks_(field.value);
+      const block = blocks[figureIndex];
+      if (!block) return;
+      if (/^<details\b/i.test(block.html)) return;
+      const next = block.html.replace(/<figure\b[^>]*>/i, `<figure class="${figureClassForSize_(size)}" data-editor-figure="true">`);
+      replaceFigureBlock_(field, figureIndex, next);
+    }
+
+    function removeFigureBlock_(field, figureIndex) {
+      replaceFigureBlock_(field, figureIndex, "");
+    }
+
+    function firstImageFromHtml_(html) {
+      const match = String(html || "").match(/<img\b[^>]*\bsrc=(["'])(.*?)\1/i);
+      return match ? normalizeAdminImageUrl(match[2]) : "";
+    }
+
+    function insertMarkupAfterBlock_(field, blockIndex, markup) {
+      const blocks = [...String(field.value || "").matchAll(/(<p\b[\s\S]*?<\/p>|<figure\b[\s\S]*?<\/figure>|<details\b[\s\S]*?<\/details>)/gi)];
+      const block = blocks[blockIndex];
+      if (!block) {
+        field.value += markup;
+        return;
+      }
+      const insertAt = block.index + block[0].length;
+      field.value = `${field.value.slice(0, insertAt)}${markup}${field.value.slice(insertAt)}`;
+    }
+
+    function enhancePreviewImageEditing_(preview, form, fieldName, renderFn) {
+      const field = form?.elements[fieldName];
+      if (!preview || !field) return;
+      const figures = preview.querySelectorAll(".prose-preview figure, .prose-preview details");
+      figures.forEach((figure, index) => {
+        figure.classList.add("relative", "editor-image-shell", "outline", "outline-1", "outline-transparent", "hover:outline-[#8b0000]");
+        const toolbar = document.createElement("div");
+        toolbar.className = "editor-image-toolbar absolute right-2 top-2 z-20 hidden flex-wrap gap-1 bg-black/90 border border-zinc-800 p-1";
+        toolbar.innerHTML = `
+          <button type="button" data-action="up" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Up</button>
+          <button type="button" data-action="down" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Down</button>
+          <button type="button" data-action="medium" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Med</button>
+          <button type="button" data-action="full" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Full</button>
+          <button type="button" data-action="feature" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Thumb</button>
+          <button type="button" data-action="remove" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-[#8b0000] hover:text-red-400">Remove</button>
+        `;
+        figure.prepend(toolbar);
+        toolbar.querySelectorAll("button").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const action = button.dataset.action;
+            if (action === "up") moveFigureBlock_(field, index, -1);
+            if (action === "down") moveFigureBlock_(field, index, 1);
+            if (action === "medium" || action === "full") resizeFigureBlock_(field, index, action);
+            if (action === "feature") {
+              const src = firstImageFromHtml_(figure.outerHTML);
+              if (src && form.elements.featureImage) form.elements.featureImage.value = src;
+              renderPictureTray_(form.id === "blog-edit-form" ? "published" : form.id.replace("pending-blog-form-", "pending-"), form);
+            }
+            if (action === "remove") removeFigureBlock_(field, index);
+            renderFn();
+          });
+        });
+      });
+
+      preview.querySelectorAll(".prose-preview p, .prose-preview figure, .prose-preview details").forEach((block, index) => {
+        block.addEventListener("dragover", (event) => {
+          event.preventDefault();
+          block.classList.add("outline", "outline-1", "outline-[#8b0000]");
+        });
+        block.addEventListener("dragleave", () => block.classList.remove("outline", "outline-1", "outline-[#8b0000]"));
+        block.addEventListener("drop", (event) => {
+          event.preventDefault();
+          block.classList.remove("outline", "outline-1", "outline-[#8b0000]");
+          const url = event.dataTransfer.getData("text/plain");
+          if (!url) return;
+          const markup = `\n\n${blogEditorImageMarkup_(url, form.elements.insertImageCaption?.value || "", form.elements.insertImagePlacement?.value || "full", "single")}\n\n`;
+          insertMarkupAfterBlock_(field, index, markup);
+          renderFn();
+        });
+      });
     }
 
     function renderBlogEditorPreview() {
@@ -2086,6 +2409,7 @@ Echoes of Gaza</textarea>
           ` : ""}
         </article>
       `;
+      enhancePreviewImageEditing_(preview, document.getElementById("blog-edit-form"), "content", renderBlogEditorPreview);
     }
 
     function closeBlogEditor() {
@@ -2388,8 +2712,8 @@ Echoes of Gaza</textarea>
       if (!form) return pendingBlogEditablePost_(item);
 
       const value = (name) => form.elements[name]?.value || "";
-      const imageList = value("images").split(/\n|,/).map(entry => entry.trim()).filter(Boolean);
-      const featureImage = value("featureImage").trim();
+      const imageList = splitAdminUrlList(value("images"));
+      const featureImage = normalizeAdminImageUrl(value("featureImage"));
       const images = featureImage ? [featureImage].concat(imageList.filter(url => url !== featureImage)) : imageList;
       const authorLinks = value("authorLinks").split(/\n|,/).map(entry => entry.trim()).filter(Boolean);
       const body = value("body");
@@ -2464,40 +2788,15 @@ Echoes of Gaza</textarea>
           ` : ""}
         </article>
       `;
+      enhancePreviewImageEditing_(preview, document.getElementById(`pending-blog-form-${id}`), "body", () => renderPendingBlogEditorPreview(id));
     }
 
     function insertPendingBlogEditorImage(id) {
       const form = document.getElementById(`pending-blog-form-${id}`);
       if (!form) return;
-      const urlField = form.elements.insertImageUrl;
-      const captionField = form.elements.insertImageCaption;
-      const placementField = form.elements.insertImagePlacement;
       const bodyField = form.elements.body;
-      const url = String(urlField?.value || "").trim();
-      const caption = String(captionField?.value || "").trim();
-      const placement = String(placementField?.value || "full");
       const errorDiv = document.getElementById(`blog-error-${id}`);
-
-      if (!url || !/^https?:\/\//i.test(url)) {
-        if (errorDiv) {
-          errorDiv.textContent = "Add a valid image URL beginning with http:// or https://.";
-          errorDiv.classList.remove("hidden");
-        }
-        urlField?.focus();
-        return;
-      }
-
-      if (errorDiv) errorDiv.classList.add("hidden");
-      const markup = `\n\n${blogEditorImageMarkup_(url, caption, placement)}\n\n`;
-      const start = bodyField.selectionStart ?? bodyField.value.length;
-      const end = bodyField.selectionEnd ?? bodyField.value.length;
-      bodyField.value = `${bodyField.value.slice(0, start)}${markup}${bodyField.value.slice(end)}`;
-      const cursor = start + markup.length;
-      bodyField.focus();
-      bodyField.setSelectionRange(cursor, cursor);
-      if (urlField) urlField.value = "";
-      if (captionField) captionField.value = "";
-      renderPendingBlogEditorPreview(id);
+      insertImageIntoEditor_(form, bodyField, errorDiv, () => renderPendingBlogEditorPreview(id));
     }
 
     window.insertPendingBlogEditorImage = insertPendingBlogEditorImage;
@@ -2564,29 +2863,7 @@ Echoes of Gaza</textarea>
               ${blogEditorField_("Author bio", "authorBio", post.author.bio, "textarea")}
             </section>
 
-            <section class="border border-zinc-900 bg-[#070707] p-4 space-y-3">
-              <div>
-                <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-1">Article Pictures</p>
-                <p class="text-xs text-zinc-500 font-sans leading-relaxed">The feature image becomes the article thumbnail. Insert extra images at the cursor to choose where they appear.</p>
-              </div>
-              ${blogEditorField_("Feature/share image URL", "featureImage", post.featureImage, "input")}
-              ${blogEditorField_("Additional image URLs, one per line", "images", post.images.join("\\n"), "textarea")}
-              <div class="border border-zinc-900 bg-black p-3 space-y-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  ${blogEditorField_("Picture URL to insert", "insertImageUrl", "", "input")}
-                  ${blogEditorField_("Caption / alt text", "insertImageCaption", "", "input")}
-                </div>
-                <label class="block">
-                  <span class="block text-[10px] text-zinc-600 uppercase tracking-widest font-sans mb-2">Placement</span>
-                  <select name="insertImagePlacement" class="w-full border border-zinc-800 bg-black text-zinc-200 px-3 py-2 text-sm font-sans outline-none focus:border-[#8b0000]">
-                    <option value="full">Full width between paragraphs</option>
-                    <option value="left">Small image floated left</option>
-                    <option value="right">Small image floated right</option>
-                  </select>
-                </label>
-                <button type="button" onclick="window.insertPendingBlogEditorImage('${esc(id)}')" class="px-4 py-2 border border-zinc-800 text-zinc-300 hover:border-[#8b0000] hover:text-white text-[10px] font-sans tracking-widest uppercase">Insert Picture At Cursor</button>
-              </div>
-            </section>
+            ${blogPictureManager_(`pending-${esc(id)}`, post.featureImage, post.images, "The feature image becomes the article thumbnail. Build a picture library, then insert images, galleries, or collapsible picture sets exactly where they belong before approving.")}
 
             ${blogEditorField_("Article body", "body", post.body, "textarea tall")}
 
@@ -2625,6 +2902,7 @@ Echoes of Gaza</textarea>
         field.addEventListener("input", () => renderPendingBlogEditorPreview(id));
         field.addEventListener("change", () => renderPendingBlogEditorPreview(id));
       });
+      setupPictureManager_(`pending-${id}`, document.getElementById(`pending-blog-form-${id}`), () => renderPendingBlogEditorPreview(id), "body");
       renderPendingBlogEditorPreview(id);
       preview.classList.remove("hidden");
       preview.scrollIntoView({ behavior: "smooth", block: "start" });
