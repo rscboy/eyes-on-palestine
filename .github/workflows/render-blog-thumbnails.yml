@@ -1,0 +1,44 @@
+name: render blog thumbnails
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "blog/thumbnails/**/*.svg"
+      - "scripts/render_blog_thumbnails.mjs"
+      - ".github/workflows/render-blog-thumbnails.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install renderer
+        run: npm install --no-save sharp@0.33.5
+
+      - name: Render PNG thumbnails
+        run: node scripts/render_blog_thumbnails.mjs
+
+      - name: Commit rendered thumbnails
+        run: |
+          if git diff --quiet -- blog/thumbnails; then
+            echo "No thumbnail changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add blog/thumbnails/*.png
+          git commit -m "Render blog social thumbnails"
+          git push
