@@ -1,20 +1,19 @@
 [
   {
     "date": "2026-06-05",
-    "title": "Women and children among 10 Palestinians killed in Israeli strikes on Gaza",
+    "title": "How a shortage of gas, engine oil and spare parts is grinding Gaza to a halt",
     "summary": "",
-    "link": "https://www.independent.co.uk/bulletin/news/gaza-airstrikes-israel-palestine-death-toll-b2990337.html",
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCajtN_cU4wnWO6Yfj01_C_-tUev9t12C2uQ&s",
-    "category": "Genocide",
+    "link": "https://www.theguardian.com/world/2026/jun/05/shortage-gas-oil-spare-parts-grinding-gaza-halt",
+    "imageUrl": "https://assets-legacy.floridarrc.com/2023/01/the-guardian-logo.jpeg",
+    "category": "Aid Crisis",
     "categories": [
-      "Genocide",
-      "Women and Children"
+      "Aid Crisis"
     ],
-    "categoryColor": "#98D8C8",
-    "source": "The Independent",
-    "author": "Wafaa Shurafa",
+    "categoryColor": "#FFB7B2",
+    "source": "The Guardian",
+    "author": "Seham Tantesh",
     "authors": [
-      "Wafaa Shurafa"
+      "Seham Tantesh"
     ],
     "documentType": "Article"
   },
