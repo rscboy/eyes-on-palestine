@@ -135,9 +135,57 @@
     }
 
     .editor-drop-target {
+      position: relative;
       outline: 1px solid rgba(139, 0, 0, 0.85);
       outline-offset: 6px;
       background: rgba(139, 0, 0, 0.08);
+    }
+
+    .editor-drop-before {
+      box-shadow: 0 -4px 0 #8b0000;
+    }
+
+    .editor-drop-after {
+      box-shadow: 0 4px 0 #8b0000;
+    }
+
+    .editor-drop-before::before,
+    .editor-drop-after::after {
+      content: "Drop here";
+      position: absolute;
+      z-index: 30;
+      right: 0;
+      padding: 0.2rem 0.45rem;
+      border: 1px solid rgba(139, 0, 0, 0.95);
+      background: rgba(0, 0, 0, 0.92);
+      color: #f4f4f5;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    .editor-drop-before::before {
+      top: -1.75rem;
+    }
+
+    .editor-drop-after::after {
+      bottom: -1.75rem;
+    }
+
+    .blog-live-preview-frame {
+      min-height: 960px;
+      max-height: min(1220px, calc(100vh - 4rem));
+      resize: vertical;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 768px) {
+      .blog-live-preview-frame {
+        min-height: 720px;
+        max-height: 88vh;
+      }
     }
 
     .preview-editable {
@@ -1994,7 +2042,7 @@ Echoes of Gaza</textarea>
                 <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans">Live Preview</p>
                 <p class="text-[10px] text-zinc-700 font-sans uppercase tracking-widest">Click text to edit</p>
               </div>
-              <div id="blog-edit-preview" class="border border-zinc-900 bg-[#0B0B0B] p-5 max-h-[760px] overflow-y-auto"></div>
+              <div id="blog-edit-preview" class="blog-live-preview-frame border border-zinc-900 bg-[#0B0B0B] p-5"></div>
             </div>
           </div>
         </div>
@@ -2462,6 +2510,17 @@ ${detailsImages}
       field.value = `${field.value.slice(0, insertAt)}${markup}${field.value.slice(insertAt)}`;
     }
 
+    function insertMarkupAtBlock_(field, blockIndex, markup, placement = "after") {
+      const blocks = findEditorBlocks_(field.value);
+      const block = blocks[blockIndex];
+      if (!block) {
+        field.value = placement === "before" ? `${markup}${field.value}` : `${field.value}${markup}`;
+        return;
+      }
+      const insertAt = placement === "before" ? block.index : block.index + block.html.length;
+      field.value = `${field.value.slice(0, insertAt)}${markup}${field.value.slice(insertAt)}`;
+    }
+
     function cleanPreviewEditedHtml_(element) {
       const clone = element.cloneNode(true);
       clone.querySelectorAll(".editor-image-toolbar").forEach((node) => node.remove());
@@ -2510,23 +2569,25 @@ ${detailsImages}
       });
     }
 
-    function moveFigureAfterBlock_(field, figureIndex, blockIndex) {
+    function moveFigureToBlock_(field, figureIndex, blockIndex, placement = "after") {
       const figures = findFigureBlocks_(field.value);
       const figure = figures[figureIndex];
       if (!figure) return;
       const allBlocks = findEditorBlocks_(field.value);
       const sourceBlockIndex = allBlocks.findIndex((block) => block.index === figure.index);
-      if (sourceBlockIndex === blockIndex || sourceBlockIndex - 1 === blockIndex) return;
+      if (sourceBlockIndex === blockIndex) return;
       let withoutFigure = `${field.value.slice(0, figure.index)}${field.value.slice(figure.index + figure.html.length)}`;
-      const blocks = [...withoutFigure.matchAll(/(<p\b[\s\S]*?<\/p>|<figure\b[\s\S]*?<\/figure>|<details\b[\s\S]*?<\/details>)/gi)];
+      const blocks = findEditorBlocks_(withoutFigure);
       const targetBlockIndex = sourceBlockIndex >= 0 && sourceBlockIndex < blockIndex ? blockIndex - 1 : blockIndex;
       const adjustedBlockIndex = Math.max(0, Math.min(targetBlockIndex, blocks.length - 1));
       const target = blocks[adjustedBlockIndex];
       if (!target) {
-        field.value = `${withoutFigure}\n\n${figure.html}\n\n`;
+        field.value = placement === "before"
+          ? `\n\n${figure.html}\n\n${withoutFigure}`
+          : `${withoutFigure}\n\n${figure.html}\n\n`;
         return;
       }
-      const insertAt = target.index + target[0].length;
+      const insertAt = placement === "before" ? target.index : target.index + target.html.length;
       field.value = `${withoutFigure.slice(0, insertAt)}\n\n${figure.html}\n\n${withoutFigure.slice(insertAt)}`;
     }
 
@@ -2535,10 +2596,16 @@ ${detailsImages}
       return Number.isFinite(value) ? value : -1;
     }
 
-    function resolvePreviewDropBlock_(event, previewBody) {
+    function resolvePreviewDropPosition_(event, previewBody) {
       const blocks = Array.from(previewBody.querySelectorAll("p, figure, details"));
       const target = event.target.closest?.(".prose-preview p, .prose-preview figure, .prose-preview details");
-      if (target && previewBody.contains(target)) return target;
+      if (target && previewBody.contains(target)) {
+        const rect = target.getBoundingClientRect();
+        return {
+          block: target,
+          placement: event.clientY < rect.top + rect.height / 2 ? "before" : "after"
+        };
+      }
       const y = event.clientY;
       let closest = blocks[blocks.length - 1] || null;
       let closestDistance = Infinity;
@@ -2551,12 +2618,21 @@ ${detailsImages}
           closestDistance = distance;
         }
       });
-      return closest;
+      if (!closest) return { block: null, placement: "after" };
+      const rect = closest.getBoundingClientRect();
+      return {
+        block: closest,
+        placement: y < rect.top + rect.height / 2 ? "before" : "after"
+      };
     }
 
-    function updatePreviewDropTarget_(previewBody, block) {
-      previewBody.querySelectorAll(".editor-drop-target").forEach((node) => node.classList.remove("editor-drop-target"));
-      if (block) block.classList.add("editor-drop-target");
+    function updatePreviewDropTarget_(previewBody, dropPosition) {
+      previewBody.querySelectorAll(".editor-drop-target, .editor-drop-before, .editor-drop-after").forEach((node) => {
+        node.classList.remove("editor-drop-target", "editor-drop-before", "editor-drop-after");
+      });
+      const block = dropPosition?.block;
+      if (!block) return;
+      block.classList.add("editor-drop-target", dropPosition.placement === "before" ? "editor-drop-before" : "editor-drop-after");
     }
 
     function beginFigureResize_(event, figure, field, figureIndex, renderFn) {
@@ -2606,15 +2682,21 @@ ${detailsImages}
       const figures = previewBody.querySelectorAll("figure, details");
       figures.forEach((figure, index) => {
         figure.classList.add("relative", "editor-image-shell", "outline", "outline-1", "outline-transparent", "hover:outline-[#8b0000]");
-        figure.setAttribute("contenteditable", "false");
-        figure.setAttribute("draggable", "true");
+        figure.removeAttribute("contenteditable");
+        figure.setAttribute("draggable", "false");
         figure.dataset.editorFigureIndex = String(index);
         figure.querySelectorAll("img").forEach((img) => img.setAttribute("draggable", "false"));
         figure.querySelectorAll("figcaption").forEach((caption) => {
           caption.setAttribute("contenteditable", "true");
           caption.setAttribute("spellcheck", "true");
           caption.classList.add("preview-editable");
+          caption.addEventListener("mousedown", (event) => event.stopPropagation());
+          caption.addEventListener("click", (event) => event.stopPropagation());
+          caption.addEventListener("dragstart", (event) => event.preventDefault());
           caption.addEventListener("input", () => {
+            field.value = cleanPreviewEditedHtml_(previewBody);
+          });
+          caption.addEventListener("blur", () => {
             field.value = cleanPreviewEditedHtml_(previewBody);
           });
         });
@@ -2646,14 +2728,6 @@ ${detailsImages}
             figure.appendChild(handle);
           });
         }
-        figure.addEventListener("dragstart", (event) => {
-          if (event.target.closest?.(".editor-resize-handle")) {
-            event.preventDefault();
-            return;
-          }
-          event.dataTransfer.setData("application/x-editor-figure-index", String(index));
-          event.dataTransfer.effectAllowed = "move";
-        });
         toolbar.querySelector("[data-action='drag']")?.addEventListener("dragstart", (event) => {
           event.dataTransfer.setData("application/x-editor-figure-index", String(index));
           event.dataTransfer.effectAllowed = "move";
@@ -2680,32 +2754,33 @@ ${detailsImages}
       previewBody.querySelectorAll("p, figure, details").forEach((block) => {
         block.addEventListener("dragover", (event) => {
           event.preventDefault();
-          updatePreviewDropTarget_(previewBody, block);
+          updatePreviewDropTarget_(previewBody, resolvePreviewDropPosition_(event, previewBody));
         });
       });
       previewBody.addEventListener("dragover", (event) => {
         event.preventDefault();
-        updatePreviewDropTarget_(previewBody, resolvePreviewDropBlock_(event, previewBody));
+        updatePreviewDropTarget_(previewBody, resolvePreviewDropPosition_(event, previewBody));
       });
       previewBody.addEventListener("dragleave", (event) => {
         if (!previewBody.contains(event.relatedTarget)) updatePreviewDropTarget_(previewBody, null);
       });
       previewBody.addEventListener("drop", (event) => {
         event.preventDefault();
-        const block = resolvePreviewDropBlock_(event, previewBody);
+        const dropPosition = resolvePreviewDropPosition_(event, previewBody);
+        const block = dropPosition.block;
         updatePreviewDropTarget_(previewBody, null);
         const blockIndex = blockIndexForPreviewNode_(block);
         if (blockIndex < 0) return;
         const figureIndex = event.dataTransfer.getData("application/x-editor-figure-index");
         if (figureIndex !== "") {
-          moveFigureAfterBlock_(field, Number(figureIndex), blockIndex);
+          moveFigureToBlock_(field, Number(figureIndex), blockIndex, dropPosition.placement);
           renderFn();
           return;
         }
         const url = event.dataTransfer.getData("text/plain");
         if (!url) return;
         const markup = `\n\n${blogEditorImageMarkup_(url, form.elements.insertImageCaption?.value || "", form.elements.insertImagePlacement?.value || "full", "single")}\n\n`;
-        insertMarkupAfterBlock_(field, blockIndex, markup);
+        insertMarkupAtBlock_(field, blockIndex, markup, dropPosition.placement);
         renderFn();
       });
     }
@@ -3246,7 +3321,7 @@ ${detailsImages}
                 <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-sans">Live Preview</p>
                 <p class="text-[10px] text-zinc-700 font-sans uppercase tracking-widest">Click text to edit</p>
               </div>
-              <div id="pending-blog-rendered-preview-${esc(id)}" class="border border-zinc-900 bg-[#0B0B0B] p-5 max-h-[780px] overflow-y-auto"></div>
+              <div id="pending-blog-rendered-preview-${esc(id)}" class="blog-live-preview-frame border border-zinc-900 bg-[#0B0B0B] p-5"></div>
             </div>
           </div>
         </div>
