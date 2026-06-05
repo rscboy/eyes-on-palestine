@@ -84,6 +84,62 @@
       display: flex;
     }
 
+    .editor-image-shell {
+      touch-action: none;
+    }
+
+    .editor-resize-handle {
+      position: absolute;
+      z-index: 25;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #f4f4f5;
+      background: #8b0000;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.85);
+      opacity: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .editor-image-shell:hover .editor-resize-handle,
+    .editor-image-shell:focus-within .editor-resize-handle,
+    .editor-image-shell.is-resizing .editor-resize-handle {
+      opacity: 1;
+    }
+
+    .editor-resize-handle:hover {
+      transform: scale(1.12);
+    }
+
+    .editor-resize-handle[data-corner="se"] {
+      right: -8px;
+      bottom: -8px;
+      cursor: nwse-resize;
+    }
+
+    .editor-resize-handle[data-corner="sw"] {
+      left: -8px;
+      bottom: -8px;
+      cursor: nesw-resize;
+    }
+
+    .editor-resize-handle[data-corner="ne"] {
+      right: -8px;
+      top: -8px;
+      cursor: nesw-resize;
+    }
+
+    .editor-resize-handle[data-corner="nw"] {
+      left: -8px;
+      top: -8px;
+      cursor: nwse-resize;
+    }
+
+    .editor-drop-target {
+      outline: 1px solid rgba(139, 0, 0, 0.85);
+      outline-offset: 6px;
+      background: rgba(139, 0, 0, 0.08);
+    }
+
     .preview-editable {
       outline: 1px dashed transparent;
       outline-offset: 4px;
@@ -2283,8 +2339,66 @@ ${detailsImages}
     function findFigureBlocks_(html) {
       return [...String(html || "").matchAll(/<(figure|details)\b[\s\S]*?<\/\1>/gi)].map((match) => ({
         html: match[0],
-        index: match.index
+        index: match.index,
+        tag: match[1].toLowerCase()
       }));
+    }
+
+    function findEditorBlocks_(html) {
+      return [...String(html || "").matchAll(/(<p\b[\s\S]*?<\/p>|<figure\b[\s\S]*?<\/figure>|<details\b[\s\S]*?<\/details>)/gi)].map((match) => ({
+        html: match[0],
+        index: match.index,
+        tag: (match[0].match(/^<([a-z0-9]+)/i) || [])[1]?.toLowerCase() || ""
+      }));
+    }
+
+    function getTagAttribute_(tag, attrName) {
+      const match = String(tag || "").match(new RegExp(`\\s${attrName}=(["'])(.*?)\\1`, "i"));
+      return match ? match[2] : "";
+    }
+
+    function setTagAttribute_(tag, attrName, value) {
+      const attr = `${attrName}="${String(value || "").replace(/"/g, "&quot;")}"`;
+      if (new RegExp(`\\s${attrName}=(["']).*?\\1`, "i").test(tag)) {
+        return tag.replace(new RegExp(`\\s${attrName}=(["']).*?\\1`, "i"), ` ${attr}`);
+      }
+      return tag.replace(/>$/, ` ${attr}>`);
+    }
+
+    function removeTagAttribute_(tag, attrName) {
+      return String(tag || "").replace(new RegExp(`\\s${attrName}=(["']).*?\\1`, "i"), "");
+    }
+
+    function sanitizeFigureResizeClass_(className) {
+      const blocked = /^(w-|sm:w-|md:w-|lg:w-|xl:w-|max-w-|sm:max-w-|md:max-w-|lg:max-w-|-mx-|sm:-mx-|md:-mx-|lg:-mx-)/;
+      const classes = String(className || "my-8")
+        .split(/\s+/)
+        .filter(Boolean)
+        .filter((item) => !blocked.test(item));
+      if (!classes.some((item) => /^m[trblxy]?-/i.test(item) || item === "my-8")) {
+        classes.unshift("my-8");
+      }
+      return classes.join(" ") || "my-8";
+    }
+
+    function setFigureBlockWidth_(field, figureIndex, widthPercent) {
+      const blocks = findFigureBlocks_(field.value);
+      const block = blocks[figureIndex];
+      if (!block || block.tag !== "figure") return;
+      const safeWidth = Math.max(18, Math.min(100, Math.round(Number(widthPercent) || 100)));
+      const next = block.html.replace(/<figure\b[^>]*>/i, (tag) => {
+        const existingStyle = getTagAttribute_(tag, "style")
+          .replace(/\bwidth\s*:\s*[^;]+;?/gi, "")
+          .replace(/\bmax-width\s*:\s*[^;]+;?/gi, "")
+          .trim();
+        const styleParts = existingStyle ? [existingStyle.replace(/;?$/, ";")] : [];
+        styleParts.push(`width: ${safeWidth}%; max-width: 100%;`);
+        let nextTag = setTagAttribute_(tag, "class", sanitizeFigureResizeClass_(getTagAttribute_(tag, "class")));
+        nextTag = setTagAttribute_(nextTag, "style", styleParts.join(" "));
+        nextTag = setTagAttribute_(nextTag, "data-editor-width", String(safeWidth));
+        return nextTag;
+      });
+      replaceFigureBlock_(field, figureIndex, next);
     }
 
     function replaceFigureBlock_(field, figureIndex, nextHtml) {
@@ -2314,7 +2428,17 @@ ${detailsImages}
       const block = blocks[figureIndex];
       if (!block) return;
       if (/^<details\b/i.test(block.html)) return;
-      const next = block.html.replace(/<figure\b[^>]*>/i, `<figure class="${figureClassForSize_(size)}" data-editor-figure="true">`);
+      const next = block.html.replace(/<figure\b[^>]*>/i, (tag) => {
+        let nextTag = setTagAttribute_(tag, "class", figureClassForSize_(size));
+        nextTag = setTagAttribute_(nextTag, "data-editor-figure", "true");
+        nextTag = removeTagAttribute_(nextTag, "data-editor-width");
+        const existingStyle = getTagAttribute_(nextTag, "style")
+          .replace(/\bwidth\s*:\s*[^;]+;?/gi, "")
+          .replace(/\bmax-width\s*:\s*[^;]+;?/gi, "")
+          .trim();
+        nextTag = existingStyle ? setTagAttribute_(nextTag, "style", existingStyle) : removeTagAttribute_(nextTag, "style");
+        return nextTag;
+      });
       replaceFigureBlock_(field, figureIndex, next);
     }
 
@@ -2341,14 +2465,19 @@ ${detailsImages}
     function cleanPreviewEditedHtml_(element) {
       const clone = element.cloneNode(true);
       clone.querySelectorAll(".editor-image-toolbar").forEach((node) => node.remove());
+      clone.querySelectorAll(".editor-resize-handle").forEach((node) => node.remove());
       clone.querySelectorAll("[contenteditable], [draggable], [spellcheck], [data-sync-field]").forEach((node) => {
         node.removeAttribute("contenteditable");
         node.removeAttribute("draggable");
         node.removeAttribute("spellcheck");
         node.removeAttribute("data-sync-field");
       });
+      clone.querySelectorAll("[data-preview-block-index], [data-editor-figure-index]").forEach((node) => {
+        node.removeAttribute("data-preview-block-index");
+        node.removeAttribute("data-editor-figure-index");
+      });
       clone.querySelectorAll(".editor-image-shell").forEach((node) => {
-        node.classList.remove("editor-image-shell", "relative", "outline", "outline-1", "outline-transparent", "hover:outline-[#8b0000]");
+        node.classList.remove("editor-image-shell", "is-resizing", "relative", "outline", "outline-1", "outline-transparent", "hover:outline-[#8b0000]", "editor-drop-target");
       });
       clone.querySelectorAll(".preview-editable").forEach((node) => {
         node.classList.remove("preview-editable");
@@ -2385,9 +2514,13 @@ ${detailsImages}
       const figures = findFigureBlocks_(field.value);
       const figure = figures[figureIndex];
       if (!figure) return;
+      const allBlocks = findEditorBlocks_(field.value);
+      const sourceBlockIndex = allBlocks.findIndex((block) => block.index === figure.index);
+      if (sourceBlockIndex === blockIndex || sourceBlockIndex - 1 === blockIndex) return;
       let withoutFigure = `${field.value.slice(0, figure.index)}${field.value.slice(figure.index + figure.html.length)}`;
       const blocks = [...withoutFigure.matchAll(/(<p\b[\s\S]*?<\/p>|<figure\b[\s\S]*?<\/figure>|<details\b[\s\S]*?<\/details>)/gi)];
-      const adjustedBlockIndex = Math.max(0, Math.min(blockIndex, blocks.length - 1));
+      const targetBlockIndex = sourceBlockIndex >= 0 && sourceBlockIndex < blockIndex ? blockIndex - 1 : blockIndex;
+      const adjustedBlockIndex = Math.max(0, Math.min(targetBlockIndex, blocks.length - 1));
       const target = blocks[adjustedBlockIndex];
       if (!target) {
         field.value = `${withoutFigure}\n\n${figure.html}\n\n`;
@@ -2397,18 +2530,99 @@ ${detailsImages}
       field.value = `${withoutFigure.slice(0, insertAt)}\n\n${figure.html}\n\n${withoutFigure.slice(insertAt)}`;
     }
 
+    function blockIndexForPreviewNode_(node) {
+      const value = Number(node?.dataset?.previewBlockIndex);
+      return Number.isFinite(value) ? value : -1;
+    }
+
+    function resolvePreviewDropBlock_(event, previewBody) {
+      const blocks = Array.from(previewBody.querySelectorAll("p, figure, details"));
+      const target = event.target.closest?.(".prose-preview p, .prose-preview figure, .prose-preview details");
+      if (target && previewBody.contains(target)) return target;
+      const y = event.clientY;
+      let closest = blocks[blocks.length - 1] || null;
+      let closestDistance = Infinity;
+      blocks.forEach((block) => {
+        const rect = block.getBoundingClientRect();
+        const middle = rect.top + rect.height / 2;
+        const distance = Math.abs(y - middle);
+        if (distance < closestDistance) {
+          closest = block;
+          closestDistance = distance;
+        }
+      });
+      return closest;
+    }
+
+    function updatePreviewDropTarget_(previewBody, block) {
+      previewBody.querySelectorAll(".editor-drop-target").forEach((node) => node.classList.remove("editor-drop-target"));
+      if (block) block.classList.add("editor-drop-target");
+    }
+
+    function beginFigureResize_(event, figure, field, figureIndex, renderFn) {
+      event.preventDefault();
+      event.stopPropagation();
+      const corner = event.currentTarget.dataset.corner || "se";
+      const container = figure.closest("article") || figure.parentElement;
+      const containerWidth = Math.max(1, container.getBoundingClientRect().width);
+      const startX = event.clientX;
+      const startWidth = figure.getBoundingClientRect().width;
+      figure.classList.add("is-resizing");
+      document.body.style.userSelect = "none";
+
+      const onMove = (moveEvent) => {
+        const delta = moveEvent.clientX - startX;
+        const directionalDelta = corner.includes("w") ? -delta : delta;
+        const nextPx = Math.max(containerWidth * 0.18, Math.min(containerWidth, startWidth + directionalDelta));
+        const nextPercent = Math.round((nextPx / containerWidth) * 100);
+        figure.style.width = `${nextPercent}%`;
+        figure.style.maxWidth = "100%";
+        figure.dataset.pendingWidth = String(nextPercent);
+      };
+
+      const onUp = () => {
+        document.removeEventListener("mousemove", onMove);
+        document.removeEventListener("mouseup", onUp);
+        document.body.style.userSelect = "";
+        figure.classList.remove("is-resizing");
+        const nextPercent = Number(figure.dataset.pendingWidth || Math.round((figure.getBoundingClientRect().width / containerWidth) * 100));
+        delete figure.dataset.pendingWidth;
+        setFigureBlockWidth_(field, figureIndex, nextPercent);
+        renderFn();
+      };
+
+      document.addEventListener("mousemove", onMove);
+      document.addEventListener("mouseup", onUp);
+    }
+
     function enhancePreviewImageEditing_(preview, form, fieldName, renderFn) {
       const field = form?.elements[fieldName];
       if (!preview || !field) return;
-      const figures = preview.querySelectorAll(".prose-preview figure, .prose-preview details");
+      const previewBody = preview.querySelector(".prose-preview");
+      if (!previewBody) return;
+      previewBody.querySelectorAll("p, figure, details").forEach((block, blockIndex) => {
+        block.dataset.previewBlockIndex = String(blockIndex);
+      });
+      const figures = previewBody.querySelectorAll("figure, details");
       figures.forEach((figure, index) => {
         figure.classList.add("relative", "editor-image-shell", "outline", "outline-1", "outline-transparent", "hover:outline-[#8b0000]");
+        figure.setAttribute("contenteditable", "false");
         figure.setAttribute("draggable", "true");
+        figure.dataset.editorFigureIndex = String(index);
+        figure.querySelectorAll("img").forEach((img) => img.setAttribute("draggable", "false"));
+        figure.querySelectorAll("figcaption").forEach((caption) => {
+          caption.setAttribute("contenteditable", "true");
+          caption.setAttribute("spellcheck", "true");
+          caption.classList.add("preview-editable");
+          caption.addEventListener("input", () => {
+            field.value = cleanPreviewEditedHtml_(previewBody);
+          });
+        });
         const toolbar = document.createElement("div");
         toolbar.className = "editor-image-toolbar absolute right-2 top-2 z-20 hidden flex-wrap gap-1 bg-black/90 border border-zinc-800 p-1";
         toolbar.setAttribute("contenteditable", "false");
         toolbar.innerHTML = `
-          <span class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-500 cursor-move">Drag</span>
+          <span class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-500 cursor-move" draggable="true" data-action="drag">Drag</span>
           <button type="button" data-action="up" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Up</button>
           <button type="button" data-action="down" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Down</button>
           <button type="button" data-action="left" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-zinc-300 hover:text-white">Left</button>
@@ -2420,7 +2634,27 @@ ${detailsImages}
           <button type="button" data-action="remove" class="px-2 py-1 text-[10px] font-sans uppercase tracking-widest text-[#8b0000] hover:text-red-400">Remove</button>
         `;
         figure.prepend(toolbar);
+        if (figure.tagName.toLowerCase() === "figure") {
+          ["nw", "ne", "sw", "se"].forEach((corner) => {
+            const handle = document.createElement("button");
+            handle.type = "button";
+            handle.className = "editor-resize-handle";
+            handle.dataset.corner = corner;
+            handle.setAttribute("aria-label", `Resize image from ${corner.toUpperCase()} corner`);
+            handle.setAttribute("contenteditable", "false");
+            handle.addEventListener("mousedown", (event) => beginFigureResize_(event, figure, field, index, renderFn));
+            figure.appendChild(handle);
+          });
+        }
         figure.addEventListener("dragstart", (event) => {
+          if (event.target.closest?.(".editor-resize-handle")) {
+            event.preventDefault();
+            return;
+          }
+          event.dataTransfer.setData("application/x-editor-figure-index", String(index));
+          event.dataTransfer.effectAllowed = "move";
+        });
+        toolbar.querySelector("[data-action='drag']")?.addEventListener("dragstart", (event) => {
           event.dataTransfer.setData("application/x-editor-figure-index", String(index));
           event.dataTransfer.effectAllowed = "move";
         });
@@ -2443,27 +2677,36 @@ ${detailsImages}
         });
       });
 
-      preview.querySelectorAll(".prose-preview p, .prose-preview figure, .prose-preview details").forEach((block, index) => {
+      previewBody.querySelectorAll("p, figure, details").forEach((block) => {
         block.addEventListener("dragover", (event) => {
           event.preventDefault();
-          block.classList.add("outline", "outline-1", "outline-[#8b0000]");
+          updatePreviewDropTarget_(previewBody, block);
         });
-        block.addEventListener("dragleave", () => block.classList.remove("outline", "outline-1", "outline-[#8b0000]"));
-        block.addEventListener("drop", (event) => {
-          event.preventDefault();
-          block.classList.remove("outline", "outline-1", "outline-[#8b0000]");
-          const figureIndex = event.dataTransfer.getData("application/x-editor-figure-index");
-          if (figureIndex !== "") {
-            moveFigureAfterBlock_(field, Number(figureIndex), index);
-            renderFn();
-            return;
-          }
-          const url = event.dataTransfer.getData("text/plain");
-          if (!url) return;
-          const markup = `\n\n${blogEditorImageMarkup_(url, form.elements.insertImageCaption?.value || "", form.elements.insertImagePlacement?.value || "full", "single")}\n\n`;
-          insertMarkupAfterBlock_(field, index, markup);
+      });
+      previewBody.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        updatePreviewDropTarget_(previewBody, resolvePreviewDropBlock_(event, previewBody));
+      });
+      previewBody.addEventListener("dragleave", (event) => {
+        if (!previewBody.contains(event.relatedTarget)) updatePreviewDropTarget_(previewBody, null);
+      });
+      previewBody.addEventListener("drop", (event) => {
+        event.preventDefault();
+        const block = resolvePreviewDropBlock_(event, previewBody);
+        updatePreviewDropTarget_(previewBody, null);
+        const blockIndex = blockIndexForPreviewNode_(block);
+        if (blockIndex < 0) return;
+        const figureIndex = event.dataTransfer.getData("application/x-editor-figure-index");
+        if (figureIndex !== "") {
+          moveFigureAfterBlock_(field, Number(figureIndex), blockIndex);
           renderFn();
-        });
+          return;
+        }
+        const url = event.dataTransfer.getData("text/plain");
+        if (!url) return;
+        const markup = `\n\n${blogEditorImageMarkup_(url, form.elements.insertImageCaption?.value || "", form.elements.insertImagePlacement?.value || "full", "single")}\n\n`;
+        insertMarkupAfterBlock_(field, blockIndex, markup);
+        renderFn();
       });
     }
 
