@@ -915,6 +915,11 @@
             ) || null;
         }
 
+        function getRequestedPostKeyFromPath() {
+            const match = window.location.pathname.match(/\/blog\/([^/?#]+)\.html$/i);
+            return match ? decodeURIComponent(match[1]) : "";
+        }
+
         function formatCount(value) {
             const number = Number(value || 0);
             return number.toLocaleString();
@@ -1372,13 +1377,22 @@
 
         // View 1: The Blog Index
         function updatePostQuery(post) {
-            const url = new URL(window.location.href);
-            if (post) {
-                url.searchParams.set("post", post.slug || post.id);
-            } else {
-                url.searchParams.delete("post");
+            try {
+                if (post) {
+                    const path = post.path || `${post.slug || post.id}.html`;
+                    window.history.replaceState({}, "", `/blog/${encodeURI(path)}`);
+                } else {
+                    window.history.replaceState({}, "", "/blog");
+                }
+            } catch (error) {
+                const url = new URL(window.location.href);
+                if (post) {
+                    url.searchParams.set("post", post.slug || post.id);
+                } else {
+                    url.searchParams.delete("post");
+                }
+                window.history.replaceState({}, "", url.toString());
             }
-            window.history.replaceState({}, "", url.toString());
         }
 
         function renderIndex() {
@@ -1637,7 +1651,7 @@
         async function initializePage() {
             await loadPublishedBlogPosts();
             const params = new URLSearchParams(window.location.search);
-            const requestedPost = params.get("post");
+            const requestedPost = params.get("post") || getRequestedPostKeyFromPath();
             if (!requestedPost) {
                 renderIndex();
                 return;
@@ -1647,7 +1661,7 @@
             const post = findPostByKey(normalized);
 
             if (post) {
-                renderPost(post.slug || post.id);
+                renderPost(post.slug || post.id, true);
             } else {
                 renderIndex();
             }
