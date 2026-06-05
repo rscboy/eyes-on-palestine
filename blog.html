@@ -53,6 +53,13 @@
                 }
                 Object.entries(attributes).forEach(([key, value]) => tag.setAttribute(key, value));
             };
+            const getHeadShareImageMeta = (imageUrl) => {
+                const path = String(imageUrl || "").toLowerCase().split("?")[0];
+                if (path.endsWith(".svg")) return { type: "image/svg+xml", width: "1200", height: "630" };
+                if (path.endsWith(".jpg") || path.endsWith(".jpeg")) return { type: "image/jpeg", width: "1200", height: "630" };
+                if (path.endsWith(".webp")) return { type: "image/webp", width: "1200", height: "630" };
+                return { type: "image/png", width: "1200", height: "630" };
+            };
 
             upsertMeta('meta[name="description"]', { name: "description", content: metadata.description });
             const removeMeta = (selector) => {
@@ -76,15 +83,10 @@
             } else {
                 upsertMeta('meta[property="og:image"]', { property: "og:image", content: metadata.image });
                 upsertMeta('meta[property="og:image:secure_url"]', { property: "og:image:secure_url", content: metadata.image });
-                if (metadata.isPost) {
-                    upsertMeta('meta[property="og:image:type"]', { property: "og:image:type", content: "image/png" });
-                    upsertMeta('meta[property="og:image:width"]', { property: "og:image:width", content: "1046" });
-                    upsertMeta('meta[property="og:image:height"]', { property: "og:image:height", content: "1468" });
-                } else {
-                    removeMeta('meta[property="og:image:type"]');
-                    removeMeta('meta[property="og:image:width"]');
-                    removeMeta('meta[property="og:image:height"]');
-                }
+                const imageMeta = getHeadShareImageMeta(metadata.image);
+                upsertMeta('meta[property="og:image:type"]', { property: "og:image:type", content: imageMeta.type });
+                upsertMeta('meta[property="og:image:width"]', { property: "og:image:width", content: imageMeta.width });
+                upsertMeta('meta[property="og:image:height"]', { property: "og:image:height", content: imageMeta.height });
                 upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: metadata.imageAlt });
                 upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: metadata.image });
                 upsertMeta('meta[name="twitter:image:alt"]', { name: "twitter:image:alt", content: metadata.imageAlt });
@@ -666,10 +668,54 @@
             }[char]));
         }
 
+        function getShareImageMeta(imageUrl) {
+            const path = String(imageUrl || "").toLowerCase().split("?")[0];
+            if (path.endsWith(".svg")) {
+                return { type: "image/svg+xml", width: "1200", height: "630" };
+            }
+            if (path.endsWith(".jpg") || path.endsWith(".jpeg")) {
+                return { type: "image/jpeg", width: "1200", height: "630" };
+            }
+            if (path.endsWith(".webp")) {
+                return { type: "image/webp", width: "1200", height: "630" };
+            }
+            return { type: "image/png", width: "1200", height: "630" };
+        }
+
         function compactBylineText(value) {
             const text = String(value || "").trim();
             if (!text) return "";
             return text.split(/\s+\/\s+/)[0].trim() || text;
+        }
+
+        function repairBlogTextSegment(value) {
+            return String(value || "")
+                .replace(/Hebrew Name:\s*\?{3,}\s+\?{2}\s+\?{3,}\s+\?{3,}/g, "Hebrew Name: נחמה בת אברהם ושרה")
+                .replace(/Alexandria Gary King\s*\/\s*\?{3,}\s+\?{2}\s+\?{3,}\s+\?{3,}/g, "Alexandria Gary King / נחמה בת אברהם ושרה")
+                .replace(/sides of the\s+\?{3,}\s+\(mechitza/g, "sides of the מחיצה (mechitza")
+                .replace(/&apos;|&#39;|&#x27;|&#8217;|&#x2019;/gi, "'")
+                .replace(/&quot;|&#34;|&#8220;|&#8221;|&#x201c;|&#x201d;/gi, '"')
+                .replace(/[\u2018\u2019\u201A\u201B]|â€™|â€˜/g, "'")
+                .replace(/[\u201C\u201D\u201E\u201F]|â€œ|â€�/g, '"')
+                .replace(/[\u2013\u2014]|â€“|â€”/g, "-")
+                .replace(/(\S)\s+\?\s+(\S)/g, "$1 - $2")
+                .replace(/(^|[\s(])\?([^?\n<>]{1,80})\?([\s.,;:!)]|$)/g, '$1"$2"$3')
+                .replace(/\b([A-Za-z]+n)\?t\b/g, "$1't")
+                .replace(/([A-Za-z])\?s\b/g, "$1's")
+                .replace(/\b([A-Za-z]+)\?(re|ve|ll|d|m)\b/g, "$1'$2")
+                .replace(/([A-Za-z0-9])\?([A-Za-z0-9])/g, "$1-$2")
+                .replace(/\u00A0/g, " ");
+        }
+
+        function repairBlogText(value) {
+            return repairBlogTextSegment(value).trim();
+        }
+
+        function repairBlogHtml(value) {
+            return String(value || "")
+                .split(/(<[^>]+>)/g)
+                .map((part) => /^<[^>]+>$/.test(part) ? part : repairBlogTextSegment(part))
+                .join("");
         }
 
         function normalizeBlogPost(post, index) {
@@ -683,17 +729,18 @@
                 id,
                 slug: post.slug || String(id).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
                 path: post.path || (post.slug ? `${post.slug}.html` : ""),
-                title: post.title || "Untitled",
-                subtitle: post.subtitle || post.shareDescription || "",
-                shareDescription: post.shareDescription || post.subtitle || "",
+                title: repairBlogText(post.title || "Untitled"),
+                subtitle: repairBlogText(post.subtitle || post.shareDescription || ""),
+                shareDescription: repairBlogText(post.shareDescription || post.subtitle || ""),
                 shareImage: post.shareImage || post.featureImage || (Array.isArray(post.images) ? post.images[0] : ""),
                 featureImage: post.featureImage || post.shareImage || (Array.isArray(post.images) ? post.images[0] : ""),
-                author: authorName,
-                displayAuthor,
+                generatedThumbnail: Boolean(post.generatedThumbnail),
+                author: repairBlogText(authorName),
+                displayAuthor: repairBlogText(displayAuthor),
                 authorImg: author.photoUrl || post.authorImg || "",
-                role: author.role || post.role || "",
-                authorLocation: author.location || post.authorLocation || "",
-                authorBio: author.bio || post.authorBio || "",
+                role: repairBlogText(author.role || post.role || ""),
+                authorLocation: repairBlogText(author.location || post.authorLocation || ""),
+                authorBio: repairBlogText(author.bio || post.authorBio || ""),
                 authorLinks: author.links || [],
                 date: fullDisplayDate,
                 displayDateShort,
@@ -701,7 +748,7 @@
                 citations: Number(post.citations || 0),
                 comments: Number(post.comments || 0),
                 viewCount: Number(post.viewCount || 0),
-                content: post.content || post.body || "",
+                content: repairBlogHtml(post.content || post.body || ""),
                 publishedAt: post.publishedAt || post.date || "",
                 scheduledAt: post.scheduledAt || "",
                 status: post.status || "published"
@@ -732,15 +779,16 @@
                 const published = Array.isArray(data) ? data : (data.posts || []);
                 const normalized = published.map(normalizeBlogPost).filter(isPostPublic);
                 normalized.forEach((post) => {
-                    const existingIndex = posts.findIndex(existing =>
-                        String(existing.id) === String(post.id) ||
-                        (existing.slug && post.slug && existing.slug === post.slug)
-                    );
-                    if (existingIndex >= 0) {
-                        posts[existingIndex] = Object.assign({}, posts[existingIndex], post);
-                    } else {
-                        posts.push(post);
+                    for (let index = posts.length - 1; index >= 0; index -= 1) {
+                        const existing = posts[index];
+                        if (
+                            String(existing.id || "") === String(post.id || "") ||
+                            (existing.slug && post.slug && existing.slug === post.slug)
+                        ) {
+                            posts.splice(index, 1);
+                        }
                     }
+                    posts.push(post);
                 });
                 posts.sort((a, b) => parseBlogDate(b.publishedAt || b.date) - parseBlogDate(a.publishedAt || a.date));
             } catch (error) {
@@ -777,7 +825,7 @@
             const pageTitle = post ? post.title : SITE_TITLE;
             const pageDescription = post ? (post.shareDescription || post.subtitle || SITE_DESCRIPTION) : SITE_DESCRIPTION;
             const pageUrl = post ? getPostUrl(post) : SITE_URL;
-            const pageImage = post ? (post.shareImage || null) : SITE_FAVICON;
+            const pageImage = post ? (post.shareImage || post.featureImage || null) : SITE_FAVICON;
 
             document.title = pageTitle;
             ensureFavicon();
@@ -787,11 +835,12 @@
             upsertMeta('meta[property="og:title"]', { property: "og:title", content: pageTitle });
             upsertMeta('meta[property="og:description"]', { property: "og:description", content: pageDescription });
             if (pageImage) {
+                const imageMeta = getShareImageMeta(pageImage);
                 upsertMeta('meta[property="og:image"]', { property: "og:image", content: pageImage });
                 upsertMeta('meta[property="og:image:secure_url"]', { property: "og:image:secure_url", content: pageImage });
-                upsertMeta('meta[property="og:image:type"]', { property: "og:image:type", content: "image/png" });
-                upsertMeta('meta[property="og:image:width"]', { property: "og:image:width", content: "1046" });
-                upsertMeta('meta[property="og:image:height"]', { property: "og:image:height", content: "1468" });
+                upsertMeta('meta[property="og:image:type"]', { property: "og:image:type", content: imageMeta.type });
+                upsertMeta('meta[property="og:image:width"]', { property: "og:image:width", content: imageMeta.width });
+                upsertMeta('meta[property="og:image:height"]', { property: "og:image:height", content: imageMeta.height });
                 upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: `${pageTitle} thumbnail` });
             } else {
                 removeMeta('meta[property="og:image"]');
@@ -829,6 +878,15 @@
             return `https://echoesofgaza.org/blog?post=${encodeURIComponent(post.slug || post.id)}`;
         }
 
+        function findPostByKey(key) {
+            const normalized = String(key || "").trim().toLowerCase();
+            if (!normalized) return null;
+            return posts.find((post) =>
+                String(post.id || "").trim().toLowerCase() === normalized ||
+                String(post.slug || "").trim().toLowerCase() === normalized
+            ) || null;
+        }
+
         function formatCount(value) {
             const number = Number(value || 0);
             return number.toLocaleString();
@@ -847,6 +905,7 @@
         function shouldRenderFeatureImage(post) {
             const image = post.featureImage || post.shareImage || "";
             if (!image) return false;
+            if (post.generatedThumbnail) return false;
             return !String(post.content || "").includes(image);
         }
 
@@ -1012,7 +1071,7 @@
                 event.preventDefault();
                 event.stopPropagation();
             }
-            const post = posts.find(p => p.id === id);
+            const post = findPostByKey(id);
             if (!post) return;
             const postUrl = getPostUrl(post);
 
@@ -1061,7 +1120,7 @@
         }
 
         function copyPostLink(id, message = "Link copied to clipboard") {
-            const post = posts.find(p => p.id === id);
+            const post = findPostByKey(id);
             if (!post) return;
             removeShareMenu();
             const postUrl = getPostUrl(post);
@@ -1415,7 +1474,7 @@
         // View 2: The Article Page
         function renderPost(id, updateUrl = false) {
             window.scrollTo(0, 0);
-            const post = posts.find(p => p.id === id);
+            const post = findPostByKey(id);
             if (!post) return;
             if (updateUrl) updatePostQuery(post);
             setSeoMeta(post);
@@ -1557,13 +1616,10 @@
             }
 
             const normalized = requestedPost.trim().toLowerCase();
-            const post = posts.find(p =>
-                String(p.id) === normalized ||
-                (p.slug && p.slug.toLowerCase() === normalized)
-            );
+            const post = findPostByKey(normalized);
 
             if (post) {
-                renderPost(post.id);
+                renderPost(post.slug || post.id);
             } else {
                 renderIndex();
             }
