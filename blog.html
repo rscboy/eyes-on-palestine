@@ -25,7 +25,7 @@
                 ? {
                     title: "Incident at Beth Jacob: My Response",
                     description: "I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
-                    url: "https://echoesofgaza.org/blog?post=incident-at-beth-jacob",
+                    url: "https://echoesofgaza.org/blog/incident-at-beth-jacob.html",
                     image: "https://echoesofgaza.org/alexandria_blog_image.png",
                     imageAlt: "Alexandria at the Jewish Cultural Festival in Dayton",
                     twitterCard: "summary_large_image",
@@ -718,6 +718,27 @@
                 .join("");
         }
 
+        function normalizeBlogImageUrl(url) {
+            const clean = String(url || "").trim().replace(/&amp;/g, "&");
+            const match = clean.match(/^https:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+?)(?:\?.*)?$/i);
+            if (match) {
+                return `https://raw.githubusercontent.com/${match[1]}/${match[2]}/${match[3]}/${match[4]}`;
+            }
+            return clean;
+        }
+
+        function normalizeBlogImageSources(html) {
+            return String(html || "").replace(/(<img\b[^>]*\bsrc=)(["'])(.*?)\2/gi, (match, prefix, quote, url) => {
+                const normalized = normalizeBlogImageUrl(url).replace(/"/g, "%22").replace(/'/g, "%27");
+                return `${prefix}${quote}${normalized}${quote}`;
+            });
+        }
+
+        function getFirstEmbeddedImage(html) {
+            const match = String(html || "").match(/<img\b[^>]*\bsrc=(["'])(.*?)\1/i);
+            return match ? normalizeBlogImageUrl(match[2]) : "";
+        }
+
         function normalizeBlogPost(post, index) {
             const id = post.id || post.slug || `published-${index}`;
             const author = post.author || {};
@@ -725,6 +746,11 @@
             const displayAuthor = post.displayAuthor || post.bylineAuthor || compactBylineText(authorName);
             const fullDisplayDate = post.displayDate || post.date || post.publishedAt || "";
             const displayDateShort = post.displayDateShort || post.compactDate || compactBylineText(fullDisplayDate);
+            const content = normalizeBlogImageSources(repairBlogHtml(post.content || post.body || ""));
+            const firstListImage = Array.isArray(post.images) ? normalizeBlogImageUrl(post.images[0]) : "";
+            const embeddedImage = getFirstEmbeddedImage(content);
+            const shareImage = normalizeBlogImageUrl(post.shareImage || post.featureImage || firstListImage || embeddedImage);
+            const featureImage = normalizeBlogImageUrl(post.featureImage || post.shareImage || firstListImage || embeddedImage);
             return {
                 id,
                 slug: post.slug || String(id).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
@@ -732,8 +758,8 @@
                 title: repairBlogText(post.title || "Untitled"),
                 subtitle: repairBlogText(post.subtitle || post.shareDescription || ""),
                 shareDescription: repairBlogText(post.shareDescription || post.subtitle || ""),
-                shareImage: post.shareImage || post.featureImage || (Array.isArray(post.images) ? post.images[0] : ""),
-                featureImage: post.featureImage || post.shareImage || (Array.isArray(post.images) ? post.images[0] : ""),
+                shareImage,
+                featureImage,
                 generatedThumbnail: Boolean(post.generatedThumbnail),
                 author: repairBlogText(authorName),
                 displayAuthor: repairBlogText(displayAuthor),
@@ -748,7 +774,7 @@
                 citations: Number(post.citations || 0),
                 comments: Number(post.comments || 0),
                 viewCount: Number(post.viewCount || 0),
-                content: repairBlogHtml(post.content || post.body || ""),
+                content,
                 publishedAt: post.publishedAt || post.date || "",
                 scheduledAt: post.scheduledAt || "",
                 status: post.status || "published"
@@ -875,7 +901,9 @@
         }
 
         function getPostUrl(post) {
-            return `https://echoesofgaza.org/blog?post=${encodeURIComponent(post.slug || post.id)}`;
+            const slug = post.slug || post.id || "post";
+            const path = post.path || `${slug}.html`;
+            return `https://echoesofgaza.org/blog/${encodeURI(path)}`;
         }
 
         function findPostByKey(key) {
