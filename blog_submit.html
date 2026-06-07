@@ -398,7 +398,7 @@
             </div>
             <div class="border border-border-gray bg-[#080808] p-3">
               <div class="label mb-2">Expected public link</div>
-              <div id="post-url-preview" class="break-all font-sans text-xs md:text-sm text-off-white">https://echoesofgaza.org/blog/your-title.html</div>
+              <div id="post-url-preview" class="break-all font-sans text-xs md:text-sm text-off-white">https://echoesofgaza.org/blog/your-title/</div>
               <p id="post-url-note" class="mt-2 text-xs text-ash-gray leading-relaxed">
                 This updates from your title and uses the same slug format as the publishing system.
               </p>
@@ -459,8 +459,8 @@
               <p class="text-deep-red text-[10px] font-bold uppercase tracking-[0.22em] mb-2">Preview & submit</p>
               <h2 class="font-serif text-3xl text-off-white leading-tight">How readers will see it</h2>
             </div>
-            <a id="preview-url-link" href="https://echoesofgaza.org/blog/your-title.html" target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-[0.16em] text-ash-gray hover:text-off-white transition break-all">
-              echoesofgaza.org/blog/your-title.html
+            <a id="preview-url-link" href="https://echoesofgaza.org/blog/your-title/" target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-[0.16em] text-ash-gray hover:text-off-white transition break-all">
+              echoesofgaza.org/blog/your-title/
             </a>
           </div>
           <div id="published-preview" class="published-preview p-4 md:p-5"></div>
@@ -667,8 +667,8 @@
       const slug = uniquePreviewSlug(el("post-title").value.trim() || "your-title");
       return {
         slug,
-        path: `${slug}.html`,
-        url: `https://echoesofgaza.org/blog/${encodeURI(`${slug}.html`)}`
+        path: `${slug}/`,
+        url: `https://echoesofgaza.org/blog/${encodeURIComponent(slug)}/`
       };
     }
 
@@ -955,7 +955,7 @@
         bio: profile.bio || ""
       };
       const { slug, url } = previewPostUrl();
-      const shortUrl = `echoesofgaza.org/blog/${slug}.html`;
+      const shortUrl = `echoesofgaza.org/blog/${slug}/`;
       const duplicate = publishedSlugs.has(slugify(title || "blog-post"));
 
       el("post-url-preview").textContent = url;
