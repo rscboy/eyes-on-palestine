@@ -25,7 +25,7 @@
                 ? {
                     title: "Incident at Beth Jacob: My Response",
                     description: "I have been dealing with a lot of complicated thoughts and emotions when it comes to this topic, but I feel that if I’m going to experience any kind of closure from this, I need to say something.",
-                    url: "https://echoesofgaza.org/blog/incident-at-beth-jacob.html",
+                    url: "https://echoesofgaza.org/blog/incident-at-beth-jacob/",
                     image: "https://echoesofgaza.org/alexandria_blog_image.png",
                     imageAlt: "Alexandria at the Jewish Cultural Festival in Dayton",
                     twitterCard: "summary_large_image",
@@ -902,8 +902,7 @@
 
         function getPostUrl(post) {
             const slug = post.slug || post.id || "post";
-            const path = post.path || `${slug}.html`;
-            return `https://echoesofgaza.org/blog/${encodeURI(path)}`;
+            return `https://echoesofgaza.org/blog/${encodeURIComponent(slug)}/`;
         }
 
         function findPostByKey(key) {
@@ -916,7 +915,7 @@
         }
 
         function getRequestedPostKeyFromPath() {
-            const match = window.location.pathname.match(/\/blog\/([^/?#]+)\.html$/i);
+            const match = window.location.pathname.match(/\/blog\/([^/?#]+?)(?:\.html)?\/?$/i);
             return match ? decodeURIComponent(match[1]) : "";
         }
 
@@ -1379,8 +1378,8 @@
         function updatePostQuery(post) {
             try {
                 if (post) {
-                    const path = post.path || `${post.slug || post.id}.html`;
-                    window.history.replaceState({}, "", `/blog/${encodeURI(path)}`);
+                    const slug = post.slug || post.id;
+                    window.history.replaceState({}, "", `/blog/${encodeURIComponent(slug)}/`);
                 } else {
                     window.history.replaceState({}, "", "/blog");
                 }
