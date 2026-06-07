@@ -1,5 +1,78 @@
 [
   {
+    "date": "2026-06-07",
+    "title": "Palestinians suffer from lack of proper toilets across Gaza's vast tent cities",
+    "summary": "",
+    "link": "https://apnews.com/article/mideast-wars-gaza-toilet-tent-khan-younis-3d40ef89f092351ee385365e6b0db1d8",
+    "imageUrl": "https://1000logos.net/wp-content/uploads/2016/10/Associated-Press-logo.jpg",
+    "category": "Aid Crisis",
+    "categories": [
+      "Aid Crisis"
+    ],
+    "categoryColor": "#FFB7B2",
+    "source": "Associated Press",
+    "author": "TOQA EZZIDIN, WAFAA SHURAFA",
+    "authors": [
+      "TOQA EZZIDIN",
+      "WAFAA SHURAFA"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-07",
+    "title": "Reports: Gaza fisherman killed by IDF fire",
+    "summary": "",
+    "link": "https://www.timesofisrael.com/liveblog_entry/reports-gaza-fisherman-killed-by-idf-fire/",
+    "imageUrl": "https://play-lh.googleusercontent.com/5RXKeNxLAMc60xycN3PSvoxwEY8Pp9iiZH2stMxmh9YoL6YOa7wSYPMA-w1vpYM7rg",
+    "category": "Death Toll",
+    "categories": [
+      "Death Toll"
+    ],
+    "categoryColor": "#A2D2FF",
+    "source": "The Times of Israel",
+    "author": "Nurit Yohanan",
+    "authors": [
+      "Nurit Yohanan"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-07",
+    "title": "Why ceasefires haven't stopped deadly strikes in Gaza, Lebanon or the Gulf",
+    "summary": "",
+    "link": "https://www.nbcnews.com/world/middle-east/ceasefires-havent-stopped-deadly-strikes-gaza-lebanon-gulf-rcna348774",
+    "imageUrl": "https://cdn.worldvectorlogo.com/logos/nbc-news.svg",
+    "category": "Ceasefire",
+    "categories": [
+      "Ceasefire"
+    ],
+    "categoryColor": "#83D6E3",
+    "source": "NBC News",
+    "author": "Freddie Clayton",
+    "authors": [
+      "Freddie Clayton"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-07",
+    "title": "Israel kills nine in Gaza as Egypt hosts new ceasefire talks",
+    "summary": "",
+    "link": "https://www.reuters.com/world/middle-east/israel-kills-five-gaza-egypt-hosts-new-ceasefire-talks-2026-06-07/",
+    "imageUrl": "https://i0.wp.com/janoberg.me/wp-content/uploads/2023/05/logo-Reuters.jpg?fit=5000%2C2435&ssl=1",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Reuters",
+    "author": "Nidal Al-Mughrabi",
+    "authors": [
+      "Nidal Al-Mughrabi"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-06-05",
     "title": "How a shortage of gas, engine oil and spare parts is grinding Gaza to a halt",
     "summary": "",
