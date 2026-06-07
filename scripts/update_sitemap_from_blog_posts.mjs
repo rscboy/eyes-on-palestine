@@ -64,7 +64,7 @@ function buildSitemap(existingXml, posts) {
   const today = new Date().toISOString().slice(0, 10);
   const byLoc = {};
   for (const entry of parseSitemapEntries(existingXml)) {
-    if (!/^https:\/\/echoesofgaza\.org\/blog\/[^/]+\.html$/i.test(entry.loc)) {
+    if (!/^https:\/\/echoesofgaza\.org\/blog\/[^/]+(?:\.html|\/)$/i.test(entry.loc)) {
       byLoc[entry.loc] = entry;
     }
   }
@@ -75,8 +75,9 @@ function buildSitemap(existingXml, posts) {
   };
 
   for (const post of posts.filter(isIndexablePost)) {
-    const path = post.path || `${post.slug}.html`;
-    const loc = `${SITE_ORIGIN}/blog/${encodeURI(path)}`;
+    const slug = post.slug || (post.path ? String(post.path).replace(/\.html$/i, "") : "");
+    if (!slug) continue;
+    const loc = `${SITE_ORIGIN}/blog/${encodeURIComponent(slug)}/`;
     byLoc[loc] = {
       loc,
       lastmod: toDateOnly(post.updatedAt || post.publishedAt || post.date, today)
