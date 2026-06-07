@@ -2910,7 +2910,7 @@ ${detailsImages}
 
     async function repairBlogPostTextEncoding() {
       if (isProcessing) return;
-      const ok = confirm("Repair broken punctuation and missing generated thumbnails in published blog posts?\n\nThis fixes cases like Didn?t / Couldn?t and creates fallback thumbnails for posts without images.");
+      const ok = confirm("Repair broken punctuation, missing/generated thumbnails, and static social-preview pages for published blog posts?\n\nThis fixes cases like Didn?t / Couldn?t, creates fallback thumbnails for posts without images, and refreshes the /blog/title.html pages used by Facebook and X.");
       if (!ok) return;
 
       isProcessing = true;
@@ -2928,7 +2928,7 @@ ${detailsImages}
         });
         const data = await readJsonResponse(response, "Blog text repair failed.");
         if (data.result !== "success") throw new Error(data.message || "Blog text repair failed.");
-        alert(`Repair complete. Updated ${data.repaired || 0} blog post(s).`);
+        alert(`Repair complete. Updated ${data.repaired || 0} blog post(s) and rebuilt ${data.rebuiltPages || 0} social preview page(s).`);
         await fetchPublishedBlogPosts();
         setStatus("Repaired");
       } catch (error) {
