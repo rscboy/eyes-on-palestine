@@ -1969,8 +1969,7 @@ Echoes of Gaza</textarea>
 
     function getPublishedBlogUrl(post) {
       const slug = post?.slug || post?.id || "post";
-      const path = post?.path || `${slug}.html`;
-      return `https://echoesofgaza.org/blog/${encodeURI(path)}`;
+      return `https://echoesofgaza.org/blog/${encodeURIComponent(slug)}/`;
     }
 
     function getPostAuthor(post) {
@@ -2910,7 +2909,7 @@ ${detailsImages}
 
     async function repairBlogPostTextEncoding() {
       if (isProcessing) return;
-      const ok = confirm("Repair broken punctuation, missing/generated thumbnails, and static social-preview pages for published blog posts?\n\nThis fixes cases like Didn?t / Couldn?t, creates fallback thumbnails for posts without images, and refreshes the /blog/title.html pages used by Facebook and X.");
+      const ok = confirm("Repair broken punctuation, missing/generated thumbnails, and static social-preview pages for published blog posts?\n\nThis fixes cases like Didn?t / Couldn?t, creates fallback thumbnails for posts without images, and refreshes the clean /blog/title/ pages used by Facebook and X.");
       if (!ok) return;
 
       isProcessing = true;
