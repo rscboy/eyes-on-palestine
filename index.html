@@ -44,7 +44,7 @@
                 history.scrollRestoration = "manual";
             }
 
-            document.documentElement.classList.add("eog-home-top-lock", "eog-home-scroll-freeze");
+            document.documentElement.classList.add("eog-home-top-lock", "eog-home-scroll-freeze", "eog-home-map-section-lock");
             const style = document.createElement("style");
             style.textContent = `
                 html.eog-home-top-lock,
@@ -52,12 +52,28 @@
                     scroll-behavior: auto !important;
                     overflow-anchor: none !important;
                 }
+                html.eog-home-top-lock {
+                    position: fixed !important;
+                    inset: 0 !important;
+                    width: 100% !important;
+                    height: 100% !important;
+                    overflow: hidden !important;
+                }
                 html.eog-home-top-lock body {
                     opacity: 0 !important;
+                    position: relative !important;
+                    top: 0 !important;
+                    min-height: 100vh !important;
                 }
                 html.eog-home-scroll-freeze,
                 html.eog-home-scroll-freeze body {
                     overflow: hidden !important;
+                }
+                html.eog-home-navigating-away body {
+                    opacity: 0 !important;
+                }
+                html.eog-home-map-section-lock #gaza-displacement-maps {
+                    visibility: hidden !important;
                 }
             `;
             document.head.appendChild(style);
@@ -67,20 +83,31 @@
             };
             const stopForUserIntent = () => {
                 window.__echoesStopHomeTopGuard = true;
-                document.documentElement.classList.remove("eog-home-top-lock", "eog-home-scroll-freeze");
+                document.documentElement.classList.remove("eog-home-top-lock", "eog-home-scroll-freeze", "eog-home-map-section-lock");
             };
             const guardedForceTop = () => {
                 if (!window.__echoesStopHomeTopGuard) forceTop();
             };
             const revealAtTop = () => {
+                document.documentElement.classList.remove("eog-home-navigating-away");
                 guardedForceTop();
                 requestAnimationFrame(() => {
+                    document.documentElement.classList.remove("eog-home-navigating-away");
                     guardedForceTop();
                     document.documentElement.classList.remove("eog-home-top-lock");
+                    guardedForceTop();
                 });
             };
             const unlockScroll = () => {
                 document.documentElement.classList.remove("eog-home-scroll-freeze");
+            };
+            const unlockMapSection = () => {
+                document.documentElement.classList.remove("eog-home-map-section-lock");
+            };
+            const hideAtTopBeforeLeaving = () => {
+                window.__echoesStopHomeTopGuard = false;
+                document.documentElement.classList.add("eog-home-navigating-away", "eog-home-map-section-lock");
+                forceTop();
             };
 
             forceTop();
@@ -88,12 +115,15 @@
                 window.addEventListener(eventName, stopForUserIntent, { once: true, passive: true });
             });
             window.addEventListener("hashchange", stopForUserIntent, { once: true });
-            window.addEventListener("pageshow", guardedForceTop);
+            window.addEventListener("pageshow", revealAtTop);
+            window.addEventListener("pagehide", hideAtTopBeforeLeaving);
+            window.addEventListener("beforeunload", hideAtTopBeforeLeaving);
             window.addEventListener("DOMContentLoaded", revealAtTop);
             window.addEventListener("load", revealAtTop);
             requestAnimationFrame(revealAtTop);
             [80, 250, 700, 1400, 2400, 3600, 5200, 7000].forEach(delay => window.setTimeout(guardedForceTop, delay));
             [1200, 2200].forEach(delay => window.setTimeout(unlockScroll, delay));
+            [900, 1800, 3000].forEach(delay => window.setTimeout(unlockMapSection, delay));
             const guardStartedAt = Date.now();
             const guardInterval = window.setInterval(() => {
                 if (window.__echoesStopHomeTopGuard || window.location.hash || Date.now() - guardStartedAt > 8000) {
@@ -306,6 +336,8 @@
             border: 1px solid rgba(139, 0, 0, 0.15); /* Faint red border */
             border-radius: 6px;
             transition: background-color 0.4s ease;
+            color: inherit;
+            font: inherit;
         }
         .stat-card:hover { 
             background: rgba(139, 0, 0, 0.05); /* Soft red glow on hover */
@@ -1859,10 +1891,10 @@
                             <div id="days-stat-hero" class="text-2xl font-bold text-white/90 mb-2">...</div>
                             <div class="text-xs text-gray-500 uppercase tracking-[0.15em]">Days</div>
                         </div>
-                        <a href="#gaza-displacement-maps" class="stat-card block p-6 text-center cursor-pointer">
+                        <button type="button" id="kill-zone-stat-link" class="stat-card block p-6 text-center cursor-pointer w-full">
                     <div class="text-3xl font-bold text-white/90 mb-2">70%</div>
                             <div class="text-xs text-gray-500 uppercase tracking-[0.15em]">Kill Zone</div>
-                        </a>
+                        </button>
                     </div>
 
                     <div class="hero-quote mb-20 text-center opacity-60">
@@ -3652,25 +3684,25 @@
             }
         }
 
+        function loadLazyMapEmbed(iframe) {
+            if (!iframe || iframe.src) return;
+            const src = iframe.getAttribute('data-map-src');
+            if (src) iframe.src = src;
+        }
+
         function initLazyMapEmbeds() {
             const embeds = Array.from(document.querySelectorAll('iframe[data-map-src]'));
             if (!embeds.length) return;
 
-            const loadEmbed = (iframe) => {
-                if (!iframe || iframe.src) return;
-                const src = iframe.getAttribute('data-map-src');
-                if (src) iframe.src = src;
-            };
-
             if (!('IntersectionObserver' in window)) {
-                embeds.forEach(loadEmbed);
+                embeds.forEach(loadLazyMapEmbed);
                 return;
             }
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (!entry.isIntersecting) return;
-                    loadEmbed(entry.target);
+                    loadLazyMapEmbed(entry.target);
                     observer.unobserve(entry.target);
                 });
             }, {
@@ -3680,6 +3712,14 @@
             });
 
             embeds.forEach((iframe) => observer.observe(iframe));
+        }
+
+        function scrollToDisplacementMap() {
+            const section = document.getElementById('gaza-displacement-maps');
+            if (!section) return;
+            document.documentElement.classList.remove('eog-home-map-section-lock');
+            section.querySelectorAll('iframe[data-map-src]').forEach(loadLazyMapEmbed);
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function updateArchiveResultSummary(filtered) {
@@ -4470,6 +4510,7 @@
             document.getElementById('view-table-btn')?.addEventListener('click', () => setArchiveView('table'));
             document.getElementById('view-timeline-btn')?.addEventListener('click', revealTimelineTool);
             document.getElementById('view-bias-tool-btn')?.addEventListener('click', revealBiasTool);
+            document.getElementById('kill-zone-stat-link')?.addEventListener('click', scrollToDisplacementMap);
 
             updateHeroStats();
             const articlesLoaded = await loadArticles();
