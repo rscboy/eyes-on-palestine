@@ -1,5 +1,77 @@
 [
   {
+    "date": "2026-06-08",
+    "title": "Israeli Fire Kills Six Palestinians in Gaza, Including 8-year-old Child",
+    "summary": "",
+    "link": "https://www.haaretz.com/israel-news/israel-security/2026-06-08/ty-article-live/iran-fires-missiles-at-israel-for-first-time-since-april-truce/0000019e-a3cc-d3e2-a3df-abfe61da0000",
+    "imageUrl": "https://images.seeklogo.com/logo-png/50/1/haaretz-logo-png_seeklogo-507234.png",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Haaretz",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Blog"
+  },
+  {
+    "date": "2026-06-08",
+    "title": "Israel says Gaza crossings closed until further notice after Iran missile attacks",
+    "summary": "",
+    "link": "https://www.timesofisrael.com/liveblog_entry/israel-says-gaza-crossings-closed-until-further-notice-after-iran-missile-attacks/",
+    "imageUrl": "https://play-lh.googleusercontent.com/5RXKeNxLAMc60xycN3PSvoxwEY8Pp9iiZH2stMxmh9YoL6YOa7wSYPMA-w1vpYM7rg",
+    "category": "War Crimes",
+    "categories": [
+      "War Crimes"
+    ],
+    "categoryColor": "#FF6B6B",
+    "source": "The Times of Israel",
+    "author": "Emanuel Fabian",
+    "authors": [
+      "Emanuel Fabian"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-08",
+    "title": "15-year-old Palestinian Muhammad Musa Abu Giab was killed by Israeli naval fire",
+    "summary": "",
+    "link": "https://x.com/tamerqdh/status/2063674888762569078",
+    "imageUrl": "https://cdn.prod.website-files.com/5d66bdc65e51a0d114d15891/64cebdd90aef8ef8c749e848_X-EverythingApp-Logo-Twitter.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "X",
+    "author": "tamerqdh",
+    "authors": [
+      "tamerqdh"
+    ],
+    "documentType": "Social media post"
+  },
+  {
+    "date": "2026-06-08",
+    "title": "Israeli military kills six in Gaza and expands control zone, locals say",
+    "summary": "",
+    "link": "https://www.reuters.com/world/middle-east/israeli-military-kills-four-gaza-expands-control-zone-locals-say-2026-06-08/",
+    "imageUrl": "https://i0.wp.com/janoberg.me/wp-content/uploads/2023/05/logo-Reuters.jpg?fit=5000%2C2435&ssl=1",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Reuters",
+    "author": "Nidal Al-Mughrabi",
+    "authors": [
+      "Nidal Al-Mughrabi"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-06-07",
     "title": "Palestinians suffer from lack of proper toilets across Gaza's vast tent cities",
     "summary": "",
