@@ -406,33 +406,58 @@
             bottom: 50px;
         }
 
-        .blog-hero-video {
+        .blog-masthead {
+            min-height: 64px;
+            display: flex;
+            align-items: center;
+            background: #080707;
+        }
+
+        .blog-header-video {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
             z-index: 0;
+            opacity: 0.34;
+            filter: saturate(0.9) contrast(1.08);
         }
 
-        .blog-hero-overlay {
+        .blog-header-overlay {
             position: absolute;
             inset: 0;
             z-index: 1;
-            background:
-                linear-gradient(180deg, rgba(11, 11, 11, 0.08) 0%, rgba(11, 11, 11, 0.2) 58%, #0B0B0B 100%),
-                linear-gradient(90deg, rgba(11, 11, 11, 0.9) 0%, rgba(11, 11, 11, 0.72) 54%, rgba(11, 11, 11, 0.62) 100%),
-                rgba(0, 0, 0, 0.36);
-        }
-
-        .blog-masthead {
-            min-height: 230px;
-            display: flex;
-            align-items: center;
+            background: rgba(0, 0, 0, 0.16);
+            pointer-events: none;
         }
 
         .blog-home-button {
             box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
+        }
+
+        .blog-section-pill {
+            color: #d55b5b;
+            border: 0;
+            background: rgba(140, 13, 13, 0.08);
+        }
+
+        .blog-content-shell {
+            background:
+                radial-gradient(circle at 92% 0%, rgba(140, 13, 13, 0.08) 0%, rgba(16, 16, 16, 0) 34%),
+                #101010;
+        }
+
+        .blog-breadcrumb {
+            color: #8C0D0D;
+            font-size: 0.68rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .blog-lede-panel {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .blog-footer-video {
@@ -449,8 +474,8 @@
             inset: 0;
             z-index: 1;
             background:
-                linear-gradient(180deg, #0B0B0B 0%, rgba(11, 11, 11, 0.84) 24%, rgba(11, 11, 11, 0.58) 100%),
-                linear-gradient(90deg, rgba(11, 11, 11, 0.78) 0%, rgba(11, 11, 11, 0.48) 100%);
+                linear-gradient(180deg, #0B0B0B 0%, rgba(11, 11, 11, 0.76) 24%, rgba(11, 11, 11, 0.46) 100%),
+                linear-gradient(90deg, rgba(11, 11, 11, 0.7) 0%, rgba(11, 11, 11, 0.34) 100%);
         }
 
         /* Animation */
@@ -464,9 +489,9 @@
 
         @media (max-width: 640px) {
             .blog-masthead {
-                min-height: 0;
-                padding-top: 1.15rem !important;
-                padding-bottom: 1.8rem !important;
+                min-height: 64px;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
             }
 
             .blog-masthead-inner {
@@ -476,7 +501,7 @@
 
             .blog-masthead-top {
                 gap: 0.75rem !important;
-                margin-bottom: 1.35rem !important;
+                margin-bottom: 0 !important;
             }
 
             .blog-masthead-logo-img {
@@ -493,60 +518,33 @@
             .blog-home-button i {
                 font-size: 0.72rem !important;
             }
-
-            .blog-masthead-copy-wrap {
-                max-width: 20rem;
-            }
-
-            .blog-masthead-title {
-                font-size: clamp(2.05rem, 10.5vw, 2.95rem) !important;
-                line-height: 0.98 !important;
-                text-wrap: balance;
-            }
-
-            .blog-masthead-subtitle {
-                max-width: 19rem;
-                margin-top: 0.85rem !important;
-                font-size: 0.94rem !important;
-                line-height: 1.48 !important;
-            }
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- Blog Masthead / Hero Section -->
-    <section class="blog-masthead relative overflow-hidden w-full border-b border-border-gray bg-deep-black py-8 md:py-12 fade-in">
-        <video class="blog-hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+    <!-- Blog Masthead -->
+    <section class="blog-masthead relative overflow-hidden w-full fade-in">
+        <video class="blog-header-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
             <source src="https://pub-3592c0f33d62473e96882cebf2720dba.r2.dev/84006-584870923_medium(1).mp4" type="video/mp4">
         </video>
-        <div class="blog-hero-overlay" aria-hidden="true"></div>
+        <div class="blog-header-overlay" aria-hidden="true"></div>
         <div class="blog-masthead-inner relative z-10 w-full max-w-[1100px] mx-auto px-5">
-            <div class="blog-masthead-top flex items-center justify-between gap-4 mb-8 md:mb-10">
+            <div class="blog-masthead-top flex items-center justify-between gap-4">
                 <a href="https://echoesofgaza.org" class="blog-masthead-brand flex items-center gap-3 min-w-0 group">
-                    <img src="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" alt="Logo" class="blog-masthead-logo-img h-9 md:h-10 w-auto object-contain group-hover:opacity-80 transition-opacity shrink-0">
-                    <span class="hidden sm:block text-[11px] font-sans text-ash-gray uppercase tracking-[0.22em] group-hover:text-off-white transition-colors">Echoes of Gaza</span>
+                    <img src="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" alt="Logo" class="blog-masthead-logo-img h-8 w-auto object-contain group-hover:opacity-80 transition-opacity shrink-0">
+                    <span class="hidden sm:block text-[11px] font-sans text-off-white uppercase tracking-[0.2em] group-hover:text-ash-gray transition-colors">Echoes of Gaza</span>
                 </a>
                 <a href="https://echoesofgaza.org/blog" class="blog-home-button inline-flex items-center gap-2 border border-white/15 bg-black/45 backdrop-blur-sm px-3.5 py-2 text-[10px] md:text-xs font-sans text-off-white font-bold uppercase tracking-[0.16em] hover:border-deep-red hover:bg-hover-bg transition-colors whitespace-nowrap">
                     <i class="ph ph-house text-sm" aria-hidden="true"></i>
                     Blog Home
                 </a>
             </div>
-
-            <div class="blog-masthead-copy-wrap max-w-2xl">
-                <h1 class="blog-masthead-title font-serif text-3xl md:text-5xl font-bold text-off-white tracking-tight leading-none">
-                    <a href="https://echoesofgaza.org" class="hover:underline decoration-deep-red underline-offset-8 transition-all">Echoes of Gaza</a>: Voices
-                </h1>
-
-                <p class="blog-masthead-subtitle text-ash-gray text-sm md:text-base max-w-lg leading-relaxed font-sans mt-4">
-                    Stories, testimonies, and the lived consequences of standing for Palestine.
-                </p>
-            </div>
         </div>
     </section>
 
     <!-- Main Content Area -->
-    <main id="app-container" class="flex-grow w-full mx-auto fade-in bg-deep-black">
+    <main id="app-container" class="blog-content-shell flex-grow w-full mx-auto fade-in">
         <!-- Content injected via JavaScript -->
     </main>
 
@@ -1399,7 +1397,14 @@
             updatePostQuery(null);
             setSeoMeta(null);
             let html = `
-                <div class="max-w-[1100px] mx-auto px-5 py-12 fade-in">
+                <div class="max-w-[1100px] mx-auto px-5 py-10 md:py-12 fade-in">
+                    <section class="blog-lede-panel pb-8 md:pb-10 mb-10">
+                        <p class="blog-breadcrumb mb-3">Echoes of Gaza / Voices</p>
+                        <h1 class="font-serif text-4xl md:text-6xl font-bold text-off-white tracking-tight leading-none mb-4">Voices</h1>
+                        <p class="post-subtitle text-lg md:text-xl max-w-2xl">
+                            Stories, testimonies, and the lived consequences of standing for Palestine.
+                        </p>
+                    </section>
                     
                     <div class="flex flex-col md:flex-row gap-12">
                         
@@ -1523,19 +1528,19 @@
             const bylineDate = post.displayDateShort || post.date;
 
             container.innerHTML = `
-                <div class="max-w-[680px] mx-auto px-5 py-10 fade-in">
+                <div class="max-w-[900px] mx-auto px-5 py-10 md:py-12 fade-in">
                     
                     <!-- Post Header -->
-                    <header class="mb-8">
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="text-deep-red text-sm font-bold uppercase tracking-widest cursor-pointer hover:text-white" onclick="renderIndex()">&larr; Blog Index</div>
-                        </div>
+                    <header class="blog-lede-panel mb-8 pb-8 md:pb-10">
+                        <button type="button" class="blog-breadcrumb mb-4 cursor-pointer hover:text-off-white transition-colors" onclick="renderIndex()">
+                            Echoes of Gaza / Voices / Article
+                        </button>
                         
-                        <h1 class="post-title text-[40px] md:text-[48px] font-bold text-off-white mb-4">${post.title}</h1>
-                        <h2 class="post-subtitle text-[20px] md:text-[22px] mb-8 font-sans">${post.subtitle}</h2>
+                        <h1 class="post-title text-[40px] md:text-[56px] font-bold text-off-white mb-4 max-w-[760px]">${post.title}</h1>
+                        <h2 class="post-subtitle text-[20px] md:text-[22px] mb-8 font-sans max-w-[760px]">${post.subtitle}</h2>
 
                         <!-- Author Block -->
-                        <div class="flex items-center justify-between py-5 border-y border-border-gray">
+                        <div class="flex items-center justify-between gap-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 bg-border-gray rounded-full flex items-center justify-center text-off-white font-serif italic text-lg border border-[#333] overflow-hidden">
                                     ${post.authorImg ? `<img src="${escapeHTML(post.authorImg)}" alt="${escapeHTML(bylineAuthor)}" class="w-full h-full object-cover">` : escapeHTML(bylineAuthor.charAt(0))}
@@ -1548,7 +1553,7 @@
                             </div>
                             
                             <!-- Share Actions -->
-                            <div class="flex items-center gap-4 text-ash-gray border-l border-border-gray pl-4 ml-4">
+                            <div class="flex items-center gap-4 text-ash-gray pl-4 ml-4">
                                 <div class="action-btn" title="View Citations">
                                     <i class="ph ph-seal-check text-xl"></i>
                                     <span class="text-sm">${post.citations}</span>
@@ -1560,47 +1565,48 @@
                         </div>
                     </header>
 
-                    ${shouldRenderFeatureImage(post) ? `
-                        <figure class="mb-8">
-                            <img src="${escapeHTML(post.featureImage || post.shareImage)}" alt="${escapeHTML(post.title)}" class="w-full rounded-sm object-cover border border-border-gray opacity-90">
-                        </figure>
-                    ` : ""}
+                    <div class="max-w-[680px]">
+                        ${shouldRenderFeatureImage(post) ? `
+                            <figure class="mb-8">
+                                <img src="${escapeHTML(post.featureImage || post.shareImage)}" alt="${escapeHTML(post.title)}" class="w-full rounded-sm object-cover border border-border-gray opacity-90">
+                            </figure>
+                        ` : ""}
 
-                    <!-- Body -->
-                    <article class="prose-content">
-                        ${post.content}
-                    </article>
+                        <!-- Body -->
+                        <article class="prose-content">
+                            ${post.content}
+                        </article>
 
-                    ${post.authorBio ? `
-                      <section class="mt-10 p-5 border border-border-gray bg-[#111] rounded-sm">
-                        <div class="flex items-start gap-4">
-                          <div class="w-12 h-12 bg-border-gray rounded-full flex items-center justify-center text-off-white font-serif italic text-lg border border-[#333] overflow-hidden shrink-0">
-                            ${post.authorImg ? `<img src="${escapeHTML(post.authorImg)}" alt="${escapeHTML(post.author)}" class="w-full h-full object-cover">` : escapeHTML(String(post.author || "A").charAt(0))}
-                          </div>
-                          <div>
-                            <p class="text-xs uppercase tracking-[0.18em] text-deep-red font-bold mb-2">About the writer</p>
-                            <h3 class="text-off-white font-sans font-semibold mb-1">${escapeHTML(post.author)}</h3>
-                            ${post.role ? `<p class="text-xs text-ash-gray mb-3">${escapeHTML(post.role)}</p>` : ""}
-                            <p class="text-sm text-ash-gray leading-relaxed">${escapeHTML(post.authorBio)}</p>
-                            ${Array.isArray(post.authorLinks) && post.authorLinks.length ? `
-                              <div class="flex flex-wrap gap-3 mt-3">
-                                ${post.authorLinks.map((link) => `<a href="${escapeHTML(link)}" target="_blank" rel="noopener noreferrer" class="text-xs text-deep-red hover:text-off-white transition-colors break-all">${escapeHTML(link)}</a>`).join("")}
+                        ${post.authorBio ? `
+                          <section class="mt-10 p-5 border border-border-gray bg-[#111] rounded-sm">
+                            <div class="flex items-start gap-4">
+                              <div class="w-12 h-12 bg-border-gray rounded-full flex items-center justify-center text-off-white font-serif italic text-lg border border-[#333] overflow-hidden shrink-0">
+                                ${post.authorImg ? `<img src="${escapeHTML(post.authorImg)}" alt="${escapeHTML(post.author)}" class="w-full h-full object-cover">` : escapeHTML(String(post.author || "A").charAt(0))}
                               </div>
-                            ` : ""}
-                          </div>
-                        </div>
-                      </section>
-                    ` : ""}
+                              <div>
+                                <p class="text-xs uppercase tracking-[0.18em] text-deep-red font-bold mb-2">About the writer</p>
+                                <h3 class="text-off-white font-sans font-semibold mb-1">${escapeHTML(post.author)}</h3>
+                                ${post.role ? `<p class="text-xs text-ash-gray mb-3">${escapeHTML(post.role)}</p>` : ""}
+                                <p class="text-sm text-ash-gray leading-relaxed">${escapeHTML(post.authorBio)}</p>
+                                ${Array.isArray(post.authorLinks) && post.authorLinks.length ? `
+                                  <div class="flex flex-wrap gap-3 mt-3">
+                                    ${post.authorLinks.map((link) => `<a href="${escapeHTML(link)}" target="_blank" rel="noopener noreferrer" class="text-xs text-deep-red hover:text-off-white transition-colors break-all">${escapeHTML(link)}</a>`).join("")}
+                                  </div>
+                                ` : ""}
+                              </div>
+                            </div>
+                          </section>
+                        ` : ""}
 
-                    <!-- Editor's Note -->
-                    <section class="mt-8 p-4 border border-border-gray bg-[#111] rounded-sm">
-                        <p class="text-xs uppercase tracking-[0.18em] text-deep-red font-bold mb-2">Editor’s Note</p>
-                        <p class="text-sm text-ash-gray leading-relaxed">
-                            The Echoes of Gaza archive is an anti-Zionist space committed to Palestinian liberation.
-                            We publish personal narratives that reflect a range of lived experiences and perspectives within that struggle.
-                            The views expressed in this piece are the author’s own.
-                        </p>
-                    </section>
+                        <!-- Editor's Note -->
+                        <section class="mt-8 p-4 border border-border-gray bg-[#111] rounded-sm">
+                            <p class="text-xs uppercase tracking-[0.18em] text-deep-red font-bold mb-2">Editor’s Note</p>
+                            <p class="text-sm text-ash-gray leading-relaxed">
+                                The Echoes of Gaza archive is an anti-Zionist space committed to Palestinian liberation.
+                                We publish personal narratives that reflect a range of lived experiences and perspectives within that struggle.
+                                The views expressed in this piece are the author’s own.
+                            </p>
+                        </section>
 
                     <div class="mt-16 mb-20 blog-engagement-panel py-5">
                         <div class="flex flex-wrap items-center gap-5 pb-5">
@@ -1640,6 +1646,7 @@
                                 </div>
                             </form>
                         </section>
+                    </div>
                     </div>
                 </div>
             `;
