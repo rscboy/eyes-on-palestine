@@ -166,6 +166,68 @@
             margin-top: 0.35rem;
         }
 
+        .multi-submit-panel {
+            border: 1px solid var(--border-color);
+            background: rgba(20, 20, 20, 0.58);
+            padding: 1rem;
+        }
+
+        .multi-submit-toggle {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+            cursor: pointer;
+        }
+
+        .multi-submit-toggle input {
+            margin-top: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            accent-color: var(--accent-red);
+        }
+
+        .article-batch-entry {
+            border: 1px solid var(--border-color);
+            background: rgba(10, 10, 10, 0.62);
+            padding: 1.25rem;
+        }
+
+        .article-batch-entry-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: flex-start;
+            border-bottom: 1px solid #262626;
+            padding-bottom: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .small-interface-button {
+            border: 1px solid var(--border-color);
+            color: #d4d4d4;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 0.65rem 0.85rem;
+            transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .small-interface-button:hover {
+            border-color: var(--accent-red);
+            color: #fff;
+            background: rgba(139, 0, 0, 0.12);
+        }
+
+        .small-interface-button.danger {
+            color: #9a9a9a;
+        }
+
+        .small-interface-button.danger:hover {
+            color: #fff;
+        }
+
         @media (max-width: 520px) {
             .image-url-preview {
                 grid-template-columns: 4rem minmax(0, 1fr);
@@ -291,7 +353,7 @@
             border-color: #4d1b1b;
         }
     </style>
-    <link rel="stylesheet" href="./assets/site-shell.css?v=menu-1">
+    <link rel="stylesheet" href="./assets/site-shell.css?v=nav-contrast-1">
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -401,6 +463,18 @@
                             <label for="submitterName" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Your Name *</label>
                             <input type="text" id="submitterName" name="submitterName" class="form-input block w-full p-3" placeholder="Identify yourself for our records" required>
                         </div>
+
+                        <div class="multi-submit-panel">
+                            <label class="multi-submit-toggle">
+                                <input type="checkbox" id="multiArticleMode">
+                                <span>
+                                    <span class="block text-sm font-sans text-gray-200 uppercase tracking-wide">Submit multiple articles at once</span>
+                                    <span class="block text-xs text-gray-500 font-sans mt-1 leading-relaxed normal-case tracking-normal">
+                                        Turn this on to add more article records below. Each article will use today’s date automatically, and each date can still be changed manually.
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
                         
                         <div>
                             <label for="date" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Date of Article *</label>
@@ -453,6 +527,19 @@
                             <p id="categoryHelp" class="text-xs text-gray-600 mt-3 font-sans">Select at least one category. Searching “Famine” can suggest related categories like Starvation.</p>
                         </div>
                     </div>
+                </section>
+
+                <section id="multiArticleSection" class="hidden">
+                    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+                        <div>
+                            <h3 class="section-header text-xl mb-2">Additional Articles</h3>
+                            <p class="text-sm text-gray-500 font-sans leading-relaxed">
+                                Add one section for each extra article. The first article above will be submitted too.
+                            </p>
+                        </div>
+                        <button type="button" id="addArticleButton" class="small-interface-button">Add Article</button>
+                    </div>
+                    <div id="additionalArticles" class="space-y-6"></div>
                 </section>
 
                 <!-- Optional Fields -->
@@ -804,6 +891,13 @@
         const submittingText = document.getElementById('submittingText');
         const successMessage = document.getElementById('successMessage');
         const errorMessage = document.getElementById('errorMessage');
+        const multiArticleMode = document.getElementById('multiArticleMode');
+        const multiArticleSection = document.getElementById('multiArticleSection');
+        const addArticleButton = document.getElementById('addArticleButton');
+        const additionalArticles = document.getElementById('additionalArticles');
+        let extraArticleCounter = 0;
+
+        const googleScriptWebAppUrl = 'https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec';
 
         const SOURCE_IMAGE_URLS = {
             "Associated Press": "https://1000logos.net/wp-content/uploads/2016/10/Associated-Press-logo.jpg",
@@ -862,6 +956,10 @@
         function getKnownImageUrlForSource(source) {
             const normalized = normalizeSourceName(source);
             return SOURCE_IMAGE_URLS[normalized] || SOURCE_IMAGE_URLS[source] || "";
+        }
+
+        function todayIsoDate() {
+            return new Date().toISOString().split('T')[0];
         }
 
         const sourceInput = document.getElementById("source");
@@ -932,8 +1030,251 @@
             updateImageUrlPreview(imageUrlInput.value);
         }
 
+        function buildCategoryOptions() {
+            return categories.map(category => `<option value="${category}">${category}</option>`).join('');
+        }
+
+        function createExtraArticleBlock() {
+            extraArticleCounter += 1;
+            const id = `extraArticle-${extraArticleCounter}`;
+            const wrapper = document.createElement('section');
+            wrapper.className = 'article-batch-entry';
+            wrapper.dataset.extraArticle = id;
+            wrapper.innerHTML = `
+                <div class="article-batch-entry-header">
+                    <div>
+                        <p class="text-xs text-gray-500 font-sans uppercase tracking-widest mb-1">Additional Article</p>
+                        <h4 class="editorial-font text-xl text-white">Article ${extraArticleCounter + 1}</h4>
+                    </div>
+                    <button type="button" class="small-interface-button danger" data-remove-extra-article="${id}">Remove</button>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Date of Article *</label>
+                        <input type="date" data-field="date" class="form-input block w-full p-3" value="${todayIsoDate()}" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article Title *</label>
+                        <input type="text" data-field="title" class="form-input block w-full p-3" placeholder="Enter the exact headline" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article URL *</label>
+                        <input type="url" data-field="link" class="form-input block w-full p-3" placeholder="https://" required>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Source Name *</label>
+                            <input type="text" data-field="source" list="sourceDatabase" class="form-input block w-full p-3" placeholder="Start typing a publication name" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Document Type *</label>
+                            <select data-field="documentType" class="form-select block w-full p-3 cursor-pointer" required>
+                                <option value="Article">Article</option>
+                                <option value="Press release">Press release</option>
+                                <option value="Blog">Blog</option>
+                                <option value="Social media post">Social media post</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Author(s)</label>
+                        <input type="text" data-field="authors" list="authorDatabase" class="form-input block w-full p-3" placeholder="Separate multiple authors with commas">
+                        <label class="mt-3 flex items-center gap-3 text-xs text-gray-500 font-sans uppercase tracking-wide cursor-pointer">
+                            <input type="checkbox" data-field="unknownAuthor" class="h-4 w-4 bg-[#141414] border border-gray-600">
+                            Unknown author
+                        </label>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Primary Category *</label>
+                            <select data-field="primaryCategory" class="form-select block w-full p-3 cursor-pointer" required>
+                                <option value="">Choose a category</option>
+                                ${buildCategoryOptions()}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Additional Categories</label>
+                            <input type="text" data-field="additionalCategories" class="form-input block w-full p-3" placeholder="Optional, separated by commas">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Neutral Summary</label>
+                        <textarea data-field="summary" rows="4" class="form-input block w-full p-3" placeholder="Provide a brief, objective summary of the content."></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Image URL</label>
+                        <input type="url" data-field="imageUrl" class="form-input block w-full p-3" placeholder="Optional. If blank, we will try the source image.">
+                    </div>
+                </div>
+            `;
+            additionalArticles.appendChild(wrapper);
+        }
+
+        function setMultiArticleMode(isEnabled) {
+            multiArticleSection.classList.toggle('hidden', !isEnabled);
+            if (isEnabled && !additionalArticles.querySelector('[data-extra-article]')) {
+                createExtraArticleBlock();
+            }
+            if (!isEnabled) {
+                additionalArticles.innerHTML = '';
+            }
+        }
+
+        function getExtraArticleField(entry, field) {
+            return entry.querySelector(`[data-field="${field}"]`);
+        }
+
+        function setBatchEntryEvents() {
+            additionalArticles.addEventListener('click', (event) => {
+                const button = event.target.closest('[data-remove-extra-article]');
+                if (!button) return;
+                button.closest('[data-extra-article]')?.remove();
+                if (multiArticleMode.checked && !additionalArticles.querySelector('[data-extra-article]')) {
+                    createExtraArticleBlock();
+                }
+            });
+
+            additionalArticles.addEventListener('change', (event) => {
+                if (event.target?.dataset?.field !== 'unknownAuthor') return;
+                const entry = event.target.closest('[data-extra-article]');
+                const authorsInput = getExtraArticleField(entry, 'authors');
+                if (!authorsInput) return;
+                authorsInput.disabled = event.target.checked;
+                if (event.target.checked) authorsInput.value = '';
+            });
+        }
+
+        function parseAuthors(authorsValue, isUnknown) {
+            const authors = isUnknown
+                ? ["Unknown author"]
+                : String(authorsValue || "")
+                    .split(/\s*(?:,|;| and )\s*/i)
+                    .map(author => author.trim())
+                    .filter(Boolean);
+            return authors.length ? authors : ["Unknown author"];
+        }
+
+        function parseCategoryList(primaryCategory, additionalCategories = '') {
+            const categoriesFromInput = String(additionalCategories || '')
+                .split(',')
+                .map(category => category.trim())
+                .filter(Boolean);
+            return [...new Set([primaryCategory, ...categoriesFromInput].filter(Boolean))];
+        }
+
+        function buildArticlePayload(entryData) {
+            const categoryList = parseCategoryList(entryData.primaryCategory, entryData.additionalCategories);
+            const primaryCategory = categoryList[0];
+            const normalizedAuthors = parseAuthors(entryData.authors, entryData.unknownAuthor);
+            return {
+                action: "submitArticle",
+                status: "pending",
+                type: "secondary_source",
+                submittedAt: new Date().toISOString(),
+                submitted_by: entryData.submitterName,
+                date: entryData.date,
+                title: entryData.title,
+                summary: entryData.summary || "",
+                link: entryData.link,
+                imageUrl: entryData.imageUrl || getImageUrlForSource(entryData.source),
+                category: primaryCategory,
+                categories: categoryList,
+                categoryColor: getCategoryColor(primaryCategory),
+                source: normalizeSourceName(entryData.source),
+                author: normalizedAuthors.join(', '),
+                authors: normalizedAuthors,
+                documentType: entryData.documentType
+            };
+        }
+
+        function collectFirstArticlePayload(formDataObject) {
+            return buildArticlePayload({
+                submitterName: formDataObject.submitterName,
+                date: formDataObject.date,
+                title: formDataObject.title,
+                summary: formDataObject.summary || "",
+                link: formDataObject.link,
+                imageUrl: formDataObject.imageUrl || "",
+                source: formDataObject.source,
+                documentType: formDataObject.documentType,
+                authors: formDataObject.authors || "",
+                unknownAuthor: Boolean(formDataObject.unknownAuthor),
+                primaryCategory: selectedCategories[0],
+                additionalCategories: selectedCategories.slice(1).join(', ')
+            });
+        }
+
+        function collectExtraArticlePayloads(submitterName) {
+            return Array.from(additionalArticles.querySelectorAll('[data-extra-article]')).map((entry) => buildArticlePayload({
+                submitterName,
+                date: getExtraArticleField(entry, 'date')?.value || '',
+                title: getExtraArticleField(entry, 'title')?.value || '',
+                summary: getExtraArticleField(entry, 'summary')?.value || '',
+                link: getExtraArticleField(entry, 'link')?.value || '',
+                imageUrl: getExtraArticleField(entry, 'imageUrl')?.value || '',
+                source: getExtraArticleField(entry, 'source')?.value || '',
+                documentType: getExtraArticleField(entry, 'documentType')?.value || 'Article',
+                authors: getExtraArticleField(entry, 'authors')?.value || '',
+                unknownAuthor: Boolean(getExtraArticleField(entry, 'unknownAuthor')?.checked),
+                primaryCategory: getExtraArticleField(entry, 'primaryCategory')?.value || '',
+                additionalCategories: getExtraArticleField(entry, 'additionalCategories')?.value || ''
+            }));
+        }
+
+        function validateExtraArticles() {
+            const entries = Array.from(additionalArticles.querySelectorAll('[data-extra-article]'));
+            for (const entry of entries) {
+                const requiredFields = ['date', 'title', 'link', 'source', 'documentType', 'primaryCategory'];
+                for (const field of requiredFields) {
+                    const input = getExtraArticleField(entry, field);
+                    if (!input?.value) {
+                        input?.focus();
+                        input?.reportValidity?.();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function resetArticleFormAfterSuccess() {
+            form.reset();
+            document.getElementById('authors').disabled = false;
+            selectedCategories.splice(0, selectedCategories.length);
+            syncSelectedCategories();
+            renderCategorySuggestions('');
+            updateImageUrlPreview('');
+            setMultiArticleMode(false);
+            multiArticleMode.checked = false;
+            const dateInput = document.getElementById('date');
+            if (dateInput) dateInput.value = todayIsoDate();
+        }
+
+        async function submitArticlePayload(payload) {
+            const response = await fetch(googleScriptWebAppUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8',
+                },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (data.result !== 'success') {
+                throw new Error(data.message || `Submission failed for "${payload.title}".`);
+            }
+            return data;
+        }
+
         // Handle form submission
-        submitButton.addEventListener('click', function(event) {
+        submitButton.addEventListener('click', async function(event) {
             // Manually check validity
             if (!form.checkValidity()) {
                 form.reportValidity();
@@ -946,98 +1287,69 @@
                 return;
             }
 
+            if (multiArticleMode.checked && !validateExtraArticles()) {
+                return;
+            }
+
             // Disable button and show loading text
             submitButton.disabled = true;
             submittingText.style.display = 'block';
             successMessage.style.display = 'none';
             errorMessage.style.display = 'none';
+            successMessage.textContent = 'RECORD SUBMITTED. THANK YOU FOR YOUR CONTRIBUTION.';
+            errorMessage.textContent = 'SUBMISSION FAILED. PLEASE VERIFY DATA AND RETRY.';
 
             // Get form data
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
-            const authors = data.unknownAuthor
-                ? ["Unknown author"]
-                : String(data.authors || "")
-                    .split(/\s*(?:,|;| and )\s*/i)
-                    .map(author => author.trim())
-                    .filter(Boolean);
-            const normalizedAuthors = authors.length ? authors : ["Unknown author"];
 
-            // Get the assigned color
-            const primaryCategory = selectedCategories[0];
-            const categoryColor = getCategoryColor(primaryCategory);
+            const payloads = [
+                collectFirstArticlePayload(data),
+                ...(multiArticleMode.checked ? collectExtraArticlePayloads(data.submitterName) : [])
+            ];
 
-            // Create JSON object for the Google Script
-            const jsonObject = {
-                action: "submitArticle",
-                status: "pending",
-                type: "secondary_source",
-                submittedAt: new Date().toISOString(),
-                submitted_by: data.submitterName,
-                date: data.date,
-                title: data.title,
-                summary: data.summary || "",
-                link: data.link,
-                imageUrl: data.imageUrl || getImageUrlForSource(data.source),
-                category: primaryCategory,
-                categories: [...selectedCategories],
-                categoryColor: categoryColor,
-                source: normalizeSourceName(data.source),
-                author: normalizedAuthors.join(', '),
-                authors: normalizedAuthors,
-                documentType: data.documentType
-            };
+            submittingText.textContent = payloads.length > 1
+                ? `Processing ${payloads.length} submissions...`
+                : 'Processing Submission...';
 
-            // --- THIS IS THE UPDATED PART ---
-            // Your Google Apps Script Web App URL
-            const googleScriptWebAppUrl = 'https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec';
-
-            fetch(googleScriptWebAppUrl, {
-                method: 'POST',
-                // We send as text/plain, which Google Apps Script
-                // will receive in e.postData.contents
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8', 
-                },
-                body: JSON.stringify(jsonObject) // Send the JSON object as a string
-            })
-            .then(response => response.json()) // Google Script returns JSON
-            .then(data => {
-                if (data.result === 'success') {
-                    // Show success
-                    successMessage.style.display = 'block';
-                    form.reset();
-                    document.getElementById('authors').disabled = false;
-                    selectedCategories.splice(0, selectedCategories.length);
-                    syncSelectedCategories();
-                    renderCategorySuggestions('');
-                    updateImageUrlPreview('');
-                } else {
-                    // Show error
-                    errorMessage.style.display = 'block';
+            try {
+                for (let index = 0; index < payloads.length; index += 1) {
+                    submittingText.textContent = payloads.length > 1
+                        ? `Submitting ${index + 1} of ${payloads.length}...`
+                        : 'Processing Submission...';
+                    await submitArticlePayload(payloads[index]);
                 }
-            })
-            .catch(error => {
-                // Show error
+
+                successMessage.textContent = payloads.length > 1
+                    ? `${payloads.length} RECORDS SUBMITTED. THANK YOU FOR YOUR CONTRIBUTION.`
+                    : 'RECORD SUBMITTED. THANK YOU FOR YOUR CONTRIBUTION.';
+                successMessage.style.display = 'block';
+                resetArticleFormAfterSuccess();
+            } catch (error) {
                 console.error('Fetch Error:', error);
+                errorMessage.textContent = error.message || 'SUBMISSION FAILED. PLEASE VERIFY DATA AND RETRY.';
                 errorMessage.style.display = 'block';
-            })
-            .finally(() => {
+            } finally {
                 // Re-enable button and hide loading text
                 submitButton.disabled = false;
                 submittingText.style.display = 'none';
-            });
+                submittingText.textContent = 'Processing Submission...';
+            }
         });
 
         // Set default date to today for both forms
         document.addEventListener('DOMContentLoaded', () => {
-            const today = new Date().toISOString().split('T')[0];
+            const today = todayIsoDate();
             const dateInput = document.getElementById('date');
             if (dateInput) dateInput.value = today;
             
             const primaryDateInput = document.getElementById('primaryDate');
             if (primaryDateInput) primaryDateInput.value = today;
         });
+
+        multiArticleMode.addEventListener('change', (event) => setMultiArticleMode(event.target.checked));
+        addArticleButton.addEventListener('click', createExtraArticleBlock);
+        setBatchEntryEvents();
     </script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
@@ -1179,6 +1491,6 @@
           }
         });
       </script>
-    <script src="./assets/site-shell.js?v=menu-1" defer></script>
+    <script src="./assets/site-shell.js?v=integrity-1" defer></script>
 </body>
 </html>
