@@ -29,6 +29,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Echoes of Gaza: A Historical Archive</title>
+    <script>
+        (function keepPlainHomepageAtTop() {
+            const staleMapHashes = new Set(["#gaza-displacement-maps"]);
+            const hasStaleMapHash = staleMapHashes.has(window.location.hash);
+            if (hasStaleMapHash) {
+                history.replaceState(null, "", window.location.pathname + window.location.search);
+            }
+
+            const isPlainHomepage = (!window.location.hash || hasStaleMapHash) && /\/(?:index\.html)?$/i.test(window.location.pathname || "/");
+            if (!isPlainHomepage) return;
+
+            if ("scrollRestoration" in history) {
+                history.scrollRestoration = "manual";
+            }
+
+            document.documentElement.classList.add("eog-home-top-lock", "eog-home-scroll-freeze");
+            const style = document.createElement("style");
+            style.textContent = `
+                html.eog-home-top-lock,
+                html.eog-home-top-lock body {
+                    scroll-behavior: auto !important;
+                    overflow-anchor: none !important;
+                }
+                html.eog-home-top-lock body {
+                    opacity: 0 !important;
+                }
+                html.eog-home-scroll-freeze,
+                html.eog-home-scroll-freeze body {
+                    overflow: hidden !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            const forceTop = () => {
+                if (!window.location.hash) window.scrollTo(0, 0);
+            };
+            const stopForUserIntent = () => {
+                window.__echoesStopHomeTopGuard = true;
+                document.documentElement.classList.remove("eog-home-top-lock", "eog-home-scroll-freeze");
+            };
+            const guardedForceTop = () => {
+                if (!window.__echoesStopHomeTopGuard) forceTop();
+            };
+            const revealAtTop = () => {
+                guardedForceTop();
+                requestAnimationFrame(() => {
+                    guardedForceTop();
+                    document.documentElement.classList.remove("eog-home-top-lock");
+                });
+            };
+            const unlockScroll = () => {
+                document.documentElement.classList.remove("eog-home-scroll-freeze");
+            };
+
+            forceTop();
+            ["wheel", "touchstart", "pointerdown", "keydown"].forEach(eventName => {
+                window.addEventListener(eventName, stopForUserIntent, { once: true, passive: true });
+            });
+            window.addEventListener("hashchange", stopForUserIntent, { once: true });
+            window.addEventListener("pageshow", guardedForceTop);
+            window.addEventListener("DOMContentLoaded", revealAtTop);
+            window.addEventListener("load", revealAtTop);
+            requestAnimationFrame(revealAtTop);
+            [80, 250, 700, 1400, 2400, 3600, 5200, 7000].forEach(delay => window.setTimeout(guardedForceTop, delay));
+            [1200, 2200].forEach(delay => window.setTimeout(unlockScroll, delay));
+            const guardStartedAt = Date.now();
+            const guardInterval = window.setInterval(() => {
+                if (window.__echoesStopHomeTopGuard || window.location.hash || Date.now() - guardStartedAt > 8000) {
+                    window.clearInterval(guardInterval);
+                    unlockScroll();
+                    return;
+                }
+                forceTop();
+            }, 200);
+        })();
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
@@ -2088,7 +2164,7 @@
              <div class="container mx-auto px-6">
                 <h3 class="text-2xl font-serif font-bold mb-16 text-center text-white/90">Geolocation Analysis</h3>
                 <div class="max-w-5xl mx-auto w-full h-[600px] border border-white/10 overflow-hidden bg-[#050505]">
-                    <iframe loading="lazy" src="https://www.scribblemaps.com/maps/view/My-Map/RS3sBEB4ZU" width="100%" height="100%" frameborder="0" title="Geolocation Map"></iframe>
+                    <iframe class="map-lazy-embed" loading="lazy" data-map-src="https://www.scribblemaps.com/maps/view/My-Map/RS3sBEB4ZU" width="100%" height="100%" frameborder="0" title="Geolocation Map"></iframe>
                 </div>
                 <div id="geolocation-content" class="mt-16 text-center">
                     <p class="text-gray-500 max-w-3xl mx-auto font-light leading-8">
@@ -2103,7 +2179,7 @@
             <div class="container mx-auto px-6">
                 <h3 class="text-2xl font-serif font-bold mb-16 text-center text-white/90">Displacement & Kill Zones</h3>
                 <div class="max-w-5xl mx-auto w-full h-[80vh] border border-white/10 overflow-hidden bg-[#0a0a0a] relative">
-                    <iframe src="https://arcg.is/0TeG4L" width="100%" height="100%" frameborder="0" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-presentation" allow="geolocation; microphone; camera" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen webkitallowfullscreen mozallowfullscreen class="w-full h-full" title="Gaza Maps IDF Forced Displacement"></iframe>
+                    <iframe class="map-lazy-embed w-full h-full" data-map-src="https://arcg.is/0TeG4L" width="100%" height="100%" frameborder="0" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-presentation" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen webkitallowfullscreen mozallowfullscreen title="Gaza Maps IDF Forced Displacement"></iframe>
                 </div>
                 <div class="text-center mt-6">
                     <p class="text-xs text-gray-600 uppercase tracking-widest">Map provided by <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition underline decoration-1 underline-offset-4">Gaza Maps</a>, a project by Databases for Palestine.</p>
@@ -2117,7 +2193,8 @@
                 <h3 class="text-2xl font-serif font-bold mb-16 text-center text-white/90">Live Conflict Map</h3>
                 <div style="width:100%; max-width:1200px; margin:0 auto;" class="border border-white/10 bg-[#050505]">
                   <iframe
-                    src="https://israelpalestine.liveuamap.com/"
+                    class="map-lazy-embed"
+                    data-map-src="https://israelpalestine.liveuamap.com/"
                     width="100%"
                     height="700"
                     style="border:0;"
@@ -3575,6 +3652,36 @@
             }
         }
 
+        function initLazyMapEmbeds() {
+            const embeds = Array.from(document.querySelectorAll('iframe[data-map-src]'));
+            if (!embeds.length) return;
+
+            const loadEmbed = (iframe) => {
+                if (!iframe || iframe.src) return;
+                const src = iframe.getAttribute('data-map-src');
+                if (src) iframe.src = src;
+            };
+
+            if (!('IntersectionObserver' in window)) {
+                embeds.forEach(loadEmbed);
+                return;
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    loadEmbed(entry.target);
+                    observer.unobserve(entry.target);
+                });
+            }, {
+                root: null,
+                rootMargin: '700px 0px',
+                threshold: 0.01
+            });
+
+            embeds.forEach((iframe) => observer.observe(iframe));
+        }
+
         function updateArchiveResultSummary(filtered) {
             const summaryEl = document.getElementById('active-filter-summary');
             if (!summaryEl) return;
@@ -4315,6 +4422,7 @@
             }
             setupDropdowns();
             setupHiddenToolNavigation();
+            initLazyMapEmbeds();
             initMobileDensityControl();
             initDesktopDisplayZoomControl();
 
