@@ -1,5 +1,41 @@
 [
   {
+    "date": "2026-06-09",
+    "title": "Israel puts Palestinian doctor in solitary confinement after 17 months held without charge",
+    "summary": "",
+    "link": "https://www.theguardian.com/world/2026/jun/09/israel-palestinian-doctor-hussam-abu-safiya-solitary-confinement-held-without-charge",
+    "imageUrl": "https://assets-legacy.floridarrc.com/2023/01/the-guardian-logo.jpeg",
+    "category": "Detention & Rights",
+    "categories": [
+      "Detention & Rights"
+    ],
+    "categoryColor": "#A2D2FF",
+    "source": "The Guardian",
+    "author": "Lorenzo Tondo",
+    "authors": [
+      "Lorenzo Tondo"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-09",
+    "title": "Habiba one year on: The Gaza toddler who survived death",
+    "summary": "",
+    "link": "https://www.cnn.com/2026/06/09/world/video/habiba-palestinian-toddler-one-year-on-vrtc",
+    "imageUrl": "https://images.icon-icons.com/167/PNG/512/cnn_23166.png",
+    "category": "Children",
+    "categories": [
+      "Children"
+    ],
+    "categoryColor": "#F194B4",
+    "source": "CNN",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-06-08",
     "title": "Israeli Fire Kills Six Palestinians in Gaza, Including 8-year-old Child",
     "summary": "",
