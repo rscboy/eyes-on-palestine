@@ -165,6 +165,37 @@
             color: #EDEDED;
             font-weight: 400;
         }
+
+        .prose-content > * {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .prose-content p,
+        .prose-content h2,
+        .prose-content blockquote {
+            max-width: 680px;
+        }
+
+        .prose-content figure,
+        .prose-content img,
+        .blog-post-body > figure {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .prose-content figure {
+            width: min(100%, 760px);
+            max-width: 100%;
+        }
+
+        .prose-content figure.float-right,
+        .prose-content figure.float-left {
+            float: none !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
         
         .prose-content .sans-text {
             font-family: 'Inter', sans-serif;
@@ -443,9 +474,7 @@
         }
 
         .blog-content-shell {
-            background:
-                radial-gradient(circle at 92% 0%, rgba(140, 13, 13, 0.08) 0%, rgba(16, 16, 16, 0) 34%),
-                #101010;
+            background: #0B0B0B;
         }
 
         .blog-breadcrumb {
@@ -458,6 +487,27 @@
 
         .blog-lede-panel {
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .blog-post-shell {
+            width: 100%;
+            max-width: none;
+        }
+
+        .blog-post-lede,
+        .blog-post-body {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .blog-post-lede {
+            max-width: min(760px, calc(100vw - 2.5rem));
+        }
+
+        .blog-post-body {
+            max-width: min(680px, calc(100vw - 2.5rem));
+            text-align: left;
         }
 
         .blog-footer-video {
@@ -1528,16 +1578,16 @@
             const bylineDate = post.displayDateShort || post.date;
 
             container.innerHTML = `
-                <div class="max-w-[900px] mx-auto px-5 py-10 md:py-12 fade-in">
+                <div class="blog-post-shell mx-auto px-5 py-10 md:py-12 fade-in">
                     
                     <!-- Post Header -->
-                    <header class="blog-lede-panel mb-8 pb-8 md:pb-10">
+                    <header class="blog-lede-panel blog-post-lede mb-8 pb-8 md:pb-10">
                         <button type="button" class="blog-breadcrumb mb-4 cursor-pointer hover:text-off-white transition-colors" onclick="renderIndex()">
                             Echoes of Gaza / Voices / Article
                         </button>
                         
-                        <h1 class="post-title text-[40px] md:text-[56px] font-bold text-off-white mb-4 max-w-[760px]">${post.title}</h1>
-                        <h2 class="post-subtitle text-[20px] md:text-[22px] mb-8 font-sans max-w-[760px]">${post.subtitle}</h2>
+                        <h1 class="post-title text-[40px] md:text-[56px] font-bold text-off-white mb-4">${post.title}</h1>
+                        <h2 class="post-subtitle text-[20px] md:text-[22px] mb-8 font-sans">${post.subtitle}</h2>
 
                         <!-- Author Block -->
                         <div class="flex items-center justify-between gap-5">
@@ -1565,7 +1615,7 @@
                         </div>
                     </header>
 
-                    <div class="max-w-[680px]">
+                    <div class="blog-post-body">
                         ${shouldRenderFeatureImage(post) ? `
                             <figure class="mb-8">
                                 <img src="${escapeHTML(post.featureImage || post.shareImage)}" alt="${escapeHTML(post.title)}" class="w-full rounded-sm object-cover border border-border-gray opacity-90">
