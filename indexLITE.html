@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-R5DZ6CC2Z8"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-R5DZ6CC2Z8');
+        </script>
+
+    <!-- Social Preview / Open Graph Tags -->
+    <meta property="og:site_name" content="Echoes of Gaza">
+    <meta property="og:title" content="Echoes of Gaza: A Historical Archive">
+    <meta property="og:description" content="A digital historical record documenting the crisis. 680,000+ estimated casualties. Preserving truth, resisting erasure.">
+    <meta property="og:image" content="https://i.postimg.cc/x1fDcLY5/Eo-G-Divide-Social-Media-Thumbail.png">
+    <meta property="og:url" content="https://echoesofgaza.org/">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Echoes of Gaza: A Historical Archive">
+    <meta name="twitter:description" content="A digital historical record documenting the crisis. 680,000+ estimated casualties. Preserving truth, resisting erasure.">
+    <meta name="twitter:image" content="https://i.postimg.cc/x1fDcLY5/Eo-G-Divide-Social-Media-Thumbail.png">
+
+    <link rel="icon" href="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoes of Gaza: A Historical Archive</title>
+    <meta name="description" content="A digital historical record documenting the crisis. 680,000+ estimated casualties. Preserving truth, resisting erasure.">
+    <link rel="canonical" href="https://echoesofgaza.org/">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    
+    <!-- REACT & BABEL FOR STORY GENERATOR -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Font Links -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        /* Define new color variables */
+        :root {
+            --pal-red: #CE1126; /* Kept for accent, mostly muted in UI */
+            --deep-maroon: #2a0a0a;
+            --pal-green: #007A3D;
+            --pal-black: #050505;
+            --accent-gold: #D4AF37;
+            --text-muted: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Global Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--pal-black);
+            color: #e5e5e5;
+            top: 0 !important;
+            overflow-x: hidden;
+            line-height: 1.7; /* Increased for readability */
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Hide Google Translate Top Bar */
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        body { top: 0px !important; }
+
+        /* Custom Styling for Google Translate Widget */
+        #google_translate_element { display: inline-block; }
+        .goog-te-gadget { font-family: 'Inter', sans-serif !important; font-size: 0 !important; color: transparent !important; }
+        .goog-te-gadget-simple {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            padding: 4px 10px !important;
+            border-radius: 4px !important;
+            font-size: 0.7rem !important;
+            line-height: 1rem !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            transition: opacity 0.3s ease !important;
+            cursor: pointer !important;
+        }
+        .goog-te-gadget-simple:hover { opacity: 0.8 !important; }
+        .goog-te-gadget-simple a { text-decoration: none !important; color: #a3a3a3 !important; font-weight: 400 !important; }
+        .goog-te-gadget-icon { display: none !important; }
+        .goog-te-menu-value span { color: #888 !important; border-left: none !important; }
+
+        /* Hero Section Styling - Solemn Depth */
+        .hero-section {
+            background: radial-gradient(ellipse 100% 70% at 50% 20%, #1a0305 0%, #050505 70%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute; top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 1px; height: 100px;
+            background: linear-gradient(to bottom, transparent, #5c0f1c);
+        }
+        .hero-eyebrow {
+            font-size: 0.65rem; letter-spacing: 0.3em;
+            text-transform: uppercase; color: #C9A84C;
+            margin-bottom: 24px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .hero-eyebrow::before, .hero-eyebrow::after {
+            content: ''; display: block;
+            width: 40px; height: 1px; background: #7a6130;
+        }
+        .hero-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(3.5rem, 10vw, 9rem);
+            line-height: 0.92; letter-spacing: -0.02em;
+            color: #fff; text-align: center; margin-bottom: 8px;
+        }
+        .hero-title-sub {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.2rem, 6vw, 5.5rem);
+            line-height: 1; letter-spacing: -0.01em;
+            color: #9B1B30; text-align: center; margin-bottom: 32px;
+        }
+        .hero-lead {
+            max-width: 560px; text-align: center;
+            font-size: 0.95rem; font-weight: 300;
+            color: rgba(200,192,180,0.75);
+            line-height: 1.9; margin-bottom: 56px;
+        }
+        
+        /* Navigation - Minimal & Calm */
+        .nav-glass {
+            background: rgba(5, 5, 5, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            height: 60px; /* Reduced height */
+        }
+        .nav-link {
+            font-size: 0.85rem;
+            letter-spacing: 0.02em;
+            color: rgba(255, 255, 255, 0.6);
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover { color: rgba(255, 255, 255, 0.9); }
+
+        /* Mobile Menu Transition */
+        #mobile-menu { transition: transform 0.3s ease-out; background: #050505; }
+
+        /* Modern Card Styling - Archival Feel */
+        .card-modern {
+            background: #0a0a0a;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: opacity 0.3s ease;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: 4px; /* Subtle corners */
+        }
+        .card-modern:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+            opacity: 0.95;
+            /* No scale/bounce */
+        }
+
+        /* Buttons - Restrained */
+        .btn-primary {
+            background-color: #8B0000; /* Deep Red, no gradient */
+            border: 1px solid #8B0000;
+            color: rgba(255,255,255,0.9);
+            transition: opacity 0.3s ease;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+        .btn-primary:hover { 
+            opacity: 0.8; 
+            transform: none; 
+            box-shadow: none; 
+        }
+
+        .btn-secondary {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: transparent;
+            color: rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .btn-secondary:hover { 
+            border-color: rgba(255, 255, 255, 0.4); 
+            background: rgba(255, 255, 255, 0.02); 
+            transform: none; 
+        }
+
+        .btn-dark-uniform {
+            background-color: #151515; color: #ccc;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: border-color 0.3s ease;
+        }
+        .btn-dark-uniform:hover { border-color: rgba(255, 255, 255, 0.3); transform: none; }
+
+        /* Stat Card - Memorial Style */
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(139, 0, 0, 0.15); /* Faint red border */
+            border-radius: 6px;
+            transition: background-color 0.4s ease;
+        }
+        .stat-card:hover { 
+            background: rgba(139, 0, 0, 0.05); /* Soft red glow on hover */
+            border-color: rgba(139, 0, 0, 0.3);
+        }
+
+        /* Search & Filters */
+        .search-modern {
+            background: #111;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc !important;
+            border-radius: 4px;
+        }
+        .search-modern:focus { 
+            border-color: #444; 
+            box-shadow: none;
+            background: #151515;
+        }
+        .search-modern::placeholder {
+            color: #555 !important;
+        }
+
+        /* Fix for Browser Autofill White Background Issue */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #111 inset !important;
+            -webkit-text-fill-color: #ccc !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        .filter-chip {
+            background: #151515;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+            border-radius: 4px;
+        }
+        .filter-chip:hover, .filter-chip.active {
+            border-color: #888;
+            background: #222;
+            color: #fff;
+        }
+        .filter-chip:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .filter-panel {
+            background: #0f0f0f;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* Image Overlay */
+        .image-overlay {
+            position: absolute inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 0; transition: opacity 0.4s ease;
+        }
+        .card-modern:hover .image-overlay { opacity: 1; }
+
+        /* Chart Tooltip */
+        #casualty-chart-container { position: relative; min-height: 400px; }
+        #chart-tooltip {
+            position: absolute; background: #111; color: #ccc;
+            padding: 8px 12px; border-radius: 2px; pointer-events: none; opacity: 0;
+            transition: opacity 0.2s; border: 1px solid #333;
+            z-index: 10; font-size: 0.8rem;
+        }
+
+        .victim-card {
+            background-color: #0f0f0f; border: 1px solid #222; transition: border-color 0.3s ease;
+            border-radius: 4px;
+        }
+        .victim-card:hover { border-color: #8B0000; }
+
+        /* Modals */
+        .modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center; align-items: center; opacity: 0; transition: opacity 0.5s ease;
+        }
+        .modal.is-visible { display: flex; opacity: 1; }
+        
+        .modal-content-article {
+            background-color: #0a0a0a; margin: 40px auto; padding: 0;
+            border: 1px solid #222; width: 90%; max-width: 800px;
+            border-radius: 4px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            position: relative; opacity: 0; transform: translateY(10px);
+            transition: all 0.5s ease; max-height: 85vh; overflow-y: auto;
+        }
+        .modal.is-visible .modal-content-article { opacity: 1; transform: translateY(0); }
+
+        .modal-content {
+            background-color: #111; margin: auto; padding: 30px; border: 1px solid #333;
+            width: 80%; max-width: 400px; border-radius: 4px;
+            position: relative;
+        }
+
+        #press-release-modal {
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+        .press-modal-content {
+            background: #080808;
+            border: 1px solid #333;
+        }
+
+        @media (max-width: 640px) {
+            .modal-content-article {
+                width: 95% !important;
+                margin: 2vh auto !important;
+            }
+        }
+
+        .close-button {
+            color: #888; position: absolute; top: 20px; right: 20px; font-size: 24px;
+            font-weight: 300; cursor: pointer; z-index: 1010; line-height: 1;
+            transition: color 0.2s;
+        }
+        .close-button:hover { color: #fff; }
+        
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.1); border-top: 2px solid #8B0000;
+            border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Quiz Card Specifics */
+        .quiz-card { transition: border-color 0.3s ease; }
+        .quiz-card:hover { border-color: #444; }
+        .quiz-card.correct {
+            border-color: #15803d !important; /* Muted green */
+            background: rgba(21, 128, 61, 0.05) !important;
+        }
+        .quiz-card.wrong {
+            border-color: #991b1b !important; /* Muted red */
+            background: rgba(153, 27, 27, 0.05) !important;
+        }
+
+        /* Story Generator Styles (React Component) */
+        .story-sidebar {
+            position: fixed; top: 0; right: 0; width: 100%; max-width: 480px; height: 100%;
+            background: #080808; border-left: 1px solid #222; z-index: 3000;
+            transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: flex; flex-direction: column;
+        }
+        .story-sidebar.open { transform: translateX(0); }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+    <link rel="stylesheet" href="./assets/site-shell.css?v=nav-contrast-1">
+</head>
+
+<body class="antialiased selection:bg-red-900 selection:text-white">
+    <!-- Navigation -->
+    <header class="nav-glass fixed w-full top-0 z-50 flex items-center">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+            <div class="flex justify-between items-center h-full">
+                <a href="#" id="nav-logo" class="flex flex-col items-start opacity-80 hover:opacity-100 transition-opacity">
+                    <span class="text-xs font-serif text-white tracking-[0.2em] uppercase">Echoes of Gaza</span>
+                </a>
+
+                <nav class="hidden md:flex items-center space-x-8">
+                    <div class="relative group">
+                        <button id="archive-menu-button" class="nav-link flex items-center">
+                            Archive
+                        </button>
+                        <!-- Wrapper with top padding to bridge the hover gap -->
+                        <div id="archive-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
+                                <a href="#articles" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Articles</a>
+                                <a href="#books" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Books</a>
+                                <a href="#videos" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Interviews</a>
+                                <a href="#films" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Documentaries</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <button id="tools-menu-button" class="nav-link flex items-center">
+                            Tools
+                        </button>
+                        <div id="tools-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
+                                <a href="#narrative-test-section" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Narratives</a>
+                                <a href="#casualty-graph" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Timeline</a>
+                                <a href="#bias-tool-controls" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Racial Bias Tool</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#geolocation" class="nav-link">Maps</a>
+                    <a href="#victims" class="nav-link">Victims</a>
+
+                    <div class="relative group">
+                        <button id="resources-menu-button" class="nav-link flex items-center">
+                            Resources
+                        </button>
+                        <div id="resources-menu-dropdown" class="absolute left-1/2 -translate-x-1/2 top-full pt-4 w-48 hidden group-hover:block z-50">
+                            <div class="bg-[#0a0a0a] border border-[#222] shadow-2xl">
+                             <a href="https://echoesofgaza.org/podcast" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">EoG Podcast</a>
+                                <a href="#quotes" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Quotes & Resources</a>
+                                <a href="https://echoesofgaza.org/events" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Events</a>
+                                <a href="#faq" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">FAQ</a>
+                                <a href="https://echoesofgaza.org/toolkit" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Toolkit</a>
+                
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://echoesofgaza.org/collab" class="btn-primary px-5 py-2 rounded text-xs uppercase tracking-wider hidden md:block">
+                        Submit Evidence
+                    </a>
+                </nav>
+                
+                <!-- MOBILE MENU BUTTON -->
+                <div class="flex items-center space-x-4 md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-400 hover:text-white transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed top-0 right-0 w-full h-full bg-[#050505] z-[60] transform translate-x-full md:hidden flex flex-col border-l border-[#222]">
+        <div class="flex justify-end p-6">
+            <button id="close-mobile-menu" class="text-gray-400 focus:outline-none p-2 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <nav class="flex flex-col items-center justify-center flex-grow space-y-10 text-xl font-light tracking-wide">
+            <a href="#articles" class="mobile-nav-link text-gray-400 hover:text-white transition">Archive</a>
+            <a href="#geolocation" class="mobile-nav-link text-gray-400 hover:text-white transition">Maps</a>
+            <a href="#victims" class="mobile-nav-link text-gray-400 hover:text-white transition">Victims</a>
+            <a href="#quotes" class="mobile-nav-link text-gray-400 hover:text-white transition">Resources</a>
+            <a href="https://echoesofgaza.org/events" class="mobile-nav-link text-gray-400 hover:text-white transition">Events</a>
+            <a href="https://echoesofgaza.org/podcast"  class="mobile-nav-link text-gray-400 hover:text-white transition">EOG Podcast</a>
+            <a href="#faq" class="mobile-nav-link text-gray-400 hover:text-white transition">FAQ</a>
+            <a href="https://echoesofgaza.org/collab" class="mobile-nav-link btn-primary px-8 py-3 rounded text-sm uppercase">Submit Evidence</a>
+        </nav>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <section class="hero-section pt-32 pb-12">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full">
+                <div class="text-center flex flex-col items-center">
+                    <div class="hero-eyebrow">A Digital Historical Record</div>
+                    <h1 class="flex flex-col items-center">
+                        <span class="hero-title">GENOCIDE</span>
+                        <span class="hero-title-sub">ARCHIVE</span>
+                    </h1>
+                    <p class="hero-lead">
+                        Documenting war crimes, crimes against humanity, and systematic aggression committed against Palestinian civilians since October 7, 2023.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16 w-full">
+                        <a href="https://just-international.org/articles/we-are-missing-680000-souls-gaza-the-most-public-hidden-genocide/" target="_blank" class="stat-card block p-6 text-center cursor-pointer group">
+                            <div id="casualty-stat" class="text-2xl font-bold text-white/90 mb-2">680,000+</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-[0.15em]">Est. Casualties</div>
+                        </a>
+                        <a href="https://stopmurderingjournalists.com/" target="_blank" class="stat-card block p-6 text-center cursor-pointer">
+                            <div id="journalist-stat" class="text-2xl font-bold text-white/90 mb-2">355+</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-[0.15em]">Journalists</div>
+                        </a>
+                        <div class="stat-card p-6 text-center">
+                            <div id="days-stat-hero" class="text-2xl font-bold text-white/90 mb-2">...</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-[0.15em]">Days</div>
+                        </div>
+                        <a href="#gaza-displacement-maps" class="stat-card block p-6 text-center cursor-pointer">
+                            <div class="text-3xl font-bold text-white/90 mb-2">54%</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-[0.15em]">Kill Zone</div>
+                        </a>
+                    </div>
+
+                    <div class="mb-20 text-center opacity-60">
+                        <p class="text-sm font-serif italic text-gray-400">"We record so the world cannot say they did not know."</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-6 w-full">
+                        <a href="https://echoesofgaza.org/primary" class="btn-secondary px-8 py-3 rounded text-sm uppercase tracking-widest w-64 text-center">Primary Sources</a>
+                        <a href="#articles" id="explore-archive-btn" class="btn-primary px-8 py-3 rounded text-sm uppercase tracking-widest w-64 text-center">Secondary Sources</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Casualty Graph Section -->
+        <section id="casualty-graph" class="py-12 bg-[#0a0a0a] border-b border-white/5 hidden">
+            <div class="container mx-auto px-6">
+                <h3 class="text-2xl font-serif font-bold text-center mb-4 text-white/90">Palestinian Casualties in Gaza</h3>
+                <p class="text-center text-gray-500 text-sm mb-12 uppercase tracking-wider">October 7, 2023 - February 2026</p>
+                <div id="casualty-chart-container" class="max-w-6xl mx-auto">
+                    <canvas id="casualtyChart"></canvas>
+                    <div id="chart-tooltip"></div>
+                </div>
+                <p class="text-center text-xs text-gray-600 mt-8">Source: Gaza Ministry of Health. Data reflects confirmed fatalities.</p>
+            </div>
+        </section>
+
+        <!-- Controls Section (Tools): Bias Tool -->
+        <section id="bias-tool-controls" class="py-12 bg-[#050505] border-y border-white/5 hidden">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto filter-panel p-12 rounded-sm text-center">
+                    <svg class="w-12 h-12 text-gray-600 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 7h12m0 0l-4-4m4 4l-4 4m-8 7h12m0 0l-4-4m4 4l-4 4" />
+                    </svg>
+                    <h3 class="text-3xl font-serif font-bold mb-4 text-white">Expose the Double Standard</h3>
+                    <p class="text-base text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                        Confront <span class="text-[#8B0000]">genocide denial</span> and Western hypocrisy. Use the toggle below to swap key terms in all archive headlines.
+                    </p>
+                    <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-8 mt-10">
+                        <div class="flex items-center space-x-4 flex-shrink-0">
+                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider" id="view-label-original">Standard Frame</span>
+                            <label for="double-standard-toggle" class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" id="double-standard-toggle" class="sr-only peer">
+                                <div class="w-12 h-6 bg-[#333] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#555]"></div>
+                            </label>
+                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider" id="view-label-swapped">Reversed Frame</span>
+                        </div>
+                        <button id="toggle-comparison-btn" class="filter-chip px-6 py-2 rounded text-xs uppercase tracking-wider transition hover:border-gray-500">
+                            <span id="toggle-comparison-text">Analysis</span>
+                        </button>
+                    </div>
+                    <div id="bias-tool-preview-container" class="mt-12 pt-8 border-t border-white/5 text-left">
+                        <p class="text-gray-600 text-xs uppercase tracking-widest mb-4">Live Preview</p>
+                        <div class="text-xl font-serif text-gray-300 p-6 bg-[#0a0a0a] border border-[#222]">
+                            <span id="preview-headline">...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Section -->
+        <section id="comparison-section" class="py-12 bg-[#050505] border-b border-white/5 hidden">
+            <div class="container mx-auto px-6">
+                <h3 class="text-2xl font-serif font-bold text-center mb-16 mx-auto text-white/90">Lexicon of Conflict</h3>
+                <div class="max-w-5xl mx-auto relative">
+                    <div id="carousel-container" class="overflow-hidden border border-white/5 bg-[#0a0a0a]">
+                        <div id="carousel-track" class="flex transition-transform duration-700 ease-in-out">
+                            <!-- Comparison Slide 1 -->
+                            <div class="carousel-item flex-shrink-0 w-full p-12">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                                    <div class="h-full">
+                                        <h4 class="text-xs font-bold text-[#8B0000] mb-4 uppercase tracking-widest">Language for Palestinians</h4>
+                                        <p class="text-xl font-serif text-gray-200 mb-2 leading-relaxed">"West Bank Mosque Is Burned as Israeli Settler Violence Surges"</p>
+                                        <p class="text-gray-600 text-xs italic mb-6">The New York Times</p>
+                                        <div class="text-gray-400 text-sm pl-4 border-l border-[#333] leading-relaxed">Framed as "violence" or property crime rather than a targeted hate crime or terrorism.</div>
+                                    </div>
+                                    <div class="h-full">
+                                        <h4 class="text-xs font-bold text-[#007A3D] mb-4 uppercase tracking-widest">Language for Israelis</h4>
+                                        <p class="text-xl font-serif text-gray-200 mb-2 leading-relaxed">"British leader says ‘vile’ synagogue assailant ‘attacked Jews because they are Jews’... in a terrorist attack"</p>
+                                        <p class="text-gray-600 text-xs italic mb-6">Associated Press</p>
+                                        <div class="text-gray-400 text-sm pl-4 border-l border-[#333] leading-relaxed">Immediately labeled "terrorism" and a "vile" hate crime. Moral clarity is reserved for this side.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Slides 2-5 content kept in logic but structure simplified for brevity in this output, logic remains same -->
+                             <div class="carousel-item flex-shrink-0 w-full p-12">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                                    <div class="h-full">
+                                        <h4 class="text-xs font-bold text-[#8B0000] mb-4 uppercase tracking-widest">Language for Palestinians</h4>
+                                        <p class="text-xl font-serif text-gray-200 mb-2 leading-relaxed">"Violent Protests Leave Dozens Dead"</p>
+                                        <p class="text-gray-600 text-xs italic mb-6">The New York Times</p>
+                                        <div class="text-gray-400 text-sm pl-4 border-l border-[#333] leading-relaxed">Active voice falsely implies the protests *caused* the deaths, rather than soldiers shooting protesters.</div>
+                                    </div>
+                                    <div class="h-full">
+                                        <h4 class="text-xs font-bold text-[#007A3D] mb-4 uppercase tracking-widest">Language for Israelis</h4>
+                                        <p class="text-xl font-serif text-gray-200 mb-2 leading-relaxed">"Israeli woman murdered in brutal terror attack"</p>
+                                        <p class="text-gray-600 text-xs italic mb-6">Standard Media Framing</p>
+                                        <div class="text-gray-400 text-sm pl-4 border-l border-[#333] leading-relaxed">Agency is clear. Emotive language ("murdered", "brutal") is used to evoke outrage.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center gap-4 mt-8">
+                    <button id="carousel-prev" class="p-2 text-gray-500 hover:text-white transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 19l-7-7 7-7"></path></svg></button>
+                    <button id="carousel-next" class="p-2 text-gray-500 hover:text-white transition"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5l7 7-7 7"></path></svg></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Archive Section -->
+        <section id="articles" class="py-12">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-serif font-bold mb-12 text-white/90">Documentary Archive</h2>
+                <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+                    <div class="flex w-full md:flex-1 space-x-4">
+                        <div class="relative flex-1">
+                            <input type="text" id="article-search" class="search-modern w-full pl-10 pr-4 py-2 text-sm outline-none" placeholder="Search archive...">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                        </div>
+                        <button id="random-article-btn" title="Discover Random Article" class="btn-secondary text-xs uppercase tracking-wider font-medium py-2 px-6 rounded transition">
+                            Random
+                        </button>
+                    </div>
+                    <div id="sort-controls" class="flex items-center space-x-3 flex-shrink-0">
+                        <button id="sort-newest" class="filter-chip active text-xs uppercase tracking-wider font-medium py-2 px-4">Newest</button>
+                        <button id="sort-oldest" class="filter-chip text-xs uppercase tracking-wider font-medium py-2 px-4">Oldest</button>
+                        <button id="toggle-filter-btn" class="filter-chip text-xs uppercase tracking-wider font-medium py-2 px-4">Filters</button>
+                    </div>
+                </div>
+                
+                <div id="filter-controls" class="mb-12 p-8 border border-white/5 bg-[#0a0a0a] hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                        <div>
+                            <h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Date Range</h4>
+                            <div class="flex flex-col space-y-3">
+                                <input type="date" id="start-date" class="w-full search-modern px-3 py-2 text-xs">
+                                <input type="date" id="end-date" class="w-full search-modern px-3 py-2 text-xs">
+                            </div>
+                        </div>
+                        <div><h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Topics</h4><div id="tag-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div></div>
+                        <div><h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Sources</h4><div id="source-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div></div>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-white/5 flex items-center gap-4">
+                        <button id="filter-button" class="btn-primary text-xs uppercase tracking-wider px-6 py-2 rounded">Apply</button>
+                        <button id="clear-button" class="text-xs text-gray-500 hover:text-white uppercase tracking-wider transition">Clear</button>
+                    </div>
+                </div>
+
+                <div id="article-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+                
+                <div class="flex flex-col items-center justify-center mt-20 space-y-6">
+                    <div class="text-xs text-gray-600 uppercase tracking-widest">
+                        Showing <span id="showing-count" class="text-white">0</span> of <span id="total-count" class="text-white">0</span> records
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center gap-6">
+                        <button id="load-more-btn" class="btn-secondary px-8 py-3 rounded text-xs uppercase tracking-widest">Load More</button>
+                        <div class="flex items-center">
+                            <label for="article-limit-select" class="text-xs text-gray-600 mr-3 uppercase tracking-widest">View</label>
+                            <select id="article-limit-select" class="bg-transparent text-gray-400 text-xs uppercase font-medium focus:outline-none border-none p-0 cursor-pointer hover:text-white">
+                                <option value="30" class="bg-[#111]">30</option>
+                                <option value="60" class="bg-[#111]">60</option>
+                                <option value="all" class="bg-[#111]">All</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Books Section -->
+        <section id="books" class="py-12 bg-[#080808] border-t border-white/5">
+            <div class="container mx-auto px-6">
+                <h3 class="text-2xl font-serif font-bold mb-16 text-center text-white/90">Books</h3>
+                <div id="book-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+            </div>
+        </section>
+
+        <!-- Videos Section -->
+        <section id="videos" class="py-12">
+            <div class="container mx-auto px-6">
+                <h3 class="text-2xl font-serif font-bold mb-16 text-center text-white/90">Video Reports</h3>
+                <div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto"></div>
+            </div>
+        </section>
+
+        <!-- Films Section -->
+        <section id="films" class="py-12 bg-[#080808]">
+             <div class="container mx-auto px-6">
+                <h3 class="text-2xl font-serif font-bold mb-16 text-center text-white/90">Films & Documentaries</h3>
+                <div id="film-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </div>
+        </section>
+
+        <!-- Geolocation Section -->
+        <section id="geolocation" class="py-12 bg-[#0a0a0a] border-y border-white/5">
+             <div class="container mx-auto px-6">
+                <h3 class="text-2xl font-serif font-bold mb-16 text-center text-white/90">Geolocation Analysis</h3>
+                <div class="max-w-5xl mx-auto w-full h-[600px] border border-white/10 overflow-hidden bg-[#050505]">
+                    <iframe loading="lazy" src="https://www.scribblemaps.com/maps/view/My-Map/RS3sBEB4ZU" width="100%" height="100%" frameborder="0" title="Geolocation Map"></iframe>
+                </div>
+                <div id="geolocation-content" class="mt-16 text-center">
+                    <p class="text-gray-500 max-w-3xl mx-auto font-light leading-8">
+                        Critical geolocation analysis sourced from independent researcher <strong class="text-gray-400 font-medium">Abu Location</strong> to verify events and deconstruct narratives. Follow ongoing analysis on <a href="https://x.com/AbuLocation" target="_blank" class="text-gray-400 hover:text-white transition underline decoration-1 underline-offset-4">X (formerly Twitter)</a>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gaza Displacement Maps Section -->
+        <section id="gaza-displacement-maps" class="py-12 bg-[#050505] border-y border-white/5">
+            <div class="container mx-auto px-6">
+                <h3 class="text-2xl font-serif font-bold mb-16 text-center text-white/90">Displacement & Kill Zones</h3>
+                <div class="max-w-5xl mx-auto w-full h-[80vh] border border-white/10 overflow-hidden bg-[#0a0a0a] relative">
+                    <iframe src="https://arcg.is/0TeG4L" width="100%" height="100%" frameborder="0" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-presentation" allow="geolocation; microphone; camera" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen webkitallowfullscreen mozallowfullscreen class="w-full h-full" title="Gaza Maps IDF Forced Displacement"></iframe>
+                </div>
+                <div class="text-center mt-6">
+                    <p class="text-xs text-gray-600 uppercase tracking-widest">Map provided by <a href="https://gazamaps.com/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition underline decoration-1 underline-offset-4">Gaza Maps</a>, a project by Databases for Palestine.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LiveUAMap Section -->
+        <section id="live-ua-map" class="py-12 bg-[#0a0a0a] border-b border-white/5">
+            <div class="container mx-auto px-6">
+                <h3 class="text-2xl font-serif font-bold mb-16 text-center text-white/90">Live Conflict Map</h3>
+                <div style="width:100%; max-width:1200px; margin:0 auto;" class="border border-white/10 bg-[#050505]">
+                  <iframe
+                    src="https://israelpalestine.liveuamap.com/"
+                    width="100%"
+                    height="700"
+                    style="border:0;"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    allowfullscreen>
+                  </iframe>
+                  
+                  <p style="
+                    margin-top:8px;
+                    margin-bottom:8px;
+                    font-size:12px;
+                    color:#666;
+                    text-align:center;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                  ">
+                    Map and data ©
+                    <a href="https://liveuamap.com" target="_blank" rel="noopener" class="hover:text-white transition underline decoration-1 underline-offset-4">
+                      LiveUAMap
+                    </a> (liveuamap.com)
+                  </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Victims Section -->
+        <section id="victims" class="py-12">
+            <div class="container mx-auto px-6">
+                <h3 class="text-2xl font-serif font-bold mb-6 text-center text-white/90">Martyrs of Palestine</h3>
+                <p class="text-center text-gray-500 mb-12 max-w-2xl mx-auto font-light">Sourced from official releases by the Gaza Ministry of Health.</p>
+                
+                <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 max-w-5xl mx-auto">
+                    <div class="relative w-full md:flex-1">
+                        <input type="text" id="victim-search" class="search-modern w-full pl-10 pr-4 py-2 text-sm outline-none" placeholder="Search names...">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                    </div>
+                    <div id="victim-pagination-controls" class="flex items-center space-x-4 flex-shrink-0">
+                        <button id="victim-prev-btn" class="filter-chip text-xs uppercase tracking-wider font-medium py-2 px-4" disabled>Prev</button>
+                        <span id="victim-page-info" class="text-xs text-gray-500 uppercase tracking-widest">1 / 1</span>
+                        <button id="victim-next-btn" class="filter-chip text-xs uppercase tracking-wider font-medium py-2 px-4" disabled>Next</button>
+                    </div>
+                </div>
+                
+                <div id="victim-loading-spinner" class="flex justify-center items-center py-20"><div class="spinner"></div></div>
+                <div id="victim-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 max-w-6xl mx-auto"></div>
+                <p id="victim-total-count" class="text-center text-xs text-gray-600 mt-8 uppercase tracking-widest">Total Records: 0</p>
+            </div>
+        </section>
+
+        <!-- Quotes Section -->
+        <section id="quotes" class="py-12 bg-[#080808]">
+            <div class="container mx-auto px-6">
+                <h3 class="text-2xl font-serif font-bold mb-16 text-center text-white/90">Resources</h3>
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                    <div class="card-modern p-8 flex flex-col items-center">
+                        <h4 class="font-serif font-bold text-white mb-3">Toolkit</h4>
+                        <p class="text-gray-500 text-xs mb-6 flex-grow leading-relaxed">A toolkit to help advocate for sustainable peace and accountability.</p>
+                        <a href="https://echoesofgaza.org/toolkit" class="mt-auto btn-dark-uniform text-xs uppercase tracking-widest py-2 px-6 rounded">Toolkit</a>
+                    </div>
+                     <div class="card-modern p-8 flex flex-col items-center">
+                        <h4 class="font-serif font-bold text-white mb-3">Zionism Divide</h4>
+                        <p class="text-gray-500 text-xs mb-6 flex-grow leading-relaxed">Understanding the distinction between Zionism and Anti-Zionism.</p>
+                        <a href="https://echoesofgaza.org/zionism_divide" class="mt-auto btn-dark-uniform text-xs uppercase tracking-widest py-2 px-6 rounded">Quiz</a>
+                    </div>
+                    <div class="card-modern p-8 flex flex-col items-center">
+                        <h4 class="font-serif font-bold text-white mb-3">Statements</h4>
+                        <p class="text-gray-500 text-xs mb-6 flex-grow leading-relaxed">Direct quotes and statements from political leaders.</p>
+                        <a href="https://isitgenocide.com/" target="_blank" class="mt-auto btn-dark-uniform text-xs uppercase tracking-widest py-2 px-6 rounded">View</a>
+                    </div>
+                    <div class="card-modern p-8 flex flex-col items-center">
+                        <h4 class="font-serif font-bold text-white mb-3">Database</h4>
+                        <p class="text-gray-500 text-xs mb-6 flex-grow leading-relaxed">Searchable repository of public rhetoric.</p>
+                        <a href="https://zionism.observer/" target="_blank" class="mt-auto btn-dark-uniform text-xs uppercase tracking-widest py-2 px-6 rounded">Search</a>
+                    </div>
+                    <div class="card-modern p-8 flex flex-col items-center">
+                        <h4 class="font-serif font-bold text-white mb-3">Rhetoric</h4>
+                        <p class="text-gray-500 text-xs mb-6 flex-grow leading-relaxed">Analyzing historical parallels in political language.</p>
+                        <a href="https://zionism.wtf/#zionism-or-nazi" target="_blank" class="mt-auto btn-dark-uniform text-xs uppercase tracking-widest py-2 px-6 rounded">Compare</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="narrative-test-section" class="py-12 bg-[#0a0a0a] border-t border-white/5">
+            <div class="container mx-auto px-6 max-w-3xl">
+                <div class="text-center mb-12">
+                    <span class="text-xs font-bold text-[#8B0000] uppercase tracking-[0.2em] block mb-4">Reality Check</span>
+                    <h2 class="text-2xl font-serif font-bold text-white mb-4">The Narrative Test</h2>
+                    <p class="text-sm text-gray-500 font-light">Identify the published headline.</p>
+                </div>
+                <div class="bg-[#050505] border border-white/10 p-8 md:p-12 relative overflow-hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="embedded-quiz-options"></div>
+                    <div id="embedded-quiz-result" class="hidden mt-10 text-center border-t border-white/5 pt-8">
+                        <div id="embedded-quiz-result-header" class="text-lg font-serif mb-2"></div>
+                        <div id="embedded-quiz-result-text" class="text-gray-400 text-sm leading-relaxed mb-6"></div>
+                        <button onclick="initEmbeddedQuiz()" class="btn-secondary px-6 py-2 rounded text-xs uppercase tracking-widest">Next</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-24 bg-[#080808] border-t border-white/5">
+            <div class="container mx-auto px-6">
+                <h3 class="text-2xl font-serif font-bold text-center mb-16 mx-auto text-white/90">Frequently Asked Questions</h3>
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <div class="card-modern p-8 rounded-sm">
+                        <h4 class="font-serif font-bold text-lg text-white mb-3">What is Echoes of Gaza?</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Echoes of Gaza is a digital historical archive dedicated to documenting the ongoing occupation, displacement, and genocide of the Palestinian people. It serves as a meticulously curated and publicly accessible repository of verified articles, reports, and media evidence, built to resist erasure and preserve truth.</p>
+                    </div>
+                    <div class="card-modern p-8 rounded-sm">
+                        <h4 class="font-serif font-bold text-lg text-white mb-3">Why was this project created?</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Echoes of Gaza was born from the recognition that history is too often written by those in power, erasing the voices and suffering of the oppressed. The project exists to create a permanent record of events in Gaza and across Palestine, one that cannot be rewritten or denied.</p>
+                    </div>
+                    <div class="card-modern p-8 rounded-sm">
+                        <h4 class="font-serif font-bold text-lg text-white mb-3">What is the goal of Echoes of Gaza?</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">The archive exists to preserve evidence, promote accountability, and humanize the Palestinian struggle. It provides researchers, journalists, and the public with verifiable documentation that exposes patterns of occupation, displacement, and systemic injustice.</p>
+                    </div>
+                    <div class="card-modern p-8 rounded-sm">
+                        <h4 class="font-serif font-bold text-lg text-white mb-3">How is the archive maintained?</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">The archive is updated daily. Each entry is carefully verified and cataloged with details such as title, author, publication date, and source. The aim is to ensure accuracy, transparency, and reliability for those using the collection for research, reporting, or advocacy.</p>
+                    </div>
+                    <div class="card-modern p-8 rounded-sm">
+                        <h4 class="font-serif font-bold text-lg text-white mb-3">How does Echoes of Gaza promote accountability?</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">By creating a centralized and timestamped record of events, the archive makes it impossible for atrocities to be hidden or denied. It provides an evidentiary foundation for journalists, human rights investigators, and legal experts seeking to document war crimes and systemic abuse.</p>
+                    </div>
+                    <div class="card-modern p-8 rounded-sm">
+                        <h4 class="font-serif font-bold text-lg text-white mb-3">How does the project address systemic prejudice and racism?</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Echoes of Gaza reveals how racism, dehumanization, and colonial bias shape global responses to Palestinian suffering. By placing daily atrocities alongside decades of political betrayal, media distortion, and ignored international law, the archive shows that what is happening in Gaza is not an isolated tragedy, but the result of a broader system of racialized injustice.</p>
+                    </div>
+                    <div class="card-modern p-8 rounded-sm">
+                        <h4 class="font-serif font-bold text-lg text-white mb-3">Who is the archive for?</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">It is intended for journalists, educators, researchers, students, and advocates seeking an accurate and human-centered account of what is happening in Gaza. Above all, it is for anyone committed to truth, justice, and memory.</p>
+                    </div>
+                    <div class="card-modern p-8 rounded-sm">
+                        <h4 class="font-serif font-bold text-lg text-white mb-3">Can I use the materials for research or media?</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Yes. All materials are freely available for educational, journalistic, and humanitarian use. Please cite the archive as: Echoes of Gaza - A Digital Historical Record (echoesofgaza.org)</p>
+                    </div>
+                    <div class="card-modern p-8 rounded-sm">
+                        <h4 class="font-serif font-bold text-lg text-white mb-3">Why is this important now?</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Because silence and distortion are weapons. When records disappear, justice becomes impossible. By preserving evidence and testimony in real time, Echoes of Gaza ensures that the historical record remains intact, and that the truth endures long after headlines fade.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="bg-black border-t border-white/5 pt-12 pb-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-12">
+            <div class="md:w-1/3 space-y-6">
+                <div class="flex flex-col items-start opacity-70">
+                    <span class="text-xs font-serif text-white tracking-[0.2em] uppercase">Echoes of Gaza</span>
+                </div>
+                <p class="text-gray-600 text-xs leading-relaxed">Preserving truth, resisting erasure.</p>
+                <div id="google_translate_element"></div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 md:w-2/3">
+                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Archive</h4><ul class="space-y-3 text-xs text-gray-500"><li><a href="#articles" class="hover:text-white transition">Articles</a></li><li><a href="#victims" class="hover:text-white transition">Martyrs</a></li></ul></div>
+                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Resources</h4><ul class="space-y-3 text-xs text-gray-500"><li><a href="#quotes" class="hover:text-white transition">Quotes</a></li><li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" class="hover:text-white transition">Raw Data</a></li></ul></div>
+                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Support</h4><div class="flex flex-col space-y-3"><a href="https://buymeacoffee.com/echoesofgaza" target="_blank" class="text-xs text-gray-500 hover:text-white transition">Donate</a><a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" class="text-xs text-[#8B0000] hover:text-red-400 transition">Monthly Support</a></div></div>
+            </div>
+        </div>
+       <div class="max-w-7xl mx-auto px-6 lg:px-8 mt-20 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-700 uppercase tracking-wider">
+    <p>© 2026 Echoes of Gaza. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" class="underline hover:text-gray-500">CC BY-NC-SA 4.0</a>.</p>
+    <a href="https://echoesofgaza.org/admin.html" class="mt-4 md:mt-0 hover:text-gray-500 transition">Admin Portal</a>
+</div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="simple-alert-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="document.getElementById('simple-alert-modal').classList.remove('is-visible')">&times;</span>
+            <p id="modal-message" class="text-gray-300 text-center text-base font-light"></p>
+        </div>
+    </div>
+    
+    <div id="random-article-modal" class="modal">
+        <div class="modal-content-article">
+            <span class="close-button text-2xl text-white bg-black/50 rounded-full p-2 transition-colors hover:bg-black/80" onclick="document.getElementById('random-article-modal').classList.remove('is-visible')">&times;</span>
+            <div id="random-article-body"></div>
+        </div>
+    </div>
+
+    <!-- PRESS RELEASE MODAL -->
+    <div id="press-release-modal" class="modal">
+        <div class="modal-content-article press-modal-content max-w-lg mx-auto relative overflow-hidden bg-[#080808]">
+            <span class="close-button text-2xl" onclick="document.getElementById('press-release-modal').classList.remove('is-visible')">&times;</span>
+            <div class="p-10 text-center flex flex-col items-center">
+                <span class="text-[#8B0000] text-[10px] font-bold uppercase tracking-[0.2em] mb-4">Official Statement</span>
+                <p class="text-gray-600 text-[10px] uppercase tracking-widest mb-3">November 28, 2025</p>
+                <h2 class="font-serif text-xl text-white font-bold mb-8 leading-tight">Dayton Jewish Observer Covers Anti-Zionism & Echoes of Gaza</h2>
+                <p class="text-gray-400 text-xs mb-8 leading-7 text-left border-l border-white/10 pl-6 italic">
+                    "It is not every day a Jewish anti-Zionist voice appears in a Jewish community paper... Zionism is being questioned more openly within Jewish communities."
+                </p>
+                <a href="https://echoesofgaza.org/11282025pr" target="_blank" class="btn-secondary w-full py-3 text-xs uppercase tracking-widest">Read Statement</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- REACT ROOT FOR STORY GENERATOR -->
+    <div id="story-generator-root"></div>
+
+    <!-- Google Translate -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() { new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,ar,he', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element'); }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- Vanilla JS Logic -->
+<script type="module">
+    let currentQuizArticle = null;
+    let carouselItems = [];
+    let currentSlide = 0;
+
+let articles = [];
+let currentlyDisplayedArticles = [];
+
+async function loadArticles() {
+    try {
+        const response = await fetch('./data/articles.json?v=' + Date.now());
+
+        if (!response.ok) {
+            throw new Error(`Failed to load articles.json: ${response.status}`);
+        }
+
+        articles = await response.json();
+        currentlyDisplayedArticles = articles;
+
+        console.log(`Loaded ${articles.length} articles`);
+
+        populateFilters();
+        renderArticles(articles);
+
+    } catch (error) {
+        console.error('Failed to load articles:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadArticles);
+
+    let videos = [
+        { date: "2025-06-27", title: "MSNBC EXCLUSIVE: Full interview with Mahmoud Khalil and his wife, Dr. Noor Abdalla", creator: "MSNBC", link: "https://www.msnbc.com/", imageUrl: "https://media13.s-nbcnews.com/i/mpx/2704722219/2025_06/1751072250948_n_msnbc_mahmoud_khalil_noor_abdalla_gaza_250627_1920x1080-3kw5co.jpg", platform: "MSNBC" },
+        { date: "2024-05-15", title: "Mahmoud Khalil Is Free: Follow His Journey from ICE Jail Back to Gates of Columbia University", creator: "Democracy Now!", link: "https://www.democracynow.org/", imageUrl: "https://i.ytimg.com/vi/BWpRCoQ2wWE/maxresdefault.jpg", platform: "Democracy Now!" },
+        { date: "2024-11-20", title: "Israeli forces raided the cells of Palestinian captives after some allegedly expressed joy during rocket fire on Israel—part of Minister Ben Gvir's policy of punishing any show of Palestinian resistance or joy", creator: "DropSite News", link: "https://x.com/dropsitenews", imageUrl: "https://pbs.twimg.com/ext_tw_video_thumb/1934279968365662208/pu/img/XnWEXrPGt3Kc28V1.jpg", platform: "X (Twitter)" },
+        { date: "2023-10-15", title: "Israeli officials detail plans to seize all of Gaza and occupy it indefinitely, AP reports", creator: "CBS", link: "https://www.cbs.com/", imageUrl: "https://dims.apnews.com/dims4/default/7be1fea/2147483647/strip/true/crop/3070x2046+0+0/resize/599x399!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F2f%2Fb8%2F587422fe1fb2df6a5e1e55ec7f56%2Fa243f78be02e4bd595d740fc8841d116", platform: "CBS" }
+    ];
+
+    let books = [
+            { title: "Light in Gaza", author: "Jehad Abusalim", link: "https://haymarketbooks.org/books/1879-light-in-gaza", imageUrl: "https://prodimage.images-bn.com/pimages/9781642596991_p0_v2_s1200x630.jpg" },
+            { title: "Except for Palestine", author: "Marc Lamont Hill", link: "https://www.amazon.com/Except-Palestine-Marc-Lamont-Hill/dp/1984852331", imageUrl: "https://m.media-amazon.com/images/I/61az64tUc-L.jpg" },
+            { title: "Israeli Apartheid", author: "Ben White", link: "https://www.plutobooks.com/9780745332219/israeli-apartheid/", imageUrl: "https://m.media-amazon.com/images/I/71gt4eW7lmL.jpg" }
+        ];
+        
+        let films = [
+            { date: "2025-01-15", title: "Louis Theroux: The Settlers", director: "Louis Theroux", link: "https://www.bbc.co.uk/programmes/p07y2x6x", imageUrl: "https://m.media-amazon.com/images/M/MV5BMjBiMzU1NGItNzA0YS00MzY1LThkOGMtMDI5NzFkOWZkNzFhXkEyXFqcGc@._V1_.jpg", year: "2025" },
+            { date: "2024-02-20", title: "No Other Land", director: "Various", link: "https://nool.film/", imageUrl: "https://s3.amazonaws.com/nightjarprod/content/uploads/sites/216/2025/01/25212539/s7XYieuZg9kMe07i9VI4bfGN4Pw.jpg", year: "2024" }
+        ];
+
+        let currentSortOrder = 'newest', currentlyDisplayedArticles = [], titlesSwapped = false;
+        let articleLimit = 30; // Current view limit
+        let victimCurrentPage = 1, victimPageSize = 20, totalVictimPages = 1, filteredVictims = [], victimsData = [];
+
+        // Helper to escape single quotes
+        function escapeHtmlAttribute(str) {
+            return str.replace(/'/g, "\\'");
+        }
+
+        // Helper to format date
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString.replace(/-/g, '/'));
+            if (isNaN(date)) return dateString;
+
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formatted = date.toLocaleDateString('en-US', options);
+            
+            const day = date.getDate();
+            let suffix = 'th';
+            if (day % 10 === 1 && day % 100 !== 11) suffix = 'st';
+            else if (day % 10 === 2 && day % 100 !== 12) suffix = 'nd';
+            else if (day % 10 === 3 && day % 100 !== 13) suffix = 'rd';
+
+            return formatted.replace(/(\d+)/, (match) => match + suffix);
+        }
+
+        // Global functions
+        window.shareOnTwitter = (url, title) => { window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank'); };
+        window.shareOnFacebook = (url) => { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank'); };
+        window.toggleShareMenu = (id) => {
+            const menu = document.getElementById(id);
+            const isHidden = menu.classList.contains('hidden');
+            document.querySelectorAll('.share-popover').forEach(p => p.classList.add('hidden'));
+            if (isHidden) menu.classList.remove('hidden');
+            else menu.classList.add('hidden');
+        };
+        window.copyLink = (url, title, uniqueId) => {
+            const tempInput = document.createElement("input"); tempInput.value = url; document.body.appendChild(tempInput);
+            tempInput.select(); document.execCommand("copy"); document.body.removeChild(tempInput);
+            document.getElementById('simple-alert-modal').querySelector('#modal-message').textContent = 'Link copied!';
+            document.getElementById('simple-alert-modal').classList.add('is-visible');
+            document.getElementById(`popover-${uniqueId}`).classList.add('hidden');
+        };
+
+        // Trigger Story Generator
+        window.openStoryCreator = (title, summary, date, imageUrl) => {
+            const event = new CustomEvent('openStoryGenerator', {
+                detail: { title, summary, date, imageUrl }
+            });
+            window.dispatchEvent(event);
+        };
+
+        function calculateDaysOfConflict() {
+            const startDate = new Date('2023-10-07T00:00:00Z');
+            const now = new Date();
+            const diffTime = now.getTime() - startDate.getTime();
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+        }
+        
+        function updateHeroStats() {
+            const daysEl = document.getElementById('days-stat-hero');
+            if (daysEl) daysEl.innerText = calculateDaysOfConflict().toLocaleString();
+        }
+
+        // Filter articles by month
+        function filterByMonth(label) {
+            const [monthStr, yearStr] = label.split(" '");
+            const year = 2000 + parseInt(yearStr);
+            const months = { "Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "Jun": 5, "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11 };
+            const monthIndex = months[monthStr];
+
+            if (monthIndex === undefined) return;
+
+            const startDate = new Date(year, monthIndex, 1);
+            const endDate = new Date(year, monthIndex + 1, 0);
+
+            const startInput = document.getElementById('start-date');
+            const endInput = document.getElementById('end-date');
+            const fmt = d => {
+                const y = d.getFullYear();
+                const m = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                return `${y}-${m}-${day}`;
+            };
+            
+            if(startInput) startInput.value = fmt(startDate);
+            if(endInput) endInput.value = fmt(endDate);
+
+            document.getElementById('filter-controls').classList.remove('hidden');
+
+            const filtered = articles.filter(a => {
+                const d = new Date(a.date.replace(/-/g, '/'));
+                const endOfDay = new Date(new Date(endDate).setHours(23, 59, 59, 999));
+                return d >= startDate && d <= endOfDay;
+            });
+
+            currentlyDisplayedArticles = filtered;
+            renderArticles(currentlyDisplayedArticles);
+            document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateShareMenu(url, title, type, uniqueId) {
+            const cleanTitle = escapeHtmlAttribute(title);
+            const cleanUrl = escapeHtmlAttribute(url);
+            
+            return `
+            <div id="popover-${uniqueId}" class="share-popover absolute bottom-full right-0 mb-2 w-40 p-1 rounded-sm hidden bg-[#111] border border-[#222] shadow-xl z-50">
+                <div class="px-3 py-2 text-xs text-gray-400 hover:text-white hover:bg-[#222] cursor-pointer" onclick="window.shareOnTwitter('${cleanUrl}', '${cleanTitle}'); document.getElementById('popover-${uniqueId}').classList.add('hidden'); event.stopPropagation();">
+                    Share on X
+                </div>
+                <div class="px-3 py-2 text-xs text-gray-400 hover:text-white hover:bg-[#222] cursor-pointer" onclick="window.shareOnFacebook('${cleanUrl}'); document.getElementById('popover-${uniqueId}').classList.add('hidden'); event.stopPropagation();">
+                    Share on Facebook
+                </div>
+                <div class="px-3 py-2 text-xs text-gray-400 hover:text-white hover:bg-[#222] cursor-pointer" onclick="window.copyLink('${cleanUrl}', '${cleanTitle}', '${uniqueId}'); event.stopPropagation();">
+                    Copy Link
+                </div>
+            </div>`;
+        }
+
+        function getSwappedText(text) {
+            const swapMap = { 
+                'israelis': 'gazans', 
+                'israeli': 'palestinian', 
+                'israel': 'hamas',
+                'idf': 'military', 
+                'palestinian': 'israeli', 
+                'palestinians': 'israelis', 
+                'hamas': 'israel', 
+                'military': 'idf', 
+                'gazans': 'israelis', 
+                'gaza': 'israel', 
+                'west bank': 'israel', 
+                'jerusalem': 'gaza',
+                'tel aviv': 'gaza city'
+            };
+            const regex = new RegExp(Object.keys(swapMap).join('|'), 'gi');
+            return text.replace(regex, (matched) => {
+                const lower = matched.toLowerCase();
+                const rep = swapMap[lower];
+                if (!rep) return matched;
+                if (matched[0] === matched[0].toUpperCase()) return rep.charAt(0).toUpperCase() + rep.slice(1);
+                return rep;
+            });
+        }
+
+        function renderArticles(articlesToDisplay) {
+            const grid = document.getElementById('article-grid');
+            if (!grid) return;
+            
+            // Sort full dataset first
+            const sorted = [...articlesToDisplay].sort((a, b) => {
+                const da = new Date(a.date.replace(/-/g, '/')).getTime();
+                const db = new Date(b.date.replace(/-/g, '/')).getTime();
+                return currentSortOrder === 'newest' ? db - da : da - db;
+            });
+
+            const totalFilteredCount = sorted.length;
+            
+            // Apply current view limit
+            const limit = articleLimit === 'all' ? sorted.length : parseInt(articleLimit);
+            const sliced = sorted.slice(0, limit);
+
+            document.getElementById('showing-count').innerText = sliced.length;
+            document.getElementById('total-count').innerText = totalFilteredCount;
+
+            // Handle "Load More" button visibility
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            if (sliced.length >= totalFilteredCount) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'block';
+            }
+
+            if (sliced.length === 0) {
+                grid.innerHTML = `<p class="text-gray-500 md:col-span-2 lg:col-span-3 text-center py-20 font-light">No records found.</p>`;
+                return;
+            }
+
+            grid.innerHTML = sliced.map((article) => {
+                const archiveLink = `https://archive.is/oldest/${article.link}`;
+                const safeTitle = escapeHtmlAttribute(article.title);
+                const safeSummary = escapeHtmlAttribute(article.summary);
+                const cleanLink = escapeHtmlAttribute(article.link);
+                const safeImage = article.imageUrl;
+                const uniqueId = 'share-' + Math.random().toString(36).substr(2, 9);
+                
+                const displayTitle = titlesSwapped ? getSwappedText(article.title) : article.title;
+                const displaySummary = titlesSwapped ? getSwappedText(article.summary) : article.summary;
+
+                return `
+                    <div class="group flex flex-col rounded bg-[#0a0a0a] border border-[#222] overflow-hidden transition-colors hover:border-[#333]">
+                        <div onclick="window.open('${archiveLink}', '_blank')" class="relative h-56 w-full overflow-hidden bg-[#111] cursor-pointer">
+                            <img src="${article.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
+                        </div>
+                        <div class="flex flex-col flex-grow p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="text-[#8B0000] text-[10px] font-bold uppercase tracking-widest">${article.category}</span>
+                                <span class="text-gray-600 text-[10px] uppercase tracking-widest">${formatDate(article.date)}</span>
+                            </div>
+                            <h3 onclick="window.open('${archiveLink}', '_blank')" class="text-white font-serif font-bold text-lg mb-3 leading-snug cursor-pointer hover:text-gray-300 transition-colors">${displayTitle}</h3>
+                            <p onclick="window.open('${archiveLink}', '_blank')" class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-grow font-light cursor-pointer">${displaySummary}</p>
+                            
+                            <div class="mt-auto flex justify-between pt-4 border-t border-[#1a1a1a] items-center">
+                                <div class="flex-1 text-gray-600 text-[10px] uppercase tracking-wider truncate mr-2">${article.source}</div>
+                                <div class="flex items-center gap-3 relative flex-shrink-0">
+                                    <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="text-gray-500 hover:text-white text-xs transition uppercase tracking-wider">
+                                        Story
+                                    </button>
+                                    <div class="relative">
+                                        <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="text-gray-500 hover:text-white text-xs transition uppercase tracking-wider">
+                                            Share
+                                        </button>
+                                        ${generateShareMenu(cleanLink, safeTitle, 'article', uniqueId)} 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderBooks() {
+            const grid = document.getElementById('book-grid'); if(!grid) return;
+            grid.innerHTML = books.map(b => {
+                const uniqueId = 'book-' + Math.random().toString(36).substr(2, 9);
+                const cleanTitle = escapeHtmlAttribute(b.title);
+                const cleanLink = escapeHtmlAttribute(b.link);
+
+                return `
+                <div class="card-modern group flex flex-col text-center bg-[#0a0a0a] border border-[#222]">
+                    <div class="relative h-80 overflow-hidden bg-[#111]"><img src="${b.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="p-6 flex-grow flex flex-col justify-center">
+                        <h4 class="font-serif font-bold text-white mb-1 leading-tight">${b.title}</h4>
+                        <p class="text-gray-500 text-xs mb-4 font-light">${b.author}</p>
+                        <div class="mt-auto flex justify-center gap-4">
+                            <a href="${b.link}" target="_blank" class="text-[10px] text-[#8B0000] hover:text-white transition uppercase tracking-widest">View</a>
+                            <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="text-[10px] text-gray-500 hover:text-white uppercase tracking-widest relative">
+                                Share
+                                ${generateShareMenu(cleanLink, cleanTitle, 'book', uniqueId)}
+                            </button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderVideos() {
+            const grid = document.getElementById('video-grid'); if(!grid) return;
+            grid.innerHTML = videos.map(v => `
+            <div class="card-modern group flex flex-col h-full bg-[#0a0a0a] border border-[#222]">
+                <div class="relative h-64 sm:h-72 overflow-hidden bg-[#111]">
+                    <img src="${v.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Thumbnail';">
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                            <svg class="w-4 h-4 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+                    <a href="${v.link}" target="_blank" class="absolute inset-0 z-10" aria-label="Watch video"></a>
+                </div>
+                <div class="p-8 flex-grow flex flex-col">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-[#8B0000] text-[10px] font-bold uppercase tracking-widest">${v.platform}</span>
+                    </div>
+                    <h4 class="font-serif font-bold text-lg text-white mb-4 leading-snug group-hover:text-gray-300 transition-colors"><a href="${v.link}" target="_blank">${v.title}</a></h4>
+                    <p class="text-gray-600 text-xs mt-auto uppercase tracking-wider">By ${v.creator}</p>
+                </div>
+            </div>`).join('');
+        }
+
+        function renderFilms() {
+            const grid = document.getElementById('film-grid'); if(!grid) return;
+            grid.innerHTML = films.map(f => {
+                const uniqueId = 'film-' + Math.random().toString(36).substr(2, 9);
+                const cleanTitle = escapeHtmlAttribute(f.title);
+                const cleanLink = escapeHtmlAttribute(f.link);
+
+                return `
+                <div class="card-modern group flex flex-col bg-[#0a0a0a] border border-[#222]">
+                    <div class="relative h-64 overflow-hidden bg-[#111]">
+                        <img src="${f.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                        <a href="${f.link}" target="_blank" class="absolute inset-0 z-10" aria-label="View Film"></a> 
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h4 class="font-serif font-bold text-white mb-2 flex-grow">${f.title} <span class="text-gray-500 font-sans text-xs ml-2 font-normal">(${f.year})</span></h4>
+                        <p class="text-gray-500 text-xs mb-4 font-light">Dir: ${f.director}</p>
+                        <div class="mt-auto relative inline-block">
+                             <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="text-[10px] text-gray-500 hover:text-white uppercase tracking-widest">
+                                 Share
+                             </button>
+                             ${generateShareMenu(cleanLink, cleanTitle, 'film', uniqueId)}
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // --- VICTIMS LOGIC ---
+        function updateVictimControls() {
+            totalVictimPages = Math.ceil(filteredVictims.length / victimPageSize);
+            const pageInfoEl = document.getElementById('victim-page-info');
+            const prevBtn = document.getElementById('victim-prev-btn');
+            const nextBtn = document.getElementById('victim-next-btn');
+            const totalCountEl = document.getElementById('victim-total-count');
+
+            if (pageInfoEl) pageInfoEl.textContent = `${victimCurrentPage} / ${totalVictimPages}`;
+            if (totalCountEl) totalCountEl.textContent = `Total Records: ${filteredVictims.length.toLocaleString()}`;
+
+            if (prevBtn) prevBtn.disabled = victimCurrentPage <= 1;
+            if (nextBtn) nextBtn.disabled = victimCurrentPage >= totalVictimPages;
+        }
+
+        function renderVictims() {
+            const grid = document.getElementById('victim-grid');
+            const startIndex = (victimCurrentPage - 1) * victimPageSize;
+            const paginatedItems = filteredVictims.slice(startIndex, startIndex + victimPageSize);
+            
+            if (paginatedItems.length === 0) {
+                 grid.innerHTML = `<div class="col-span-full py-10 text-center text-gray-500 font-light">No records found.</div>`;
+                 return;
+            }
+
+            grid.innerHTML = paginatedItems.map(v => `<div class="victim-card flex flex-col p-4 text-center items-center justify-center h-24 border border-[#222] hover:border-[#444] transition-colors"><h4 class="font-serif font-bold text-sm text-white mb-1 leading-tight truncate w-full">${v.en_name}</h4><p class="text-gray-500 text-xs font-light">${v.age || '?'} / ${v.sex ? v.sex[0].toUpperCase() : '?'}</p></div>`).join('');
+            
+            updateVictimControls();
+        }
+
+        async function fetchVictimsData() {
+            const spinner = document.getElementById('victim-loading-spinner');
+            try {
+                spinner.classList.remove('hidden'); spinner.classList.add('flex');
+                const response = await fetch('https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json');
+                victimsData = await response.json();
+                filteredVictims = [...victimsData];
+                renderVictims();
+            } catch (error) {
+                document.getElementById('victim-grid').innerHTML = `<p class="text-gray-500 col-span-full text-center font-light">Data unavailable in preview.</p>`;
+            } finally { spinner.classList.add('hidden'); spinner.classList.remove('flex'); }
+        }
+
+        function handleVictimPageChange(direction) {
+            victimCurrentPage = Math.min(Math.max(1, victimCurrentPage + direction), totalVictimPages);
+            renderVictims();
+            document.getElementById('victims').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- CAROUSEL LOGIC ---
+        function setupCarousel() {
+            carouselItems = document.querySelectorAll('.carousel-item');
+            const track = document.getElementById('carousel-track');
+            const prevBtn = document.getElementById('carousel-prev');
+            const nextBtn = document.getElementById('carousel-next');
+
+            if (!track || carouselItems.length === 0) return;
+
+            function updateCarousel() {
+                const width = 100; // percentage
+                track.style.transform = `translateX(-${currentSlide * width}%)`;
+                if (prevBtn) prevBtn.disabled = currentSlide === 0;
+                if (nextBtn) nextBtn.disabled = currentSlide === carouselItems.length - 1;
+                
+                prevBtn.style.opacity = currentSlide === 0 ? '0.3' : '1';
+                nextBtn.style.opacity = currentSlide === carouselItems.length - 1 ? '0.3' : '1';
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    if (currentSlide > 0) {
+                        currentSlide--;
+                        updateCarousel();
+                    }
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    if (currentSlide < carouselItems.length - 1) {
+                        currentSlide++;
+                        updateCarousel();
+                    }
+                });
+            }
+            updateCarousel();
+        }
+
+        // --- BIAS TOOL PREVIEW LOGIC ---
+        function updateBiasToolPreview() {
+            const previewEl = document.getElementById('preview-headline');
+            const sortedArticles = [...articles].sort((a, b) => new Date(b.date) - new Date(a.date));
+            const articleToPreview = sortedArticles[0];
+            
+            if (!previewEl || !articleToPreview) return;
+
+            const rawTitle = articleToPreview.title;
+            const displayedTitle = titlesSwapped ? getSwappedText(rawTitle) : rawTitle;
+            
+            const regex = /palestinian|israeli|israel|hamas|idf|military|gazans|gaza|west bank/gi;
+            const highlightColor = titlesSwapped ? 'text-[#007A3D]' : 'text-[#8B0000]';
+            
+            const highlighted = displayedTitle.replace(regex, (match) => {
+                    return `<span class="${highlightColor} font-bold">${match}</span>`;
+            });
+            previewEl.innerHTML = highlighted;
+        }
+
+        // --- EMBEDDED QUIZ LOGIC ---
+        window.initEmbeddedQuiz = () => {
+             const article = articles[Math.floor(Math.random() * articles.length)];
+             currentQuizArticle = article;
+             const realHeadline = article.title;
+             const fakeHeadline = getSwappedText(realHeadline);
+             if(fakeHeadline === realHeadline) return window.initEmbeddedQuiz();
+
+             const container = document.getElementById('embedded-quiz-options');
+             const isFirstOptionReal = Math.random() < 0.5;
+             
+             const createCard = (text, isReal) => `
+                 <div class="quiz-card p-8 bg-[#0a0a0a] border border-[#222] cursor-pointer" onclick="window.checkEmbeddedQuizAnswer(this, ${isReal}, '${escapeHtmlAttribute(realHeadline)}')">
+                     <div class="mb-4 opacity-50">
+                         <span class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Headline Option</span>
+                     </div>
+                     <h3 class="font-serif text-xl md:text-2xl text-white leading-relaxed">${text}</h3>
+                 </div>`;
+
+             if(container) container.innerHTML = isFirstOptionReal 
+                 ? createCard(realHeadline, true) + createCard(fakeHeadline, false)
+                 : createCard(fakeHeadline, false) + createCard(realHeadline, true);
+                
+             document.getElementById('embedded-quiz-result').classList.add('hidden');
+        }
+
+        window.checkEmbeddedQuizAnswer = (el, isCorrect, real) => {
+            const cards = document.querySelectorAll('.quiz-card');
+            cards.forEach(c => {
+                c.onclick = null;
+                if(c === el) {
+                   if(isCorrect) c.classList.add('correct'); else c.classList.add('wrong');
+                } else if(!isCorrect) c.classList.add('correct');
+            });
+
+            const resultDiv = document.getElementById('embedded-quiz-result');
+            const header = document.getElementById('embedded-quiz-result-header');
+            const text = document.getElementById('embedded-quiz-result-text');
+            resultDiv.classList.remove('hidden');
+            
+            if(isCorrect) {
+                header.innerHTML = '<span class="text-[#007A3D]">Correct</span>';
+                text.innerHTML = 'You identified the published headline.';
+            } else {
+                header.innerHTML = '<span class="text-[#8B0000]">Incorrect</span>';
+                text.innerHTML = `The published headline was: "${real}"`;
+            }
+        }
+
+        // --- FILTER POPULATION ---
+        function populateFilters() {
+            const tags = [...new Set(articles.map(a => a.category))].sort();
+            const sources = [...new Set(articles.map(a => a.source))].sort();
+
+            const createCheckbox = (value, type) => `
+                <label class="flex items-center space-x-3 cursor-pointer group">
+                    <input type="checkbox" value="${value}" data-filter-type="${type}" class="form-checkbox h-3 w-3 text-[#8B0000] bg-[#111] border-gray-700 rounded focus:ring-0 focus:ring-offset-0 transition duration-150 ease-in-out">
+                    <span class="text-gray-400 group-hover:text-white transition text-xs uppercase tracking-wide">${value}</span>
+                </label>`;
+
+            const tagContainer = document.getElementById('tag-filters');
+            const sourceContainer = document.getElementById('source-filters');
+
+            if (tagContainer) tagContainer.innerHTML = tags.map(t => createCheckbox(t, 'tag')).join('');
+            if (sourceContainer) sourceContainer.innerHTML = sources.map(s => createCheckbox(s, 'source')).join('');
+        }
+
+        // --- SEARCH & FILTER LOGIC ---
+        function applyArchiveFilters() {
+            const searchTerm = document.getElementById('article-search').value.toLowerCase();
+            const start = document.getElementById('start-date').value;
+            const end = document.getElementById('end-date').value;
+            const getChecked = (type) => Array.from(document.querySelectorAll(`input[data-filter-type="${type}"]:checked`)).map(cb => cb.value);
+            const selectedTags = getChecked('tag');
+            const selectedSources = getChecked('source');
+
+            let filtered = articles;
+
+            // Search Term Logic
+            if (searchTerm) {
+                filtered = filtered.filter(a => 
+                    a.title.toLowerCase().includes(searchTerm) || 
+                    a.summary.toLowerCase().includes(searchTerm) ||
+                    a.source.toLowerCase().includes(searchTerm) ||
+                    a.category.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Date Range Logic
+            if (start) filtered = filtered.filter(a => new Date(a.date.replace(/-/g, '/')) >= new Date(start.replace(/-/g, '/')));
+            if (end) filtered = filtered.filter(a => new Date(a.date.replace(/-/g, '/')) <= new Date(end.replace(/-/g, '/')));
+            
+            // Tag Logic
+            if (selectedTags.length > 0) filtered = filtered.filter(a => selectedTags.includes(a.category));
+            
+            // Source Logic
+            if (selectedSources.length > 0) filtered = filtered.filter(a => selectedSources.includes(a.source));
+
+            currentlyDisplayedArticles = filtered;
+            renderArticles(currentlyDisplayedArticles);
+        }
+
+        // --- CHART LOGIC ---
+        function renderCasualtyChart() {
+            if (typeof Chart === 'undefined') return;
+            
+            const labels = ["Oct '23", "Dec '23", "Feb '24", "Apr '24", "Jun '24", "Aug '24", "Oct '24", "Dec '24", "Feb '25", "Apr '25", "Jun '25", "Aug '25", "Oct '25", "Dec '25", "Feb '26"];
+            const data = [90000, 220000, 290000, 340000, 380000, 420000, 450000, 490000, 520000, 560000, 600000, 650000, 700000, 705000, 710000];
+            const canvas = document.getElementById('casualtyChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            if (window.myCasualtyChart) window.myCasualtyChart.destroy();
+            window.myCasualtyChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Confirmed Casualties',
+                        data: data,
+                        borderColor: '#8B0000',
+                        backgroundColor: 'rgba(139, 0, 0, 0.1)',
+                        borderWidth: 1,
+                        pointBackgroundColor: '#8B0000',
+                        pointBorderColor: '#000',
+                        pointBorderWidth: 1,
+                        pointRadius: 3,
+                        fill: true,
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    onClick: (evt, activeElements) => {
+                        if (activeElements.length > 0) {
+                            const index = activeElements[0].index;
+                            const label = labels[index];
+                            filterByMonth(label);
+                        }
+                    },
+                    onHover: (event, chartElement) => {
+                        event.native.target.style.cursor = chartElement.length ? 'pointer' : 'default';
+                    },
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#666', font: { family: 'Inter', size: 10 } } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#666', font: { family: 'Inter', size: 10 } } }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            function setupDropdowns() {
+                const dropdowns = [
+                    { buttonId: 'archive-menu-button', menuId: 'archive-menu-dropdown' },
+                    { buttonId: 'tools-menu-button', menuId: 'tools-menu-dropdown' },
+                    { buttonId: 'resources-menu-button', menuId: 'resources-menu-dropdown' }
+                ];
+
+                dropdowns.forEach(dropdown => {
+                    const button = document.getElementById(dropdown.buttonId);
+                    const menu = document.getElementById(dropdown.menuId);
+
+                    if (button && menu) {
+                        button.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation(); 
+
+                            document.querySelectorAll('.nav-glass div[id$="-menu-dropdown"]').forEach(m => {
+                                if (m !== menu) m.classList.add('hidden');
+                            });
+
+                            menu.classList.toggle('hidden');
+                        });
+                        menu.querySelectorAll('a').forEach(link => {
+                            link.addEventListener('click', () => {
+                                menu.classList.add('hidden');
+                            });
+                        });
+                        menu.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                        });
+                    }
+                });
+
+                window.addEventListener('click', () => {
+                    document.querySelectorAll('.nav-glass div[id$="-menu-dropdown"]').forEach(m => m.classList.add('hidden'));
+                });
+            }
+            setupDropdowns();
+
+            // Victim Pagination and Search
+            document.getElementById('victim-prev-btn').addEventListener('click', () => handleVictimPageChange(-1));
+            document.getElementById('victim-next-btn').addEventListener('click', () => handleVictimPageChange(1));
+            
+            document.getElementById('victim-search').addEventListener('input', (e) => {
+                 const q = e.target.value.toLowerCase();
+                 filteredVictims = victimsData.filter(v => v.en_name.toLowerCase().includes(q));
+                 victimCurrentPage = 1;
+                 renderVictims();
+            });
+
+            // Archive Search
+            document.getElementById('article-search').addEventListener('input', applyArchiveFilters);
+
+            updateHeroStats();
+            currentlyDisplayedArticles = [...articles];
+            renderArticles(currentlyDisplayedArticles);
+            renderBooks();
+            renderVideos();
+            renderFilms();
+            
+            fetchVictimsData();
+            initEmbeddedQuiz();
+            setupCarousel();
+            populateFilters();
+            
+            renderCasualtyChart();
+            updateBiasToolPreview();
+
+            // Ensure nav links for hidden sections reveal them before scrolling
+            document.querySelectorAll('nav a, #mobile-menu a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const href = link.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        const targetSection = document.querySelector(href);
+                        if (targetSection && targetSection.classList.contains('hidden')) {
+                            targetSection.classList.remove('hidden');
+                            // Update corresponding hero button text if they exist
+                            if (href === '#casualty-graph') {
+                                const btn = document.getElementById('view-timeline-btn');
+                                if(btn) btn.innerText = 'Close Timeline';
+                                renderCasualtyChart();
+                            }
+                            if (href === '#bias-tool-controls') {
+                                const btn = document.getElementById('view-bias-tool-btn');
+                                if(btn) btn.innerText = 'Close Bias Tool';
+                            }
+                        }
+                    }
+                });
+            });
+            
+            // RANDOM ARTICLE Logic
+            document.getElementById('random-article-btn').addEventListener('click', () => {
+                const article = articles[Math.floor(Math.random() * articles.length)];
+                const safeTitle = escapeHtmlAttribute(article.title);
+                const safeSummary = escapeHtmlAttribute(article.summary);
+                const safeImage = article.imageUrl;
+                document.getElementById('random-article-body').innerHTML = `
+                    <div class="relative h-40 sm:h-64 overflow-hidden rounded-t-sm"><img src="${article.imageUrl}" class="w-full h-full object-cover"></div>
+                    <div class="p-8 space-y-4">
+                        <h2 class="text-2xl font-serif font-bold text-white leading-tight">${article.title}</h2>
+                        <div class="text-xs text-gray-500 border-b border-gray-800 pb-4 uppercase tracking-widest">${formatDate(article.date)}</div>
+                        <p class="text-gray-400 text-sm leading-7 font-light">${article.summary}</p>
+                        <div class="pt-6 border-t border-gray-800 flex justify-end gap-4">
+                            <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="btn-secondary py-2 px-4 rounded-sm text-xs uppercase tracking-widest">Create Story</button>
+                            <a href="${article.link}" target="_blank" class="btn-primary py-2 px-4 rounded-sm text-xs uppercase tracking-widest">Original Source</a>
+                        </div>
+                    </div>`;
+                document.getElementById('random-article-modal').classList.add('is-visible');
+            });
+
+            // Sort Buttons Logic
+            const sortNewestBtn = document.getElementById('sort-newest');
+            const sortOldestBtn = document.getElementById('sort-oldest');
+
+            if (sortNewestBtn && sortOldestBtn) {
+                sortNewestBtn.addEventListener('click', () => {
+                    if (currentSortOrder === 'newest') return;
+                    currentSortOrder = 'newest';
+                    sortNewestBtn.classList.add('active');
+                    sortOldestBtn.classList.remove('active');
+                    renderArticles(currentlyDisplayedArticles);
+                });
+
+                sortOldestBtn.addEventListener('click', () => {
+                    if (currentSortOrder === 'oldest') return;
+                    currentSortOrder = 'oldest';
+                    sortOldestBtn.classList.add('active');
+                    sortNewestBtn.classList.remove('active');
+                    renderArticles(currentlyDisplayedArticles);
+                });
+            }
+
+            document.getElementById('toggle-filter-btn').addEventListener('click', (e) => {
+                const panel = document.getElementById('filter-controls');
+                panel.classList.toggle('hidden');
+                e.target.classList.toggle('active');
+            });
+
+            const compareBtn = document.getElementById('toggle-comparison-btn');
+            const comparisonSection = document.getElementById('comparison-section');
+            if(compareBtn) compareBtn.addEventListener('click', () => {
+                const isHidden = comparisonSection.classList.toggle('hidden');
+                document.getElementById('toggle-comparison-text').innerText = isHidden ? 'Analysis' : 'Hide';
+                if (!isHidden) comparisonSection.scrollIntoView({ behavior: 'smooth' });
+                setupCarousel();
+            });
+
+            const biasBtn = document.getElementById('view-bias-tool-btn');
+            const biasSection = document.getElementById('bias-tool-controls');
+            if (biasBtn) biasBtn.addEventListener('click', () => {
+                const isHidden = biasSection.classList.contains('hidden');
+                if (isHidden) {
+                    biasSection.classList.remove('hidden');
+                    biasBtn.innerText = 'Close Bias Tool';
+                    biasSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    biasSection.classList.add('hidden');
+                    biasBtn.innerText = 'Racial Bias Tool';
+                }
+            });
+
+            document.getElementById('double-standard-toggle').addEventListener('change', (e) => {
+                titlesSwapped = e.target.checked; 
+                renderArticles(currentlyDisplayedArticles);
+                updateBiasToolPreview(); 
+            });
+
+            document.getElementById('filter-button').addEventListener('click', () => {
+                applyArchiveFilters();
+                document.getElementById('filter-controls').classList.add('hidden');
+                document.getElementById('toggle-filter-btn').classList.remove('active');
+            });
+
+            document.getElementById('clear-button').addEventListener('click', () => {
+                document.getElementById('start-date').value = '';
+                document.getElementById('end-date').value = '';
+                document.getElementById('article-search').value = '';
+                document.querySelectorAll('input[type="checkbox"][data-filter-type]').forEach(cb => cb.checked = false);
+                articleLimit = 30;
+                currentlyDisplayedArticles = [...articles];
+                renderArticles(currentlyDisplayedArticles);
+            });
+
+            // VIEW LIMIT AND LOAD MORE Logic
+            const limitSelect = document.getElementById('article-limit-select');
+            limitSelect.addEventListener('change', (e) => {
+                articleLimit = e.target.value;
+                renderArticles(currentlyDisplayedArticles);
+            });
+
+            document.getElementById('load-more-btn').addEventListener('click', () => {
+                if (articleLimit !== 'all') {
+                    articleLimit = parseInt(articleLimit) + 30;
+                    // Update dropdown to show current view count if possible
+                    limitSelect.value = currentlyDisplayedArticles.length <= articleLimit ? 'all' : articleLimit;
+                }
+                renderArticles(currentlyDisplayedArticles);
+            });
+
+            // Mobile menu
+            const menuBtn = document.getElementById('mobile-menu-button');
+            const menu = document.getElementById('mobile-menu');
+            const closeBtn = document.getElementById('close-mobile-menu');
+            
+            if(menuBtn) menuBtn.addEventListener('click', (e) => {
+                menu.classList.remove('translate-x-full');
+                e.stopPropagation();
+            });
+            if(closeBtn) closeBtn.addEventListener('click', (e) => {
+                menu.classList.add('translate-x-full');
+                e.stopPropagation();
+            });
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('translate-x-full');
+                });
+            });
+
+            window.addEventListener('click', (e) => {
+                if (!e.target.closest('.share-popover') && !e.target.closest('button[onclick*="toggleShareMenu"]')) {
+                       document.querySelectorAll('.share-popover').forEach(p => p.classList.add('hidden'));
+                }
+            });
+        });
+    </script>
+
+    <!-- REACT STORY GENERATOR COMPONENT -->
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icons = {
+            Close: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>,
+            Image: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>,
+            Type: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>,
+            Calendar: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>,
+            Download: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>,
+            Sparkles: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+        };
+
+        const StoryGenerator = () => {
+            const [isOpen, setIsOpen] = useState(false);
+            const [imgUrl, setImgUrl] = useState('');
+            const [title, setTitle] = useState('');
+            const [description, setDescription] = useState('');
+            const [date, setDate] = useState('');
+            const canvasRef = useRef(null);
+
+            useEffect(() => {
+                const handleOpen = (e) => {
+                    const { title, summary, date, imageUrl } = e.detail;
+                    setTitle(title || '');
+                    setDescription(summary || '');
+                    setDate(date || new Date().toISOString().split('T')[0]);
+                    setImgUrl(imageUrl || '');
+                    setIsOpen(true);
+                };
+
+                window.addEventListener('openStoryGenerator', handleOpen);
+                return () => window.removeEventListener('openStoryGenerator', handleOpen);
+            }, []);
+
+            useEffect(() => {
+                if (!isOpen || !canvasRef.current) return;
+                drawCanvas();
+            }, [isOpen, imgUrl, title, description, date]);
+
+            const getOrdinal = (n) => {
+                const s = ["th", "st", "nd", "rd"];
+                const v = n % 100;
+                if (v >= 11 && v <= 13) return n + 'th';
+                return n + (s[v % 10] || s[0]);
+            };
+
+            const setDailyUpdate = () => {
+                const now = new Date();
+                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                const dayName = days[now.getDay()];
+                const monthName = months[now.getMonth()];
+                const dateStr = `${dayName}, ${monthName} ${getOrdinal(now.getDate())}`;
+                
+                setImgUrl('');
+                setTitle(`Updates - ${dateStr}`);
+                setDescription("The upcoming articles cover news coming out of Gaza in the last 24 hours and showcase Palestinian narratives. Recorded to prevent erasure.");
+                
+                const yyyy = now.getFullYear();
+                const mm = String(now.getMonth() + 1).padStart(2, '0');
+                const dd = String(now.getDate()).padStart(2, '0');
+                setDate(`${yyyy}-${mm}-${dd}`);
+            };
+
+            const loadUnknownImage = (url) => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.crossOrigin = "anonymous";
+                    img.onload = () => resolve(img);
+                    img.onerror = () => {
+                        const proxyUrl = `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=2000&fit=cover`;
+                        const proxyImg = new Image();
+                        proxyImg.crossOrigin = "anonymous";
+                        proxyImg.onload = () => resolve(proxyImg);
+                        proxyImg.onerror = () => reject('Proxy failed'); 
+                        proxyImg.src = proxyUrl;
+                    };
+                    img.src = url;
+                });
+            };
+
+            const wrapText = (ctx, text, x, y, maxWidth, lineHeight) => {
+                const words = text.split(' ');
+                let line = '';
+                let currentY = y;
+
+                for (let n = 0; n < words.length; n++) {
+                    const testLine = line + words[n] + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    const testWidth = metrics.width;
+                    if (testWidth > maxWidth && n > 0) {
+                        ctx.fillText(line, x, currentY);
+                        line = words[n] + ' ';
+                        currentY += lineHeight;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                ctx.fillText(line, x, currentY);
+                return currentY + lineHeight;
+            };
+
+            const drawCanvas = async () => {
+                const canvas = canvasRef.current;
+                const ctx = canvas.getContext('2d');
+                const size = 2000;
+                canvas.width = size;
+                canvas.height = size;
+
+                ctx.fillStyle = '#0a0a0a';
+                ctx.fillRect(0, 0, size, size);
+
+                if (imgUrl) {
+                    try {
+                        const img = await loadUnknownImage(imgUrl);
+                        const imgAspect = img.width / img.height;
+                        const canvasAspect = 1;
+                        let sx, sy, sw, sh;
+
+                        if (imgAspect > canvasAspect) {
+                            sw = img.height * canvasAspect;
+                            sh = img.height;
+                            sx = (img.width - sw) / 2;
+                            sy = 0;
+                        } else {
+                            sw = img.width;
+                            sh = img.width / canvasAspect;
+                            sx = 0;
+                            sy = (img.height - sh) / 2;
+                        }
+                        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, size, size);
+                    } catch (e) {
+                        ctx.fillStyle = '#1a1a1a';
+                        ctx.fillRect(0, 0, size, size);
+                    }
+                }
+
+                const overlay = ctx.createLinearGradient(0, 0, 0, size);
+                overlay.addColorStop(0, 'rgba(0,0,0,0.3)');
+                overlay.addColorStop(0.6, 'rgba(0,0,0,0.8)');
+                overlay.addColorStop(1, 'rgba(0,0,0,1)');
+                ctx.fillStyle = overlay;
+                ctx.fillRect(0, 0, size, size);
+
+                // Logo
+                ctx.font = '700 40px "Playfair Display", serif';
+                ctx.fillStyle = '#FFFFFF';
+                ctx.textAlign = 'left';
+                ctx.fillText('ECHOES OF GAZA', 100, 100);
+
+                // Content
+                const textStartX = 100;
+                let currentY = size * 0.5;
+                const maxW = size - 200;
+
+                ctx.fillStyle = '#8B0000';
+                ctx.fillRect(textStartX, currentY, 15, 400);
+
+                const actualTextX = textStartX + 40;
+                ctx.font = '700 30px "Inter", sans-serif';
+                ctx.fillText(date.toUpperCase() + ' / ARCHIVE', actualTextX, currentY + 30);
+                
+                currentY += 120;
+                ctx.font = '700 80px "Playfair Display", serif';
+                ctx.fillStyle = '#FFFFFF';
+                currentY = wrapText(ctx, title, actualTextX, currentY, maxW - 40, 100);
+
+                currentY += 40;
+                ctx.font = '400 45px "Inter", sans-serif';
+                ctx.fillStyle = '#ccc';
+                wrapText(ctx, description, actualTextX, currentY, maxW - 40, 70);
+
+                ctx.font = '500 25px "Inter", sans-serif';
+                ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                ctx.textAlign = 'right';
+                ctx.fillText('ECHOESOFGAZA.ORG', size - 100, size - 80);
+            };
+
+            const shareStory = async () => {
+                if(!canvasRef.current) return;
+                const blob = await new Promise(resolve => canvasRef.current.toBlob(resolve, 'image/png'));
+                const file = new File([blob], `echoes-story.png`, { type: 'image/png' });
+
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: 'Echoes of Gaza Story',
+                            text: 'Historical Record from echoesofgaza.org'
+                        });
+                    } catch (error) { console.log('Cancelled'); }
+                } else {
+                    const link = document.createElement('a');
+                    link.download = `echoes-story.png`;
+                    link.href = canvasRef.current.toDataURL('image/png');
+                    link.click();
+                }
+            };
+
+            return (
+                <>
+                    {isOpen && (
+                        <div 
+                            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-[2900]"
+                            onClick={() => setIsOpen(false)}
+                        ></div>
+                    )}
+
+                    <div className={`story-sidebar ${isOpen ? 'open' : ''} bg-[#0a0a0a] border-l border-[#222]`}>
+                        <div className="sticky top-0 z-10 bg-[#0a0a0a]/95 border-b border-[#222] px-6 py-4 flex justify-between items-center">
+                            <div>
+                                <h2 className="text-lg font-serif font-bold text-white tracking-wide">Story Creator</h2>
+                            </div>
+                            <button onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-white transition p-2">
+                                <Icons.Close />
+                            </button>
+                        </div>
+
+                        <div className="p-6 space-y-8 overflow-y-auto">
+                            <div className="space-y-3">
+                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Preview</label>
+                                <div className="w-full aspect-square bg-black border border-[#222] rounded-sm overflow-hidden">
+                                    <canvas ref={canvasRef} className="w-full h-full object-contain"></canvas>
+                                </div>
+                            </div>
+
+                            <div className="space-y-6">
+                                <button onClick={setDailyUpdate} className="w-full bg-[#151515] border border-[#222] hover:border-[#444] text-white text-xs font-bold py-3 uppercase tracking-widest transition flex items-center justify-center gap-2">
+                                    <Icons.Sparkles /> Generate Daily
+                                </button>
+                            
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Image URL</label>
+                                    <input type="text" value={imgUrl} onChange={(e) => setImgUrl(e.target.value)} className="w-full bg-[#050505] border border-[#222] rounded-sm px-4 py-3 text-gray-300 text-xs focus:border-gray-500 outline-none transition" />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Headline</label>
+                                    <textarea value={title} onChange={(e) => setTitle(e.target.value)} className="w-full bg-[#050505] border border-[#222] rounded-sm px-4 py-3 text-gray-300 text-xs focus:border-gray-500 outline-none transition" />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Summary</label>
+                                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="w-full bg-[#050505] border border-[#222] rounded-sm px-4 py-3 text-gray-300 text-xs focus:border-gray-500 outline-none transition" />
+                                </div>
+                            </div>
+
+                            <div className="pt-4 sticky bottom-0 bg-[#0a0a0a] pb-6">
+                                <button onClick={shareStory} className="w-full bg-[#8B0000] hover:bg-[#660000] text-white font-bold py-4 rounded-sm shadow-none uppercase tracking-widest text-xs transition flex items-center justify-center gap-3">
+                                    <span>Share to Story</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            );
+        };
+
+        const rootElement = document.getElementById('story-generator-root');
+        if (rootElement) {
+            const root = ReactDOM.createRoot(rootElement);
+            root.render(<StoryGenerator />);
+        }
+    </script>
+    <script src="./assets/site-shell.js?v=integrity-1" defer></script>
+</body>
+</html>

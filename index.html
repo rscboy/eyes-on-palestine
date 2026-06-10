@@ -16,7 +16,7 @@
     <meta property="og:title" content="Echoes of Gaza: A Historical Archive">
     <meta property="og:description" content="A digital historical record documenting the crisis. 680,000+ estimated casualties. Preserving truth, resisting erasure.">
     <meta property="og:image" content="https://i.postimg.cc/x1fDcLY5/Eo-G-Divide-Social-Media-Thumbail.png">
-    <meta property="og:url" content="https://echoesofgaza.org">
+    <meta property="og:url" content="https://echoesofgaza.org/">
     <meta property="og:type" content="website">
     
     <!-- Twitter Card Tags -->
@@ -29,6 +29,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Echoes of Gaza: A Historical Archive</title>
+    <meta name="description" content="A digital historical record documenting the crisis. 680,000+ estimated casualties. Preserving truth, resisting erasure.">
+    <link rel="canonical" href="https://echoesofgaza.org/">
     <script>
         (function keepPlainHomepageAtTop() {
             const staleMapHashes = new Set(["#gaza-displacement-maps"]);
@@ -2758,9 +2760,10 @@
             { id: 'chicago', label: 'Chicago' }
         ];
 
-        // Helper to escape single quotes
+        // Escape a value used as a JS string literal inside an inline onclick attribute:
+        // backslash-escape for the JS string, then HTML-escape so it cannot break out of the attribute.
         function escapeHtmlAttribute(str) {
-            return String(str ?? '').replace(/'/g, "\\'");
+            return escapeHtml(String(str ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'"));
         }
 
         function escapeHtml(str) {
@@ -3196,12 +3199,12 @@
                     <tbody>
                         ${flagged.map(result => `
                             <tr>
-                                <td class="text-sm text-gray-300">${result.original?.title || 'Untitled'}</td>
-                                <td class="text-xs text-gray-500">${result.original?.source || ''}</td>
-                                <td class="text-xs text-gray-500">${result.original?.date || ''}</td>
-                                <td><span class="integrity-status" data-status="${integrityEffectiveStatus(result)}">${integrityStatusLabel(integrityEffectiveStatus(result))}</span>${result.manual_override ? `<div class="text-[10px] text-[#8B0000] uppercase tracking-widest mt-2">Manual verification overrides automated status: ${integrityStatusLabel(result.status)}</div>` : ''}</td>
-                                <td class="text-xs text-gray-500">${result.last_checked || result.checked_at || ''}</td>
-                                <td><button class="text-[10px] text-[#8B0000] hover:text-white uppercase tracking-widest" onclick="window.openIntegrityDetail('${result.id}')">View Details</button></td>
+                                <td class="text-sm text-gray-300">${escapeHtml(result.original?.title || 'Untitled')}</td>
+                                <td class="text-xs text-gray-500">${escapeHtml(result.original?.source || '')}</td>
+                                <td class="text-xs text-gray-500">${escapeHtml(result.original?.date || '')}</td>
+                                <td><span class="integrity-status" data-status="${escapeDataAttribute(integrityEffectiveStatus(result))}">${escapeHtml(integrityStatusLabel(integrityEffectiveStatus(result)))}</span>${result.manual_override ? `<div class="text-[10px] text-[#8B0000] uppercase tracking-widest mt-2">Manual verification overrides automated status: ${escapeHtml(integrityStatusLabel(result.status))}</div>` : ''}</td>
+                                <td class="text-xs text-gray-500">${escapeHtml(result.last_checked || result.checked_at || '')}</td>
+                                <td><button class="text-[10px] text-[#8B0000] hover:text-white uppercase tracking-widest" onclick="window.openIntegrityDetail('${escapeHtmlAttribute(result.id)}')">View Details</button></td>
                             </tr>
                         `).join('')}
                     </tbody>
@@ -3237,27 +3240,27 @@
             body.innerHTML = `
                 <div class="space-y-6">
                     <div>
-                        <span class="integrity-status" data-status="${integrityEffectiveStatus(result)}">${integrityStatusLabel(integrityEffectiveStatus(result))}</span>
-                        ${result.manual_override ? `<p class="text-xs text-[#8B0000] uppercase tracking-widest mt-3">Manual verification by ${result.manual_override.verified_by || 'Unknown'} at ${result.manual_override.verified_at || ''}. Automated status: ${integrityStatusLabel(result.status)}</p>` : ''}
+                        <span class="integrity-status" data-status="${escapeDataAttribute(integrityEffectiveStatus(result))}">${escapeHtml(integrityStatusLabel(integrityEffectiveStatus(result)))}</span>
+                        ${result.manual_override ? `<p class="text-xs text-[#8B0000] uppercase tracking-widest mt-3">Manual verification by ${escapeHtml(result.manual_override.verified_by || 'Unknown')} at ${escapeHtml(result.manual_override.verified_at || '')}. Automated status: ${escapeHtml(integrityStatusLabel(result.status))}</p>` : ''}
                     </div>
                     <div>
-                        <h4 class="text-white font-serif text-lg mb-2">${result.original?.title || 'Untitled'}</h4>
-                        <p class="text-xs text-gray-500 uppercase tracking-widest">${result.original?.source || ''} / ${result.original?.date || ''}</p>
-                        <p class="text-sm text-gray-500 leading-relaxed mt-4">${result.original?.summary || ''}</p>
+                        <h4 class="text-white font-serif text-lg mb-2">${escapeHtml(result.original?.title || 'Untitled')}</h4>
+                        <p class="text-xs text-gray-500 uppercase tracking-widest">${escapeHtml(result.original?.source || '')} / ${escapeHtml(result.original?.date || '')}</p>
+                        <p class="text-sm text-gray-500 leading-relaxed mt-4">${escapeHtml(result.original?.summary || '')}</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-500">
-                        <div class="integrity-stat"><span class="block text-gray-600 uppercase tracking-widest mb-2">HTTP Status</span>${signals.status_code ?? 'Unknown'}</div>
-                        <div class="integrity-stat"><span class="block text-gray-600 uppercase tracking-widest mb-2">Similarity</span>${signals.similarity_score ?? 'Unknown'}</div>
-                        <div class="integrity-stat md:col-span-2"><span class="block text-gray-600 uppercase tracking-widest mb-2">Final URL</span><span class="break-all">${signals.final_url || ''}</span></div>
-                        <div class="integrity-stat md:col-span-2"><span class="block text-gray-600 uppercase tracking-widest mb-2">Observed Issue</span>${result.observed_issue || ''}</div>
+                        <div class="integrity-stat"><span class="block text-gray-600 uppercase tracking-widest mb-2">HTTP Status</span>${escapeHtml(signals.status_code ?? 'Unknown')}</div>
+                        <div class="integrity-stat"><span class="block text-gray-600 uppercase tracking-widest mb-2">Similarity</span>${escapeHtml(signals.similarity_score ?? 'Unknown')}</div>
+                        <div class="integrity-stat md:col-span-2"><span class="block text-gray-600 uppercase tracking-widest mb-2">Final URL</span><span class="break-all">${escapeHtml(signals.final_url || '')}</span></div>
+                        <div class="integrity-stat md:col-span-2"><span class="block text-gray-600 uppercase tracking-widest mb-2">Observed Issue</span>${escapeHtml(result.observed_issue || '')}</div>
                     </div>
                     <div class="flex flex-wrap gap-3">
-                        <a class="btn-secondary text-xs uppercase tracking-widest px-4 py-2 rounded-sm" href="${result.original?.url || '#'}" target="_blank" rel="noopener noreferrer">Live URL</a>
-                        <a class="btn-secondary text-xs uppercase tracking-widest px-4 py-2 rounded-sm" href="${archiveIs}" target="_blank" rel="noopener noreferrer">Archive.is</a>
-                        <a class="btn-secondary text-xs uppercase tracking-widest px-4 py-2 rounded-sm" href="${archiveOrg}" target="_blank" rel="noopener noreferrer">Archive.org</a>
+                        <a class="btn-secondary text-xs uppercase tracking-widest px-4 py-2 rounded-sm" href="${escapeDataAttribute(result.original?.url || '#')}" target="_blank" rel="noopener noreferrer">Live URL</a>
+                        <a class="btn-secondary text-xs uppercase tracking-widest px-4 py-2 rounded-sm" href="${escapeDataAttribute(archiveIs)}" target="_blank" rel="noopener noreferrer">Archive.is</a>
+                        <a class="btn-secondary text-xs uppercase tracking-widest px-4 py-2 rounded-sm" href="${escapeDataAttribute(archiveOrg)}" target="_blank" rel="noopener noreferrer">Archive.org</a>
                     </div>
-                    ${signals.text_snippet ? `<div><h4 class="text-white/80 font-serif mb-3">Extracted Text Snippet</h4><p class="text-sm text-gray-500 leading-relaxed border-l border-white/10 pl-4">${signals.text_snippet}</p></div>` : ''}
-                    ${screenshotPath ? `<div><h4 class="text-white/80 font-serif mb-3">Evidence Screenshot</h4><img src="./${screenshotPath}" alt="" class="w-full border border-white/10"></div>` : ''}
+                    ${signals.text_snippet ? `<div><h4 class="text-white/80 font-serif mb-3">Extracted Text Snippet</h4><p class="text-sm text-gray-500 leading-relaxed border-l border-white/10 pl-4">${escapeHtml(signals.text_snippet)}</p></div>` : ''}
+                    ${screenshotPath ? `<div><h4 class="text-white/80 font-serif mb-3">Evidence Screenshot</h4><img src="./${escapeDataAttribute(screenshotPath)}" alt="" class="w-full border border-white/10"></div>` : ''}
                 </div>
             `;
             modal.classList.add('is-visible');
@@ -3462,8 +3465,8 @@
                         <div class="text-gray-300 mt-2 normal-case tracking-normal">${authors.map(escapeHtml).join(', ')}</div>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
-                        <button class="btn-primary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.open('${escapeHtmlAttribute(escapeDataAttribute(archivedUrl))}', '_blank', 'noopener,noreferrer')">Archived Copy</button>
-                        <button class="btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.open('${escapeHtmlAttribute(escapeDataAttribute(liveUrl))}', '_blank', 'noopener,noreferrer')">Live Source</button>
+                        <button class="btn-primary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.open('${escapeHtmlAttribute(archivedUrl)}', '_blank', 'noopener,noreferrer')">Archived Copy</button>
+                        <button class="btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.open('${escapeHtmlAttribute(liveUrl)}', '_blank', 'noopener,noreferrer')">Live Source</button>
                         <button class="btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest" onclick="window.togglePacketByDetailId('${detailId}')">${isArticleSaved(article) ? 'Saved' : 'Save'}</button>
                     </div>
                     <div class="border-t border-white/10 pt-6 mb-8">
@@ -3940,7 +3943,7 @@
                 const safeSummary = escapeHtmlAttribute(article.summary);
                 const cleanLink = escapeHtmlAttribute(article.link);
                 const liveArticleLink = escapeDataAttribute(article.link);
-                const safeImage = article.imageUrl;
+                const safeImage = escapeHtmlAttribute(article.imageUrl);
                 const uniqueId = 'share-' + Math.random().toString(36).substr(2, 9);
                 const detailId = 'detail-' + Math.random().toString(36).substr(2, 9);
                 articleDetailRecords[detailId] = article;
@@ -3981,7 +3984,7 @@
                             <button onclick="window.togglePacketByDetailId('${detailId}'); event.stopPropagation();" class="article-save-overlay ${isSaved ? 'is-saved' : ''}" aria-label="${isSaved ? 'Remove saved article' : 'Save article'}" title="${isSaved ? 'Saved' : 'Save article'}">
                                 ${createIcon('save')}
                             </button>
-                            <img src="${article.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
+                            <img src="${escapeDataAttribute(article.imageUrl)}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
                         </div>
                         <div class="article-card-body flex flex-col flex-grow p-6">
                             <div class="flex justify-between items-start gap-4 mb-3">
@@ -4001,7 +4004,7 @@
                                     <button onclick="window.openArticleDetail('${detailId}'); event.stopPropagation();" class="article-action-btn" aria-label="View details" title="Details">
                                         ${createIcon('source')}<span>Details</span>
                                     </button>
-                                    <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="article-action-btn" aria-label="Create story" title="Story">
+                                    <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${escapeHtmlAttribute(article.date)}', '${safeImage}')" class="article-action-btn" aria-label="Create story" title="Story">
                                         ${createIcon('story')}<span>Story</span>
                                     </button>
                                     <div class="relative">
@@ -4069,12 +4072,12 @@
 
                 return `
                 <div class="card-modern group flex flex-col text-center bg-[#0a0a0a] border border-[#222]">
-                    <div class="relative h-80 overflow-hidden bg-[#111]"><img src="${b.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative h-80 overflow-hidden bg-[#111]"><img src="${escapeDataAttribute(b.imageUrl)}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div class="p-6 flex-grow flex flex-col justify-center">
-                        <h4 class="font-serif font-bold text-white mb-1 leading-tight">${b.title}</h4>
-                        <p class="text-gray-500 text-xs mb-4 font-light">${b.author}</p>
+                        <h4 class="font-serif font-bold text-white mb-1 leading-tight">${escapeHtml(b.title)}</h4>
+                        <p class="text-gray-500 text-xs mb-4 font-light">${escapeHtml(b.author)}</p>
                         <div class="mt-auto flex justify-center gap-4">
-                            <a href="${b.link}" target="_blank" class="text-[10px] text-[#8B0000] hover:text-white transition uppercase tracking-widest">View</a>
+                            <a href="${escapeDataAttribute(b.link)}" target="_blank" class="text-[10px] text-[#8B0000] hover:text-white transition uppercase tracking-widest">View</a>
                             <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="text-[10px] text-gray-500 hover:text-white uppercase tracking-widest relative">
                                 Share
                                 ${generateShareMenu(cleanLink, cleanTitle, 'book', uniqueId)}
@@ -4090,20 +4093,20 @@
             grid.innerHTML = newestFirst(videos).map(v => `
             <div class="card-modern group flex flex-col h-full bg-[#0a0a0a] border border-[#222]">
                 <div class="relative aspect-video overflow-hidden bg-[#111]">
-                    <img src="${v.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Thumbnail';">
+                    <img src="${escapeDataAttribute(v.imageUrl)}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Thumbnail';">
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <div class="w-9 h-9 md:w-10 md:h-10 rounded-full border border-white/20 flex items-center justify-center backdrop-blur-sm bg-black/20">
                             <svg class="w-3 h-3 md:w-3.5 md:h-3.5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                         </div>
                     </div>
-                    <a href="${v.link}" target="_blank" class="absolute inset-0 z-10" aria-label="Watch video"></a>
+                    <a href="${escapeDataAttribute(v.link)}" target="_blank" class="absolute inset-0 z-10" aria-label="Watch video"></a>
                 </div>
                 <div class="p-3 md:p-4 flex-grow flex flex-col">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-[#8B0000] text-[9px] md:text-[10px] font-bold uppercase tracking-widest">${v.platform}</span>
+                        <span class="text-[#8B0000] text-[9px] md:text-[10px] font-bold uppercase tracking-widest">${escapeHtml(v.platform)}</span>
                     </div>
-                    <h4 class="font-serif font-bold text-sm md:text-base text-white mb-3 leading-snug group-hover:text-gray-300 transition-colors line-clamp-3"><a href="${v.link}" target="_blank">${v.title}</a></h4>
-                    <p class="text-gray-600 text-[10px] md:text-[11px] mt-auto uppercase tracking-wider truncate">By ${v.creator}</p>
+                    <h4 class="font-serif font-bold text-sm md:text-base text-white mb-3 leading-snug group-hover:text-gray-300 transition-colors line-clamp-3"><a href="${escapeDataAttribute(v.link)}" target="_blank">${escapeHtml(v.title)}</a></h4>
+                    <p class="text-gray-600 text-[10px] md:text-[11px] mt-auto uppercase tracking-wider truncate">By ${escapeHtml(v.creator)}</p>
                 </div>
             </div>`).join('');
         }
@@ -4118,12 +4121,12 @@
                 return `
                 <div class="card-modern group flex flex-col bg-[#0a0a0a] border border-[#222]">
                     <div class="relative h-64 overflow-hidden bg-[#111]">
-                        <img src="${f.imageUrl}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
-                        <a href="${f.link}" target="_blank" class="absolute inset-0 z-10" aria-label="View Film"></a> 
+                        <img src="${escapeDataAttribute(f.imageUrl)}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                        <a href="${escapeDataAttribute(f.link)}" target="_blank" class="absolute inset-0 z-10" aria-label="View Film"></a>
                     </div>
                     <div class="p-6 flex-grow flex flex-col">
-                        <h4 class="font-serif font-bold text-white mb-2 flex-grow">${f.title} <span class="text-gray-500 font-sans text-xs ml-2 font-normal">(${f.year})</span></h4>
-                        <p class="text-gray-500 text-xs mb-4 font-light">Dir: ${f.director}</p>
+                        <h4 class="font-serif font-bold text-white mb-2 flex-grow">${escapeHtml(f.title)} <span class="text-gray-500 font-sans text-xs ml-2 font-normal">(${escapeHtml(f.year)})</span></h4>
+                        <p class="text-gray-500 text-xs mb-4 font-light">Dir: ${escapeHtml(f.director)}</p>
                         <div class="mt-auto relative inline-block">
                              <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="text-[10px] text-gray-500 hover:text-white uppercase tracking-widest">
                                  Share
@@ -4160,7 +4163,7 @@
                  return;
             }
 
-            grid.innerHTML = paginatedItems.map(v => `<div class="victim-card flex flex-col p-4 text-center items-center justify-center h-24 border border-[#222] hover:border-[#444] transition-colors"><h4 class="font-serif font-bold text-sm text-white mb-1 leading-tight truncate w-full">${v.en_name}</h4><p class="text-gray-500 text-xs font-light">${v.age || '?'} / ${v.sex ? v.sex[0].toUpperCase() : '?'}</p></div>`).join('');
+            grid.innerHTML = paginatedItems.map(v => `<div class="victim-card flex flex-col p-4 text-center items-center justify-center h-24 border border-[#222] hover:border-[#444] transition-colors"><h4 class="font-serif font-bold text-sm text-white mb-1 leading-tight truncate w-full">${escapeHtml(v.en_name)}</h4><p class="text-gray-500 text-xs font-light">${escapeHtml(v.age || '?')} / ${v.sex ? escapeHtml(v.sex[0].toUpperCase()) : '?'}</p></div>`).join('');
             
             updateVictimControls();
         }
@@ -4288,7 +4291,7 @@
                 text.innerHTML = 'You identified the published headline.';
             } else {
                 header.innerHTML = '<span class="text-[#8B0000]">Incorrect</span>';
-                text.innerHTML = `The published headline was: "${real}"`;
+                text.innerHTML = `The published headline was: "${escapeHtml(real)}"`;
             }
         }
 
