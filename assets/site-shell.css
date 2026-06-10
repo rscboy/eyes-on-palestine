@@ -43,6 +43,7 @@ body.site-shell-pad {
 
 .site-shell-nav {
   display: flex;
+  align-self: stretch;
   align-items: center;
   gap: 28px;
 }
@@ -63,6 +64,9 @@ body.site-shell-pad {
 
 .site-shell-menu-wrap {
   position: relative;
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
 }
 
 .site-shell-menu-button,
@@ -95,7 +99,6 @@ body.site-shell-pad {
   left: 50%;
   top: 100%;
   min-width: 190px;
-  padding-top: 14px;
   transform: translateX(-50%);
   display: none;
   z-index: 5010;
