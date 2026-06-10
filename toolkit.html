@@ -108,11 +108,21 @@
         }
     </style>
     <link rel="stylesheet" href="./assets/site-shell.css?v=nav-dropdown-2">
+    <style>
+        /* This page has a fixed left section sidebar; offset the shared site footer
+           to clear it on desktop so the footer matches the layout of the main content. */
+        @media (min-width: 768px) {
+            [data-site-shell="footer"] { margin-left: 12rem; }
+        }
+        @media (min-width: 1024px) {
+            [data-site-shell="footer"] { margin-left: 14rem; }
+        }
+    </style>
 </head>
 <body class="leading-loose">
 
-    <!-- Mobile Top Navigation -->
-    <header class="md:hidden fixed w-full top-0 z-50 bg-[rgba(11,11,11,0.95)] backdrop-blur-md border-b border-[#222]">
+    <!-- Mobile Top Navigation (offset below the shared site header) -->
+    <header class="md:hidden fixed w-full top-[60px] z-40 bg-[rgba(11,11,11,0.95)] backdrop-blur-md border-b border-[#222]">
         <div class="max-w-4xl mx-auto px-4 sm:px-6">
             <div class="flex justify-between items-center h-16">
                 <div class="flex flex-col">
@@ -133,8 +143,8 @@
         </div>
     </header>
 
-    <!-- Desktop Vertical Sidebar -->
-    <aside class="hidden md:flex flex-col fixed left-0 top-0 h-screen w-48 lg:w-56 border-r border-[#222] bg-[rgba(11,11,11,0.95)] backdrop-blur-md p-6 lg:p-8 z-50">
+    <!-- Desktop Vertical Sidebar (offset below the shared site header) -->
+    <aside class="hidden md:flex flex-col fixed left-0 top-[60px] h-[calc(100vh-60px)] w-48 lg:w-56 border-r border-[#222] bg-[rgba(11,11,11,0.95)] backdrop-blur-md p-6 lg:p-8 z-40">
         <div class="flex flex-col mb-16">
             <span class="text-brand-red font-serif font-bold text-sm tracking-widest uppercase leading-tight mb-2">Toolkit Index</span>
             <a href="https://echoesofgaza.org" class="text-[10px] text-bone hover:text-brand-red transition-colors uppercase tracking-widest leading-relaxed">An Echoes of Gaza Project</a>
