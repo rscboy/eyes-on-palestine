@@ -4,8 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png" type="image/png">
-    <meta name="robots" content="index, follow">
     <title>Events | Echoes of Gaza</title>
+    <meta name="description" content="Public programming, speaker series, and events from Echoes of Gaza exploring the ethics of witnessing and Palestinian resistance.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://echoesofgaza.org/events">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Echoes of Gaza">
+    <meta property="og:title" content="Events | Echoes of Gaza">
+    <meta property="og:description" content="Public programming, speaker series, and events from Echoes of Gaza exploring the ethics of witnessing and Palestinian resistance.">
+    <meta property="og:url" content="https://echoesofgaza.org/events">
+    <meta property="og:image" content="https://i.postimg.cc/x1fDcLY5/Eo-G-Divide-Social-Media-Thumbail.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Events | Echoes of Gaza">
+    <meta name="twitter:description" content="Public programming, speaker series, and events from Echoes of Gaza exploring the ethics of witnessing and Palestinian resistance.">
+    <meta name="twitter:image" content="https://i.postimg.cc/x1fDcLY5/Eo-G-Divide-Social-Media-Thumbail.png">
+
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -137,7 +150,13 @@
             line-height: 1.9;
             color: #ccc;
         }
+        
+        /* Utility for anchor positioning offset */
+        .scroll-mt-24 {
+            scroll-margin-top: 6rem;
+        }
     </style>
+    <link rel="stylesheet" href="./assets/site-shell.css?v=nav-contrast-1">
 </head>
 <body class="flex flex-col min-h-screen">
 
@@ -182,55 +201,76 @@
                 
                 <!-- MOBILE MENU BUTTON -->
                 <div class="flex items-center space-x-4 md:hidden z-50 relative">
-                    <button id="mobile-menu-button" class="text-gray-400 hover:text-white transition p-2">
+                    <button id="mobile-menu-button" class="text-white transition p-2 hover:opacity-70 focus:outline-none">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16m-7 6h7" />
+                            <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" d="M3 6h18M3 12h18m-7 6h7" />
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- MOBILE MENU OVERLAY (Added) -->
-        <div id="mobile-menu" class="fixed inset-0 top-[80px] bg-[#0a0a0a] z-40 hidden flex-col p-8 overflow-y-auto border-t border-white/5 transition-all duration-300">
-            <nav class="flex flex-col space-y-8 pb-12">
-                <!-- Archive Section -->
-                <div>
-                    <span class="meta-label block mb-4 text-gray-600">Archive</span>
-                    <div class="flex flex-col space-y-3 pl-4 border-l border-gray-800">
-                        <a href="#articles" class="text-xl text-gray-300 font-serif hover:text-white transition">Articles</a>
-                        <a href="#books" class="text-xl text-gray-300 font-serif hover:text-white transition">Books</a>
-                        <a href="#videos" class="text-xl text-gray-300 font-serif hover:text-white transition">Interviews</a>
-                    </div>
-                </div>
+        <!-- MOBILE MENU OVERLAY (Forensic Style) -->
+        <div id="mobile-menu" class="fixed inset-0 top-[80px] bg-[#050505] z-40 hidden flex-col border-t border-white/10 transition-all duration-300 font-[Inter] overflow-y-auto">
+            <nav class="flex flex-col flex-grow">
                 
-                <!-- Tools Section -->
-                <div>
-                    <span class="meta-label block mb-4 text-gray-600">Tools</span>
-                    <div class="flex flex-col space-y-3 pl-4 border-l border-gray-800">
-                        <a href="#narrative" class="text-xl text-gray-300 font-serif hover:text-white transition">Narratives</a>
-                        <a href="#timeline" class="text-xl text-gray-300 font-serif hover:text-white transition">Timeline</a>
+                <!-- SECTION: ARCHIVE -->
+                <div class="border-b border-white/10 px-8 py-6">
+                    <span class="block text-white font-light uppercase tracking-[0.2em] text-sm mb-4">Archive</span>
+                    <div class="grid grid-cols-2 gap-y-3 pl-1">
+                        <a href="#articles" class="text-xs text-gray-500 hover:text-white uppercase tracking-wider transition-colors flex items-center group">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gray-800 mr-2 group-hover:bg-red-500 transition-colors"></span> Articles
+                        </a>
+                        <a href="#books" class="text-xs text-gray-500 hover:text-white uppercase tracking-wider transition-colors flex items-center group">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gray-800 mr-2 group-hover:bg-red-500 transition-colors"></span> Books
+                        </a>
+                        <a href="#videos" class="text-xs text-gray-500 hover:text-white uppercase tracking-wider transition-colors flex items-center group">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gray-800 mr-2 group-hover:bg-red-500 transition-colors"></span> Interviews
+                        </a>
+                        <a href="#films" class="text-xs text-gray-500 hover:text-white uppercase tracking-wider transition-colors flex items-center group">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gray-800 mr-2 group-hover:bg-red-500 transition-colors"></span> Films
+                        </a>
                     </div>
                 </div>
 
-                <!-- Direct Links -->
-                <div class="flex flex-col space-y-4 pt-4">
-                     <a href="#geolocation" class="text-xl text-gray-300 font-serif hover:text-white transition">Maps</a>
-                     <a href="#victims" class="text-xl text-gray-300 font-serif hover:text-white transition">Victims</a>
-                     <a href="#resources" class="text-xl text-gray-300 font-serif hover:text-white transition">Resources</a>
+                <!-- SECTION: TOOLS -->
+                <div class="border-b border-white/10 px-8 py-6">
+                    <span class="block text-white font-light uppercase tracking-[0.2em] text-sm mb-4">Tools</span>
+                    <div class="flex flex-col space-y-3 pl-1">
+                        <a href="#narrative" class="text-xs text-gray-500 hover:text-white uppercase tracking-wider transition-colors">01 / Narratives</a>
+                        <a href="#timeline" class="text-xs text-gray-500 hover:text-white uppercase tracking-wider transition-colors">02 / Timeline Data</a>
+                    </div>
                 </div>
 
-                <!-- CTA -->
-                <div class="pt-6 mt-4">
-                     <a href="https://echoesofgaza.org/collab" class="btn-primary w-full block text-center py-4 text-xs uppercase tracking-[0.2em] border border-transparent">Submit Evidence</a>
+                <!-- DIRECT LINKS -->
+                <a href="#geolocation" class="border-b border-white/10 px-8 py-6 block text-white font-light uppercase tracking-[0.2em] text-sm hover:bg-white/5 transition-colors">
+                    Maps
+                </a>
+
+                <a href="#victims" class="border-b border-white/10 px-8 py-6 block text-white font-light uppercase tracking-[0.2em] text-sm hover:bg-white/5 transition-colors">
+                    Victims
+                </a>
+
+                <a href="#resources" class="border-b border-white/10 px-8 py-6 block text-white font-light uppercase tracking-[0.2em] text-sm hover:bg-white/5 transition-colors">
+                    Resources
+                </a>
+
+                <!-- CTA BOTTOM -->
+                <div class="mt-auto px-8 py-10 border-t border-white/10 bg-white/5">
+                    <a href="https://echoesofgaza.org/collab" class="flex items-center justify-between text-white group">
+                        <span class="font-medium uppercase tracking-[0.15em] text-sm group-hover:text-red-500 transition-colors">Submit Evidence</span>
+                        <svg class="w-5 h-5 text-gray-500 group-hover:text-red-500 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
                 </div>
             </nav>
         </div>
     </header>
 
     <main class="flex-grow pt-20">
-        <!-- HERO SECTION -->
-        <section class="py-32 bg-[#0a0a0a] text-center border-b border-white/5">
+        <!-- HERO SECTION (Anchored as Narrative) -->
+        <section id="narrative" class="py-32 bg-[#0a0a0a] text-center border-b border-white/5 scroll-mt-24">
             <div class="container mx-auto px-6">
                 <span class="meta-label block mb-6 text-gray-500">Vol. 01 — Public Programming</span>
                 <h1 class="text-5xl md:text-7xl hero-text mb-8 leading-tight">
@@ -242,8 +282,8 @@
             </div>
         </section>
 
-        <!-- CONTENT SECTION -->
-        <section class="py-24 bg-[#121212]">
+        <!-- CONTENT SECTION (Anchored as Timeline/Events) -->
+        <section id="timeline" class="py-24 bg-[#121212] scroll-mt-24">
             <div class="container mx-auto px-6 max-w-5xl">
                 
                 <!-- SECTION HEADER -->
@@ -307,7 +347,12 @@
                     </div>
                 </div>
 
-                <!-- PAST SECTION -->
+                <!-- PAST SECTION (Anchored as Archive/Articles/Books/Videos) -->
+                <div id="articles" class="scroll-mt-24"></div>
+                <div id="books" class="scroll-mt-24"></div>
+                <div id="videos" class="scroll-mt-24"></div>
+                <div id="films" class="scroll-mt-24"></div>
+                
                 <div class="flex items-center gap-4 mb-16 mt-32">
                     <span class="h-[1px] w-8 bg-gray-700"></span>
                     <h2 class="text-3xl text-gray-400">Archive</h2>
@@ -398,7 +443,8 @@
                     </div>
                 </div>
 
-                <!-- Grid -->
+                <!-- Grid (Anchored as Geolocation/Maps) -->
+                <div id="geolocation" class="scroll-mt-24"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="card p-8 flex flex-col border-gray-800">
                         <div class="mb-6">
@@ -423,13 +469,16 @@
                         </p>
                     </div>
                 </div>
+                
+                <!-- Anchored for Victims -->
+                <div id="victims" class="scroll-mt-24"></div>
 
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer id="footer" class="bg-[#050505] border-t border-white/5 pt-20 pb-12">
+    <!-- Footer (Anchored as Resources) -->
+    <footer id="resources" class="bg-[#050505] border-t border-white/5 pt-20 pb-12 scroll-mt-24">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-16">
             <div class="md:w-1/3 space-y-8">
                 <div class="flex flex-col items-start opacity-60">
@@ -470,27 +519,39 @@
 
     <!-- Mobile Menu Script -->
     <script>
-        const mobileBtn = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        if (mobileBtn && mobileMenu) {
-            mobileBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                mobileMenu.classList.toggle('flex');
-                
-                // Optional: prevent background scroll when menu is open
-                document.body.classList.toggle('overflow-hidden');
-            });
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileBtn = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
             
-            // Close menu when clicking a link
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                    mobileMenu.classList.remove('flex');
-                    document.body.classList.remove('overflow-hidden');
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', () => {
+                    // Check state via class presence
+                    const isHidden = mobileMenu.classList.contains('hidden');
+                    
+                    if (isHidden) {
+                        // OPEN MENU
+                        mobileMenu.classList.remove('hidden');
+                        mobileMenu.classList.add('flex');
+                        document.body.style.overflow = 'hidden'; // Lock background scroll
+                    } else {
+                        // CLOSE MENU
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('flex');
+                        document.body.style.overflow = ''; // Unlock background scroll
+                    }
                 });
-            });
-        }
+                
+                // Close menu when clicking a link
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('flex');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+        });
     </script>
+    <script src="./assets/site-shell.js?v=integrity-1" defer></script>
 </body>
 </html>
