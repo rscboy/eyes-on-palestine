@@ -60,28 +60,35 @@ jobs:
           python -m playwright install --with-deps chromium
 
       - name: Run Article Integrity Monitor
+        env:
+          INPUT_LIMIT: ${{ github.event.inputs.limit }}
+          INPUT_OFFSET: ${{ github.event.inputs.offset }}
+          INPUT_SCREENSHOTS: ${{ github.event.inputs.screenshots }}
+          INPUT_REVIEW_INTERVAL_DAYS: ${{ github.event.inputs.review_interval_days }}
+          INPUT_MAX_DUE: ${{ github.event.inputs.max_due }}
+          INPUT_FORCE: ${{ github.event.inputs.force }}
         run: |
           ARGS=""
-          if [ -n "${{ github.event.inputs.limit }}" ]; then
-            ARGS="$ARGS --limit ${{ github.event.inputs.limit }}"
+          if [ -n "${INPUT_LIMIT}" ]; then
+            ARGS="$ARGS --limit ${INPUT_LIMIT}"
           fi
-          if [ -n "${{ github.event.inputs.offset }}" ]; then
-            ARGS="$ARGS --offset ${{ github.event.inputs.offset }}"
+          if [ -n "${INPUT_OFFSET}" ]; then
+            ARGS="$ARGS --offset ${INPUT_OFFSET}"
           fi
-          if [ "${{ github.event.inputs.screenshots }}" = "true" ]; then
+          if [ "${INPUT_SCREENSHOTS}" = "true" ]; then
             ARGS="$ARGS --screenshots"
           fi
-          if [ -n "${{ github.event.inputs.review_interval_days }}" ]; then
-            ARGS="$ARGS --review-interval-days ${{ github.event.inputs.review_interval_days }}"
+          if [ -n "${INPUT_REVIEW_INTERVAL_DAYS}" ]; then
+            ARGS="$ARGS --review-interval-days ${INPUT_REVIEW_INTERVAL_DAYS}"
           else
             ARGS="$ARGS --review-interval-days 60"
           fi
-          if [ -n "${{ github.event.inputs.max_due }}" ]; then
-            ARGS="$ARGS --max-due ${{ github.event.inputs.max_due }}"
+          if [ -n "${INPUT_MAX_DUE}" ]; then
+            ARGS="$ARGS --max-due ${INPUT_MAX_DUE}"
           else
             ARGS="$ARGS --max-due 25"
           fi
-          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+          if [ "${INPUT_FORCE}" = "true" ]; then
             ARGS="$ARGS --force"
           fi
           python scripts/article_integrity_monitor.py $ARGS
