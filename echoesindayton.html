@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoes in Dayton: Diaspora Testimonies Initiative</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+    </style>
+    <link rel="stylesheet" href="./assets/site-shell.css?v=nav-contrast-1">
+</head>
+<body class="min-h-screen bg-[#0B0B0B] text-[#EDEDED] selection:bg-[#8C0D0D] selection:text-[#EDEDED]">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 border-b bg-transparent border-transparent py-6">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+            <div class="flex flex-col">
+                <div class="font-serif text-xl tracking-wide text-[#EDEDED]">
+                    Echoes in Dayton
+                </div>
+                <a 
+                    href="https://echoesofgaza.org" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="text-[10px] font-sans uppercase tracking-widest text-[#7A7A7A] hover:text-[#8C0D0D] transition-colors mt-1"
+                >
+                    An Echoes of Gaza Project
+                </a>
+            </div>
+            
+            <div class="hidden md:flex space-x-12">
+                <a href="#archive" class="text-sm font-sans uppercase tracking-widest text-[#7A7A7A] hover:text-[#EDEDED] transition-colors duration-200">The Archive</a>
+                <a href="#testimonies" class="text-sm font-sans uppercase tracking-widest text-[#7A7A7A] hover:text-[#EDEDED] transition-colors duration-200">Testimonies</a>
+                <a href="#findings" class="text-sm font-sans uppercase tracking-widest text-[#7A7A7A] hover:text-[#EDEDED] transition-colors duration-200">Findings</a>
+                <a href="#methodology" class="text-sm font-sans uppercase tracking-widest text-[#7A7A7A] hover:text-[#EDEDED] transition-colors duration-200">Methodology</a>
+            </div>
+
+            <button id="menu-toggle" class="md:hidden text-[#EDEDED]">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Nav -->
+        <div id="mobile-menu" class="absolute top-full left-0 w-full bg-[#0B0B0B] border-b border-[#1A1A1A] py-8 px-6 hidden flex-col space-y-6 md:hidden">
+            <a href="#archive" class="mobile-link text-sm font-sans uppercase tracking-widest text-[#7A7A7A] hover:text-[#EDEDED] transition-colors duration-200">The Archive</a>
+            <a href="#testimonies" class="mobile-link text-sm font-sans uppercase tracking-widest text-[#7A7A7A] hover:text-[#EDEDED] transition-colors duration-200">Testimonies</a>
+            <a href="#findings" class="mobile-link text-sm font-sans uppercase tracking-widest text-[#7A7A7A] hover:text-[#EDEDED] transition-colors duration-200">Findings</a>
+            <a href="#methodology" class="mobile-link text-sm font-sans uppercase tracking-widest text-[#7A7A7A] hover:text-[#EDEDED] transition-colors duration-200">Methodology</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex flex-col justify-center items-center text-center px-6 md:px-12 pt-20">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif leading-tight mb-8">
+                The Lived Impact of <br class="hidden md:block"/> Global Injustice.
+            </h1>
+            <p class="text-lg md:text-xl text-[#7A7A7A] font-sans max-w-2xl mx-auto leading-relaxed">
+                Documenting vicarious traumatization, social fractures, and political disillusionment within the Greater Dayton Area resulting from the Gaza genocide.
+            </p>
+            <div class="mt-16 w-[1px] h-24 bg-[#8C0D0D] mx-auto"></div>
+        </div>
+    </header>
+
+    <!-- Stark Data Strip -->
+    <section id="archive" class="py-20 border-y border-[#1A1A1A]">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+            <div>
+                <div class="text-6xl md:text-7xl font-serif text-[#8C0D0D] mb-4">16</div>
+                <h3 class="text-sm font-sans uppercase tracking-widest text-[#7A7A7A]">Recorded Oral Histories</h3>
+            </div>
+            <div>
+                <div class="text-6xl md:text-7xl font-serif text-[#8C0D0D] mb-4">5</div>
+                <h3 class="text-sm font-sans uppercase tracking-widest text-[#7A7A7A]">Core Thematic Findings</h3>
+            </div>
+            <div>
+                <div class="text-6xl md:text-7xl font-serif text-[#8C0D0D] mb-4">100+</div>
+                <h3 class="text-sm font-sans uppercase tracking-widest text-[#7A7A7A]">Hours of Verbatim Testimony</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonies Showcase -->
+    <section id="testimonies" class="py-32 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="mb-24 flex flex-col md:flex-row md:justify-between md:items-end">
+            <div>
+                <h2 class="text-4xl md:text-5xl font-serif mb-4">Selected Testimonies</h2>
+                <p class="text-[#7A7A7A] max-w-md">Narratives extracted from the primary archive. Identities remain strictly confidential.</p>
+            </div>
+            <a href="#" class="hidden md:inline-flex items-center text-[#EDEDED] hover:text-[#8C0D0D] transition-colors font-sans text-sm uppercase tracking-widest mt-8 md:mt-0">
+                Access Full Archive <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+            </a>
+        </div>
+
+        <div class="space-y-32">
+            <!-- Quote 1 -->
+            <div class="grid md:grid-cols-12 gap-8 md:gap-16 items-start">
+                <div class="md:col-span-3 text-sm font-sans uppercase tracking-widest text-[#7A7A7A] pt-2 border-t border-[#1A1A1A]">
+                    Participant 04<br/>
+                    <span class="text-[#EDEDED] mt-2 block">Layman, Dayton</span>
+                    <span class="block mt-4">Theme: Mental Health</span>
+                </div>
+                <div class="md:col-span-9">
+                    <i data-lucide="quote" class="text-[#1A1A1A] w-12 h-12 mb-6"></i>
+                    <p class="text-2xl md:text-4xl font-serif leading-snug">
+                        "You wake up, check your phone, and see the absolute destruction of a place and people you love. Then you go to work, and no one is talking about it. The silence here is almost louder than the bombs there. It fractures your reality."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quote 2 -->
+            <div class="grid md:grid-cols-12 gap-8 md:gap-16 items-start">
+                <div class="md:col-span-3 text-sm font-sans uppercase tracking-widest text-[#7A7A7A] pt-2 border-t border-[#1A1A1A]">
+                    Participant 11<br/>
+                    <span class="text-[#EDEDED] mt-2 block">Elite, Oakwood</span>
+                    <span class="block mt-4">Theme: Social Relationships</span>
+                </div>
+                <div class="md:col-span-9">
+                    <i data-lucide="quote" class="text-[#1A1A1A] w-12 h-12 mb-6"></i>
+                    <p class="text-2xl md:text-4xl font-serif leading-snug">
+                        "I have severed ties with colleagues I’ve known for a decade. When the humanity of my community is up for debate, the foundation of those relationships ceases to exist. There is no middle ground on genocide."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quote 3 -->
+            <div class="grid md:grid-cols-12 gap-8 md:gap-16 items-start">
+                <div class="md:col-span-3 text-sm font-sans uppercase tracking-widest text-[#7A7A7A] pt-2 border-t border-[#1A1A1A]">
+                    Participant 07<br/>
+                    <span class="text-[#EDEDED] mt-2 block">Layman, Kettering</span>
+                    <span class="block mt-4">Theme: Politics</span>
+                </div>
+                <div class="md:col-span-9">
+                    <i data-lucide="quote" class="text-[#1A1A1A] w-12 h-12 mb-6"></i>
+                    <p class="text-2xl md:text-4xl font-serif leading-snug">
+                        "My tax dollars are funding the very airstrikes that killed my extended family. The disillusionment with the American political system is absolute. We are no longer asking for a seat at their table; we are building our own."
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <a href="#" class="inline-flex md:hidden items-center text-[#EDEDED] hover:text-[#8C0D0D] transition-colors font-sans text-sm uppercase tracking-widest mt-16 border-b border-[#EDEDED] pb-1">
+            Access Full Archive <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+        </a>
+    </section>
+
+    <!-- Key Findings -->
+    <section id="findings" class="py-32 bg-[#111111] border-y border-[#1A1A1A]">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <h2 class="text-4xl md:text-5xl font-serif mb-16 text-center">Aggregate Findings</h2>
+            
+            <div class="grid md:grid-cols-2 gap-x-16 gap-y-20">
+                <!-- Finding 1 -->
+                <div class="border-l border-[#8C0D0D] pl-8">
+                    <h3 class="text-2xl font-serif mb-4">Vicarious Traumatization</h3>
+                    <p class="text-[#7A7A7A] leading-relaxed">
+                        Participants exhibited profound symptoms of vicarious trauma directly correlated to the consumption of unfiltered media coming from the Gaza strip. The dissonance between online reality and local community apathy served as a primary distress multiplier.
+                    </p>
+                </div>
+                
+                <!-- Finding 2 -->
+                <div class="border-l border-[#8C0D0D] pl-8">
+                    <h3 class="text-2xl font-serif mb-4">Social & Interpersonal Fractures</h3>
+                    <p class="text-[#7A7A7A] leading-relaxed">
+                        A vast majority of respondents reported fundamental, often permanent shifts in their social circles. Relationships with historically allied faith groups and political organizations were frequently severed due to institutional responses to the violence.
+                    </p>
+                </div>
+
+                <!-- Finding 3 -->
+                <div class="border-l border-[#8C0D0D] pl-8">
+                    <h3 class="text-2xl font-serif mb-4">Political Realignment</h3>
+                    <p class="text-[#7A7A7A] leading-relaxed">
+                        Trust in traditional bipartisan American politics has been critically compromised. Participants report a complete pivot toward localized, grassroots organizing and direct-action resistance, withdrawing support from legacy political structures.
+                    </p>
+                </div>
+
+                <!-- Finding 4 -->
+                <div class="border-l border-[#8C0D0D] pl-8">
+                    <h3 class="text-2xl font-serif mb-4">Lifestyle as Resistance</h3>
+                    <p class="text-[#7A7A7A] leading-relaxed">
+                        Daily functioning has been radically altered. Economic boycotts are no longer viewed as temporary protests, but have been integrated as permanent lifestyle shifts, altering consumption habits across the entire demographic.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Methodology Footnote -->
+    <footer id="methodology" class="pt-32 pb-12 px-6 md:px-12 max-w-7xl mx-auto text-sm text-[#7A7A7A]">
+        <div class="border-t border-[#1A1A1A] pt-12 grid md:grid-cols-2 gap-12">
+            <div>
+                <h4 class="font-serif text-[#EDEDED] text-lg mb-4">Research Framework</h4>
+                <p class="mb-4">
+                    This data was gathered through a cross-sectional qualitative research study guided by the constructionist paradigm. The initiative utilizes in-depth interviews to document vicarious traumatization among Americans in the Greater Dayton Area. 
+                </p>
+                <p>
+                    Data collection involved 16 participants (12 Layman, 4 Elite) and adhered to strict trauma-informed, fully anonymized consent protocols to protect individuals against political reprisal or targeted harassment.
+                </p>
+            </div>
+            <div class="md:text-right flex flex-col justify-between">
+                <div>
+                    <h4 class="font-serif text-[#EDEDED] text-lg mb-4">Institutional Note</h4>
+                    <p class="mb-2">Principal Investigator: Fatimah Gula</p>
+                    <p class="mb-2">Wright State University | WGS 3700-01</p>
+                    <p class="mb-6">Initiative: Echoes in Exile</p>
+                </div>
+                <p class="uppercase tracking-widest text-xs">
+                    &copy; <span id="year"></span> Echoes of Gaza Archive. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Dynamic Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.remove('bg-transparent', 'border-transparent', 'py-6');
+                navbar.classList.add('bg-[#0B0B0B]/95', 'backdrop-blur-md', 'border-[#1A1A1A]', 'py-4');
+            } else {
+                navbar.classList.add('bg-transparent', 'border-transparent', 'py-6');
+                navbar.classList.remove('bg-[#0B0B0B]/95', 'backdrop-blur-md', 'border-[#1A1A1A]', 'py-4');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        let isMenuOpen = false;
+
+        menuToggle.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('flex');
+                menuToggle.innerHTML = '<i data-lucide="x"></i>';
+            } else {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+                menuToggle.innerHTML = '<i data-lucide="menu"></i>';
+            }
+            lucide.createIcons();
+        });
+
+        // Close mobile menu on link click
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+                menuToggle.innerHTML = '<i data-lucide="menu"></i>';
+                lucide.createIcons();
+            });
+        });
+    </script>
+    <script src="./assets/site-shell.js?v=integrity-1" defer></script>
+</body>
+</html>
