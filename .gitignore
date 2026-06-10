@@ -8,3 +8,4 @@ node_modules/
 # Internal working material — never publish (GitHub Pages serves the whole repo)
 _drafts/
 tips_for_refresh.txt
+.claude/
