@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Echoes of Gaza — shared design tokens & archive primitives
+   Loaded per-page (currently index.html). Safe to add to other pages: it only
+   defines variables, a focus style, a few legibility lifts, and opt-in classes
+   (.eog-duotone, .eog-prov) that do nothing unless an element uses them.
+   ========================================================================== */
+
+:root {
+  /* Surfaces (near-black, warm) */
+  --eog-ink: #050505;
+  --eog-ink-2: #0a0a0a;
+  --eog-ink-3: #111111;
+  --eog-line: rgba(255, 255, 255, 0.08);
+
+  /* Warm neutral text scale — higher contrast than Tailwind grays on black */
+  --eog-bone: #ece7df;   /* primary text */
+  --eog-ash: #b8b2a8;    /* secondary text */
+  --eog-ash-dim: #8d877d;/* tertiary / labels */
+
+  /* Red is RESERVED for genuine emphasis (a removed source, a key figure),
+     not for routine UI chrome. Two stops: a muted maroon and a true alarm red. */
+  --eog-red: #9b1b30;
+  --eog-red-bright: #ce1126;
+
+  /* Quiet supporting accent (provenance, eyebrows) */
+  --eog-gold: #c9a84c;
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility: a visible, consistent keyboard focus ring everywhere.
+   -------------------------------------------------------------------------- */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--eog-gold);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Legibility: lift the dimmest secondary text. Tailwind gray-600/700 on a
+   near-black background fail contrast badly; map them to readable warm greys.
+   (Borders use border-* utilities, not these, so dividers are unaffected.)
+   -------------------------------------------------------------------------- */
+.text-gray-700 { color: var(--eog-ash-dim) !important; }
+.text-gray-600 { color: #9c958a !important; }
+
+/* --------------------------------------------------------------------------
+   Uniform image treatment — gives a heterogeneous mix of outlet logos, stock
+   and photojournalism one cohesive, archival look: muted greyscale at rest,
+   true colour on hover/focus within the card.
+   -------------------------------------------------------------------------- */
+.eog-duotone {
+  filter: grayscale(1) contrast(1.04) brightness(0.82);
+  transition: filter 0.55s ease, opacity 0.55s ease, transform 0.55s ease;
+}
+.group:hover .eog-duotone,
+.group:focus-within .eog-duotone,
+.eog-duotone:hover {
+  filter: grayscale(0) contrast(1) brightness(0.96);
+}
+
+/* --------------------------------------------------------------------------
+   Provenance badge — the archive's signature trust signal. Sits on an item's
+   image and states what happened to the original source.
+   -------------------------------------------------------------------------- */
+.eog-prov-anchor { position: absolute; left: 10px; bottom: 10px; z-index: 4; pointer-events: none; }
+.eog-prov {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 5px 9px;
+  border: 1px solid;
+  border-radius: 2px;
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+.eog-prov::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: currentColor;
+  flex: 0 0 auto;
+}
+.eog-prov--removed  { color: #f0b6bf; border-color: rgba(206, 17, 38, 0.55); background: rgba(206, 17, 38, 0.18); }
+.eog-prov--altered  { color: #e8cf93; border-color: rgba(201, 168, 76, 0.50); background: rgba(201, 168, 76, 0.14); }
+.eog-prov--archived { color: #cdc7bb; border-color: var(--eog-line); background: rgba(5, 5, 5, 0.62); }
+.eog-prov--moved    { color: #cdc7bb; border-color: var(--eog-line); background: rgba(5, 5, 5, 0.62); }

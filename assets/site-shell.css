@@ -94,6 +94,21 @@ body.site-shell-pad {
   color: #fff;
 }
 
+/* Keyboard focus ring — the dropdowns already open on :focus-within, this
+   makes the focused control visible for keyboard navigation. */
+.site-shell-logo:focus-visible,
+.site-shell-nav a:focus-visible,
+.site-shell-menu-button:focus-visible,
+.site-shell-menu a:focus-visible,
+.site-shell-submit:focus-visible,
+.site-shell-mobile-button:focus-visible,
+.site-shell-mobile a:focus-visible,
+.site-shell-mobile-close:focus-visible {
+  outline: 2px solid #c9a84c;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 .site-shell-menu {
   position: absolute;
   left: 50%;
