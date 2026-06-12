@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-06-12",
+    "title": "Video of visually impaired Palestinian boy crying over broken glasses draws global attention",
+    "summary": "",
+    "link": "https://www.theguardian.com/world/2026/jun/12/video-visually-impaired-palestinian-boy-gaza-ayoub-junaid-crying-broken-glasses",
+    "imageUrl": "https://assets-legacy.floridarrc.com/2023/01/the-guardian-logo.jpeg",
+    "category": "Children",
+    "categories": [
+      "Children"
+    ],
+    "categoryColor": "#F194B4",
+    "source": "The Guardian",
+    "author": "Seham Tantesh",
+    "authors": [
+      "Seham Tantesh"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-12",
+    "title": "Israel continues to violate Gaza ceasefire, killing 13 people in a single day",
+    "summary": "",
+    "link": "https://mondoweiss.net/2026/06/israel-continues-to-violate-gaza-ceasefire-killing-13-people-in-a-single-day/",
+    "imageUrl": "https://mondoweiss.net/wp-content/uploads/2021/09/mondoweiss-ogimage.png",
+    "category": "Ceasefire",
+    "categories": [
+      "Ceasefire",
+      "Genocide"
+    ],
+    "categoryColor": "#83D6E3",
+    "source": "Mondoweiss",
+    "author": "Tareq S. Hajjaj",
+    "authors": [
+      "Tareq S. Hajjaj"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-06-09",
     "title": "Israel puts Palestinian doctor in solitary confinement after 17 months held without charge",
     "summary": "",
