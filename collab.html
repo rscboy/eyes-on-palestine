@@ -178,6 +178,38 @@
             margin-top: 0.35rem;
         }
 
+
+        .metadata-fetch-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 0.75rem;
+            align-items: stretch;
+        }
+
+        .metadata-fetch-button {
+            white-space: nowrap;
+        }
+
+        .metadata-fetch-status {
+            color: #777;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            line-height: 1.5;
+            margin-top: 0.55rem;
+        }
+
+        .metadata-fetch-status.is-loading {
+            color: #b8b8b8;
+        }
+
+        .metadata-fetch-status.is-success {
+            color: #a3d9a3;
+        }
+
+        .metadata-fetch-status.is-error {
+            color: #d99a9a;
+        }
+
         .multi-submit-panel {
             border: 1px solid var(--border-color);
             background: rgba(20, 20, 20, 0.58);
@@ -249,6 +281,14 @@
                 width: 4rem;
                 height: 4rem;
             }
+            .metadata-fetch-row {
+                grid-template-columns: 1fr;
+            }
+
+            .metadata-fetch-button {
+                width: 100%;
+            }
+
         }
         
         /* Placeholder styling */
@@ -472,6 +512,15 @@
                     
                     <div class="space-y-6"> <!-- Increased spacing for "generous margins" -->
                         <div>
+                            <label for="link" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article URL *</label>
+                            <div class="metadata-fetch-row">
+                                <input type="url" id="link" name="link" class="form-input block w-full p-3" placeholder="Paste the article link first" required>
+                                <button type="button" id="fetchMetadataButton" class="small-interface-button metadata-fetch-button">Fetch Details</button>
+                            </div>
+                            <p id="metadataFetchStatus" class="metadata-fetch-status" aria-live="polite">Paste a link to auto-fill title, source, author, date, summary, and image when available.</p>
+                        </div>
+
+                        <div>
                             <label for="submitterName" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Your Name *</label>
                             <input type="text" id="submitterName" name="submitterName" class="form-input block w-full p-3" placeholder="Identify yourself for our records" required>
                         </div>
@@ -495,12 +544,7 @@
                         
                         <div>
                             <label for="title" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article Title *</label>
-                            <input type="text" id="title" name="title" class="form-input block w-full p-3" placeholder="Enter the exact headline" required>
-                        </div>
-                        
-                        <div>
-                            <label for="link" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article URL *</label>
-                            <input type="url" id="link" name="link" class="form-input block w-full p-3" placeholder="https://" required>
+                            <input type="text" id="title" name="title" class="form-input block w-full p-3" placeholder="Auto-filled from the link when available" required>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1042,6 +1086,294 @@
             updateImageUrlPreview(imageUrlInput.value);
         }
 
+        const metadataFetchButton = document.getElementById("fetchMetadataButton");
+        const metadataFetchStatus = document.getElementById("metadataFetchStatus");
+        const linkInput = document.getElementById("link");
+
+        function setMetadataStatus(statusElement, message, state = "") {
+            if (!statusElement) return;
+            statusElement.textContent = message;
+            statusElement.classList.remove("is-loading", "is-success", "is-error");
+            if (state) statusElement.classList.add(`is-${state}`);
+        }
+
+        function cleanMetadataValue(value) {
+            return String(value || "")
+                .replace(/\s+/g, " ")
+                .replace(/^[\s|•·:-]+|[\s|•·:-]+$/g, "")
+                .trim();
+        }
+
+        function getMetaContent(doc, selectors) {
+            for (const selector of selectors) {
+                const element = doc.querySelector(selector);
+                const content = element?.getAttribute("content") || element?.textContent;
+                const value = cleanMetadataValue(content);
+                if (value) return value;
+            }
+            return "";
+        }
+
+        function normalizeMetadataDate(value) {
+            const cleanValue = cleanMetadataValue(value);
+            if (!cleanValue) return "";
+            const parsed = new Date(cleanValue);
+            if (!Number.isNaN(parsed.getTime())) {
+                return parsed.toISOString().split("T")[0];
+            }
+            const match = cleanValue.match(/(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+            if (!match) return "";
+            const [, year, month, day] = match;
+            return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+        }
+
+        function sourceNameFromUrl(url) {
+            try {
+                const hostname = new URL(url).hostname.replace(/^www\./, "");
+                const base = hostname.split(".").slice(0, -1).join(" ") || hostname;
+                return base
+                    .split(/[\s.-]+/)
+                    .filter(Boolean)
+                    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+                    .join(" ");
+            } catch (error) {
+                return "";
+            }
+        }
+
+        function inferDocumentType(url, metadataType) {
+            const combined = `${url} ${metadataType}`.toLowerCase();
+            if (/press[-_\s]?release|newsroom|statement/.test(combined)) return "Press release";
+            if (/blog|opinion|commentisfree|essay/.test(combined)) return "Blog";
+            if (/twitter\.com|x\.com|instagram\.com|facebook\.com|tiktok\.com|threads\.net/.test(combined)) return "Social media post";
+            return "Article";
+        }
+
+        function absolutizeUrl(value, pageUrl) {
+            const cleanValue = cleanMetadataValue(value);
+            if (!cleanValue) return "";
+            try {
+                return new URL(cleanValue, pageUrl).href;
+            } catch (error) {
+                return cleanValue;
+            }
+        }
+
+
+        function cleanArticleTitle(title, source) {
+            const cleanTitle = cleanMetadataValue(title);
+            const cleanSource = cleanMetadataValue(source);
+            if (!cleanTitle || !cleanSource) return cleanTitle;
+            const escapedSource = cleanSource.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+            return cleanTitle.replace(new RegExp(`\\s*(?:[|\\-–—])\\s*${escapedSource}\\s*$`, "i"), "").trim();
+        }
+
+        function extractArticleMetadata(html, pageUrl) {
+            const doc = new DOMParser().parseFromString(html, "text/html");
+            const metadataType = getMetaContent(doc, [
+                'meta[property="og:type"]',
+                'meta[name="twitter:label1"]'
+            ]);
+            const title = getMetaContent(doc, [
+                'meta[property="og:title"]',
+                'meta[name="twitter:title"]',
+                'meta[name="parsely-title"]',
+                'meta[name="dc.title"]',
+                'meta[name="title"]',
+                'title'
+            ]);
+            const source = getMetaContent(doc, [
+                'meta[property="og:site_name"]',
+                'meta[name="application-name"]',
+                'meta[name="publisher"]',
+                'meta[property="article:publisher"]'
+            ]) || sourceNameFromUrl(pageUrl);
+            const authors = getMetaContent(doc, [
+                'meta[name="author"]',
+                'meta[property="article:author"]',
+                'meta[name="parsely-author"]',
+                'meta[name="byl"]',
+                'meta[name="dc.creator"]',
+                'meta[itemprop="author"]',
+                '[rel="author"]'
+            ]).replace(/^by\s+/i, "");
+            const date = normalizeMetadataDate(getMetaContent(doc, [
+                'meta[property="article:published_time"]',
+                'meta[name="article:published_time"]',
+                'meta[name="date"]',
+                'meta[name="pubdate"]',
+                'meta[name="publishdate"]',
+                'meta[name="publication_date"]',
+                'meta[name="parsely-pub-date"]',
+                'meta[itemprop="datePublished"]',
+                'time[datetime]'
+            ]) || doc.querySelector('time[datetime]')?.getAttribute('datetime'));
+            const summary = getMetaContent(doc, [
+                'meta[property="og:description"]',
+                'meta[name="twitter:description"]',
+                'meta[name="description"]',
+                'meta[name="parsely-summary"]'
+            ]);
+            const imageUrl = absolutizeUrl(getMetaContent(doc, [
+                'meta[property="og:image:secure_url"]',
+                'meta[property="og:image"]',
+                'meta[name="twitter:image"]',
+                'meta[name="thumbnail"]',
+                'meta[itemprop="image"]'
+            ]), pageUrl);
+
+            return {
+                title: cleanArticleTitle(title, source),
+                source,
+                authors,
+                date,
+                summary,
+                imageUrl,
+                documentType: inferDocumentType(pageUrl, metadataType)
+            };
+        }
+
+        async function fetchWithTimeout(url, options = {}, timeoutMs = 10000) {
+            const controller = new AbortController();
+            const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+            try {
+                const response = await fetch(url, { ...options, signal: controller.signal });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response.text();
+            } finally {
+                window.clearTimeout(timeout);
+            }
+        }
+
+        async function fetchArticleHtml(url) {
+            const proxyUrls = [
+                url,
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+                `https://corsproxy.io/?${encodeURIComponent(url)}`
+            ];
+            let lastError;
+            for (const requestUrl of proxyUrls) {
+                try {
+                    return await fetchWithTimeout(requestUrl);
+                } catch (error) {
+                    lastError = error;
+                }
+            }
+            throw lastError || new Error("Unable to fetch article metadata.");
+        }
+
+        function fillInputIfBlank(input, value, shouldDispatch = true) {
+            const cleanValue = cleanMetadataValue(value);
+            if (!input || !cleanValue || input.value.trim()) return false;
+            input.value = cleanValue;
+            if (shouldDispatch) input.dispatchEvent(new Event("change", { bubbles: true }));
+            return true;
+        }
+
+        function fillDateFromMetadata(input, value) {
+            const cleanValue = cleanMetadataValue(value);
+            if (!input || !cleanValue) return false;
+            const currentValue = input.value.trim();
+            if (currentValue && currentValue !== todayIsoDate()) return false;
+            input.value = cleanValue;
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+            return true;
+        }
+
+        function fillDocumentTypeFromMetadata(input, value) {
+            const cleanValue = cleanMetadataValue(value);
+            if (!input || !cleanValue) return false;
+            const currentValue = input.value.trim();
+            if (currentValue && currentValue !== "Article") return false;
+            input.value = cleanValue;
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+            return true;
+        }
+
+        function applyArticleMetadata(fields, metadata) {
+            const changed = [];
+            if (fillInputIfBlank(fields.title, metadata.title)) changed.push("title");
+            if (fillInputIfBlank(fields.source, normalizeSourceName(metadata.source), false)) changed.push("source");
+            if (fillInputIfBlank(fields.authors, metadata.authors)) changed.push("author");
+            if (fillDateFromMetadata(fields.date, metadata.date)) changed.push("date");
+            if (fillInputIfBlank(fields.summary, metadata.summary)) changed.push("summary");
+            if (fillInputIfBlank(fields.imageUrl, metadata.imageUrl)) changed.push("image");
+            if (fillDocumentTypeFromMetadata(fields.documentType, metadata.documentType)) changed.push("type");
+
+            if (!metadata.imageUrl && fields.imageUrl && fields.source && !fields.imageUrl.value.trim()) {
+                const mappedImage = getKnownImageUrlForSource(fields.source.value);
+                if (fillInputIfBlank(fields.imageUrl, mappedImage)) changed.push("source image");
+            }
+
+            if (fields.imageUrl === imageUrlInput) {
+                updateImageUrlPreview(fields.imageUrl.value);
+            }
+
+            return changed;
+        }
+
+        async function autofillArticleFromLink({ fields, statusElement, button }) {
+            const url = fields.link?.value?.trim();
+            if (!url) {
+                setMetadataStatus(statusElement, "Paste a link first, then fetch details.", "error");
+                return;
+            }
+            if (!fields.link.checkValidity()) {
+                fields.link.reportValidity();
+                return;
+            }
+
+            button?.setAttribute("disabled", "disabled");
+            setMetadataStatus(statusElement, "Fetching article details from the link...", "loading");
+
+            try {
+                const html = await fetchArticleHtml(url);
+                const metadata = extractArticleMetadata(html, url);
+                const changed = applyArticleMetadata(fields, metadata);
+                if (changed.length) {
+                    setMetadataStatus(statusElement, `Auto-filled: ${changed.join(", ")}. Please review before submitting.`, "success");
+                } else {
+                    setMetadataStatus(statusElement, "No new fields were available from this link. Please enter any missing details manually.", "error");
+                }
+            } catch (error) {
+                console.warn("Article metadata fetch failed:", error);
+                setMetadataStatus(statusElement, "Could not auto-fill this link. Some publishers block metadata access, so please enter the details manually.", "error");
+            } finally {
+                button?.removeAttribute("disabled");
+            }
+        }
+
+        function getFirstArticleAutofillFields() {
+            return {
+                link: linkInput,
+                title: document.getElementById("title"),
+                date: document.getElementById("date"),
+                source: sourceInput,
+                documentType: document.getElementById("documentType"),
+                authors: document.getElementById("authors"),
+                summary: document.getElementById("summary"),
+                imageUrl: imageUrlInput
+            };
+        }
+
+        if (linkInput && metadataFetchButton) {
+            metadataFetchButton.addEventListener("click", () => {
+                autofillArticleFromLink({
+                    fields: getFirstArticleAutofillFields(),
+                    statusElement: metadataFetchStatus,
+                    button: metadataFetchButton
+                });
+            });
+            linkInput.addEventListener("change", () => {
+                if (!linkInput.value.trim()) return;
+                autofillArticleFromLink({
+                    fields: getFirstArticleAutofillFields(),
+                    statusElement: metadataFetchStatus,
+                    button: metadataFetchButton
+                });
+            });
+        }
+
         function buildCategoryOptions() {
             return categories.map(category => `<option value="${category}">${category}</option>`).join('');
         }
@@ -1063,18 +1395,22 @@
 
                 <div class="space-y-6">
                     <div>
+                        <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article URL *</label>
+                        <div class="metadata-fetch-row">
+                            <input type="url" data-field="link" class="form-input block w-full p-3" placeholder="Paste the article link first" required>
+                            <button type="button" class="small-interface-button metadata-fetch-button" data-fetch-extra-metadata>Fetch Details</button>
+                        </div>
+                        <p class="metadata-fetch-status" data-field="metadataStatus" aria-live="polite">Paste a link to auto-fill available article details.</p>
+                    </div>
+
+                    <div>
                         <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Date of Article *</label>
                         <input type="date" data-field="date" class="form-input block w-full p-3" value="${todayIsoDate()}" required>
                     </div>
 
                     <div>
                         <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article Title *</label>
-                        <input type="text" data-field="title" class="form-input block w-full p-3" placeholder="Enter the exact headline" required>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Article URL *</label>
-                        <input type="url" data-field="link" class="form-input block w-full p-3" placeholder="https://" required>
+                        <input type="text" data-field="title" class="form-input block w-full p-3" placeholder="Auto-filled from the link when available" required>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1144,8 +1480,32 @@
             return entry.querySelector(`[data-field="${field}"]`);
         }
 
+        function getExtraArticleAutofillFields(entry) {
+            return {
+                link: getExtraArticleField(entry, 'link'),
+                title: getExtraArticleField(entry, 'title'),
+                date: getExtraArticleField(entry, 'date'),
+                source: getExtraArticleField(entry, 'source'),
+                documentType: getExtraArticleField(entry, 'documentType'),
+                authors: getExtraArticleField(entry, 'authors'),
+                summary: getExtraArticleField(entry, 'summary'),
+                imageUrl: getExtraArticleField(entry, 'imageUrl')
+            };
+        }
+
         function setBatchEntryEvents() {
             additionalArticles.addEventListener('click', (event) => {
+                const fetchButton = event.target.closest('[data-fetch-extra-metadata]');
+                if (fetchButton) {
+                    const entry = fetchButton.closest('[data-extra-article]');
+                    autofillArticleFromLink({
+                        fields: getExtraArticleAutofillFields(entry),
+                        statusElement: getExtraArticleField(entry, 'metadataStatus'),
+                        button: fetchButton
+                    });
+                    return;
+                }
+
                 const button = event.target.closest('[data-remove-extra-article]');
                 if (!button) return;
                 button.closest('[data-extra-article]')?.remove();
@@ -1155,8 +1515,19 @@
             });
 
             additionalArticles.addEventListener('change', (event) => {
-                if (event.target?.dataset?.field !== 'unknownAuthor') return;
                 const entry = event.target.closest('[data-extra-article]');
+                if (!entry) return;
+
+                if (event.target?.dataset?.field === 'link' && event.target.value.trim()) {
+                    autofillArticleFromLink({
+                        fields: getExtraArticleAutofillFields(entry),
+                        statusElement: getExtraArticleField(entry, 'metadataStatus'),
+                        button: entry.querySelector('[data-fetch-extra-metadata]')
+                    });
+                    return;
+                }
+
+                if (event.target?.dataset?.field !== 'unknownAuthor') return;
                 const authorsInput = getExtraArticleField(entry, 'authors');
                 if (!authorsInput) return;
                 authorsInput.disabled = event.target.checked;

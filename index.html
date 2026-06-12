@@ -1493,7 +1493,11 @@
 
             html[data-mobile-density="2x"] .article-card-footer,
             html[data-mobile-density="3x"] .article-card-footer {
-                display: none;
+                display: grid;
+                grid-template-columns: minmax(0, 1fr);
+                gap: 0.45rem;
+                padding-top: 0.55rem;
+                margin-top: 0.55rem;
             }
 
             html[data-mobile-density="2x"] .article-author-line,
@@ -1503,8 +1507,9 @@
 
             html[data-mobile-density="2x"] .article-actions,
             html[data-mobile-density="3x"] .article-actions {
-                grid-template-columns: 1fr;
-                gap: 0.35rem;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 0.25rem;
+                width: 100%;
             }
 
             html[data-mobile-density="2x"] .article-action-btn,
