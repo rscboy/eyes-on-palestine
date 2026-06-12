@@ -150,6 +150,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Font Links -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/site-tokens.css?v=design-1">
     <style>
         /* Define new color variables */
         :root {
@@ -537,7 +538,7 @@
             }
 
             .desktop-display-zoom span {
-                color: #8B0000;
+                color: var(--eog-ash-dim, #8d877d);
                 font-size: 0.56rem;
                 font-weight: 800;
                 line-height: 1;
@@ -554,7 +555,7 @@
             .desktop-display-zoom input[type="range"] {
                 width: 7.25rem;
                 height: 0.8rem;
-                accent-color: #8B0000;
+                accent-color: var(--eog-ash, #b8b2a8);
                 cursor: pointer;
                 transform: rotate(-90deg);
                 margin: 3.18rem 0;
@@ -1792,7 +1793,7 @@
             color: rgba(255, 255, 255, 0.45);
         }
     </style>
-    <link rel="stylesheet" href="./assets/site-shell.css?v=nav-dropdown-2">
+    <link rel="stylesheet" href="./assets/site-shell.css?v=design-1">
 </head>
 
 <body class="antialiased selection:bg-red-900 selection:text-white">
@@ -2529,6 +2530,7 @@
    
         let articles = [];
         let waybackArchiveByUrl = new Map();
+        let integrityByUrl = new Map();
         let videos = [
             { title: "MSNBC EXCLUSIVE: Full interview with Mahmoud Khalil and his wife, Dr. Noor Abdalla", creator: "MSNBC", link: "https://www.msnbc.com/", imageUrl: "https://media13.s-nbcnews.com/i/mpx/2704722219/2025_06/1751072250948_n_msnbc_mahmoud_khalil_noor_abdalla_gaza_250627_1920x1080-3kw5co.jpg", platform: "MSNBC" },
                 { title: "Mahmoud Khalil Is Free: Follow His Journey from ICE Jail Back to Gates of Columbia University", creator: "Democracy Now!", link: "https://www.democracynow.org/", imageUrl: "https://i.ytimg.com/vi/BWpRCoQ2wWE/maxresdefault.jpg", platform: "Democracy Now!" },
@@ -3269,6 +3271,11 @@
                 const latest = latestResponse.ok ? await latestResponse.json() : null;
                 const overrides = overrideResponse.ok ? await overrideResponse.json() : { overrides: {} };
                 integrityOverrides = overrides.overrides || {};
+                integrityByUrl = new Map();
+                (latest?.results || []).forEach((result) => {
+                    const url = normalizeArchiveLookupUrl(result.original?.url);
+                    if (url) integrityByUrl.set(url, effectiveIntegrityResult(result));
+                });
                 renderIntegrityReport(latest);
             } catch (error) {
                 console.error('Failed to load integrity report:', error);
@@ -3386,6 +3393,27 @@
             if (record?.status === 'submitted') return 'Archive pending';
             if (record?.status === 'failed') return 'Archive retry needed';
             return 'Wayback lookup';
+        }
+
+        // Provenance badge: the archive's signature trust signal. Joins the
+        // integrity-monitor and Wayback data (both keyed by the source URL) to
+        // state what happened to the original. Labels are fixed strings.
+        function articleProvenanceBadge(article) {
+            const url = normalizeArchiveLookupUrl(article?.link);
+            const integrity = integrityByUrl.get(url);
+            const status = integrity ? integrityEffectiveStatus(integrity) : null;
+            const archived = waybackArchiveByUrl.get(url)?.status === 'archived';
+
+            let tone = '';
+            let label = '';
+            if (status === 'confirmed_removed') { tone = 'removed'; label = 'Removed from source'; }
+            else if (status === 'likely_removed') { tone = 'removed'; label = 'Likely removed'; }
+            else if (status === 'confirmed_changed' || status === 'changed_substantially') { tone = 'altered'; label = 'Source altered'; }
+            else if (status === 'redirected_live') { tone = 'moved'; label = 'Source moved'; }
+            else if (archived) { tone = 'archived'; label = 'Archived'; }
+            else { return ''; }
+
+            return `<div class="eog-prov-anchor"><span class="eog-prov eog-prov--${tone}">${label}</span></div>`;
         }
 
         window.openArticleLinkChoiceFromElement = function(element) {
@@ -3858,7 +3886,7 @@
 
                 console.log(`Loaded ${articles.length} articles`);
 
-                await loadWaybackArchiveStatus();
+                await Promise.all([loadWaybackArchiveStatus(), loadIntegrityReport()]);
                 loadResearchPacket();
                 populateFilters();
                 updateArchiveResultSummary(currentlyDisplayedArticles);
@@ -4045,7 +4073,8 @@
                             <button onclick="window.togglePacketByDetailId('${detailId}'); event.stopPropagation();" class="article-save-overlay ${isSaved ? 'is-saved' : ''}" aria-label="${isSaved ? 'Remove saved article' : 'Save article'}" title="${isSaved ? 'Saved' : 'Save article'}">
                                 ${createIcon('save')}
                             </button>
-                            <img src="${escapeDataAttribute(article.imageUrl)}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
+                            <img src="${escapeDataAttribute(article.imageUrl)}" class="eog-duotone w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
+                            ${articleProvenanceBadge(article)}
                         </div>
                         <div class="article-card-body flex flex-col flex-grow p-6">
                             <div class="flex justify-between items-start gap-4 mb-3">
@@ -4133,7 +4162,7 @@
 
                 return `
                 <div class="card-modern group flex flex-col text-center bg-[#0a0a0a] border border-[#222]">
-                    <div class="relative h-80 overflow-hidden bg-[#111]"><img src="${escapeDataAttribute(b.imageUrl)}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative h-80 overflow-hidden bg-[#111]"><img src="${escapeDataAttribute(b.imageUrl)}" class="eog-duotone w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div class="p-6 flex-grow flex flex-col justify-center">
                         <h4 class="font-serif font-bold text-white mb-1 leading-tight">${escapeHtml(b.title)}</h4>
                         <p class="text-gray-500 text-xs mb-4 font-light">${escapeHtml(b.author)}</p>
@@ -4154,7 +4183,7 @@
             grid.innerHTML = newestFirst(videos).map(v => `
             <div class="card-modern group flex flex-col h-full bg-[#0a0a0a] border border-[#222]">
                 <div class="relative aspect-video overflow-hidden bg-[#111]">
-                    <img src="${escapeDataAttribute(v.imageUrl)}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Thumbnail';">
+                    <img src="${escapeDataAttribute(v.imageUrl)}" class="eog-duotone w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Thumbnail';">
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <div class="w-9 h-9 md:w-10 md:h-10 rounded-full border border-white/20 flex items-center justify-center backdrop-blur-sm bg-black/20">
                             <svg class="w-3 h-3 md:w-3.5 md:h-3.5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -4182,7 +4211,7 @@
                 return `
                 <div class="card-modern group flex flex-col bg-[#0a0a0a] border border-[#222]">
                     <div class="relative h-64 overflow-hidden bg-[#111]">
-                        <img src="${escapeDataAttribute(f.imageUrl)}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                        <img src="${escapeDataAttribute(f.imageUrl)}" class="eog-duotone w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
                         <a href="${escapeDataAttribute(f.link)}" target="_blank" class="absolute inset-0 z-10" aria-label="View Film"></a>
                     </div>
                     <div class="p-6 flex-grow flex flex-col">
@@ -4584,8 +4613,10 @@
             renderBooks();
             renderVideos();
             renderFilms();
-            loadIntegrityReport();
-            
+            // Integrity data is loaded inside loadArticles() (before the first
+            // article render) so provenance badges paint without a flash.
+            if (!articlesLoaded) loadIntegrityReport();
+
             fetchVictimsData();
             if (articlesLoaded && articles.length > 0) initEmbeddedQuiz();
             setupCarousel();
