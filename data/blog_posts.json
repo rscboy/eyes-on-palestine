@@ -10,15 +10,17 @@
     "category": "Personal essay",
     "author": {
       "name": "Kevin Gwin",
+      "email": "",
       "role": "Greater Dayton Peace Coalition",
       "photoUrl": "https://github.com/rscboy/eyes-on-palestine/blob/main/blog/kevin-pictures/Me%20Gc4.png?raw=true",
       "location": "",
       "links": [],
-      "bio": "",
-      "anonymous": false,
-      "email": ""
+      "bio": "Peace Activist and member of the Greater Dayton Peace Coalition",
+      "anonymous": false
     },
-    "images": [],
+    "images": [
+      "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/blog/kevin-pictures/post.jpg"
+    ],
     "featureImage": "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/blog/kevin-pictures/post.jpg",
     "shareImage": "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/blog/kevin-pictures/post.jpg",
     "date": "2026-06-18",
