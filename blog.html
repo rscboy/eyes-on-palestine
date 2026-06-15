@@ -402,6 +402,67 @@
             background: #101010;
         }
 
+        .comment-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #A1A1AA;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .comment-action:hover,
+        .comment-action.is-active {
+            color: #EDEDED;
+        }
+
+        .reaction-picker {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 7px;
+            border: 1px solid #2A2A2A;
+            background: #080808;
+        }
+
+        .reaction-option {
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid transparent;
+            background: rgba(255,255,255,0.04);
+            font-size: 18px;
+            transition: transform 0.2s, border-color 0.2s, background-color 0.2s;
+        }
+
+        .reaction-option:hover,
+        .reaction-option.is-active {
+            transform: translateY(-2px);
+            border-color: #8C0D0D;
+            background: rgba(140,13,13,0.18);
+        }
+
+        .reaction-summary {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #A1A1AA;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+        }
+
+        .comment-replies {
+            margin-left: 18px;
+            padding-left: 14px;
+            border-left: 1px solid #2A2A2A;
+        }
+
         .btn-primary {
             background-color: #8C0D0D;
             color: #EDEDED;
@@ -706,6 +767,14 @@
         const SITE_URL = "https://echoesofgaza.org/blog";
         const SITE_FAVICON = "https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png";
         const BLOG_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec";
+        const COMMENT_REACTIONS = [
+            { key: "like", label: "Like", icon: "👍" },
+            { key: "love", label: "Love", icon: "❤️" },
+            { key: "care", label: "Care", icon: "🤗" },
+            { key: "wow", label: "Wow", icon: "😮" },
+            { key: "sad", label: "Sad", icon: "😢" },
+            { key: "angry", label: "Angry", icon: "😡" }
+        ];
 
         function escapeHTML(value) {
             return String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -1013,7 +1082,8 @@
             const params = new URLSearchParams({
                 action: "getBlogEngagement",
                 postId: post.id || "",
-                postSlug: post.slug || ""
+                postSlug: post.slug || "",
+                visitorKey: blogVisitorKey()
             });
 
             const response = await fetch(`${BLOG_BACKEND_URL}?${params.toString()}`);
@@ -1065,15 +1135,96 @@
                 return;
             }
 
-            list.innerHTML = items.map((comment) => `
-                <article class="border-t border-border-gray py-4">
+            list.innerHTML = renderCommentThread(items, data.postId, data.postSlug);
+        }
+
+        function commentIdentity(comment, index = 0) {
+            if (comment.id) return String(comment.id);
+            return [
+                comment.authorName || "Anonymous",
+                comment.submittedAt || "",
+                comment.comment || "",
+                index
+            ].join("|");
+        }
+
+        function renderCommentThread(items, postId, postSlug) {
+            const normalized = items.map((comment, index) => ({
+                ...comment,
+                id: commentIdentity(comment, index),
+                parentId: String(comment.parentId || "")
+            }));
+            const byParent = normalized.reduce((map, comment) => {
+                const key = comment.parentId || "";
+                if (!map[key]) map[key] = [];
+                map[key].push(comment);
+                return map;
+            }, {});
+
+            const renderLevel = (parentId = "", depth = 0) => (byParent[parentId] || []).map((comment) => {
+                const replies = renderLevel(String(comment.id), depth + 1);
+                return renderCommentCard(comment, postId, postSlug, replies, depth);
+            }).join("");
+
+            return renderLevel();
+        }
+
+        function renderCommentCard(comment, postId, postSlug, replies, depth) {
+            const reactionCounts = COMMENT_REACTIONS
+                .map((reaction) => ({ ...reaction, count: Number((comment.reactions || {})[reaction.key] || 0) }))
+                .filter((reaction) => reaction.count > 0);
+            const totalReactions = reactionCounts.reduce((sum, reaction) => sum + reaction.count, 0);
+            const viewerReaction = COMMENT_REACTIONS.find((reaction) => reaction.key === comment.viewerReaction);
+            const reactionLabel = viewerReaction ? viewerReaction.label : "Like";
+            const reactionIcon = viewerReaction ? viewerReaction.icon : `<i class="ph ph-thumbs-up"></i>`;
+            const escapedCommentId = escapeHTML(comment.id || "");
+
+            return `
+                <article class="border-t border-border-gray py-4" data-comment-id="${escapedCommentId}">
                     <div class="flex items-baseline justify-between gap-3 mb-2">
                         <h4 class="text-sm text-off-white font-sans font-semibold">${escapeHTML(comment.authorName || "Anonymous")}</h4>
                         <time class="text-[11px] text-ash-gray font-sans uppercase tracking-[0.12em]">${escapeHTML(formatCommentDate(comment.submittedAt))}</time>
                     </div>
-                    <p class="text-sm text-ash-gray font-sans leading-relaxed whitespace-pre-line">${escapeHTML(comment.comment || "")}</p>
+                    <p class="text-sm text-ash-gray font-sans leading-relaxed whitespace-pre-line mb-3">${escapeHTML(comment.comment || "")}</p>
+                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                        <button type="button" class="comment-action ${viewerReaction ? "is-active" : ""}" onclick='reactToComment(${JSON.stringify(postId)}, ${JSON.stringify(postSlug)}, ${JSON.stringify(comment.id)}, ${JSON.stringify(viewerReaction ? viewerReaction.key : "like")})'>
+                            <span>${reactionIcon}</span><span>${escapeHTML(reactionLabel)}</span>
+                        </button>
+                        <button type="button" class="comment-action" onclick='toggleReplyForm(${JSON.stringify(comment.id)})'>
+                            <i class="ph ph-chat-circle-dots"></i><span>Reply</span>
+                        </button>
+                        ${totalReactions ? `
+                            <span class="reaction-summary" title="${escapeHTML(reactionCounts.map((reaction) => `${reaction.label}: ${reaction.count}`).join(", "))}">
+                                <span>${reactionCounts.slice(0, 3).map((reaction) => reaction.icon).join("")}</span>
+                                <span>${formatCount(totalReactions)}</span>
+                            </span>
+                        ` : ""}
+                    </div>
+                    <div class="reaction-picker mb-3" aria-label="React to comment">
+                        ${COMMENT_REACTIONS.map((reaction) => `
+                            <button type="button" class="reaction-option ${comment.viewerReaction === reaction.key ? "is-active" : ""}" title="${escapeHTML(reaction.label)}" onclick='reactToComment(${JSON.stringify(postId)}, ${JSON.stringify(postSlug)}, ${JSON.stringify(comment.id)}, ${JSON.stringify(reaction.key)})'>${reaction.icon}</button>
+                        `).join("")}
+                    </div>
+                    <form id="reply-form-${escapedCommentId}" class="hidden space-y-3 mb-4" onsubmit='submitBlogComment(event, ${JSON.stringify(postId)}, ${JSON.stringify(postSlug)}, ${JSON.stringify(comment.id)})'>
+                        <input type="hidden" name="parentId" value="${escapedCommentId}">
+                        <div>
+                            <label class="block text-[10px] text-ash-gray font-sans uppercase tracking-[0.18em] mb-2">Name</label>
+                            <input name="authorName" class="comment-field px-3 py-2" maxlength="80" required placeholder="Your name" value="${escapeHTML(localStorage.getItem("echoesBlogCommentName") || "")}">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-ash-gray font-sans uppercase tracking-[0.18em] mb-2">Reply</label>
+                            <textarea name="comment" class="comment-field px-3 py-3 min-h-[90px]" maxlength="2000" required placeholder="Write a reply..."></textarea>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
+                            <p class="comment-form-status text-xs text-ash-gray font-sans min-h-4"></p>
+                            <button type="submit" class="border border-[#8C0D0D] px-4 py-2 text-[11px] text-off-white font-sans uppercase tracking-[0.16em] hover:bg-[#8C0D0D]/15 transition disabled:opacity-50 disabled:pointer-events-none">
+                                Post Reply
+                            </button>
+                        </div>
+                    </form>
+                    ${replies ? `<div class="comment-replies">${replies}</div>` : ""}
                 </article>
-            `).join("");
+            `;
         }
 
         async function loadBlogEngagement(post, recordView = false) {
@@ -1089,10 +1240,45 @@
             }
         }
 
-        async function submitBlogComment(event, postId, postSlug) {
+        function toggleReplyForm(commentId) {
+            const form = document.getElementById(`reply-form-${commentId}`);
+            if (!form) return;
+            form.classList.toggle("hidden");
+            if (!form.classList.contains("hidden")) {
+                const name = form.querySelector("[name='authorName']");
+                const comment = form.querySelector("[name='comment']");
+                (name && !name.value ? name : comment)?.focus();
+            }
+        }
+
+        async function reactToComment(postId, postSlug, commentId, reaction) {
+            try {
+                const response = await fetch(BLOG_BACKEND_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({
+                        action: "reactBlogComment",
+                        postId,
+                        postSlug,
+                        commentId,
+                        reaction,
+                        visitorKey: blogVisitorKey()
+                    })
+                });
+                const data = await response.json();
+                if (data.result !== "success") {
+                    throw new Error(data.message || "Could not save reaction.");
+                }
+                renderBlogEngagement(data);
+            } catch (error) {
+                showToast(error.message || "Could not save reaction.");
+            }
+        }
+
+        async function submitBlogComment(event, postId, postSlug, parentId = "") {
             event.preventDefault();
             const form = event.currentTarget;
-            const status = document.getElementById("comment-status");
+            const status = form.querySelector(".comment-form-status") || document.getElementById("comment-status");
             const submitButton = form.querySelector("button[type='submit']");
             const nameInput = form.querySelector("[name='authorName']");
             const commentInput = form.querySelector("[name='comment']");
@@ -1124,8 +1310,10 @@
                         action: "submitBlogComment",
                         postId,
                         postSlug,
+                        parentId,
                         authorName,
-                        comment
+                        comment,
+                        visitorKey: blogVisitorKey()
                     })
                 });
                 const data = await response.json();
@@ -1133,13 +1321,13 @@
                     throw new Error(data.message || "Could not post response.");
                 }
                 commentInput.value = "";
-                status.textContent = "Response posted.";
+                status.textContent = parentId ? "Reply posted." : "Response posted.";
                 renderBlogEngagement(data);
             } catch (error) {
                 status.textContent = error.message || "Could not post response.";
             } finally {
                 submitButton.disabled = false;
-                submitButton.textContent = "Post Response";
+                submitButton.textContent = parentId ? "Post Reply" : "Post Response";
             }
         }
 
