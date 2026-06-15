@@ -420,34 +420,6 @@
             color: #EDEDED;
         }
 
-        .reaction-picker {
-            display: inline-flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            padding: 7px;
-            border: 1px solid #2A2A2A;
-            background: #080808;
-        }
-
-        .reaction-option {
-            width: 34px;
-            height: 34px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid transparent;
-            background: rgba(255,255,255,0.04);
-            font-size: 18px;
-            transition: transform 0.2s, border-color 0.2s, background-color 0.2s;
-        }
-
-        .reaction-option:hover,
-        .reaction-option.is-active {
-            transform: translateY(-2px);
-            border-color: #8C0D0D;
-            background: rgba(140,13,13,0.18);
-        }
-
         .reaction-summary {
             display: inline-flex;
             align-items: center;
@@ -768,13 +740,9 @@
         const SITE_FAVICON = "https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png";
         const BLOG_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec";
         const COMMENT_REACTIONS = [
-            { key: "like", label: "Like", icon: "👍" },
-            { key: "love", label: "Love", icon: "❤️" },
-            { key: "care", label: "Care", icon: "🤗" },
-            { key: "wow", label: "Wow", icon: "😮" },
-            { key: "sad", label: "Sad", icon: "😢" },
-            { key: "angry", label: "Angry", icon: "😡" }
+            { key: "like", label: "Like", icon: "👍" }
         ];
+        let currentEngagementData = null;
 
         function escapeHTML(value) {
             return String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -1119,6 +1087,7 @@
         }
 
         function renderBlogEngagement(data) {
+            currentEngagementData = data;
             const views = document.getElementById("post-view-count");
             const comments = document.getElementById("post-comments-count");
             const heading = document.getElementById("post-comment-count-heading");
@@ -1178,6 +1147,7 @@
             const reactionLabel = viewerReaction ? viewerReaction.label : "Like";
             const reactionIcon = viewerReaction ? viewerReaction.icon : `<i class="ph ph-thumbs-up"></i>`;
             const escapedCommentId = escapeHTML(comment.id || "");
+            const likeCount = Number((comment.reactions || {}).like || 0);
 
             return `
                 <article class="border-t border-border-gray py-4" data-comment-id="${escapedCommentId}">
@@ -1195,15 +1165,10 @@
                         </button>
                         ${totalReactions ? `
                             <span class="reaction-summary" title="${escapeHTML(reactionCounts.map((reaction) => `${reaction.label}: ${reaction.count}`).join(", "))}">
-                                <span>${reactionCounts.slice(0, 3).map((reaction) => reaction.icon).join("")}</span>
-                                <span>${formatCount(totalReactions)}</span>
+                                <span>👍</span>
+                                <span>${formatCount(likeCount)}</span>
                             </span>
                         ` : ""}
-                    </div>
-                    <div class="reaction-picker mb-3" aria-label="React to comment">
-                        ${COMMENT_REACTIONS.map((reaction) => `
-                            <button type="button" class="reaction-option ${comment.viewerReaction === reaction.key ? "is-active" : ""}" title="${escapeHTML(reaction.label)}" onclick='reactToComment(${JSON.stringify(postId)}, ${JSON.stringify(postSlug)}, ${JSON.stringify(comment.id)}, ${JSON.stringify(reaction.key)})'>${reaction.icon}</button>
-                        `).join("")}
                     </div>
                     <form id="reply-form-${escapedCommentId}" class="hidden space-y-3 mb-4" onsubmit='submitBlogComment(event, ${JSON.stringify(postId)}, ${JSON.stringify(postSlug)}, ${JSON.stringify(comment.id)})'>
                         <input type="hidden" name="parentId" value="${escapedCommentId}">
@@ -1240,6 +1205,26 @@
             }
         }
 
+        function updateIndexEngagementCard(post, data) {
+            const key = CSS.escape(String(post.slug || post.id || ""));
+            const views = document.querySelector(`[data-index-views="${key}"]`);
+            const comments = document.querySelector(`[data-index-comments="${key}"]`);
+            const viewCount = Number(data.viewCount || 0);
+            const commentCount = Number(data.commentCount || 0);
+
+            post.viewCount = viewCount;
+            post.comments = commentCount;
+            if (views) views.textContent = formatCount(viewCount);
+            if (comments) comments.textContent = formatCount(commentCount);
+        }
+
+        async function hydrateBlogIndexEngagement() {
+            await Promise.allSettled(posts.map(async (post) => {
+                const data = await fetchBlogEngagement(post, false);
+                updateIndexEngagementCard(post, data);
+            }));
+        }
+
         function toggleReplyForm(commentId) {
             const form = document.getElementById(`reply-form-${commentId}`);
             if (!form) return;
@@ -1251,7 +1236,65 @@
             }
         }
 
+        function findCommentInEngagement(commentId) {
+            if (!currentEngagementData || !Array.isArray(currentEngagementData.comments)) return null;
+            return currentEngagementData.comments.find((comment, index) => commentIdentity(comment, index) === String(commentId)) || null;
+        }
+
+        function optimisticallyToggleLike(commentId) {
+            const comment = findCommentInEngagement(commentId);
+            if (!comment) return;
+
+            const reactions = { ...(comment.reactions || {}) };
+            const currentLikes = Number(reactions.like || 0);
+            if (comment.viewerReaction === "like") {
+                comment.viewerReaction = "";
+                reactions.like = Math.max(0, currentLikes - 1);
+            } else {
+                comment.viewerReaction = "like";
+                reactions.like = currentLikes + 1;
+            }
+            comment.reactions = reactions;
+            renderBlogEngagement(currentEngagementData);
+        }
+
+        function appendOptimisticComment({ postId, postSlug, parentId, authorName, comment }) {
+            if (!currentEngagementData) return "";
+            const optimisticId = `pending-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+            const optimistic = {
+                id: optimisticId,
+                parentId: parentId || "",
+                authorName,
+                comment,
+                submittedAt: new Date().toISOString(),
+                reactions: {},
+                viewerReaction: "",
+                pending: true
+            };
+
+            currentEngagementData = {
+                ...currentEngagementData,
+                postId: currentEngagementData.postId || postId,
+                postSlug: currentEngagementData.postSlug || postSlug,
+                commentCount: Number(currentEngagementData.commentCount || 0) + 1,
+                comments: [...(currentEngagementData.comments || []), optimistic]
+            };
+            renderBlogEngagement(currentEngagementData);
+            return optimisticId;
+        }
+
+        function removeOptimisticComment(commentId) {
+            if (!currentEngagementData || !commentId) return;
+            currentEngagementData = {
+                ...currentEngagementData,
+                commentCount: Math.max(0, Number(currentEngagementData.commentCount || 0) - 1),
+                comments: (currentEngagementData.comments || []).filter((comment) => String(comment.id || "") !== String(commentId))
+            };
+            renderBlogEngagement(currentEngagementData);
+        }
+
         async function reactToComment(postId, postSlug, commentId, reaction) {
+            optimisticallyToggleLike(commentId);
             try {
                 const response = await fetch(BLOG_BACKEND_URL, {
                     method: "POST",
@@ -1271,6 +1314,7 @@
                 }
                 renderBlogEngagement(data);
             } catch (error) {
+                optimisticallyToggleLike(commentId);
                 showToast(error.message || "Could not save reaction.");
             }
         }
@@ -1284,6 +1328,7 @@
             const commentInput = form.querySelector("[name='comment']");
             const authorName = nameInput.value.trim();
             const comment = commentInput.value.trim();
+            const originalComment = comment;
 
             if (!authorName) {
                 status.textContent = "Please add a name before commenting.";
@@ -1301,6 +1346,8 @@
             submitButton.disabled = true;
             submitButton.textContent = "Posting...";
             status.textContent = "";
+            commentInput.value = "";
+            const optimisticId = appendOptimisticComment({ postId, postSlug, parentId, authorName, comment: originalComment });
 
             try {
                 const response = await fetch(BLOG_BACKEND_URL, {
@@ -1312,7 +1359,7 @@
                         postSlug,
                         parentId,
                         authorName,
-                        comment,
+                        comment: originalComment,
                         visitorKey: blogVisitorKey()
                     })
                 });
@@ -1320,11 +1367,14 @@
                 if (data.result !== "success") {
                     throw new Error(data.message || "Could not post response.");
                 }
-                commentInput.value = "";
                 status.textContent = parentId ? "Reply posted." : "Response posted.";
                 renderBlogEngagement(data);
+                const post = findPostByKey(postSlug || postId);
+                if (post) updateIndexEngagementCard(post, data);
             } catch (error) {
+                removeOptimisticComment(optimisticId);
                 status.textContent = error.message || "Could not post response.";
+                commentInput.value = originalComment;
             } finally {
                 submitButton.disabled = false;
                 submitButton.textContent = parentId ? "Post Reply" : "Post Response";
@@ -1658,6 +1708,7 @@
                 const thumbnail = post.featureImage || post.shareImage || "";
                 const bylineAuthor = post.displayAuthor || post.author || "Anonymous contributor";
                 const authorInitial = String(bylineAuthor || "A").trim().charAt(0) || "A";
+                const indexEngagementKey = escapeHTML(String(post.slug || post.id || ""));
                 html += `
                     <article class="blog-index-card group">
                         <a href="${postUrl}" class="block cursor-pointer">
@@ -1694,7 +1745,11 @@
                             </div>
                             <div class="action-btn" title="View Comments">
                                 <i class="ph ph-chat-circle text-lg"></i>
-                                <span>${post.comments}</span>
+                                <span data-index-comments="${indexEngagementKey}">${formatCount(post.comments)}</span>
+                            </div>
+                            <div class="action-btn" title="Article Views">
+                                <i class="ph ph-eye text-lg"></i>
+                                <span data-index-views="${indexEngagementKey}">${formatCount(post.viewCount)}</span>
                             </div>
                             <div class="action-btn ml-auto" onclick='sharePost(event, ${JSON.stringify(post.id)})' title="Share">
                                 <i class="ph ph-share-network text-lg"></i>
@@ -1754,6 +1809,7 @@
                 </div>`;
             
             container.innerHTML = html;
+            hydrateBlogIndexEngagement();
         }
 
         // View 2: The Article Page
