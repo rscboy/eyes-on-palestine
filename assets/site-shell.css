@@ -4,6 +4,15 @@
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+.site-shell-header *,
+.site-shell-header *::before,
+.site-shell-header *::after,
+.site-shell-footer *,
+.site-shell-footer *::before,
+.site-shell-footer *::after {
+  box-sizing: border-box;
+}
+
 body.site-shell-pad {
   padding-top: 60px;
 }
@@ -248,6 +257,8 @@ body.site-shell-pad {
   transition: transform 0.3s ease;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .site-shell-mobile.is-open {
@@ -266,18 +277,23 @@ body.site-shell-pad {
 .site-shell-mobile-links {
   padding: 32px 24px;
   display: grid;
-  gap: 22px;
+  gap: 12px;
 }
 
 .site-shell-mobile a {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
   font-size: 24px;
   font-family: Georgia, "Times New Roman", serif;
 }
 
 .site-shell-mobile .site-shell-submit {
-  width: max-content;
+  width: min(100%, 280px);
+  justify-content: center;
   font-family: Inter, system-ui, sans-serif;
   font-size: 13px;
+  min-height: 46px;
 }
 
 .site-shell-footer {
@@ -407,8 +423,16 @@ body.site-shell-pad {
     display: none;
   }
 
+  .site-shell-inner,
+  .site-shell-mobile-top,
+  .site-shell-footer-inner {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
   .site-shell-mobile-button {
     display: inline-flex;
+    min-height: 44px;
   }
 
   .site-shell-footer-main,
@@ -419,5 +443,54 @@ body.site-shell-pad {
   .site-shell-footer-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 34px;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-shell-logo {
+    max-width: 58vw;
+    line-height: 1.25;
+  }
+
+  .site-shell-mobile-links {
+    padding-top: 22px;
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+  }
+
+  .site-shell-mobile a {
+    font-size: clamp(20px, 7vw, 24px);
+  }
+
+  .site-shell-footer {
+    padding-top: 38px;
+    padding-bottom: 32px;
+  }
+
+  .site-shell-footer-main {
+    gap: 34px;
+  }
+
+  .site-shell-footer-brand {
+    max-width: none;
+  }
+
+  .site-shell-footer-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .site-shell-footer h4 {
+    margin-bottom: 14px;
+  }
+
+  .site-shell-footer-bottom {
+    margin-top: 42px;
+    line-height: 1.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-shell-mobile {
+    transition: none;
   }
 }
