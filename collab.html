@@ -1017,6 +1017,76 @@
             return SOURCE_IMAGE_URLS[normalized] || SOURCE_IMAGE_URLS[source] || "";
         }
 
+        // Domain -> source name. Seeded with common outlets (names match
+        // SOURCE_IMAGE_URLS so the source image fills too) and then enriched at
+        // runtime from the existing article library (data/articles.json). Used to
+        // recognize a source from the link when the live fetch is blocked.
+        const BASE_DOMAIN_SOURCES = {
+            "apnews.com": "Associated Press",
+            "aljazeera.com": "Al Jazeera",
+            "axios.com": "Axios",
+            "bbc.com": "BBC", "bbc.co.uk": "BBC",
+            "cnn.com": "CNN",
+            "commondreams.org": "Common Dreams",
+            "democracynow.org": "Democracy Now!",
+            "doctorswithoutborders.org": "Doctors Without Borders", "msf.org": "Doctors Without Borders",
+            "haaretz.com": "Haaretz",
+            "hrw.org": "Human Rights Watch",
+            "middleeasteye.net": "Middle East Eye",
+            "nbcnews.com": "NBC News",
+            "npr.org": "NPR",
+            "pbs.org": "PBS",
+            "reuters.com": "Reuters",
+            "thecradle.co": "The Cradle",
+            "theguardian.com": "The Guardian",
+            "independent.co.uk": "The Independent",
+            "jpost.com": "The Jerusalem Post",
+            "nytimes.com": "The New York Times",
+            "timesofisrael.com": "The Times of Israel",
+            "washingtonpost.com": "The Washington Post",
+            "news.un.org": "UN News", "un.org": "UN News",
+            "ohchr.org": "UN Office of the High Commissioner for Human Rights",
+            "vox.com": "Vox"
+        };
+        const sourceByDomain = new Map(Object.entries(BASE_DOMAIN_SOURCES));
+
+        function domainKeyForUrl(url) {
+            try {
+                return new URL(String(url).trim()).hostname.toLowerCase().replace(/^www\./, "");
+            } catch (error) {
+                return "";
+            }
+        }
+
+        function learnSourceDomainsFromLibrary(articles) {
+            const counts = {};
+            articles.forEach((article) => {
+                const domain = domainKeyForUrl(article.link);
+                const source = String(article.source || "").trim();
+                if (!domain || !source) return;
+                counts[domain] = counts[domain] || {};
+                counts[domain][source] = (counts[domain][source] || 0) + 1;
+            });
+            Object.entries(counts).forEach(([domain, srcCounts]) => {
+                if (sourceByDomain.has(domain)) return; // curated base map wins
+                const best = Object.entries(srcCounts).sort((a, b) => b[1] - a[1])[0][0];
+                sourceByDomain.set(domain, best);
+            });
+        }
+
+        function inferSourceFromUrl(url) {
+            const host = domainKeyForUrl(url);
+            if (!host) return "";
+            if (sourceByDomain.has(host)) return sourceByDomain.get(host);
+            // Try progressively shorter registrable domains (e.g. edition.cnn.com -> cnn.com).
+            const parts = host.split(".");
+            for (let i = 1; i < parts.length - 1; i += 1) {
+                const candidate = parts.slice(i).join(".");
+                if (sourceByDomain.has(candidate)) return sourceByDomain.get(candidate);
+            }
+            return "";
+        }
+
         function todayIsoDate() {
             return new Date().toISOString().split('T')[0];
         }
@@ -1067,6 +1137,7 @@
             .then(articles => {
                 if (!Array.isArray(articles)) return;
                 renderSourceSuggestions(articles.map(article => article.source));
+                learnSourceDomainsFromLibrary(articles);
             })
             .catch(() => {});
 
@@ -1308,7 +1379,7 @@
             return true;
         }
 
-        function applyArticleMetadata(fields, metadata) {
+        function applyArticleMetadata(fields, metadata, pageUrl) {
             const changed = [];
             if (fillInputIfBlank(fields.title, metadata.title)) changed.push("title");
             if (fillInputIfBlank(fields.source, normalizeSourceName(metadata.source), false)) changed.push("source");
@@ -1317,6 +1388,13 @@
             if (fillInputIfBlank(fields.summary, metadata.summary)) changed.push("summary");
             if (fillInputIfBlank(fields.imageUrl, metadata.imageUrl)) changed.push("image");
             if (fillDocumentTypeFromMetadata(fields.documentType, metadata.documentType)) changed.push("type");
+
+            // If the page didn't yield a source, recognize it from the link's
+            // domain using the curated + library-learned mapping.
+            if (fields.source && !fields.source.value.trim()) {
+                const inferred = inferSourceFromUrl(pageUrl || fields.link?.value);
+                if (inferred && fillInputIfBlank(fields.source, inferred, false)) changed.push("source");
+            }
 
             if (!metadata.imageUrl && fields.imageUrl && fields.source && !fields.imageUrl.value.trim()) {
                 const mappedImage = getKnownImageUrlForSource(fields.source.value);
@@ -1347,7 +1425,7 @@
             try {
                 const html = await fetchArticleHtml(url);
                 const metadata = extractArticleMetadata(html, url);
-                const changed = applyArticleMetadata(fields, metadata);
+                const changed = applyArticleMetadata(fields, metadata, url);
                 if (changed.length) {
                     setMetadataStatus(statusElement, `Auto-filled: ${changed.join(", ")}. Please review before submitting.`, "success");
                 } else {
@@ -1355,7 +1433,14 @@
                 }
             } catch (error) {
                 console.warn("Article metadata fetch failed:", error);
-                setMetadataStatus(statusElement, "Could not auto-fill this link. Some publishers block metadata access, so please enter the details manually.", "error");
+                // Even when the page can't be fetched, recognize the source from the
+                // link's domain (and fill its known image) so the user starts ahead.
+                const recovered = applyArticleMetadata(fields, {}, url);
+                if (recovered.includes("source")) {
+                    setMetadataStatus(statusElement, `Couldn't fetch full details, but recognized the source as “${fields.source.value}” from the link. Please add the remaining fields manually.`, "success");
+                } else {
+                    setMetadataStatus(statusElement, "Could not auto-fill this link. Some publishers block metadata access, so please enter the details manually.", "error");
+                }
             } finally {
                 button?.removeAttribute("disabled");
             }
