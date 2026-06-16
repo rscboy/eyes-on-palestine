@@ -596,6 +596,9 @@
                         <button type="button" id="addArticleButton" class="small-interface-button">Add Article</button>
                     </div>
                     <div id="additionalArticles" class="space-y-6"></div>
+                    <div class="flex justify-center mt-6">
+                        <button type="button" id="addArticleButtonBottom" class="small-interface-button">Add another article</button>
+                    </div>
                 </section>
 
                 <!-- Optional Fields -->
@@ -1245,16 +1248,31 @@
             }
         }
 
+        function looksLikeArticleHtml(text) {
+            return typeof text === "string" && /<\s*(meta|title|html|head)\b/i.test(text);
+        }
+
         async function fetchArticleHtml(url) {
+            // Most publishers block direct cross-origin requests, so fall back through
+            // several public CORS proxies. Order matters: try direct first (works for
+            // permissive sites), then the most reliable proxies. Each candidate is
+            // validated to be real HTML before accepting it.
             const proxyUrls = [
                 url,
+                `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
                 `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-                `https://corsproxy.io/?${encodeURIComponent(url)}`
+                `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(url)}`,
+                `https://thingproxy.freeboard.io/fetch/${url}`
             ];
             let lastError;
             for (const requestUrl of proxyUrls) {
                 try {
-                    return await fetchWithTimeout(requestUrl);
+                    // The direct attempt rarely succeeds for publishers (CORS), so give it
+                    // a short timeout and let the proxies do the real work.
+                    const timeoutMs = requestUrl === url ? 5000 : 12000;
+                    const text = await fetchWithTimeout(requestUrl, {}, timeoutMs);
+                    if (looksLikeArticleHtml(text)) return text;
+                    lastError = new Error("Response did not contain readable page HTML.");
                 } catch (error) {
                     lastError = error;
                 }
@@ -1464,6 +1482,12 @@
                 </div>
             `;
             additionalArticles.appendChild(wrapper);
+            // Bring the new article (and the bottom "Add another article" button)
+            // into view so multiple articles can be added without scrolling up.
+            requestAnimationFrame(() => {
+                wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                wrapper.querySelector('[data-field="link"]')?.focus({ preventScroll: true });
+            });
         }
 
         function setMultiArticleMode(isEnabled) {
@@ -1732,6 +1756,7 @@
 
         multiArticleMode.addEventListener('change', (event) => setMultiArticleMode(event.target.checked));
         addArticleButton.addEventListener('click', createExtraArticleBlock);
+        document.getElementById('addArticleButtonBottom')?.addEventListener('click', createExtraArticleBlock);
         setBatchEntryEvents();
     </script>
     <script type="module">
