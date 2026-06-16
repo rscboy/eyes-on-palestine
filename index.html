@@ -216,6 +216,7 @@
         /* Hero Section Styling - Solemn Depth */
         .hero-section {
             background: radial-gradient(ellipse 100% 70% at 50% 20%, #1a0305 0%, #050505 70%);
+            background-color: var(--pal-black);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -236,10 +237,12 @@
             position: absolute;
             inset: 0;
             z-index: 0;
+            display: block;
             width: 100%;
             height: 100%;
             object-fit: cover;
             pointer-events: none;
+            background: radial-gradient(ellipse 100% 70% at 50% 20%, #1a0305 0%, #050505 70%);
         }
         .hero-video-overlay {
             position: absolute;
@@ -962,7 +965,8 @@
             }
 
             .hero-bg-video {
-                display: none;
+                min-width: 100%;
+                min-height: 100%;
             }
 
             .hero-section .max-w-7xl {
@@ -1965,7 +1969,7 @@
     <!-- MAIN CONTENT -->
     <main>
         <section class="hero-section pt-32 pb-12">
-            <video class="hero-bg-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+            <video class="hero-bg-video" autoplay muted loop playsinline webkit-playsinline preload="auto" aria-hidden="true">
                 <source src="https://pub-3592c0f33d62473e96882cebf2720dba.r2.dev/EoG%20-%20Background.mp4" type="video/mp4" />
             </video>
             <div class="hero-video-overlay" aria-hidden="true"></div>
@@ -5116,6 +5120,32 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const heroVideo = document.querySelector('.hero-bg-video');
+            if (heroVideo) {
+                heroVideo.muted = true;
+                heroVideo.defaultMuted = true;
+                heroVideo.playsInline = true;
+                heroVideo.setAttribute('muted', '');
+                heroVideo.setAttribute('playsinline', '');
+                heroVideo.setAttribute('webkit-playsinline', '');
+
+                const playHeroVideo = () => {
+                    const playAttempt = heroVideo.play();
+                    if (playAttempt && typeof playAttempt.catch === 'function') {
+                        playAttempt.catch(() => {
+                            heroVideo.load();
+                        });
+                    }
+                };
+
+                if (heroVideo.readyState >= 2) {
+                    playHeroVideo();
+                } else {
+                    heroVideo.addEventListener('canplay', playHeroVideo, { once: true });
+                    heroVideo.load();
+                }
+            }
+
             const topAnnouncementBanner = document.getElementById('top-announcement-banner');
             if (!topAnnouncementBanner) return;
 
