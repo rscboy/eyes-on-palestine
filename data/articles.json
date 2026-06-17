@@ -1,5 +1,77 @@
 [
   {
+    "date": "2026-06-17",
+    "title": "He wanted to burn me alive': 92-year-old recounts West Bank settler attack",
+    "summary": "",
+    "link": "https://www.aljazeera.com/features/2026/6/17/he-wanted-to-burn-me-alive-92-year-old-recounts-west-bank-settler-attack",
+    "imageUrl": "https://d10bt0812qicot.cloudfront.net/img/2a/df897cb5e34467bba62c7c6f85723d/640x360.png",
+    "category": "Abuse",
+    "categories": [
+      "Abuse"
+    ],
+    "categoryColor": "#C7CEEA",
+    "source": "Al Jazeera",
+    "author": "Mohammad Mansour",
+    "authors": [
+      "Mohammad Mansour"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-17",
+    "title": "More than 1,000 people have been killed by Israeli fire since the Gaza ceasefire, officials say",
+    "summary": "",
+    "link": "https://apnews.com/article/israel-palestinians-hamas-war-gaza-death-toll-casualties-07ecc0f22a1fb8332466ffc87f928cf4",
+    "imageUrl": "https://1000logos.net/wp-content/uploads/2016/10/Associated-Press-logo.jpg",
+    "category": "Death Toll",
+    "categories": [
+      "Death Toll"
+    ],
+    "categoryColor": "#A2D2FF",
+    "source": "Associated Press",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-17",
+    "title": "121 Women, 253 Children: More Than 1,000 People Killed During Gaza Cease-fire",
+    "summary": "",
+    "link": "https://www.haaretz.com/gaza/2026-06-17/ty-article-magazine/253-children-121-women-among-1-000-gazans-killed-during-cease-fire/0000019e-d471-dc64-af9e-f47128b10000",
+    "imageUrl": "https://images.seeklogo.com/logo-png/50/1/haaretz-logo-png_seeklogo-507234.png",
+    "category": "Ceasefire",
+    "categories": [
+      "Ceasefire"
+    ],
+    "categoryColor": "#83D6E3",
+    "source": "Haaretz",
+    "author": "Yaniv Kubovich",
+    "authors": [
+      "Yaniv Kubovich"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-17",
+    "title": "PHOTO ESSAY: In Gaza, orphaned children navigate grief while trying to hold on to childhood",
+    "summary": "",
+    "link": "https://apnews.com/photo-essay/gaza-orphans-unicef-photo-essay-745f4ff42fad02a379edc55cd4ecfe4b",
+    "imageUrl": "https://1000logos.net/wp-content/uploads/2016/10/Associated-Press-logo.jpg",
+    "category": "Children",
+    "categories": [
+      "Children"
+    ],
+    "categoryColor": "#F194B4",
+    "source": "Associated Press",
+    "author": "JEHAD ALSHRAFI",
+    "authors": [
+      "JEHAD ALSHRAFI"
+    ],
+    "documentType": "Social media post"
+  },
+  {
     "date": "2026-06-16",
     "title": "Israel's Top Court Rejects Appeal to Release Gaza Hospital Head From Solitary Confinement",
     "summary": "",
