@@ -19,10 +19,11 @@
       "anonymous": false
     },
     "images": [
+      "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/refs/heads/main/blog/thumbnails/Kevin_Thumbnail.png",
       "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/blog/kevin-pictures/post.jpg"
     ],
-    "featureImage": "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/blog/kevin-pictures/post.jpg",
-    "shareImage": "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/main/blog/kevin-pictures/post.jpg",
+    "featureImage": "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/refs/heads/main/blog/thumbnails/Kevin_Thumbnail.png",
+    "shareImage": "https://raw.githubusercontent.com/rscboy/eyes-on-palestine/refs/heads/main/blog/thumbnails/Kevin_Thumbnail.png",
     "date": "2026-06-18",
     "publishedAt": "2026-06-18T16:00:00.000Z",
     "scheduledAt": "2026-06-18T16:00:00.000Z",
