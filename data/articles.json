@@ -60,6 +60,150 @@
     "documentType": "Report"
   },
   {
+    "date": "2026-06-17",
+    "title": "He wanted to burn me alive': 92-year-old recounts West Bank settler attack",
+    "summary": "",
+    "link": "https://www.aljazeera.com/features/2026/6/17/he-wanted-to-burn-me-alive-92-year-old-recounts-west-bank-settler-attack",
+    "imageUrl": "https://d10bt0812qicot.cloudfront.net/img/2a/df897cb5e34467bba62c7c6f85723d/640x360.png",
+    "category": "Abuse",
+    "categories": [
+      "Abuse"
+    ],
+    "categoryColor": "#C7CEEA",
+    "source": "Al Jazeera",
+    "author": "Mohammad Mansour",
+    "authors": [
+      "Mohammad Mansour"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-17",
+    "title": "More than 1,000 people have been killed by Israeli fire since the Gaza ceasefire, officials say",
+    "summary": "",
+    "link": "https://apnews.com/article/israel-palestinians-hamas-war-gaza-death-toll-casualties-07ecc0f22a1fb8332466ffc87f928cf4",
+    "imageUrl": "https://1000logos.net/wp-content/uploads/2016/10/Associated-Press-logo.jpg",
+    "category": "Death Toll",
+    "categories": [
+      "Death Toll"
+    ],
+    "categoryColor": "#A2D2FF",
+    "source": "Associated Press",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-17",
+    "title": "121 Women, 253 Children: More Than 1,000 People Killed During Gaza Cease-fire",
+    "summary": "",
+    "link": "https://www.haaretz.com/gaza/2026-06-17/ty-article-magazine/253-children-121-women-among-1-000-gazans-killed-during-cease-fire/0000019e-d471-dc64-af9e-f47128b10000",
+    "imageUrl": "https://images.seeklogo.com/logo-png/50/1/haaretz-logo-png_seeklogo-507234.png",
+    "category": "Ceasefire",
+    "categories": [
+      "Ceasefire"
+    ],
+    "categoryColor": "#83D6E3",
+    "source": "Haaretz",
+    "author": "Yaniv Kubovich",
+    "authors": [
+      "Yaniv Kubovich"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-17",
+    "title": "PHOTO ESSAY: In Gaza, orphaned children navigate grief while trying to hold on to childhood",
+    "summary": "",
+    "link": "https://apnews.com/photo-essay/gaza-orphans-unicef-photo-essay-745f4ff42fad02a379edc55cd4ecfe4b",
+    "imageUrl": "https://1000logos.net/wp-content/uploads/2016/10/Associated-Press-logo.jpg",
+    "category": "Children",
+    "categories": [
+      "Children"
+    ],
+    "categoryColor": "#F194B4",
+    "source": "Associated Press",
+    "author": "JEHAD ALSHRAFI",
+    "authors": [
+      "JEHAD ALSHRAFI"
+    ],
+    "documentType": "Social media post"
+  },
+  {
+    "date": "2026-06-16",
+    "title": "Israel's Top Court Rejects Appeal to Release Gaza Hospital Head From Solitary Confinement",
+    "summary": "",
+    "link": "https://www.haaretz.com/israel-news/israel-security/2026-06-16/ty-article/.premium/israels-top-court-rejects-appeal-for-release-of-gaza-doctor-held-without-charge/0000019e-cf8b-d9a8-a5de-dfeba04b0000",
+    "imageUrl": "https://images.seeklogo.com/logo-png/50/1/haaretz-logo-png_seeklogo-507234.png",
+    "category": "Prison Conditions",
+    "categories": [
+      "Prison Conditions"
+    ],
+    "categoryColor": "#E0BBE4",
+    "source": "Haaretz",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-16",
+    "title": "Israeli army 'murdered child' in Gaza and then dumped body",
+    "summary": "Israeli soldiers shot dead three-year-old Rayan Abu al-Ajeen in central Gaza, then detained his wounded father with the child's body for hours before dumping them on a roadside, says family",
+    "link": "https://www.middleeasteye.net/news/palestinian-family-accuses-israeli-army-kidnapping-and-murdering-their-child-gaza",
+    "imageUrl": "https://www.middleeasteye.net/sites/default/files/images-story/gaza-rubble-12-june-2026-reuters-tpx.jpg",
+    "category": "Children",
+    "categories": [
+      "Children"
+    ],
+    "categoryColor": "#F194B4",
+    "source": "Middle East Eye",
+    "author": "Fayha Shalash",
+    "authors": [
+      "Fayha Shalash"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-16",
+    "title": "Gaza children running out of time to treat blast-induced hearing loss",
+    "summary": "",
+    "link": "https://www.aljazeera.com/news/2026/6/16/gaza-hearing-loss-running-out-of-time",
+    "imageUrl": "https://d10bt0812qicot.cloudfront.net/img/2a/df897cb5e34467bba62c7c6f85723d/640x360.png",
+    "category": "Children",
+    "categories": [
+      "Children"
+    ],
+    "categoryColor": "#F194B4",
+    "source": "Al Jazeera",
+    "author": "Maram Humaid",
+    "authors": [
+      "Maram Humaid"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-16",
+    "title": "Growing risk that thousands buried in Gaza's rubble may never be identified, says Red Cross",
+    "summary": "",
+    "link": "https://www.theguardian.com/world/2026/jun/14/growing-risk-thousands-buried-gaza-rubble-never-identified-red-cross",
+    "imageUrl": "https://assets-legacy.floridarrc.com/2023/01/the-guardian-logo.jpeg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The Guardian",
+    "author": "Lorenzo Tondo",
+    "authors": [
+      "Lorenzo Tondo"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-06-13",
     "title": "This Week in Palestine: Israel Kills 8-Year-Old Schoolboy and 15-Year-Old Fisherman Just Days After Murdering 7-Month-Old Baby",
     "summary": "Zeteo's weekly round-up of the stories you may have missed out of occupied Gaza and the West Bank, as Israel continues its genocidal war and apartheid policies.",
