@@ -41,7 +41,8 @@
                 <a href="${home}/#quotes">Quotes & Resources</a>
                 <a href="${home}/blog">Voices</a>
                 <a href="${home}/events">Events</a>
-                <a href="${home}/#faq">FAQ</a>
+                <a href="${home}/about">About</a>
+                <a href="${home}/about#faq">FAQ</a>
               </span>
             </span>
           </span>
@@ -66,6 +67,7 @@
         <a href="${home}/#victims">Victims</a>
         <a href="${home}/events">Events</a>
         <a href="${home}/blog">Voices</a>
+        <a href="${home}/about">About</a>
         <a href="${home}/collab" class="site-shell-submit">Submit Evidence</a>
       </nav>
     </div>`;
@@ -109,8 +111,8 @@
               <ul>
                 <li><a href="${home}/#quotes">Quotes</a></li>
                 <li><a href="${home}/blog">Voices</a></li>
+                <li><a href="${home}/about">About & FAQ</a></li>
                 <li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" rel="noopener noreferrer">Raw Data</a></li>
-                <li><a href="${home}/blog">Blog</a></li>
               </ul>
             </div>
             <div>
