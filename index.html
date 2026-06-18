@@ -146,7 +146,7 @@
     <!-- Font Links -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/site-tokens.css?v=design-1">
-    <link rel="stylesheet" href="./assets/archive-experience.css?v=2">
+    <link rel="stylesheet" href="./assets/archive-experience.css?v=4">
     <style>
         /* Define new color variables */
         :root {
@@ -967,8 +967,8 @@
 
             .hero-section {
                 min-height: auto;
-                padding-top: 6.75rem !important;
-                padding-bottom: 2.5rem !important;
+                padding-top: 4.9rem !important;
+                padding-bottom: 1.5rem !important;
             }
 
             .hero-bg-video {
@@ -977,47 +977,48 @@
             }
 
             .hero-section .max-w-7xl {
-                padding-left: 1.25rem;
-                padding-right: 1.25rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
             }
 
             .hero-eyebrow {
-                gap: 0.6rem;
-                margin-bottom: 1.35rem;
-                font-size: 0.56rem;
-                letter-spacing: 0.22em;
-                line-height: 1.45;
+                gap: 0.5rem;
+                margin-bottom: 0.8rem;
+                font-size: 0.5rem;
+                letter-spacing: 0.2em;
+                line-height: 1.35;
             }
 
             .hero-eyebrow::before,
             .hero-eyebrow::after {
-                width: 2.5rem;
+                width: 2rem;
             }
 
             .hero-title {
-                font-size: clamp(3.2rem, 15vw, 4.35rem);
+                font-size: clamp(2.85rem, 13.5vw, 3.85rem);
             }
 
             .hero-title-sub {
-                margin-bottom: 1.75rem;
-                font-size: clamp(2rem, 9.5vw, 2.75rem);
+                margin-bottom: 1rem;
+                font-size: clamp(1.75rem, 8.5vw, 2.4rem);
             }
 
             .hero-lead {
-                max-width: 20.5rem;
-                margin-bottom: 2.25rem;
-                font-size: 0.86rem;
-                line-height: 1.75;
+                max-width: 21rem;
+                margin-bottom: 1.25rem;
+                font-size: 0.75rem;
+                line-height: 1.6;
             }
 
             .hero-stats-grid {
-                gap: 1rem !important;
-                margin-bottom: 2.75rem !important;
+                max-width: 22rem;
+                gap: 0.65rem !important;
+                margin-bottom: 1.1rem !important;
             }
 
             .hero-stats-grid .stat-card {
-                min-height: 7.15rem;
-                padding: 1.1rem 0.75rem !important;
+                min-height: 5.35rem;
+                padding: 0.7rem 0.5rem !important;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -1025,35 +1026,44 @@
             }
 
             .hero-stats-grid .stat-card > div:first-child {
-                margin-bottom: 0.45rem !important;
-                font-size: 1.55rem !important;
+                margin-bottom: 0.3rem !important;
+                font-size: 1.3rem !important;
                 line-height: 1.05;
             }
 
             .hero-stats-grid .stat-card > div:last-child {
-                font-size: 0.58rem !important;
-                line-height: 1.35;
-                letter-spacing: 0.14em;
+                font-size: 0.5rem !important;
+                line-height: 1.25;
+                letter-spacing: 0.12em;
             }
 
             .hero-quote {
-                margin-bottom: 2.75rem !important;
+                margin-bottom: 1.1rem !important;
                 padding: 0 0.5rem;
             }
 
+            .hero-quote p {
+                font-size: 0.7rem !important;
+                line-height: 1.45;
+            }
+
             .hero-actions {
-                gap: 0.8rem !important;
+                display: grid !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.55rem !important;
+                max-width: 22rem;
             }
 
             .hero-actions a {
-                width: min(100%, 18.5rem) !important;
-                min-height: 2.9rem;
+                width: 100% !important;
+                min-height: 2.55rem;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                padding-top: 0.75rem !important;
-                padding-bottom: 0.75rem !important;
-                font-size: 0.72rem !important;
+                padding: 0.55rem 0.45rem !important;
+                font-size: 0.55rem !important;
+                line-height: 1.3;
+                letter-spacing: 0.12em !important;
             }
 
             #mobile-menu {
@@ -2590,7 +2600,7 @@
                 </div>
             </div>
             <div class="onboarding-actions">
-                <span class="onboarding-note">This introduction appears automatically once.</span>
+                <span class="onboarding-note">This introduction appears once per browsing session.</span>
                 <button type="button" id="begin-archive" class="btn-primary px-6 py-3 rounded-sm text-xs uppercase tracking-widest">Explore the archive</button>
             </div>
         </div>
@@ -2931,7 +2941,7 @@
             { id: 'apa', label: 'APA' },
             { id: 'chicago', label: 'Chicago' }
         ];
-        const ARCHIVE_GUIDE_KEY = 'echoes_archive_guide_seen_v1';
+        const ARCHIVE_GUIDE_KEY = 'echoes_archive_guide_seen_session_v1';
         const CLAIM_LENSES = [
             {
                 id: 'aid-access',
@@ -3377,7 +3387,8 @@
             if (!guide) return;
             if (!force) {
                 try {
-                    if (localStorage.getItem(ARCHIVE_GUIDE_KEY) === 'seen') return;
+                    if (sessionStorage.getItem(ARCHIVE_GUIDE_KEY) === 'seen') return;
+                    sessionStorage.setItem(ARCHIVE_GUIDE_KEY, 'seen');
                 } catch (error) {}
             }
             guide.classList.add('is-visible');
@@ -3393,7 +3404,7 @@
             guide.setAttribute('aria-hidden', 'true');
             document.body.classList.remove('archive-overlay-open');
             try {
-                localStorage.setItem(ARCHIVE_GUIDE_KEY, 'seen');
+                sessionStorage.setItem(ARCHIVE_GUIDE_KEY, 'seen');
             } catch (error) {}
         }
 
