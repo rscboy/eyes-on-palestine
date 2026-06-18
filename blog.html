@@ -19,7 +19,6 @@
     <meta name="twitter:title" content="Voices from Echoes of Gaza">
     <meta name="twitter:description" content="Stories, testimonies, and the lived consequences of standing for Palestine.">
     <meta name="twitter:image" content="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png">
-    <link rel="stylesheet" href="/assets/blog-audio-reader.css?v=1">
     <script>
         (function applyPostSpecificHeadMetadata() {
             const postSlug = new URLSearchParams(window.location.search).get("post");
@@ -779,7 +778,6 @@
     <div id="toast">Link copied to clipboard</div>
 
     <!-- JavaScript Logic -->
-    <script src="/assets/blog-audio-reader.js?v=1"></script>
     <script>
         // --- DATA STORE ---
         let posts = [
@@ -1772,7 +1770,6 @@
         }
 
         function renderIndex() {
-            window.BlogAudioReader?.unmount();
             window.scrollTo(0, 0);
             updatePostQuery(null);
             setSeoMeta(null);
@@ -1949,7 +1946,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="blog-audio-reader" class="blog-audio-reader-mount" data-audio-reader-exclude></div>
                     </header>
 
                     <div class="blog-post-body">
@@ -2037,12 +2033,6 @@
                     </div>
                 </div>
             `;
-            window.BlogAudioReader?.mount({
-                root: document.getElementById("blog-audio-reader"),
-                content: document.querySelector(".prose-content"),
-                language: "en-US",
-                rate: 0.95
-            });
             loadBlogEngagement(post, true);
         }
 
