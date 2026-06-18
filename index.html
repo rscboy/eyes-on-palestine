@@ -240,6 +240,15 @@
             pointer-events: none;
             background: radial-gradient(ellipse 100% 70% at 50% 20%, #1a0305 0%, #050505 70%);
         }
+        .hero-bg-video::-webkit-media-controls,
+        .hero-bg-video::-webkit-media-controls-panel,
+        .hero-bg-video::-webkit-media-controls-play-button,
+        .hero-bg-video::-webkit-media-controls-start-playback-button {
+            display: none !important;
+            -webkit-appearance: none;
+            opacity: 0;
+            pointer-events: none;
+        }
         .hero-video-overlay {
             position: absolute;
             inset: 0;
@@ -527,6 +536,55 @@
 
         .desktop-display-zoom {
             display: none;
+        }
+
+        .archive-advanced-filters {
+            grid-column: 1 / -1;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 1.25rem;
+        }
+
+        .archive-advanced-filters summary {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            color: #aaa39a;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .archive-advanced-filter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 2rem;
+            padding-top: 1.25rem;
+        }
+
+        .archive-feedback {
+            position: fixed;
+            left: 50%;
+            bottom: max(1rem, env(safe-area-inset-bottom));
+            z-index: 8000;
+            max-width: calc(100vw - 2rem);
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(201, 168, 76, 0.35);
+            background: rgba(9, 9, 9, 0.97);
+            color: #eee8df;
+            font-size: 0.82rem;
+            line-height: 1.4;
+            box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, 0.75rem);
+            transition: opacity 0.18s ease, transform 0.18s ease;
+        }
+
+        .archive-feedback.is-visible {
+            opacity: 1;
+            transform: translate(-50%, 0);
         }
 
         @media (min-width: 1024px) {
@@ -1098,7 +1156,8 @@
             }
 
             .article-search-row {
-                flex-wrap: wrap;
+                display: grid;
+                grid-template-columns: minmax(0, 1fr);
                 gap: 0.65rem;
                 margin-bottom: 0;
             }
@@ -1112,7 +1171,7 @@
             }
 
             #sort-controls {
-                width: calc(50% - 0.375rem);
+                width: 100%;
                 flex-shrink: 0;
             }
 
@@ -1121,11 +1180,11 @@
                 width: 100%;
                 padding-left: 0.5rem;
                 padding-right: 0.5rem;
-                min-height: 2.35rem;
+                min-height: 2.75rem;
             }
 
             #random-article-btn {
-                flex: 0 0 calc(50% - 0.375rem);
+                display: none;
             }
 
             #filter-controls {
@@ -1143,12 +1202,12 @@
             #filter-controls h4 {
                 margin-bottom: 0.7rem;
                 padding-bottom: 0.45rem;
-                font-size: 0.95rem;
+                font-size: 1rem;
             }
 
             #filter-controls input,
             #filter-controls button {
-                min-height: 2.45rem;
+                min-height: 2.75rem;
             }
 
             #filter-controls input,
@@ -1168,12 +1227,11 @@
             }
 
             .archive-display-toolbar {
-                display: block;
-                margin-bottom: 0.85rem;
+                display: none;
             }
 
             .mobile-density-control {
-                display: grid;
+                display: none;
                 grid-template-columns: auto minmax(0, 1fr);
                 width: 100%;
                 align-items: center;
@@ -1202,11 +1260,36 @@
             }
 
             .archive-view-mode {
-                width: 100%;
+                display: none;
             }
 
             .archive-view-mode > div {
                 width: 100%;
+            }
+
+            .archive-advanced-filter-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            #articles p,
+            #research-pathways p,
+            .archive-onboarding-panel p,
+            .onboarding-item span {
+                font-size: 1rem;
+                line-height: 1.65;
+            }
+
+            #filter-controls,
+            #filter-controls input,
+            #filter-controls button,
+            #filter-controls label {
+                font-size: 0.9rem;
+            }
+
+            .archive-feedback {
+                width: calc(100vw - 1.25rem);
+                text-align: center;
             }
 
             .archive-table-wrap {
@@ -1928,9 +2011,8 @@
     <!-- MAIN CONTENT -->
     <main>
         <section id="top" class="hero-section pt-32 pb-12">
-            <video class="hero-bg-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback" aria-hidden="true">
+            <video class="hero-bg-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" controlslist="nodownload nofullscreen noremoteplayback" tabindex="-1" aria-hidden="true">
                 <source src="https://pub-3592c0f33d62473e96882cebf2720dba.r2.dev/EoG%20-%20Background.mp4" type="video/mp4" />
-                <source src="./background.mp4" type="video/mp4" />
             </video>
             <div class="hero-video-overlay" aria-hidden="true"></div>
             <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full">
@@ -2109,49 +2191,13 @@
             </div>
         </section>
 
-        <!-- Guided research pathways -->
-        <section id="research-pathways" class="archive-pathways" aria-labelledby="research-pathways-title">
-            <div class="archive-pathways-shell">
-                <div class="archive-pathways-heading">
-                    <div>
-                        <span class="archive-pathways-kicker">Ways into the record</span>
-                        <h2 id="research-pathways-title">Follow evidence without losing its context</h2>
-                        <p>Examine a public claim or trace a subject through time without losing the source sequence. These views organize existing records; they do not replace the sources.</p>
-                    </div>
-                    <div class="archive-pathways-heading-actions">
-                        <button type="button" id="open-witness-mode" class="witness-entry-button">Enter Witness Mode</button>
-                    </div>
-                </div>
-
-                <div class="archive-pathway-tabs" role="tablist" aria-label="Research pathways">
-                    <button type="button" class="archive-pathway-tab" id="claim-tab" role="tab" aria-selected="true" aria-controls="claim-panel" data-pathway-tab="claim-panel">Examine a claim</button>
-                    <button type="button" class="archive-pathway-tab" id="thread-tab" role="tab" aria-selected="false" aria-controls="thread-panel" data-pathway-tab="thread-panel">Follow a thread</button>
-                </div>
-
-                <div id="claim-panel" class="archive-pathway-panel" role="tabpanel" aria-labelledby="claim-tab">
-                    <div class="claim-layout">
-                        <div id="claim-selector" class="pathway-selector" aria-label="Claims to examine"></div>
-                        <div id="claim-result" aria-live="polite"></div>
-                    </div>
-                </div>
-
-                <div id="thread-panel" class="archive-pathway-panel" role="tabpanel" aria-labelledby="thread-tab" hidden>
-                    <div class="thread-layout">
-                        <div id="thread-selector" class="pathway-selector" aria-label="Threads to follow"></div>
-                        <div id="thread-result" aria-live="polite"></div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
         <!-- Archive Section -->
         <section id="articles" class="py-12">
             <div class="container mx-auto px-6">
                 <div class="archive-toolbar-heading">
                     <h2 class="text-3xl font-serif font-bold text-white/90">Documentary Archive</h2>
                     <div class="archive-toolbar-heading-actions">
-                        <button type="button" id="open-archive-guide" class="archive-help-button">How to use the archive</button>
+                        <button type="button" id="open-archive-guide" class="archive-help-button">Archive guide</button>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
@@ -2167,7 +2213,7 @@
                         </button>
                         <div id="sort-controls" class="flex items-center flex-shrink-0">
                             <button id="toggle-filter-btn" class="filter-chip text-xs uppercase tracking-wider font-medium py-2 px-4" aria-expanded="false" aria-controls="filter-controls">
-                                Filters <span id="filter-count-badge" class="filter-count-badge" hidden>0</span>
+                                Filter &amp; sort <span id="filter-count-badge" class="filter-count-badge" hidden>0</span>
                             </button>
                         </div>
                     </div>
@@ -2185,7 +2231,7 @@
                             <p>Select as much or as little as you need. Results combine your search, dates, topics, sources, authors, and document types.</p>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div>
                             <h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Sort By</h4>
                             <div class="grid grid-cols-2 gap-3">
@@ -2205,21 +2251,29 @@
                             <input type="text" id="category-filter-search" class="search-modern w-full px-3 py-2 text-xs mb-3" placeholder="Search categories...">
                             <div id="tag-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div>
                         </div>
-                        <div>
-                            <h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Sources</h4>
-                            <input type="text" id="source-filter-search" class="search-modern w-full px-3 py-2 text-xs mb-3" placeholder="Search sources...">
-                            <div id="source-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div>
-                        </div>
-                        <div>
-                            <h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Authors</h4>
-                            <input type="text" id="author-filter-search" class="search-modern w-full px-3 py-2 text-xs mb-3" placeholder="Search authors...">
-                            <div id="author-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div>
-                        </div>
-                        <div><h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Document Type</h4><div id="document-type-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div></div>
+                        <details class="archive-advanced-filters">
+                            <summary>More filters</summary>
+                            <div class="archive-advanced-filter-grid">
+                                <div>
+                                    <h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Sources</h4>
+                                    <input type="text" id="source-filter-search" class="search-modern w-full px-3 py-2 text-xs mb-3" placeholder="Search sources...">
+                                    <div id="source-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div>
+                                </div>
+                                <div>
+                                    <h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Authors</h4>
+                                    <input type="text" id="author-filter-search" class="search-modern w-full px-3 py-2 text-xs mb-3" placeholder="Search authors...">
+                                    <div id="author-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div>
+                                </div>
+                                <div>
+                                    <h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Document Type</h4>
+                                    <div id="document-type-filters" class="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar"></div>
+                                </div>
+                            </div>
+                        </details>
                     </div>
                     <div id="filter-intelligence" class="mt-8 pt-6 border-t border-white/5 grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div>
-                            <h4 class="font-serif text-white/80 mb-3">Active Research Lens</h4>
+                            <h4 class="font-serif text-white/80 mb-3">Current filters</h4>
                             <div id="active-filter-summary" class="text-xs text-gray-500 leading-6">No filters selected.</div>
                         </div>
                         <div>
@@ -2228,7 +2282,7 @@
                         </div>
                     </div>
                     <div class="mt-8 pt-6 border-t border-white/5 flex items-center gap-4">
-                        <button id="filter-button" class="btn-primary text-xs uppercase tracking-wider px-6 py-2 rounded">Show results</button>
+                        <span class="text-xs text-gray-500">Results update automatically.</span>
                         <button id="clear-button" class="text-xs text-gray-500 hover:text-white uppercase tracking-wider transition">Reset filters</button>
                     </div>
                 </div>
@@ -2276,12 +2330,47 @@
             </div>
         </section>
 
+        <!-- Guided research pathways -->
+        <section id="research-pathways" class="archive-pathways" aria-labelledby="research-pathways-title">
+            <div class="archive-pathways-shell">
+                <div class="archive-pathways-heading">
+                    <div>
+                        <span class="archive-pathways-kicker">Guided research</span>
+                        <h2 id="research-pathways-title">Follow evidence without losing its context</h2>
+                        <p>Examine a public claim or trace a subject through time without losing the source sequence. These views organize existing records; they do not replace the sources.</p>
+                    </div>
+                    <div class="archive-pathways-heading-actions">
+                        <button type="button" id="open-witness-mode" class="witness-entry-button">Read one record at a time</button>
+                    </div>
+                </div>
+
+                <div class="archive-pathway-tabs" role="tablist" aria-label="Guided research">
+                    <button type="button" class="archive-pathway-tab" id="claim-tab" role="tab" aria-selected="true" aria-controls="claim-panel" data-pathway-tab="claim-panel">Explore a claim</button>
+                    <button type="button" class="archive-pathway-tab" id="thread-tab" role="tab" aria-selected="false" aria-controls="thread-panel" data-pathway-tab="thread-panel">Trace a topic</button>
+                </div>
+
+                <div id="claim-panel" class="archive-pathway-panel" role="tabpanel" aria-labelledby="claim-tab">
+                    <div class="claim-layout">
+                        <div id="claim-selector" class="pathway-selector" aria-label="Claims to explore"></div>
+                        <div id="claim-result" aria-live="polite"></div>
+                    </div>
+                </div>
+
+                <div id="thread-panel" class="archive-pathway-panel" role="tabpanel" aria-labelledby="thread-tab" hidden>
+                    <div class="thread-layout">
+                        <div id="thread-selector" class="pathway-selector" aria-label="Topics to trace"></div>
+                        <div id="thread-result" aria-live="polite"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="integrity-report" class="py-12 bg-[#080808] border-t border-white/5">
             <div class="container mx-auto px-6">
                 <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
                     <div>
                         <span class="text-xs font-bold text-[#8B0000] uppercase tracking-[0.2em] block mb-4">Archive Integrity</span>
-                        <h2 class="text-3xl font-serif font-bold text-white/90">Archive Integrity Report</h2>
+                        <h2 class="text-3xl font-serif font-bold text-white/90">Source Health</h2>
                         <p class="text-sm text-gray-500 font-light mt-3 max-w-2xl">Automated checks conservatively monitor whether original article URLs remain live, redirected, blocked, removed, or changed. Integrity checks run daily, but each article is rechecked only after 60 days unless manually forced.</p>
                     </div>
                     <p class="text-xs text-gray-600 uppercase tracking-widest max-w-xs md:text-right">Manual verification is handled through the admin portal.</p>
@@ -2550,10 +2639,10 @@
     <aside id="research-packet-panel" class="research-packet-notepad" aria-hidden="true" aria-labelledby="research-packet-title">
         <div class="research-packet-notepad-header">
             <div>
-                <span class="research-packet-kicker">Research packet</span>
-                <h2 id="research-packet-title">Cited notes <span id="research-packet-count">0</span></h2>
+                <span class="research-packet-kicker">Saved citations</span>
+                <h2 id="research-packet-title">Saved sources <span id="research-packet-count">0</span></h2>
             </div>
-            <button type="button" id="research-packet-collapse" class="research-packet-collapse" aria-expanded="true" aria-label="Collapse research packet">−</button>
+            <button type="button" id="research-packet-collapse" class="research-packet-collapse" aria-expanded="true" aria-label="Collapse saved citations">−</button>
         </div>
         <div id="research-packet-content" class="research-packet-notepad-content">
             <div class="research-packet-controls">
@@ -2572,6 +2661,8 @@
             </div>
         </div>
     </aside>
+
+    <div id="archive-feedback" class="archive-feedback" role="status" aria-live="polite"></div>
 
     <div id="archive-onboarding" class="archive-onboarding" role="dialog" aria-modal="true" aria-labelledby="archive-onboarding-title" aria-hidden="true">
         <div class="archive-onboarding-panel">
@@ -2592,12 +2683,12 @@
                     <span>Badges such as Archived, Source moved, or Source altered explain what copy is available. They describe access and provenance—not whether every claim is true.</span>
                 </div>
                 <div class="onboarding-item">
-                    <strong>Save a research packet</strong>
+                    <strong>Save citations</strong>
                     <span>Use Save on any card or record detail. Saved material remains in this browser so you can build a focused set without creating an account.</span>
                 </div>
                 <div class="onboarding-item">
-                    <strong>Export citations</strong>
-                    <span>The research packet can copy Plain, MLA, APA, or Chicago citations. Always review generated citations against the original source before publication.</span>
+                    <strong>Copy citations</strong>
+                    <span>Saved citations can be copied in Plain, MLA, APA, or Chicago format. Always review generated citations against the original source before publication.</span>
                 </div>
             </div>
             <div class="onboarding-actions">
@@ -2610,7 +2701,7 @@
     <div id="witness-mode" class="witness-mode" role="dialog" aria-modal="true" aria-labelledby="witness-title" aria-hidden="true">
         <div class="witness-panel">
             <div class="witness-header">
-                <span>Witness Mode · One record at a time</span>
+                <span>Focused reading · One record at a time</span>
                 <button type="button" id="close-witness-mode" class="witness-exit">Exit</button>
             </div>
             <div class="witness-content">
@@ -2631,23 +2722,12 @@
     <nav class="archive-orientation" aria-label="Page orientation">
         <div class="archive-orientation-inner">
             <a href="#top" data-orientation-target="top">Introduction</a>
-            <a href="#research-pathways" data-orientation-target="research-pathways">Research paths</a>
             <a href="#articles" data-orientation-target="articles">Archive</a>
+            <a href="#research-pathways" data-orientation-target="research-pathways">Guided research</a>
             <a href="#geolocation" data-orientation-target="geolocation">Maps</a>
             <a href="#victims" data-orientation-target="victims">Victims</a>
         </div>
     </nav>
-
-    <div id="archive-mobile-map" class="archive-mobile-map">
-        <div class="archive-mobile-map-menu" aria-label="Jump to page section">
-            <a href="#top" data-orientation-target="top">Introduction</a>
-            <a href="#research-pathways" data-orientation-target="research-pathways">Research paths</a>
-            <a href="#articles" data-orientation-target="articles">Archive</a>
-            <a href="#geolocation" data-orientation-target="geolocation">Maps</a>
-            <a href="#victims" data-orientation-target="victims">Victims</a>
-        </div>
-        <button type="button" id="archive-mobile-map-button" class="archive-mobile-map-button" aria-expanded="false">Viewing: Introduction</button>
-    </div>
 
     <!-- Google Translate -->
     <script type="text/javascript">
@@ -3160,6 +3240,18 @@
             modal.classList.add('is-visible');
         }
 
+        let archiveFeedbackTimer = 0;
+        function showArchiveFeedback(message) {
+            const feedback = document.getElementById('archive-feedback');
+            if (!feedback) return;
+            feedback.textContent = message;
+            feedback.classList.add('is-visible');
+            window.clearTimeout(archiveFeedbackTimer);
+            archiveFeedbackTimer = window.setTimeout(() => {
+                feedback.classList.remove('is-visible');
+            }, 2800);
+        }
+
         function searchableArticleText(article) {
             return [
                 article?.title,
@@ -3375,14 +3467,6 @@
             });
         }
 
-        function updatePendingFilterCount() {
-            const badge = document.getElementById('filter-count-badge');
-            if (!badge) return;
-            const count = activeFilterDescriptors().length;
-            badge.textContent = String(count);
-            badge.hidden = count === 0;
-        }
-
         function openArchiveGuide(force = false) {
             const guide = document.getElementById('archive-onboarding');
             if (!guide) return;
@@ -3457,22 +3541,12 @@
         }
 
         function setupArchiveOrientation() {
-            const links = Array.from(document.querySelectorAll('[data-orientation-target]'));
+            const links = Array.from(document.querySelectorAll('.archive-orientation [data-orientation-target]'));
             const targets = [...new Set(links.map(link => link.dataset.orientationTarget))]
                 .map(id => document.getElementById(id))
                 .filter(Boolean);
-            const mobileButton = document.getElementById('archive-mobile-map-button');
-            const mobileMap = document.getElementById('archive-mobile-map');
-            const labels = {
-                top: 'Introduction',
-                'research-pathways': 'Research paths',
-                articles: 'Archive',
-                geolocation: 'Maps',
-                victims: 'Victims',
-            };
             const setActive = id => {
                 links.forEach(link => link.classList.toggle('is-active', link.dataset.orientationTarget === id));
-                if (mobileButton) mobileButton.textContent = `Viewing: ${labels[id] || 'Page'}`;
             };
             if ('IntersectionObserver' in window) {
                 const observer = new IntersectionObserver(entries => {
@@ -3483,14 +3557,6 @@
                 }, { rootMargin: '-20% 0px -65% 0px', threshold: [0, 0.1, 0.4] });
                 targets.forEach(target => observer.observe(target));
             }
-            mobileButton?.addEventListener('click', () => {
-                const open = mobileMap.classList.toggle('is-open');
-                mobileButton.setAttribute('aria-expanded', String(open));
-            });
-            links.forEach(link => link.addEventListener('click', () => {
-                mobileMap?.classList.remove('is-open');
-                mobileButton?.setAttribute('aria-expanded', 'false');
-            }));
             setActive('top');
         }
 
@@ -3606,7 +3672,7 @@
         async function copyTextWithFallback(text) {
             try {
                 await navigator.clipboard.writeText(text);
-                showSimpleAlert('Copied to clipboard.');
+                showArchiveFeedback('Copied to clipboard.');
             } catch (error) {
                 const modal = document.getElementById('simple-alert-modal');
                 const message = document.getElementById('modal-message');
@@ -3625,6 +3691,16 @@
                 researchPacket = [];
             }
             normalizeResearchPacket();
+            if (window.matchMedia?.('(max-width: 640px)').matches && researchPacket.length) {
+                const panel = document.getElementById('research-packet-panel');
+                const collapseButton = document.getElementById('research-packet-collapse');
+                panel?.classList.add('is-collapsed');
+                if (collapseButton) {
+                    collapseButton.textContent = '+';
+                    collapseButton.setAttribute('aria-expanded', 'false');
+                    collapseButton.setAttribute('aria-label', 'Expand saved citations');
+                }
+            }
         }
 
         function saveResearchPacket() {
@@ -3634,7 +3710,8 @@
         function toggleResearchPacket(article) {
             const ids = articlePacketIds(article);
             const id = articlePacketId(article);
-            if (ids.some(item => researchPacket.includes(item))) {
+            const removing = ids.some(item => researchPacket.includes(item));
+            if (removing) {
                 researchPacket = researchPacket.filter(item => !ids.includes(item));
             } else {
                 researchPacket.push(id);
@@ -3642,6 +3719,7 @@
             saveResearchPacket();
             renderResearchPacket();
             renderArticles(currentlyDisplayedArticles);
+            showArchiveFeedback(removing ? 'Removed from saved citations.' : 'Saved to citations.');
         }
 
         function chronologicalValue(item) {
@@ -4297,7 +4375,7 @@
                     <div class="text-xs text-gray-500 border-b border-gray-800 pb-4 uppercase tracking-widest">${escapeHtml(formatDate(article.date))}</div>
                     <p class="text-gray-400 text-sm leading-7 font-light">${escapeHtml(article.summary)}</p>
                     <div class="pt-6 border-t border-gray-800 flex flex-wrap justify-end gap-4">
-                        <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="btn-secondary py-2 px-4 rounded-sm text-xs uppercase tracking-widest">Create Story</button>
+                        <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${article.date}', '${safeImage}')" class="btn-secondary py-2 px-4 rounded-sm text-xs uppercase tracking-widest">Create share image</button>
                         <button onclick="window.openArticleLinkChoiceFromElement(this)" data-live-url="${liveUrl}" data-archived-url="${archivedUrl}" class="btn-primary py-2 px-4 rounded-sm text-xs uppercase tracking-widest">Open Article</button>
                     </div>
                 </div>`;
@@ -4729,8 +4807,8 @@
                                     <button onclick="window.openArticleDetail('${detailId}'); event.stopPropagation();" class="article-action-btn" aria-label="View details" title="Details">
                                         ${createIcon('source')}<span>Details</span>
                                     </button>
-                                    <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${escapeHtmlAttribute(article.date)}', '${safeImage}')" class="article-action-btn" aria-label="Create story" title="Story">
-                                        ${createIcon('story')}<span>Story</span>
+                                    <button onclick="window.openStoryCreator('${safeTitle}', '${safeSummary}', '${escapeHtmlAttribute(article.date)}', '${safeImage}')" class="article-action-btn" aria-label="Create share image" title="Share image">
+                                        ${createIcon('story')}<span>Image</span>
                                     </button>
                                     <div class="relative">
                                         <button onclick="window.toggleShareMenu('popover-${uniqueId}'); event.stopPropagation();" class="article-action-btn" aria-label="Share article" title="Share">
@@ -5096,6 +5174,7 @@
             updateArchiveResultSummary(filtered);
             renderRelatedCategorySuggestions(filtered, selectedTags);
             renderArticles(currentlyDisplayedArticles);
+            updateFilterAffordances();
         }
 
         // --- CHART LOGIC ---
@@ -5238,13 +5317,16 @@
                 const collapsed = panel.classList.toggle('is-collapsed');
                 event.currentTarget.textContent = collapsed ? '+' : '−';
                 event.currentTarget.setAttribute('aria-expanded', String(!collapsed));
-                event.currentTarget.setAttribute('aria-label', collapsed ? 'Expand research packet' : 'Collapse research packet');
+                event.currentTarget.setAttribute('aria-label', collapsed ? 'Expand saved citations' : 'Collapse saved citations');
+                window.dispatchEvent(new Event('resize'));
             });
             document.getElementById('clear-research-packet')?.addEventListener('click', () => {
+                if (!window.confirm('Clear all saved citations?')) return;
                 researchPacket = [];
                 saveResearchPacket();
                 renderResearchPacket();
                 renderArticles(currentlyDisplayedArticles);
+                showArchiveFeedback('Saved citations cleared.');
             });
             document.getElementById('view-cards-btn')?.addEventListener('click', () => setArchiveView('cards'));
             document.getElementById('view-table-btn')?.addEventListener('click', () => setArchiveView('table'));
@@ -5260,10 +5342,6 @@
             // Integrity data is loaded inside loadArticles() (before the first
             // article render) so provenance badges paint without a flash.
             if (!articlesLoaded) loadIntegrityReport();
-            if (articlesLoaded) {
-                window.setTimeout(() => openArchiveGuide(false), 1600);
-            }
-
             fetchVictimsData();
             if (articlesLoaded && articles.length > 0) initEmbeddedQuiz();
             setupCarousel();
@@ -5346,7 +5424,9 @@
                 document.body.classList.toggle('archive-filters-open', isOpening);
             });
 
-            document.getElementById('filter-controls')?.addEventListener('change', updatePendingFilterCount);
+            document.getElementById('filter-controls')?.addEventListener('change', () => {
+                applyArchiveFilters();
+            });
 
             const compareBtn = document.getElementById('toggle-comparison-btn');
             const comparisonSection = document.getElementById('comparison-section');
@@ -5361,14 +5441,6 @@
                 titlesSwapped = e.target.checked; 
                 renderArticles(currentlyDisplayedArticles);
                 updateBiasToolPreview(); 
-            });
-
-            document.getElementById('filter-button').addEventListener('click', () => {
-                applyArchiveFilters();
-                document.getElementById('filter-controls').classList.add('hidden');
-                document.getElementById('toggle-filter-btn').classList.remove('active');
-                document.getElementById('toggle-filter-btn').setAttribute('aria-expanded', 'false');
-                document.body.classList.remove('archive-filters-open');
             });
 
             document.getElementById('clear-button').addEventListener('click', () => {
@@ -5386,6 +5458,8 @@
                 updateArchiveResultSummary(currentlyDisplayedArticles);
                 renderRelatedCategorySuggestions(currentlyDisplayedArticles);
                 renderArticles(currentlyDisplayedArticles);
+                updateFilterAffordances();
+                showArchiveFeedback('Filters reset.');
             });
 
             // VIEW LIMIT AND LOAD MORE Logic
@@ -5716,6 +5790,93 @@
     </script>
     <script src="./assets/story-generator.js?v=1"></script>
     <script>
+        function setupMobileResearchPacketDrag() {
+            const panel = document.getElementById('research-packet-panel');
+            const handle = panel?.querySelector('.research-packet-notepad-header');
+            if (!panel || !handle || !window.matchMedia) return;
+
+            const mobileQuery = window.matchMedia('(max-width: 640px)');
+            const storageKey = 'echoes_research_packet_mobile_position';
+            const edge = 10;
+            let drag = null;
+
+            const clampPosition = (left, top) => ({
+                left: Math.min(Math.max(edge, left), Math.max(edge, window.innerWidth - panel.offsetWidth - edge)),
+                top: Math.min(Math.max(edge, top), Math.max(edge, window.innerHeight - panel.offsetHeight - edge)),
+            });
+
+            const placePanel = (left, top, save = false) => {
+                if (!mobileQuery.matches) return;
+                const next = clampPosition(left, top);
+                panel.style.left = `${next.left}px`;
+                panel.style.top = `${next.top}px`;
+                panel.style.right = 'auto';
+                panel.style.bottom = 'auto';
+                if (save) {
+                    try {
+                        localStorage.setItem(storageKey, JSON.stringify(next));
+                    } catch (error) {}
+                }
+            };
+
+            const restorePosition = () => {
+                if (!mobileQuery.matches) {
+                    panel.style.removeProperty('left');
+                    panel.style.removeProperty('top');
+                    panel.style.removeProperty('right');
+                    panel.style.removeProperty('bottom');
+                    return;
+                }
+                let saved = null;
+                try {
+                    saved = JSON.parse(localStorage.getItem(storageKey));
+                } catch (error) {}
+                const rect = panel.getBoundingClientRect();
+                placePanel(
+                    Number.isFinite(saved?.left) ? saved.left : rect.left,
+                    Number.isFinite(saved?.top) ? saved.top : rect.top
+                );
+            };
+
+            handle.addEventListener('pointerdown', event => {
+                if (!mobileQuery.matches || event.target.closest('button, select, a')) return;
+                const rect = panel.getBoundingClientRect();
+                drag = {
+                    pointerId: event.pointerId,
+                    offsetX: event.clientX - rect.left,
+                    offsetY: event.clientY - rect.top,
+                };
+                panel.classList.add('is-dragging');
+                handle.setPointerCapture?.(event.pointerId);
+                event.preventDefault();
+            });
+
+            window.addEventListener('pointermove', event => {
+                if (!drag || drag.pointerId !== event.pointerId) return;
+                placePanel(event.clientX - drag.offsetX, event.clientY - drag.offsetY);
+                event.preventDefault();
+            }, { passive: false });
+
+            const finishDrag = event => {
+                if (!drag || drag.pointerId !== event.pointerId) return;
+                const rect = panel.getBoundingClientRect();
+                placePanel(rect.left, rect.top, true);
+                panel.classList.remove('is-dragging');
+                drag = null;
+            };
+
+            window.addEventListener('pointerup', finishDrag);
+            window.addEventListener('pointercancel', finishDrag);
+            window.addEventListener('resize', restorePosition);
+            mobileQuery.addEventListener?.('change', restorePosition);
+            panel.addEventListener('transitionend', event => {
+                if (event.target === panel && mobileQuery.matches && panel.classList.contains('is-visible')) {
+                    restorePosition();
+                }
+            });
+            restorePosition();
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const heroVideo = document.querySelector('.hero-bg-video');
             if (heroVideo) {
@@ -5726,17 +5887,33 @@
                 heroVideo.setAttribute('playsinline', '');
                 heroVideo.setAttribute('webkit-playsinline', '');
 
+                let playRetryTimer = 0;
+                let playRetryCount = 0;
                 const playHeroVideo = () => {
                     if (!heroVideo.paused) return;
 
                     const playAttempt = heroVideo.play();
                     if (playAttempt && typeof playAttempt.catch === 'function') {
-                        playAttempt.catch(() => {});
+                        playAttempt.catch(() => {
+                            if (playRetryCount >= 3) return;
+                            playRetryCount += 1;
+                            window.clearTimeout(playRetryTimer);
+                            playRetryTimer = window.setTimeout(() => {
+                                if (!document.hidden) playHeroVideo();
+                            }, 1200);
+                        });
                     }
                 };
 
+                heroVideo.addEventListener('playing', () => {
+                    playRetryCount = 0;
+                    window.clearTimeout(playRetryTimer);
+                });
                 heroVideo.addEventListener('loadeddata', playHeroVideo);
                 heroVideo.addEventListener('canplay', playHeroVideo);
+                heroVideo.addEventListener('pause', () => {
+                    if (!document.hidden && heroVideo.ended === false) playHeroVideo();
+                });
                 window.addEventListener('pageshow', playHeroVideo);
                 document.addEventListener('visibilitychange', () => {
                     if (!document.hidden) playHeroVideo();
@@ -5748,6 +5925,8 @@
 
                 playHeroVideo();
             }
+
+            setupMobileResearchPacketDrag();
 
             const topAnnouncementBanner = document.getElementById('top-announcement-banner');
             if (!topAnnouncementBanner) return;

@@ -5,13 +5,13 @@
   root.innerHTML = `
     <div id="story-generator-backdrop" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[2900] hidden" aria-hidden="true"></div>
     <aside id="story-generator-sidebar" class="story-sidebar bg-[#0a0a0a] border-l border-[#222]" aria-hidden="true" aria-labelledby="story-generator-title">
-      <button type="button" class="story-mobile-floating-close" data-story-close aria-label="Exit Story Creator">
+      <button type="button" class="story-mobile-floating-close" data-story-close aria-label="Exit share image creator">
         <span>Exit</span>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
       </button>
       <div class="sticky top-0 z-10 bg-[#0a0a0a]/95 border-b border-[#222] px-6 py-4 flex justify-between items-center">
-        <h2 id="story-generator-title" class="text-lg font-serif font-bold text-white tracking-wide">Story Creator</h2>
-        <button type="button" class="story-close-button" data-story-close aria-label="Close Story Creator">
+        <h2 id="story-generator-title" class="text-lg font-serif font-bold text-white tracking-wide">Create share image</h2>
+        <button type="button" class="story-close-button" data-story-close aria-label="Close share image creator">
           <span class="story-close-label">Close</span>
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
@@ -46,7 +46,7 @@
         </div>
         <div class="pt-4 sticky bottom-0 bg-[#0a0a0a] pb-6">
           <button type="button" id="story-share" class="w-full bg-[#8B0000] hover:bg-[#660000] text-white font-bold py-4 rounded-sm uppercase tracking-widest text-xs transition">Share or download story</button>
-          <button type="button" class="story-mobile-exit w-full mt-3 border border-[#333] bg-[#111] hover:bg-[#171717] text-gray-300 hover:text-white font-bold py-3 rounded-sm uppercase tracking-widest text-[10px] transition" data-story-close>Close Story Creator</button>
+          <button type="button" class="story-mobile-exit w-full mt-3 border border-[#333] bg-[#111] hover:bg-[#171717] text-gray-300 hover:text-white font-bold py-3 rounded-sm uppercase tracking-widest text-[10px] transition" data-story-close>Close image creator</button>
         </div>
       </div>
     </aside>
