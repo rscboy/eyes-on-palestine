@@ -699,55 +699,6 @@
   background: #c9a84c;
 }
 
-.archive-mobile-map {
-  position: fixed;
-  left: 0.75rem;
-  bottom: 0.75rem;
-  z-index: 2300;
-  display: none;
-}
-
-.archive-mobile-map-button {
-  min-height: 2.45rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(8, 8, 8, 0.94);
-  color: #9a948b;
-  padding: 0.6rem 0.75rem;
-  font-size: 0.58rem;
-  font-weight: 800;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  backdrop-filter: blur(10px);
-}
-
-.archive-mobile-map-menu {
-  position: absolute;
-  left: 0;
-  bottom: calc(100% + 0.4rem);
-  display: none;
-  width: 11rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #090909;
-  padding: 0.35rem;
-}
-
-.archive-mobile-map.is-open .archive-mobile-map-menu {
-  display: grid;
-}
-
-.archive-mobile-map-menu a {
-  color: #908a82;
-  padding: 0.65rem 0.7rem;
-  font-size: 0.65rem;
-  text-decoration: none;
-}
-
-.archive-mobile-map-menu a:hover,
-.archive-mobile-map-menu a.is-active {
-  background: #111;
-  color: #fff;
-}
-
 body.archive-overlay-open {
   overflow: hidden;
 }
@@ -976,16 +927,6 @@ body.archive-overlay-open {
   }
 }
 
-@media (max-width: 1179px) {
-  .archive-mobile-map {
-    display: block;
-  }
-
-  body.archive-filters-open .archive-mobile-map {
-    display: none;
-  }
-}
-
 @media (max-width: 800px) {
   .archive-methodology-grid,
   .claim-records,
@@ -1025,10 +966,53 @@ body.archive-overlay-open {
     right: 0.65rem;
     bottom: 4.1rem;
     width: min(20rem, calc(100vw - 1.3rem));
+    max-height: calc(100dvh - 1.25rem);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    will-change: left, top;
+  }
+
+  .research-packet-notepad.is-collapsed {
+    width: min(15.5rem, calc(100vw - 1.3rem));
+  }
+
+  .research-packet-notepad.is-collapsed .research-packet-notepad-header {
+    min-height: 3.25rem;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+  }
+
+  .research-packet-notepad-header {
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .research-packet-notepad-header::before {
+    content: "";
+    width: 1.9rem;
+    height: 0.2rem;
+    flex: 0 0 auto;
+    border-radius: 999px;
+    background: rgba(201, 168, 76, 0.5);
+    box-shadow: 0 0.36rem 0 rgba(201, 168, 76, 0.22);
+  }
+
+  .research-packet-notepad.is-dragging {
+    transition: none;
+  }
+
+  .research-packet-notepad.is-dragging .research-packet-notepad-header {
+    cursor: grabbing;
   }
 
   .research-packet-notepad-list {
     max-height: 38vh;
+  }
+
+  .research-packet-citation {
+    font-size: 0.84rem;
+    line-height: 1.65;
   }
 
   .archive-methodology {
@@ -1038,10 +1022,10 @@ body.archive-overlay-open {
   }
 
   .archive-methodology summary {
-    min-height: 2.35rem;
+    min-height: 2.75rem;
     gap: 0.45rem;
-    font-size: 0.5rem;
-    letter-spacing: 0.13em;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
   }
 
   .archive-methodology summary::after {
