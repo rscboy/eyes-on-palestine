@@ -141,16 +141,12 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     
-    <!-- REACT & BABEL FOR STORY GENERATOR -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Font Links -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/site-tokens.css?v=design-1">
+    <link rel="stylesheet" href="./assets/archive-experience.css?v=2">
     <style>
         /* Define new color variables */
         :root {
@@ -550,7 +546,18 @@
                 border-radius: 999px;
                 box-shadow: 0 16px 38px rgba(0, 0, 0, 0.38);
                 backdrop-filter: blur(12px);
-                transform: translateY(-50%);
+                opacity: 0;
+                pointer-events: none;
+                visibility: hidden;
+                transform: translate(-0.5rem, -50%);
+                transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+            }
+
+            .desktop-display-zoom.is-context-visible {
+                opacity: 1;
+                pointer-events: auto;
+                visibility: visible;
+                transform: translate(0, -50%);
             }
 
             .desktop-display-zoom span {
@@ -1150,65 +1157,6 @@
                 padding-top: 1rem;
             }
 
-            #research-packet-panel {
-                padding: 0.9rem;
-                margin-bottom: 1.15rem;
-            }
-
-            .research-packet-header {
-                gap: 0.9rem;
-            }
-
-            #research-packet-panel h3 {
-                font-size: 1.35rem;
-                line-height: 1.1;
-                margin-top: 0.45rem;
-            }
-
-            #research-packet-summary {
-                font-size: 0.82rem;
-                line-height: 1.45;
-                margin-top: 0.45rem;
-            }
-
-            .research-packet-actions {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 0.55rem;
-                width: 100%;
-                align-items: stretch;
-            }
-
-            .research-style-control {
-                display: grid;
-                grid-column: 1 / -1;
-                grid-template-columns: auto minmax(0, 1fr);
-                align-items: center;
-                gap: 0.55rem;
-                width: 100%;
-                border: 1px solid rgba(255, 255, 255, 0.06);
-                background: #0b0b0b;
-                padding: 0.45rem 0.55rem;
-            }
-
-            #research-citation-style {
-                width: 100%;
-                padding: 0.55rem 0.7rem;
-                min-height: 2.35rem;
-            }
-
-            #copy-research-packet,
-            #clear-research-packet {
-                width: 100%;
-                min-height: 2.45rem;
-                padding: 0.65rem 0.7rem;
-                font-size: 0.62rem;
-            }
-
-            #research-packet-list {
-                margin-top: 0.9rem;
-            }
-
             .archive-display-toolbar {
                 display: block;
                 margin-bottom: 0.85rem;
@@ -1715,7 +1663,7 @@
             background: rgba(153, 27, 27, 0.05) !important;
         }
 
-        /* Story Generator Styles (React Component) */
+        /* Story Generator Styles */
         .story-sidebar {
             position: fixed; top: 0; right: 0; width: 100%; max-width: 480px; height: 100%;
             background: #080808; border-left: 1px solid #222; z-index: 3000;
@@ -1851,7 +1799,7 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/site-shell.css?v=design-1">
+    <link rel="stylesheet" href="./assets/site-shell.css?v=design-2">
 </head>
 
 <body class="antialiased selection:bg-red-900 selection:text-white">
@@ -1914,7 +1862,8 @@
                              <a href="https://echoesofgaza.org/podcast" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">EoG Podcast</a>
                                 <a href="#quotes" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Quotes & Resources</a>
                                 <a href="https://echoesofgaza.org/events" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Events</a>
-                                <a href="#faq" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">FAQ</a>
+                                <a href="./about.html" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">About</a>
+                                <a href="./about.html#faq" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">FAQ</a>
                                 <a href="https://echoesofgaza.org/toolkit" class="block px-6 py-3 text-xs hover:bg-[#151515] transition text-gray-400 hover:text-white">Toolkit</a>
                 
                             </div>
@@ -1953,7 +1902,7 @@
             <a href="#quotes" class="mobile-nav-link text-gray-400 hover:text-white transition">Resources</a>
             <a href="https://echoesofgaza.org/events" class="mobile-nav-link text-gray-400 hover:text-white transition">Events</a>
             <a href="https://echoesofgaza.org/podcast"  class="mobile-nav-link text-gray-400 hover:text-white transition">EOG Podcast</a>
-            <a href="#faq" class="mobile-nav-link text-gray-400 hover:text-white transition">FAQ</a>
+            <a href="./about.html" class="mobile-nav-link text-gray-400 hover:text-white transition">About</a>
             <a href="https://echoesofgaza.org/collab" class="mobile-nav-link btn-primary px-8 py-3 rounded text-sm uppercase">Submit Evidence</a>
         </nav>
     </div>
@@ -1968,7 +1917,7 @@
 
     <!-- MAIN CONTENT -->
     <main>
-        <section class="hero-section pt-32 pb-12">
+        <section id="top" class="hero-section pt-32 pb-12">
             <video class="hero-bg-video" autoplay muted loop playsinline webkit-playsinline preload="auto" aria-hidden="true">
                 <source src="https://pub-3592c0f33d62473e96882cebf2720dba.r2.dev/EoG%20-%20Background.mp4" type="video/mp4" />
             </video>
@@ -2002,6 +1951,34 @@
                             <div class="text-xs text-gray-500 uppercase tracking-[0.15em]">Kill Zone</div>
                         </button>
                     </div>
+
+                    <details class="archive-methodology">
+                        <summary>How these figures are defined</summary>
+                        <div class="archive-methodology-body">
+                            <p class="archive-methodology-intro">
+                                These figures provide context, but they do not measure the same thing. Each should be read with its source, scope, and uncertainty intact.
+                            </p>
+                            <div class="archive-methodology-grid">
+                                <div class="archive-methodology-item">
+                                    <strong>Estimated casualties</strong>
+                                    <span>A broad external estimate linked above. It is not presented as the official confirmed fatality count and may include indirect, missing, or projected losses.</span>
+                                </div>
+                                <div class="archive-methodology-item">
+                                    <strong>Journalists</strong>
+                                    <span>A source-maintained count from Stop Murdering Journalists. Inclusion criteria and updates are controlled by that source.</span>
+                                </div>
+                                <div class="archive-methodology-item">
+                                    <strong>Days</strong>
+                                    <span>Calculated automatically from October 7, 2023 through the visitor’s current date.</span>
+                                </div>
+                                <div class="archive-methodology-item">
+                                    <strong>Kill zone</strong>
+                                    <span>A territorial-control indicator drawn from linked reporting. It describes land affected or controlled, not a percentage of casualties.</span>
+                                </div>
+                            </div>
+                            <p class="archive-methodology-reviewed">Methodology note reviewed June 18, 2026 · Open each figure to inspect its source</p>
+                        </div>
+                    </details>
 
                     <div class="hero-quote mb-20 text-center opacity-60">
                         <p class="text-sm font-serif italic text-gray-400">"We record so the world cannot say they did not know."</p>
@@ -2121,14 +2098,55 @@
             </div>
         </section>
 
+        <!-- Guided research pathways -->
+        <section id="research-pathways" class="archive-pathways" aria-labelledby="research-pathways-title">
+            <div class="archive-pathways-shell">
+                <div class="archive-pathways-heading">
+                    <div>
+                        <span class="archive-pathways-kicker">Ways into the record</span>
+                        <h2 id="research-pathways-title">Follow evidence without losing its context</h2>
+                        <p>Examine a public claim or trace a subject through time without losing the source sequence. These views organize existing records; they do not replace the sources.</p>
+                    </div>
+                    <div class="archive-pathways-heading-actions">
+                        <button type="button" id="open-witness-mode" class="witness-entry-button">Enter Witness Mode</button>
+                    </div>
+                </div>
+
+                <div class="archive-pathway-tabs" role="tablist" aria-label="Research pathways">
+                    <button type="button" class="archive-pathway-tab" id="claim-tab" role="tab" aria-selected="true" aria-controls="claim-panel" data-pathway-tab="claim-panel">Examine a claim</button>
+                    <button type="button" class="archive-pathway-tab" id="thread-tab" role="tab" aria-selected="false" aria-controls="thread-panel" data-pathway-tab="thread-panel">Follow a thread</button>
+                </div>
+
+                <div id="claim-panel" class="archive-pathway-panel" role="tabpanel" aria-labelledby="claim-tab">
+                    <div class="claim-layout">
+                        <div id="claim-selector" class="pathway-selector" aria-label="Claims to examine"></div>
+                        <div id="claim-result" aria-live="polite"></div>
+                    </div>
+                </div>
+
+                <div id="thread-panel" class="archive-pathway-panel" role="tabpanel" aria-labelledby="thread-tab" hidden>
+                    <div class="thread-layout">
+                        <div id="thread-selector" class="pathway-selector" aria-label="Threads to follow"></div>
+                        <div id="thread-result" aria-live="polite"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
         <!-- Archive Section -->
         <section id="articles" class="py-12">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-serif font-bold mb-12 text-white/90">Documentary Archive</h2>
+                <div class="archive-toolbar-heading">
+                    <h2 class="text-3xl font-serif font-bold text-white/90">Documentary Archive</h2>
+                    <div class="archive-toolbar-heading-actions">
+                        <button type="button" id="open-archive-guide" class="archive-help-button">How to use the archive</button>
+                    </div>
+                </div>
                 <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
                     <div class="article-search-row flex w-full md:flex-1 space-x-4">
                         <div class="relative flex-1">
-                            <input type="text" id="article-search" class="search-modern w-full pl-10 pr-4 py-2 text-sm outline-none" placeholder="Search archive...">
+                            <input type="text" id="article-search" class="search-modern w-full pl-10 pr-4 py-2 text-sm outline-none" placeholder="Search titles, summaries, sources, or topics">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </div>
@@ -2137,12 +2155,25 @@
                             Random
                         </button>
                         <div id="sort-controls" class="flex items-center flex-shrink-0">
-                            <button id="toggle-filter-btn" class="filter-chip text-xs uppercase tracking-wider font-medium py-2 px-4">Filters</button>
+                            <button id="toggle-filter-btn" class="filter-chip text-xs uppercase tracking-wider font-medium py-2 px-4" aria-expanded="false" aria-controls="filter-controls">
+                                Filters <span id="filter-count-badge" class="filter-count-badge" hidden>0</span>
+                            </button>
                         </div>
                     </div>
                 </div>
+
+                <div id="active-filter-strip" class="active-filter-strip" aria-live="polite">
+                    <span class="active-filter-label">Filtering by</span>
+                    <div id="active-filter-chips" class="active-filter-chips"></div>
+                </div>
                 
                 <div id="filter-controls" class="mb-12 p-8 border border-white/5 bg-[#0a0a0a] hidden">
+                    <div class="filter-panel-intro">
+                        <div>
+                            <h3>Narrow the documentary record</h3>
+                            <p>Select as much or as little as you need. Results combine your search, dates, topics, sources, authors, and document types.</p>
+                        </div>
+                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
                         <div>
                             <h4 class="font-serif text-white/80 mb-4 border-b border-white/5 pb-2">Sort By</h4>
@@ -2186,33 +2217,9 @@
                         </div>
                     </div>
                     <div class="mt-8 pt-6 border-t border-white/5 flex items-center gap-4">
-                        <button id="filter-button" class="btn-primary text-xs uppercase tracking-wider px-6 py-2 rounded">Apply</button>
-                        <button id="clear-button" class="text-xs text-gray-500 hover:text-white uppercase tracking-wider transition">Clear</button>
+                        <button id="filter-button" class="btn-primary text-xs uppercase tracking-wider px-6 py-2 rounded">Show results</button>
+                        <button id="clear-button" class="text-xs text-gray-500 hover:text-white uppercase tracking-wider transition">Reset filters</button>
                     </div>
-                </div>
-
-                <div id="research-packet-panel" class="research-tool-card p-5 md:p-6 mb-10">
-                    <div class="research-packet-header flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                        <div>
-                            <span class="text-[10px] text-[#8B0000] uppercase tracking-[0.2em] font-bold">Research Packet</span>
-                            <h3 class="text-xl font-serif text-white/90 mt-2">Saved Articles</h3>
-                            <p id="research-packet-summary" class="text-sm text-gray-500 mt-2">No articles saved yet.</p>
-                        </div>
-                        <div id="research-packet-actions" class="research-packet-actions hidden flex flex-wrap gap-2 items-center">
-                            <div class="research-style-control">
-                                <label for="research-citation-style" class="text-[10px] text-gray-600 uppercase tracking-widest">Style</label>
-                                <select id="research-citation-style" class="search-modern px-3 py-3 text-xs uppercase tracking-wider">
-                                    <option value="plain">Plain</option>
-                                    <option value="mla">MLA</option>
-                                    <option value="apa">APA</option>
-                                    <option value="chicago">Chicago</option>
-                                </select>
-                            </div>
-                            <button id="copy-research-packet" class="btn-primary px-5 py-3 rounded-sm text-xs uppercase tracking-widest">Copy Citations</button>
-                            <button id="clear-research-packet" class="btn-secondary px-5 py-3 rounded-sm text-xs uppercase tracking-widest">Clear Packet</button>
-                        </div>
-                    </div>
-                    <div id="research-packet-list" class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3"></div>
                 </div>
 
                 <div class="archive-display-toolbar">
@@ -2447,51 +2454,6 @@
             </div>
         </section>
 
-        <!-- FAQ Section -->
-        <section id="faq" class="py-24 bg-[#080808] border-t border-white/5">
-            <div class="container mx-auto px-6">
-                <h3 class="text-2xl font-serif font-bold text-center mb-16 mx-auto text-white/90">Frequently Asked Questions</h3>
-                <div class="max-w-3xl mx-auto space-y-6">
-                    <div class="card-modern p-8 rounded-sm">
-                        <h4 class="font-serif font-bold text-lg text-white mb-3">What is Echoes of Gaza?</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Echoes of Gaza is a digital historical archive dedicated to documenting the ongoing occupation, displacement, and genocide of the Palestinian people. It serves as a meticulously curated and publicly accessible repository of verified articles, reports, and media evidence, built to resist erasure and preserve truth.</p>
-                    </div>
-                    <div class="card-modern p-8 rounded-sm">
-                        <h4 class="font-serif font-bold text-lg text-white mb-3">Why was this project created?</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Echoes of Gaza was born from the recognition that history is too often written by those in power, erasing the voices and suffering of the oppressed. The project exists to create a permanent record of events in Gaza and across Palestine, one that cannot be rewritten or denied.</p>
-                    </div>
-                    <div class="card-modern p-8 rounded-sm">
-                        <h4 class="font-serif font-bold text-lg text-white mb-3">What is the goal of Echoes of Gaza?</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">The archive exists to preserve evidence, promote accountability, and humanize the Palestinian struggle. It provides researchers, journalists, and the public with verifiable documentation that exposes patterns of occupation, displacement, and systemic injustice.</p>
-                    </div>
-                    <div class="card-modern p-8 rounded-sm">
-                        <h4 class="font-serif font-bold text-lg text-white mb-3">How is the archive maintained?</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">The archive is updated daily. Each entry is carefully verified and cataloged with details such as title, author, publication date, and source. The aim is to ensure accuracy, transparency, and reliability for those using the collection for research, reporting, or advocacy.</p>
-                    </div>
-                    <div class="card-modern p-8 rounded-sm">
-                        <h4 class="font-serif font-bold text-lg text-white mb-3">How does Echoes of Gaza promote accountability?</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">By creating a centralized and timestamped record of events, the archive makes it impossible for atrocities to be hidden or denied. It provides an evidentiary foundation for journalists, human rights investigators, and legal experts seeking to document war crimes and systemic abuse.</p>
-                    </div>
-                    <div class="card-modern p-8 rounded-sm">
-                        <h4 class="font-serif font-bold text-lg text-white mb-3">How does the project address systemic prejudice and racism?</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Echoes of Gaza reveals how racism, dehumanization, and colonial bias shape global responses to Palestinian suffering. By placing daily atrocities alongside decades of political betrayal, media distortion, and ignored international law, the archive shows that what is happening in Gaza is not an isolated tragedy, but the result of a broader system of racialized injustice.</p>
-                    </div>
-                    <div class="card-modern p-8 rounded-sm">
-                        <h4 class="font-serif font-bold text-lg text-white mb-3">Who is the archive for?</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">It is intended for journalists, educators, researchers, students, and advocates seeking an accurate and human-centered account of what is happening in Gaza. Above all, it is for anyone committed to truth, justice, and memory.</p>
-                    </div>
-                    <div class="card-modern p-8 rounded-sm">
-                        <h4 class="font-serif font-bold text-lg text-white mb-3">Can I use the materials for research or media?</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Yes. All materials are freely available for educational, journalistic, and humanitarian use. Please cite the archive as: Echoes of Gaza - A Digital Historical Record (echoesofgaza.org)</p>
-                    </div>
-                    <div class="card-modern p-8 rounded-sm">
-                        <h4 class="font-serif font-bold text-lg text-white mb-3">Why is this important now?</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Because silence and distortion are weapons. When records disappear, justice becomes impossible. By preserving evidence and testimony in real time, Echoes of Gaza ensures that the historical record remains intact, and that the truth endures long after headlines fade.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
     </main>
 
     <!-- Footer -->
@@ -2506,7 +2468,7 @@
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-10 md:w-2/3">
                 <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Archive</h4><ul class="space-y-3 text-xs text-gray-500"><li><a href="#articles" class="hover:text-white transition">Articles</a></li><li><a href="#victims" class="hover:text-white transition">Martyrs</a></li></ul></div>
-                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Resources</h4><ul class="space-y-3 text-xs text-gray-500"><li><a href="#quotes" class="hover:text-white transition">Quotes</a></li><li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" class="hover:text-white transition">Raw Data</a></li></ul></div>
+                <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Resources</h4><ul class="space-y-3 text-xs text-gray-500"><li><a href="#quotes" class="hover:text-white transition">Quotes</a></li><li><a href="./about.html" class="hover:text-white transition">About & FAQ</a></li><li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" class="hover:text-white transition">Raw Data</a></li></ul></div>
                 <div><h4 class="text-white/80 mb-6 text-xs uppercase tracking-widest">Support</h4><div class="flex flex-col space-y-3"><a href="https://buymeacoffee.com/echoesofgaza" target="_blank" class="text-xs text-gray-500 hover:text-white transition">Donate</a><a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" class="text-xs text-[#8B0000] hover:text-red-400 transition">Monthly Support</a></div></div>
             </div>
         </div>
@@ -2571,8 +2533,110 @@
     </div>
 
 
-    <!-- REACT ROOT FOR STORY GENERATOR -->
+    <!-- Story creator mount -->
     <div id="story-generator-root"></div>
+
+    <aside id="research-packet-panel" class="research-packet-notepad" aria-hidden="true" aria-labelledby="research-packet-title">
+        <div class="research-packet-notepad-header">
+            <div>
+                <span class="research-packet-kicker">Research packet</span>
+                <h2 id="research-packet-title">Cited notes <span id="research-packet-count">0</span></h2>
+            </div>
+            <button type="button" id="research-packet-collapse" class="research-packet-collapse" aria-expanded="true" aria-label="Collapse research packet">−</button>
+        </div>
+        <div id="research-packet-content" class="research-packet-notepad-content">
+            <div class="research-packet-controls">
+                <label for="research-citation-style">Citation format</label>
+                <select id="research-citation-style">
+                    <option value="plain">Plain</option>
+                    <option value="mla">MLA</option>
+                    <option value="apa">APA</option>
+                    <option value="chicago">Chicago</option>
+                </select>
+            </div>
+            <div id="research-packet-list" class="research-packet-notepad-list"></div>
+            <div class="research-packet-notepad-actions">
+                <button id="copy-research-packet" type="button">Copy citations</button>
+                <button id="clear-research-packet" type="button">Clear</button>
+            </div>
+        </div>
+    </aside>
+
+    <div id="archive-onboarding" class="archive-onboarding" role="dialog" aria-modal="true" aria-labelledby="archive-onboarding-title" aria-hidden="true">
+        <div class="archive-onboarding-panel">
+            <div class="onboarding-topline">
+                <div>
+                    <span class="onboarding-kicker">A short orientation</span>
+                    <h2 id="archive-onboarding-title">Use the archive with context intact</h2>
+                </div>
+                <button type="button" class="onboarding-close" id="close-archive-guide" aria-label="Close archive guide">&times;</button>
+            </div>
+            <div class="onboarding-grid">
+                <div class="onboarding-item">
+                    <strong>Search broadly</strong>
+                    <span>Search reads titles, summaries, sources, authors, topics, and document types. Filters can narrow the result without changing the underlying record.</span>
+                </div>
+                <div class="onboarding-item">
+                    <strong>Read availability labels</strong>
+                    <span>Badges such as Archived, Source moved, or Source altered explain what copy is available. They describe access and provenance—not whether every claim is true.</span>
+                </div>
+                <div class="onboarding-item">
+                    <strong>Save a research packet</strong>
+                    <span>Use Save on any card or record detail. Saved material remains in this browser so you can build a focused set without creating an account.</span>
+                </div>
+                <div class="onboarding-item">
+                    <strong>Export citations</strong>
+                    <span>The research packet can copy Plain, MLA, APA, or Chicago citations. Always review generated citations against the original source before publication.</span>
+                </div>
+            </div>
+            <div class="onboarding-actions">
+                <span class="onboarding-note">This introduction appears automatically once.</span>
+                <button type="button" id="begin-archive" class="btn-primary px-6 py-3 rounded-sm text-xs uppercase tracking-widest">Explore the archive</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="witness-mode" class="witness-mode" role="dialog" aria-modal="true" aria-labelledby="witness-title" aria-hidden="true">
+        <div class="witness-panel">
+            <div class="witness-header">
+                <span>Witness Mode · One record at a time</span>
+                <button type="button" id="close-witness-mode" class="witness-exit">Exit</button>
+            </div>
+            <div class="witness-content">
+                <div id="witness-date" class="witness-date"></div>
+                <h2 id="witness-title"></h2>
+                <p id="witness-summary" class="witness-summary"></p>
+                <p id="witness-source" class="witness-source"></p>
+                <button type="button" id="witness-open-record" class="witness-open-record">Open record details</button>
+            </div>
+            <div class="witness-controls">
+                <button type="button" id="witness-previous">Previous</button>
+                <span id="witness-position" class="witness-position"></span>
+                <button type="button" id="witness-next">Next record</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="archive-orientation" aria-label="Page orientation">
+        <div class="archive-orientation-inner">
+            <a href="#top" data-orientation-target="top">Introduction</a>
+            <a href="#research-pathways" data-orientation-target="research-pathways">Research paths</a>
+            <a href="#articles" data-orientation-target="articles">Archive</a>
+            <a href="#geolocation" data-orientation-target="geolocation">Maps</a>
+            <a href="#victims" data-orientation-target="victims">Victims</a>
+        </div>
+    </nav>
+
+    <div id="archive-mobile-map" class="archive-mobile-map">
+        <div class="archive-mobile-map-menu" aria-label="Jump to page section">
+            <a href="#top" data-orientation-target="top">Introduction</a>
+            <a href="#research-pathways" data-orientation-target="research-pathways">Research paths</a>
+            <a href="#articles" data-orientation-target="articles">Archive</a>
+            <a href="#geolocation" data-orientation-target="geolocation">Maps</a>
+            <a href="#victims" data-orientation-target="victims">Victims</a>
+        </div>
+        <button type="button" id="archive-mobile-map-button" class="archive-mobile-map-button" aria-expanded="false">Viewing: Introduction</button>
+    </div>
 
     <!-- Google Translate -->
     <script type="text/javascript">
@@ -2867,6 +2931,93 @@
             { id: 'apa', label: 'APA' },
             { id: 'chicago', label: 'Chicago' }
         ];
+        const ARCHIVE_GUIDE_KEY = 'echoes_archive_guide_seen_v1';
+        const CLAIM_LENSES = [
+            {
+                id: 'aid-access',
+                label: '“Humanitarian aid has entered Gaza without meaningful restriction.”',
+                note: 'Records related to crossings, aid delivery, distribution sites, hunger, blockade, and access. Their presence does not by itself resolve the claim; read the dates, sources, and underlying evidence.',
+                terms: ['aid', 'crossing', 'food distribution', 'humanitarian access', 'blockade', 'starvation', 'hunger', 'famine', 'malnutrition']
+            },
+            {
+                id: 'safe-evacuation',
+                label: '“Evacuation orders consistently moved civilians toward safety.”',
+                note: 'Records related to evacuation orders, designated zones, displacement, shelters, and attacks affecting displaced people. Compare the sequence and location reported by each source.',
+                terms: ['evacuation', 'safe zone', 'humanitarian zone', 'displaced', 'displacement', 'shelter', 'tent camp', 'forced displacement']
+            },
+            {
+                id: 'healthcare-protection',
+                label: '“Hospitals and medical workers remained protected.”',
+                note: 'Records related to hospitals, clinics, ambulances, medical workers, detention of healthcare staff, and medicine shortages.',
+                terms: ['hospital', 'clinic', 'healthcare', 'health care', 'medical worker', 'doctor', 'ambulance', 'medicine', 'medication']
+            },
+            {
+                id: 'press-access',
+                label: '“Independent reporting from Gaza remained adequately accessible.”',
+                note: 'Records related to journalist deaths, access restrictions, communications blackouts, detention, and the conditions under which reporting was produced.',
+                terms: ['journalist', 'press freedom', 'media access', 'reporter', 'communications blackout', 'internet blackout', 'press']
+            }
+        ];
+        const EVIDENCE_THREADS = [
+            {
+                id: 'displacement',
+                label: 'Orders, displacement, and shelter',
+                note: 'A curated chronology connecting evacuation orders, repeated forced movement, attacks on shelters, the collapse of adequate housing, and the conditions facing families who have nowhere safe to go.',
+                titleFragments: [
+                    'Hopeless, Starving, and Besieged',
+                    'Israeli Strike Kills Gazans Sheltering in Warehouse',
+                    'Israel Orders Total Evacuation of Gaza City',
+                    'Facing Israeli Assault, Many in Gaza City Say Fleeing Again Is Worse',
+                    'Humanitarian Situation Update #323 | Gaza Strip',
+                    'Tents supplied to displaced Palestinians',
+                    'Israel orders Gaza families to move in first forced evacuation since ceasefire',
+                    'Domicide: Mass destruction of housing and civilian infrastructure in Gaza'
+                ],
+                fallbackTerms: ['forced displacement', 'evacuation order', 'displaced palestinians', 'shelter materials', 'domicide']
+            },
+            {
+                id: 'hunger',
+                label: 'Aid access and engineered hunger',
+                note: 'A curated chronology tracing aid restrictions, attacks and deaths around food access, escalating malnutrition, formal famine findings, and evidence concerning deliberate policy.',
+                titleFragments: [
+                    'Children?s lives threatened by rising malnutrition',
+                    'In Private, Some Israeli Officers Admit That Gaza Is on the Brink of Starvation',
+                    'At least 51 Palestinians killed while waiting for aid trucks',
+                    'In Gaza, mounting evidence of famine and widespread starvation',
+                    'New testimonies provide compelling evidence that Israel?s starvation of Palestinians in Gaza is a deliberate policy',
+                    'For the first time, the world?s food crises authority announces a famine',
+                    'How Israeli actions caused famine in Gaza, visualized',
+                    'Starvation by design',
+                    'Israeli study finds starvation in Gaza was result of deliberate policy'
+                ],
+                fallbackTerms: ['starvation', 'famine', 'malnutrition', 'aid trucks', 'aid restrictions']
+            },
+            {
+                id: 'journalists',
+                label: 'Journalists and the record',
+                note: 'A curated chronology connecting attacks on Palestinian journalists, conditions of reporting, disputed military rationales, restrictions on independent access, and the continuing struggle to preserve a public record.',
+                titleFragments: [
+                    'Israeli military accused of targeting journalists and their families',
+                    'Israeli military forced journalists and health workers to strip',
+                    'AFP journalists warn their',
+                    'The Deadly Risks of Reporting in Gaza',
+                    'Reuters stopped sharing Gaza locations with Israel',
+                    'A Times visual investigation contradicts',
+                    'Visual evidence upends Israel?s official story for deadly attack on Gaza hospital',
+                    'Israeli Ban on Media Entering Gaza Remains',
+                    'Record 129 press members killed in 2025',
+                    'Media organizations call on Israel to allow foreign reporters independent access'
+                ],
+                fallbackTerms: ['journalists access', 'killed journalists', 'press freedom', 'foreign reporters', 'media entering gaza']
+            }
+        ];
+        let pathwayArticleRecords = {};
+        let activeClaimId = CLAIM_LENSES[0].id;
+        let activeThreadId = EVIDENCE_THREADS[0].id;
+        let witnessRecords = [];
+        let witnessIndex = 0;
+        let archiveExperienceInitialized = false;
+        const displayZoomVisibleSections = new Set();
 
         // Escape a value used as a JS string literal inside an inline onclick attribute:
         // backslash-escape for the JS string, then HTML-escape so it cannot break out of the attribute.
@@ -2910,6 +3061,7 @@
             document.getElementById('view-cards-btn')?.classList.toggle('active', currentArchiveView === 'cards');
             document.getElementById('view-table-btn')?.classList.toggle('active', currentArchiveView === 'table');
             renderArticles(currentlyDisplayedArticles);
+            updateDesktopDisplayZoomVisibility();
         }
 
         // Helper to format date
@@ -2938,13 +3090,13 @@
         }
 
         function getArticleAuthors(article) {
-            if (Array.isArray(article.authors) && article.authors.length) {
-                return article.authors.filter(Boolean);
-            }
-            if (article.author) {
-                return String(article.author).split(/\s*(?:,|;| and )\s*/i).filter(Boolean);
-            }
-            return ['Unknown author'];
+            const listedAuthors = Array.isArray(article.authors) ? article.authors.filter(Boolean) : [];
+            const legacyAuthors = article.author
+                ? String(article.author).split(/\s*(?:,|;| and )\s*/i).filter(Boolean)
+                : [];
+            const combined = [...new Set([...listedAuthors, ...legacyAuthors])];
+            const named = combined.filter(author => !/unknown author/i.test(author));
+            return named.length ? named : (combined.length ? combined : ['Unknown author']);
         }
 
         function getArticleDocumentType(article) {
@@ -2995,6 +3147,379 @@
             if (!modal || !messageEl) return;
             messageEl.textContent = message;
             modal.classList.add('is-visible');
+        }
+
+        function searchableArticleText(article) {
+            return [
+                article?.title,
+                article?.summary,
+                article?.source,
+                ...getArticleCategories(article),
+                ...getArticleAuthors(article)
+            ].filter(Boolean).join(' ').toLowerCase();
+        }
+
+        function recordsMatchingTerms(terms) {
+            const normalizedTerms = terms.map(term => term.toLowerCase());
+            return articles.filter(article => {
+                const text = searchableArticleText(article);
+                return normalizedTerms.some(term => text.includes(term));
+            });
+        }
+
+        function registerPathwayArticle(article) {
+            const id = `pathway-${packetHash(`${article?.link || ''}|${article?.title || ''}`)}`;
+            pathwayArticleRecords[id] = article;
+            return id;
+        }
+
+        window.openPathwayArticle = function(id) {
+            const article = pathwayArticleRecords[id];
+            if (!article) return;
+            const detailId = `detail-${Math.random().toString(36).slice(2, 10)}`;
+            articleDetailRecords[detailId] = article;
+            window.openArticleDetail(detailId);
+        };
+
+        function sampleAcrossTimeline(items, limit = 7) {
+            const sorted = [...items].sort((a, b) => chronologicalValue(a) - chronologicalValue(b));
+            if (sorted.length <= limit) return sorted;
+            const sampled = [];
+            for (let index = 0; index < limit; index += 1) {
+                const position = Math.round(index * (sorted.length - 1) / (limit - 1));
+                sampled.push(sorted[position]);
+            }
+            return [...new Map(sampled.map(article => [article.link || article.title, article])).values()];
+        }
+
+        function normalizedTitle(value) {
+            return String(value || '')
+                .toLowerCase()
+                .replace(/[?‘’“”'":.,—–-]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function curatedThreadRecords(thread) {
+            const chosen = [];
+            const seen = new Set();
+            (thread.titleFragments || []).forEach(fragment => {
+                const normalizedFragment = normalizedTitle(fragment);
+                const article = articles.find(candidate => {
+                    const title = normalizedTitle(candidate.title);
+                    return title.includes(normalizedFragment)
+                        || (title.length >= 24 && normalizedFragment.includes(title));
+                });
+                if (!article) return;
+                const key = article.link || article.title;
+                if (seen.has(key)) return;
+                seen.add(key);
+                chosen.push(article);
+            });
+
+            if (chosen.length < 8) {
+                recordsMatchingTerms(thread.fallbackTerms || []).forEach(article => {
+                    const key = article.link || article.title;
+                    if (seen.has(key) || chosen.length >= 10) return;
+                    seen.add(key);
+                    chosen.push(article);
+                });
+            }
+
+            return chosen.sort((a, b) => chronologicalValue(a) - chronologicalValue(b));
+        }
+
+        function renderClaimLens() {
+            const selector = document.getElementById('claim-selector');
+            const result = document.getElementById('claim-result');
+            if (!selector || !result || !articles.length) return;
+            const active = CLAIM_LENSES.find(item => item.id === activeClaimId) || CLAIM_LENSES[0];
+
+            selector.innerHTML = `
+                <span class="pathway-selector-label">Choose a claim</span>
+                ${CLAIM_LENSES.map(item => `
+                    <button type="button" class="pathway-select-button ${item.id === active.id ? 'is-active' : ''}" data-claim-id="${escapeDataAttribute(item.id)}">${escapeHtml(item.label)}</button>
+                `).join('')}
+            `;
+
+            const matches = newestFirst(recordsMatchingTerms(active.terms)).slice(0, 8);
+            result.innerHTML = `
+                <div class="pathway-result-header">
+                    <h3>${escapeHtml(active.label)}</h3>
+                    <p>${escapeHtml(active.note)} ${matches.length.toLocaleString()} recent relevant records are shown from ${recordsMatchingTerms(active.terms).length.toLocaleString()} matches.</p>
+                </div>
+                <div class="claim-records">
+                    ${matches.map(article => {
+                        const id = registerPathwayArticle(article);
+                        return `
+                            <button type="button" class="claim-record" onclick="window.openPathwayArticle('${id}')">
+                                <span class="claim-record-meta">${escapeHtml(formatDate(article.date))} · ${escapeHtml(article.source || 'Unknown source')}</span>
+                                <span class="claim-record-title">${escapeHtml(article.title || 'Untitled')}</span>
+                            </button>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            selector.querySelectorAll('[data-claim-id]').forEach(button => {
+                button.addEventListener('click', () => {
+                    activeClaimId = button.dataset.claimId;
+                    renderClaimLens();
+                });
+            });
+        }
+
+        function renderEvidenceThread() {
+            const selector = document.getElementById('thread-selector');
+            const result = document.getElementById('thread-result');
+            if (!selector || !result || !articles.length) return;
+            const active = EVIDENCE_THREADS.find(item => item.id === activeThreadId) || EVIDENCE_THREADS[0];
+
+            selector.innerHTML = `
+                <span class="pathway-selector-label">Choose a thread</span>
+                ${EVIDENCE_THREADS.map(item => `
+                    <button type="button" class="pathway-select-button ${item.id === active.id ? 'is-active' : ''}" data-thread-id="${escapeDataAttribute(item.id)}">${escapeHtml(item.label)}</button>
+                `).join('')}
+            `;
+
+            const sampled = curatedThreadRecords(active);
+            result.innerHTML = `
+                <div class="pathway-result-header">
+                    <h3>${escapeHtml(active.label)}</h3>
+                    <p>${escapeHtml(active.note)} These ${sampled.length} records were selected for direct relevance and chronological continuity; the thread remains a guided path, not a complete account.</p>
+                </div>
+                <div class="thread-line">
+                    ${sampled.map(article => {
+                        const id = registerPathwayArticle(article);
+                        return `
+                            <div class="thread-step">
+                                <button type="button" class="thread-record w-full" onclick="window.openPathwayArticle('${id}')">
+                                    <span class="thread-record-meta">${escapeHtml(formatDate(article.date))} · ${escapeHtml(article.source || 'Unknown source')}</span>
+                                    <span class="thread-record-title">${escapeHtml(article.title || 'Untitled')}</span>
+                                </button>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            selector.querySelectorAll('[data-thread-id]').forEach(button => {
+                button.addEventListener('click', () => {
+                    activeThreadId = button.dataset.threadId;
+                    renderEvidenceThread();
+                });
+            });
+        }
+
+        function renderArchivePathways() {
+            pathwayArticleRecords = {};
+            renderClaimLens();
+            renderEvidenceThread();
+        }
+
+        function activeFilterDescriptors() {
+            const descriptors = [];
+            const search = document.getElementById('article-search')?.value.trim();
+            const start = document.getElementById('start-date')?.value;
+            const end = document.getElementById('end-date')?.value;
+            if (search) descriptors.push({ type: 'search', label: `Search: ${search}` });
+            if (start) descriptors.push({ type: 'start-date', label: `From ${start}` });
+            if (end) descriptors.push({ type: 'end-date', label: `Through ${end}` });
+            document.querySelectorAll('input[data-filter-type]:checked').forEach(input => {
+                descriptors.push({ type: input.dataset.filterType, value: input.value, label: input.value });
+            });
+            return descriptors;
+        }
+
+        function updateFilterAffordances() {
+            const descriptors = activeFilterDescriptors();
+            const badge = document.getElementById('filter-count-badge');
+            const strip = document.getElementById('active-filter-strip');
+            const chips = document.getElementById('active-filter-chips');
+            if (badge) {
+                badge.textContent = String(descriptors.length);
+                badge.hidden = descriptors.length === 0;
+            }
+            if (!strip || !chips) return;
+            strip.classList.toggle('has-filters', descriptors.length > 0);
+            chips.innerHTML = descriptors.map((descriptor, index) => `
+                <button type="button" class="active-filter-chip" data-filter-chip-index="${index}" aria-label="Remove ${escapeHtmlAttribute(descriptor.label)}">
+                    ${escapeHtml(descriptor.label)} <span aria-hidden="true">×</span>
+                </button>
+            `).join('');
+            chips.querySelectorAll('[data-filter-chip-index]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const descriptor = descriptors[Number(button.dataset.filterChipIndex)];
+                    if (!descriptor) return;
+                    if (descriptor.type === 'search') document.getElementById('article-search').value = '';
+                    else if (descriptor.type === 'start-date') document.getElementById('start-date').value = '';
+                    else if (descriptor.type === 'end-date') document.getElementById('end-date').value = '';
+                    else {
+                        document.querySelectorAll(`input[data-filter-type="${descriptor.type}"]`).forEach(input => {
+                            if (input.value === descriptor.value) input.checked = false;
+                        });
+                    }
+                    applyArchiveFilters();
+                });
+            });
+        }
+
+        function updatePendingFilterCount() {
+            const badge = document.getElementById('filter-count-badge');
+            if (!badge) return;
+            const count = activeFilterDescriptors().length;
+            badge.textContent = String(count);
+            badge.hidden = count === 0;
+        }
+
+        function openArchiveGuide(force = false) {
+            const guide = document.getElementById('archive-onboarding');
+            if (!guide) return;
+            if (!force) {
+                try {
+                    if (localStorage.getItem(ARCHIVE_GUIDE_KEY) === 'seen') return;
+                } catch (error) {}
+            }
+            guide.classList.add('is-visible');
+            guide.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('archive-overlay-open');
+            document.getElementById('begin-archive')?.focus();
+        }
+
+        function closeArchiveGuide() {
+            const guide = document.getElementById('archive-onboarding');
+            if (!guide) return;
+            guide.classList.remove('is-visible');
+            guide.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('archive-overlay-open');
+            try {
+                localStorage.setItem(ARCHIVE_GUIDE_KEY, 'seen');
+            } catch (error) {}
+        }
+
+        function renderWitnessRecord() {
+            if (!witnessRecords.length) return;
+            const article = witnessRecords[witnessIndex];
+            document.getElementById('witness-date').textContent = formatDate(article.date);
+            document.getElementById('witness-title').textContent = article.title || 'Untitled record';
+            document.getElementById('witness-summary').textContent = article.summary || 'No summary is available for this record.';
+            document.getElementById('witness-source').textContent = `${article.source || 'Unknown source'}${getArticleAuthors(article).some(author => !/unknown author/i.test(author)) ? ` · ${getArticleAuthors(article).join(', ')}` : ''}`;
+            document.getElementById('witness-position').textContent = `${witnessIndex + 1} of ${witnessRecords.length}`;
+        }
+
+        function openWitnessMode() {
+            const base = currentlyDisplayedArticles.length ? currentlyDisplayedArticles : articles;
+            const witnessTerms = ['child', 'family', 'displaced', 'patient', 'doctor', 'journalist', 'testimony', 'surviv', 'killed', 'injured', 'hunger', 'shelter'];
+            const candidates = base.filter(article => {
+                const summary = String(article.summary || '').trim();
+                if (summary.length < 100) return false;
+                const text = searchableArticleText(article);
+                return witnessTerms.some(term => text.includes(term));
+            });
+            const fallback = base.filter(article => String(article.summary || '').trim().length >= 100);
+            witnessRecords = sampleAcrossTimeline(candidates.length ? candidates : fallback, 60);
+            if (!witnessRecords.length) return;
+            witnessIndex = 0;
+            renderWitnessRecord();
+            const modal = document.getElementById('witness-mode');
+            modal.classList.add('is-visible');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('archive-overlay-open');
+            document.getElementById('close-witness-mode')?.focus();
+        }
+
+        function closeWitnessMode() {
+            const modal = document.getElementById('witness-mode');
+            modal.classList.remove('is-visible');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('archive-overlay-open');
+        }
+
+        function openCurrentWitnessRecord() {
+            const article = witnessRecords[witnessIndex];
+            if (!article) return;
+            closeWitnessMode();
+            const detailId = `detail-${Math.random().toString(36).slice(2, 10)}`;
+            articleDetailRecords[detailId] = article;
+            window.openArticleDetail(detailId);
+        }
+
+        function setupArchiveOrientation() {
+            const links = Array.from(document.querySelectorAll('[data-orientation-target]'));
+            const targets = [...new Set(links.map(link => link.dataset.orientationTarget))]
+                .map(id => document.getElementById(id))
+                .filter(Boolean);
+            const mobileButton = document.getElementById('archive-mobile-map-button');
+            const mobileMap = document.getElementById('archive-mobile-map');
+            const labels = {
+                top: 'Introduction',
+                'research-pathways': 'Research paths',
+                articles: 'Archive',
+                geolocation: 'Maps',
+                victims: 'Victims',
+            };
+            const setActive = id => {
+                links.forEach(link => link.classList.toggle('is-active', link.dataset.orientationTarget === id));
+                if (mobileButton) mobileButton.textContent = `Viewing: ${labels[id] || 'Page'}`;
+            };
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver(entries => {
+                    const visible = entries
+                        .filter(entry => entry.isIntersecting)
+                        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+                    if (visible) setActive(visible.target.id);
+                }, { rootMargin: '-20% 0px -65% 0px', threshold: [0, 0.1, 0.4] });
+                targets.forEach(target => observer.observe(target));
+            }
+            mobileButton?.addEventListener('click', () => {
+                const open = mobileMap.classList.toggle('is-open');
+                mobileButton.setAttribute('aria-expanded', String(open));
+            });
+            links.forEach(link => link.addEventListener('click', () => {
+                mobileMap?.classList.remove('is-open');
+                mobileButton?.setAttribute('aria-expanded', 'false');
+            }));
+            setActive('top');
+        }
+
+        function setupArchiveExperience() {
+            if (archiveExperienceInitialized) return;
+            archiveExperienceInitialized = true;
+            document.querySelectorAll('[data-pathway-tab]').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const panelId = tab.dataset.pathwayTab;
+                    document.querySelectorAll('[data-pathway-tab]').forEach(item => item.setAttribute('aria-selected', String(item === tab)));
+                    document.querySelectorAll('.archive-pathway-panel').forEach(panel => {
+                        panel.hidden = panel.id !== panelId;
+                    });
+                });
+            });
+            document.getElementById('open-witness-mode')?.addEventListener('click', openWitnessMode);
+            document.getElementById('close-witness-mode')?.addEventListener('click', closeWitnessMode);
+            document.getElementById('witness-previous')?.addEventListener('click', () => {
+                witnessIndex = (witnessIndex - 1 + witnessRecords.length) % witnessRecords.length;
+                renderWitnessRecord();
+            });
+            document.getElementById('witness-next')?.addEventListener('click', () => {
+                witnessIndex = (witnessIndex + 1) % witnessRecords.length;
+                renderWitnessRecord();
+            });
+            document.getElementById('witness-open-record')?.addEventListener('click', openCurrentWitnessRecord);
+            document.getElementById('open-archive-guide')?.addEventListener('click', () => openArchiveGuide(true));
+            document.getElementById('close-archive-guide')?.addEventListener('click', closeArchiveGuide);
+            document.getElementById('begin-archive')?.addEventListener('click', closeArchiveGuide);
+            document.getElementById('archive-onboarding')?.addEventListener('click', event => {
+                if (event.target.id === 'archive-onboarding') closeArchiveGuide();
+            });
+            document.getElementById('witness-mode')?.addEventListener('click', event => {
+                if (event.target.id === 'witness-mode') closeWitnessMode();
+            });
+            document.addEventListener('keydown', event => {
+                if (event.key !== 'Escape') return;
+                if (document.getElementById('witness-mode')?.classList.contains('is-visible')) closeWitnessMode();
+                else if (document.getElementById('archive-onboarding')?.classList.contains('is-visible')) closeArchiveGuide();
+            });
+            setupArchiveOrientation();
         }
 
         function packetHash(value) {
@@ -3180,6 +3705,41 @@
             document.getElementById('desktop-display-zoom-range')?.addEventListener('input', (event) => {
                 setDesktopDisplayZoom(event.target.value);
             });
+
+            const sections = Array.from(document.querySelectorAll('#articles, #books, #videos, #films'));
+            if (!sections.length) return;
+
+            if (!('IntersectionObserver' in window)) {
+                displayZoomVisibleSections.add('articles');
+                updateDesktopDisplayZoomVisibility();
+                return;
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) displayZoomVisibleSections.add(entry.target.id);
+                    else displayZoomVisibleSections.delete(entry.target.id);
+                });
+                updateDesktopDisplayZoomVisibility();
+            }, {
+                root: null,
+                rootMargin: '-18% 0px -18% 0px',
+                threshold: 0.01
+            });
+
+            sections.forEach(section => observer.observe(section));
+            updateDesktopDisplayZoomVisibility();
+        }
+
+        function updateDesktopDisplayZoomVisibility() {
+            const control = document.querySelector('.desktop-display-zoom');
+            if (!control) return;
+            const visibleSection = [...displayZoomVisibleSections].find(id => {
+                if (id === 'articles' && currentArchiveView !== 'cards') return false;
+                return true;
+            });
+            control.classList.toggle('is-context-visible', Boolean(visibleSection));
+            control.setAttribute('aria-hidden', String(!visibleSection));
         }
 
         function effectiveIntegrityResult(result) {
@@ -3633,27 +4193,28 @@
         };
 
         function renderResearchPacket() {
-            const summary = document.getElementById('research-packet-summary');
+            const panel = document.getElementById('research-packet-panel');
             const list = document.getElementById('research-packet-list');
-            const actions = document.getElementById('research-packet-actions');
-            if (!summary || !list) return;
+            const count = document.getElementById('research-packet-count');
+            if (!panel || !list) return;
             const savedArticles = getSavedResearchArticles();
             const citationStyle = document.getElementById('research-citation-style')?.value || 'plain';
-            const citationLabel = CITATION_STYLES.find(style => style.id === citationStyle)?.label || 'Plain';
-            if (actions) actions.classList.toggle('hidden', !savedArticles.length);
-            summary.textContent = savedArticles.length
-                ? `${savedArticles.length.toLocaleString()} saved article${savedArticles.length === 1 ? '' : 's'} ready for ${citationLabel} citation export.`
-                : 'No articles saved yet.';
-            list.innerHTML = savedArticles.length ? savedArticles.slice(0, 8).map(article => {
+            const hasArticles = savedArticles.length > 0;
+            panel.classList.toggle('is-visible', hasArticles);
+            panel.setAttribute('aria-hidden', String(!hasArticles));
+            if (count) count.textContent = savedArticles.length.toLocaleString();
+            list.innerHTML = savedArticles.map(article => {
                 const id = articlePacketId(article);
                 return `
-                    <div class="border border-white/5 bg-[#0a0a0a] p-4">
-                        <div class="text-[10px] text-gray-600 uppercase tracking-widest mb-2">${escapeHtml(article.source || '')} / ${escapeHtml(article.date || '')}</div>
-                        <div class="text-sm text-gray-300 font-serif leading-snug mb-3">${escapeHtml(article.title || 'Untitled')}</div>
-                        <button class="text-[10px] text-[#8B0000] hover:text-white uppercase tracking-widest" onclick="window.removeFromResearchPacket('${id}')">Remove</button>
+                    <div class="research-packet-note">
+                        <div class="research-packet-note-meta">
+                            <span>${escapeHtml(article.source || 'Unknown source')} · ${escapeHtml(article.date || 'n.d.')}</span>
+                            <button type="button" onclick="window.removeFromResearchPacket('${id}')">Remove</button>
+                        </div>
+                        <div class="research-packet-citation">${escapeHtml(citationForArticle(article, citationStyle))}</div>
                     </div>
                 `;
-            }).join('') : '<p class="text-sm text-gray-600 italic">Use the Save button on article cards or details to build a research packet.</p>';
+            }).join('');
         }
 
         window.removeFromResearchPacket = function(id) {
@@ -3876,6 +4437,7 @@
 
         function updateArchiveResultSummary(filtered) {
             const summaryEl = document.getElementById('active-filter-summary');
+            updateFilterAffordances();
             if (!summaryEl) return;
             const selected = Array.from(document.querySelectorAll('input[data-filter-type]:checked')).map(input => input.value);
             const search = document.getElementById('article-search')?.value.trim();
@@ -3951,6 +4513,7 @@
                 renderRelatedCategorySuggestions(currentlyDisplayedArticles);
                 renderResearchPacket();
                 renderArticles(currentlyDisplayedArticles);
+                renderArchivePathways();
                 return true;
             } catch (error) {
                 console.error('Failed to load articles:', error);
@@ -3995,6 +4558,8 @@
             });
 
             currentlyDisplayedArticles = filtered;
+            updateArchiveResultSummary(filtered);
+            renderRelatedCategorySuggestions(filtered);
             renderArticles(currentlyDisplayedArticles);
             document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
         }
@@ -4615,6 +5180,7 @@
             }
             setupDropdowns();
             setupHiddenToolNavigation();
+            setupArchiveExperience();
             document.getElementById('displacement-map-load')?.addEventListener('click', revealDisplacementMap);
             initLazyMapEmbeds();
             initMobileDensityControl();
@@ -4654,6 +5220,14 @@
             });
             document.getElementById('copy-research-packet')?.addEventListener('click', copyResearchPacketCitations);
             document.getElementById('research-citation-style')?.addEventListener('change', renderResearchPacket);
+            document.getElementById('research-packet-collapse')?.addEventListener('click', (event) => {
+                const panel = document.getElementById('research-packet-panel');
+                if (!panel) return;
+                const collapsed = panel.classList.toggle('is-collapsed');
+                event.currentTarget.textContent = collapsed ? '+' : '−';
+                event.currentTarget.setAttribute('aria-expanded', String(!collapsed));
+                event.currentTarget.setAttribute('aria-label', collapsed ? 'Expand research packet' : 'Collapse research packet');
+            });
             document.getElementById('clear-research-packet')?.addEventListener('click', () => {
                 researchPacket = [];
                 saveResearchPacket();
@@ -4674,6 +5248,9 @@
             // Integrity data is loaded inside loadArticles() (before the first
             // article render) so provenance badges paint without a flash.
             if (!articlesLoaded) loadIntegrityReport();
+            if (articlesLoaded) {
+                window.setTimeout(() => openArchiveGuide(false), 1600);
+            }
 
             fetchVictimsData();
             if (articlesLoaded && articles.length > 0) initEmbeddedQuiz();
@@ -4750,9 +5327,14 @@
 
             document.getElementById('toggle-filter-btn').addEventListener('click', (e) => {
                 const panel = document.getElementById('filter-controls');
+                const isOpening = panel.classList.contains('hidden');
                 panel.classList.toggle('hidden');
-                e.target.classList.toggle('active');
+                e.currentTarget.classList.toggle('active', isOpening);
+                e.currentTarget.setAttribute('aria-expanded', String(isOpening));
+                document.body.classList.toggle('archive-filters-open', isOpening);
             });
+
+            document.getElementById('filter-controls')?.addEventListener('change', updatePendingFilterCount);
 
             const compareBtn = document.getElementById('toggle-comparison-btn');
             const comparisonSection = document.getElementById('comparison-section');
@@ -4773,6 +5355,8 @@
                 applyArchiveFilters();
                 document.getElementById('filter-controls').classList.add('hidden');
                 document.getElementById('toggle-filter-btn').classList.remove('active');
+                document.getElementById('toggle-filter-btn').setAttribute('aria-expanded', 'false');
+                document.body.classList.remove('archive-filters-open');
             });
 
             document.getElementById('clear-button').addEventListener('click', () => {
@@ -4835,8 +5419,8 @@
         });
     </script>
 
-    <!-- REACT STORY GENERATOR COMPONENT -->
-    <script type="text/babel">
+    <!-- Legacy story generator retained as inert source during the native migration. -->
+    <script type="text/plain" data-legacy-story-generator>
         const { useState, useEffect, useRef } = React;
 
         const Icons = {
@@ -5118,6 +5702,7 @@
             root.render(<StoryGenerator />);
         }
     </script>
+    <script src="./assets/story-generator.js?v=1"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const heroVideo = document.querySelector('.hero-bg-video');
@@ -5155,6 +5740,6 @@
             }
         });
     </script>
-    <script src="./assets/site-shell.js?v=voices-1" defer></script>
+    <script src="./assets/site-shell.js?v=about-1" defer></script>
 </body>
 </html>

@@ -419,6 +419,15 @@ body.site-shell-pad {
 }
 
 @media (max-width: 800px) {
+  body.site-shell-pad {
+    padding-top: 54px;
+  }
+
+  .site-shell-header,
+  .site-shell-mobile-top {
+    height: 54px;
+  }
+
   .site-shell-nav {
     display: none;
   }
@@ -432,6 +441,7 @@ body.site-shell-pad {
 
   .site-shell-mobile-button {
     display: inline-flex;
+    height: 38px;
     min-height: 44px;
   }
 

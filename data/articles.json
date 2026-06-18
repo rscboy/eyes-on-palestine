@@ -1,5 +1,65 @@
 [
   {
+    "date": "2026-02-26",
+    "title": "Domicide: Mass destruction of housing and civilian infrastructure in Gaza, Myanmar, Sudan and Ukraine",
+    "summary": "A UN Special Rapporteur report documenting large-scale destruction of housing and civilian infrastructure, including estimates that at least 92 percent of Gaza's housing units were damaged or destroyed between October 2023 and October 2025.",
+    "link": "https://www.ohchr.org/en/documents/thematic-reports/ahrc6143add3-domicide-mass-destruction-housing-and-civilian",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Flag_of_the_United_Nations.svg/1200px-Flag_of_the_United_Nations.svg.png",
+    "category": "Destruction",
+    "categories": [
+      "Destruction",
+      "Forced Displacement",
+      "Human Rights"
+    ],
+    "categoryColor": "#B5EAD7",
+    "source": "OHCHR",
+    "author": "Special Rapporteur on the right to adequate housing",
+    "authors": [
+      "Special Rapporteur on the right to adequate housing"
+    ],
+    "documentType": "Report"
+  },
+  {
+    "date": "2026-02-25",
+    "title": "Record 129 press members killed in 2025; Israel responsible for 2/3 of deaths",
+    "summary": "The Committee to Protect Journalists' annual report found that journalist killings reached a record high in 2025, with Israel responsible for two-thirds of the deaths and the majority of those killed being Palestinian journalists.",
+    "link": "https://cpj.org/special-reports/record-129-press-members-killed-in-2025-israel-responsible-for-2-of-3-of-deaths/",
+    "imageUrl": "https://cpj.org/wp-content/uploads/2026/02/AFP__20250825__72DU89J__v5__HighRes__CorrectionPalestinianIsraelConflict.jpg?fit=4096,4096&strip=all&quality=80",
+    "category": "Press Freedom",
+    "categories": [
+      "Press Freedom",
+      "Media",
+      "Accountability"
+    ],
+    "categoryColor": "#FFB7B2",
+    "source": "Committee to Protect Journalists",
+    "author": "Committee to Protect Journalists",
+    "authors": [
+      "Committee to Protect Journalists"
+    ],
+    "documentType": "Report"
+  },
+  {
+    "date": "2025-09-18",
+    "title": "Humanitarian Situation Update #323 | Gaza Strip",
+    "summary": "OCHA reported more than 246,800 displacement movements since mid-August, severe overcrowding, families sleeping in the open or in makeshift shelters, and shelter materials reaching less than one percent of estimated need.",
+    "link": "https://www.ochaopt.org/content/humanitarian-situation-update-323-gaza-strip",
+    "imageUrl": "https://disasterdisplacement.org/wp-content/uploads/2021/02/OCHA_logo.jpg",
+    "category": "Forced Displacement",
+    "categories": [
+      "Forced Displacement",
+      "Humanitarian Crisis",
+      "Living Conditions"
+    ],
+    "categoryColor": "#FF6B6B",
+    "source": "OCHA",
+    "author": "United Nations Office for the Coordination of Humanitarian Affairs",
+    "authors": [
+      "United Nations Office for the Coordination of Humanitarian Affairs"
+    ],
+    "documentType": "Report"
+  },
+  {
     "date": "2026-06-13",
     "title": "This Week in Palestine: Israel Kills 8-Year-Old Schoolboy and 15-Year-Old Fisherman Just Days After Murdering 7-Month-Old Baby",
     "summary": "Zeteo's weekly round-up of the stories you may have missed out of occupied Gaza and the West Bank, as Israel continues its genocidal war and apartheid policies.",
