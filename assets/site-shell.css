@@ -71,6 +71,25 @@ body.site-shell-pad {
   color: rgba(255, 255, 255, 0.92);
 }
 
+.site-shell-nav > a.is-current,
+.site-shell-mobile a.is-current {
+  color: #fff;
+}
+
+.site-shell-nav > a.is-current {
+  position: relative;
+}
+
+.site-shell-nav > a.is-current::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.55rem;
+  height: 1px;
+  background: #c9a84c;
+}
+
 .site-shell-menu-wrap {
   position: relative;
   align-self: stretch;

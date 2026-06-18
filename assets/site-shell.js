@@ -6,6 +6,7 @@
   if (isAdmin) return;
 
   const home = "https://echoesofgaza.org";
+  const isVoices = /\/blog(?:\/|\.html|$)/i.test(window.location.pathname);
   const navHtml = `
     <header class="site-shell-header" data-site-shell="header">
       <div class="site-shell-inner">
@@ -32,14 +33,14 @@
               </span>
             </span>
           </span>
-          <a href="${home}/#geolocation">Maps</a>
+          <a href="${home}/blog"${isVoices ? ' class="is-current"' : ""} ${isVoices ? 'aria-current="page"' : ""}>Voices</a>
           <a href="${home}/#victims">Victims</a>
           <span class="site-shell-menu-wrap">
             <button class="site-shell-menu-button" type="button">Resources</button>
             <span class="site-shell-menu">
               <span class="site-shell-menu-panel">
+                <a href="${home}/#geolocation">Maps & Geolocation</a>
                 <a href="${home}/#quotes">Quotes & Resources</a>
-                <a href="${home}/blog">Voices</a>
                 <a href="${home}/events">Events</a>
                 <a href="${home}/about">About</a>
                 <a href="${home}/about#faq">FAQ</a>
@@ -61,12 +62,12 @@
       </div>
       <nav class="site-shell-mobile-links" aria-label="Mobile navigation">
         <a href="${home}/#articles">Archive</a>
+        <a href="${home}/blog"${isVoices ? ' class="is-current"' : ""} ${isVoices ? 'aria-current="page"' : ""}>Voices</a>
         <a href="${home}/#casualty-graph">Timeline</a>
         <a href="${home}/#bias-tool-controls">Racial Bias Tool</a>
-        <a href="${home}/#geolocation">Maps</a>
         <a href="${home}/#victims">Victims</a>
+        <a href="${home}/#geolocation">Maps</a>
         <a href="${home}/events">Events</a>
-        <a href="${home}/blog">Voices</a>
         <a href="${home}/about">About</a>
         <a href="${home}/collab" class="site-shell-submit">Submit Evidence</a>
       </nav>
@@ -110,7 +111,7 @@
               <h4>Resources</h4>
               <ul>
                 <li><a href="${home}/#quotes">Quotes</a></li>
-                <li><a href="${home}/blog">Voices</a></li>
+                <li><a href="${home}/#geolocation">Maps & Geolocation</a></li>
                 <li><a href="${home}/about">About & FAQ</a></li>
                 <li><a href="https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json" target="_blank" rel="noopener noreferrer">Raw Data</a></li>
               </ul>
