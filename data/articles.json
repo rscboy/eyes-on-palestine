@@ -1,5 +1,59 @@
 [
   {
+    "date": "2026-06-19",
+    "title": "Israel seized more land from neighbors since 2023 than it has in decades",
+    "summary": "Israel has seized more than 1,200 square kilometers of territory since 2023. Here's a closer look at its expansion.",
+    "link": "https://apnews.com/projects/israel-expansion-maps/",
+    "imageUrl": "https://dims.apnews.com/dims4/default/313fc31/2147483647/strip/true/crop/800x533+0+33/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F3f%2F2e%2Fdbd98b654e1682cba18c73d4b4a4%2Fisraeli-expansion-maps-share-image.jpg",
+    "category": "Destruction Plans",
+    "categories": [
+      "Destruction Plans"
+    ],
+    "categoryColor": "#B5EAD7",
+    "source": "Associated Press",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-19",
+    "title": "The Power Of Play For Children In Gaza",
+    "summary": "",
+    "link": "https://www.forbes.com/sites/unicefusa/2026/06/19/the-power-of-play-for-children-in-gaza/",
+    "imageUrl": "https://placeholder.com/image.jpg",
+    "category": "Children",
+    "categories": [
+      "Children"
+    ],
+    "categoryColor": "#F194B4",
+    "source": "Forbes",
+    "author": "Sarah Ferguson",
+    "authors": [
+      "Sarah Ferguson"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-06-19",
+    "title": "Gaza: Sneeze and you might get shot, warns UNICEF in alert on child killings",
+    "summary": "After another deadly night of clashes in Lebanon, aid agencies issued a new alert for Gaza, where 265 Palestinian children have been killed since a ceasefire was announced in October 2025.",
+    "link": "https://news.un.org/en/story/2026/06/1167760",
+    "imageUrl": "https://global.unitednations.entermediadb.net/assets/mediadb/services/module/asset/downloads/preset/Collections/Production%20Library/12-05-2026-UNICEF-Gaza.jpg/image770x420cropped.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "UN News",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-06-18",
     "title": "Funeral of Palestinians killed in an Israeli strike on a vehicle, according to medics, in Gaza City",
     "summary": "",
