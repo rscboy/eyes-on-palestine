@@ -124,6 +124,15 @@
                 <li><a href="https://www.patreon.com/c/EchoesofGaza" target="_blank" rel="noopener noreferrer">Monthly Support</a></li>
               </ul>
             </div>
+            <div class="site-shell-footer-mobile-only">
+              <h4>More of the Archive</h4>
+              <ul>
+                <li><a href="${home}/#books">Books</a></li>
+                <li><a href="${home}/#videos">Interviews</a></li>
+                <li><a href="${home}/#films">Documentaries</a></li>
+                <li><a href="${home}/#narrative-test-section">Narratives</a></li>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="site-shell-footer-bottom">
