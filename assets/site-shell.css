@@ -231,40 +231,58 @@ body.site-shell-pad {
   text-transform: uppercase;
 }
 
+/* Recognizable hamburger icon (three bars). The element's own background is
+   the middle bar; ::before/::after are the top and bottom bars. */
 .site-shell-mobile-button-mark {
   position: relative;
   display: block;
-  width: 11px;
-  height: 11px;
+  width: 16px;
+  height: 12px;
   color: #8b0000;
+  background: linear-gradient(currentColor, currentColor) center / 16px 1.6px no-repeat;
 }
 
 .site-shell-mobile-button-mark::before,
 .site-shell-mobile-button-mark::after {
   content: "";
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 1.6px;
   background: currentColor;
-  transform: translate(-50%, -50%);
 }
 
 .site-shell-mobile-button-mark::before {
-  width: 11px;
-  height: 1px;
+  top: 0;
 }
 
 .site-shell-mobile-button-mark::after {
-  width: 1px;
-  height: 11px;
+  bottom: 0;
+}
+
+.site-shell-mobile-close {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  min-height: 44px;
 }
 
 .site-shell-mobile-close span {
-  display: block;
-  width: 19px;
-  height: 1px;
-  margin: 5px auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 1.6px;
+  margin: 0;
   background: currentColor;
+}
+
+.site-shell-mobile-close span:first-child {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.site-shell-mobile-close span:last-child {
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .site-shell-mobile {
@@ -293,6 +311,16 @@ body.site-shell-pad {
   border-bottom: 1px solid #222;
 }
 
+/* The brand in the menu header is an <a>, so the large nav-link rule below
+   (24px Georgia uppercase) would otherwise swallow it and force a wrap.
+   Keep it a compact logo matching the main header. */
+.site-shell-mobile-top .site-shell-logo {
+  min-height: 0;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+}
+
 .site-shell-mobile-links {
   padding: 32px 24px;
   display: grid;
@@ -307,12 +335,22 @@ body.site-shell-pad {
   font-family: Georgia, "Times New Roman", serif;
 }
 
+/* Divider separating the navigation links from the Submit Evidence CTA. */
+.site-shell-mobile-divider {
+  height: 1px;
+  margin: 12px 0;
+  background: rgba(255, 255, 255, 0.08);
+}
+
 .site-shell-mobile .site-shell-submit {
-  width: min(100%, 280px);
+  width: 100%;
+  margin-top: 4px;
   justify-content: center;
   font-family: Inter, system-ui, sans-serif;
   font-size: 13px;
-  min-height: 46px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  min-height: 52px;
 }
 
 .site-shell-footer {
@@ -477,8 +515,10 @@ body.site-shell-pad {
 
 @media (max-width: 520px) {
   .site-shell-logo {
-    max-width: 58vw;
-    line-height: 1.25;
+    max-width: none;
+    white-space: nowrap;
+    letter-spacing: 0.12em;
+    font-size: 11px;
   }
 
   .site-shell-mobile-links {

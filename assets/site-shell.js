@@ -69,6 +69,7 @@
         <a href="${home}/#geolocation">Maps</a>
         <a href="${home}/events">Events</a>
         <a href="${home}/about">About</a>
+        <span class="site-shell-mobile-divider" aria-hidden="true"></span>
         <a href="${home}/collab" class="site-shell-submit">Submit Evidence</a>
       </nav>
     </div>`;
