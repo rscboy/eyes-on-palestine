@@ -210,6 +210,102 @@
             color: #d99a9a;
         }
 
+        /* Link-first intake */
+        .link-intake-panel {
+            border: 1px solid var(--border-color);
+            background: rgba(20, 20, 20, 0.58);
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .link-intake-panel textarea {
+            min-height: 7rem;
+            resize: vertical;
+        }
+
+        .link-intake-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.85rem;
+            margin-top: 0.85rem;
+        }
+
+        .link-intake-checklist {
+            margin-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+        }
+
+        .intake-checklist-head {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 0.25rem;
+        }
+
+        .intake-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            width: 100%;
+            text-align: left;
+            padding: 0.7rem 0.9rem;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .intake-row:hover {
+            border-color: #555;
+            background: rgba(0, 0, 0, 0.55);
+        }
+
+        .intake-row-title {
+            color: #e6e6e6;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .intake-badge {
+            flex-shrink: 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.55rem;
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+
+        .intake-badge-ready {
+            color: #a3d9a3;
+            border-color: rgba(163, 217, 163, 0.4);
+        }
+
+        .intake-badge-needs {
+            color: #e0c07a;
+            border-color: rgba(224, 192, 122, 0.4);
+        }
+
+        .intake-note {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.74rem;
+            color: #999;
+            margin-top: 0.4rem;
+            line-height: 1.5;
+        }
+
         .multi-submit-panel {
             border: 1px solid var(--border-color);
             background: rgba(20, 20, 20, 0.58);
@@ -505,7 +601,21 @@
         <!-- Article Form Container -->
         <div id="content-articles">
             <form id="submissionForm" class="space-y-12">
-                    
+
+                <!-- Link-first intake: paste links, auto-fetch metadata -->
+                <section class="link-intake-panel">
+                    <h3 class="section-header text-xl">Start with links</h3>
+                    <p class="text-sm text-gray-500 font-sans leading-relaxed mb-4">
+                        Paste one or more article links — one per line (or separated by commas/spaces). We'll fetch the title, source, author, date, summary, and image for each, then show you exactly what's left to fill in below.
+                    </p>
+                    <textarea id="linkIntakeInput" rows="4" class="form-input block w-full p-3" placeholder="https://example.com/article-one&#10;https://example.com/article-two"></textarea>
+                    <div class="link-intake-actions">
+                        <button type="button" id="linkIntakeButton" class="small-interface-button metadata-fetch-button">Fetch &amp; build articles</button>
+                        <span id="linkIntakeStatus" class="metadata-fetch-status" aria-live="polite">Tip: press ⌘/Ctrl + Enter to fetch.</span>
+                    </div>
+                    <div id="linkIntakeChecklist" class="link-intake-checklist hidden" aria-live="polite"></div>
+                </section>
+
                 <!-- Required Fields -->
                 <section>
                     <h3 class="section-header text-xl">Required Information</h3>
@@ -856,6 +966,7 @@
             selectedCategoriesEl.innerHTML = selectedCategories.map(category => `
                 <span class="metadata-pill">${category}<button type="button" aria-label="Remove ${category}" onclick="removeCategory('${category.replace(/'/g, "\\'")}')">x</button></span>
             `).join('');
+            if (typeof refreshIntakeChecklist === "function") refreshIntakeChecklist();
         }
 
         window.removeCategory = function(category) {
@@ -1256,12 +1367,12 @@
                 'meta[name="title"]',
                 'title'
             ]);
-            const source = getMetaContent(doc, [
+            const metaSource = getMetaContent(doc, [
                 'meta[property="og:site_name"]',
                 'meta[name="application-name"]',
                 'meta[name="publisher"]',
                 'meta[property="article:publisher"]'
-            ]) || sourceNameFromUrl(pageUrl);
+            ]);
             const authors = getMetaContent(doc, [
                 'meta[name="author"]',
                 'meta[property="article:author"]',
@@ -1296,15 +1407,91 @@
                 'meta[itemprop="image"]'
             ]), pageUrl);
 
+            // JSON-LD (schema.org NewsArticle/Article/BlogPosting) is far more
+            // reliable than meta tags on many outlets — and often carries the
+            // author and publish date that meta tags omit. Use it to fill gaps.
+            const ld = extractJsonLdMetadata(doc);
+            // Prefer real publisher metadata, then JSON-LD, then the curated
+            // domain map (gives canonical names like "The Guardian"), and only
+            // fall back to a hostname guess as a last resort.
+            const resolvedSource = metaSource || ld.source || inferSourceFromUrl(pageUrl) || sourceNameFromUrl(pageUrl);
+
             return {
-                title: cleanArticleTitle(title, source),
-                source,
-                authors,
-                date,
-                summary,
-                imageUrl,
-                documentType: inferDocumentType(pageUrl, metadataType)
+                title: cleanArticleTitle(title || ld.title, resolvedSource),
+                source: resolvedSource,
+                authors: authors || ld.authors,
+                date: date || ld.date,
+                summary: summary || ld.summary,
+                imageUrl: imageUrl || absolutizeUrl(ld.imageUrl, pageUrl),
+                documentType: inferDocumentType(pageUrl, metadataType || ld.documentType)
             };
+        }
+
+        function ldTypeIncludes(type, regex) {
+            if (Array.isArray(type)) return type.some(entry => regex.test(String(entry)));
+            return regex.test(String(type || ""));
+        }
+
+        function flattenLdNodes(parsed, accumulator) {
+            if (!parsed || typeof parsed !== "object") return;
+            if (Array.isArray(parsed)) {
+                parsed.forEach(node => flattenLdNodes(node, accumulator));
+                return;
+            }
+            accumulator.push(parsed);
+            if (Array.isArray(parsed["@graph"])) {
+                parsed["@graph"].forEach(node => flattenLdNodes(node, accumulator));
+            }
+        }
+
+        function ldImageUrl(image) {
+            if (!image) return "";
+            if (typeof image === "string") return image;
+            if (Array.isArray(image)) return ldImageUrl(image[0]);
+            return image.url || image.contentUrl || "";
+        }
+
+        function ldAuthorNames(author) {
+            if (!author) return "";
+            if (typeof author === "string") return author;
+            if (Array.isArray(author)) return author.map(ldAuthorNames).filter(Boolean).join(", ");
+            return author.name || "";
+        }
+
+        function ldPublisherName(publisher) {
+            if (!publisher) return "";
+            if (typeof publisher === "string") return publisher;
+            if (Array.isArray(publisher)) return ldPublisherName(publisher[0]);
+            return publisher.name || "";
+        }
+
+        function extractJsonLdMetadata(doc) {
+            const out = { title: "", source: "", authors: "", date: "", summary: "", imageUrl: "", documentType: "" };
+            const nodes = [];
+            doc.querySelectorAll('script[type="application/ld+json"]').forEach(block => {
+                const raw = (block.textContent || "").trim();
+                if (!raw) return;
+                try {
+                    flattenLdNodes(JSON.parse(raw), nodes);
+                } catch (error) {
+                    // Some publishers emit trailing commas or stray markup; retry leniently.
+                    try {
+                        flattenLdNodes(JSON.parse(raw.replace(/,\s*([}\]])/g, "$1")), nodes);
+                    } catch (innerError) { /* ignore malformed block */ }
+                }
+            });
+            if (!nodes.length) return out;
+            const article = nodes.find(node => ldTypeIncludes(node["@type"], /article|posting|report/i) && (node.headline || node.name))
+                || nodes.find(node => node.headline || node.name)
+                || {};
+            out.title = cleanMetadataValue(article.headline || article.name);
+            out.summary = cleanMetadataValue(article.description || article.abstract);
+            out.date = normalizeMetadataDate(article.datePublished || article.dateCreated || article.dateModified);
+            out.imageUrl = cleanMetadataValue(ldImageUrl(article.image));
+            out.authors = cleanMetadataValue(ldAuthorNames(article.author)).replace(/^by\s+/i, "");
+            out.source = cleanMetadataValue(ldPublisherName(article.publisher));
+            if (ldTypeIncludes(article["@type"], /blogposting/i)) out.documentType = "Blog";
+            return out;
         }
 
         async function fetchWithTimeout(url, options = {}, timeoutMs = 10000) {
@@ -1349,6 +1536,45 @@
                 }
             }
             throw lastError || new Error("Unable to fetch article metadata.");
+        }
+
+        // Structured fallback. When scraping the page HTML fails or yields almost
+        // nothing (paywalls, JS-rendered pages, aggressive bot blocking), Microlink
+        // resolves the same metadata server-side and returns clean JSON. This is the
+        // main reliability win for sites that the proxy+meta path can't read.
+        async function fetchMicrolinkMetadata(url) {
+            const text = await fetchWithTimeout(`https://api.microlink.io/?url=${encodeURIComponent(url)}`, {}, 12000);
+            const json = JSON.parse(text);
+            if (!json || json.status !== "success" || !json.data) {
+                throw new Error("Microlink returned no usable data.");
+            }
+            const data = json.data;
+            return {
+                title: cleanMetadataValue(data.title),
+                source: cleanMetadataValue(data.publisher),
+                authors: cleanMetadataValue(data.author).replace(/^by\s+/i, ""),
+                date: normalizeMetadataDate(data.date),
+                summary: cleanMetadataValue(data.description),
+                imageUrl: cleanMetadataValue(data.image && data.image.url) || cleanMetadataValue(data.logo && data.logo.url),
+                documentType: inferDocumentType(url, "")
+            };
+        }
+
+        // Fill empty fields of `primary` from `secondary` without overwriting hits.
+        function mergeMetadata(primary, secondary) {
+            const merged = { ...(primary || {}) };
+            Object.keys(secondary || {}).forEach(key => {
+                if (!merged[key] && secondary[key]) merged[key] = secondary[key];
+            });
+            return merged;
+        }
+
+        // A result is "thin" if we couldn't even get a title, or got a title but
+        // little else — in those cases it's worth spending a request on the fallback.
+        function metadataIsThin(metadata) {
+            if (!metadata || !metadata.title) return true;
+            const populated = ["summary", "imageUrl", "authors", "date"].filter(key => metadata[key]).length;
+            return populated < 2;
         }
 
         function fillInputIfBlank(input, value, shouldDispatch = true) {
@@ -1412,38 +1638,53 @@
             const url = fields.link?.value?.trim();
             if (!url) {
                 setMetadataStatus(statusElement, "Paste a link first, then fetch details.", "error");
-                return;
+                return { ok: false, changed: [] };
             }
             if (!fields.link.checkValidity()) {
                 fields.link.reportValidity();
-                return;
+                return { ok: false, changed: [] };
             }
 
             button?.setAttribute("disabled", "disabled");
             setMetadataStatus(statusElement, "Fetching article details from the link...", "loading");
 
+            let metadata = {};
+            let usedFallback = false;
             try {
                 const html = await fetchArticleHtml(url);
-                const metadata = extractArticleMetadata(html, url);
-                const changed = applyArticleMetadata(fields, metadata, url);
-                if (changed.length) {
-                    setMetadataStatus(statusElement, `Auto-filled: ${changed.join(", ")}. Please review before submitting.`, "success");
-                } else {
-                    setMetadataStatus(statusElement, "No new fields were available from this link. Please enter any missing details manually.", "error");
-                }
+                metadata = extractArticleMetadata(html, url);
             } catch (error) {
-                console.warn("Article metadata fetch failed:", error);
-                // Even when the page can't be fetched, recognize the source from the
-                // link's domain (and fill its known image) so the user starts ahead.
-                const recovered = applyArticleMetadata(fields, {}, url);
-                if (recovered.includes("source")) {
-                    setMetadataStatus(statusElement, `Couldn't fetch full details, but recognized the source as “${fields.source.value}” from the link. Please add the remaining fields manually.`, "success");
-                } else {
-                    setMetadataStatus(statusElement, "Could not auto-fill this link. Some publishers block metadata access, so please enter the details manually.", "error");
-                }
-            } finally {
-                button?.removeAttribute("disabled");
+                console.warn("Direct/proxy metadata fetch failed:", error);
             }
+
+            // If scraping came back empty or thin, let the structured service try.
+            if (metadataIsThin(metadata)) {
+                try {
+                    const fallback = await fetchMicrolinkMetadata(url);
+                    metadata = mergeMetadata(metadata, fallback);
+                    usedFallback = true;
+                } catch (error) {
+                    console.warn("Microlink fallback failed:", error);
+                }
+            }
+
+            // applyArticleMetadata also recognizes the source from the domain and
+            // fills its known image, so even an empty result can make progress.
+            const changed = applyArticleMetadata(fields, metadata, url);
+            const ok = Boolean(fields.title?.value?.trim());
+
+            if (changed.length) {
+                const suffix = usedFallback ? " (some via fallback lookup)" : "";
+                setMetadataStatus(statusElement, `Auto-filled: ${changed.join(", ")}${suffix}. Please review before submitting.`, "success");
+            } else if (fields.source?.value?.trim()) {
+                setMetadataStatus(statusElement, `Couldn't fetch full details, but recognized the source as “${fields.source.value}” from the link. Please add the remaining fields manually.`, "success");
+            } else {
+                setMetadataStatus(statusElement, "Could not auto-fill this link. Some publishers block metadata access, so please enter the details manually.", "error");
+            }
+
+            button?.removeAttribute("disabled");
+            refreshIntakeChecklist();
+            return { ok, changed };
         }
 
         function getFirstArticleAutofillFields() {
@@ -1474,6 +1715,214 @@
                     statusElement: metadataFetchStatus,
                     button: metadataFetchButton
                 });
+            });
+        }
+
+        // ----- Link-first intake: paste many links, auto-build + auto-fetch -----
+        const linkIntakeInput = document.getElementById("linkIntakeInput");
+        const linkIntakeButton = document.getElementById("linkIntakeButton");
+        const linkIntakeStatus = document.getElementById("linkIntakeStatus");
+        const linkIntakeChecklist = document.getElementById("linkIntakeChecklist");
+        let lastIntakeStatuses = [];
+
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>"']/g, character => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+            }[character]));
+        }
+
+        function isProbablyUrl(value) {
+            try {
+                const parsed = new URL(value);
+                return parsed.protocol === "http:" || parsed.protocol === "https:";
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function parseLinkList(text) {
+            const seen = new Set();
+            const urls = [];
+            String(text || "")
+                .split(/[\s,]+/)
+                .map(token => token.trim())
+                .filter(Boolean)
+                .forEach(token => {
+                    if (isProbablyUrl(token) && !seen.has(token)) {
+                        seen.add(token);
+                        urls.push(token);
+                    }
+                });
+            return urls;
+        }
+
+        async function runWithConcurrency(items, limit, worker) {
+            let cursor = 0;
+            async function next() {
+                const index = cursor++;
+                if (index >= items.length) return;
+                await worker(items[index], index);
+                return next();
+            }
+            await Promise.all(Array.from({ length: Math.min(limit, items.length) }, next));
+        }
+
+        function domainLabel(url) {
+            try {
+                return new URL(url).hostname.replace(/^www\./, "");
+            } catch (error) {
+                return url;
+            }
+        }
+
+        // Snapshot the required-field state of every article currently on the form
+        // (the primary one plus any extra blocks) so we can show what's still needed.
+        function collectArticleStatuses() {
+            const statuses = [];
+            const push = (label, element, values) => {
+                const missing = [];
+                if (!values.title) missing.push("Title");
+                if (!values.date) missing.push("Date");
+                if (!values.source) missing.push("Source");
+                if (!values.category) missing.push("Category");
+                statuses.push({ label, link: values.link, missing, el: element });
+            };
+
+            push("Article 1", document.getElementById("link"), {
+                link: linkInput.value.trim(),
+                title: document.getElementById("title").value.trim(),
+                date: document.getElementById("date").value.trim(),
+                source: sourceInput.value.trim(),
+                category: selectedCategories.length > 0
+            });
+
+            Array.from(additionalArticles.querySelectorAll("[data-extra-article]")).forEach((entry, index) => {
+                push(`Article ${index + 2}`, entry, {
+                    link: getExtraArticleField(entry, "link")?.value.trim() || "",
+                    title: getExtraArticleField(entry, "title")?.value.trim() || "",
+                    date: getExtraArticleField(entry, "date")?.value.trim() || "",
+                    source: getExtraArticleField(entry, "source")?.value.trim() || "",
+                    category: Boolean(getExtraArticleField(entry, "primaryCategory")?.value)
+                });
+            });
+
+            return statuses;
+        }
+
+        function renderIntakeChecklist() {
+            if (!linkIntakeChecklist) return;
+            const statuses = collectArticleStatuses();
+            lastIntakeStatuses = statuses;
+
+            const hasAnyLink = statuses.some(status => status.link);
+            if (!hasAnyLink) {
+                linkIntakeChecklist.classList.add("hidden");
+                linkIntakeChecklist.innerHTML = "";
+                return;
+            }
+
+            linkIntakeChecklist.classList.remove("hidden");
+            const rows = statuses.map((status, index) => {
+                const title = status.title || domainLabel(status.link) || status.label;
+                const badge = status.missing.length === 0
+                    ? `<span class="intake-badge intake-badge-ready">Ready</span>`
+                    : `<span class="intake-badge intake-badge-needs">Needs: ${status.missing.join(", ")}</span>`;
+                return `<button type="button" class="intake-row" data-intake-index="${index}">
+                        <span class="intake-row-title">${escapeHtml(title)}</span>
+                        ${badge}
+                    </button>`;
+            }).join("");
+
+            const submitterMissing = !document.getElementById("submitterName").value.trim();
+            const note = submitterMissing
+                ? `<p class="intake-note">Also add <strong>Your Name</strong> in Required Information before submitting.</p>`
+                : "";
+            linkIntakeChecklist.innerHTML = `<div class="intake-checklist-head">Review &amp; complete</div>${rows}${note}`;
+        }
+
+        // Cheap to call from anywhere; only re-renders when the checklist is showing.
+        function refreshIntakeChecklist() {
+            if (linkIntakeChecklist && !linkIntakeChecklist.classList.contains("hidden")) {
+                renderIntakeChecklist();
+            }
+        }
+
+        async function runLinkIntake() {
+            const urls = parseLinkList(linkIntakeInput?.value);
+            if (!urls.length) {
+                setMetadataStatus(linkIntakeStatus, "Paste at least one valid http(s) link.", "error");
+                return;
+            }
+
+            linkIntakeButton.setAttribute("disabled", "disabled");
+            setMetadataStatus(linkIntakeStatus, `Fetching details for ${urls.length} link${urls.length > 1 ? "s" : ""}...`, "loading");
+
+            // The intake defines the batch: first link drives the primary article,
+            // the rest get one fresh extra block each.
+            if (urls.length > 1) {
+                multiArticleMode.checked = true;
+                setMultiArticleMode(true);
+                additionalArticles.innerHTML = "";
+                for (let n = 1; n < urls.length; n += 1) createExtraArticleBlock();
+            } else {
+                multiArticleMode.checked = false;
+                setMultiArticleMode(false);
+            }
+
+            const entries = Array.from(additionalArticles.querySelectorAll("[data-extra-article]"));
+            const tasks = urls.map((url, index) => {
+                if (index === 0) {
+                    linkInput.value = url;
+                    return { url, fields: getFirstArticleAutofillFields(), statusElement: metadataFetchStatus, button: metadataFetchButton };
+                }
+                const entry = entries[index - 1];
+                const linkField = getExtraArticleField(entry, "link");
+                if (linkField) linkField.value = url;
+                return {
+                    url,
+                    fields: getExtraArticleAutofillFields(entry),
+                    statusElement: getExtraArticleField(entry, "metadataStatus"),
+                    button: entry.querySelector("[data-fetch-extra-metadata]")
+                };
+            });
+
+            await runWithConcurrency(tasks, 3, task => autofillArticleFromLink(task));
+
+            linkIntakeButton.removeAttribute("disabled");
+            renderIntakeChecklist();
+            const statuses = collectArticleStatuses();
+            const ready = statuses.filter(status => status.missing.length === 0).length;
+            const remaining = statuses.length - ready;
+            setMetadataStatus(
+                linkIntakeStatus,
+                `Fetched ${urls.length} article${urls.length > 1 ? "s" : ""}. ${ready} ready, ${remaining} still ${remaining === 1 ? "needs" : "need"} details below.`,
+                ready === statuses.length ? "success" : ""
+            );
+            linkIntakeChecklist.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+
+        if (linkIntakeButton && linkIntakeInput) {
+            linkIntakeButton.addEventListener("click", runLinkIntake);
+            linkIntakeInput.addEventListener("keydown", event => {
+                if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
+                    event.preventDefault();
+                    runLinkIntake();
+                }
+            });
+        }
+
+        // Keep the checklist live as the user fills in fields or removes articles.
+        const articleFormContainer = document.getElementById("content-articles");
+        if (articleFormContainer) {
+            articleFormContainer.addEventListener("input", refreshIntakeChecklist);
+            articleFormContainer.addEventListener("change", refreshIntakeChecklist);
+        }
+        if (linkIntakeChecklist) {
+            linkIntakeChecklist.addEventListener("click", event => {
+                const row = event.target.closest("[data-intake-index]");
+                if (!row) return;
+                const status = lastIntakeStatuses[Number(row.dataset.intakeIndex)];
+                status?.el?.scrollIntoView({ behavior: "smooth", block: "center" });
             });
         }
 
@@ -1748,6 +2197,12 @@
             multiArticleMode.checked = false;
             const dateInput = document.getElementById('date');
             if (dateInput) dateInput.value = todayIsoDate();
+            if (linkIntakeChecklist) {
+                linkIntakeChecklist.classList.add('hidden');
+                linkIntakeChecklist.innerHTML = '';
+            }
+            lastIntakeStatuses = [];
+            setMetadataStatus(linkIntakeStatus, 'Tip: press ⌘/Ctrl + Enter to fetch.');
         }
 
         async function submitArticlePayload(payload) {
