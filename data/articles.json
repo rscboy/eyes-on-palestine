@@ -1,5 +1,77 @@
 [
   {
+    "date": "2026-07-07",
+    "title": "A leading Gaza doctor may die soon in an Israeli prison - his targeting has been deliberate",
+    "summary": "",
+    "link": "https://www.independent.co.uk/news/world/middle-east/gaza-doctor-israel-abuse-torture-medicine-b3009886.html",
+    "imageUrl": "https://static.the-independent.com/2025/05/06/15/26/SEI249805010.jpeg?quality=75&width=1368&auto=webp",
+    "category": "Prison Conditions",
+    "categories": [
+      "Prison Conditions"
+    ],
+    "categoryColor": "#E0BBE4",
+    "source": "The Independent",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-07",
+    "title": "UN reports severe chickenpox outbreak among displaced Palestinians in Gaza",
+    "summary": "Over 9,000 cases of infection were reported in just two weeks, with over half in Khan Yunis, according to a recent UN report • 'After three years of war in Gaza, no one has healthy skin,' an Israeli pediatrician working with doctors in Gaza explains",
+    "link": "https://www.haaretz.com/gaza/2026-07-07/ty-article/.premium/un-reports-severe-chickenpox-outbreak-among-displaced-palestinians-in-gaza/0000019f-3b6c-da30-a7ff-bf7f2c040000",
+    "imageUrl": "https://img.haarets.co.il/bs/0000019f-3b6c-da30-a7ff-bf7f2c040000/73/41/f8cc84fa45ba82aec5fe24f5e52e/66203011.JPG?precrop=2067,1202,x0,y67&width=1200&height=630&cmsprod",
+    "category": "Death Toll",
+    "categories": [
+      "Death Toll"
+    ],
+    "categoryColor": "#A2D2FF",
+    "source": "Haaretz",
+    "author": "Nir Hasson",
+    "authors": [
+      "Nir Hasson"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-07",
+    "title": "Netanyahu Vows Israel Will Keep Occupying Lebanon, Syria, Gaza",
+    "summary": "",
+    "link": "https://www.bloomberg.com/news/articles/2026-07-07/netanyahu-vows-israel-will-keep-occupying-lebanon-syria-gaza",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-3dMDF2uP__pKt5odKZ2fORKdU-wme_cWOX67CFJNAw&s=10",
+    "category": "Illegal Expansion",
+    "categories": [
+      "Illegal Expansion"
+    ],
+    "categoryColor": "#A2D2FF",
+    "source": "Bloomberg",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-07",
+    "title": "Lawyer says detained Gaza doctor was severely beaten in Israeli jail",
+    "summary": "The lawyer for Dr Hussam Abu Safiya tells the BBC his client was so badly beaten he could not recognise him during a visit last week.",
+    "link": "https://www.bbc.com/news/articles/c07yy3pgrlmo",
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/13f0/live/f3e6ad10-797d-11f1-b976-0b9c15b0ccfc.jpg",
+    "category": "Starvation Warning",
+    "categories": [
+      "Starvation Warning"
+    ],
+    "categoryColor": "#E0BBE4",
+    "source": "BBC News",
+    "author": "Caroline Davies",
+    "authors": [
+      "Caroline Davies"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-07-06",
     "title": "Detained Gaza doctor almost unrecognisable after injuries in Israeli jail, lawyer says",
     "summary": "Hussam Abu Safiya faces 'tangible danger to his life' following 18 months in prison without charge or trial",
