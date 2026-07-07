@@ -31,10 +31,10 @@ body {
 }
 
 .about-hero {
-  min-height: 78vh;
+  min-height: 0;
   display: grid;
   align-items: center;
-  padding: clamp(6rem, 12vw, 10rem) 0 5rem;
+  padding: clamp(7rem, 11vw, 9rem) 0 clamp(2.5rem, 4vw, 3.5rem);
   border-bottom: 1px solid var(--about-line);
 }
 
@@ -55,29 +55,29 @@ body {
 }
 
 .about-hero h1 {
-  max-width: 48rem;
-  margin: 0.75rem 0 1.25rem;
+  max-width: 42rem;
+  margin: 0.6rem 0 1rem;
   font-family: "DM Serif Display", Georgia, serif;
-  font-size: clamp(3.4rem, 8vw, 7.4rem);
+  font-size: clamp(2.5rem, 5.4vw, 4.6rem);
   font-weight: 400;
-  letter-spacing: -0.035em;
-  line-height: 0.96;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
 .about-hero-lead {
-  max-width: 43rem;
+  max-width: 40rem;
   color: #c0b8ad;
   font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
-  line-height: 1.75;
+  font-size: clamp(1rem, 1.7vw, 1.15rem);
+  line-height: 1.6;
 }
 
 .about-hero-note {
   max-width: 37rem;
-  margin-top: 1.25rem;
+  margin-top: 1rem;
   color: var(--about-dim);
-  font-size: 0.78rem;
-  line-height: 1.7;
+  font-size: 0.76rem;
+  line-height: 1.6;
 }
 
 .about-mark {
@@ -110,7 +110,7 @@ body {
 }
 
 .about-section {
-  padding: clamp(4.5rem, 9vw, 7.5rem) 0;
+  padding: clamp(3rem, 5.5vw, 4.75rem) 0;
   border-bottom: 1px solid var(--about-line);
 }
 
@@ -125,34 +125,34 @@ body {
 .about-faq h2 {
   margin: 0;
   font-family: "DM Serif Display", Georgia, serif;
-  font-size: clamp(2.25rem, 5vw, 4rem);
+  font-size: clamp(1.9rem, 3.6vw, 2.9rem);
   font-weight: 400;
-  line-height: 1.05;
+  line-height: 1.08;
 }
 
 .about-copy {
-  max-width: 49rem;
+  max-width: 46rem;
 }
 
 .about-copy p {
-  margin: 0 0 1.35rem;
+  margin: 0 0 1rem;
   color: #aaa298;
   font-family: "Playfair Display", Georgia, serif;
-  font-size: 1.02rem;
-  line-height: 1.9;
+  font-size: 0.98rem;
+  line-height: 1.7;
 }
 
 .about-principles {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
-  margin-top: 3.25rem;
+  margin-top: 2.25rem;
   border: 1px solid var(--about-line);
   background: var(--about-line);
 }
 
 .about-principle {
-  min-height: 14rem;
+  min-height: 0;
   background: #090909;
   padding: 1.5rem;
 }
@@ -165,9 +165,9 @@ body {
 }
 
 .about-principle h3 {
-  margin: 1.8rem 0 0.7rem;
+  margin: 1rem 0 0.6rem;
   font-family: "Playfair Display", Georgia, serif;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
 }
 
 .about-principle p {
