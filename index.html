@@ -2044,11 +2044,7 @@
     <!-- MAIN CONTENT -->
     <main>
         <section id="top" class="hero-section pt-32 pb-12">
-<<<<<<< ours
             <video class="hero-bg-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" controlslist="nodownload nofullscreen noremoteplayback" tabindex="-1" aria-hidden="true">
-=======
-            <video class="hero-bg-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback" aria-hidden="true">
->>>>>>> theirs
                 <source src="https://pub-3592c0f33d62473e96882cebf2720dba.r2.dev/EoG%20-%20Background.mp4" type="video/mp4" />
                 <source src="./background.mp4" type="video/mp4" />
             </video>
@@ -5947,7 +5943,6 @@
 
                     const playAttempt = heroVideo.play();
                     if (playAttempt && typeof playAttempt.catch === 'function') {
-<<<<<<< ours
                         playAttempt.catch(() => {
                             if (playRetryCount >= 3) return;
                             playRetryCount += 1;
@@ -5968,14 +5963,6 @@
                 heroVideo.addEventListener('pause', () => {
                     if (!document.hidden && heroVideo.ended === false) playHeroVideo();
                 });
-=======
-                        playAttempt.catch(() => {});
-                    }
-                };
-
-                heroVideo.addEventListener('loadeddata', playHeroVideo);
-                heroVideo.addEventListener('canplay', playHeroVideo);
->>>>>>> theirs
                 window.addEventListener('pageshow', playHeroVideo);
                 document.addEventListener('visibilitychange', () => {
                     if (!document.hidden) playHeroVideo();
