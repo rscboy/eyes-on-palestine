@@ -211,37 +211,26 @@
             </div>
         </header>
 
-        <!-- Partner Archive: Genocide Archive (Israel Exposed) -->
-        <section aria-labelledby="partner-archive-heading" class="mb-16 border border-border-dim bg-charcoal/40">
-            <div class="p-6 md:p-10">
-                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-                    <div class="max-w-2xl">
-                        <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-3">Partner Archive · Cited Source</span>
-                        <h2 id="partner-archive-heading" class="font-heading text-2xl md:text-3xl font-semibold text-white mb-4">The Genocide Archive</h2>
-                        <p class="text-sm md:text-base leading-relaxed text-ash mb-4">
-                            In July 2026, the <span class="text-bone">Israel&nbsp;Exposed</span> collective released their war-crimes archive fully open source to resist censorship — cataloguing <span class="text-bone">94,000+ documented records</span> of alleged war crimes across Gaza and the West Bank (2023–2026), drawn from field journalists and source channels. Echoes of Gaza cites and credits this archive as an independent, verifiable evidentiary collection. All footage and attribution belong to Israel&nbsp;Exposed and the journalists who captured it.
-                        </p>
-                        <p class="text-xs leading-relaxed text-neutral-500">
-                            The curated set is an <span class="text-neutral-400">864&nbsp;GB signed media release</span> (167,114 files), part of ~2.4&nbsp;TB of raw source archives preserved by torrent and mirrored on Distributed Denial of Secrets. The website itself is now open source (MIT). Every release is cryptographically signed — verify authenticity before trusting any copy, and submit footage only to their official domains.
-                        </p>
-                    </div>
-                    <div class="flex flex-col gap-3 md:w-64 md:flex-shrink-0">
-                        <a href="https://archivegenocide.com/" target="_blank" rel="noopener noreferrer"
-                           class="btn-primary text-center font-ui text-xs uppercase tracking-widest px-5 py-3 rounded-none">
-                            Browse the Archive
-                        </a>
-                        <a href="https://archivegenocide.com/download.html" target="_blank" rel="noopener noreferrer"
-                           class="text-center font-ui text-xs uppercase tracking-widest border border-border-dim px-5 py-3 text-ash hover:text-white hover:border-neutral-600 transition-colors">
-                            Download &amp; Mirror
-                        </a>
-                        <a href="https://github.com/interplains/archive-genocide-website-mirror" target="_blank" rel="noopener noreferrer"
-                           class="text-center font-ui text-xs uppercase tracking-widest border border-border-dim px-5 py-3 text-ash hover:text-white hover:border-neutral-600 transition-colors">
-                            Open-Source Code
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Source navigation: this page holds two distinct collections -->
+        <nav aria-label="Jump to a source collection" class="mb-16 max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <a href="#eog-sources" class="group border border-border-dim hover:border-neutral-500 bg-charcoal/40 px-5 py-4 transition-colors">
+                <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-1">Collection I</span>
+                <span class="font-heading text-lg text-white block group-hover:text-white">Echoes of Gaza — Curated Sources</span>
+                <span class="font-ui text-[11px] text-ash">Individually reviewed &amp; approved records ↓</span>
+            </a>
+            <a href="#genocide-archive" class="group border border-border-dim hover:border-neutral-500 bg-charcoal/40 px-5 py-4 transition-colors">
+                <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-1">Collection II</span>
+                <span class="font-heading text-lg text-white block group-hover:text-white">The Genocide Archive — Israel&nbsp;Exposed</span>
+                <span class="font-ui text-[11px] text-ash">94,000+ primary-source clips &amp; photos ↓</span>
+            </a>
+        </nav>
+
+        <!-- ===== Collection I: Echoes of Gaza's own curated sources ===== -->
+        <div id="eog-sources" class="scroll-mt-28 mb-8 border-b border-border-dim pb-6">
+            <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-2">Collection I · Echoes of Gaza</span>
+            <h2 class="font-heading text-2xl md:text-3xl font-semibold text-white mb-2">Our Curated Primary Sources</h2>
+            <p class="text-sm text-ash max-w-2xl">Records gathered and individually reviewed by Echoes of Gaza — each retaining its source, date, authorship, and document type.</p>
+        </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-10 lg:gap-14 items-start">
             <!-- Controls Section -->
@@ -320,8 +309,48 @@
             </section>
         </div>
 
+        <!-- ===== Collection II: The Genocide Archive (Israel Exposed) ===== -->
+        <div id="genocide-archive" class="scroll-mt-28 mt-24 pt-16 border-t border-border-dim">
+            <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-4">Collection II · Israel&nbsp;Exposed</span>
+
+            <!-- Partner Archive: Genocide Archive (Israel Exposed) -->
+            <section aria-labelledby="partner-archive-heading" class="border border-border-dim bg-charcoal/40">
+                <div class="p-6 md:p-10">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                        <div class="max-w-2xl">
+                            <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-3">Partner Archive · Cited Source</span>
+                            <h2 id="partner-archive-heading" class="font-heading text-2xl md:text-3xl font-semibold text-white mb-4">The Genocide Archive</h2>
+                            <p class="text-sm md:text-base leading-relaxed text-ash mb-4">
+                                In July 2026, the <span class="text-bone">Israel&nbsp;Exposed</span> collective released their war-crimes archive fully open source to resist censorship — cataloguing <span class="text-bone">94,000+ documented records</span> of alleged war crimes across Gaza and the West Bank (2023–2026), drawn from field journalists and source channels. Echoes of Gaza cites and credits this archive as an independent, verifiable evidentiary collection. All footage and attribution belong to Israel&nbsp;Exposed and the journalists who captured it.
+                            </p>
+                            <p class="text-xs leading-relaxed text-neutral-500">
+                                The curated set is an <span class="text-neutral-400">864&nbsp;GB signed media release</span> (167,114 files), part of ~2.4&nbsp;TB of raw source archives preserved by torrent and mirrored on Distributed Denial of Secrets. The website itself is now open source (MIT). Every release is cryptographically signed — verify authenticity before trusting any copy, and submit footage only to their official domains.
+                            </p>
+                        </div>
+                        <div class="flex flex-col gap-3 md:w-64 md:flex-shrink-0">
+                            <a href="#witness-archive" class="btn-primary text-center font-ui text-xs uppercase tracking-widest px-5 py-3 rounded-none">
+                                Browse the Archive
+                            </a>
+                            <a href="https://archivegenocide.com/" target="_blank" rel="noopener noreferrer"
+                               class="text-center font-ui text-xs uppercase tracking-widest border border-border-dim px-5 py-3 text-ash hover:text-white hover:border-neutral-600 transition-colors">
+                                Visit archivegenocide.com
+                            </a>
+                            <a href="https://archivegenocide.com/download.html" target="_blank" rel="noopener noreferrer"
+                               class="text-center font-ui text-xs uppercase tracking-widest border border-border-dim px-5 py-3 text-ash hover:text-white hover:border-neutral-600 transition-colors">
+                                Download &amp; Mirror
+                            </a>
+                            <a href="https://github.com/interplains/archive-genocide-website-mirror" target="_blank" rel="noopener noreferrer"
+                               class="text-center font-ui text-xs uppercase tracking-widest border border-border-dim px-5 py-3 text-ash hover:text-white hover:border-neutral-600 transition-colors">
+                                Open-Source Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
         <!-- ==================== Witness Archive: Genocide Archive live gallery ==================== -->
-        <section id="witness-archive" aria-labelledby="witness-archive-heading" class="mt-24 pt-16 border-t border-border-dim">
+        <section id="witness-archive" aria-labelledby="witness-archive-heading" class="mt-10 scroll-mt-28">
             <style>
                 #witness-archive .ga-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
                 @media(min-width:768px){#witness-archive .ga-grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}}
@@ -342,8 +371,8 @@
             </style>
 
             <header class="mb-8 max-w-3xl">
-                <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-3">Witness Archive · Israel&nbsp;Exposed</span>
-                <h2 id="witness-archive-heading" class="font-heading text-2xl md:text-3xl font-semibold text-white mb-4">Browse the Genocide Archive</h2>
+                <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-3">Witness Archive · Live from Israel&nbsp;Exposed</span>
+                <h2 id="witness-archive-heading" class="font-heading text-2xl md:text-3xl font-semibold text-white mb-4">Search &amp; view the records</h2>
                 <p class="text-sm md:text-base leading-relaxed text-ash">
                     Every record below is preserved and published by the <span class="text-bone">Israel&nbsp;Exposed</span> collective and the journalists who filmed it. Echoes of Gaza streams this documentation directly from their open archive — nothing here is re-hosted or altered. Full credit, sourcing, and takedown-resistant copies belong to <a href="https://archivegenocide.com/" target="_blank" rel="noopener noreferrer" class="text-bone underline decoration-blood/60 underline-offset-4 hover:text-white">The Genocide Archive</a>.
                 </p>
