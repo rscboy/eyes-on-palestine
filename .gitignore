@@ -9,3 +9,7 @@ node_modules/
 _drafts/
 tips_for_refresh.txt
 .claude/
+
+# Local-only dev fixture for the Witness Archive gallery (localhost fallback).
+# Production reads live data from the genocide-archive Worker, not this file.
+__gallery_sample.json

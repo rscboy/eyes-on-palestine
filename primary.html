@@ -320,7 +320,266 @@
             </section>
         </div>
 
+        <!-- ==================== Witness Archive: Genocide Archive live gallery ==================== -->
+        <section id="witness-archive" aria-labelledby="witness-archive-heading" class="mt-24 pt-16 border-t border-border-dim">
+            <style>
+                #witness-archive .ga-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
+                @media(min-width:768px){#witness-archive .ga-grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}}
+                #witness-archive .ga-tile{position:relative;aspect-ratio:1;overflow:hidden;background:#0d0d0d;border:1px solid #262626;cursor:pointer}
+                #witness-archive .ga-tile img{width:100%;height:100%;object-fit:cover;transition:filter .35s ease,transform .5s ease;background:#0d0d0d}
+                #witness-archive .ga-tile.ga-blurred img{filter:blur(24px) brightness(.55)}
+                #witness-archive .ga-tile:hover img{transform:scale(1.04)}
+                #witness-archive .ga-badge{position:absolute;top:6px;left:6px;font:600 9px/1 Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase;background:rgba(0,0,0,.72);color:#e5e5e5;padding:4px 6px;pointer-events:none}
+                #witness-archive .ga-dur{position:absolute;bottom:6px;right:6px;font:500 10px/1 Inter,sans-serif;background:rgba(0,0,0,.78);color:#fff;padding:3px 5px;pointer-events:none}
+                #witness-archive .ga-reveal{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;font:600 9px/1.5 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#d8c3c3;background:rgba(10,5,5,.35)}
+                #witness-archive .ga-tile:not(.ga-blurred) .ga-reveal{display:none}
+                #witness-archive .ga-stage{position:relative;min-height:220px}
+                #ga-gate{position:absolute;inset:0;z-index:20;background:rgba(7,6,6,.975);display:flex;align-items:center;justify-content:center;padding:1.5rem}
+                #ga-lightbox{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.95);display:none;flex-direction:column;align-items:center;justify-content:center;padding:clamp(.5rem,3vw,2rem)}
+                #ga-lightbox.ga-open{display:flex}
+                #ga-lightbox video,#ga-lightbox img{max-width:min(1100px,100%);max-height:74vh;background:#000}
+                #witness-archive .ga-clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+            </style>
+
+            <header class="mb-8 max-w-3xl">
+                <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-3">Witness Archive · Israel&nbsp;Exposed</span>
+                <h2 id="witness-archive-heading" class="font-heading text-2xl md:text-3xl font-semibold text-white mb-4">Browse the Genocide Archive</h2>
+                <p class="text-sm md:text-base leading-relaxed text-ash">
+                    Every record below is preserved and published by the <span class="text-bone">Israel&nbsp;Exposed</span> collective and the journalists who filmed it. Echoes of Gaza streams this documentation directly from their open archive — nothing here is re-hosted or altered. Full credit, sourcing, and takedown-resistant copies belong to <a href="https://archivegenocide.com/" target="_blank" rel="noopener noreferrer" class="text-bone underline decoration-blood/60 underline-offset-4 hover:text-white">The Genocide Archive</a>.
+                </p>
+            </header>
+
+            <div class="ga-stage" id="ga-stage">
+                <!-- Controls -->
+                <div class="flex flex-col md:flex-row md:items-end gap-4 mb-6">
+                    <div class="flex-1">
+                        <label for="gaSearch" class="sr-only">Search the archive</label>
+                        <input type="text" id="gaSearch" placeholder="Search descriptions, sources, topics…"
+                            class="w-full bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm placeholder-neutral-600 rounded-none focus:border-neutral-500 transition-colors">
+                    </div>
+                    <select id="gaType" class="bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer">
+                        <option value="">All formats</option>
+                        <option value="video">Video</option>
+                        <option value="photo">Photo</option>
+                    </select>
+                    <select id="gaSource" class="bg-charcoal border border-border-dim text-bone px-4 py-3 font-ui text-sm rounded-none cursor-pointer">
+                        <option value="">All sources</option>
+                    </select>
+                    <button id="gaBlurToggle" type="button" class="font-ui text-xs uppercase tracking-widest border border-border-dim px-4 py-3 text-ash hover:text-white hover:border-neutral-600 transition-colors whitespace-nowrap">Reveal all</button>
+                </div>
+
+                <div id="gaCount" class="font-ui text-[11px] uppercase tracking-widest text-neutral-500 mb-4"></div>
+
+                <div id="gaGrid" class="ga-grid"></div>
+
+                <div id="gaStatus" class="text-center py-16 font-heading text-lg text-neutral-500 italic"></div>
+
+                <div class="mt-10 text-center flex flex-col sm:flex-row gap-4 justify-center">
+                    <button id="gaLoadMore" class="hidden font-ui text-sm uppercase tracking-widest border border-border-dim px-8 py-3 hover:bg-white hover:text-black transition-colors rounded-none">Load more</button>
+                    <button id="gaLoadRest" class="hidden font-ui text-sm uppercase tracking-widest border border-blood text-bone px-8 py-3 hover:bg-blood transition-colors rounded-none">Load the full archive (94,000+)</button>
+                </div>
+
+                <!-- Content-warning gate -->
+                <div id="ga-gate">
+                    <div class="max-w-lg text-center">
+                        <span class="font-ui text-[10px] uppercase tracking-[0.25em] text-blood font-semibold block mb-4">⚠ Graphic content warning</span>
+                        <p class="text-ash text-sm md:text-base leading-relaxed mb-3">
+                            This archive contains raw, uncensored documentation of extreme violence, death, and severe injury. Much of the footage is deeply disturbing. It is preserved for evidentiary, journalistic, and legal-accountability purposes.
+                        </p>
+                        <p class="text-neutral-500 text-xs leading-relaxed mb-6">
+                            Thumbnails load blurred; reveal each one deliberately. By entering you acknowledge the nature of this material.
+                        </p>
+                        <button id="gaEnter" type="button" class="btn-primary font-ui text-xs uppercase tracking-widest px-8 py-3 rounded-none">Enter the archive</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
+
+    <!-- Genocide Archive lightbox -->
+    <div id="ga-lightbox" role="dialog" aria-modal="true" aria-label="Archive record">
+        <button id="gaClose" aria-label="Close" class="self-end mb-2 font-ui text-xs uppercase tracking-widest text-ash hover:text-white transition-colors">✕ Close</button>
+        <div id="gaLbMedia" class="flex items-center justify-center"></div>
+        <div id="gaLbMeta" class="max-w-3xl mt-4 text-center px-2"></div>
+    </div>
+
+    <script>
+    (function () {
+        // ---- Data source ----------------------------------------------------
+        // After deploying workers/genocide-archive, set this to the Worker URL
+        // (e.g. https://echoes-genocide-archive.<subdomain>.workers.dev), no trailing slash.
+        const GENOCIDE_ARCHIVE_API = 'https://echoes-genocide-archive.example.workers.dev';
+        const GA_LOCAL = ['localhost', '127.0.0.1', ''].includes(location.hostname);
+        function gaEndpoint(file) {
+            if (GA_LOCAL) return file === 'gallery_high.json' ? '/__gallery_sample.json' : null;
+            return GENOCIDE_ARCHIVE_API + '/' + file;
+        }
+
+        // ---- Media resolution (mirrors the archive's own app.js) ------------
+        const GA_MEDIA_HOST = 'https://media.archivegenocide.com';
+        const GA_MEDIA_BASE_DEFAULT = '/ChatExport_2025-09-22/';
+        const gaEnc = p => (p || '').split('/').map(encodeURIComponent).join('/');
+        const gaBase = e => e.media_base || GA_MEDIA_BASE_DEFAULT;
+        const gaMediaUrl = e => GA_MEDIA_HOST + gaBase(e) + gaEnc(e.file);
+        const gaThumbUrl = e => e.thumbnail ? GA_MEDIA_HOST + gaBase(e) + gaEnc(e.thumbnail) : '';
+
+        const PAGE = 48;
+        let all = [], filtered = [], shown = 0, restLoaded = false, revealAll = false;
+
+        const $ = id => document.getElementById(id);
+        const gate = $('ga-gate'), grid = $('gaGrid'), statusEl = $('gaStatus'),
+              countEl = $('gaCount'), loadMoreBtn = $('gaLoadMore'), loadRestBtn = $('gaLoadRest');
+
+        function desc(e) { return (e.description_en || e.description || '').trim(); }
+        function fmtDate(t) { if (!t) return ''; const d = new Date(t); return isNaN(d) ? '' : d.toISOString().slice(0, 10); }
+        function esc(s) { const d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
+
+        async function fetchJson(file) {
+            const url = gaEndpoint(file);
+            if (!url) return [];
+            const r = await fetch(url);
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+        }
+
+        function populateSources() {
+            const set = new Set();
+            all.forEach(e => { if (e.source_archive) set.add(e.source_archive); });
+            const sel = $('gaSource');
+            [...set].sort().forEach(s => {
+                const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o);
+            });
+        }
+
+        function applyFilters() {
+            const q = $('gaSearch').value.trim().toLowerCase();
+            const type = $('gaType').value, src = $('gaSource').value;
+            filtered = all.filter(e => {
+                if (type && e.type !== type) return false;
+                if (src && e.source_archive !== src) return false;
+                if (q) {
+                    const hay = (desc(e) + ' ' + (e.source_archive || '') + ' ' + (e.topic || '')).toLowerCase();
+                    if (!hay.includes(q)) return false;
+                }
+                return true;
+            });
+            shown = 0; grid.innerHTML = '';
+            renderMore();
+            countEl.textContent = filtered.length.toLocaleString() + ' records' +
+                (restLoaded ? '' : ' · high-confidence view');
+        }
+
+        function tile(e) {
+            const t = document.createElement('div');
+            t.className = 'ga-tile' + (revealAll ? '' : ' ga-blurred');
+            const thumb = gaThumbUrl(e);
+            const badge = e.type === 'video' ? 'Video' : 'Photo';
+            t.innerHTML =
+                '<img loading="lazy" decoding="async" alt="' + esc((desc(e) || badge).slice(0, 80)) + '"' +
+                (thumb ? ' src="' + esc(thumb) + '"' : '') + '>' +
+                '<span class="ga-badge">' + badge + '</span>' +
+                (e.duration ? '<span class="ga-dur">' + esc(e.duration) + '</span>' : '') +
+                '<span class="ga-reveal">Click to reveal</span>';
+            t.addEventListener('click', () => {
+                if (t.classList.contains('ga-blurred')) { t.classList.remove('ga-blurred'); return; }
+                openLightbox(e);
+            });
+            return t;
+        }
+
+        function renderMore() {
+            const next = filtered.slice(shown, shown + PAGE);
+            const frag = document.createDocumentFragment();
+            next.forEach(e => frag.appendChild(tile(e)));
+            grid.appendChild(frag);
+            shown += next.length;
+            loadMoreBtn.classList.toggle('hidden', shown >= filtered.length);
+            statusEl.textContent = filtered.length ? '' : 'No records match these filters.';
+        }
+
+        function openLightbox(e) {
+            const box = $('ga-lightbox'), media = $('gaLbMedia'), meta = $('gaLbMeta');
+            media.innerHTML = '';
+            if (e.type === 'video') {
+                const v = document.createElement('video');
+                v.src = gaMediaUrl(e); v.controls = true; v.autoplay = true; v.playsInline = true;
+                if (gaThumbUrl(e)) v.poster = gaThumbUrl(e);
+                media.appendChild(v);
+            } else {
+                const img = document.createElement('img'); img.src = gaMediaUrl(e); img.alt = desc(e) || 'Archive photo';
+                media.appendChild(img);
+            }
+            const links = [];
+            if (e.post_url) links.push('<a href="' + esc(e.post_url) + '" target="_blank" rel="noopener noreferrer" class="underline decoration-blood/60 underline-offset-4 hover:text-white">View original post</a>');
+            links.push('<a href="https://archivegenocide.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-blood/60 underline-offset-4 hover:text-white">Full archive at archivegenocide.com</a>');
+            meta.innerHTML =
+                (desc(e) ? '<p class="text-sm text-bone leading-relaxed mb-3" dir="auto">' + esc(desc(e)) + '</p>' : '') +
+                '<p class="font-ui text-[11px] uppercase tracking-widest text-neutral-500 mb-3">' +
+                    'Source: ' + esc(e.source_archive || 'Israel Exposed') +
+                    (fmtDate(e.timestamp) ? ' · ' + fmtDate(e.timestamp) : '') + '</p>' +
+                '<p class="font-ui text-xs text-ash">' + links.join(' &nbsp;·&nbsp; ') + '</p>';
+            box.classList.add('ga-open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            const box = $('ga-lightbox');
+            box.classList.remove('ga-open');
+            $('gaLbMedia').innerHTML = '';
+            document.body.style.overflow = '';
+        }
+
+        async function init() {
+            statusEl.textContent = 'Loading the archive…';
+            try {
+                all = await fetchJson('gallery_high.json');
+                populateSources();
+                applyFilters();
+                loadRestBtn.classList.toggle('hidden', GA_LOCAL);
+            } catch (err) {
+                statusEl.innerHTML = 'The archive is temporarily unreachable. ' +
+                    '<a href="https://archivegenocide.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">Browse it directly →</a>';
+            }
+        }
+
+        // ---- Wire up --------------------------------------------------------
+        const ACK = 'eog-ga-ack';
+        $('gaEnter').addEventListener('click', () => {
+            try { localStorage.setItem(ACK, '1'); } catch (_) {}
+            gate.style.display = 'none'; init();
+        });
+        if ((() => { try { return localStorage.getItem(ACK) === '1'; } catch (_) { return false; } })()) {
+            gate.style.display = 'none'; init();
+        }
+
+        ['gaSearch', 'gaType', 'gaSource'].forEach(id => {
+            const el = $(id), ev = id === 'gaSearch' ? 'input' : 'change';
+            let tmr; el.addEventListener(ev, () => { clearTimeout(tmr); tmr = setTimeout(applyFilters, 180); });
+        });
+        loadMoreBtn.addEventListener('click', renderMore);
+        loadRestBtn.addEventListener('click', async () => {
+            if (restLoaded) return;
+            loadRestBtn.disabled = true; loadRestBtn.textContent = 'Loading full archive…';
+            try {
+                const rest = await fetchJson('gallery_rest.json');
+                all = all.concat(rest); restLoaded = true;
+                loadRestBtn.classList.add('hidden');
+                const sel = $('gaSource'); sel.innerHTML = '<option value="">All sources</option>'; populateSources();
+                applyFilters();
+            } catch (_) {
+                loadRestBtn.disabled = false; loadRestBtn.textContent = 'Load the full archive (94,000+)';
+            }
+        });
+        $('gaBlurToggle').addEventListener('click', () => {
+            revealAll = !revealAll;
+            $('gaBlurToggle').textContent = revealAll ? 'Blur all' : 'Reveal all';
+            grid.querySelectorAll('.ga-tile').forEach(t => t.classList.toggle('ga-blurred', !revealAll));
+        });
+        $('gaClose').addEventListener('click', closeLightbox);
+        $('ga-lightbox').addEventListener('click', ev => { if (ev.target === $('ga-lightbox')) closeLightbox(); });
+        document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeLightbox(); });
+    })();
+    </script>
 
     <!-- Footer -->
     <footer id="footer" class="bg-black border-t border-white/5 pt-12 pb-10">

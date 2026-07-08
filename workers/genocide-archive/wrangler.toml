@@ -1,0 +1,7 @@
+name = "echoes-genocide-archive"
+main = "src/index.js"
+compatibility_date = "2026-05-08"
+
+[vars]
+# Comma-separate to allow more than one origin (e.g. the www/apex or a staging host).
+ALLOWED_ORIGIN = "https://echoesofgaza.org"
