@@ -155,6 +155,7 @@ body.site-shell-pad {
 }
 
 .site-shell-menu-panel {
+  display: block;
   overflow: hidden;
   background: #050505;
   border: 1px solid rgba(139, 0, 0, 0.42);
