@@ -295,9 +295,20 @@
                     <p class="font-heading text-xl text-neutral-500 italic">No approved primary sources are currently published.</p>
                 </div>
 
-                <!-- Records Grid -->
-                <div id="recordsList" class="space-y-20">
-                    <!-- Records injected here -->
+                <!-- Records Grid — tile grid matching the Israel Exposed gallery -->
+                <style>
+                    #recordsList{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
+                    @media(min-width:768px){#recordsList{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}}
+                    #recordsList .record-item.hidden{display:none}
+                    .eog-tile{position:relative;aspect-ratio:1;overflow:hidden;background:#0d0d0d;border:1px solid #262626;cursor:pointer}
+                    .eog-tile .eog-frame{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none;background:#0d0d0d}
+                    .eog-tile img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;background:#0d0d0d}
+                    .eog-tile .eog-badge{position:absolute;top:6px;left:6px;font:600 9px/1 Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase;background:rgba(0,0,0,.72);color:#e5e5e5;padding:4px 6px;pointer-events:none}
+                    .eog-tile .eog-cap{position:absolute;left:0;right:0;bottom:0;padding:22px 8px 8px;background:linear-gradient(to top,rgba(0,0,0,.9),transparent);color:#fff;font:500 11px/1.3 Inter,sans-serif;pointer-events:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+                    .eog-tile .eog-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;color:#9a9a9a;font:500 11px/1.4 Inter,sans-serif}
+                </style>
+                <div id="recordsList">
+                    <!-- Record tiles injected here -->
                 </div>
 
                 <!-- Pagination -->
@@ -310,37 +321,37 @@
         </div>
 
         <!-- ===== Collection II: The Genocide Archive (Israel Exposed) ===== -->
-        <div id="genocide-archive" class="scroll-mt-28 mt-24 pt-16 border-t border-border-dim">
-            <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-4">Collection II · Israel&nbsp;Exposed</span>
+        <div id="genocide-archive" class="scroll-mt-28 mt-16 pt-12 border-t border-border-dim">
+            <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-3">Collection II · Israel&nbsp;Exposed</span>
 
             <!-- Partner Archive: Genocide Archive (Israel Exposed) -->
             <section aria-labelledby="partner-archive-heading" class="border border-border-dim bg-charcoal/40">
-                <div class="p-6 md:p-10">
-                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                <div class="p-5 md:p-6">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-5">
                         <div class="max-w-2xl">
-                            <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-3">Partner Archive · Cited Source</span>
-                            <h2 id="partner-archive-heading" class="font-heading text-2xl md:text-3xl font-semibold text-white mb-4">The Genocide Archive</h2>
-                            <p class="text-sm md:text-base leading-relaxed text-ash mb-4">
+                            <span class="font-ui text-[10px] uppercase tracking-[0.22em] text-blood font-semibold block mb-2">Partner Archive · Cited Source</span>
+                            <h2 id="partner-archive-heading" class="font-heading text-lg md:text-xl font-semibold text-white mb-2.5">The Genocide Archive</h2>
+                            <p class="text-xs md:text-sm leading-relaxed text-ash mb-2.5">
                                 In July 2026, the <span class="text-bone">Israel&nbsp;Exposed</span> collective released their war-crimes archive fully open source to resist censorship — cataloguing <span class="text-bone">94,000+ documented records</span> of alleged war crimes across Gaza and the West Bank (2023–2026), drawn from field journalists and source channels. Echoes of Gaza cites and credits this archive as an independent, verifiable evidentiary collection. All footage and attribution belong to Israel&nbsp;Exposed and the journalists who captured it.
                             </p>
-                            <p class="text-xs leading-relaxed text-neutral-500">
+                            <p class="text-[11px] leading-relaxed text-neutral-500">
                                 The curated set is an <span class="text-neutral-400">864&nbsp;GB signed media release</span> (167,114 files), part of ~2.4&nbsp;TB of raw source archives preserved by torrent and mirrored on Distributed Denial of Secrets. The website itself is now open source (MIT). Every release is cryptographically signed — verify authenticity before trusting any copy, and submit footage only to their official domains.
                             </p>
                         </div>
-                        <div class="flex flex-col gap-3 md:w-64 md:flex-shrink-0">
-                            <a href="#witness-archive" class="btn-primary text-center font-ui text-xs uppercase tracking-widest px-5 py-3 rounded-none">
+                        <div class="flex flex-col gap-2 md:w-52 md:flex-shrink-0">
+                            <a href="#witness-archive" class="btn-primary text-center font-ui text-[11px] uppercase tracking-widest px-4 py-2.5 rounded-none">
                                 Browse the Archive
                             </a>
                             <a href="https://archivegenocide.com/" target="_blank" rel="noopener noreferrer"
-                               class="text-center font-ui text-xs uppercase tracking-widest border border-border-dim px-5 py-3 text-ash hover:text-white hover:border-neutral-600 transition-colors">
+                               class="text-center font-ui text-[11px] uppercase tracking-widest border border-border-dim px-4 py-2.5 text-ash hover:text-white hover:border-neutral-600 transition-colors">
                                 Visit archivegenocide.com
                             </a>
                             <a href="https://archivegenocide.com/download.html" target="_blank" rel="noopener noreferrer"
-                               class="text-center font-ui text-xs uppercase tracking-widest border border-border-dim px-5 py-3 text-ash hover:text-white hover:border-neutral-600 transition-colors">
+                               class="text-center font-ui text-[11px] uppercase tracking-widest border border-border-dim px-4 py-2.5 text-ash hover:text-white hover:border-neutral-600 transition-colors">
                                 Download &amp; Mirror
                             </a>
                             <a href="https://github.com/interplains/archive-genocide-website-mirror" target="_blank" rel="noopener noreferrer"
-                               class="text-center font-ui text-xs uppercase tracking-widest border border-border-dim px-5 py-3 text-ash hover:text-white hover:border-neutral-600 transition-colors">
+                               class="text-center font-ui text-[11px] uppercase tracking-widest border border-border-dim px-4 py-2.5 text-ash hover:text-white hover:border-neutral-600 transition-colors">
                                 Open-Source Code
                             </a>
                         </div>
@@ -360,8 +371,6 @@
                 #witness-archive .ga-tile:hover img{transform:scale(1.04)}
                 #witness-archive .ga-badge{position:absolute;top:6px;left:6px;font:600 9px/1 Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase;background:rgba(0,0,0,.72);color:#e5e5e5;padding:4px 6px;pointer-events:none}
                 #witness-archive .ga-dur{position:absolute;bottom:6px;right:6px;font:500 10px/1 Inter,sans-serif;background:rgba(0,0,0,.78);color:#fff;padding:3px 5px;pointer-events:none}
-                #witness-archive .ga-reveal{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;font:600 9px/1.5 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#d8c3c3;background:rgba(10,5,5,.35)}
-                #witness-archive .ga-tile:not(.ga-blurred) .ga-reveal{display:none}
                 #witness-archive .ga-stage{position:relative;min-height:220px}
                 #ga-gate{position:absolute;inset:0;z-index:20;background:rgba(7,6,6,.975);display:flex;align-items:center;justify-content:center;padding:1.5rem}
                 #ga-lightbox{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.95);display:none;flex-direction:column;align-items:center;justify-content:center;padding:clamp(.5rem,3vw,2rem)}
@@ -416,7 +425,7 @@
                             This archive contains raw, uncensored documentation of extreme violence, death, and severe injury. Much of the footage is deeply disturbing. It is preserved for evidentiary, journalistic, and legal-accountability purposes.
                         </p>
                         <p class="text-neutral-500 text-xs leading-relaxed mb-6">
-                            Thumbnails load blurred; reveal each one deliberately. By entering you acknowledge the nature of this material.
+                            Thumbnails load blurred; hover over one to reveal it. By entering you acknowledge the nature of this material.
                         </p>
                         <button id="gaEnter" type="button" class="btn-primary font-ui text-xs uppercase tracking-widest px-8 py-3 rounded-none">Enter the archive</button>
                     </div>
@@ -508,12 +517,10 @@
                 '<img loading="lazy" decoding="async" alt="' + esc((desc(e) || badge).slice(0, 80)) + '"' +
                 (thumb ? ' src="' + esc(thumb) + '"' : '') + '>' +
                 '<span class="ga-badge">' + badge + '</span>' +
-                (e.duration ? '<span class="ga-dur">' + esc(e.duration) + '</span>' : '') +
-                '<span class="ga-reveal">Click to reveal</span>';
-            t.addEventListener('click', () => {
-                if (t.classList.contains('ga-blurred')) { t.classList.remove('ga-blurred'); return; }
-                openLightbox(e);
-            });
+                (e.duration ? '<span class="ga-dur">' + esc(e.duration) + '</span>' : '');
+            // Hover reveals the thumbnail and it stays revealed; click opens the lightbox.
+            t.addEventListener('mouseenter', () => t.classList.remove('ga-blurred'));
+            t.addEventListener('click', () => openLightbox(e));
             return t;
         }
 
@@ -527,29 +534,37 @@
             statusEl.textContent = filtered.length ? '' : 'No records match these filters.';
         }
 
+        // Shared lightbox: drops any media node (video/img/iframe) into the modal.
+        // Exposed globally so the curated-records grid (a separate script) can reuse it.
+        function showLightbox(node, metaHtml) {
+            const box = $('ga-lightbox');
+            $('gaLbMedia').innerHTML = '';
+            $('gaLbMedia').appendChild(node);
+            $('gaLbMeta').innerHTML = metaHtml || '';
+            box.classList.add('ga-open');
+            document.body.style.overflow = 'hidden';
+        }
+        window.eogArchiveLightbox = showLightbox;
+
         function openLightbox(e) {
-            const box = $('ga-lightbox'), media = $('gaLbMedia'), meta = $('gaLbMeta');
-            media.innerHTML = '';
+            let node;
             if (e.type === 'video') {
-                const v = document.createElement('video');
-                v.src = gaMediaUrl(e); v.controls = true; v.autoplay = true; v.playsInline = true;
-                if (gaThumbUrl(e)) v.poster = gaThumbUrl(e);
-                media.appendChild(v);
+                node = document.createElement('video');
+                node.src = gaMediaUrl(e); node.controls = true; node.autoplay = true; node.playsInline = true;
+                if (gaThumbUrl(e)) node.poster = gaThumbUrl(e);
             } else {
-                const img = document.createElement('img'); img.src = gaMediaUrl(e); img.alt = desc(e) || 'Archive photo';
-                media.appendChild(img);
+                node = document.createElement('img'); node.src = gaMediaUrl(e); node.alt = desc(e) || 'Archive photo';
             }
             const links = [];
             if (e.post_url) links.push('<a href="' + esc(e.post_url) + '" target="_blank" rel="noopener noreferrer" class="underline decoration-blood/60 underline-offset-4 hover:text-white">View original post</a>');
             links.push('<a href="https://archivegenocide.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-blood/60 underline-offset-4 hover:text-white">Full archive at archivegenocide.com</a>');
-            meta.innerHTML =
+            const meta =
                 (desc(e) ? '<p class="text-sm text-bone leading-relaxed mb-3" dir="auto">' + esc(desc(e)) + '</p>' : '') +
                 '<p class="font-ui text-[11px] uppercase tracking-widest text-neutral-500 mb-3">' +
                     'Source: ' + esc(e.source_archive || 'Israel Exposed') +
                     (fmtDate(e.timestamp) ? ' · ' + fmtDate(e.timestamp) : '') + '</p>' +
                 '<p class="font-ui text-xs text-ash">' + links.join(' &nbsp;·&nbsp; ') + '</p>';
-            box.classList.add('ga-open');
-            document.body.style.overflow = 'hidden';
+            showLightbox(node, meta);
         }
         function closeLightbox() {
             const box = $('ga-lightbox');
@@ -759,7 +774,7 @@
             if (dateParts.year) allYears.add(dateParts.year);
 
             const article = document.createElement('article');
-            article.className = "group record-item"; // class for local filtering
+            article.className = "group record-item eog-tile"; // tile for the curated grid
             article.dataset.title = title.toLowerCase();
             article.dataset.tag = tag;
             article.dataset.source = (data.source || "").toLowerCase();
@@ -768,43 +783,44 @@
             article.dataset.month = dateParts.month;
             article.dataset.format = format;
 
-            // Structure
-            article.innerHTML = `
-                <div class="mb-4 flex items-baseline justify-between">
-                    <span class="font-ui text-xs font-medium uppercase tracking-wider text-neutral-500 border border-neutral-800 px-2 py-1">${escapeHtml(tag)}</span>
-                </div>
-                
-                <h3 class="font-heading text-2xl md:text-3xl text-white mb-2 leading-tight">${escapeHtml(title)}</h3>
-                
-                <div class="font-body text-ash italic mb-6">
-                    ${escapeHtml(date)}${escapeHtml(source)}
-                </div>
+            // Drive files here only permit iframe *preview* embedding (direct image
+            // thumbnails are blocked cross-origin), so each tile shows an inert mini
+            // preview; the click handler opens the full preview in the lightbox.
+            const badgeLabel = format === "video" ? "Video" : format === "picture" ? "Photo" : format === "audio" ? "Audio" : "Document";
 
-                <div class="w-12 h-px bg-blood mb-8"></div>
+            article.innerHTML =
+                (previewUrl ? '' : `<div class="eog-fallback">${escapeHtml(title)}</div>`) +
+                `<span class="eog-badge">${escapeHtml(badgeLabel)}</span>` +
+                `<span class="eog-cap">${escapeHtml(title)}</span>`;
 
-                <div class="relative w-full bg-neutral-900 border border-neutral-800">
-                      <iframe 
-                        src="${previewUrl}" 
-                        allow="autoplay" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer" 
-                        sandbox="allow-scripts allow-same-origin allow-popups" 
-                        class="w-full aspect-[4/3] md:aspect-auto" 
-                        style="height: 520px; border: none;"
-                        title="Document Preview">
-                    </iframe>
-                </div>
+            if (previewUrl) {
+                const preview = document.createElement('iframe');
+                preview.src = previewUrl;
+                preview.loading = 'lazy';
+                preview.referrerPolicy = 'no-referrer';
+                preview.tabIndex = -1;
+                preview.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+                preview.setAttribute('title', title);
+                preview.className = 'eog-frame';
+                article.insertBefore(preview, article.firstChild);
+            }
 
-                <div class="mt-3 text-right">
-                    <a href="${previewUrl}" target="_blank" rel="noopener noreferrer" 
-                       class="font-ui text-xs text-neutral-500 hover:text-blood uppercase tracking-widest transition-colors flex items-center justify-end gap-2 group-hover:underline decoration-blood underline-offset-4">
-                        Open record in Drive
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
-                          <path stroke-linecap="square" stroke-linejoin="miter" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                        </svg>
-                    </a>
-                </div>
-            `;
+            // Click → open the Drive preview in the shared archive lightbox
+            article.addEventListener('click', () => {
+                const frame = document.createElement('iframe');
+                frame.src = previewUrl;
+                frame.allow = 'autoplay';
+                frame.referrerPolicy = 'no-referrer';
+                frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups');
+                frame.setAttribute('title', 'Document preview');
+                frame.style.cssText = 'width:min(1000px,92vw);height:74vh;border:none;background:#000';
+                const meta =
+                    `<p class="font-heading text-lg text-white mb-1">${escapeHtml(title)}</p>` +
+                    `<p class="font-ui text-[11px] uppercase tracking-widest text-neutral-500 mb-3">${escapeHtml(tag)}${date ? ' · ' + escapeHtml(date) : ''}${data.source ? ' · ' + escapeHtml(data.source) : ''}</p>` +
+                    `<p class="font-ui text-xs text-ash"><a href="${escapeHtml(previewUrl)}" target="_blank" rel="noopener noreferrer" class="underline decoration-blood/60 underline-offset-4 hover:text-white">Open record in Drive ↗</a></p>`;
+                if (window.eogArchiveLightbox) window.eogArchiveLightbox(frame, meta);
+                else window.open(previewUrl, '_blank', 'noopener');
+            });
             return article;
         }
 
