@@ -55,6 +55,7 @@ body.site-shell-pad {
   align-self: stretch;
   align-items: center;
   gap: 28px;
+  height: 100%;
 }
 
 .site-shell-nav a,
@@ -93,6 +94,7 @@ body.site-shell-pad {
 .site-shell-menu-wrap {
   position: relative;
   align-self: stretch;
+  height: 100%;
   display: inline-flex;
   align-items: center;
 }
