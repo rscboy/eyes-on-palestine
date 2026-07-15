@@ -1,5 +1,113 @@
 [
   {
+    "date": "2026-07-15",
+    "title": "Israel kills four people in Gaza, including a child, medics say",
+    "summary": "",
+    "link": "https://www.reuters.com/world/middle-east/israel-kills-four-people-gaza-including-child-medics-say-2026-07-15/",
+    "imageUrl": "https://i0.wp.com/janoberg.me/wp-content/uploads/2023/05/logo-Reuters.jpg?fit=5000%2C2435&ssl=1",
+    "category": "Children",
+    "categories": [
+      "Children"
+    ],
+    "categoryColor": "#F194B4",
+    "source": "Reuters",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-15",
+    "title": "They want to break our will': Gaza flotilla activist tells of rape in Israeli detention",
+    "summary": "Anna Liedtke files criminal complaint in Israel over alleged attack by female guards and says abuse was intended to silence campaigners",
+    "link": "https://www.theguardian.com/world/2026/jul/15/gaza-flotilla-activist-rape-complaint-israel-anna-liedtke",
+    "imageUrl": "https://i.guim.co.uk/img/media/ab19e9047c08466edad338d9696f12b30d3c0f32/926_589_4309_3447/master/4309.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=22129ba4f8f0cb1fb1a48374140dc75d",
+    "category": "Sexual Violence",
+    "categories": [
+      "Sexual Violence"
+    ],
+    "categoryColor": "#C7CEEA",
+    "source": "The Guardian",
+    "author": "Emma Graham-Harrison",
+    "authors": [
+      "Emma Graham-Harrison"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2023-10-07",
+    "title": "Amid the ongoing genocide, Gaza's food crisis worsens with closure of World Central Kitchen centers",
+    "summary": "Immediately after the Hamas-led attack on 7 October 2023, Israel imposed a total blockade on Gaza. In the months that followed, it intermittently barr",
+    "link": "https://www.btselem.org/video/20260715_food_crisis_worsens_with_the_closure_of_international_kitchens_in_gaza",
+    "imageUrl": "https://www.btselem.org/sites/default/files/styles/780x585/public/2026-07/13%20June%202026_Doaa%20Albaz_activestills_0.jpeg",
+    "category": "Famine",
+    "categories": [
+      "Famine"
+    ],
+    "categoryColor": "#A2D2FF",
+    "source": "B'Tselem",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-15",
+    "title": "Israel approves over $400m to fund 34 settlements in occupied West Bank",
+    "summary": "Bezalel Smotrich says the settlement expansion is intended to prevent the establishment of a Palestinian state",
+    "link": "https://www.middleeasteye.net/news/revolution-israel-approves-funds-34-new-settlements-occupied-west-bank",
+    "imageUrl": "https://www.middleeasteye.net/sites/default/files/images-story/000_C26A7GU%20%281%29.jpg",
+    "category": "Displacement",
+    "categories": [
+      "Displacement"
+    ],
+    "categoryColor": "#FF6B6B",
+    "source": "Middle East Eye",
+    "author": "https://www.facebook.com/middleeasteye/",
+    "authors": [
+      "https://www.facebook.com/middleeasteye/"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-15",
+    "title": "Israel's latest strikes kill a dozen people in Gaza including police officers",
+    "summary": "",
+    "link": "https://apnews.com/article/israel-gaza-hamas-strikes-casualties-265d48b73dedab69cf3b100947d17f58",
+    "imageUrl": "https://1000logos.net/wp-content/uploads/2016/10/Associated-Press-logo.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Associated Press",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-14",
+    "title": "Israeli general claims 70,000 Palestinians killed by Israel are all \"terrorists\"",
+    "summary": "Maj. Gen. Tamir Yadai, IDF Deputy Chief of Staff, calls all the Palestinians killed in Gaza \"terrorists\": \"I don't know how to describe this except as a victory. When you control 65% of the territory, when 70,000 terrorists were killed here...\".",
+    "link": "https://x.com/Archivepaletc/status/2077084956224819431?s=20",
+    "imageUrl": "https://pbs.twimg.com/amplify_video_thumb/2077083703742771200/img/Z9PiJ04Y3n2pRKiS.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Israeli Channel 10",
+    "author": "https://x.com/Archivepaletc",
+    "authors": [
+      "https://x.com/Archivepaletc"
+    ],
+    "documentType": "Social media post"
+  },
+  {
     "date": "2026-07-14",
     "title": "Ten-year-old boy shot by Israeli gunfire in Rafah, three others killed in Gaza City strikes",
     "summary": "",
