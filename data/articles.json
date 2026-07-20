@@ -1,5 +1,59 @@
 [
   {
+    "date": "2026-07-20",
+    "title": "Israeli air strike on Gaza kills three people, wounds several others",
+    "summary": "",
+    "link": "https://www.middleeasteye.net/live-blog/live-blog-update/israeli-air-strike-kills-3-and-wounds-others-gaza?topic=War%2520on%2520Iran&nid=442386&fid=556900",
+    "imageUrl": "https://yt3.googleusercontent.com/ytc/AIdro_lRzIchs74TuzdT7g_vmgeoD_KFN5kmLk_I3GlVmBl8Z_g=s900-c-k-c0x00ffffff-no-rj",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Middle East Eye",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-20",
+    "title": "IDF refuses to clarify reasoning for Gaza strike that killed family of five",
+    "summary": "The apparent target, Adham Nesman, was described in eulogies as a 'sheikh' and a 'commander,' but his organizational affiliation and whether he was involved in military activity remain unclear",
+    "link": "https://www.haaretz.com/gaza/2026-07-20/ty-article/.premium/idf-refuses-to-clarify-reasoning-for-gaza-strike-that-killed-family-of-five/0000019f-7e69-d6a9-abbf-7efd90e20000",
+    "imageUrl": "https://img.haarets.co.il/bs/0000019f-7e69-d6a9-abbf-7efd90e20000/38/38/74c314a9450696a9791ae435e317/841769.jpg?precrop=2400,1395,x0,y126&width=1200&height=630&cmsprod",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Haaretz",
+    "author": "Nir Hasson",
+    "authors": [
+      "Nir Hasson"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-20",
+    "title": "Israel's far-right openly boasts of resettling Gaza as election looms",
+    "summary": "With elections looming in October, Israel's right wing is turning the push to rebuild Jewish settlements in Gaza into a central issue of their campaign.",
+    "link": "https://www.cnn.com/2026/07/20/middleeast/israel-far-right-settlements-gaza-intl",
+    "imageUrl": "https://media.cnn.com/api/v1/images/stellar/prod/2026-07-19t182243z-1136150148-rc24hmasj9bj-rtrmadp-3-israel-palestinians-gaza-march.jpg?c=16x9&q=w_800,c_fill",
+    "category": "Settler Violence",
+    "categories": [
+      "Settler Violence"
+    ],
+    "categoryColor": "#D6EAF8",
+    "source": "CNN",
+    "author": "Tal Shalev",
+    "authors": [
+      "Tal Shalev"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-07-17",
     "title": "Israel advances crocodile plan to stop Palestinian prisoners escaping",
     "summary": "",
