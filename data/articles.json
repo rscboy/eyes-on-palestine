@@ -1,5 +1,60 @@
 [
   {
+    "date": "2026-07-21",
+    "title": "Israeli airstrike kills family of six in Gaza, medics say",
+    "summary": "This is ‌the latest deadly attack since a U.S.-backed ceasefire was agreed more than nine months ago.",
+    "link": "https://www.reuters.com/world/middle-east/israeli-airstrike-kills-family-six-gaza-medics-say-2026-07-21/",
+    "imageUrl": "https://www.reuters.com/resizer/v2/OL2PAAQYZNLS3MSH2PKWQFDN2M.jpg?auth=6deca748b3e511730e29cd01aff5ca66a322c5463abd825cc76d219d02ea1895&height=1005&width=1920&quality=80&smart=true",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Reuters",
+    "author": "Nidal Al-Mughrabi, Dawoud Abu Alkas",
+    "authors": [
+      "Nidal Al-Mughrabi",
+      "Dawoud Abu Alkas"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-21",
+    "title": "I'm a Scholar of Genocide. We're Entering a Terrifying New Era.",
+    "summary": "",
+    "link": "https://www.nytimes.com/2026/07/21/opinion/israel-gaza-palestinians-genocide.html",
+    "imageUrl": "https://ropercenter.cornell.edu/sites/default/files/styles/800x600/public/Images/New-York-Times-Logo8x6_0.png?itok=7YqGOSMA",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The New York Times",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-21",
+    "title": "Israel is building a miles-long earthen barrier inside Gaza, entrenching its division",
+    "summary": "",
+    "link": "https://apnews.com/article/israel-gaza-yellow-line-barrier-ceasefire-941ed80f6d4398ce88916f6b08753dd8",
+    "imageUrl": "https://1000logos.net/wp-content/uploads/2016/10/Associated-Press-logo.jpg",
+    "category": "Gaza",
+    "categories": [
+      "Gaza"
+    ],
+    "categoryColor": "#F194B4",
+    "source": "Associated Press",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-07-20",
     "title": "Israeli air strike on Gaza kills three people, wounds several others",
     "summary": "",
