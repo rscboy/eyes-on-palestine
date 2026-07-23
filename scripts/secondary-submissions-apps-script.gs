@@ -231,6 +231,11 @@ function doPost(e) {
       return rejectArticle_(payload);
     }
 
+    if (action === "updatePendingArticle") {
+      requireAdmin_(payload);
+      return json_(updatePendingArticleData_(payload));
+    }
+
     if (action === "repairApprovedArticles") {
       requireAdmin_(payload);
       return json_(repairApprovedArticlesData_());
@@ -434,6 +439,43 @@ function rejectArticle_(payload) {
   setCell_(sheet, headers, rowNumber, "rejectionReason", payload.reason || "");
 
   return json_({ result: "success" });
+}
+
+function updatePendingArticleData_(payload) {
+  const sheet = getSheet_();
+  const { rowNumber, rowObj, headers } = findRowById_(sheet, payload.id);
+
+  if (rowObj.status !== "pending") {
+    throw new Error("Only pending articles can be edited.");
+  }
+
+  const updates = payload.article && typeof payload.article === "object" ? payload.article : {};
+  const editableFields = [
+    "date", "title", "summary", "link", "imageUrl", "category", "categoryColor",
+    "source", "author", "documentType"
+  ];
+
+  editableFields.forEach(field => {
+    if (!Object.prototype.hasOwnProperty.call(updates, field)) return;
+    const value = ["date", "link", "imageUrl", "categoryColor"].includes(field)
+      ? String(updates[field] || "").trim()
+      : cleanDisplayText_(updates[field] || "");
+    setCellIfHeader_(sheet, headers, rowNumber, field, value);
+  });
+
+  if (Object.prototype.hasOwnProperty.call(updates, "categories")) {
+    setCellIfHeader_(sheet, headers, rowNumber, "categories", JSON.stringify(cleanDisplayList_(updates.categories || [])));
+  }
+  if (Object.prototype.hasOwnProperty.call(updates, "authors")) {
+    setCellIfHeader_(sheet, headers, rowNumber, "authors", JSON.stringify(cleanDisplayList_(updates.authors || [])));
+  }
+
+  const refreshed = findRowById_(sheet, payload.id).rowObj;
+  return {
+    result: "success",
+    item: refreshed,
+    message: "Pending article changes saved. It remains pending until approved."
+  };
 }
 
 function repairApprovedArticlesFromSheet() {

@@ -1027,6 +1027,7 @@ Echoes of Gaza</textarea>
     let passwordAccessInProgress = false;
     let publishedBlogPosts = [];
     let pendingBlogItems = [];
+    let pendingSecondaryItems = [];
     let activeBlogEditorPost = null;
     let integrityLatestPayload = null;
     let integrityOverrides = {};
@@ -3896,6 +3897,7 @@ ${detailsImages}
     }
 
     function renderSecondaryList(items) {
+      pendingSecondaryItems = items || [];
       if (!items.length) {
         secondaryListContainer.innerHTML = `
           <div class="py-20 text-center text-zinc-600 italic font-serif">
@@ -3942,11 +3944,19 @@ ${detailsImages}
                 </div>
               ` : ""}
 
+              <div id="secondary-editor-${esc(item.id)}" class="hidden border border-zinc-800 bg-[#070707] p-4 mt-4"></div>
+
               <div id="secondary-error-${esc(item.id)}" class="hidden mt-2 text-[#8b0000] text-xs font-sans"></div>
               <div id="secondary-success-${esc(item.id)}" class="hidden mt-2 text-green-700 text-xs font-sans">Processed</div>
             </div>
 
-            <div class="flex gap-2 min-w-[180px] justify-start mt-2">
+            <div class="flex flex-wrap gap-2 min-w-[180px] justify-start mt-2">
+              <button
+                onclick="window.openSecondaryEditor('${esc(item.id)}')"
+                id="btn-secondary-edit-${esc(item.id)}"
+                class="px-5 py-2 border border-zinc-700 text-zinc-300 hover:border-[#8b0000] hover:text-white hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">
+                Edit
+              </button>
               <button
                 onclick="window.handleRejectSecondary('${esc(item.id)}')"
                 id="btn-secondary-reject-${esc(item.id)}"
@@ -3967,6 +3977,126 @@ ${detailsImages}
 
       secondaryListContainer.innerHTML = html;
     }
+
+    function secondaryEditorField_(label, name, value, type = "text", extra = "") {
+      return `
+        <label class="block text-[10px] text-zinc-500 uppercase tracking-widest font-sans">
+          ${esc(label)}
+          ${type === "textarea"
+            ? `<textarea name="${esc(name)}" rows="3" class="mt-2 w-full border border-zinc-800 bg-black p-3 text-sm text-zinc-200 font-sans focus:border-[#8b0000] focus:outline-none">${esc(value || "")}</textarea>`
+            : `<input type="${esc(type)}" name="${esc(name)}" value="${esc(value || "")}" ${extra} class="mt-2 w-full border border-zinc-800 bg-black p-3 text-sm text-zinc-200 font-sans focus:border-[#8b0000] focus:outline-none">`}
+        </label>
+      `;
+    }
+
+    window.openSecondaryEditor = (id) => {
+      const item = pendingSecondaryItems.find(entry => String(entry.id) === String(id));
+      const panel = document.getElementById(`secondary-editor-${id}`);
+      if (!item || !panel) return;
+      if (!panel.classList.contains("hidden")) {
+        panel.classList.add("hidden");
+        panel.innerHTML = "";
+        return;
+      }
+
+      panel.innerHTML = `
+        <form id="secondary-edit-form-${esc(id)}" class="space-y-4">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-[10px] text-[#8b0000] uppercase tracking-[0.18em] font-sans font-bold mb-2">Review And Edit</p>
+              <h4 class="text-lg text-zinc-200 font-serif leading-tight">Edit Pending Article</h4>
+              <p class="text-xs text-zinc-500 font-sans leading-relaxed mt-1">Save corrections first; approval will publish this edited version.</p>
+            </div>
+            <button type="button" onclick="window.openSecondaryEditor('${esc(id)}')" class="px-3 py-2 border border-zinc-800 text-zinc-400 hover:text-zinc-100 text-[10px] font-sans uppercase tracking-widest">Close</button>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            ${secondaryEditorField_("Title", "title", item.title)}
+            ${secondaryEditorField_("Publication date", "date", item.date, "date")}
+            ${secondaryEditorField_("Source", "source", item.source)}
+            ${secondaryEditorField_("Author", "author", item.author)}
+            ${secondaryEditorField_("Category", "category", item.category)}
+            ${secondaryEditorField_("Category color", "categoryColor", item.categoryColor)}
+            ${secondaryEditorField_("Document type", "documentType", item.documentType)}
+            ${secondaryEditorField_("Article URL", "link", item.link, "url")}
+          </div>
+          ${secondaryEditorField_("Summary", "summary", item.summary, "textarea")}
+          ${secondaryEditorField_("Image URL", "imageUrl", item.imageUrl, "url")}
+          <div class="flex flex-wrap gap-3">
+            <button type="button" onclick="window.saveSecondaryEditor('${esc(id)}')" id="btn-secondary-save-${esc(id)}" class="px-5 py-2 border border-zinc-700 text-zinc-200 hover:border-[#8b0000] hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">Save Changes</button>
+            <button type="button" onclick="window.saveSecondaryEditor('${esc(id)}', true)" class="px-5 py-2 border border-[#8b0000] text-zinc-100 hover:bg-[#8b0000]/10 transition-all text-[11px] font-sans tracking-[0.15em] uppercase">Save &amp; Approve</button>
+          </div>
+        </form>
+      `;
+      panel.classList.remove("hidden");
+      panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    };
+
+    window.saveSecondaryEditor = async (id, approveAfterSave = false) => {
+      if (isProcessing) return;
+      const form = document.getElementById(`secondary-edit-form-${id}`);
+      const saveBtn = document.getElementById(`btn-secondary-save-${id}`);
+      const errorDiv = document.getElementById(`secondary-error-${id}`);
+      const originalText = saveBtn?.textContent || "Save Changes";
+      if (!form) return;
+
+      const article = Object.fromEntries(new FormData(form).entries());
+      const required = ["date", "title", "link", "imageUrl", "category", "categoryColor", "source"];
+      const missing = required.filter(field => !String(article[field] || "").trim());
+      if (missing.length) {
+        if (errorDiv) {
+          errorDiv.textContent = `Missing required fields: ${missing.join(", ")}`;
+          errorDiv.classList.remove("hidden");
+        }
+        return;
+      }
+
+      isProcessing = true;
+      setStatus("Saving secondary article...");
+      if (errorDiv) errorDiv.classList.add("hidden");
+      if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Saving...";
+      }
+      try {
+        const response = await fetch(SECONDARY_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "updatePendingArticle",
+            id,
+            article,
+            adminCode: getSecondaryAdminCode(),
+            adminEmail: currentUser?.email || "Password admin"
+          })
+        });
+        const data = await readJsonResponse(response, "Pending article save failed.");
+        if (data.result !== "success") throw new Error(data.message || "Pending article save failed.");
+        if (data.item) {
+          pendingSecondaryItems = pendingSecondaryItems.map(entry => String(entry.id) === String(id) ? data.item : entry);
+        }
+        if (approveAfterSave) {
+          isProcessing = false;
+          await window.handleApproveSecondary(id);
+          return;
+        }
+        await fetchSecondarySubmissions();
+        window.openSecondaryEditor(id);
+        setStatus("Secondary article saved");
+      } catch (error) {
+        console.error(error);
+        if (errorDiv) {
+          errorDiv.textContent = "Error: " + error.message;
+          errorDiv.classList.remove("hidden");
+        }
+        setStatus("Error");
+      } finally {
+        isProcessing = false;
+        if (saveBtn) {
+          saveBtn.disabled = false;
+          saveBtn.textContent = originalText;
+        }
+      }
+    };
 
     window.handleApproveSecondary = async (id) => {
       if (isProcessing) return;
