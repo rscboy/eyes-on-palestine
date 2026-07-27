@@ -1,5 +1,95 @@
 [
   {
+    "date": "2026-07-27",
+    "title": "Israeli settlers set fire to West Bank mosques after deadly clash",
+    "summary": "The attacks followed an incident on Friday when four Palestinians and two Israeli soldiers were killed when a crowd of Israeli settlers approached a Palestinian village.",
+    "link": "https://www.nbcnews.com/world/israel/israeli-settlers-set-fire-west-bank-mosques-deadly-clash-rcna589389",
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-07/260727-west-bank-rs-1f46ed.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "NBC News",
+    "author": "Reuters",
+    "authors": [
+      "Reuters"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-26",
+    "title": "Israeli settlers set fire to mosques, cars and farm land in West Bank, Palestinians say",
+    "summary": "The latest attacks come two days after a clash between settlers and Palestinians near the village of Tal, which left four Palestinians and two Israelis dead.",
+    "link": "https://www.bbc.com/news/articles/cjrv77gl4deo",
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/5fa6/live/489f0bc0-8939-11f1-b0da-9113fb476dd1.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "BBC News",
+    "author": "Sebastian Usher",
+    "authors": [
+      "Sebastian Usher"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-27",
+    "title": "Israel to allow international force into Gaza, Israeli official says",
+    "summary": "",
+    "link": "https://www.reuters.com/world/middle-east/israeli-security-cabinet-approves-letting-international-force-enter-gaza-areas-2026-07-26/",
+    "imageUrl": "https://i0.wp.com/janoberg.me/wp-content/uploads/2023/05/logo-Reuters.jpg?fit=5000%2C2435&ssl=1",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Reuters",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-27",
+    "title": "Israel attacks civilians sheltering at UN school in Gaza, while separate strike kills two",
+    "summary": "An Israeli attack targeted a group of Palestinian civilians in Deir el-Balah in central Gaza, in front of an Unrwa school where they were sheltering.",
+    "link": "https://www.middleeasteye.net/live-blog/live-blog-update/israel-attacks-civilians-sheltering-un-school-gaza-while-separate-strike",
+    "imageUrl": "https://www.middleeasteye.net/sites/default/files/2026-07/man-walks-ali-khamenei-art-tehran-iran-july-2026-afp.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Middle East Eye",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Blog"
+  },
+  {
+    "date": "2026-07-27",
+    "title": "Report: Netanyahu tells cabinet US wants Israel to withdraw troops in Lebanon, Gaza, Syria; says he's going to refuse",
+    "summary": "",
+    "link": "https://www.timesofisrael.com/liveblog_entry/report-netanyahu-tells-cabinet-us-wants-israel-to-withdraw-troops-in-lebanon-gaza-syria-says-hes-going-to-refuse/",
+    "imageUrl": "https://play-lh.googleusercontent.com/5RXKeNxLAMc60xycN3PSvoxwEY8Pp9iiZH2stMxmh9YoL6YOa7wSYPMA-w1vpYM7rg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The Times of Israel",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-07-23",
     "title": "I Thought I Knew Gaza. Then I Went Back.",
     "summary": "After nearly three years, I finally returned to my homeland. I wasn't prepared for what I found.",
