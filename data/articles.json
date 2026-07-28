@@ -1,5 +1,41 @@
 [
   {
+    "date": "2026-07-25",
+    "title": "Photos show the aftermath of settler violence in the West Bank and strikes in Gaza",
+    "summary": "Israel's military pressed on with operations in Gaza and the occupied West Bank as civilians grappled with the consequences of the conflict.",
+    "link": "https://apnews.com/photo-gallery/west-bank-israel-gaza-palestinians-photos-07097bb9c5cbb544913aa7e8f034a62b",
+    "imageUrl": "https://dims.apnews.com/dims4/default/2e5e196/2147483647/strip/true/crop/8234x5487+0+1/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F55%2F44%2Ff37f896a6a1efc557a4eeb874d04%2F735e60d88cad49558a2068b739a54660",
+    "category": "Settler Violence",
+    "categories": [
+      "Settler Violence"
+    ],
+    "categoryColor": "#D6EAF8",
+    "source": "Associated Press",
+    "author": "https://apnews.com/author/majdi-mohammed",
+    "authors": [
+      "https://apnews.com/author/majdi-mohammed"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-07-28",
+    "title": "It feels like hell': Gaza families battle suffocating summer heat in tents",
+    "summary": "",
+    "link": "https://www.middleeasteye.net/news/its-suffocating-gazas-displaced-families-battle-summer-heat-tents",
+    "imageUrl": "https://yt3.googleusercontent.com/ytc/AIdro_lRzIchs74TuzdT7g_vmgeoD_KFN5kmLk_I3GlVmBl8Z_g=s900-c-k-c0x00ffffff-no-rj",
+    "category": "Abuse",
+    "categories": [
+      "Abuse"
+    ],
+    "categoryColor": "#C7CEEA",
+    "source": "Middle East Eye",
+    "author": "Maha Hussaini",
+    "authors": [
+      "Maha Hussaini"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-07-27",
     "title": "Israeli settlers set fire to West Bank mosques after deadly clash",
     "summary": "The attacks followed an incident on Friday when four Palestinians and two Israeli soldiers were killed when a crowd of Israeli settlers approached a Palestinian village.",
