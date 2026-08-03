@@ -6,7 +6,7 @@
     <title>Voices from Echoes of Gaza</title>
     <meta name="description" content="Stories, testimonies, and the lived consequences of standing for Palestine.">
     <link rel="canonical" href="https://echoesofgaza.org/blog">
-    <link rel="icon" href="/favicon.svg?v=20260803" type="image/svg+xml">
+    <link rel="icon" href="/assets/favicon.png?v=20260803" type="image/png">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Echoes of Gaza">
     <meta property="og:title" content="Voices from Echoes of Gaza">
@@ -825,7 +825,7 @@
         const SITE_TITLE = "Voices from Echoes of Gaza";
         const SITE_DESCRIPTION = "Stories, testimonies, and the lived consequences of standing for Palestine.";
         const SITE_URL = "https://echoesofgaza.org/blog";
-        const SITE_FAVICON = "/favicon.svg?v=20260803";
+        const SITE_FAVICON = "/assets/favicon.png?v=20260803";
         const BLOG_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec";
         const COMMENT_REACTIONS = [
             { key: "like", label: "Like", icon: "👍" }
@@ -1018,7 +1018,7 @@
                 document.head.appendChild(favicon);
             }
             favicon.setAttribute("href", SITE_FAVICON);
-            favicon.setAttribute("type", "image/svg+xml");
+            favicon.setAttribute("type", "image/png");
         }
 
         function setSeoMeta(post = null) {
