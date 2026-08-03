@@ -1602,20 +1602,15 @@
                 `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(url)}`,
                 `https://thingproxy.freeboard.io/fetch/${url}`
             ];
-            let lastError;
-            for (const requestUrl of proxyUrls) {
-                try {
-                    // The direct attempt rarely succeeds for publishers (CORS), so give it
-                    // a short timeout and let the proxies do the real work.
-                    const timeoutMs = requestUrl === url ? 5000 : 12000;
-                    const text = await fetchWithTimeout(requestUrl, {}, timeoutMs);
-                    if (looksLikeArticleHtml(text)) return text;
-                    lastError = new Error("Response did not contain readable page HTML.");
-                } catch (error) {
-                    lastError = error;
-                }
-            }
-            throw lastError || new Error("Unable to fetch article metadata.");
+            // Probe all routes at once. This ensures every fetch gets a real attempt
+            // while keeping one slow or blocked proxy from holding up the form.
+            const attempts = proxyUrls.map(requestUrl =>
+                fetchWithTimeout(requestUrl, {}, 9000).then(text => {
+                    if (!looksLikeArticleHtml(text)) throw new Error("Response did not contain readable page HTML.");
+                    return text;
+                })
+            );
+            return Promise.any(attempts);
         }
 
         // Structured fallback. When scraping the page HTML fails or yields almost
@@ -1644,9 +1639,14 @@
         function mergeMetadata(primary, secondary) {
             const merged = { ...(primary || {}) };
             Object.keys(secondary || {}).forEach(key => {
-                if (!merged[key] && secondary[key]) merged[key] = secondary[key];
+                if (!merged[key] && isUsableMetadataValue(secondary[key])) merged[key] = secondary[key];
             });
             return merged;
+        }
+
+        function isUsableMetadataValue(value) {
+            const normalized = cleanMetadataValue(value).toLowerCase();
+            return Boolean(normalized) && !/^(access denied|forbidden|just a moment|error \d{3})\b/.test(normalized);
         }
 
         // A result is "thin" if we couldn't even get a title, or got a title but
@@ -1659,7 +1659,7 @@
 
         function fillInputIfBlank(input, value, shouldDispatch = true) {
             const cleanValue = cleanMetadataValue(value);
-            if (!input || !cleanValue || input.value.trim()) return false;
+            if (!input || !isUsableMetadataValue(cleanValue) || input.value.trim()) return false;
             input.value = cleanValue;
             if (shouldDispatch) input.dispatchEvent(new Event("change", { bubbles: true }));
             return true;
@@ -1729,28 +1729,20 @@
             setMetadataStatus(statusElement, "Fetching article details from the link...", "loading");
 
             let metadata = {};
-            let usedFallback = false;
-            try {
-                // Start with the server-side lookup. Publisher pages often block
-                // browser requests, and trying several CORS proxies first made the
-                // bulk "Fetch & build" control appear unresponsive for up to a minute.
-                metadata = await fetchMicrolinkMetadata(url);
-                usedFallback = true;
-            } catch (error) {
-                console.warn("Structured metadata lookup failed:", error);
-            }
-
-            // If the structured lookup is unavailable or sparse, scrape the page
-            // through the direct/proxy fallbacks for any missing details.
-            if (metadataIsThin(metadata)) {
-                try {
-                    const html = await fetchArticleHtml(url);
-                    const scraped = extractArticleMetadata(html, url);
-                    metadata = mergeMetadata(metadata, scraped);
-                } catch (error) {
-                    console.warn("Direct/proxy metadata fetch failed:", error);
+            // Always query both independent paths and merge whatever each can
+            // recover. One service may have the date or author even if another
+            // was blocked from reading the title or summary.
+            const lookups = await Promise.allSettled([
+                fetchMicrolinkMetadata(url),
+                fetchArticleHtml(url).then(html => extractArticleMetadata(html, url))
+            ]);
+            lookups.forEach((result, index) => {
+                if (result.status === "fulfilled") {
+                    metadata = mergeMetadata(metadata, result.value);
+                } else {
+                    console.warn(index === 0 ? "Structured metadata lookup failed:" : "Direct/proxy metadata fetch failed:", result.reason);
                 }
-            }
+            });
 
             // applyArticleMetadata also recognizes the source from the domain and
             // fills its known image, so even an empty result can make progress.
@@ -1758,8 +1750,7 @@
             const ok = Boolean(fields.title?.value?.trim());
 
             if (changed.length) {
-                const suffix = usedFallback ? " (some via fallback lookup)" : "";
-                setMetadataStatus(statusElement, `Auto-filled: ${changed.join(", ")}${suffix}. Please review before submitting.`, "success");
+                setMetadataStatus(statusElement, `Auto-filled: ${changed.join(", ")}. Please review before submitting.`, "success");
             } else if (fields.source?.value?.trim()) {
                 setMetadataStatus(statusElement, `Couldn't fetch full details, but recognized the source as “${fields.source.value}” from the link. Please add the remaining fields manually.`, "success");
             } else {
