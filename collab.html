@@ -2171,7 +2171,10 @@
                 if (!button) return;
                 button.closest('[data-extra-article]')?.remove();
                 if (multiArticleMode.checked && !additionalArticles.querySelector('[data-extra-article]')) {
-                    createExtraArticleBlock();
+                    // A contributor who removes the final extra article is done
+                    // with batch mode; don't immediately replace the item they removed.
+                    multiArticleMode.checked = false;
+                    setMultiArticleMode(false);
                 }
             });
 
