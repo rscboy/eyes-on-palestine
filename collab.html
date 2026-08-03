@@ -1099,7 +1099,10 @@
                 authorDatabase.innerHTML = authors.map(author => `<option value="${author}"></option>`).join('');
             })
             .catch(() => {});
-        setDefaultCategories();
+        // Run after this script has created the link-intake variables below.
+        // Calling syncSelectedCategories here would otherwise touch them while
+        // they are still in JavaScript's initialization phase.
+        document.addEventListener('DOMContentLoaded', setDefaultCategories, { once: true });
 
         // Color palette for categories (17 colors)
         const colors = [
@@ -1728,20 +1731,24 @@
             let metadata = {};
             let usedFallback = false;
             try {
-                const html = await fetchArticleHtml(url);
-                metadata = extractArticleMetadata(html, url);
+                // Start with the server-side lookup. Publisher pages often block
+                // browser requests, and trying several CORS proxies first made the
+                // bulk "Fetch & build" control appear unresponsive for up to a minute.
+                metadata = await fetchMicrolinkMetadata(url);
+                usedFallback = true;
             } catch (error) {
-                console.warn("Direct/proxy metadata fetch failed:", error);
+                console.warn("Structured metadata lookup failed:", error);
             }
 
-            // If scraping came back empty or thin, let the structured service try.
+            // If the structured lookup is unavailable or sparse, scrape the page
+            // through the direct/proxy fallbacks for any missing details.
             if (metadataIsThin(metadata)) {
                 try {
-                    const fallback = await fetchMicrolinkMetadata(url);
-                    metadata = mergeMetadata(metadata, fallback);
-                    usedFallback = true;
+                    const html = await fetchArticleHtml(url);
+                    const scraped = extractArticleMetadata(html, url);
+                    metadata = mergeMetadata(metadata, scraped);
                 } catch (error) {
-                    console.warn("Microlink fallback failed:", error);
+                    console.warn("Direct/proxy metadata fetch failed:", error);
                 }
             }
 
@@ -1946,36 +1953,41 @@
                 setMultiArticleMode(false);
             }
 
-            const entries = Array.from(additionalArticles.querySelectorAll("[data-extra-article]"));
-            const tasks = urls.map((url, index) => {
-                if (index === 0) {
-                    linkInput.value = url;
-                    return { url, fields: getFirstArticleAutofillFields(), statusElement: metadataFetchStatus, button: metadataFetchButton };
-                }
-                const entry = entries[index - 1];
-                const linkField = getExtraArticleField(entry, "link");
-                if (linkField) linkField.value = url;
-                return {
-                    url,
-                    fields: getExtraArticleAutofillFields(entry),
-                    statusElement: getExtraArticleField(entry, "metadataStatus"),
-                    button: entry.querySelector("[data-fetch-extra-metadata]")
-                };
-            });
+            try {
+                const entries = Array.from(additionalArticles.querySelectorAll("[data-extra-article]"));
+                const tasks = urls.map((url, index) => {
+                    if (index === 0) {
+                        linkInput.value = url;
+                        return { url, fields: getFirstArticleAutofillFields(), statusElement: metadataFetchStatus, button: metadataFetchButton };
+                    }
+                    const entry = entries[index - 1];
+                    const linkField = getExtraArticleField(entry, "link");
+                    if (linkField) linkField.value = url;
+                    return {
+                        url,
+                        fields: getExtraArticleAutofillFields(entry),
+                        statusElement: getExtraArticleField(entry, "metadataStatus"),
+                        button: entry.querySelector("[data-fetch-extra-metadata]")
+                    };
+                });
 
-            await runWithConcurrency(tasks, 3, task => autofillArticleFromLink(task));
-
-            linkIntakeButton.removeAttribute("disabled");
-            renderIntakeChecklist();
-            const statuses = collectArticleStatuses();
-            const ready = statuses.filter(status => status.missing.length === 0).length;
-            const remaining = statuses.length - ready;
-            setMetadataStatus(
-                linkIntakeStatus,
-                `Fetched ${urls.length} article${urls.length > 1 ? "s" : ""}. ${ready} ready, ${remaining} still ${remaining === 1 ? "needs" : "need"} details below.`,
-                ready === statuses.length ? "success" : ""
-            );
-            linkIntakeChecklist.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                await runWithConcurrency(tasks, 3, task => autofillArticleFromLink(task));
+                renderIntakeChecklist();
+                const statuses = collectArticleStatuses();
+                const ready = statuses.filter(status => status.missing.length === 0).length;
+                const remaining = statuses.length - ready;
+                setMetadataStatus(
+                    linkIntakeStatus,
+                    `Fetched ${urls.length} article${urls.length > 1 ? "s" : ""}. ${ready} ready, ${remaining} still ${remaining === 1 ? "needs" : "need"} details below.`,
+                    ready === statuses.length ? "success" : ""
+                );
+                linkIntakeChecklist.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            } catch (error) {
+                console.error("Bulk metadata fetch failed:", error);
+                setMetadataStatus(linkIntakeStatus, "We couldn't build these articles automatically. Please try again or use Fetch Details on an individual link.", "error");
+            } finally {
+                linkIntakeButton.removeAttribute("disabled");
+            }
         }
 
         if (linkIntakeButton && linkIntakeInput) {
