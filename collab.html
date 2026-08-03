@@ -803,7 +803,7 @@
                             </div>
                             <div>
                                  <label for="primaryTag" class="block text-sm font-sans text-gray-500 mb-2 uppercase tracking-wide">Tag *</label>
-                                 <input type="text" id="primaryTag" name="primaryTag" class="form-input block w-full p-3" placeholder="e.g. Medical Report, Eye Witness" required>
+                                 <input type="text" id="primaryTag" name="primaryTag" class="form-input block w-full p-3" value="Genocide" placeholder="e.g. Medical Report, Eye Witness" required>
                             </div>
                         </div>
 
@@ -955,6 +955,36 @@
             ceasefire: ["Diplomacy", "Conflict", "Humanitarian Aid"]
         };
 
+        // Conservative, title-only matches give contributors a useful starting point
+        // without trying to infer topics from ambiguous article text.
+        const titleCategoryRules = [
+            { category: "Genocide", patterns: [/\bgenocid(?:e|al|es)?\b/i, /\bethnic cleansing\b/i, /\breproductive genocide\b/i] },
+            { category: "Starvation", patterns: [/\bstarv(?:e|es|ed|ing|ation)\b/i, /\bfamine\b/i, /\bhunger\b/i] },
+            { category: "Ceasefire", patterns: [/\bcease[ -]?fire\b/i, /\btruce\b/i] },
+            { category: "Displacement", patterns: [/\bdisplace(?:d|ment|ments)\b/i, /\bforc(?:ed|ible) displacement\b/i, /\bexpulsion\b/i] },
+            { category: "Children", patterns: [/\bchildren\b/i, /\bchild\b/i, /\binfants?\b/i, /\bnewborns?\b/i] },
+            { category: "Women", patterns: [/\bwomen\b/i, /\bmothers?\b/i, /\bpregnan(?:t|cy)\b/i] },
+            { category: "Healthcare Crisis", patterns: [/\bhospitals?\b/i, /\bhealth ?care\b/i, /\bmedical\b/i, /\bdoctors?\b/i] },
+            { category: "Aid Blockade", patterns: [/\baid blockade\b/i, /\baid (?:is )?blocked\b/i, /\bblock(?:ade|ing) aid\b/i] },
+            { category: "Humanitarian Aid", patterns: [/\bhumanitarian aid\b/i, /\baid deliveries?\b/i, /\brelief (?:aid|supplies)\b/i] },
+            { category: "War Crimes", patterns: [/\bwar crimes?\b/i, /\bcrime against humanity\b/i] },
+            { category: "Legal Proceedings", patterns: [/\b(?:icj|icc|international court|lawsuit|court ruling|arrest warrant)\b/i] },
+            { category: "Settler Violence", patterns: [/\bsettler(?:s)?\b/i, /\bwest bank violence\b/i] },
+            { category: "Media Freedom", patterns: [/\bjournalists?\b/i, /\bpress freedom\b/i, /\bmedia (?:ban|blackout|restrictions?)\b/i] },
+            { category: "Protests", patterns: [/\bprotests?\b/i, /\bdemonstrations?\b/i] },
+            { category: "Military Operations", patterns: [/\b(?:airstrikes?|bomb(?:ing|ed)?|military operation|ground offensive)\b/i] }
+        ];
+        const defaultCategory = "Genocide";
+        const submitterNameStorageKey = "echoesOfGaza.submitterName";
+
+        function categoriesSuggestedByTitle(title) {
+            const normalizedTitle = String(title || "").trim();
+            if (!normalizedTitle) return [];
+            return titleCategoryRules
+                .filter(rule => rule.patterns.some(pattern => pattern.test(normalizedTitle)))
+                .map(rule => rule.category);
+        }
+
         const selectedCategories = [];
         const categorySearch = document.getElementById('categorySearch');
         const categoriesInput = document.getElementById('categories');
@@ -972,16 +1002,57 @@
         window.removeCategory = function(category) {
             const index = selectedCategories.indexOf(category);
             if (index >= 0) selectedCategories.splice(index, 1);
+            categorySearch.dataset.contributorSelected = "true";
             syncSelectedCategories();
             renderCategorySuggestions(categorySearch.value);
         };
 
-        function addCategory(category) {
+        function addCategory(category, { contributorSelected = true } = {}) {
             if (!category || selectedCategories.includes(category)) return;
             selectedCategories.push(category);
+            if (contributorSelected) categorySearch.dataset.contributorSelected = "true";
             categorySearch.value = '';
             syncSelectedCategories();
             renderCategorySuggestions('');
+        }
+
+        function setDefaultCategories() {
+            selectedCategories.splice(0, selectedCategories.length, defaultCategory);
+            delete categorySearch.dataset.contributorSelected;
+            syncSelectedCategories();
+            renderCategorySuggestions('');
+        }
+
+        function applyFirstArticleTitleSuggestions() {
+            if (categorySearch.dataset.contributorSelected === "true") return;
+            const suggested = categoriesSuggestedByTitle(document.getElementById("title")?.value);
+            const nextCategories = [...new Set([defaultCategory, ...suggested])];
+            if (nextCategories.every(category => selectedCategories.includes(category)) && nextCategories.length === selectedCategories.length) return;
+            selectedCategories.splice(0, selectedCategories.length, ...nextCategories);
+            syncSelectedCategories();
+            renderCategorySuggestions('');
+        }
+
+        const submitterNameInput = document.getElementById("submitterName");
+        function restoreSubmitterName() {
+            if (!submitterNameInput) return;
+            try {
+                const savedName = localStorage.getItem(submitterNameStorageKey);
+                if (savedName) submitterNameInput.value = savedName;
+            } catch (error) {
+                // Private browsing or browser policy may disable local storage.
+            }
+        }
+
+        function saveSubmitterName() {
+            if (!submitterNameInput) return;
+            try {
+                const name = submitterNameInput.value.trim();
+                if (name) localStorage.setItem(submitterNameStorageKey, name);
+                else localStorage.removeItem(submitterNameStorageKey);
+            } catch (error) {
+                // Submission remains available when local storage is unavailable.
+            }
         }
 
         function renderCategorySuggestions(query) {
@@ -1010,6 +1081,11 @@
             const match = categories.find(category => category.toLowerCase() === query) || categories.find(category => category.toLowerCase().includes(query));
             if (match) addCategory(match);
         });
+        document.getElementById("title")?.addEventListener("input", applyFirstArticleTitleSuggestions);
+        document.getElementById("title")?.addEventListener("change", applyFirstArticleTitleSuggestions);
+        submitterNameInput?.addEventListener("input", saveSubmitterName);
+        submitterNameInput?.addEventListener("change", saveSubmitterName);
+        restoreSubmitterName();
         document.getElementById('unknownAuthor').addEventListener('change', (event) => {
             const authorsInput = document.getElementById('authors');
             authorsInput.disabled = event.target.checked;
@@ -1023,7 +1099,7 @@
                 authorDatabase.innerHTML = authors.map(author => `<option value="${author}"></option>`).join('');
             })
             .catch(() => {});
-        renderCategorySuggestions('');
+        setDefaultCategories();
 
         // Color palette for categories (17 colors)
         const colors = [
@@ -2017,6 +2093,8 @@
                 </div>
             `;
             additionalArticles.appendChild(wrapper);
+            const primaryCategory = getExtraArticleField(wrapper, 'primaryCategory');
+            if (primaryCategory) primaryCategory.value = defaultCategory;
             // Bring the new article (and the bottom "Add another article" button)
             // into view so multiple articles can be added without scrolling up.
             requestAnimationFrame(() => {
@@ -2052,6 +2130,18 @@
             };
         }
 
+        function applyExtraArticleTitleSuggestions(entry) {
+            const primaryCategory = getExtraArticleField(entry, 'primaryCategory');
+            const additionalCategories = getExtraArticleField(entry, 'additionalCategories');
+            if (!primaryCategory || !additionalCategories || primaryCategory.dataset.contributorSelected === "true") return;
+
+            primaryCategory.value = defaultCategory;
+            if (additionalCategories.dataset.contributorSelected === "true") return;
+            additionalCategories.value = categoriesSuggestedByTitle(getExtraArticleField(entry, 'title')?.value)
+                .filter(category => category !== defaultCategory)
+                .join(', ');
+        }
+
         function setBatchEntryEvents() {
             additionalArticles.addEventListener('click', (event) => {
                 const fetchButton = event.target.closest('[data-fetch-extra-metadata]');
@@ -2077,6 +2167,16 @@
                 const entry = event.target.closest('[data-extra-article]');
                 if (!entry) return;
 
+                if (event.target?.dataset?.field === 'title') {
+                    applyExtraArticleTitleSuggestions(entry);
+                    return;
+                }
+
+                if (event.target?.dataset?.field === 'primaryCategory' || event.target?.dataset?.field === 'additionalCategories') {
+                    event.target.dataset.contributorSelected = "true";
+                    return;
+                }
+
                 if (event.target?.dataset?.field === 'link' && event.target.value.trim()) {
                     autofillArticleFromLink({
                         fields: getExtraArticleAutofillFields(entry),
@@ -2091,6 +2191,13 @@
                 if (!authorsInput) return;
                 authorsInput.disabled = event.target.checked;
                 if (event.target.checked) authorsInput.value = '';
+            });
+
+            additionalArticles.addEventListener('input', (event) => {
+                const entry = event.target.closest('[data-extra-article]');
+                if (!entry) return;
+                if (event.target?.dataset?.field === 'title') applyExtraArticleTitleSuggestions(entry);
+                if (event.target?.dataset?.field === 'additionalCategories') event.target.dataset.contributorSelected = "true";
             });
         }
 
@@ -2190,9 +2297,8 @@
         function resetArticleFormAfterSuccess() {
             form.reset();
             document.getElementById('authors').disabled = false;
-            selectedCategories.splice(0, selectedCategories.length);
-            syncSelectedCategories();
-            renderCategorySuggestions('');
+            setDefaultCategories();
+            restoreSubmitterName();
             updateImageUrlPreview('');
             setMultiArticleMode(false);
             multiArticleMode.checked = false;
@@ -2348,6 +2454,19 @@
           const i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1);
           return `${(bytes / Math.pow(k, i)).toFixed(i === 0 ? 0 : 2)} ${sizes[i]}`;
         }
+
+        const primaryTitleInput = document.getElementById("primaryTitle");
+        const primaryTagInput = document.getElementById("primaryTag");
+        function applyPrimaryTitleTagSuggestions() {
+          if (!primaryTagInput || primaryTagInput.dataset.contributorSelected === "true") return;
+          const suggestedTags = [...new Set([defaultCategory, ...categoriesSuggestedByTitle(primaryTitleInput?.value)])];
+          primaryTagInput.value = suggestedTags.join(", ");
+        }
+        primaryTitleInput?.addEventListener("input", applyPrimaryTitleTagSuggestions);
+        primaryTitleInput?.addEventListener("change", applyPrimaryTitleTagSuggestions);
+        primaryTagInput?.addEventListener("input", () => {
+          primaryTagInput.dataset.contributorSelected = "true";
+        });
       
         submitPrimaryButton.addEventListener("click", async () => {
           // Validate required fields and checkboxes
@@ -2427,6 +2546,8 @@
             });
       
             primaryForm.reset();
+            delete primaryTagInput.dataset.contributorSelected;
+            primaryTagInput.value = defaultCategory;
             setPrimaryStatus("Submitted. Pending admin approval.");
             alert("Submitted. Pending admin approval.");
       
