@@ -231,6 +231,48 @@
             margin-top: 0.85rem;
         }
 
+        .intake-progress {
+            flex: 1 1 17rem;
+            min-width: min(100%, 17rem);
+            border-left: 1px solid #4a3838;
+            padding-left: 0.9rem;
+        }
+
+        .intake-progress-copy {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.75rem;
+            color: #b8b8b8;
+            font: 0.67rem/1.35 'Inter', sans-serif;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .intake-progress-track {
+            height: 2px;
+            overflow: hidden;
+            margin-top: 0.45rem;
+            background: #302b2b;
+        }
+
+        .intake-progress-fill {
+            display: block;
+            width: 0;
+            height: 100%;
+            background: #9f2525;
+            transition: width 220ms ease;
+        }
+
+        .intake-progress.is-loading .intake-progress-fill {
+            background: linear-gradient(90deg, #7b1717, #d65252, #7b1717);
+            background-size: 180% 100%;
+            animation: intake-progress-sweep 1.2s linear infinite;
+        }
+
+        @keyframes intake-progress-sweep {
+            to { background-position: -180% 0; }
+        }
+
         .link-intake-checklist {
             margin-top: 1.5rem;
             border-top: 1px solid var(--border-color);
@@ -612,6 +654,10 @@
                     <div class="link-intake-actions">
                         <button type="button" id="linkIntakeButton" class="small-interface-button metadata-fetch-button">Fetch &amp; build articles</button>
                         <span id="linkIntakeStatus" class="metadata-fetch-status" aria-live="polite">Tip: press ⌘/Ctrl + Enter to fetch.</span>
+                        <div id="linkIntakeProgress" class="intake-progress hidden" aria-live="polite">
+                            <div class="intake-progress-copy"><span id="linkIntakeProgressLabel">Preparing lookup</span><span id="linkIntakeProgressCount"></span></div>
+                            <div class="intake-progress-track" aria-hidden="true"><span id="linkIntakeProgressFill" class="intake-progress-fill"></span></div>
+                        </div>
                     </div>
                     <div id="linkIntakeChecklist" class="link-intake-checklist hidden" aria-live="polite"></div>
                 </section>
@@ -1278,6 +1324,12 @@
             return "";
         }
 
+        function resolveSourceNameForArticle(url, reportedSource = "") {
+            // A known URL is more reliable than a provider's display string (which
+            // can be a hostname such as "commondreams.org").
+            return inferSourceFromUrl(url) || normalizeSourceName(reportedSource);
+        }
+
         function todayIsoDate() {
             return new Date().toISOString().split('T')[0];
         }
@@ -1323,7 +1375,7 @@
 
         renderSourceSuggestions([]);
 
-        fetch('./data/articles.json?v=' + Date.now())
+        const sourceCatalogReady = fetch('./data/articles.json?v=' + Date.now())
             .then(response => response.ok ? response.json() : [])
             .then(articles => {
                 if (!Array.isArray(articles)) return;
@@ -1367,6 +1419,20 @@
                 .replace(/\s+/g, " ")
                 .replace(/^[\s|•·:-]+|[\s|•·:-]+$/g, "")
                 .trim();
+        }
+
+        function cleanAuthorMetadata(value) {
+            const raw = cleanMetadataValue(value).replace(/^by\s+/i, "");
+            if (!raw || /(?:https?:\/\/|www\.|\.com\b|\.org\b|\.net\b|\/author\/)/i.test(raw)) return "";
+
+            // Only retain identifiable person bylines. Generic publisher labels
+            // frequently appear in metadata but are not an author attribution.
+            const names = raw.split(/\s*(?:;|\band\b)\s*/i).map(name => name.trim()).filter(name => {
+                if (name.length < 3 || name.length > 90) return false;
+                if (/\b(staff|team|desk|newsroom|editorial|administrator|admin|unknown|author|press office|contributors?)\b/i.test(name)) return false;
+                return /^[\p{L}][\p{L}\p{M}'’.-]*(?:\s+[\p{L}][\p{L}\p{M}'’.-]*)+$/u.test(name);
+            });
+            return [...new Set(names)].join(", ");
         }
 
         function getMetaContent(doc, selectors) {
@@ -1627,7 +1693,7 @@
             return {
                 title: cleanMetadataValue(data.title),
                 source: cleanMetadataValue(data.publisher),
-                authors: cleanMetadataValue(data.author).replace(/^by\s+/i, ""),
+                authors: cleanAuthorMetadata(data.author),
                 date: normalizeMetadataDate(data.date),
                 summary: cleanMetadataValue(data.description),
                 imageUrl: cleanMetadataValue(data.image && data.image.url) || cleanMetadataValue(data.logo && data.logo.url),
@@ -1639,14 +1705,15 @@
         function mergeMetadata(primary, secondary) {
             const merged = { ...(primary || {}) };
             Object.keys(secondary || {}).forEach(key => {
-                if (!merged[key] && isUsableMetadataValue(secondary[key])) merged[key] = secondary[key];
+                const value = key === "authors" ? cleanAuthorMetadata(secondary[key]) : secondary[key];
+                if (!merged[key] && isUsableMetadataValue(value)) merged[key] = value;
             });
             return merged;
         }
 
         function isUsableMetadataValue(value) {
             const normalized = cleanMetadataValue(value).toLowerCase();
-            return Boolean(normalized) && !/^(access denied|forbidden|just a moment|error \d{3})\b/.test(normalized);
+            return Boolean(normalized) && !/\b(access denied|forbidden|fordbidden|just a moment|error\s*\d{3}|\d{3}\s*(?:forbidden|error))\b/.test(normalized);
         }
 
         // A result is "thin" if we couldn't even get a title, or got a title but
@@ -1667,7 +1734,7 @@
 
         function fillDateFromMetadata(input, value) {
             const cleanValue = cleanMetadataValue(value);
-            if (!input || !cleanValue) return false;
+            if (!input || !isUsableMetadataValue(cleanValue)) return false;
             const currentValue = input.value.trim();
             if (currentValue && currentValue !== todayIsoDate()) return false;
             input.value = cleanValue;
@@ -1688,8 +1755,8 @@
         function applyArticleMetadata(fields, metadata, pageUrl) {
             const changed = [];
             if (fillInputIfBlank(fields.title, metadata.title)) changed.push("title");
-            if (fillInputIfBlank(fields.source, normalizeSourceName(metadata.source), false)) changed.push("source");
-            if (fillInputIfBlank(fields.authors, metadata.authors)) changed.push("author");
+            if (fillInputIfBlank(fields.source, resolveSourceNameForArticle(pageUrl || fields.link?.value, metadata.source), false)) changed.push("source");
+            if (fillInputIfBlank(fields.authors, cleanAuthorMetadata(metadata.authors))) changed.push("author");
             if (fillDateFromMetadata(fields.date, metadata.date)) changed.push("date");
             if (fillInputIfBlank(fields.summary, metadata.summary)) changed.push("summary");
             if (fillInputIfBlank(fields.imageUrl, metadata.imageUrl)) changed.push("image");
@@ -1698,7 +1765,7 @@
             // If the page didn't yield a source, recognize it from the link's
             // domain using the curated + library-learned mapping.
             if (fields.source && !fields.source.value.trim()) {
-                const inferred = inferSourceFromUrl(pageUrl || fields.link?.value);
+                const inferred = resolveSourceNameForArticle(pageUrl || fields.link?.value, metadata.source);
                 if (inferred && fillInputIfBlank(fields.source, inferred, false)) changed.push("source");
             }
 
@@ -1727,6 +1794,10 @@
 
             button?.setAttribute("disabled", "disabled");
             setMetadataStatus(statusElement, "Fetching article details from the link...", "loading");
+
+            // Load the local archive catalog before deciding a source label so an
+            // existing outlet is always selected by its canonical archive name.
+            await sourceCatalogReady;
 
             let metadata = {};
             // Always query both independent paths and merge whatever each can
@@ -1798,7 +1869,22 @@
         const linkIntakeButton = document.getElementById("linkIntakeButton");
         const linkIntakeStatus = document.getElementById("linkIntakeStatus");
         const linkIntakeChecklist = document.getElementById("linkIntakeChecklist");
+        const linkIntakeProgress = document.getElementById("linkIntakeProgress");
+        const linkIntakeProgressLabel = document.getElementById("linkIntakeProgressLabel");
+        const linkIntakeProgressCount = document.getElementById("linkIntakeProgressCount");
+        const linkIntakeProgressFill = document.getElementById("linkIntakeProgressFill");
         let lastIntakeStatuses = [];
+
+        function setLinkIntakeProgress({ completed = 0, total = 0, label = "", loading = false } = {}) {
+            if (!linkIntakeProgress) return;
+            const safeTotal = Math.max(Number(total) || 0, 1);
+            const percentage = Math.round((Math.max(0, Number(completed) || 0) / safeTotal) * 100);
+            linkIntakeProgress.classList.remove("hidden");
+            linkIntakeProgress.classList.toggle("is-loading", loading);
+            if (linkIntakeProgressLabel) linkIntakeProgressLabel.textContent = label;
+            if (linkIntakeProgressCount) linkIntakeProgressCount.textContent = total ? `${completed}/${total}` : "";
+            if (linkIntakeProgressFill) linkIntakeProgressFill.style.width = `${Math.min(100, percentage)}%`;
+        }
 
         function escapeHtml(value) {
             return String(value).replace(/[&<>"']/g, character => ({
@@ -1856,9 +1942,9 @@
             const statuses = [];
             const push = (label, element, values) => {
                 const missing = [];
-                if (!values.title) missing.push("Title");
-                if (!values.date) missing.push("Date");
-                if (!values.source) missing.push("Source");
+                if (!isUsableMetadataValue(values.title)) missing.push("Title");
+                if (!isUsableMetadataValue(values.date)) missing.push("Date");
+                if (!isUsableMetadataValue(values.source)) missing.push("Source");
                 if (!values.category) missing.push("Category");
                 statuses.push({ label, link: values.link, missing, el: element });
             };
@@ -1898,7 +1984,7 @@
 
             linkIntakeChecklist.classList.remove("hidden");
             const rows = statuses.map((status, index) => {
-                const title = status.title || domainLabel(status.link) || status.label;
+                const title = isUsableMetadataValue(status.title) ? status.title : (domainLabel(status.link) || status.label);
                 const badge = status.missing.length === 0
                     ? `<span class="intake-badge intake-badge-ready">Ready</span>`
                     : `<span class="intake-badge intake-badge-needs">Needs: ${status.missing.join(", ")}</span>`;
@@ -1930,7 +2016,9 @@
             }
 
             linkIntakeButton.setAttribute("disabled", "disabled");
-            setMetadataStatus(linkIntakeStatus, `Fetching details for ${urls.length} link${urls.length > 1 ? "s" : ""}...`, "loading");
+            const estimatedSeconds = 12 * Math.ceil(urls.length / 3);
+            setMetadataStatus(linkIntakeStatus, `Checking every available source. Usually about ${estimatedSeconds} second${estimatedSeconds === 1 ? "" : "s"}; blocked publishers may need your review.`, "loading");
+            setLinkIntakeProgress({ completed: 0, total: urls.length, label: "Looking up article details", loading: true });
 
             // The intake defines the batch: first link drives the primary article,
             // the rest get one fresh extra block each.
@@ -1962,20 +2050,41 @@
                     };
                 });
 
-                await runWithConcurrency(tasks, 3, task => autofillArticleFromLink(task));
+                renderIntakeChecklist();
+                let completed = 0;
+                await runWithConcurrency(tasks, 3, async task => {
+                    await autofillArticleFromLink(task);
+                    completed += 1;
+                    const remaining = urls.length - completed;
+                    setLinkIntakeProgress({
+                        completed,
+                        total: urls.length,
+                        label: remaining ? "Checking remaining sources" : "Reviewing required fields",
+                        loading: remaining > 0
+                    });
+                    if (remaining) setMetadataStatus(linkIntakeStatus, `Checked ${completed} of ${urls.length}. Still looking for any missing title, date, source, author, image, or summary.`, "loading");
+                });
                 renderIntakeChecklist();
                 const statuses = collectArticleStatuses();
                 const ready = statuses.filter(status => status.missing.length === 0).length;
                 const remaining = statuses.length - ready;
+                const missingSummary = statuses
+                    .filter(status => status.missing.length)
+                    .map(status => `${status.label}: ${status.missing.join(", ")}`)
+                    .join(" · ");
                 setMetadataStatus(
                     linkIntakeStatus,
-                    `Fetched ${urls.length} article${urls.length > 1 ? "s" : ""}. ${ready} ready, ${remaining} still ${remaining === 1 ? "needs" : "need"} details below.`,
+                    remaining
+                        ? `Review needed — ${missingSummary}.`
+                        : `All ${urls.length} article${urls.length > 1 ? "s are" : " is"} ready to review.`,
                     ready === statuses.length ? "success" : ""
                 );
+                setLinkIntakeProgress({ completed: urls.length, total: urls.length, label: remaining ? "Fields still need review" : "All required fields found", loading: false });
                 linkIntakeChecklist.scrollIntoView({ behavior: "smooth", block: "nearest" });
             } catch (error) {
                 console.error("Bulk metadata fetch failed:", error);
                 setMetadataStatus(linkIntakeStatus, "We couldn't build these articles automatically. Please try again or use Fetch Details on an individual link.", "error");
+                setLinkIntakeProgress({ completed: 0, total: urls.length, label: "Lookup needs review", loading: false });
             } finally {
                 linkIntakeButton.removeAttribute("disabled");
             }
