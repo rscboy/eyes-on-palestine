@@ -485,6 +485,54 @@ body.site-shell-pad {
   min-height: 28px;
 }
 
+.site-shell-language-picker {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.site-shell-language-label {
+  color: #9ca3af;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.site-shell-language-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.site-shell-language-button {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 3px;
+  background: transparent;
+  color: #d1d5db;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.2;
+  padding: 6px 8px;
+}
+
+.site-shell-language-button:hover,
+.site-shell-language-button:focus-visible {
+  border-color: rgba(255, 255, 255, 0.65);
+  color: #fff;
+  outline: none;
+}
+
+.site-shell-language-button:focus-visible {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18);
+}
+
+.site-shell-translate-fallback {
+  margin-top: 2px;
+}
+
 @media (max-width: 800px) {
   body.site-shell-pad {
     padding-top: 54px;

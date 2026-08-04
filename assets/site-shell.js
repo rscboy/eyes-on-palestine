@@ -97,7 +97,15 @@
                 <span>Facebook</span>
               </a>
             </div>
-            <div id="google_translate_element"></div>
+            <div class="site-shell-language-picker" aria-label="Translate this page">
+              <span class="site-shell-language-label">Read in</span>
+              <div class="site-shell-language-actions" role="group" aria-label="Choose a language">
+                <button type="button" class="site-shell-language-button" data-translate-language="en" aria-pressed="true">English</button>
+                <button type="button" class="site-shell-language-button" data-translate-language="ar" lang="ar" dir="rtl">العربية</button>
+                <button type="button" class="site-shell-language-button" data-translate-language="he" lang="he" dir="rtl">עברית</button>
+              </div>
+              <div id="google_translate_element" class="site-shell-translate-fallback" aria-label="More translation options"></div>
+            </div>
           </div>
           <div class="site-shell-footer-grid">
             <div>
@@ -192,12 +200,39 @@
     }
   }
 
+  function setTranslation(language) {
+    document.querySelectorAll("[data-translate-language]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.dataset.translateLanguage === language));
+    });
+
+    const select = document.querySelector("select.goog-te-combo");
+    if (select) {
+      select.value = language;
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+      return;
+    }
+
+    // The Google widget has not loaded yet. Store its standard preference so it
+    // is applied when the page reloads.
+    const value = language === "en" ? "/en/en" : `/en/${language}`;
+    document.cookie = `googtrans=${value}; path=/; SameSite=Lax`;
+    window.location.reload();
+  }
+
+  function setupLanguageButtons() {
+    window.eogSetTranslation = setTranslation;
+    document.querySelectorAll("[data-translate-language]").forEach((button) => {
+      button.addEventListener("click", () => setTranslation(button.dataset.translateLanguage));
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     const hadExistingGlobalHeader = removeExistingShell();
     document.body.insertAdjacentHTML("afterbegin", navHtml);
     document.body.insertAdjacentHTML("beforeend", footerHtml);
     if (!hadExistingGlobalHeader) document.body.classList.add("site-shell-pad");
     setupMobileMenu();
+    setupLanguageButtons();
     setupTranslate();
   });
 })();
