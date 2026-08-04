@@ -102,7 +102,7 @@
               <div class="site-shell-language-actions" role="group" aria-label="Choose a language">
                 <button type="button" class="site-shell-language-button" data-translate-language="en" aria-pressed="true">English</button>
                 <button type="button" class="site-shell-language-button" data-translate-language="ar" lang="ar" dir="rtl">العربية</button>
-                <button type="button" class="site-shell-language-button" data-translate-language="he" lang="he" dir="rtl">עברית</button>
+                <button type="button" class="site-shell-language-button" data-translate-language="iw" lang="he" dir="rtl">עברית</button>
               </div>
               <div id="google_translate_element" class="site-shell-translate-fallback" aria-label="More translation options"></div>
             </div>
@@ -183,7 +183,8 @@
       const inlineLayout = TranslateElement.InlineLayout;
       new TranslateElement({
         pageLanguage: "en",
-        includedLanguages: "en,ar,he",
+        // Google Translate's legacy widget uses "iw" for Hebrew.
+        includedLanguages: "en,ar,iw",
         layout: inlineLayout ? inlineLayout.SIMPLE : undefined
       }, "google_translate_element");
     };
