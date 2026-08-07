@@ -1,5 +1,61 @@
 [
   {
+    "date": "2026-06-11",
+    "title": "Amnesty accuses Israel's government of 'ethnic cleansing' of West Bank Palestinians",
+    "summary": "The London-based rights group says the Israeli government is deliberately trying to annex the Palestinian territory.",
+    "link": "https://www.npr.org/2026/06/11/g-s1-127411/amnesty-israel-west-bank",
+    "imageUrl": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/8640x4860+0+450/resize/1400/quality/85/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F72%2Fb4%2F77d3a39241a1b73c139122b267c0%2Fap26161383278763.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "NPR",
+    "author": "The Associated Press",
+    "authors": [
+      "The Associated Press"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-08-07",
+    "title": "Rights group warns Israel's policies are pushing the West Bank healthcare system to collapse",
+    "summary": "",
+    "link": "https://apnews.com/article/west-bank-healthcare-physicians-human-rights-israel-17a6c89efefa7e3ec07b3c68705ee043",
+    "imageUrl": "https://1000logos.net/wp-content/uploads/2016/10/Associated-Press-logo.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Healthcare Crisis"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Associated Press",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-08-07",
+    "title": "Children In Gaza Are Still Waiting For The Violence To End",
+    "summary": "Humanitarian conditions in Gaza remain dire, with most of the population displaced and exposed to ongoing health and environmental risks. UNICEF is there to help.",
+    "link": "https://www.forbes.com/sites/unicefusa/2026/08/07/children-in-gaza-are-still-waiting-for-the-violence-to-end/",
+    "imageUrl": "https://imageio.forbes.com/specials-images/imageserve/6a75ea37bd924df3150c9d5b/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Children"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Forbes",
+    "author": "Sarah Ferguson",
+    "authors": [
+      "Sarah Ferguson"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-08-06",
     "title": "UNICEF says one child killed per day in Gaza since 'ceasefire'",
     "summary": "At least 300 children reported killed in Gaza in 300 days since October 2025 truce between Israel and Hamas was agreed.",
