@@ -1,5 +1,80 @@
 [
   {
+    "date": "2026-08-25",
+    "title": "New details but no answers a year after an Israeli strike on a Gaza hospital killed journalists",
+    "summary": "A year after an Israeli strike on a Gaza hospital killed 22 Palestinians, there are still major questions about the rationale for the attack.",
+    "link": "https://apnews.com/article/israel-hamas-war-gaza-hospital-strike-journalists-6a52be85a9aa0e98a9aa775be2b74cca",
+    "imageUrl": "https://dims.apnews.com/dims4/default/cbed888/2147483647/strip/true/crop/6000x3998+0+1/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F68%2Fe9%2Fb9f3c9ba466b4575af7551a8a9cc%2F2230033efef748fbb0c8f4c9b3b5cf1f",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Healthcare Crisis",
+      "Media Freedom"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Associated Press",
+    "author": "Sam Mednick",
+    "authors": [
+      "Sam Mednick"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-08-25",
+    "title": "Israeli fire kills two young children in Gaza, medics say",
+    "summary": "",
+    "link": "https://www.reuters.com/world/middle-east/israeli-fire-kills-two-young-children-gaza-medics-say-2026-08-24/",
+    "imageUrl": "https://i0.wp.com/janoberg.me/wp-content/uploads/2023/05/logo-Reuters.jpg?fit=5000%2C2435&ssl=1",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Children"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Reuters",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-08-25",
+    "title": "IDF told to act forcefully against Gaza kites; 3 reported killed in Israeli strikes",
+    "summary": "",
+    "link": "https://www.timesofisrael.com/idf-told-to-act-forcefully-against-gaza-kites-one-reported-killed-in-israeli-airstrike/",
+    "imageUrl": "https://play-lh.googleusercontent.com/5RXKeNxLAMc60xycN3PSvoxwEY8Pp9iiZH2stMxmh9YoL6YOa7wSYPMA-w1vpYM7rg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The Times of Israel",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-08-25",
+    "title": "Israeli strikes hit water plant, warehouse in Gaza, killing at least seven",
+    "summary": "Two Palestinian children among victims as Israeli attacks on Gaza continue despite US-brokered ceasefire.",
+    "link": "https://www.aljazeera.com/news/2026/8/24/israeli-strike-on-gaza-shelter-extends-casualty-list",
+    "imageUrl": "https://www.aljazeera.com/wp-content/uploads/2026/08/2026-08-24T085226Z_623610532_RC2T4NAOCMVU_RTRMADP_3_ISRAEL-PALESTINIANS-GAZA-1787573870.jpg?resize=1920%2C1440",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Al Jazeera",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-08-24",
     "title": "Israel probably committed war crimes in Gaza hospital double-tap, investigation finds",
     "summary": "",
