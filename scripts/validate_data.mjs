@@ -26,6 +26,15 @@ function loadJson(path) {
   }
 }
 
+function normalizeArticleTitleSpacing(value) {
+  return String(value)
+    .replace(/[\u00a0\u1680\u2000-\u200b\u202f\u205f\u3000]/gu, " ")
+    .replace(/\s+/gu, " ")
+    .trim()
+    .replace(/\s+([,.;:!?])/gu, "$1")
+    .replace(/,;/gu, ";");
+}
+
 const articles = loadJson("data/articles.json");
 if (articles !== undefined) {
   if (!Array.isArray(articles)) {
@@ -40,6 +49,8 @@ if (articles !== undefined) {
         fail(`data/articles.json[${index}] is missing a non-empty string "title".`);
       } else if (/(?:^|\s)\?(?=\S)|[\p{L}\p{N}]\?[\p{L}\p{N}]|\s\?\s|[.,:;]\?/u.test(article.title)) {
         fail(`data/articles.json[${index}] has a likely encoding-error question mark in its title: "${article.title}".`);
+      } else if (article.title !== normalizeArticleTitleSpacing(article.title)) {
+        fail(`data/articles.json[${index}] has inconsistent spacing in its title: "${article.title}".`);
       }
       if (typeof article.link !== "string" || !/^https?:\/\//.test(article.link)) {
         fail(`data/articles.json[${index}] ("${String(article.title).slice(0, 60)}") needs an http(s) "link".`);
