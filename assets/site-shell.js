@@ -227,6 +227,161 @@
     });
   }
 
+  function setupStoryWelcome() {
+    const sessionKey = "echoes_story_welcome_seen";
+    const lastStoryKey = "echoes_story_welcome_last";
+
+    try {
+      if (window.sessionStorage.getItem(sessionKey)) return;
+    } catch (error) {
+      // Storage can be unavailable in strict privacy modes. The story can still
+      // be shown and dismissed normally for the current page.
+    }
+
+    const storyIdentity = (article) => article.link || `${article.date || ""}:${article.title || ""}`;
+    const articleTopics = (article) => {
+      const topics = Array.isArray(article.categories) && article.categories.length
+        ? article.categories
+        : [article.category];
+      return topics.filter(Boolean);
+    };
+
+    const whyItMatters = (article) => {
+      const context = `${articleTopics(article).join(" ")} ${article.title || ""}`.toLowerCase();
+      if (/child|school|education/.test(context)) {
+        return "This record keeps Palestinian children’s lives, rights, and futures visible beyond the scale of the statistics.";
+      }
+      if (/health|medical|hospital/.test(context)) {
+        return "This record helps show how harm to health care changes survival far beyond a single event.";
+      }
+      if (/famine|hunger|starvation|aid|humanitarian/.test(context)) {
+        return "Understanding access to food, water, and aid is essential to seeing how daily survival is being shaped in Gaza.";
+      }
+      if (/displacement|settler|west bank|cleansing/.test(context)) {
+        return "Following displacement and loss of place helps explain what families face now and what return and recovery require.";
+      }
+      if (/media|press|journalist/.test(context)) {
+        return "Preserving this reporting protects the public record and helps Palestinian experiences remain visible.";
+      }
+      if (/legal|accountability|genocide|war crime|human rights/.test(context)) {
+        return "Understanding how this event is documented matters for public memory, historical truth, and accountability.";
+      }
+      return "Reading this event in context connects one record to the wider Palestinian experience and helps preserve it against erasure.";
+    };
+
+    const formatStoryDate = (value) => {
+      if (!value) return "Archive record";
+      const date = new Date(`${value}T12:00:00`);
+      if (Number.isNaN(date.getTime())) return value;
+      return date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+    };
+
+    const createElement = (tag, className, textContent) => {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      if (textContent) element.textContent = textContent;
+      return element;
+    };
+
+    const closeStory = (card) => {
+      if (!card || card.classList.contains("is-closing")) return;
+      card.classList.add("is-closing");
+      window.setTimeout(() => card.remove(), 220);
+    };
+
+    const renderStory = (article) => {
+      const card = createElement("aside", "story-welcome");
+      card.setAttribute("role", "dialog");
+      card.setAttribute("aria-modal", "false");
+      card.setAttribute("aria-labelledby", "story-welcome-title");
+      card.setAttribute("aria-describedby", "story-welcome-summary story-welcome-importance");
+
+      const headingRow = createElement("div", "story-welcome-heading-row");
+      const eyebrow = createElement("p", "story-welcome-eyebrow", "A story from the archive");
+      const closeButton = createElement("button", "story-welcome-close");
+      closeButton.type = "button";
+      closeButton.setAttribute("aria-label", "Close story");
+      closeButton.innerHTML = '<span aria-hidden="true"></span><span aria-hidden="true"></span>';
+      headingRow.append(eyebrow, closeButton);
+
+      const meta = createElement("p", "story-welcome-meta");
+      const topics = articleTopics(article);
+      meta.textContent = [topics[0], formatStoryDate(article.date)].filter(Boolean).join(" · ");
+
+      const title = createElement("h2", "story-welcome-title", article.title);
+      title.id = "story-welcome-title";
+
+      const happenedLabel = createElement("p", "story-welcome-label", "What happened");
+      const summary = createElement("p", "story-welcome-summary", article.summary);
+      summary.id = "story-welcome-summary";
+
+      const importance = createElement("div", "story-welcome-importance");
+      importance.id = "story-welcome-importance";
+      importance.append(
+        createElement("p", "story-welcome-label", "Why understanding this matters"),
+        createElement("p", "story-welcome-importance-copy", whyItMatters(article))
+      );
+
+      const actions = createElement("div", "story-welcome-actions");
+      const readLink = createElement("a", "story-welcome-read", "Read the full story");
+      readLink.href = article.link;
+      readLink.target = "_blank";
+      readLink.rel = "noopener noreferrer";
+      const dismissButton = createElement("button", "story-welcome-dismiss", "Not now");
+      dismissButton.type = "button";
+      actions.append(readLink, dismissButton);
+
+      const source = createElement("p", "story-welcome-source");
+      source.textContent = `Source: ${article.source || "Archive record"}`;
+
+      card.append(headingRow, meta, title, happenedLabel, summary, importance, actions, source);
+      document.body.appendChild(card);
+
+      closeButton.addEventListener("click", () => closeStory(card));
+      dismissButton.addEventListener("click", () => closeStory(card));
+      readLink.addEventListener("click", () => closeStory(card));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && card.isConnected) closeStory(card);
+      });
+
+      requestAnimationFrame(() => requestAnimationFrame(() => card.classList.add("is-visible")));
+    };
+
+    window.setTimeout(async () => {
+      try {
+        const response = await fetch("/data/articles.json");
+        if (!response.ok) return;
+        const articles = await response.json();
+        if (!Array.isArray(articles)) return;
+
+        let lastStory = "";
+        try {
+          lastStory = window.localStorage.getItem(lastStoryKey) || "";
+        } catch (error) {}
+
+        const eligible = articles.filter((article) =>
+          article &&
+          article.title &&
+          article.link &&
+          typeof article.summary === "string" &&
+          article.summary.trim().length >= 80 &&
+          storyIdentity(article) !== lastStory
+        );
+        if (!eligible.length) return;
+
+        const article = eligible[Math.floor(Math.random() * eligible.length)];
+        try {
+          window.sessionStorage.setItem(sessionKey, "true");
+          window.localStorage.setItem(lastStoryKey, storyIdentity(article));
+        } catch (error) {}
+        renderStory(article);
+      } catch (error) {
+        // The welcome should never block the archive if the article feed is
+        // temporarily unavailable.
+      }
+    }, 1200);
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     const hadExistingGlobalHeader = removeExistingShell();
     document.body.insertAdjacentHTML("afterbegin", navHtml);
@@ -235,5 +390,6 @@
     setupMobileMenu();
     setupLanguageButtons();
     setupTranslate();
+    setupStoryWelcome();
   });
 })();
