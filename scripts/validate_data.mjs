@@ -38,6 +38,8 @@ if (articles !== undefined) {
       }
       if (typeof article.title !== "string" || !article.title.trim()) {
         fail(`data/articles.json[${index}] is missing a non-empty string "title".`);
+      } else if (/(?:^|\s)\?(?=\S)|[\p{L}\p{N}]\?[\p{L}\p{N}]|\s\?\s|[.,:;]\?/u.test(article.title)) {
+        fail(`data/articles.json[${index}] has a likely encoding-error question mark in its title: "${article.title}".`);
       }
       if (typeof article.link !== "string" || !/^https?:\/\//.test(article.link)) {
         fail(`data/articles.json[${index}] ("${String(article.title).slice(0, 60)}") needs an http(s) "link".`);
