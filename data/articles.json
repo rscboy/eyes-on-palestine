@@ -1,5 +1,60 @@
 [
   {
+    "date": "2026-08-31",
+    "title": "Israeli fire kills five people in Gaza, medics say",
+    "summary": "Israeli airstrikes killed at ‌least five Palestinians in the Gaza Strip on Monday, health officials said.",
+    "link": "https://www.reuters.com/world/middle-east/israeli-fire-kills-two-people-gaza-medics-say-2026-08-31/",
+    "imageUrl": "https://www.reuters.com/resizer/v2/AD4ERJTY6RISFOPVDQTVRQCF5E.jpg?auth=30201f79a92eea16777bfeb5a93e675776b49d7d4f32a0b65f34989ba2fe444a&height=1005&width=1920&quality=80&smart=true",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Reuters",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-08-31",
+    "title": "Israeli Strikes Kill Two Palestinians, Including 3-Year-Old Boy, in Gaza",
+    "summary": "In Gaza, an Israeli strike killed two Palestinians, including a 3-year-old ​boy identified as Tayyem Hamdan, in the central Gaza Strip on Sunday. Since last October's so-called ceasefire, Israel has killed over 1,200 Palestinians in Gaza. This comes as Haaretz reports that armed Palestinian militias have become an operational arm of the Israeli army and the counterintelligence agency Shin Bet inside Gaza. An Israeli Air Force officer who spoke with Haaretz said, \"You see the State of Israel, the IDF and Shin Bet sending armed, trained militias to commit war crimes, and I'm the one who has to protect them during their operations so they don't get hurt.\"",
+    "link": "https://www.democracynow.org/2026/8/31/headlines/israeli_strikes_kill_two_palestinians_including_3_year_old_boy_in_gaza",
+    "imageUrl": "https://www.democracynow.org/images/headlines/80/83380/full_hd/h6-gaza-3-yr-old-killed.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Democracy Now!",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-08-29",
+    "title": "Palestinian woman and NBC News team attacked by masked Israeli settlers in West Bank",
+    "summary": "The woman and the crew were treated for injuries. Prime Minister Benjamin Netanyahu said he condemned the violence committed \"by a handful of rioters.\"",
+    "link": "https://www.nbcnews.com/world/middle-east/palestinian-nbc-news-team-attacked-masked-israeli-settlers-rcna595024",
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-08/260829-west-bank-attack-vl-140p-b6ac03.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Settler Violence"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "NBC News",
+    "author": "F. Brinley Bruton",
+    "authors": [
+      "F. Brinley Bruton"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-08-28",
     "title": "Israel kills Hamas operative in rare West Bank air strike, military says",
     "summary": "",
