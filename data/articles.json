@@ -1,5 +1,95 @@
 [
   {
+    "date": "2026-09-01",
+    "title": "Israeli Operation in Gaza Kills 4, Palestinian Officials Say",
+    "summary": "Israel's defense minister said the operation resulted in the capture of a senior Hamas member. Hamas said Israel sent covert operatives into Gaza City.",
+    "link": "https://www.nytimes.com/2026/09/01/world/middleeast/israel-gaza-hamas-leader.html",
+    "imageUrl": "https://static01.nyt.com/images/2026/09/01/multimedia/01int-israel-gaza-jwhv/01int-israel-gaza-jwhv-facebookJumbo.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The New York Times",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-09-01",
+    "title": "U.N. food agency to halve West Bank food aid amid funding crisis, warns of Gaza cuts",
+    "summary": "\"Families who were once thriving and earning a living from their land are now unable to afford enough food,\" said Shaun Hughes of the World Food Programme.",
+    "link": "https://www.nbcnews.com/world/middle-east/un-world-food-programme-slashes-west-bank-aid-gaza-faces-new-cuts-rcna595497",
+    "imageUrl": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2026-09/260901-gaza-food-bank-ch-0955-9af0a6.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "NBC News",
+    "author": "The Associated Press",
+    "authors": [
+      "The Associated Press"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-08-31",
+    "title": "Shoot first, ask questions later': Israeli veterans group reveals Tel Aviv's genocidal Gaza policy",
+    "summary": "While the official death toll of the genocide in Gaza stands at over 73,000, researchers say the number could be in the hundreds of thousands",
+    "link": "https://thecradle.co/articles-id/39682",
+    "imageUrl": "https://thecradle-main.oss-eu-central-1.aliyuncs.com/public/articles/517e323c-a547-11f1-98e7-00163e02c055.jpeg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The Cradle",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-08-31",
+    "title": "TRT World - 74% of US undergraduates say Israel is committing genocide",
+    "summary": "A Brandeis University study finds most American undergraduates believe Israel is committing genocide against Palestinians, while also backing Palestinians' right to self-determination.",
+    "link": "https://www.trtworld.com/article/a29ee45a1f0a",
+    "imageUrl": "https://d341l694dl30ad.cloudfront.net/images/cms/2026/05/16/6a07d6faf5cf4ce3403712bd/original/ea690c60-a6c1-4ca4-9484-c3b17c730d9f-1778898682810.jpg?width=1080&format=jpg&quality=80",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "TRT World",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-09-01",
+    "title": "Israel's U.S. envoy: Government is failing to stop Jewish terror in West Bank",
+    "summary": "Speaking to Haaretz at the RJC conference, the ambassador gave Israel a 'failing grade' in dealing with violence against Palestinians, but called the term 'settler violence' unfair: 'Saying \"Black crime\" - does that mean all Blacks are responsible for criminal activity?'",
+    "link": "https://www.haaretz.com/us-news/2026-09-01/ty-article/.premium/israels-u-s-envoy-government-is-failing-to-stop-jewish-terror-in-west-bank/000001a0-5abf-d9b7-abaf-faff74990000",
+    "imageUrl": "https://img.haarets.co.il/bs/000001a0-5abf-d9b7-abaf-faff74990000/0b/b4/320d092348ffb1bc755c6e2d7f9e/790885.jpg?precrop=2400,1395,x0,y0&width=1200&height=630&cmsprod",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Haaretz",
+    "author": "Arno Rosenfeld",
+    "authors": [
+      "Arno Rosenfeld"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-08-31",
     "title": "Israeli fire kills five people in Gaza, medics say",
     "summary": "Israeli airstrikes killed at ‌least five Palestinians in the Gaza Strip on Monday, health officials said.",
