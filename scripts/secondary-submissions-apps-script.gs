@@ -200,10 +200,6 @@ function doPost(e) {
     const payload = JSON.parse(e.postData.contents || "{}");
     const action = payload.action || "submitArticle";
 
-    if (action === "checkArticleLinks") {
-      return json_(checkArticleLinks_(payload));
-    }
-
     if (action === "submitArticle") {
       return submitArticle_(payload);
     }
@@ -291,57 +287,7 @@ function doPost(e) {
   }
 }
 
-// Compare only the submitted URLs; never expose the private review queue.
-function canonicalArticleLink_(value) {
-  const match = String(value || "").trim().match(/^https?:\/\/([^/?#]+)([^?#]*)(?:\?([^#]*))?/i);
-  if (!match) return "";
-  const host = match[1].toLowerCase().replace(/^www\./, "").replace(/:(?:80|443)$/, "");
-  const path = (match[2] || "").replace(/\/+$/, "");
-  const query = (match[3] || "").split("&").filter(Boolean).filter(pair => !/^(utm_|fbclid=|gclid=|mc_cid=|mc_eid=)/i.test(pair)).sort().join("&");
-  return host + path + (query ? "?" + query : "");
-}
-
-function checkArticleLinks_(payload) {
-  const links = Array.isArray(payload.links) ? payload.links.slice(0, 100) : [];
-  const requested = new Map(links.map(link => [canonicalArticleLink_(link), link]).filter(pair => pair[0]));
-  const sheet = getSheet_();
-  const headers = getHeaders_(sheet);
-  const rows = sheet.getDataRange().getValues().slice(1);
-  const matches = [];
-  rows.forEach(row => {
-    const status = row[headers.indexOf("status")];
-    const key = canonicalArticleLink_(row[headers.indexOf("link")]);
-    if (["pending", "approved"].includes(status) && requested.has(key)) {
-      matches.push({ link: requested.get(key), status });
-      requested.delete(key);
-    }
-  });
-  return { result: "success", matches };
-}
-
 function submitArticle_(payload) {
-  const lock = LockService.getScriptLock();
-  lock.waitLock(30000);
-  try {
-    const key = canonicalArticleLink_(payload.link);
-    if (!key || !String(payload.title || "").trim() || !String(payload.source || "").trim() || !String(payload.submitted_by || "").trim() || !payload.categories?.length) {
-      throw new Error("Add a valid link, title, publication, contributor name, and category.");
-    }
-    if (!payload.date && payload.dateUnknown !== true) throw new Error("Add the publication date or mark it unknown for editorial review.");
-    const sheet = getSheet_();
-    const headers = getHeaders_(sheet);
-    const rows = sheet.getDataRange().getValues().slice(1);
-    const existing = rows.find(row => canonicalArticleLink_(row[headers.indexOf("link")]) === key && ["pending", "approved"].includes(row[headers.indexOf("status")]));
-    if (existing) return json_({ result: "success", id: existing[headers.indexOf("id")], duplicate: true });
-    // A blank date remains blank in the queue. validateArticle_ prevents
-    // publication until an editor supplies the actual publication date.
-    return appendArticleSubmission_(payload);
-  } finally {
-    lock.releaseLock();
-  }
-}
-
-function appendArticleSubmission_(payload) {
   const sheet = getSheet_();
   const headers = getHeaders_(sheet);
 
