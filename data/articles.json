@@ -1,6 +1,98 @@
 [
   {
     "date": "2026-09-08",
+    "title": "Baby, an update: He's just died': Israeli guards' texts reveal abuse in prison",
+    "summary": "We got tired of beating them': After a Palestinian prisoner died at Ketziot Prison in 2023, investigators uncovered Israeli Prison Service guards boasting about beatings and implicating their commanders",
+    "link": "https://www.haaretz.com/israel-news/israel-security/2026-09-08/ty-article-magazine/.premium/baby-an-update-hes-just-died-israeli-guards-texts-reveal-abuse-in-prison/000001a0-7ab4-d46f-a5ef-7bbe46360000",
+    "imageUrl": "https://img.haarets.co.il/bs/000001a0-7ab4-d46f-a5ef-7bbe46360000/45/17/9de2e8234aa0bf0ae7af639cf6f0/ktsiot-homepage.jpg?precrop=1042,606,x0,y0&width=1200&height=630&cmsprod",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Haaretz",
+    "author": "Josh Breiner",
+    "authors": [
+      "Josh Breiner"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-09-14",
+    "title": "Pregnant woman among more than 10 killed in Israeli attacks on Gaza",
+    "summary": "Woman's family says she died of injuries after being shot in the head while sitting inside a tent near Khan Younis",
+    "link": "https://www.theguardian.com/world/2026/sep/13/pregnant-woman-killed-israeli-attacks-gaza",
+    "imageUrl": "https://i.guim.co.uk/img/media/bf6ef76ba83fc39ae31761cdff23813105914be5/281_0_3388_2712/master/3388.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=8b4683f2bcdb128ced4f8a6f9747ad14",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Women"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The Guardian",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-09-14",
+    "title": "Israeli quadcopters killed at least 60 Palestinians since Gaza ceasefire, rights group says",
+    "summary": "",
+    "link": "https://www.middleeasteye.net/live-blog/live-blog-update/israeli-quadcopters-killed-least-60-palestinians-gaza-ceasefire-rights?topic=War%2520on%2520Iran&nid=442386&fid=558153",
+    "imageUrl": "https://yt3.googleusercontent.com/ytc/AIdro_lRzIchs74TuzdT7g_vmgeoD_KFN5kmLk_I3GlVmBl8Z_g=s900-c-k-c0x00ffffff-no-rj",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Ceasefire"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Middle East Eye",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-09-14",
+    "title": "The Elimination Project | B'Tselem",
+    "summary": "Israel's Assault on Palestinian Collective Life in the West Bank",
+    "link": "https://www.btselem.org/the_elimination_project/",
+    "imageUrl": "https://www.btselem.org/the_elimination_project/assets/og/social-en.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "B'Tselem",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-09-14",
+    "title": "Israel accused of trying to 'eliminate' living conditions for Palestinians in West Bank",
+    "summary": "Report by Israeli human rights group says systematic and broad assault being waged on conditions required for Palestinians' existence",
+    "link": "https://www.theguardian.com/world/ng-interactive/2026/sep/14/israel-palestinian-living-conditions-eliminated-west-bank-human-rights-report",
+    "imageUrl": "https://i.guim.co.uk/img/media/9c637e3f0d3aa1ad4d10bbf82d65c8be96e06c0b/626_0_5200_4160/master/5200.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=6f86ece195ccf5e23948d6f4c667142b",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The Guardian",
+    "author": "Quique Kierszenbaum",
+    "authors": [
+      "Quique Kierszenbaum"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-09-08",
     "title": "UAE warned Netanyahu of major Hamas operation days before Oct. 7 attack, news report says",
     "summary": "An Israeli newspaper says Prime Minister Benjamin Netanyahu was directly warned by the president of the United Arab Emirates that Hamas was planning a major offensive just days before the militant group attacked on Oct. 7, 2023.",
     "link": "https://apnews.com/article/israel-netanyahu-hamas-war-gaza-warning-935c2cd82d3204d6dc859d296fc866e3",
