@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-09-21",
+    "title": "Child among four Palestinians killed in Israeli attacks on Gaza",
+    "summary": "Israeli attacks on Palestinians continue in Gaza despite a 'ceasefire' signed in October.",
+    "link": "https://www.aljazeera.com/news/2026/9/21/israeli-attacks-on-gaza-kill-three-including-a-child",
+    "imageUrl": "https://www.aljazeera.com/wp-content/uploads/2026/09/ap_6ab1410a95a82-1790001418.jpg?resize=1920%2C1440",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Children"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Al Jazeera",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-09-21",
+    "title": "Gaza students return to in-person schooling for first time in three years",
+    "summary": "",
+    "link": "https://www.reuters.com/world/middle-east/gaza-students-return-in-person-schooling-first-time-three-years-2026-09-21/",
+    "imageUrl": "https://i0.wp.com/janoberg.me/wp-content/uploads/2023/05/logo-Reuters.jpg?fit=5000%2C2435&ssl=1",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Reuters",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-09-16",
     "title": "At Least 21 Dead in Gaza After Building Collapse, Officials Say",
     "summary": "",
