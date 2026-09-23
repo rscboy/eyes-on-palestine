@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-09-23",
+    "title": "Reports of violence against women in Gaza surge, UN agency finds",
+    "summary": "The UN Population Fund also says there has been a \"severe escalation\" in the number of early and forced marriages.",
+    "link": "https://www.bbc.com/news/articles/c94gm7dp40y0o",
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/7adb/live/a6e48140-b717-11f1-bc1f-3f186ca4140c.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Women"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "BBC",
+    "author": "Yolande Knell",
+    "authors": [
+      "Yolande Knell"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-09-23",
+    "title": "This is where I live now, the back of a truck': a day in the life of a grandmother in Gaza",
+    "summary": "As the war in Gaza approaches its fourth year, the Guardian follows five ordinary Palestinians as they go about their lives. Each tells the story of their day, revealing the terrible toll of the conflict. At 76, Mansoura's most precious possession is the key to her former home",
+    "link": "https://www.theguardian.com/global-development/ng-interactive/2026/sep/23/this-is-where-i-live-now-the-back-of-a-truck-a-day-in-the-life-of-a-grandmother-in-gaza",
+    "imageUrl": "https://i.guim.co.uk/img/media/04c25b87b122941f373245620fcb356ee3347b27/0_324_1440_1152/master/1440.png?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=c88bb64ca8f4f6528988927bffbdb3e3",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The Guardian",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-09-21",
     "title": "Child among four Palestinians killed in Israeli attacks on Gaza",
     "summary": "Israeli attacks on Palestinians continue in Gaza despite a 'ceasefire' signed in October.",
