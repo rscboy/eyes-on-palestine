@@ -1,5 +1,42 @@
 [
   {
+    "date": "2026-09-30",
+    "title": "Israeli attacks on Gaza kill seven as 'ceasefire' violations continue",
+    "summary": "At least six people killed in drone attack on passenger van and one person killed in strike on residential apartment.",
+    "link": "https://www.aljazeera.com/news/2026/9/30/israeli-attacks-on-gaza-kill-several-as-ceasefire-violations-continue",
+    "imageUrl": "https://www.aljazeera.com/wp-content/uploads/2026/09/AA-20260930-42610428-42610409-ISRAELI_ATTACKS_ON_GAZA_CONTINUE-1790772924.jpg?resize=1920%2C1440",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Ceasefire"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Al Jazeera",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-09-30",
+    "title": "Girl has multiple surgeries to control infections after strike in Gaza",
+    "summary": "Witnesses say Raseel's tent was hit by an Israeli helicopter strike. Israel's military says it has no record of the attack.",
+    "link": "https://www.bbc.com/news/videos/c8n5d0e0n6wdo",
+    "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/e9c7/live/7d112a00-bc92-11f1-bc1f-3f186ca4140c.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "BBC",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-09-29",
     "title": "Two Palestinians killed and others injured in Israeli strike, gunfire in Gaza",
     "summary": "",
