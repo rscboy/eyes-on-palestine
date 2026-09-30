@@ -2106,7 +2106,6 @@ function updateGithubBlogPostPage_(post) {
   const legacyPath = post.path || `${slug}.html`;
   const pagePath = `blog/${legacyPath}`;
   const cleanPagePath = `blog/${slug}/index.html`;
-  const appUrl = `https://echoesofgaza.org/blog?post=${encodeURIComponent(slug)}`;
   const canonicalUrl = `https://echoesofgaza.org/blog/${encodeURIComponent(slug)}/`;
   const description = escapeHtml_(post.shareDescription || post.subtitle || "");
   const title = escapeHtml_(post.title || "Echoes of Gaza Blog");
@@ -2142,6 +2141,12 @@ function updateGithubBlogPostPage_(post) {
       }
     }
   });
+  // Serve the same complete article to readers and crawlers at its canonical URL.
+  // The repository build later applies the shared static article template.
+  const articleContent = String(post.content || "")
+    .replace(/<(script|style|head|title|meta|link)\b[^>]*>(?:[\s\S]*?<\/\1>)?/gi, "")
+    .replace(/<\/?(?:html|body|main)\b[^>]*>/gi, "")
+    .replace(/\son\w+\s*=\s*(?:"[^"]*"|'[^']*')/gi, "");
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -2172,15 +2177,11 @@ function updateGithubBlogPostPage_(post) {
   <meta name="twitter:url" content="${canonicalUrl}">
   <meta name="twitter:image" content="${escapeHtml_(image)}">
   <script type="application/ld+json">${jsonLd}</script>
-  <script>
-    (function() {
-      var crawler = /facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|Applebot|Googlebot|Bingbot/i.test(navigator.userAgent || "");
-      if (!crawler) window.location.replace(${JSON.stringify(appUrl)});
-    })();
-  </script>
+  <style>body{margin:0;background:#101010;color:#eee9e3;font:17px/1.7 Georgia,serif}header,main{max-width:760px;margin:auto;padding:20px}a{color:#e7bdae}h1{line-height:1.15}article img,article video{max-width:100%;height:auto}</style>
 </head>
 <body>
-  <p><a href="${appUrl}">${title}</a></p>
+  <header><a href="/">Echoes of Gaza</a> / <a href="/blog">Voices</a></header>
+  <main><article><h1>${title}</h1><p>By ${escapeHtml_(authorName)} · ${escapeHtml_(post.date || "")}</p>${articleContent}</article><p><a href="/blog?post=${encodeURIComponent(slug)}" rel="nofollow">View responses and join the discussion</a> · <a href="/blog">More voices and testimonies</a></p></main>
 </body>
 </html>`;
 
@@ -2261,9 +2262,9 @@ function parseSitemapEntries_(xml) {
 
 function isSitemapIndexableBlogPost_(post) {
   const status = String(post.status || "published").toLowerCase();
-  if (status && status !== "published") return false;
+  if (status === "draft" || status === "deleted") return false;
   if (!post || (!post.slug && !post.path)) return false;
-  if (post.scheduledAt && Date.parse(post.scheduledAt) > Date.now()) return false;
+  if (status === "scheduled" && (!post.scheduledAt || Date.parse(post.scheduledAt) > Date.now())) return false;
   return true;
 }
 

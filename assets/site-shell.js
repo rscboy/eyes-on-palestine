@@ -42,6 +42,8 @@
                 <a href="${home}/#geolocation">Maps & Geolocation</a>
                 <a href="${home}/#quotes">Quotes & Resources</a>
                 <a href="${home}/events">Events</a>
+                <a href="${home}/toolkit">Toolkit</a>
+                <a href="${home}/podcast">Podcast</a>
                 <a href="${home}/about">About</a>
                 <a href="${home}/about#faq">FAQ</a>
               </span>
@@ -68,6 +70,8 @@
         <a href="${home}/#victims">Victims</a>
         <a href="${home}/#geolocation">Maps</a>
         <a href="${home}/events">Events</a>
+        <a href="${home}/toolkit">Toolkit</a>
+        <a href="${home}/podcast">Podcast</a>
         <a href="${home}/about">About</a>
         <span class="site-shell-mobile-divider" aria-hidden="true"></span>
         <a href="${home}/collab" class="site-shell-submit">Submit Evidence</a>

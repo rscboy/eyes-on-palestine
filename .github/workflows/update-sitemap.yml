@@ -8,8 +8,11 @@ on:
       - "data/blog_posts.json"
       - "blog/*.html"
       - "scripts/update_sitemap_from_blog_posts.mjs"
+      - "scripts/build_blog_pages.mjs"
       - ".github/workflows/update-sitemap.yml"
   workflow_dispatch:
+  schedule:
+    - cron: "13 6 * * *"
 
 permissions:
   contents: write
@@ -26,17 +29,19 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Rebuild sitemap
-        run: node scripts/update_sitemap_from_blog_posts.mjs
+      - name: Rebuild article pages and sitemap
+        run: |
+          node scripts/build_blog_pages.mjs
+          node scripts/update_sitemap_from_blog_posts.mjs
 
       - name: Commit sitemap
         run: |
-          if git diff --quiet -- sitemap.xml; then
-            echo "No sitemap changes to commit."
+          if git diff --quiet -- sitemap.xml blog.html blog; then
+            echo "No publishing changes to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add sitemap.xml
-          git commit -m "Update sitemap"
+          git add sitemap.xml blog.html blog
+          git commit -m "Update published blog pages and sitemap"
           git push
