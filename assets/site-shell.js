@@ -6,6 +6,8 @@
   if (isAdmin) return;
 
   const home = "https://echoesofgaza.org";
+  const isTimeline = /\/timeline(?:\.html)?$/i.test(window.location.pathname);
+  const isArchiveWorkspace = document.body?.dataset.archiveWorkspace === "timeline";
   const isVoices = /\/blog(?:\/|\.html|$)/i.test(window.location.pathname);
   const navHtml = `
     <header class="site-shell-header" data-site-shell="header">
@@ -17,6 +19,7 @@
             <span class="site-shell-menu">
               <span class="site-shell-menu-panel">
                 <a href="${home}/#articles">Articles</a>
+                <a href="/timeline.html">Archive timeline</a>
                 <a href="${home}/#books">Books</a>
                 <a href="${home}/#videos">Interviews</a>
                 <a href="${home}/#films">Documentaries</a>
@@ -28,11 +31,12 @@
             <span class="site-shell-menu">
               <span class="site-shell-menu-panel">
                 <a href="${home}/#narrative-test-section">Narratives</a>
-                <a href="${home}/#casualty-graph">Timeline</a>
+                <a href="${home}/#casualty-graph">Casualty timeline</a>
                 <a href="${home}/#bias-tool-controls">Racial Bias Tool</a>
               </span>
             </span>
           </span>
+          <a href="/timeline.html"${isTimeline ? ' class="is-current" aria-current="page"' : ""}>Timeline</a>
           <a href="${home}/blog"${isVoices ? ' class="is-current"' : ""} ${isVoices ? 'aria-current="page"' : ""}>Voices</a>
           <a href="${home}/#victims">Victims</a>
           <span class="site-shell-menu-wrap">
@@ -57,7 +61,7 @@
         </button>
       </div>
     </header>
-    <div class="site-shell-mobile" data-site-shell="mobile" aria-hidden="true">
+    <div class="site-shell-mobile" data-site-shell="mobile" role="dialog" aria-modal="true" aria-label="Site navigation" aria-hidden="true" inert>
       <div class="site-shell-mobile-top">
         <a href="${home}" class="site-shell-logo">Echoes of Gaza</a>
         <button class="site-shell-mobile-close" type="button" aria-label="Close menu"><span></span><span></span></button>
@@ -65,7 +69,8 @@
       <nav class="site-shell-mobile-links" aria-label="Mobile navigation">
         <a href="${home}/#articles">Archive</a>
         <a href="${home}/blog"${isVoices ? ' class="is-current"' : ""} ${isVoices ? 'aria-current="page"' : ""}>Voices</a>
-        <a href="${home}/#casualty-graph">Timeline</a>
+        <a href="/timeline.html"${isTimeline ? ' class="is-current" aria-current="page"' : ""}>Archive timeline</a>
+        <a href="${home}/#casualty-graph">Casualty timeline</a>
         <a href="${home}/#bias-tool-controls">Racial Bias Tool</a>
         <a href="${home}/#victims">Victims</a>
         <a href="${home}/#geolocation">Maps</a>
@@ -116,6 +121,7 @@
               <h4>Archive</h4>
               <ul>
                 <li><a href="${home}/#articles">Articles</a></li>
+                <li><a href="/timeline.html">Archive timeline</a></li>
                 <li><a href="${home}/#victims">Martyrs</a></li>
                 <li><a href="${home}/primary">Primary Sources</a></li>
               </ul>
@@ -169,12 +175,36 @@
     const closeButton = document.querySelector(".site-shell-mobile-close");
     const mobile = document.querySelector(".site-shell-mobile");
     if (!openButton || !closeButton || !mobile) return;
+    let previousOverflow = "";
+    let inertElements = [];
     const setOpen = (open) => {
+      if (open) {
+        previousOverflow = document.body.style.overflow;
+        inertElements = [...document.body.children].filter(el => el !== mobile && !el.inert && !["SCRIPT", "STYLE"].includes(el.tagName));
+        inertElements.forEach(el => el.inert = true);
+      } else {
+        inertElements.forEach(el => el.inert = false);
+        inertElements = [];
+      }
+      mobile.inert = !open;
       mobile.classList.toggle("is-open", open);
       mobile.setAttribute("aria-hidden", String(!open));
       openButton.setAttribute("aria-expanded", String(open));
-      document.body.style.overflow = open ? "hidden" : "";
+      document.body.style.overflow = open ? "hidden" : previousOverflow;
+      if (open) closeButton.focus();
+      else openButton.focus();
     };
+    mobile.addEventListener("keydown", event => {
+      if (event.key === "Escape") { event.preventDefault(); setOpen(false); }
+      if (event.key !== "Tab") return;
+      const items = [...mobile.querySelectorAll("a, button")];
+      const first = items[0], last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    });
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 800 && mobile.classList.contains("is-open")) setOpen(false);
+    });
     openButton.addEventListener("click", () => setOpen(true));
     closeButton.addEventListener("click", () => setOpen(false));
     mobile.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
@@ -388,12 +418,18 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     const hadExistingGlobalHeader = removeExistingShell();
-    document.body.insertAdjacentHTML("afterbegin", navHtml);
+    const skip = document.querySelector(".tw-skip");
+    if (skip) skip.insertAdjacentHTML("afterend", navHtml);
+    else document.body.insertAdjacentHTML("afterbegin", navHtml);
     document.body.insertAdjacentHTML("beforeend", footerHtml);
     if (!hadExistingGlobalHeader) document.body.classList.add("site-shell-pad");
     setupMobileMenu();
-    setupLanguageButtons();
-    setupTranslate();
-    setupStoryWelcome();
+    if (isArchiveWorkspace) {
+      document.querySelector(".site-shell-language-picker")?.remove();
+    } else {
+      setupLanguageButtons();
+      setupTranslate();
+      setupStoryWelcome();
+    }
   });
 })();

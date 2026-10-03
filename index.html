@@ -1924,7 +1924,8 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/site-shell.css?v=story-1">
+    <link rel="stylesheet" href="./assets/site-shell.css?v=timeline-1">
+    <script src="./assets/research-packet.js?v=2"></script>
 </head>
 
 <body class="antialiased selection:bg-red-900 selection:text-white">
@@ -3061,6 +3062,12 @@
         let articleDetailRecords = {};
         let researchPacket = [];
         const RESEARCH_PACKET_KEY = 'echoes_research_packet';
+        window.addEventListener('storage', event => {
+            if (event.key !== RESEARCH_PACKET_KEY || !articles.length) return;
+            loadResearchPacket();
+            renderResearchPacket();
+            renderArticles(currentlyDisplayedArticles);
+        });
         const GUIDED_RESEARCH_MODES = [
             { label: 'Healthcare Attacks', categories: ['Targeting Healthcare', 'Healthcare', 'Hospitals', 'Medical Workers'] },
             { label: 'Displacement', categories: ['Displacement', 'Gaza', 'Humanitarian Crisis'] },
@@ -3662,23 +3669,15 @@
         }
 
         function articlePacketId(article) {
-            const fingerprint = [
-                'v2',
-                normalizePacketPart(article?.source),
-                normalizePacketPart(article?.date),
-                normalizePacketPart(article?.title),
-                normalizePacketPart(article?.link)
-            ].join('|');
-            return packetHash(fingerprint);
+            return window.EogPacket.id(article);
         }
 
         function legacyArticlePacketIds(article) {
-            const legacyValue = article?.link || `${article?.source || ''}:${article?.title || ''}:${article?.date || ''}`;
-            return [packetHash(legacyValue)];
+            return window.EogPacket.aliases(article).slice(1);
         }
 
         function articlePacketIds(article) {
-            return [...new Set([articlePacketId(article), ...legacyArticlePacketIds(article)])];
+            return window.EogPacket.aliases(article);
         }
 
         function isArticleSaved(article) {
@@ -3695,7 +3694,10 @@
             const seen = new Set();
             researchPacket.forEach((id) => {
                 const article = getArticleByPacketId(id);
-                if (!article) return;
+                if (!article) {
+                    if (!seen.has(id)) { seen.add(id); nextPacket.push(id); }
+                    return;
+                }
                 const primaryId = articlePacketId(article);
                 if (seen.has(primaryId)) return;
                 seen.add(primaryId);
@@ -3757,7 +3759,9 @@
         }
 
         function saveResearchPacket() {
-            localStorage.setItem(RESEARCH_PACKET_KEY, JSON.stringify(researchPacket));
+            if (!window.EogPacket.write(researchPacket)) {
+                showArchiveFeedback('Browser storage is unavailable. Saved citations last for this visit only.');
+            }
         }
 
         function toggleResearchPacket(article) {
@@ -4649,7 +4653,14 @@
 
                 console.log(`Loaded ${articles.length} articles`);
 
-                await Promise.all([loadWaybackArchiveStatus(), loadIntegrityReport()]);
+                await Promise.all([loadWaybackArchiveStatus(), loadIntegrityReport(), (async () => {
+                    try {
+                        const identityResponse = await fetch('./data/timeline/packet-identities.json');
+                        if (identityResponse.ok) window.EogPacket.configure(await identityResponse.json());
+                    } catch (error) {
+                        // Existing URL fingerprints remain usable when this optional map is unavailable.
+                    }
+                })()]);
                 loadResearchPacket();
                 populateFilters();
                 updateArchiveResultSummary(currentlyDisplayedArticles);
@@ -5990,6 +6001,6 @@
             }
         });
     </script>
-    <script src="./assets/site-shell.js?v=story-1" defer></script>
+    <script src="./assets/site-shell.js?v=timeline-2" defer></script>
 </body>
 </html>

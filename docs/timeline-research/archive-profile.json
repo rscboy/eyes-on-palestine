@@ -1,0 +1,351 @@
+{
+  "review_date": "2026-10-03",
+  "records": 1352,
+  "unique_exact_urls": 1343,
+  "stored_date_min": "2001-06-02",
+  "stored_date_max": "2026-09-30",
+  "corpus_sha256": "d5586709d083466badd3e82232ebd53dff62a821cc8e761c608351d50c98f6f4",
+  "years": {
+    "2001": 1,
+    "2006": 1,
+    "2009": 2,
+    "2012": 1,
+    "2015": 2,
+    "2016": 1,
+    "2017": 1,
+    "2019": 1,
+    "2022": 1,
+    "2023": 20,
+    "2024": 31,
+    "2025": 769,
+    "2026": 521
+  },
+  "months": {
+    "2001-06": 1,
+    "2006-05": 1,
+    "2009-08": 1,
+    "2009-12": 1,
+    "2012-10": 1,
+    "2015-11": 2,
+    "2016-06": 1,
+    "2017-09": 1,
+    "2019-02": 1,
+    "2022-01": 1,
+    "2023-10": 8,
+    "2023-11": 7,
+    "2023-12": 5,
+    "2024-01": 1,
+    "2024-02": 1,
+    "2024-03": 1,
+    "2024-04": 7,
+    "2024-05": 5,
+    "2024-06": 3,
+    "2024-07": 2,
+    "2024-08": 1,
+    "2024-10": 4,
+    "2024-11": 5,
+    "2024-12": 1,
+    "2025-01": 9,
+    "2025-02": 4,
+    "2025-03": 3,
+    "2025-04": 2,
+    "2025-05": 28,
+    "2025-06": 17,
+    "2025-07": 77,
+    "2025-08": 115,
+    "2025-09": 121,
+    "2025-10": 156,
+    "2025-11": 143,
+    "2025-12": 94,
+    "2026-01": 81,
+    "2026-02": 67,
+    "2026-03": 61,
+    "2026-04": 60,
+    "2026-05": 52,
+    "2026-06": 69,
+    "2026-07": 53,
+    "2026-08": 50,
+    "2026-09": 28
+  },
+  "primary_categories": {
+    "Conflict": 367,
+    "Humanitarian": 287,
+    "Genocide": 148,
+    "Politics": 112,
+    "Legal": 53,
+    "Health": 29,
+    "Children": 27,
+    "Healthcare Crisis": 22,
+    "Culture": 16,
+    "Humanitarian Crisis": 14,
+    "Human Rights": 12,
+    "Settler Violence": 11,
+    "War Crimes": 9,
+    "Ethnic Cleansing": 9,
+    "Economy": 9,
+    "Abuse": 8,
+    "Death Toll": 8,
+    "Media": 8,
+    "Civilian Casualties": 7,
+    "Opinion": 7,
+    "West Bank Violence": 6,
+    "Press Freedom": 6,
+    "Humanitarian Aid": 6,
+    "Diplomacy": 6,
+    "Technology": 6,
+    "Environment": 6,
+    "Sexual Violence": 5,
+    "Forced Displacement": 5,
+    "Ceasefire": 5,
+    "Starvation": 5,
+    "Famine": 4,
+    "Displacement": 4,
+    "Accountability": 4,
+    "Destruction Plans": 4,
+    "Genocide Analysis": 4,
+    "Detention & Rights": 3,
+    "Prison Conditions": 3,
+    "Gaza Policy": 3,
+    "Crisis": 3,
+    "Aid Crisis": 3,
+    "Living Conditions": 3,
+    "Hunger Crisis": 3,
+    "Medical Testimony": 3,
+    "Genocide Allegation": 3,
+    "Analysis": 3,
+    "Illegal Expansion": 2,
+    "Starvation Warning": 2,
+    "Security": 2,
+    "Targeting Civilians": 2,
+    "Genocide Accusations": 2,
+    "Aid Blockade": 2,
+    "Economic Crisis": 2,
+    "Military Operations": 2,
+    "Legal Proceedings": 2,
+    "Hostage Testimony": 2,
+    "UN Reports": 2,
+    "Aid Targeting": 2,
+    "Genocide Allegations": 2,
+    "Aid Access": 2,
+    "Sports": 2,
+    "Business": 2,
+    "Media Freedom": 2,
+    "Gaza": 1,
+    "Women and Children": 1,
+    "Destruction": 1,
+    "Women": 1,
+    "Illegal Weaponry": 1,
+    "Targeting Healthcare": 1,
+    "Psychological Warfare": 1,
+    "Human Shields": 1,
+    "Political Statements": 1,
+    "UN Warnings": 1,
+    "War Objectives": 1,
+    "Rhetoric": 1,
+    "Political Discourse": 1,
+    "Military Criticism": 1,
+    "Political Controversy": 1,
+    "Media Coverage": 1,
+    "Media Restrictions": 1,
+    "Extreme Rhetoric": 1,
+    "Incitement": 1,
+    "Transfer Support": 1,
+    "Political Criticism": 1,
+    "Rules of Engagement": 1,
+    "Public Opinion": 1,
+    "Intelligence": 1,
+    "Military Plans": 1,
+    "Israeli Politics": 1,
+    "Targeting Religious Sites": 1,
+    "Antisemitism": 1,
+    "International Appeal": 1,
+    "Aid Disruption": 1,
+    "Foreign Policy": 1,
+    "Military Policy": 1,
+    "Conflict Escalation": 1,
+    "Protests": 1,
+    "Aid Policy": 1,
+    "Aid Conflict": 1,
+    "Aid Disaster": 1,
+    "Media Ethics": 1,
+    "Human Interest": 1,
+    "Conflict Reporting": 1,
+    "Military Technology": 1,
+    "Media Rights": 1,
+    "U.S. Politics": 1,
+    "Social Impact": 1,
+    "Military": 1,
+    "Rights & Justice": 1,
+    "Education": 1,
+    "World": 1,
+    "Middle East": 1
+  },
+  "raw_source_labels": 143,
+  "raw_primary_categories": 111,
+  "document_types": {
+    "Article": 1284,
+    "Blog": 6,
+    "Social media post": 6,
+    "Press release": 2,
+    "Report": 3,
+    "Unspecified": 51
+  },
+  "flags": {
+    "author_unknown_or_missing": 1250,
+    "missing_summary": 179,
+    "earlier_year_mentioned_review_event_time": 62,
+    "url_date_differs_not_proof_of_error": 34,
+    "same_title_review_not_automatic_duplicate": 24,
+    "scraping_error_in_summary": 3,
+    "test_title_review": 1,
+    "legacy_metadata_fields_missing": 51,
+    "content_text_encoding_review": 435,
+    "exact_url_duplicate": 16,
+    "source_text_encoding_review": 35,
+    "machine_citation_artifact_review": 98
+  },
+  "thread_candidates": {
+    "Policy, military action and diplomacy": 692,
+    "Rights, detention and accountability": 449,
+    "Health and care": 333,
+    "Land, home and displacement": 344,
+    "Witness, media and the record": 201,
+    "Food, water and aid": 498,
+    "Daily life, culture and survival": 97,
+    "Unassigned - editorial review": 58
+  },
+  "duplicate_url_groups": [
+    {
+      "url": "https://www.nytimes.com/2025/09/09/world/middleeast/israel-hamas-doha-qatar-strike.html",
+      "records": [
+        542,
+        543,
+        544,
+        751
+      ]
+    },
+    {
+      "url": "https://www.theguardian.com/world/2025/sep/14/southern-gaza-nasser-medics-displaced-palestinians-fleeing",
+      "records": [
+        565,
+        566
+      ]
+    },
+    {
+      "url": "https://www.theguardian.com/world/2025/oct/15/palestinian-bodies-returned-by-israel-show-signs-of-torture-and-execution-say-doctors",
+      "records": [
+        687,
+        1245
+      ]
+    },
+    {
+      "url": "https://www.theguardian.com/world/2025/oct/20/mutilated-bodies-palestinians-held-notorious-israeli-jail-gaza-officials",
+      "records": [
+        708,
+        1241
+      ]
+    },
+    {
+      "url": "https://www.aljazeera.com/news/2025/10/28/palestinian-grandparents-care-for-36-children-orphaned-by-israel-in-gaza",
+      "records": [
+        752,
+        756
+      ]
+    },
+    {
+      "url": "https://www.cnn.com/2025/12/21/middleeast/israeli-soldiers-west-bank-teen-killed-latam-intl",
+      "records": [
+        1007,
+        1008
+      ]
+    },
+    {
+      "url": "https://www.unfpa.org/news/relentless-attacks-collapse-health-and-safety-systems-leave-gazas-women-and-girls-facing",
+      "records": [
+        1196,
+        1197
+      ]
+    }
+  ],
+  "same_title_groups": [
+    {
+      "title": "un independent commission claims israel deliberately targeted gaza children resulting in genocide",
+      "records": [
+        144,
+        146
+      ]
+    },
+    {
+      "title": "starvation attacks the bodies of these children in gaza",
+      "records": [
+        410,
+        411
+      ]
+    },
+    {
+      "title": "israel attempts to kill hamas leadership in airstrike on qatar a gaza war mediator",
+      "records": [
+        542,
+        543,
+        544,
+        751
+      ]
+    },
+    {
+      "title": "medics in southern gaza sound alarm over wave of newly displaced palestinians",
+      "records": [
+        565,
+        566
+      ]
+    },
+    {
+      "title": "palestinian bodies returned by israel show signs of torture and execution say doctors",
+      "records": [
+        687,
+        1245
+      ]
+    },
+    {
+      "title": "at least 135 mutilated bodies of palestinians had been held at notorious israeli jail say gaza officials",
+      "records": [
+        708,
+        1241
+      ]
+    },
+    {
+      "title": "palestinian grandparents care for 36 children orphaned by israel in gaza",
+      "records": [
+        752,
+        756
+      ]
+    },
+    {
+      "title": "us intel revealed israeli officials discussing use of human shields in gaza sources say",
+      "records": [
+        838,
+        839
+      ]
+    },
+    {
+      "title": "israeli soldiers shot and killed a west bank teen they say hurled a block video shows them shooting him point blank",
+      "records": [
+        1007,
+        1008
+      ]
+    },
+    {
+      "title": "relentless attacks collapse of health and safety systems leave gaza s women and girls facing unthinkable challenges",
+      "records": [
+        1196,
+        1197
+      ]
+    },
+    {
+      "title": "in gaza a desperate rush for water trucks persists more than 6 months after the ceasefire",
+      "records": [
+        1344,
+        1349
+      ]
+    }
+  ]
+}

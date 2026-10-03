@@ -70,3 +70,9 @@ Please ensure all submissions include:
 ## License
 
 This project is open-source and may be freely shared, adapted, and reproduced with attribution.
+
+## Interactive archival timeline
+
+`timeline.html` implements **Threads of Witness**, beginning in 2023, with visual date navigation, a month scrubber, source images, scroll effects, continuous browsing, source provenance, and shared saved research packets. `timeline-sources.html` is the complete static reading edition.
+
+After changing article data, run `node scripts/build_timeline.mjs`. Retain `data/timeline/source-registry.json` so permanent source IDs survive updates. Run `node --test tests/timeline.test.mjs` for the focused data tests. See [the implementation and editorial handoff](docs/timeline-implementation.md) for browser checks, data review, and publication requirements.

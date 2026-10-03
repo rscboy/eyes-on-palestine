@@ -1,0 +1,858 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Threads of Witness — Implementation prompt</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:#f4f1e9;color:#24251f;font:17px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:#6e2634;text-underline-offset:3px;overflow-wrap:anywhere}a:hover{color:#9b1b30}button,input{font:inherit}a:focus-visible,button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid #836500;outline-offset:4px}.skip{position:absolute;top:-100px;left:16px;background:#fff;padding:12px;z-index:20}.skip:focus{top:12px}.masthead{background:#0a0a0a;color:#ece7df;padding:28px max(24px,calc((100vw - 1420px)/2));display:flex;justify-content:space-between;gap:20px;align-items:center}.brand{font-size:13px;letter-spacing:.12em;text-transform:uppercase}.masthead a{color:#c9a84c}.layout{display:grid;grid-template-columns:250px minmax(0,1fr);max-width:1420px;margin:auto;gap:56px;padding:54px 32px}.toc{position:sticky;top:24px;align-self:start;max-height:90vh;overflow:auto;font-size:13px;line-height:1.5}.toc strong{display:block;margin-bottom:18px;letter-spacing:.08em}.toc a{display:block;padding:8px 0;color:#4d5046;text-decoration:none;border-bottom:1px solid #ddd8cc}.toc a:hover{text-decoration:underline}main{min-width:0;max-width:1080px}h1{font-family:Georgia,serif;font-size:clamp(48px,5vw,76px);line-height:1.06;font-weight:400;margin:0 0 22px;letter-spacing:-.035em}h2{font:400 32px/1.25 Georgia,serif;border-top:1px solid #b8b2a8;padding-top:38px;margin:64px 0 24px}h3{font-size:21px;line-height:1.4;margin:32px 0 12px}p{margin:0 0 20px}li{margin:8px 0}strong{font-weight:650}main>p:first-of-type{font-size:14px;color:#626457}.table-scroll{overflow:auto;margin:24px 0 36px;border:1px solid #d5d0c5;border-radius:4px}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.55}th,td{text-align:left;vertical-align:top;padding:14px 16px;border-bottom:1px solid #ddd8cc}th{background:#e9e4d9;font-weight:650}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#f8f6f0}pre{overflow:auto;background:#e9e4d9;padding:22px;border-radius:4px;font-size:13px;line-height:1.6}figure{margin:34px 0}figure img{width:100%;height:auto;border:1px solid #c9c3b6;border-radius:6px}figcaption{font-size:13px;color:#626457;margin-top:12px}.register-search{padding:18px;background:#e9e4d9;margin:18px 0;border-radius:4px}.register-search label{display:block;font-weight:650;margin-bottom:8px}.register-search input{width:100%;min-height:44px;padding:9px 12px;background:#fffdf8;border:1px solid #999384;border-radius:4px}.register-search output{display:block;font-size:13px;margin-top:8px}.tools{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}.tools a,.tools button{display:inline-block;background:#0a0a0a;color:#ece7df;border:1px solid #0a0a0a;min-height:44px;padding:10px 18px;border-radius:4px;text-decoration:none;cursor:pointer}.footer{border-top:1px solid #d5d0c5;padding:30px;font-size:13px;color:#626457;text-align:center}[hidden]{display:none!important}@media(max-width:1000px){.layout{gap:28px;grid-template-columns:205px minmax(0,1fr)}}@media(max-width:760px){body{font-size:16px}.masthead{padding:20px;align-items:flex-start;flex-direction:column}.layout{display:block;padding:28px 20px}.toc{position:static;max-height:none;margin-bottom:36px}.toc details:not([open]){padding-bottom:12px}.toc a{padding:10px 0}.table-scroll{margin-left:0;margin-right:0}h2{font-size:27px;margin-top:48px}th,td{min-width:120px;padding:12px}figure img{min-width:600px}figure{overflow:auto}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{body{background:#fff;font:10pt/1.45 Georgia,serif;color:#000}.masthead,.toc,.tools,.register-search,.skip{display:none}.layout{display:block;max-width:none;padding:0}main{max-width:none}h1{font-size:32pt}h2{font-size:19pt;break-after:avoid;margin:28pt 0 10pt;padding-top:12pt}h3{font-size:13pt;break-after:avoid}p,li{orphans:3;widows:3}table{font:8pt/1.4 system-ui}.table-scroll{overflow:visible;border:0}th,td{padding:6pt;min-width:0}thead{display:table-header-group}tr{break-inside:avoid}a{color:#000}figure{break-inside:avoid}figure img{min-width:0}pre{white-space:pre-wrap;break-inside:avoid}.footer{font-size:8pt}}</style></head><body><a class="skip" href="#main">Skip to document</a><header class="masthead"><span class="brand">Echoes of Gaza / Timeline research</span><span>October 3, 2026 · Prepared for review</span></header><div class="layout"><nav class="toc" aria-label="Document contents"><details open><summary><strong>Contents</strong></summary><a href="#mission">Mission</a><a href="#1-inspect-the-project-and-preserve-its-conventions">1. Inspect the project and preserve its conventions</a><a href="#2-fixed-audit-facts-and-review-boundaries">2. Fixed audit facts and review boundaries</a><a href="#3-product-concept">3. Product concept</a><a href="#4-people-and-core-tasks">4. People and core tasks</a><a href="#5-information-architecture-and-initial-state">5. Information architecture and initial state</a><a href="#6-desktop-layout">6. Desktop layout</a><a href="#7-mobile-layout">7. Mobile layout</a><a href="#8-time-controls-and-scale-rules">8. Time controls and scale rules</a><a href="#9-theme-taxonomy-and-filter-behavior">9. Theme taxonomy and filter behavior</a><a href="#10-event-cards-and-source-cards">10. Event cards and source cards</a><a href="#11-event-detail-and-follow-the-record">11. Event detail and Follow the record</a><a href="#12-concrete-prototype-fixtures-from-the-audited-collection">12. Concrete prototype fixtures from the audited collection</a><a href="#13-data-architecture">13. Data architecture</a><a href="#14-source-integrity-corrections-and-disagreements">14. Source integrity, corrections and disagreements</a><a href="#15-visual-design-and-content-tone">15. Visual design and content tone</a><a href="#16-motion-media-and-dignity">16. Motion, media and dignity</a><a href="#17-accessibility-implementation-requirements">17. Accessibility: implementation requirements</a><a href="#18-url-state-research-packets-and-privacy">18. URL state, research packets and privacy</a><a href="#19-performance-and-resilience">19. Performance and resilience</a><a href="#20-editorial-workflow">20. Editorial workflow</a><a href="#21-validation-and-acceptance-criteria">21. Validation and acceptance criteria</a><a href="#22-deliverables-and-implementation-order">22. Deliverables and implementation order</a><a href="#23-comparative-design-references">23. Comparative design references</a></details></nav><main id="main"><div class="tools"><a href="echoes-of-gaza-timeline-prompt.md" download>Download Markdown</a><button type="button" id="printButton">Print / save PDF</button><button type="button" id="copyButton">Copy complete prompt</button><span id="copyStatus" role="status"></span></div><h1 id="echoes-of-gaza-timeline-complete-design-and-implementation-prompt">Echoes of Gaza timeline: complete design and implementation prompt</h1>
+<p>Copy the following brief into a design or coding task. It is grounded in the October 3, 2026 local collection audit and a 100-project comparative timeline register. This prompt requests implementation; the research task that produced it did not modify the live website.</p>
+<h2 id="mission">Mission</h2>
+<p>Design and implement <strong>Threads of Witness</strong>, an interactive archival timeline for Echoes of Gaza. Its purpose is to help people understand documented lives, events and reporting over time; inspect sources; follow later investigations and accountability actions; and assemble useful citations.</p>
+<p>Make it distinctive through its information architecture and documentary connections. Use a quiet chronological spine, selectable thematic threads, readable event/source cards and a focused <strong>Follow the record</strong> view. Let the record itself provide the emotional weight.</p>
+<p>Deliver a coherent feature that fits the existing website, works on mobile and with assistive technology, and remains honest about uncertainty, incomplete collection coverage and source availability.</p>
+<h2 id="1-inspect-the-project-and-preserve-its-conventions">1. Inspect the project and preserve its conventions</h2>
+<p>Before implementation, inspect applicable repository instructions, README, index.html, assets/site-tokens.css, assets/archive-experience.css, data/articles.json, the integrity/Wayback data, existing filtering and saved research-packet/citation code, and docs/timeline-research.</p>
+<p>Use the existing static HTML/CSS/JavaScript architecture unless a concrete project constraint requires another approach. Do not introduce a framework migration as a prerequisite. Reuse working source cards, publisher aliases where reviewed, archive/source choices, research packets and citation exports. Keep the timeline&#x27;s state coherent with those existing features.</p>
+<p>The current casualty timeline/chart is a different tool. Name and route the archive chronology clearly so users can distinguish the two. Do not silently replace the casualty chart or treat its external casualty series as the chronology dataset.</p>
+<p>Preserve unrelated local changes. Produce a reviewable local implementation and validation report. Deployment is outside this prompt unless separately authorized.</p>
+<h2 id="2-fixed-audit-facts-and-review-boundaries">2. Fixed audit facts and review boundaries</h2>
+<p>The local main archive contains 1,352 stored records and 1,343 distinct exact source URLs. Imported date values range from 2001-06-02 to 2026-09-30, but the early boundary is not reliable: audit record 203 is dated 2001 and links to a Reuters URL dated June 2, 2026. Record 226&#x27;s 2006 date also needs review. Do not treat those dates as verified historical coverage.</p>
+<p>1,290 entries, or 95.4%, are dated 2025–2026. There are 179 blank summaries, 51 records missing legacy metadata fields, 143 raw publisher labels and 111 raw primary category labels. Sixteen records participate in seven exact repeated-URL groups, creating nine redundant URL copies. Ninety-eight summaries contain machine citation artifacts. There are three summary strings that contain access/scraping errors and one record titled “test.”</p>
+<p>The collection stores article titles, summaries and links, not full publisher bodies. A complete metadata audit is not a source-body verification. Treat keyword thread suggestions, URL date hints and extracted historical years as candidates for editorial review.</p>
+<p>The local integrity snapshot is dated May 12, 2026 and covers 1,116 records. The checked local Wayback status file contains no capture records. Do not display “Preserved” or “Verified” on every item.</p>
+<p>For the audited snapshot, Today is October 3, 2026 and the latest imported article date is September 30, 2026. Show the difference. At runtime, calculate today according to a documented site timezone, and show the collection&#x27;s actual update/coverage date separately.</p>
+<h2 id="3-product-concept">3. Product concept</h2>
+<p>Use the title <strong>Threads of Witness</strong> with a short subtitle such as “A chronology of life and the record.”</p>
+<p>Suggested introductory copy:</p>
+<p>“Explore the lives, events and reporting held in Echoes of Gaza. Follow a thread, open a moment, and trace the sources connected to it.”</p>
+<p>Add a concise coverage statement and date-basis explanation. Do not imply the collection is exhaustive, continuous or fully verified.</p>
+<p>The thread motif should be restrained: one chronological spine, small labeled thread markers and local relationships around the selected moment. It must not become a fabric animation, a decorative injury treatment, or thousands of connecting lines.</p>
+<p>The distinctive interaction, <strong>Follow the record</strong>, connects an earlier event with later reports, investigations, responses, legal actions and documented corrections. A connection must have an explicit reviewed meaning. Sharing a theme or occurring near another event does not establish causality.</p>
+<h2 id="4-people-and-core-tasks">4. People and core tasks</h2>
+<p>Serve:</p>
+<ul>
+<li>A first-time reader who needs orientation and plain language.</li>
+<li>A Palestinian reader or family member seeking a record with care and dignity.</li>
+<li>A researcher comparing original and later sources.</li>
+<li>A teacher assembling a chronological source packet.</li>
+<li>A mobile reader using a slow connection.</li>
+<li>A reader using keyboard navigation, magnification or a screen reader.</li>
+</ul>
+<p>Make these tasks work:</p>
+<ol>
+<li>Find a date or period and understand what the dates represent.</li>
+<li>Follow a theme without losing chronological orientation.</li>
+<li>Open a moment and identify its sources.</li>
+<li>Trace a later investigation back to the event it discusses.</li>
+<li>Find records whose event date is unknown.</li>
+<li>Compare a small set of source records without collapsing their differences.</li>
+<li>Save individual reports or an explicitly selected source bundle.</li>
+<li>Export citations and share a reproducible filtered URL.</li>
+<li>Hide images and continue every core research task.</li>
+<li>Return from detail with the same filters, date context and reading position.</li>
+</ol>
+<p>Do not optimize for dwell time on distressing material, graphic-image views or maximum scrolling.</p>
+<h2 id="5-information-architecture-and-initial-state">5. Information architecture and initial state</h2>
+<p>Provide two explicit modes:</p>
+<p><strong>Read chronology:</strong> reviewed EventMoment records grouped by time, each opening its supporting sources.</p>
+<p><strong>Browse source records:</strong> all eligible archive records ordered by verified publication date or clearly labeled imported archive date. Unknown event dates must not make a source disappear.</p>
+<p>If the event dataset is not editorially ready, default to the source mode. Do not automatically generate a public event chronology from article dates or headlines.</p>
+<p>Treat “Explore threads” as a filter and an optional presentation within these modes. Treat “Follow the record” as a selected-moment interaction. All representations must share the same state and show what is included.</p>
+<p>The initial viewport should show a modest title/explanation, coverage/date-basis labels, search/date/theme controls, the time overview and the beginning of readable results. Avoid an oversized photographic hero or mandatory onboarding.</p>
+<p>Once a reviewed event layer exists, the initial context can emphasize October 2023 through the latest covered date while retaining an obvious Earlier context control. Before that, show the collection&#x27;s source coverage without assuming imported dates are verified. Do not force a 1948 starting point through empty imported data.</p>
+<p>A future historical-context layer may include 1948 and earlier periods, but only with independently curated, cited material and explicit “Curated historical context” labeling. Do not invent historic entries to make an axis look complete.</p>
+<h2 id="6-desktop-layout">6. Desktop layout</h2>
+<p>Use a flexible layout with the chronology as the primary reading surface. At spacious widths, show:</p>
+<ul>
+<li>A compact top toolbar with mode/date-basis controls, search and primary filters.</li>
+<li>A small proportional overview of the selected date basis, with explicit counts and selected range.</li>
+<li>A chronological reading list with a date column and one subtle spine.</li>
+<li>A detail aside when a reader selects a moment; provide a durable full-page detail route as well.</li>
+</ul>
+<p>Keep the list&#x27;s comfortable reading width. Do not squeeze it into a narrow card column to accommodate every secondary filter. Collapse advanced filters into a labeled disclosure.</p>
+<p>The detail aside is nonmodal: do not trap focus or inert the main page. Opening it should be an explicit user action. It should not expand simply because a record scrolls into view.</p>
+<p>Keep the selected event highlighted with text/shape as well as color. Preserve date and list position when detail opens. If a selected record falls outside new filters, explain the state and offer a route to restore its context.</p>
+<h2 id="7-mobile-layout">7. Mobile layout</h2>
+<p>Use a single vertical chronology, natural page scrolling, portrait support and a compact filter disclosure. Do not require landscape orientation, horizontal drag, pinch zoom or precision tapping.</p>
+<p>Keep the selected range and result count visible without a toolbar taking most of the screen. At 320–430 CSS pixels, dates sit above titles; metadata wraps naturally; cards remain readable; primary actions have usable targets.</p>
+<p>Prefer a dedicated detail page for long event/source bundles. “Back to timeline” restores mode, filters, selected period and prior position. Browser Back must also work.</p>
+<p>If a modal drawer is used instead, implement correct focus placement, Tab/Shift+Tab containment, Escape, inert background, focus restoration, accessible close control, nested scrolling and safe-area behavior. Do not implement both patterns inconsistently.</p>
+<p>The time overview can collapse to a readable period picker plus optional compact graphic. The mobile user must retain equivalent filtering and all sources.</p>
+<h2 id="8-time-controls-and-scale-rules">8. Time controls and scale rules</h2>
+<p>Offer a start date, end date, Jump to a date, previous/next period, year/month/day granularity where useful, Latest collected record and Earlier context.</p>
+<p>An optional range brush enhances the overview. Explicit controls must produce the same results without dragging. Do not hide them in help text.</p>
+<p>The overview uses proportional time. The list uses readable spacing in chronological order. State that card spacing is not elapsed-time distance. If a gap or scale break is shown, label it. Do not use an unlabeled logarithmic or compressed axis.</p>
+<p>At year scale, show period summaries and counts. At month scale, show groups and moments. At day scale, expose individual sources/events. When a group expands, keep its date context visible.</p>
+<p>Preserve the selected date or event when changing granularity. Avoid recentering to the newest date after every filter. Show “No collected records in this interval” for a gap; never “Nothing happened.”</p>
+<p>Label density graphics as <strong>collected source records</strong> or <strong>reviewed event moments</strong>, matching the current mode. Never interpret a taller bar as more casualties, harm, independent confirmations or historical importance.</p>
+<h2 id="9-theme-taxonomy-and-filter-behavior">9. Theme taxonomy and filter behavior</h2>
+<p>Use seven stable, plain-language themes:</p>
+<ol>
+<li>Life, culture and survival.</li>
+<li>Health and care.</li>
+<li>Food, water and aid.</li>
+<li>Land, home and displacement.</li>
+<li>Policy and military action.</li>
+<li>Rights and accountability.</li>
+<li>Witness and the record.</li>
+</ol>
+<p>Allow multiple themes per event/source where reviewed. Use text labels and distinguishable marker shapes/states, not color alone. Keep the thematic colors muted, accessible and consistent with site tokens.</p>
+<p>Keyword mappings in the audit are import suggestions. Do not present them as curator-approved assignments.</p>
+<p>Primary facets: date range, theme and text search. Secondary facets: place, publisher, source/document type, date precision, preserved-copy availability and relevant review context. Add people only after identity, privacy and naming review.</p>
+<p>Use OR within one facet and AND across facets. State the behavior in tests. Maintain removable active chips, Clear filters and a visible result count. Empty states should explain which constraints are applied and offer reset/expand-range actions.</p>
+<p>Do not advertise full article text search unless source bodies are actually indexed. Distinguish searches of reviewed timeline summaries from searches of imported titles/summaries. Handle Unicode, punctuation, apostrophes and reviewed name aliases without rewriting original source metadata.</p>
+<p>Keep search/filter state stable while asynchronously loading details. Debounce text input only as needed; committed selection should feel immediate.</p>
+<h2 id="10-event-cards-and-source-cards">10. Event cards and source cards</h2>
+<p>Event cards should show:</p>
+<ul>
+<li>Event date label, including approximate/interval precision if applicable.</li>
+<li>A reviewed descriptive title.</li>
+<li>A short reviewed summary.</li>
+<li>Theme and place labels where recorded.</li>
+<li>Number of associated source records.</li>
+<li>Open moment and Save actions.</li>
+<li>Specific uncertainty/disagreement/retrospective labels where relevant.</li>
+</ul>
+<p>Source cards should show:</p>
+<ul>
+<li>Original source title.</li>
+<li>Publisher and author if recorded.</li>
+<li>Verified publication date, or “Archive date” while unverified.</li>
+<li>Document type and the original summary, clearly identified as stored/curated as appropriate.</li>
+<li>Source URL and a preserved-copy choice only when an actual copy exists.</li>
+<li>Capture/check metadata with timestamps.</li>
+<li>Save and citation actions.</li>
+</ul>
+<p>Do not create a new synthesis simply by concatenating headlines. Retain the distinction between original metadata and curatorial language.</p>
+<p>A missing summary should read “Summary not recorded” with access to source metadata; never show “Forbidden” as an article summary. Clean machine citation artifacts for display through a reviewed normalization step while retaining originals internally.</p>
+<p>Do not treat imageUrl as guaranteed event photography: many current images are publisher logos. Display logos as source identifiers, not factual scene evidence. Optional real imagery requires rights, credit, caption and sensitivity review. The experience must work fully without thumbnails.</p>
+<h2 id="11-event-detail-and-follow-the-record">11. Event detail and Follow the record</h2>
+<p>Detail order:</p>
+<ol>
+<li>Heading, event interval and explanation of date certainty.</li>
+<li>Concise reviewed account.</li>
+<li>Sources supporting the account, with original metadata.</li>
+<li>Follow the record sequence.</li>
+<li>Disagreements, uncertainty and limits.</li>
+<li>Provenance and editorial revision notes.</li>
+<li>Save/cite/share and correction/report-a-problem route.</li>
+</ol>
+<p>Use a text sequence as the canonical relationship view. A small optional diagram can enhance it. Render connections only for the selected moment, initially showing a manageable set. Provide “Show all related sources” and ordinary links.</p>
+<p>Allowed reviewed relationships include reports-on, investigates, revisits, responds-to, cites, updates and corrects. Each relationship needs supporting evidence and a short explanation. “Corrects” requires a documented correction; “responds-to” requires a demonstrable response.</p>
+<p>Label suggestions based only on themes as “Related by theme,” separate from reviewed relationships. Do not display machine confidence percentages as evidence quality. Do not imply a causal chain through decorative arrows.</p>
+<p>A later source remains at its publication date in source mode while linking to the earlier event. A later investigation, complaint or recovery can also be its own event when warranted. One article can link to multiple events.</p>
+<p>Optional advanced enhancement after publication dates are verified: a publication cutoff inside Follow the record. Label it “Sources in this collection published by [date].” Moving it forward reveals later reporting while preserving the original event position. Do not call it “What the world knew,” and do not use unverified imported dates for this control. A cutoff cannot reconstruct the earlier body of a subsequently changed source without a real dated capture. Preserve the cutoff in shareable state when enabled.</p>
+<h2 id="12-concrete-prototype-fixtures-from-the-audited-collection">12. Concrete prototype fixtures from the audited collection</h2>
+<p>Use audit numbers only to locate snapshot records; assign durable production IDs independently. The source bodies and event dates still require review.</p>
+<p><strong>Nasser Hospital reporting sequence:</strong> records 482 and 484 (August 25, 2025), 502 (August 28), 503 (September 1), 604 (September 26), 44 and 40 (August 2026). Demonstrate initial reports, later investigation and revisit without overwriting earlier accounts or presenting a later report&#x27;s date as the original event date.</p>
+<p><strong>Historical reporting:</strong> record 318 is stored January 20, 2022 and discusses Tantura in 1948. Demonstrate event versus publication time and year-level uncertainty; do not invent a precise historical day.</p>
+<p><strong>Retrospective investigation:</strong> record 408 is stored July 7, 2024 and concerns October 7, 2023. Demonstrate a connection between a report and an earlier event.</p>
+<p><strong>Hind Rajab/accountability:</strong> record 720 is stored October 21, 2025 and describes a complaint about an earlier killing. Distinguish complaint, investigation and court finding. Review dates and procedural terms before publishing.</p>
+<p><strong>Recovery:</strong> record 71 is stored August 4, 2026 and discusses recovery linked to an earlier strike. Give the recovery activity its own time and relation.</p>
+<p><strong>Lives and agency:</strong> use selected records 52, 81, 153, 171, 236, 1279, 1284, 1332, 1336 and 1342 to test accessible routes through swimming, beekeeping, play, veterinary work, coding, education, reunification, weddings, street restoration and art. Do not romanticize hardship or force a “hope” conclusion.</p>
+<p><strong>Claim rather than fact:</strong> record 1340 reports an allegation about “engineered” rats; its stored summary describes conspiracy-claim framing. It must not become an unqualified event assertion. Demonstrate attributed source preservation and editorial review.</p>
+<p><strong>Statistical definitions:</strong> records 882–885 and 913/917 include unlike mortality/impact claims. Demonstrate separate measures, periods, sources and uncertainty. Do not sum or substitute them.</p>
+<p><strong>Data-error states:</strong> use record 203&#x27;s date mismatch, record 196&#x27;s test title, one empty summary, a summary containing machine citation artifacts, a missing author, one repeated URL group and one unassigned theme.</p>
+<p>Keep fixtures clearly labeled where verification is incomplete. Do not fabricate witnesses, quotes, images, dates or source passages for the prototype.</p>
+<h2 id="13-data-architecture">13. Data architecture</h2>
+<p>Keep the original imported article data intact. Add a normalization adapter and separate reviewed datasets. Use many-to-many relations.</p>
+<p>Required entities:</p>
+<p><strong>SourceRecord:</strong> permanent ID; original fields; normalized publisher ID; author(s); document type; verified publication date or null; imported date; date-basis label; source URL; source-body access status; rights; review status; capture/check references.</p>
+<p><strong>EventMoment:</strong> permanent ID; reviewed title/summary; event interval; date precision and human label; themes; place IDs; linked source IDs; source-based date rationale; review status; reviewer/date; version.</p>
+<p><strong>Claim:</strong> attributed statement; source ID; passage locator; claim type; relevant time/measurement period; numerical measure/unit/definition if applicable; uncertainty and editorial notes.</p>
+<p><strong>Relationship:</strong> permanent ID; endpoints; explicit type; explanation; supporting source(s); reviewer/date; status.</p>
+<p><strong>PreservationRecord:</strong> source ID; actual capture URL/time; last check/time; observed status and method; previous observations.</p>
+<p><strong>EditorialRevision:</strong> entity ID; timestamp; reason; actor; prior version reference.</p>
+<p>Use null for unknown values. Do not conflate import time, publication time, event time and capture time. Do not use the title/URL research hash as a permanent ID: assign stable IDs that survive metadata corrections.</p>
+<p>Illustrative schema, not a verified public event:</p>
+<pre><code>{
+  &quot;id&quot;: &quot;moment-assigned-permanent-id&quot;,
+  &quot;status&quot;: &quot;draft&quot;,
+  &quot;title&quot;: &quot;Reviewed descriptive title pending source verification&quot;,
+  &quot;eventTime&quot;: {
+    &quot;start&quot;: null,
+    &quot;end&quot;: null,
+    &quot;precision&quot;: &quot;unknown&quot;,
+    &quot;label&quot;: &quot;Event date not yet verified&quot;,
+    &quot;rationale&quot;: null,
+    &quot;sourceIds&quot;: []
+  },
+  &quot;themes&quot;: [&quot;health-care&quot;, &quot;witness-record&quot;],
+  &quot;places&quot;: [],
+  &quot;sourceIds&quot;: [&quot;source-assigned-permanent-id&quot;],
+  &quot;review&quot;: {&quot;reviewer&quot;: null, &quot;reviewedAt&quot;: null},
+  &quot;version&quot;: 1
+}</code></pre>
+<p>Exact days, months, years, approximate dates and intervals need explicit precision. Machine-sort bounds can support navigation but must not be displayed as fabricated exact dates. Represent a known month with month precision rather than showing its first day as an exact occurrence.</p>
+<p>For day-level history, use civil dates consistently to avoid timezone shifts. Store instants with explicit offsets only when justified. When same-day ordering is unknown, use a stable neutral tie-break and do not imply minute-level sequence.</p>
+<p>Validate foreign keys, required sources, intervals, future dates and status values at build time. An approved event must have approved supporting source relations and a date rationale. Do not silently publish drafts.</p>
+<h2 id="14-source-integrity-corrections-and-disagreements">14. Source integrity, corrections and disagreements</h2>
+<p>A working URL is not a verified claim. A preserved copy is not a verified claim. A blocked request is not a confirmed removal.</p>
+<p>Expose specific states: Not checked, Available when checked, Access restricted, No preserved copy recorded, Preserved copy recorded, Changed since previous check, Removed with confirmation, or Under review. Retain actual timestamps and methods. Do not reuse stale check results as current observations.</p>
+<p>Distinguish original publisher corrections from changes to Echoes of Gaza metadata and curator interpretation. Keep a revision trail. Where sources disagree, show the attribution and relevant dates; do not silently select the most dramatic number.</p>
+<p>Legal language needs procedural precision: complaint filed, investigation opened, warrant issued, provisional measures ordered, finding by a commission, NGO assessment, scholarly resolution or final court judgment. Preserve attribution. Do not flatten these into an indiscriminate “court proved” badge.</p>
+<p>Numerical claims need source, observation interval, unit, geographic scope and definition. Separate direct deaths, indirect/prospective deaths, missing people, injuries and years of life lost. The chronology should link to the existing casualty tool where appropriate, with definitions and snapshot dates; it should not produce a new composite death total.</p>
+<p>Provide a clear correction route and a factual explanation of collection/selection policy. Do not expose private reviewer notes or personal correction-request data publicly.</p>
+<h2 id="15-visual-design-and-content-tone">15. Visual design and content tone</h2>
+<p>Use the existing design tokens as the base: charcoal/black, warm off-white, restrained muted metadata, gold for focus/provenance and red only for meaningful emphasis or warning. Measure contrast and adjust within the existing language.</p>
+<p>Use Inter or the site&#x27;s current UI typeface for controls and metadata, with a restrained serif where the site&#x27;s editorial hierarchy supports it. Body text around 16–18px, comfortable line height, readable line length and generous spacing should work with actual content.</p>
+<p>Use a coherent 4/8px spacing rhythm and a small number of surface levels. Dates, titles, sources and actions should be distinguishable without dense borders or excessive card nesting.</p>
+<p>Use specific, calm copy. Examples:</p>
+<ul>
+<li>“Event date uncertain.”</li>
+<li>“Report published September 9, 2025.”</li>
+<li>“Archive date awaiting verification.”</li>
+<li>“No collected records match these filters.”</li>
+<li>“No preserved copy recorded.”</li>
+<li>“Last source check: May 12, 2026.”</li>
+<li>“Later investigation of this event.”</li>
+<li>“3 source records saved.”</li>
+</ul>
+<p>Do not use celebratory copy, achievement badges or “You unlocked” mechanics. Preserve a person&#x27;s life and actions rather than treating them as an engagement device.</p>
+<h2 id="16-motion-media-and-dignity">16. Motion, media and dignity</h2>
+<p>No autoplay audio/video, scroll hijacking, animated casualty counters, cinematic injury reveals, looping thread animation or parallax over evidence. Interaction feedback must remain clear without motion.</p>
+<p>Use brief opacity/transform transitions only where they aid orientation. Never use transition: all. Respect prefers-reduced-motion and offer stable equivalent states.</p>
+<p>Provide text-first reading and an image visibility preference. Use specific content notices for graphic imagery, sexual violence or distressing testimony where needed. Notices should not prevent access to non-graphic source metadata.</p>
+<p>Media requires appropriate captions/transcripts, source credits, rights and uncertainty information. Avoid revealing sensitive personal locations. Do not create AI-generated documentary imagery, invented testimony or composite people.</p>
+<h2 id="17-accessibility-implementation-requirements">17. Accessibility: implementation requirements</h2>
+<p>Target WCAG 2.2 AA and verify manually.</p>
+<ul>
+<li>Use native controls, semantic headings, a main landmark, an ordered chronology and ordinary source links.</li>
+<li>Keep a useful reading order independent of any SVG/canvas visualization.</li>
+<li>Give every icon-only button and every meaningful marker an explicit accessible name.</li>
+<li>Decorative paths are hidden from assistive technology.</li>
+<li>All tasks work by keyboard and without dragging.</li>
+<li>Provide visible skip links and strong focus indicators.</li>
+<li>Sticky regions must not completely obscure focused controls.</li>
+<li>Restore focus after closing a detail/modal to the invoking record or logical fallback.</li>
+<li>Preserve focus during filter updates; announce a concise result count after committed changes through a polite status region.</li>
+<li>Do not announce every marker movement or rerender the entire list into a live region.</li>
+<li>Prefer 44×44 CSS-pixel touch targets. WCAG 2.2 AA&#x27;s minimum target criterion is 24×24 with exceptions; distinguish the standard from this stronger project design target.</li>
+<li>Meet relevant contrast ratios: 4.5:1 normal text, 3:1 large text and 3:1 essential non-text UI.</li>
+<li>Themes, date certainty and source states must not depend on color alone.</li>
+<li>Reflow the core reading experience at 320 CSS pixels; support 200% text enlargement and 400% zoom.</li>
+<li>The core task must not depend on an exception for a two-dimensional diagram.</li>
+<li>Give the brush visible date-input/button alternatives.</li>
+<li>Implement any modal according to the WAI-ARIA dialog pattern, including Escape, focus containment and background inertness.</li>
+<li>Respect reduced motion; animation from interactions is an AAA criterion, although reduced motion is a project requirement here.</li>
+<li>Prepare logical CSS properties and language attributes. Arabic support requires bilingual editorial work and deliberate RTL design.</li>
+</ul>
+<p>Reference: <a href="https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html">Dragging movements</a>, <a href="https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html">Target size</a>, <a href="https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html">Focus not obscured</a>, <a href="https://www.w3.org/WAI/WCAG22/Understanding/reflow.html">Reflow</a>, <a href="https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html">Status messages</a>, <a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/">Modal dialogs</a>.</p>
+<p>Do not claim accessibility compliance based only on an automated scanner.</p>
+<h2 id="18-url-state-research-packets-and-privacy">18. URL state, research packets and privacy</h2>
+<p>Use a canonical route for the chronology and stable moment/source URLs. Encode mode, date basis, range, selected themes and selected item in URL state. Use a documented state version if future changes could invalidate links.</p>
+<p>History rules:</p>
+<ul>
+<li>Explicit navigation and selection create useful history entries.</li>
+<li>Rapid search edits can replace state rather than flooding history.</li>
+<li>Back restores the preceding useful state.</li>
+<li>Reload restores the same state.</li>
+<li>Invalid parameters produce a helpful reset state, not a crash.</li>
+</ul>
+<p>Reuse the existing saved research packet and citation formats. Distinguish Save source from Save all sources in this moment. Export source metadata accurately and retain unknown authors/dates as unknown.</p>
+<p>Keep private notes, image preferences and saved reading history out of shared URLs. Avoid third-party tracking and request-free external embeds in the basic view. Explain local storage, allow clearing it and keep reading available without an account.</p>
+<h2 id="19-performance-and-resilience">19. Performance and resilience</h2>
+<p>Use ordinary DOM rendering and lightweight SVG first. Introduce canvas, WebGL, a chart engine or map library only when a measured need justifies it. Preserve a semantic equivalent.</p>
+<p>Build a period/search index for metadata. Render a bounded set of cards with accessible pagination or Load more. If virtualizing, verify focus, screen-reader order, browser Find limitations and discoverability; do not remove focused content.</p>
+<p>Do not load every publisher page, image or article body at startup. Lazy-load authorized media with explicit dimensions. Load source details on demand, cache versioned public data and show snapshot/update information.</p>
+<p>Proposed engineering budgets, to measure and adjust openly:</p>
+<ul>
+<li>Timeline-specific JavaScript below 150KB compressed.</li>
+<li>Initial non-media dataset below 500KB compressed where practical.</li>
+<li>No eager image wall or network graph.</li>
+<li>Filter feedback generally within 100–200ms on the agreed slower test device.</li>
+<li>Field goals at the 75th percentile: LCP ≤2.5s, INP ≤200ms, CLS ≤0.1. Laboratory results do not establish field percentiles.</li>
+</ul>
+<p><a href="https://web.dev/articles/vitals">Current Core Web Vitals guidance</a>.</p>
+<p>Support clear states for loading, empty results, failed dataset fetch, partial detail load, unavailable image, stale checks, missing capture, malformed URL parameters, unknown date and no JavaScript enhancement. A build-generated static reading route should remain usable if the visualization fails.</p>
+<p>Escape text, sanitize any rich-text boundary, validate safe source URL protocols and use appropriate security attributes for new tabs. Do not rely on third-party embeds for essential source access.</p>
+<h2 id="20-editorial-workflow">20. Editorial workflow</h2>
+<p>Implement and document:</p>
+<ol>
+<li>Immutable import.</li>
+<li>Validation and flagged review queue.</li>
+<li>Publisher alias review and duplicate reconciliation.</li>
+<li>Source retrieval/metadata verification where lawful and available.</li>
+<li>Date, claims, rights and sensitive-content review.</li>
+<li>Moment drafting and source attachment.</li>
+<li>Relationship review.</li>
+<li>Publication of approved moments.</li>
+<li>Versioned revisions and refreshed integrity checks.</li>
+</ol>
+<p>Do not publish record 196 as a historical event. Do not silently correct record 203 to 2026 based only on its URL; flag it and obtain source-based metadata. Do not replace source text with invented summaries when access fails.</p>
+<p>Unreviewed source access is an explicit editorial policy choice. The implementation must make that status representable and avoid automatically promoting imported records into approved event narration.</p>
+<h2 id="21-validation-and-acceptance-criteria">21. Validation and acceptance criteria</h2>
+<p>Test with real corpus edge cases and the entire 1,352-record source dataset. Use focused tests for consequential behavior, not snapshots that merely mirror markup.</p>
+<p>Required functional tests:</p>
+<ul>
+<li>Publication/import/event date separation and unknown/interval precision.</li>
+<li>Exact duplicate URL grouping and correct source counts.</li>
+<li>OR within facet/AND across facets.</li>
+<li>Consistent period counts between overview and list.</li>
+<li>Stable same-day ordering without fabricated intraday sequence.</li>
+<li>URL reload and Browser Back restoration.</li>
+<li>Deep links to selected records.</li>
+<li>Filtered-out selected item behavior.</li>
+<li>Save source versus bundle, citation export and unknown metadata.</li>
+<li>Missing summaries, artifacts, unassigned themes and source-access states.</li>
+<li>Today versus latest collection date; scheduled/future entries excluded according to publishing policy.</li>
+<li>HTML/text and safe-link handling.</li>
+</ul>
+<p>Manual verification:</p>
+<ul>
+<li>Keyboard-only completion of every core task.</li>
+<li>VoiceOver plus Safari; NVDA plus a supported browser where available.</li>
+<li>At least one slower phone/device or realistic throttled environment.</li>
+<li>Portrait widths 320, 390 and 430px; tablet; 1280/1440px desktop.</li>
+<li>200% text enlargement and 400% zoom.</li>
+<li>Reduced motion, high contrast/forced colors where supported, images disabled and long translated text.</li>
+<li>Modal/aside focus behavior if implemented.</li>
+<li>No layout jumps while media or detail loads.</li>
+</ul>
+<p>Report what was actually tested and any unavailable environment. Do not invent pass results.</p>
+<p>Usability tasks:</p>
+<ul>
+<li>Ask a reader whether the displayed date is event or reporting time.</li>
+<li>Ask what a density bar measures.</li>
+<li>Find a health-related source in a specific month.</li>
+<li>Trace a later investigation.</li>
+<li>Find a source with unknown event date.</li>
+<li>Save/export two sources and reopen a shared view.</li>
+<li>Hide imagery and continue.</li>
+</ul>
+<p>Use observed misunderstandings to revise labels and defaults. Do not require participants to view graphic content.</p>
+<p>Release conditions:</p>
+<ul>
+<li>No unsupported event dates or fabricated historical gaps.</li>
+<li>No source/claim verification implied by a successful URL.</li>
+<li>Every eligible source remains discoverable.</li>
+<li>Every curated moment and relationship is supported by reviewed sources.</li>
+<li>Accessible equivalents preserve the same research capability.</li>
+<li>Empty, loading, error and unknown states are complete.</li>
+<li>Existing archive and research-packet functions remain coherent.</li>
+<li>Measured performance and manual checks are documented.</li>
+<li>Known editorial gaps are clearly represented rather than hidden.</li>
+</ul>
+<h2 id="22-deliverables-and-implementation-order">22. Deliverables and implementation order</h2>
+<p>Deliver:</p>
+<ol>
+<li>A concise final design rationale and route/state map.</li>
+<li>Desktop and mobile wireframes using real reviewed or clearly labeled draft content.</li>
+<li>A data adapter and schema validation with durable IDs.</li>
+<li>A working source chronology with accessible overview, filters and deep links.</li>
+<li>Reviewed event bundles where content is actually ready.</li>
+<li>Follow the record for approved relationships.</li>
+<li>Shared research-packet/citation integration.</li>
+<li>Documentation of date semantics, editorial workflow and source availability.</li>
+<li>Focused functional tests and a manual verification report.</li>
+</ol>
+<p>Implement progressively:</p>
+<ul>
+<li>First make the source chronology trustworthy and usable.</li>
+<li>Then add approved event moments.</li>
+<li>Then add focused documentary connections and optional visual exploration.</li>
+<li>Finally consider maps, Arabic editorial translation and moderated contributions.</li>
+</ul>
+<p>Make routine design/engineering choices independently within this brief. Resolve uncertain factual content through the review model rather than inventing it. Finish the authorized local work and present the concrete result for review.</p>
+<h2 id="23-comparative-design-references">23. Comparative design references</h2>
+<p>Study the linked register in docs/timeline-research/echoes-of-gaza-timeline-research.md. Key references:</p>
+<ul>
+<li><a href="https://www.palquest.org/">PalQuest</a>: overall and thematic chronologies with documents, people and place context.</li>
+<li><a href="https://www.gazainsidethewar.com/">MSF Gaza, inside the war</a>: themed event and location exploration with explicit compilation scope.</li>
+<li><a href="https://archive.newmuseum.org/chronology">New Museum Digital Archive</a>: dated records linked to collection objects and record types.</li>
+<li><a href="https://marine.ie/site-area/areas-activity/fisheries-ecosystems/interactive-marine-archive/interactive-marine-archive">Marine Institute archive</a>: curated annual highlights alongside original reports and catch trends.</li>
+<li><a href="https://timeline.carnegiehall.org/about">Carnegie Hall African American Music timeline</a>: scholarly chronology with editorial credits and optional audio.</li>
+<li><a href="https://www.w3.org/WAI/WCAG22/">WAI guidance</a>: authoritative accessibility criteria.</li>
+</ul>
+<p>Borrow useful mechanics and adapt them to the existing archive. Do not copy branding or assume an attractive example meets accessibility requirements.</p></main></div><footer class="footer">Research and design documents only. Source bodies and curated event facts require editorial review.</footer><script type="text/plain" id="promptSource"># Echoes of Gaza timeline: complete design and implementation prompt
+
+Copy the following brief into a design or coding task. It is grounded in the October 3, 2026 local collection audit and a 100-project comparative timeline register. This prompt requests implementation; the research task that produced it did not modify the live website.
+
+## Mission
+
+Design and implement **Threads of Witness**, an interactive archival timeline for Echoes of Gaza. Its purpose is to help people understand documented lives, events and reporting over time; inspect sources; follow later investigations and accountability actions; and assemble useful citations.
+
+Make it distinctive through its information architecture and documentary connections. Use a quiet chronological spine, selectable thematic threads, readable event/source cards and a focused **Follow the record** view. Let the record itself provide the emotional weight.
+
+Deliver a coherent feature that fits the existing website, works on mobile and with assistive technology, and remains honest about uncertainty, incomplete collection coverage and source availability.
+
+## 1. Inspect the project and preserve its conventions
+
+Before implementation, inspect applicable repository instructions, README, index.html, assets/site-tokens.css, assets/archive-experience.css, data/articles.json, the integrity/Wayback data, existing filtering and saved research-packet/citation code, and docs/timeline-research.
+
+Use the existing static HTML/CSS/JavaScript architecture unless a concrete project constraint requires another approach. Do not introduce a framework migration as a prerequisite. Reuse working source cards, publisher aliases where reviewed, archive/source choices, research packets and citation exports. Keep the timeline's state coherent with those existing features.
+
+The current casualty timeline/chart is a different tool. Name and route the archive chronology clearly so users can distinguish the two. Do not silently replace the casualty chart or treat its external casualty series as the chronology dataset.
+
+Preserve unrelated local changes. Produce a reviewable local implementation and validation report. Deployment is outside this prompt unless separately authorized.
+
+## 2. Fixed audit facts and review boundaries
+
+The local main archive contains 1,352 stored records and 1,343 distinct exact source URLs. Imported date values range from 2001-06-02 to 2026-09-30, but the early boundary is not reliable: audit record 203 is dated 2001 and links to a Reuters URL dated June 2, 2026. Record 226's 2006 date also needs review. Do not treat those dates as verified historical coverage.
+
+1,290 entries, or 95.4%, are dated 2025–2026. There are 179 blank summaries, 51 records missing legacy metadata fields, 143 raw publisher labels and 111 raw primary category labels. Sixteen records participate in seven exact repeated-URL groups, creating nine redundant URL copies. Ninety-eight summaries contain machine citation artifacts. There are three summary strings that contain access/scraping errors and one record titled “test.”
+
+The collection stores article titles, summaries and links, not full publisher bodies. A complete metadata audit is not a source-body verification. Treat keyword thread suggestions, URL date hints and extracted historical years as candidates for editorial review.
+
+The local integrity snapshot is dated May 12, 2026 and covers 1,116 records. The checked local Wayback status file contains no capture records. Do not display “Preserved” or “Verified” on every item.
+
+For the audited snapshot, Today is October 3, 2026 and the latest imported article date is September 30, 2026. Show the difference. At runtime, calculate today according to a documented site timezone, and show the collection's actual update/coverage date separately.
+
+## 3. Product concept
+
+Use the title **Threads of Witness** with a short subtitle such as “A chronology of life and the record.”
+
+Suggested introductory copy:
+
+“Explore the lives, events and reporting held in Echoes of Gaza. Follow a thread, open a moment, and trace the sources connected to it.”
+
+Add a concise coverage statement and date-basis explanation. Do not imply the collection is exhaustive, continuous or fully verified.
+
+The thread motif should be restrained: one chronological spine, small labeled thread markers and local relationships around the selected moment. It must not become a fabric animation, a decorative injury treatment, or thousands of connecting lines.
+
+The distinctive interaction, **Follow the record**, connects an earlier event with later reports, investigations, responses, legal actions and documented corrections. A connection must have an explicit reviewed meaning. Sharing a theme or occurring near another event does not establish causality.
+
+## 4. People and core tasks
+
+Serve:
+
+- A first-time reader who needs orientation and plain language.
+- A Palestinian reader or family member seeking a record with care and dignity.
+- A researcher comparing original and later sources.
+- A teacher assembling a chronological source packet.
+- A mobile reader using a slow connection.
+- A reader using keyboard navigation, magnification or a screen reader.
+
+Make these tasks work:
+
+1. Find a date or period and understand what the dates represent.
+2. Follow a theme without losing chronological orientation.
+3. Open a moment and identify its sources.
+4. Trace a later investigation back to the event it discusses.
+5. Find records whose event date is unknown.
+6. Compare a small set of source records without collapsing their differences.
+7. Save individual reports or an explicitly selected source bundle.
+8. Export citations and share a reproducible filtered URL.
+9. Hide images and continue every core research task.
+10. Return from detail with the same filters, date context and reading position.
+
+Do not optimize for dwell time on distressing material, graphic-image views or maximum scrolling.
+
+## 5. Information architecture and initial state
+
+Provide two explicit modes:
+
+**Read chronology:** reviewed EventMoment records grouped by time, each opening its supporting sources.
+
+**Browse source records:** all eligible archive records ordered by verified publication date or clearly labeled imported archive date. Unknown event dates must not make a source disappear.
+
+If the event dataset is not editorially ready, default to the source mode. Do not automatically generate a public event chronology from article dates or headlines.
+
+Treat “Explore threads” as a filter and an optional presentation within these modes. Treat “Follow the record” as a selected-moment interaction. All representations must share the same state and show what is included.
+
+The initial viewport should show a modest title/explanation, coverage/date-basis labels, search/date/theme controls, the time overview and the beginning of readable results. Avoid an oversized photographic hero or mandatory onboarding.
+
+Once a reviewed event layer exists, the initial context can emphasize October 2023 through the latest covered date while retaining an obvious Earlier context control. Before that, show the collection's source coverage without assuming imported dates are verified. Do not force a 1948 starting point through empty imported data.
+
+A future historical-context layer may include 1948 and earlier periods, but only with independently curated, cited material and explicit “Curated historical context” labeling. Do not invent historic entries to make an axis look complete.
+
+## 6. Desktop layout
+
+Use a flexible layout with the chronology as the primary reading surface. At spacious widths, show:
+
+- A compact top toolbar with mode/date-basis controls, search and primary filters.
+- A small proportional overview of the selected date basis, with explicit counts and selected range.
+- A chronological reading list with a date column and one subtle spine.
+- A detail aside when a reader selects a moment; provide a durable full-page detail route as well.
+
+Keep the list's comfortable reading width. Do not squeeze it into a narrow card column to accommodate every secondary filter. Collapse advanced filters into a labeled disclosure.
+
+The detail aside is nonmodal: do not trap focus or inert the main page. Opening it should be an explicit user action. It should not expand simply because a record scrolls into view.
+
+Keep the selected event highlighted with text/shape as well as color. Preserve date and list position when detail opens. If a selected record falls outside new filters, explain the state and offer a route to restore its context.
+
+## 7. Mobile layout
+
+Use a single vertical chronology, natural page scrolling, portrait support and a compact filter disclosure. Do not require landscape orientation, horizontal drag, pinch zoom or precision tapping.
+
+Keep the selected range and result count visible without a toolbar taking most of the screen. At 320–430 CSS pixels, dates sit above titles; metadata wraps naturally; cards remain readable; primary actions have usable targets.
+
+Prefer a dedicated detail page for long event/source bundles. “Back to timeline” restores mode, filters, selected period and prior position. Browser Back must also work.
+
+If a modal drawer is used instead, implement correct focus placement, Tab/Shift+Tab containment, Escape, inert background, focus restoration, accessible close control, nested scrolling and safe-area behavior. Do not implement both patterns inconsistently.
+
+The time overview can collapse to a readable period picker plus optional compact graphic. The mobile user must retain equivalent filtering and all sources.
+
+## 8. Time controls and scale rules
+
+Offer a start date, end date, Jump to a date, previous/next period, year/month/day granularity where useful, Latest collected record and Earlier context.
+
+An optional range brush enhances the overview. Explicit controls must produce the same results without dragging. Do not hide them in help text.
+
+The overview uses proportional time. The list uses readable spacing in chronological order. State that card spacing is not elapsed-time distance. If a gap or scale break is shown, label it. Do not use an unlabeled logarithmic or compressed axis.
+
+At year scale, show period summaries and counts. At month scale, show groups and moments. At day scale, expose individual sources/events. When a group expands, keep its date context visible.
+
+Preserve the selected date or event when changing granularity. Avoid recentering to the newest date after every filter. Show “No collected records in this interval” for a gap; never “Nothing happened.”
+
+Label density graphics as **collected source records** or **reviewed event moments**, matching the current mode. Never interpret a taller bar as more casualties, harm, independent confirmations or historical importance.
+
+## 9. Theme taxonomy and filter behavior
+
+Use seven stable, plain-language themes:
+
+1. Life, culture and survival.
+2. Health and care.
+3. Food, water and aid.
+4. Land, home and displacement.
+5. Policy and military action.
+6. Rights and accountability.
+7. Witness and the record.
+
+Allow multiple themes per event/source where reviewed. Use text labels and distinguishable marker shapes/states, not color alone. Keep the thematic colors muted, accessible and consistent with site tokens.
+
+Keyword mappings in the audit are import suggestions. Do not present them as curator-approved assignments.
+
+Primary facets: date range, theme and text search. Secondary facets: place, publisher, source/document type, date precision, preserved-copy availability and relevant review context. Add people only after identity, privacy and naming review.
+
+Use OR within one facet and AND across facets. State the behavior in tests. Maintain removable active chips, Clear filters and a visible result count. Empty states should explain which constraints are applied and offer reset/expand-range actions.
+
+Do not advertise full article text search unless source bodies are actually indexed. Distinguish searches of reviewed timeline summaries from searches of imported titles/summaries. Handle Unicode, punctuation, apostrophes and reviewed name aliases without rewriting original source metadata.
+
+Keep search/filter state stable while asynchronously loading details. Debounce text input only as needed; committed selection should feel immediate.
+
+## 10. Event cards and source cards
+
+Event cards should show:
+
+- Event date label, including approximate/interval precision if applicable.
+- A reviewed descriptive title.
+- A short reviewed summary.
+- Theme and place labels where recorded.
+- Number of associated source records.
+- Open moment and Save actions.
+- Specific uncertainty/disagreement/retrospective labels where relevant.
+
+Source cards should show:
+
+- Original source title.
+- Publisher and author if recorded.
+- Verified publication date, or “Archive date” while unverified.
+- Document type and the original summary, clearly identified as stored/curated as appropriate.
+- Source URL and a preserved-copy choice only when an actual copy exists.
+- Capture/check metadata with timestamps.
+- Save and citation actions.
+
+Do not create a new synthesis simply by concatenating headlines. Retain the distinction between original metadata and curatorial language.
+
+A missing summary should read “Summary not recorded” with access to source metadata; never show “Forbidden” as an article summary. Clean machine citation artifacts for display through a reviewed normalization step while retaining originals internally.
+
+Do not treat imageUrl as guaranteed event photography: many current images are publisher logos. Display logos as source identifiers, not factual scene evidence. Optional real imagery requires rights, credit, caption and sensitivity review. The experience must work fully without thumbnails.
+
+## 11. Event detail and Follow the record
+
+Detail order:
+
+1. Heading, event interval and explanation of date certainty.
+2. Concise reviewed account.
+3. Sources supporting the account, with original metadata.
+4. Follow the record sequence.
+5. Disagreements, uncertainty and limits.
+6. Provenance and editorial revision notes.
+7. Save/cite/share and correction/report-a-problem route.
+
+Use a text sequence as the canonical relationship view. A small optional diagram can enhance it. Render connections only for the selected moment, initially showing a manageable set. Provide “Show all related sources” and ordinary links.
+
+Allowed reviewed relationships include reports-on, investigates, revisits, responds-to, cites, updates and corrects. Each relationship needs supporting evidence and a short explanation. “Corrects” requires a documented correction; “responds-to” requires a demonstrable response.
+
+Label suggestions based only on themes as “Related by theme,” separate from reviewed relationships. Do not display machine confidence percentages as evidence quality. Do not imply a causal chain through decorative arrows.
+
+A later source remains at its publication date in source mode while linking to the earlier event. A later investigation, complaint or recovery can also be its own event when warranted. One article can link to multiple events.
+
+Optional advanced enhancement after publication dates are verified: a publication cutoff inside Follow the record. Label it “Sources in this collection published by [date].” Moving it forward reveals later reporting while preserving the original event position. Do not call it “What the world knew,” and do not use unverified imported dates for this control. A cutoff cannot reconstruct the earlier body of a subsequently changed source without a real dated capture. Preserve the cutoff in shareable state when enabled.
+
+## 12. Concrete prototype fixtures from the audited collection
+
+Use audit numbers only to locate snapshot records; assign durable production IDs independently. The source bodies and event dates still require review.
+
+**Nasser Hospital reporting sequence:** records 482 and 484 (August 25, 2025), 502 (August 28), 503 (September 1), 604 (September 26), 44 and 40 (August 2026). Demonstrate initial reports, later investigation and revisit without overwriting earlier accounts or presenting a later report's date as the original event date.
+
+**Historical reporting:** record 318 is stored January 20, 2022 and discusses Tantura in 1948. Demonstrate event versus publication time and year-level uncertainty; do not invent a precise historical day.
+
+**Retrospective investigation:** record 408 is stored July 7, 2024 and concerns October 7, 2023. Demonstrate a connection between a report and an earlier event.
+
+**Hind Rajab/accountability:** record 720 is stored October 21, 2025 and describes a complaint about an earlier killing. Distinguish complaint, investigation and court finding. Review dates and procedural terms before publishing.
+
+**Recovery:** record 71 is stored August 4, 2026 and discusses recovery linked to an earlier strike. Give the recovery activity its own time and relation.
+
+**Lives and agency:** use selected records 52, 81, 153, 171, 236, 1279, 1284, 1332, 1336 and 1342 to test accessible routes through swimming, beekeeping, play, veterinary work, coding, education, reunification, weddings, street restoration and art. Do not romanticize hardship or force a “hope” conclusion.
+
+**Claim rather than fact:** record 1340 reports an allegation about “engineered” rats; its stored summary describes conspiracy-claim framing. It must not become an unqualified event assertion. Demonstrate attributed source preservation and editorial review.
+
+**Statistical definitions:** records 882–885 and 913/917 include unlike mortality/impact claims. Demonstrate separate measures, periods, sources and uncertainty. Do not sum or substitute them.
+
+**Data-error states:** use record 203's date mismatch, record 196's test title, one empty summary, a summary containing machine citation artifacts, a missing author, one repeated URL group and one unassigned theme.
+
+Keep fixtures clearly labeled where verification is incomplete. Do not fabricate witnesses, quotes, images, dates or source passages for the prototype.
+
+## 13. Data architecture
+
+Keep the original imported article data intact. Add a normalization adapter and separate reviewed datasets. Use many-to-many relations.
+
+Required entities:
+
+**SourceRecord:** permanent ID; original fields; normalized publisher ID; author(s); document type; verified publication date or null; imported date; date-basis label; source URL; source-body access status; rights; review status; capture/check references.
+
+**EventMoment:** permanent ID; reviewed title/summary; event interval; date precision and human label; themes; place IDs; linked source IDs; source-based date rationale; review status; reviewer/date; version.
+
+**Claim:** attributed statement; source ID; passage locator; claim type; relevant time/measurement period; numerical measure/unit/definition if applicable; uncertainty and editorial notes.
+
+**Relationship:** permanent ID; endpoints; explicit type; explanation; supporting source(s); reviewer/date; status.
+
+**PreservationRecord:** source ID; actual capture URL/time; last check/time; observed status and method; previous observations.
+
+**EditorialRevision:** entity ID; timestamp; reason; actor; prior version reference.
+
+Use null for unknown values. Do not conflate import time, publication time, event time and capture time. Do not use the title/URL research hash as a permanent ID: assign stable IDs that survive metadata corrections.
+
+Illustrative schema, not a verified public event:
+
+~~~json
+{
+  "id": "moment-assigned-permanent-id",
+  "status": "draft",
+  "title": "Reviewed descriptive title pending source verification",
+  "eventTime": {
+    "start": null,
+    "end": null,
+    "precision": "unknown",
+    "label": "Event date not yet verified",
+    "rationale": null,
+    "sourceIds": []
+  },
+  "themes": ["health-care", "witness-record"],
+  "places": [],
+  "sourceIds": ["source-assigned-permanent-id"],
+  "review": {"reviewer": null, "reviewedAt": null},
+  "version": 1
+}
+~~~
+
+Exact days, months, years, approximate dates and intervals need explicit precision. Machine-sort bounds can support navigation but must not be displayed as fabricated exact dates. Represent a known month with month precision rather than showing its first day as an exact occurrence.
+
+For day-level history, use civil dates consistently to avoid timezone shifts. Store instants with explicit offsets only when justified. When same-day ordering is unknown, use a stable neutral tie-break and do not imply minute-level sequence.
+
+Validate foreign keys, required sources, intervals, future dates and status values at build time. An approved event must have approved supporting source relations and a date rationale. Do not silently publish drafts.
+
+## 14. Source integrity, corrections and disagreements
+
+A working URL is not a verified claim. A preserved copy is not a verified claim. A blocked request is not a confirmed removal.
+
+Expose specific states: Not checked, Available when checked, Access restricted, No preserved copy recorded, Preserved copy recorded, Changed since previous check, Removed with confirmation, or Under review. Retain actual timestamps and methods. Do not reuse stale check results as current observations.
+
+Distinguish original publisher corrections from changes to Echoes of Gaza metadata and curator interpretation. Keep a revision trail. Where sources disagree, show the attribution and relevant dates; do not silently select the most dramatic number.
+
+Legal language needs procedural precision: complaint filed, investigation opened, warrant issued, provisional measures ordered, finding by a commission, NGO assessment, scholarly resolution or final court judgment. Preserve attribution. Do not flatten these into an indiscriminate “court proved” badge.
+
+Numerical claims need source, observation interval, unit, geographic scope and definition. Separate direct deaths, indirect/prospective deaths, missing people, injuries and years of life lost. The chronology should link to the existing casualty tool where appropriate, with definitions and snapshot dates; it should not produce a new composite death total.
+
+Provide a clear correction route and a factual explanation of collection/selection policy. Do not expose private reviewer notes or personal correction-request data publicly.
+
+## 15. Visual design and content tone
+
+Use the existing design tokens as the base: charcoal/black, warm off-white, restrained muted metadata, gold for focus/provenance and red only for meaningful emphasis or warning. Measure contrast and adjust within the existing language.
+
+Use Inter or the site's current UI typeface for controls and metadata, with a restrained serif where the site's editorial hierarchy supports it. Body text around 16–18px, comfortable line height, readable line length and generous spacing should work with actual content.
+
+Use a coherent 4/8px spacing rhythm and a small number of surface levels. Dates, titles, sources and actions should be distinguishable without dense borders or excessive card nesting.
+
+Use specific, calm copy. Examples:
+- “Event date uncertain.”
+- “Report published September 9, 2025.”
+- “Archive date awaiting verification.”
+- “No collected records match these filters.”
+- “No preserved copy recorded.”
+- “Last source check: May 12, 2026.”
+- “Later investigation of this event.”
+- “3 source records saved.”
+
+Do not use celebratory copy, achievement badges or “You unlocked” mechanics. Preserve a person's life and actions rather than treating them as an engagement device.
+
+## 16. Motion, media and dignity
+
+No autoplay audio/video, scroll hijacking, animated casualty counters, cinematic injury reveals, looping thread animation or parallax over evidence. Interaction feedback must remain clear without motion.
+
+Use brief opacity/transform transitions only where they aid orientation. Never use transition: all. Respect prefers-reduced-motion and offer stable equivalent states.
+
+Provide text-first reading and an image visibility preference. Use specific content notices for graphic imagery, sexual violence or distressing testimony where needed. Notices should not prevent access to non-graphic source metadata.
+
+Media requires appropriate captions/transcripts, source credits, rights and uncertainty information. Avoid revealing sensitive personal locations. Do not create AI-generated documentary imagery, invented testimony or composite people.
+
+## 17. Accessibility: implementation requirements
+
+Target WCAG 2.2 AA and verify manually.
+
+- Use native controls, semantic headings, a main landmark, an ordered chronology and ordinary source links.
+- Keep a useful reading order independent of any SVG/canvas visualization.
+- Give every icon-only button and every meaningful marker an explicit accessible name.
+- Decorative paths are hidden from assistive technology.
+- All tasks work by keyboard and without dragging.
+- Provide visible skip links and strong focus indicators.
+- Sticky regions must not completely obscure focused controls.
+- Restore focus after closing a detail/modal to the invoking record or logical fallback.
+- Preserve focus during filter updates; announce a concise result count after committed changes through a polite status region.
+- Do not announce every marker movement or rerender the entire list into a live region.
+- Prefer 44×44 CSS-pixel touch targets. WCAG 2.2 AA's minimum target criterion is 24×24 with exceptions; distinguish the standard from this stronger project design target.
+- Meet relevant contrast ratios: 4.5:1 normal text, 3:1 large text and 3:1 essential non-text UI.
+- Themes, date certainty and source states must not depend on color alone.
+- Reflow the core reading experience at 320 CSS pixels; support 200% text enlargement and 400% zoom.
+- The core task must not depend on an exception for a two-dimensional diagram.
+- Give the brush visible date-input/button alternatives.
+- Implement any modal according to the WAI-ARIA dialog pattern, including Escape, focus containment and background inertness.
+- Respect reduced motion; animation from interactions is an AAA criterion, although reduced motion is a project requirement here.
+- Prepare logical CSS properties and language attributes. Arabic support requires bilingual editorial work and deliberate RTL design.
+
+Reference:
+[Dragging movements](https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html),
+[Target size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html),
+[Focus not obscured](https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html),
+[Reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html),
+[Status messages](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html),
+[Modal dialogs](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+
+Do not claim accessibility compliance based only on an automated scanner.
+
+## 18. URL state, research packets and privacy
+
+Use a canonical route for the chronology and stable moment/source URLs. Encode mode, date basis, range, selected themes and selected item in URL state. Use a documented state version if future changes could invalidate links.
+
+History rules:
+- Explicit navigation and selection create useful history entries.
+- Rapid search edits can replace state rather than flooding history.
+- Back restores the preceding useful state.
+- Reload restores the same state.
+- Invalid parameters produce a helpful reset state, not a crash.
+
+Reuse the existing saved research packet and citation formats. Distinguish Save source from Save all sources in this moment. Export source metadata accurately and retain unknown authors/dates as unknown.
+
+Keep private notes, image preferences and saved reading history out of shared URLs. Avoid third-party tracking and request-free external embeds in the basic view. Explain local storage, allow clearing it and keep reading available without an account.
+
+## 19. Performance and resilience
+
+Use ordinary DOM rendering and lightweight SVG first. Introduce canvas, WebGL, a chart engine or map library only when a measured need justifies it. Preserve a semantic equivalent.
+
+Build a period/search index for metadata. Render a bounded set of cards with accessible pagination or Load more. If virtualizing, verify focus, screen-reader order, browser Find limitations and discoverability; do not remove focused content.
+
+Do not load every publisher page, image or article body at startup. Lazy-load authorized media with explicit dimensions. Load source details on demand, cache versioned public data and show snapshot/update information.
+
+Proposed engineering budgets, to measure and adjust openly:
+- Timeline-specific JavaScript below 150KB compressed.
+- Initial non-media dataset below 500KB compressed where practical.
+- No eager image wall or network graph.
+- Filter feedback generally within 100–200ms on the agreed slower test device.
+- Field goals at the 75th percentile: LCP ≤2.5s, INP ≤200ms, CLS ≤0.1. Laboratory results do not establish field percentiles.
+
+[Current Core Web Vitals guidance](https://web.dev/articles/vitals).
+
+Support clear states for loading, empty results, failed dataset fetch, partial detail load, unavailable image, stale checks, missing capture, malformed URL parameters, unknown date and no JavaScript enhancement. A build-generated static reading route should remain usable if the visualization fails.
+
+Escape text, sanitize any rich-text boundary, validate safe source URL protocols and use appropriate security attributes for new tabs. Do not rely on third-party embeds for essential source access.
+
+## 20. Editorial workflow
+
+Implement and document:
+
+1. Immutable import.
+2. Validation and flagged review queue.
+3. Publisher alias review and duplicate reconciliation.
+4. Source retrieval/metadata verification where lawful and available.
+5. Date, claims, rights and sensitive-content review.
+6. Moment drafting and source attachment.
+7. Relationship review.
+8. Publication of approved moments.
+9. Versioned revisions and refreshed integrity checks.
+
+Do not publish record 196 as a historical event. Do not silently correct record 203 to 2026 based only on its URL; flag it and obtain source-based metadata. Do not replace source text with invented summaries when access fails.
+
+Unreviewed source access is an explicit editorial policy choice. The implementation must make that status representable and avoid automatically promoting imported records into approved event narration.
+
+## 21. Validation and acceptance criteria
+
+Test with real corpus edge cases and the entire 1,352-record source dataset. Use focused tests for consequential behavior, not snapshots that merely mirror markup.
+
+Required functional tests:
+- Publication/import/event date separation and unknown/interval precision.
+- Exact duplicate URL grouping and correct source counts.
+- OR within facet/AND across facets.
+- Consistent period counts between overview and list.
+- Stable same-day ordering without fabricated intraday sequence.
+- URL reload and Browser Back restoration.
+- Deep links to selected records.
+- Filtered-out selected item behavior.
+- Save source versus bundle, citation export and unknown metadata.
+- Missing summaries, artifacts, unassigned themes and source-access states.
+- Today versus latest collection date; scheduled/future entries excluded according to publishing policy.
+- HTML/text and safe-link handling.
+
+Manual verification:
+- Keyboard-only completion of every core task.
+- VoiceOver plus Safari; NVDA plus a supported browser where available.
+- At least one slower phone/device or realistic throttled environment.
+- Portrait widths 320, 390 and 430px; tablet; 1280/1440px desktop.
+- 200% text enlargement and 400% zoom.
+- Reduced motion, high contrast/forced colors where supported, images disabled and long translated text.
+- Modal/aside focus behavior if implemented.
+- No layout jumps while media or detail loads.
+
+Report what was actually tested and any unavailable environment. Do not invent pass results.
+
+Usability tasks:
+- Ask a reader whether the displayed date is event or reporting time.
+- Ask what a density bar measures.
+- Find a health-related source in a specific month.
+- Trace a later investigation.
+- Find a source with unknown event date.
+- Save/export two sources and reopen a shared view.
+- Hide imagery and continue.
+
+Use observed misunderstandings to revise labels and defaults. Do not require participants to view graphic content.
+
+Release conditions:
+- No unsupported event dates or fabricated historical gaps.
+- No source/claim verification implied by a successful URL.
+- Every eligible source remains discoverable.
+- Every curated moment and relationship is supported by reviewed sources.
+- Accessible equivalents preserve the same research capability.
+- Empty, loading, error and unknown states are complete.
+- Existing archive and research-packet functions remain coherent.
+- Measured performance and manual checks are documented.
+- Known editorial gaps are clearly represented rather than hidden.
+
+## 22. Deliverables and implementation order
+
+Deliver:
+1. A concise final design rationale and route/state map.
+2. Desktop and mobile wireframes using real reviewed or clearly labeled draft content.
+3. A data adapter and schema validation with durable IDs.
+4. A working source chronology with accessible overview, filters and deep links.
+5. Reviewed event bundles where content is actually ready.
+6. Follow the record for approved relationships.
+7. Shared research-packet/citation integration.
+8. Documentation of date semantics, editorial workflow and source availability.
+9. Focused functional tests and a manual verification report.
+
+Implement progressively:
+- First make the source chronology trustworthy and usable.
+- Then add approved event moments.
+- Then add focused documentary connections and optional visual exploration.
+- Finally consider maps, Arabic editorial translation and moderated contributions.
+
+Make routine design/engineering choices independently within this brief. Resolve uncertain factual content through the review model rather than inventing it. Finish the authorized local work and present the concrete result for review.
+
+## 23. Comparative design references
+
+Study the linked register in docs/timeline-research/echoes-of-gaza-timeline-research.md. Key references:
+
+- [PalQuest](https://www.palquest.org/): overall and thematic chronologies with documents, people and place context.
+- [MSF Gaza, inside the war](https://www.gazainsidethewar.com/): themed event and location exploration with explicit compilation scope.
+- [New Museum Digital Archive](https://archive.newmuseum.org/chronology): dated records linked to collection objects and record types.
+- [Marine Institute archive](https://marine.ie/site-area/areas-activity/fisheries-ecosystems/interactive-marine-archive/interactive-marine-archive): curated annual highlights alongside original reports and catch trends.
+- [Carnegie Hall African American Music timeline](https://timeline.carnegiehall.org/about): scholarly chronology with editorial credits and optional audio.
+- [WAI guidance](https://www.w3.org/WAI/WCAG22/): authoritative accessibility criteria.
+
+Borrow useful mechanics and adapt them to the existing archive. Do not copy branding or assume an attractive example meets accessibility requirements.
+</script><script>document.getElementById('printButton').addEventListener('click',()=>window.print());const query=document.getElementById('registerQuery');if(query){const table=query.parentElement.nextElementSibling.querySelector('table');const rows=[...table.tBodies[0].rows];query.addEventListener('input',()=>{const q=query.value.toLocaleLowerCase().trim();let n=0;rows.forEach(row=>{const match=row.textContent.toLocaleLowerCase().includes(q);row.hidden=!match;if(match)n++;});document.getElementById('registerCount').textContent=n+' of 100 projects';});window.addEventListener('beforeprint',()=>rows.forEach(row=>row.hidden=false));window.addEventListener('afterprint',()=>query.dispatchEvent(new Event('input')));}const copy=document.getElementById('copyButton');if(copy)copy.addEventListener('click',async()=>{const status=document.getElementById('copyStatus');try{await navigator.clipboard.writeText(document.getElementById('promptSource').textContent);status.textContent='Complete prompt copied.';}catch{status.textContent='Clipboard unavailable. Use the Markdown download to copy the prompt.';}});</script></body></html>

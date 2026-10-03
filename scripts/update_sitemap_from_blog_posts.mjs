@@ -5,6 +5,7 @@ const sources = {
   "/": "index.html", "/about": "about.html", "/blog": "blog.html",
   "/primary": "primary.html", "/toolkit": "toolkit.html", "/events": "events.html",
   "/podcast": "podcast.html", "/collab": "collab.html",
+  "/timeline.html": "timeline.html",
   "/blog_submit": "blog_submit.html", "/zionism_divide": "zionism_divide.html"
 };
 const raw = JSON.parse(await fs.readFile("data/blog_posts.json", "utf8"));

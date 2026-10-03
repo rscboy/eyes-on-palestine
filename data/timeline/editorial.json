@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "events": [],
+  "claims": [],
+  "relationships": [],
+  "revisions": [],
+  "collections": [
+    {
+      "id": "nasser",
+      "title": "Nasser Hospital: follow the reporting",
+      "description": "A reading route through collected reporting. Connections are by subject; event dates and source bodies await review.",
+      "sourceIds": [
+        "source-5fe5a0df-349b-410a-bff6-75b336c04ef5",
+        "source-2500cd0c-e57f-4903-82be-c2b85e2786ca",
+        "source-ea6424eb-c570-4370-86b9-9668bfb7692f",
+        "source-dfc5b192-8e67-494a-adf3-30aa97e7a973",
+        "source-3a3b077f-1a89-4560-b855-760ce3925450",
+        "source-394ebd82-74e9-48be-93d6-f67127b26dd9",
+        "source-a51bf44b-7095-4dc1-87e0-9d83b192ddbb"
+      ]
+    },
+    {
+      "id": "daily-life",
+      "title": "Life continues in the record",
+      "description": "Sources on swimming, beekeeping, education, art and everyday work. Read each account in its own words and context.",
+      "sourceIds": [
+        "source-e9822759-6408-48aa-89ba-ef943265d82a",
+        "source-fd80329e-61bf-457b-968c-bd5f667edf64",
+        "source-4281bb02-89fb-4853-a1c0-57134ddae699",
+        "source-3c8a9201-2481-47f8-887e-be0f309c8652",
+        "source-22196918-efe9-4567-a5a4-6c96357acccd",
+        "source-6d192e30-0c3e-4297-9e7b-d7258a26ee20",
+        "source-cbb439da-652d-4964-a6db-999a6d839898",
+        "source-31541c10-91cd-4ea4-85c6-a290922abbae",
+        "source-25a83427-ee01-4e5d-ae2f-1e7798aeaccf",
+        "source-aefe7785-de00-4201-9b6a-9179d0d30044"
+      ]
+    }
+  ]
+}
