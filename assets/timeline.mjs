@@ -1,29 +1,57 @@
-import {THEMES,escapeHTML as h,displayDate,civilDate,today,defaults,parseState,stateURL,filterSources,periodCounts,periodRange,statusLabel,citation,relatedSources,validateEditorial} from './timeline-core.mjs';
+import {THEMES,escapeHTML as h,displayDate,civilDate,today,defaults,parseState,stateURL,filterSources,periodCounts,periodRange,statusLabel,citation,relatedSources,validateEditorial} from './timeline-core.mjs?v=3';
 const $=id=>document.getElementById(id), packetAPI=globalThis.EogPacket;
 let state=parseState(location.search), snapshot, sources=[], editorial={events:[],relationships:[],collections:[]}, filtered=[], packet=packetAPI.read(), searchTimer, feedbackTimer, loading=true;
-const placeholder=$('tw-detail').innerHTML, notesKey='echoes_timeline_private_notes';
+const notesKey='echoes_timeline_private_notes';
 let imagePreference=true, autoLoad=true, revealObserver, moreObserver, scrollFrame=false;
+let readingMonth='', pickerYear='', windowStart=0, restoring=false;
+const recordDate=r=>r.publicationDate||r.importedDate;
+const availableMonths=()=>periodCounts(filtered,'month').filter(([key])=>key!=='unknown').map(([key])=>key);
+history.scrollRestoration='manual';
 try { imagePreference=localStorage.getItem('echoes_timeline_images')!=='hidden'; autoLoad=localStorage.getItem('echoes_timeline_auto_load')!=='off'; } catch {}
 const reducedMotion=()=>matchMedia('(prefers-reduced-motion:reduce)').matches;
 function syncPreferences() {
  document.body.classList.toggle('tw-images-hidden',!imagePreference);
- $('tw-image-toggle').setAttribute('aria-pressed',String(imagePreference));$('tw-image-toggle').textContent=imagePreference?'Images on':'Images hidden';
- $('tw-auto-load').setAttribute('aria-pressed',String(autoLoad));$('tw-auto-load').textContent=autoLoad?'Continuous browsing on':'Load more manually';
+ $('tw-image-toggle').setAttribute('aria-pressed',String(imagePreference));$('tw-image-toggle').textContent='Show images';
+ $('tw-auto-load').setAttribute('aria-pressed',String(autoLoad));$('tw-auto-load').textContent='Load articles automatically';
 }
-const monthKeys=()=>{const last=(snapshot?.latest || today()).slice(0,7),keys=[];for(let y=2023;y<=Number(last.slice(0,4));y++)for(let m=1;m<=12;m++){const key=`${y}-${String(m).padStart(2,'0')}`;if(key<=last)keys.push(key);}return keys;};
+function syncReadingMonth(month) {
+ readingMonth=month;
+ $('tw-current-period').textContent=month?displayDate(month+'-01','month'):'No dated articles';
+ const keys=availableMonths(),index=keys.indexOf(month);
+ $('tw-previous').disabled=index<=0;$('tw-next').disabled=index<0||index>=keys.length-1;
+ document.querySelectorAll('#tw-years button').forEach(b=>{const active=b.dataset.period===month.slice(0,4);b.classList.toggle('is-reading',active);b.setAttribute('aria-pressed',String(active));});
+ document.querySelectorAll('#tw-months button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.period===month)));
+ if(!$('tw-date-picker').open && month){const nextYear=month.slice(0,4);if(pickerYear!==nextYear){pickerYear=nextYear;$('tw-picker-year').value=pickerYear;renderPicker();}}
+}
 function updateReadingPosition() {
- if(state.selected && innerWidth<=900)return;
- const cards=[...$('tw-records').children],edge=$('tw-overview').getBoundingClientRect().bottom+30;
- let lo=0,hi=cards.length;
- while(lo<hi){const middle=(lo+hi)>>1;if(cards[middle].getBoundingClientRect().bottom>edge)hi=middle;else lo=middle+1;}
- const visible=cards[lo];
+ if(state.selected||restoring)return;
+ const cards=[...$('tw-records').children],edge=$('tw-overview').getBoundingClientRect().bottom+24;
+ // Two-column cards can share a row; DOM bottoms are not monotonically increasing.
+ const visible=cards.find(card=>card.getBoundingClientRect().bottom>edge);
  if(!visible)return;
  const date=visible.dataset.date;
- if(date){$('tw-current-period').textContent=displayDate(date,'month');document.querySelectorAll('#tw-years button').forEach(b=>b.classList.toggle('is-reading',b.dataset.period===date.slice(0,4)));}
- const index=Number(visible.dataset.position||0);
- const listRect=$('tw-records').getBoundingClientRect();
+ if(date){syncReadingMonth(date.slice(0,7));state.at=date;}
+ history.replaceState({...history.state,scroll:window.scrollY,windowStart},'',stateURL(state));
+ const index=Number(visible.dataset.position||0),listRect=$('tw-records').getBoundingClientRect();
  $('tw-records').style.setProperty('--thread-depth',`${Math.max(0,Math.min(listRect.height,edge-listRect.top))}px`);
  $('tw-scroll-progress').style.setProperty('--read-progress',`${filtered.length ? ((index+1)/filtered.length)*100 : 0}%`);
+}
+function syncLoadStatus() {
+ $('tw-before').hidden=windowStart===0;
+ $('tw-more').hidden=filtered.length<=state.limit;
+ $('tw-shown').textContent=filtered.length?`Showing ${windowStart+1}–${Math.min(state.limit,filtered.length)} of ${filtered.length.toLocaleString()} articles.`:'';
+}
+function loadEarlier() {
+ const first=$('tw-records').firstElementChild,oldTop=first?.getBoundingClientRect().top;
+ windowStart=Math.max(0,windowStart-30);
+ renderList();syncSaveButtons();
+ // Preserve the visible card when earlier records are prepended, including images.
+ const anchor=first&&$(first.id);
+ if(anchor&&oldTop!==undefined)window.scrollBy({top:anchor.getBoundingClientRect().top-oldTop,behavior:'instant'});
+ $('tw-before').hidden=windowStart===0;
+ if($('tw-before').hidden)document.querySelector('#tw-records h3 a')?.focus({preventScroll:true});
+ history.replaceState({...history.state,scroll:window.scrollY,windowStart},'',stateURL(state));
+ say('Earlier articles loaded. Your reading position is preserved.');
 }
 function enhanceCards() {
  if('IntersectionObserver' in window && !reducedMotion()){
@@ -42,29 +70,50 @@ function loadMore(focus=true) {
  state.limit+=30;
  $('tw-records').insertAdjacentHTML('beforeend',filtered.slice(oldCount,state.limit).map((r,i)=>{const result=row(r,oldCount+i,key);key=result.key;return result.html;}).join(''));
  history.replaceState({...history.state,scroll:window.scrollY},'',stateURL(state));
- $('tw-more').hidden=filtered.length<=state.limit;$('tw-shown').textContent=`Showing ${Math.min(state.limit,filtered.length)} of ${filtered.length.toLocaleString()}.`;
+ syncLoadStatus();
  enhanceCards();syncSaveButtons();if(focus&&filtered[oldCount])$('link-'+filtered[oldCount].id)?.focus();
  say(`${Math.min(state.limit,filtered.length)} of ${filtered.length.toLocaleString()} records available in the timeline.`);
 }
 
 const currentRecord=()=>[...sources,...editorial.events.filter(e=>e.status==='approved')].find(r=>r.id===state.selected);
-const recordURL=id=>'timeline.html'+stateURL({...state,selected:id});
+const recordURL=id=>'timeline.html'+stateURL({...state,selected:id,at:recordDate([...sources,...eventRecords()].find(r=>r.id===id)||{})||state.at});
 const saved=r=>packet.includes(r.packetId);
 function say(message) {$('tw-announcement').textContent=message;}
 function feedback(message) {$('tw-feedback').textContent=message;$('tw-feedback').hidden=false;clearTimeout(feedbackTimer);feedbackTimer=setTimeout(()=>$('tw-feedback').hidden=true,4500);}
 function persistPacket() {const persisted=packetAPI.write(packet);if(!persisted)feedback('Browser storage is unavailable. Your packet lasts for this visit only.');}
 function save(r) {if(!r?.packetId)return;packet=saved(r)?packet.filter(id=>id!==r.packetId):[...packet,r.packetId];persistPacket();syncSaveButtons();renderPacket();feedback(saved(r)?'Source saved to your research packet.':'Source removed from your research packet.');}
 function syncSaveButtons() {document.querySelectorAll('[data-save]').forEach(button=>{const r=sources.find(s=>s.id===button.dataset.save);const active=r&&saved(r);button.setAttribute('aria-pressed',String(Boolean(active)));button.textContent=active?'Saved ✓':'Save source';});$('tw-packet-count').textContent=sources.filter(saved).length;}
-function commit(patch,{replace=false,focus='',scroll=null}={}) {
-  history.replaceState({...history.state,scroll:window.scrollY,focusId:document.activeElement?.id || ''},'',location.href);
+function commit(patch,{replace=false,focus='',scroll=null,start=0}={}) {
+  const detailOnly=Object.keys(patch).every(key=>key==='selected');
+  const origin=patch.selected?(history.state?.readerOrigin||{scroll:window.scrollY,focusId:document.activeElement?.id||'',month:readingMonth}):null;
+  history.replaceState({...history.state,scroll:window.scrollY,windowStart,focusId:document.activeElement?.id||''},'',location.href);
+  if(!detailOnly){windowStart=start;readingMonth='';patch={at:'',...patch};}
   state={...state,...patch};
-  history[replace?'replaceState':'pushState']({scroll:scroll ?? window.scrollY,focusId:focus,opened:Boolean(patch.selected)},'',stateURL(state));
-  syncControls();render();
-  if(focus) requestAnimationFrame(()=>$(focus)?.focus({preventScroll:true}));
-  if(scroll!==null) requestAnimationFrame(()=>window.scrollTo({top:scroll,behavior:'instant'}));
+  history[replace?'replaceState':'pushState']({scroll:scroll??window.scrollY,windowStart,focusId:focus,opened:Boolean(patch.selected),readerOrigin:origin},'',stateURL(state));
+  syncControls();
+  if(detailOnly){renderDetail();markSelected();syncSaveButtons();}else render();
+  if(focus)requestAnimationFrame(()=>$(focus)?.focus({preventScroll:true}));
+  if(scroll!==null)requestAnimationFrame(()=>window.scrollTo({top:scroll,behavior:'instant'}));
 }
-function openRecord(id) {commit({selected:id},{focus:'tw-detail-title'});$('tw-detail').scrollTop=0;if(matchMedia('(max-width:900px)').matches)requestAnimationFrame(()=>$('tw-detail').scrollIntoView({block:'start',behavior:'instant'}));}
-function closeDetail() {if(history.state?.opened)history.back();else commit({selected:''},{focus:'tw-results-title'});}
+function markSelected(){document.querySelectorAll('#tw-records>li').forEach(el=>el.classList.toggle('is-selected',el.id==='row-'+state.selected));}
+function openRecord(id) {
+ const alreadyOpen=Boolean(state.selected);
+ commit({selected:id},{replace:alreadyOpen,focus:'tw-detail-title'});
+ $('tw-detail').scrollTop=0;
+}
+function closeDetail() {
+ if(history.state?.opened){history.back();return;}
+ const id=state.selected,origin=history.state?.readerOrigin;
+ commit({selected:''},{replace:true,focus:origin?.focusId||('link-'+id),scroll:origin?.scroll??null});
+ if(!origin&&$('row-'+id))requestAnimationFrame(()=>scrollToRecord(id));
+ else if(!origin)$('tw-results-title').focus({preventScroll:true});
+}
+function scrollToRecord(id,animate=false) {
+ const card=$('row-'+id);if(!card)return;
+ const offset=$('tw-overview').getBoundingClientRect().height+(innerWidth<=720?54:60)+20;
+ window.scrollTo({top:Math.max(0,card.getBoundingClientRect().top+scrollY-offset),behavior:animate&&!reducedMotion()?'smooth':'instant'});
+}
+function showResults() {requestAnimationFrame(()=>{const top=$('tw-results-title').getBoundingClientRect().top+scrollY-$('tw-overview').getBoundingClientRect().height-(innerWidth<=720?74:80);if(scrollY>top)window.scrollTo({top:Math.max(0,top),behavior:'instant'});});}
 function values(name) {return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i=>i.value);}
 function applyForm(replace=false) {
   const from=$('tw-from').value,to=$('tw-to').value;
@@ -73,6 +122,7 @@ function applyForm(replace=false) {
   if(from&&to&&from>to) {$('tw-to').setCustomValidity('The end date must be on or after the start date.');$('tw-to').reportValidity();return;}
   $('tw-to').setCustomValidity('');
   commit({q:$('tw-query').value.trim(),from,to,themes:values('theme'),publishers:values('publisher'),types:values('type'),status:$('tw-status').value,dates:$('tw-dates').value,limit:30},{replace});
+  showResults();
 }
 function syncControls() {
   for(const k of ['q','from','to','status','dates'])$(k==='q'?'tw-query':'tw-'+k).value=state[k];
@@ -80,8 +130,7 @@ function syncControls() {
   for(const [name,key] of [['theme','themes'],['publisher','publishers'],['type','types']])document.querySelectorAll(`input[name="${name}"]`).forEach(i=>i.checked=state[key].includes(i.value));
   document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode)));
   $('tw-advanced').hidden=state.mode==='events';
-  document.body.classList.toggle('tw-reading-mobile',Boolean(state.selected&&currentRecord()));
-  document.body.classList.toggle('tw-has-selection',Boolean(state.selected));
+
 }
 function renderFacets() {
   $('tw-theme-controls').innerHTML=[...THEMES.map(([id,label])=>[id,label]),['unassigned','Unassigned']].map(([id,label])=>`<label class="tw-theme"><input type="checkbox" name="theme" value="${id}"><span>${h(label)}</span></label>`).join('');
@@ -89,16 +138,18 @@ function renderFacets() {
     const counts=new Map();sources.forEach(r=>counts.set(r[key],(counts.get(r[key])||0)+1));
     $(target).innerHTML=[...counts].sort(([a],[b])=>a.localeCompare(b)).map(([value,count])=>`<label><input type="checkbox" name="${name}" value="${h(value)}"><span>${h(value)} <small>(${count})</small></span></label>`).join('');
   }
-  $('tw-routes').innerHTML=editorial.collections.map(c=>`<a class="tw-route" href="${h('timeline.html'+stateURL({...defaults(),collection:c.id,order:'oldest'}))}" data-route="${h(c.id)}"><h2>${h(c.title)} ↗</h2><p>${h(c.description)}</p></a>`).join('');
+  $('tw-routes').innerHTML=editorial.collections.map(c=>`<a class="tw-route" href="${h('timeline.html'+stateURL({...defaults(),collection:c.id,order:'oldest'}))}" data-route="${h(c.id)}"><h2>${h(c.title)}</h2><p>${h(c.description)}</p></a>`).join('');
 }
 function renderChips() {
   const chips=[];
   if(state.q)chips.push(['q','Search: '+state.q]);
-  if((state.from&&state.from!=='2023-01-01')||state.to)chips.push(['range',`${state.from?displayDate(state.from):'2023'} → ${state.to?displayDate(state.to):'latest record'}`]);
+  if((state.from&&state.from!=='2023-01-01')||state.to)chips.push(['range',`Date filter: ${state.from?displayDate(state.from):'2023'} → ${state.to?displayDate(state.to):'latest record'}`]);
   state.themes.forEach(id=>chips.push(['theme:'+id,THEMES.find(t=>t[0]===id)?.[1]||'Unassigned']));
   state.publishers.forEach(p=>chips.push(['publisher:'+p,p]));state.types.forEach(t=>chips.push(['type:'+t,t]));
-  if(state.collection)chips.push(['collection',editorial.collections.find(c=>c.id===state.collection)?.title||'Unknown reading route']);
+  if(state.collection)chips.push(['collection',editorial.collections.find(c=>c.id===state.collection)?.title||'Unknown topic collection']);
   if(state.status)chips.push(['status','Source status: '+state.status]);if(state.dates!=='all')chips.push(['dates','Date: '+state.dates]);
+  $('tw-clear').hidden=!chips.length;
+  $('tw-refine-toggle').innerHTML=`Filters${chips.length?' ('+chips.length+')':''} <span aria-hidden="true">${$('tw-refinement').hidden?'+':'−'}</span>`;
   $('tw-active-filters').innerHTML=chips.map(([key,label])=>`<button type="button" data-remove-filter="${h(key)}" aria-label="${h('Remove filter: '+label)}">${h(label)} <span aria-hidden="true">×</span></button>`).join('');
 }
 function eventRecords() {
@@ -110,21 +161,21 @@ function getRecords(ignoreRange=false) {
   if(state.mode==='events') {s.publishers=[];s.types=[];s.status='';s.collection='';s.dates=state.dates==='unknown'?'unknown':'all';return filterSources(eventRecords(),s);}
   return filterSources(sources.filter(r=>!r.importedDate||r.importedDate>='2023-01-01'),s,editorial.collections);
 }
+function renderPicker() {
+ const monthly=new Map(periodCounts(filtered,'month'));
+ $('tw-months').innerHTML=Array.from({length:12},(_,i)=>{const key=pickerYear+'-'+String(i+1).padStart(2,'0'),count=monthly.get(key)||0,label=new Intl.DateTimeFormat('en',{month:'short',timeZone:'UTC'}).format(new Date(key+'-01T12:00:00Z'));return `<button type="button" id="period-${key}" data-period="${key}" aria-pressed="${readingMonth===key}" ${count?'':'disabled'} aria-label="${displayDate(key+'-01','month')}: ${count} matching articles${count?'':'; unavailable'}"><span>${label}</span><small>${count}</small></button>`;}).join('');
+}
 function renderOverview() {
- const records=getRecords(true),countMap=new Map(periodCounts(records,'year')),activeYear=state.from?.slice(0,4)&&state.from.slice(0,4)===state.to?.slice(0,4)?state.from.slice(0,4):'';
+ const countMap=new Map(periodCounts(filtered,'year')),monthly=new Map(periodCounts(filtered,'month'));
  const years=Array.from({length:Number(snapshot.latest.slice(0,4))-2023+1},(_,i)=>String(2023+i));
- const monthly=new Map(periodCounts(records,'month'));
  const sparkline=year=>{const values=Array.from({length:12},(_,i)=>monthly.get(year+'-'+String(i+1).padStart(2,'0'))||0),max=Math.max(1,...values);return `<svg class="tw-year-spark" viewBox="0 0 120 24" aria-hidden="true">${values.map((v,i)=>`<rect x="${i*10}" y="${24-v/max*22}" width="5" height="${v/max*22}" rx="1"/>`).join('')}</svg>`;};
- $('tw-years').innerHTML=years.map(year=>`<button type="button" id="period-${year}" data-period="${year}" aria-pressed="${activeYear===year}" aria-label="${year}: ${countMap.get(year)||0} collected ${state.mode==='events'?'events':'source records'}. Filter this year."><span class="tw-year-number">${year}</span><span class="tw-year-count">${(countMap.get(year)||0).toLocaleString()} records</span>${sparkline(year)}</button>`).join('');
- const months=activeYear?new Map(periodCounts(records.filter(r=>r.importedDate?.startsWith(activeYear)),'month')):new Map();
- $('tw-months').hidden=!activeYear;
- $('tw-months').innerHTML=activeYear?Array.from({length:12},(_,i)=>{const key=activeYear+'-'+String(i+1).padStart(2,'0'),label=new Intl.DateTimeFormat('en',{month:'short',timeZone:'UTC'}).format(new Date(key+'-01T12:00:00Z'));return `<button type="button" id="period-${key}" data-period="${key}" aria-pressed="${state.from.slice(0,7)===key&&state.to.slice(0,7)===key}" aria-label="${displayDate(key+'-01','month')}: ${months.get(key)||0} records"><span>${label}</span><small>${months.get(key)||0}</small></button>`;}).join(''):'';
- const keys=monthKeys(),current=state.from?.slice(0,7)||keys[0],index=Math.max(0,keys.indexOf(current));
- $('tw-scrubber').max=keys.length-1;$('tw-scrubber').value=index;$('tw-scrubber').style.setProperty('--scrub-progress',`${index/Math.max(1,keys.length-1)*100}%`);
- $('tw-scrub-preview').textContent=displayDate(keys[index]+'-01','month');$('tw-scrubber').setAttribute('aria-valuetext',displayDate(keys[index]+'-01','month'));
- $('tw-range-label').textContent=`Archive dates: ${state.from?displayDate(state.from):'January 2023'} – ${state.to?displayDate(state.to):'latest collected record'}`;
- $('tw-previous').disabled=current<=keys[0];$('tw-next').disabled=current>=keys.at(-1);
- $('tw-earlier').disabled=false;$('tw-latest').disabled=!records.length;
+ $('tw-years').innerHTML=years.map(year=>`<button type="button" id="period-${year}" data-period="${year}" aria-pressed="false" ${countMap.get(year)?'':'disabled'} aria-label="Go to ${year}: ${countMap.get(year)||0} matching articles"><span class="tw-year-number">${year}</span><span class="tw-year-count">${(countMap.get(year)||0).toLocaleString()}</span>${sparkline(year)}</button>`).join('');
+ $('tw-picker-year').innerHTML=years.map(year=>`<option value="${year}">${year} · ${countMap.get(year)||0} articles</option>`).join('');
+ const date=recordDate(filtered[windowStart]||{}),month=date?.slice(0,7)||'';
+ pickerYear=month.slice(0,4)||years[0];$('tw-picker-year').value=pickerYear;renderPicker();syncReadingMonth(month);
+ $('tw-range-label').textContent=`Browsing ${filtered.length.toLocaleString()} matching articles. Date navigation moves through these results without changing filters.`;
+ $('tw-earlier').disabled=!availableMonths().length;$('tw-latest').disabled=!availableMonths().length;
+ $('tw-jump').max=snapshot.latest;
  requestAnimationFrame(()=>document.documentElement.style.setProperty('--tw-rail-offset',`${$('tw-overview').getBoundingClientRect().height+84}px`));
 }
 function sourceVisual(r) {
@@ -137,36 +188,43 @@ function row(r,index,previousKey) {
  const key=date?.slice(0,{day:10,month:7,year:4}[state.granularity])||'unknown';
  const periodCount=filtered.filter(item=>(item.publicationDate||item.importedDate)?.slice(0,{day:10,month:7,year:4}[state.granularity])===key).length;
  const group=key!==previousKey?`<p class="tw-period-label">${h(key==='unknown'?'Date unknown':displayDate(key.length===4?key+'-01-01':key.length===7?key+'-01':key,state.granularity))}<small>${periodCount} records</small></p>`:'';
- return {key,html:`<li class="tw-record ${r.id===state.selected?'is-selected':''}" id="row-${r.id}" data-date="${h(date||'')}" data-position="${index}">${group}<article class="tw-record-card">${event?'':sourceVisual(r)}<div class="tw-card-copy"><div class="tw-record-meta"><span>${event?'Event date':r.dateBasis} · ${h(event?r.eventTime.label:displayDate(date))}</span><span class="tw-source-type">${h(r.source)}</span></div><h3><a href="${h(recordURL(r.id))}" data-select="${r.id}" id="link-${r.id}">${h(r.title)}</a></h3><p class="tw-record-summary">${h(r.summary||'Open the source record for its original link and metadata.')}</p>${!event&&r.themes.length?`<button type="button" class="tw-card-thread" data-thread="${r.themes[0]}" aria-label="${h('Filter by suggested thread: '+THEMES.find(t=>t[0]===r.themes[0])[1])}"><span aria-hidden="true">⌁</span> ${h(THEMES.find(t=>t[0]===r.themes[0])[1])}</button>`:''}<div class="tw-record-actions"><a class="tw-open" href="${h(recordURL(r.id))}" data-select="${r.id}">${event?'Read reviewed entry':'Follow the record'} <span aria-hidden="true">↗</span></a>${event?'':`<button type="button" class="tw-save" data-save="${r.id}" aria-pressed="${saved(r)}">${saved(r)?'Saved ✓':'+ Save source'}</button>`}</div></div></article></li>`};
+ return {key,html:`<li class="tw-record ${r.id===state.selected?'is-selected':''}" id="row-${r.id}" data-date="${h(date||'')}" data-position="${index}">${group}<article class="tw-record-card">${event?'':sourceVisual(r)}<div class="tw-card-copy"><div class="tw-record-meta"><span>${event?'Event date':r.dateBasis} · ${h(event?r.eventTime.label:displayDate(date))}</span><span class="tw-source-type">${h(r.source)}</span></div><h3><a href="${h(recordURL(r.id))}" data-select="${r.id}" id="link-${r.id}">${h(r.title)}</a></h3><p class="tw-record-summary">${h(r.summary||'Open the source record for its original link and metadata.')}</p>${!event&&r.themes.length?`<button type="button" class="tw-card-thread" data-thread="${r.themes[0]}" aria-label="${h('Filter articles by topic: '+THEMES.find(t=>t[0]===r.themes[0])[1])}"><span aria-hidden="true">⌁</span> Filter: ${h(THEMES.find(t=>t[0]===r.themes[0])[1])}</button>`:''}<div class="tw-record-actions"><a class="tw-open" href="${h(recordURL(r.id))}" data-select="${r.id}">${event?'Read reviewed entry':'View details'} <span aria-hidden="true">→</span></a>${!event&&r.url?`<a class="tw-original" href="${h(r.url)}" target="_blank" rel="noopener noreferrer" aria-label="${h('Open original article at '+r.source+' (new tab)')}">Open original ↗</a>`:''}${event?'':`<button type="button" class="tw-save" data-save="${r.id}" aria-pressed="${saved(r)}">${saved(r)?'Saved ✓':'+ Save source'}</button>`}</div></div></article></li>`};
 }
 function renderList() {
   filtered=getRecords();
   $('tw-results-eyebrow').textContent=state.mode==='events'?'Reviewed event chronology':'Source chronology';
   $('tw-results-title').textContent=`${filtered.length.toLocaleString()} ${state.mode==='events'?'reviewed events':'source records'}`;
-  let previous='';$('tw-records').innerHTML=filtered.slice(0,state.limit).map((r,i)=>{const result=row(r,i,previous);previous=result.key;return result.html;}).join('');
-  $('tw-more').hidden=filtered.length<=state.limit;$('tw-shown').textContent=filtered.length?`Showing ${Math.min(state.limit,filtered.length)} of ${filtered.length.toLocaleString()}.` : '';
+  let previous='';$('tw-records').innerHTML=filtered.slice(windowStart,state.limit).map((r,i)=>{const result=row(r,windowStart+i,previous);previous=result.key;return result.html;}).join('');
+  syncLoadStatus();
   $('tw-empty').hidden=Boolean(filtered.length);
   enhanceCards();
+  $('tw-results-context').textContent=state.q||state.themes.length||state.publishers.length||state.types.length||state.collection||state.to||state.from!=='2023-01-01'||state.status||state.dates!=='all'?'Filtered results · Remove a filter above to widen your search.':'All articles since 2023 · Ordered by archive date';
   if(!filtered.length)$('tw-empty').innerHTML=state.mode==='events'&&!editorial.events.some(e=>e.status==='approved')?'<p class="tw-kicker">Editorial review comes first</p><h3>The reviewed chronology is being built.</h3><p>The source collection is available now. Event dates, supporting passages and relationships need editorial review before they become a chronology entry.</p><button type="button" data-mode="sources">Browse source records</button>':'<h3>No collected records match these filters.</h3><p>Try a wider date range or remove a filter. Unknown dates appear when no date range is selected.</p><button type="button" data-reset>Clear filters</button>';
 }
 function sourceDates(r) {return `<dl><dt>Event time</dt><dd>Not assigned to this source record</dd><dt>Publication time</dt><dd>${r.publicationDate?h(displayDate(r.publicationDate)):'Not verified'}</dd><dt>Archive date · imported metadata</dt><dd>${h(displayDate(r.importedDate))}</dd><dt>Source access</dt><dd>${h(statusLabel(r))}${r.integrity.checkedAt?`<br><span class="tw-small">Last check: ${h(displayDate(r.integrity.checkedAt.slice(0,10)))}<br>${h(r.integrity.method)}. This is a dated observation, not a current availability guarantee.</span>`:''}</dd><dt>Preservation</dt><dd>${r.integrity.captureURL?`<a href="${h(r.integrity.captureURL)}" target="_blank" rel="noopener noreferrer">Open recorded preserved copy ↗</a>${r.integrity.capturedAt?'<br>Capture recorded '+h(displayDate(r.integrity.capturedAt.slice(0,10))):''}`:'No preserved copy recorded'}</dd><dt>Author</dt><dd>${h(r.authors.length?r.authors.join(', '):'Unknown author')}</dd><dt>Document type</dt><dd>${h(r.documentType)}</dd><dt>Metadata review</dt><dd>Imported record · source body not verified${r.importNumbers.length>1?`<br>${r.importNumbers.length} exact-URL imports grouped into one source`:''}</dd></dl>`;}
 function renderDetail() {
   const r=currentRecord();
-  if(!state.selected){$('tw-detail').innerHTML=placeholder;document.body.classList.remove('tw-reading-mobile');return;}
+  const dialog=$('tw-reader-dialog');
+  document.body.classList.toggle('tw-reader-open',Boolean(state.selected));
+  if(!state.selected){if(dialog.open)dialog.close();return;}
+  if(!dialog.open)dialog.showModal();
   if(!r){$('tw-detail').innerHTML='<div class="tw-detail-body"><h2 id="tw-detail-title" tabindex="-1">Source not found</h2><p>This link may refer to a record outside the current snapshot.</p><button type="button" data-close-detail>Return to the timeline</button></div>';return;}
-  const event=Boolean(r.eventTime && r.sourceIds),isVisible=filtered.some(s=>s.id===r.id);
+  const event=Boolean(r.eventTime && r.sourceIds),recordIndex=filtered.findIndex(s=>s.id===r.id),isVisible=recordIndex>=0;
+  const origin=history.state?.readerOrigin,backMonth=origin?.month||recordDate(r)?.slice(0,7);
+  const backLabel=backMonth?'Back to '+displayDate(backMonth+'-01','month'):'Back to timeline';
+  const sequence=`<nav class="tw-reader-sequence" aria-label="Browse articles in your results"><button type="button" data-reader-step="-1" ${recordIndex<=0?'disabled':''}>← Previous article</button><p class="tw-small">${isVisible?(recordIndex+1).toLocaleString()+' of '+filtered.length.toLocaleString():'Outside these results'}</p><button type="button" data-reader-step="1" ${recordIndex<0||recordIndex>=filtered.length-1?'disabled':''}>Next article →</button></nav>`;
   const follow=event?{records:sources.filter(s=>r.sourceIds.includes(s.id)),kind:'Supporting sources',label:'Sources for this reviewed entry'}:relatedSources(r,sources,editorial.collections);
   const related=[...follow.records].sort((a,b)=>(a.importedDate||'').localeCompare(b.importedDate||'')||a.id.localeCompare(b.id));
   const approvedRelations=editorial.relationships.filter(rel=>rel.status==='approved'&&(rel.from===r.id||rel.to===r.id));
-  $('tw-detail').innerHTML=`<div class="tw-detail-top"><p class="tw-kicker">${event?'Reviewed entry':'Source record'}</p><button type="button" data-close-detail>← Back to timeline</button></div><div class="tw-detail-body">${!isVisible?'<p class="tw-notice">This selected record is outside the active filters. Your timeline filters are preserved.</p>':''}<p class="tw-small">${h(event?r.eventTime.label:r.source+' · '+displayDate(r.importedDate))}</p><h2 id="tw-detail-title" tabindex="-1">${h(r.title)}</h2><p>${h(r.summary||'No summary stored. Consult the original source for its account.')}</p>${event?`<dl><dt>Event date</dt><dd>${h(r.eventTime.label)}</dd><dt>Date precision</dt><dd>${h(r.eventTime.precision)}</dd><dt>Date rationale</dt><dd>${h(r.eventTime.rationale)}</dd><dt>Editorial review</dt><dd>${h(r.review.reviewer)} · ${h(displayDate(r.review.reviewedAt.slice(0,10)))}</dd></dl>`:'<details class="tw-detail-context"><summary>Dates, access and source context</summary>'+sourceDates(r)+'</details>'}${!event&&r.flags.length?`<details><summary>Metadata notes (${r.flags.length})</summary><ul class="tw-small">${r.flags.map(f=>`<li>${h(f)}</li>`).join('')}</ul><p class="tw-small">Original imported fields remain in the archive dataset. No date was corrected from a URL alone.</p></details>`:''}${!event&&r.url?`<a class="tw-source-link" href="${h(r.url)}" target="_blank" rel="noopener noreferrer">Read at ${h(r.source)} ↗ <span class="tw-small">(opens a new tab)</span></a>`:''}<div class="tw-detail-actions">${event?'<button type="button" data-save-event="'+r.id+'">Save all supporting sources</button>':`<button type="button" class="tw-save" data-save="${r.id}" aria-pressed="${saved(r)}">${saved(r)?'Saved ✓':'Save source'}</button><button type="button" data-copy-source="${r.id}">Copy citation</button>`}<button type="button" data-share>Copy this view’s link</button></div>${!event?`<h3>Suggested threads</h3><p class="tw-small">${h(r.themes.map(id=>THEMES.find(t=>t[0]===id)[1]).join(' · ')||'Unassigned; editorial review needed.')}</p>`:''}<h3>Follow the record</h3><p class="tw-small">${h(follow.label)}<br>${h(follow.kind)}. ${event?'Supporting links retained with their own archive dates.':'These connections do not establish cause, agreement or verified event dates.'}</p><ol class="tw-follow">${related.map(s=>`<li${s.id===r.id?' class="is-current"':''}><p>Archive date · ${h(displayDate(s.importedDate))}</p><a href="${h(recordURL(s.id))}" data-select="${s.id}" ${s.id===r.id?'aria-current="true"':''}>${h(s.title)}</a><small>${h(s.source)}${s.id===r.id?' · You are here':''}</small></li>`).join('')}</ol>${related.length<=1&&!event?'<p class="tw-small">No sufficiently specific related reading suggestion is available in this snapshot.</p>':''}${approvedRelations.length?`<h3>Reviewed connections</h3><ul>${approvedRelations.map(rel=>`<li><a data-select="${h(rel.from===r.id?rel.to:rel.from)}" href="${h(recordURL(rel.from===r.id?rel.to:rel.from))}">${h(rel.type)}</a><p class="tw-small">${h(rel.explanation)}</p></li>`).join('')}</ul>`:''}<p class="tw-small">Permanent record ID<br>${h(r.id)}</p><a href="collab.html" class="tw-small">Suggest a metadata correction ↗</a></div>`;
-  document.body.classList.add('tw-reading-mobile');
+  $('tw-detail').innerHTML=`<div class="tw-detail-top"><p class="tw-kicker">${event?'Reviewed entry':'Source record'}</p><button type="button" data-close-detail>← ${h(backLabel)}</button></div><div class="tw-detail-body">${sequence}${!isVisible?'<p class="tw-notice">This selected record is outside the active filters. Your timeline filters are preserved.</p>':''}<p class="tw-small">${h(event?r.eventTime.label:r.source+' · '+displayDate(r.importedDate))}</p><h2 id="tw-detail-title" tabindex="-1">${h(r.title)}</h2><p>${h(r.summary||'No summary stored. Consult the original source for its account.')}</p>${!event&&r.url?`<a class="tw-source-link" href="${h(r.url)}" target="_blank" rel="noopener noreferrer">Open original article ↗ · ${h(r.source)} <span class="tw-small">(opens a new tab)</span></a>`:''}${event?`<dl><dt>Event date</dt><dd>${h(r.eventTime.label)}</dd><dt>Date precision</dt><dd>${h(r.eventTime.precision)}</dd><dt>Date rationale</dt><dd>${h(r.eventTime.rationale)}</dd><dt>Editorial review</dt><dd>${h(r.review.reviewer)} · ${h(displayDate(r.review.reviewedAt.slice(0,10)))}</dd></dl>`:'<details class="tw-detail-context"><summary>Dates, access and source context</summary>'+sourceDates(r)+'</details>'}${!event&&r.flags.length?`<details><summary>Metadata notes (${r.flags.length})</summary><ul class="tw-small">${r.flags.map(f=>`<li>${h(f)}</li>`).join('')}</ul><p class="tw-small">Original imported fields remain in the archive dataset. No date was corrected from a URL alone.</p></details>`:''}<div class="tw-detail-actions">${event?'<button type="button" data-save-event="'+r.id+'">Save all supporting sources</button>':`<button type="button" class="tw-save" data-save="${r.id}" aria-pressed="${saved(r)}">${saved(r)?'Saved ✓':'Save source'}</button><button type="button" data-copy-source="${r.id}">Copy citation</button>`}<button type="button" data-share>Copy this view’s link</button></div>${!event?`<h3>Suggested threads</h3><p class="tw-small">${h(r.themes.map(id=>THEMES.find(t=>t[0]===id)[1]).join(' · ')||'Unassigned; editorial review needed.')}</p>`:''}<h3>Related reporting</h3><p class="tw-small">${h(follow.label)}<br>${h(follow.kind)}. ${event?'Supporting links retained with their own archive dates.':'These connections do not establish cause, agreement or verified event dates.'}</p><ol class="tw-follow">${related.map(s=>`<li${s.id===r.id?' class="is-current"':''}><p>Archive date · ${h(displayDate(s.importedDate))}</p><a href="${h(recordURL(s.id))}" data-select="${s.id}" ${s.id===r.id?'aria-current="true"':''}>${h(s.title)}</a><small>${h(s.source)}${s.id===r.id?' · You are here':''}</small></li>`).join('')}</ol>${related.length<=1&&!event?'<p class="tw-small">No sufficiently specific related reading suggestion is available in this snapshot.</p>':''}${approvedRelations.length?`<h3>Reviewed connections</h3><ul>${approvedRelations.map(rel=>`<li><a data-select="${h(rel.from===r.id?rel.to:rel.from)}" href="${h(recordURL(rel.from===r.id?rel.to:rel.from))}">${h(rel.type)}</a><p class="tw-small">${h(rel.explanation)}</p></li>`).join('')}</ul>`:''}<p class="tw-small">Permanent record ID<br>${h(r.id)}</p><a href="collab.html" class="tw-small">Suggest a metadata correction ↗</a></div>`;
   if(!reducedMotion())$('tw-detail').animate([{opacity:.3,transform:'translateX(14px)'},{opacity:1,transform:'translateX(0)'}],{duration:280,easing:'cubic-bezier(.2,.65,.3,1)'});
 }
 function render() {
   if(loading)return;
-  $('tw-basis').innerHTML=state.mode==='sources'?'2023 — today · Dates shown are <strong>archive dates</strong>. Open a record for source context.':'Reviewed entries use <strong>event dates</strong>, with precision, date evidence and editorial review.';
+  $('tw-basis').innerHTML=state.mode==='sources'?'Dates shown are <strong>archive dates</strong>, not verified event or publication dates.':'Reviewed entries use <strong>event dates</strong>, with precision, date evidence and editorial review.';
   $('tw-routes').hidden=state.mode==='events';
-  renderChips();renderOverview();renderList();renderDetail();syncSaveButtons();
+  $('tw-mode-toolbar').hidden=!editorial.events.some(e=>e.status==='approved')&&state.mode!=='events';
+  renderChips();renderList();renderOverview();renderDetail();syncSaveButtons();
   say(`${filtered.length.toLocaleString()} ${state.mode==='events'?'reviewed events':'source records'} match your filters.`);
 }
 function renderPacket() {
@@ -181,32 +239,47 @@ async function copy(text) {
 }
 function packetText() {const style=$('tw-citation-style').value;return `Echoes of Gaza — Threads of Witness\nExported ${today()}\nDates labeled Archive date are unverified imported dates.\n\n`+sources.filter(saved).map(r=>citation(r,style)).join('\n\n---\n\n')+($('tw-notes').value?'\n\nPrivate notes\n'+$('tw-notes').value:'');}
 function download(text,name,type) {const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);feedback('Research packet downloaded.');}
-function selectPeriod(key,focus='') {const [from,to]=periodRange(key);commit({from,to,limit:30,dates:'all'},{focus});}
-function movePeriod(direction) {
- const keys=monthKeys(),current=state.from?.slice(0,7)||keys[0],next=keys[Math.max(0,Math.min(keys.length-1,keys.indexOf(current)+direction))];if(next)selectPeriod(next);
+function jumpToDate(date,focus='tw-period-button') {
+ const dated=filtered.filter(r=>recordDate(r)).sort((a,b)=>recordDate(a).localeCompare(recordDate(b))||a.id.localeCompare(b.id));
+ const target=dated.find(r=>recordDate(r)>=date)||dated.at(-1);
+ if(!target){feedback('No dated articles match these filters. Remove a filter to explore more.');return;}
+ const index=filtered.findIndex(r=>r.id===target.id);
+ $('tw-date-picker').open=false;
+ commit({at:recordDate(target),selected:'',limit:Math.min(filtered.length,index+30)},{start:index,focus});
+ syncReadingMonth(recordDate(target).slice(0,7));
+ requestAnimationFrame(()=>scrollToRecord(target.id,true));
+ say(`Moved to ${displayDate(recordDate(target))}. Your filters are unchanged.`);
 }
-$('tw-enter').addEventListener('click',e=>{e.preventDefault();const top=$('tw-records').getBoundingClientRect().top+window.scrollY-$('tw-overview').getBoundingClientRect().height-88;window.scrollTo({top,behavior:reducedMotion()?'instant':'smooth'});});
-$('tw-refine-toggle').addEventListener('click',()=>{const open=$('tw-refinement').hidden;$('tw-refinement').hidden=!open;$('tw-refine-toggle').setAttribute('aria-expanded',String(open));$('tw-refine-toggle').innerHTML=open?'Refine view <span aria-hidden="true">−</span>':'Refine view <span aria-hidden="true">+</span>';});
+function selectPeriod(key,focus='tw-period-button') {jumpToDate(periodRange(key)[0],focus);}
+function movePeriod(direction) {
+ const keys=availableMonths(),index=keys.indexOf(readingMonth),next=keys[index+direction];
+ if(next)selectPeriod(next,direction<0?'tw-previous':'tw-next');
+}
+$('tw-refine-toggle').addEventListener('click',()=>{const open=$('tw-refinement').hidden;$('tw-refinement').hidden=!open;$('tw-refine-toggle').setAttribute('aria-expanded',String(open));renderChips();});
+$('tw-date-picker').addEventListener('toggle',()=>{if($('tw-date-picker').open){pickerYear=readingMonth.slice(0,4)||'2023';$('tw-picker-year').value=pickerYear;renderPicker();$('tw-view-options').open=false;}});
+$('tw-picker-year').addEventListener('change',e=>{pickerYear=e.target.value;renderPicker();});
+$('tw-view-options').addEventListener('toggle',()=>{if($('tw-view-options').open)$('tw-date-picker').open=false;});
+$('tw-reader-dialog').addEventListener('cancel',e=>{e.preventDefault();closeDetail();});
+$('tw-reader-dialog').addEventListener('click',e=>{if(e.target===$('tw-reader-dialog')){const box=e.target.getBoundingClientRect();if(e.clientX<box.left||e.clientX>box.right||e.clientY<box.top||e.clientY>box.bottom)closeDetail();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('tw-reader-dialog').open){for(const id of ['tw-date-picker','tw-view-options'])if($(id).open){$(id).open=false;$(id).querySelector('summary').focus();}}});
+document.addEventListener('pointerdown',e=>{for(const id of ['tw-date-picker','tw-view-options'])if($(id).open&&!$(id).contains(e.target))$(id).open=false;});
 $('tw-image-toggle').addEventListener('click',()=>{imagePreference=!imagePreference;try{localStorage.setItem('echoes_timeline_images',imagePreference?'show':'hidden');}catch{}syncPreferences();renderList();});
 $('tw-auto-load').addEventListener('click',()=>{autoLoad=!autoLoad;try{localStorage.setItem('echoes_timeline_auto_load',autoLoad?'on':'off');}catch{}syncPreferences();enhanceCards();});
-$('tw-scrubber').addEventListener('input',e=>{const keys=monthKeys(),index=Number(e.target.value);$('tw-scrub-preview').textContent=displayDate(keys[index]+'-01','month');e.target.setAttribute('aria-valuetext',displayDate(keys[index]+'-01','month'));e.target.style.setProperty('--scrub-progress',`${index/Math.max(1,keys.length-1)*100}%`);});
-$('tw-scrubber').addEventListener('change',e=>selectPeriod(monthKeys()[Number(e.target.value)]));
 document.addEventListener('error',e=>{if(e.target.matches?.('.tw-card-media img')){e.target.remove();}},true);
 window.addEventListener('scroll',()=>{if(!scrollFrame){scrollFrame=true;requestAnimationFrame(()=>{updateReadingPosition();scrollFrame=false;});}},{passive:true});
 $('tw-filter-form').addEventListener('submit',e=>{e.preventDefault();clearTimeout(searchTimer);applyForm();});
 $('tw-query').addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>applyForm(true),300);});
 $('tw-to').addEventListener('input',()=>$('tw-to').setCustomValidity(''));
 $('tw-from').addEventListener('input',()=>{$('tw-to').setCustomValidity('');$('tw-from').setCustomValidity('');});
-$('tw-filter-form').addEventListener('change',e=>{if(e.target.type==='checkbox'||e.target.tagName==='SELECT')applyForm();});
+$('tw-filter-form').addEventListener('change',e=>{if(e.target.closest('#tw-refinement')&&(e.target.type==='checkbox'||e.target.tagName==='SELECT'))applyForm();});
 $('tw-publisher-search').addEventListener('input',e=>{$('tw-publishers').querySelectorAll('label').forEach(label=>label.hidden=!label.textContent.toLowerCase().includes(e.target.value.toLowerCase()));});
-$('tw-clear').addEventListener('click',()=>commit({...defaults(),selected:state.selected}));
-$('tw-group').addEventListener('change',e=>commit({granularity:e.target.value}));$('tw-order').addEventListener('change',e=>commit({order:e.target.value,limit:30}));
-$('tw-more').addEventListener('click',()=>loadMore(true));
-$('tw-earlier').addEventListener('click',()=>commit({from:'2023-01-01',to:'2023-12-31',order:'oldest',limit:30,dates:'all',selected:''},{focus:'period-2023'}));
-$('tw-latest').addEventListener('click',()=>{const dates=getRecords(true).map(r=>r.importedDate).filter(Boolean).sort();if(dates.length){selectPeriod(dates.at(-1).slice(0,7));feedback(`Latest collected ${state.mode==='events'?'event':'source'}: ${displayDate(dates.at(-1))}. Today is ${displayDate(today())}.`);}});
-$('tw-all-dates').addEventListener('click',()=>commit({from:'2023-01-01',to:'',dates:'all',limit:30}));
+$('tw-clear').addEventListener('click',()=>{commit({...defaults(),mode:state.mode});showResults();});
+$('tw-group').addEventListener('change',e=>{const anchor=filtered.find(r=>recordDate(r)===state.at),start=windowStart;commit({granularity:e.target.value,at:state.at},{start,focus:'tw-group'});if(anchor)requestAnimationFrame(()=>scrollToRecord(anchor.id));});$('tw-order').addEventListener('change',e=>{commit({order:e.target.value,limit:30});showResults();});
+$('tw-more').addEventListener('click',()=>loadMore(true));$('tw-before').addEventListener('click',loadEarlier);
+$('tw-earlier').addEventListener('click',()=>{const keys=availableMonths();if(keys.length)selectPeriod(keys[0]);});
+$('tw-latest').addEventListener('click',()=>{const dates=filtered.map(recordDate).filter(Boolean).sort();if(dates.length)jumpToDate(dates.at(-1));});
 $('tw-previous').addEventListener('click',()=>movePeriod(-1));$('tw-next').addEventListener('click',()=>movePeriod(1));
-$('tw-jump-button').addEventListener('click',()=>{const date=civilDate($('tw-jump').value);if(date)commit({from:date,to:'',order:'oldest',limit:30,dates:'all'});else{$('tw-jump').setCustomValidity('Choose a date to jump to.');$('tw-jump').reportValidity();}});
+$('tw-jump-button').addEventListener('click',()=>{const input=$('tw-jump'),date=civilDate(input.value);if(date&&input.checkValidity())jumpToDate(date);else{input.setCustomValidity('Choose an archive date from 2023 through the latest collected date.');input.reportValidity();}});
 $('tw-jump').addEventListener('input',()=>$('tw-jump').setCustomValidity(''));
 $('tw-packet-open').addEventListener('click',()=>{renderPacket();$('tw-packet-dialog').showModal();});$('tw-packet-close').addEventListener('click',()=>$('tw-packet-dialog').close());
 $('tw-copy-packet').addEventListener('click',()=>copy(packetText()));$('tw-download-text').addEventListener('click',()=>download(packetText(),'echoes-of-gaza-research-packet.txt','text/plain;charset=utf-8'));
@@ -217,11 +290,12 @@ for(const dialog of [$('tw-packet-dialog'),$('tw-copy-dialog')])dialog.addEventL
 document.addEventListener('click',e=>{
   const b=e.target.closest('button,a');if(!b)return;
   if(b.dataset.select){if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();openRecord(b.dataset.select);}
-  else if(b.dataset.thread){commit({themes:[b.dataset.thread],limit:30});}
+  else if(b.dataset.thread){commit({themes:[b.dataset.thread],limit:30});showResults();}
   else if(b.dataset.mode){commit({mode:b.dataset.mode,selected:'',limit:30});}
-  else if(b.dataset.route){if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();commit({...defaults(),collection:b.dataset.route,order:'oldest'});}
-  else if(b.hasAttribute('data-reset'))commit({...defaults(),selected:state.selected});
+  else if(b.dataset.route){if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();commit({collection:b.dataset.route,limit:30});showResults();}
+  else if(b.hasAttribute('data-reset')){commit({...defaults(),mode:state.mode});showResults();}
   else if(b.dataset.period)selectPeriod(b.dataset.period,b.id);
+  else if(b.dataset.readerStep){const index=filtered.findIndex(r=>r.id===state.selected),next=filtered[index+Number(b.dataset.readerStep)];if(next)openRecord(next.id);}
   else if(b.dataset.save)save(sources.find(r=>r.id===b.dataset.save));
   else if(b.hasAttribute('data-close-detail'))closeDetail();
   else if(b.dataset.copySource)copy(citation(sources.find(r=>r.id===b.dataset.copySource),$('tw-citation-style').value));
@@ -229,9 +303,16 @@ document.addEventListener('click',e=>{
   else if(b.dataset.saveEvent){const event=editorial.events.find(ev=>ev.id===b.dataset.saveEvent);packet=[...new Set([...packet,...sources.filter(r=>event.sourceIds.includes(r.id)).map(r=>r.packetId)])];persistPacket();syncSaveButtons();renderPacket();feedback('Supporting sources saved.');}
   else if(b.dataset.packetRemove){const r=sources.find(r=>r.id===b.dataset.packetRemove);packet=packet.filter(id=>id!==r.packetId);persistPacket();syncSaveButtons();renderPacket();$('tw-packet-close').focus();}
   else if(b.dataset.packetSelect){if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();$('tw-packet-dialog').close();openRecord(b.dataset.packetSelect);}
-  else if(b.dataset.removeFilter){const key=b.dataset.removeFilter;let patch={limit:30};if(key==='range')Object.assign(patch,{from:'2023-01-01',to:''});else if(key.startsWith('theme:'))patch.themes=state.themes.filter(v=>v!==key.slice(6));else if(key.startsWith('publisher:'))patch.publishers=state.publishers.filter(v=>v!==key.slice(10));else if(key.startsWith('type:'))patch.types=state.types.filter(v=>v!==key.slice(5));else patch[key]=key==='dates'?'all':'';commit(patch,{focus:'tw-results-title'});}
+  else if(b.dataset.removeFilter){const key=b.dataset.removeFilter;let patch={limit:30};if(key==='range')Object.assign(patch,{from:'2023-01-01',to:''});else if(key.startsWith('theme:'))patch.themes=state.themes.filter(v=>v!==key.slice(6));else if(key.startsWith('publisher:'))patch.publishers=state.publishers.filter(v=>v!==key.slice(10));else if(key.startsWith('type:'))patch.types=state.types.filter(v=>v!==key.slice(5));else patch[key]=key==='dates'?'all':'';commit(patch,{focus:'tw-results-title'});showResults();}
 });
-window.addEventListener('popstate',()=>{clearTimeout(searchTimer);state=parseState(location.search);syncControls();render();requestAnimationFrame(()=>{const target=$(history.state?.focusId);target?.focus({preventScroll:true});window.scrollTo({top:history.state?.scroll||0,behavior:'instant'});});});
+window.addEventListener('popstate',()=>{
+ clearTimeout(searchTimer);const previous=state,next=parseState(location.search);
+ const sameFeed=windowStart===(history.state?.windowStart??0)&&['mode','q','from','to','themes','publishers','types','status','dates','collection','granularity','order','limit'].every(k=>JSON.stringify(previous[k])===JSON.stringify(next[k]));
+ state=next;windowStart=history.state?.windowStart??0;restoring=true;syncControls();
+ if(sameFeed){renderDetail();markSelected();syncSaveButtons();}else render();
+ requestAnimationFrame(()=>{const target=$(history.state?.focusId);target?.focus({preventScroll:true});window.scrollTo({top:history.state?.scroll||0,behavior:'instant'});restoring=false;updateReadingPosition();});
+});
+window.addEventListener('pagehide',()=>history.replaceState({...history.state,scroll:window.scrollY,windowStart},'',location.href));
 window.addEventListener('storage',e=>{if(e.key===packetAPI.key){packet=packetAPI.read();syncSaveButtons();renderPacket();}if(e.key===notesKey)$('tw-notes').value=e.newValue||'';});
 async function load() {
   try {
@@ -244,11 +325,20 @@ async function load() {
     if(state.collection&&!editorial.collections.some(c=>c.id===state.collection))state.collection='';
     try{$('tw-notes').value=localStorage.getItem(notesKey)||'';}catch{}
     $('tw-snapshot').textContent=`${sources.filter(r=>r.importedDate>='2023-01-01').length.toLocaleString()} sources since 2023 · ${sources.length.toLocaleString()} in the full archive · Latest archive date ${displayDate(snapshot.latest)} · Built ${displayDate(snapshot.generatedAt.slice(0,10))}`;
-    $('tw-event-count').textContent=editorial.events.filter(e=>e.status==='approved').length;
+    const eventCount=editorial.events.filter(e=>e.status==='approved').length;
+    $('tw-event-count').textContent=eventCount;
+    $('tw-mode-toolbar').hidden=!eventCount&&state.mode!=='events';
     $('tw-collection-policy').textContent=`${snapshot.importedCount.toLocaleString()} imported records become ${sources.length.toLocaleString()} unique public sources: ${snapshot.duplicateCount} duplicate imports grouped and ${snapshot.excluded.length} test or future record(s) withheld. The original import remains unchanged. The interactive timeline starts in 2023; earlier records remain in the static reading edition. Draft events are never published automatically.`;
-    $('tw-hero-records').innerHTML=[sources.filter(r=>r.importedDate?.startsWith('2023')).sort((a,b)=>a.importedDate.localeCompare(b.importedDate))[0],sources.find(r=>r.importNumbers.includes(482)),sources.find(r=>r.importNumbers.includes(171))].filter(Boolean).map((r,i)=>`<a class="tw-hero-record tw-hero-record-${i}" data-select="${r.id}" href="${h(recordURL(r.id))}"><span>${h(r.importedDate.slice(0,4))}</span><strong>${h(r.source)}</strong><small>${h(r.title)}</small></a>`).join('');
-    renderFacets();loading=false;syncPreferences();syncControls();render();renderPacket();
-    if(state.selected&&matchMedia('(max-width:900px)').matches)requestAnimationFrame(()=>{$('tw-detail').scrollIntoView({block:'start'});$('tw-detail-title')?.focus({preventScroll:true});});
+    renderFacets();loading=false;syncPreferences();syncControls();
+    filtered=getRecords();
+    const savedView=history.state;
+    if(savedView?.windowStart!==undefined)windowStart=Math.min(savedView.windowStart,Math.max(0,filtered.length-1));
+    else if(state.at){const dated=filtered.filter(r=>recordDate(r)).sort((a,b)=>recordDate(a).localeCompare(recordDate(b))||a.id.localeCompare(b.id)),target=dated.find(r=>recordDate(r)>=state.at)||dated.at(-1);if(target){windowStart=filtered.findIndex(r=>r.id===target.id);state.limit=Math.max(state.limit,Math.min(filtered.length,windowStart+30));}}
+    render();renderPacket();
+    history.replaceState({...history.state,windowStart},'',stateURL(state));
+    if(state.selected)requestAnimationFrame(()=>{$('tw-detail-title')?.focus({preventScroll:true});});
+    else if(savedView?.scroll!==undefined)requestAnimationFrame(()=>window.scrollTo({top:savedView.scroll,behavior:'instant'}));
+    else if(state.at)requestAnimationFrame(()=>scrollToRecord(filtered[windowStart]?.id));
   } catch(error) {loading=false;$('tw-results-title').textContent='Timeline temporarily unavailable';$('tw-error').hidden=false;$('tw-error').innerHTML='<h3>The collection could not be loaded.</h3><p>Your saved packet remains in this browser. Try again, or read the complete static chronology.</p><button type="button" id="tw-retry">Try again</button> <a href="timeline-sources.html">Static reading edition ↗</a>';$('tw-retry').addEventListener('click',()=>location.reload());$('tw-snapshot').textContent='Interactive data unavailable. Static reading edition available.';document.querySelectorAll('.tw-filters input,.tw-filters button,.tw-filters select,.tw-overview button,.tw-toolbar button,.tw-view-controls select').forEach(el=>el.disabled=true);console.error('Timeline load failed:',error);say('Collection unavailable. The static reading edition is available.');}
 }
 if('ResizeObserver' in window)new ResizeObserver(()=>document.documentElement.style.setProperty('--tw-rail-offset',`${$('tw-overview').getBoundingClientRect().height+84}px`)).observe($('tw-overview'));

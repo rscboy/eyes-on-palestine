@@ -55,13 +55,15 @@ export function buildSources(articles, registry, integrity = {results:[]}, overr
   });
   return {sources:[...grouped.values()],excluded};
 }
-export function defaults() { return {mode:'sources',q:'',from:'2023-01-01',to:'',themes:[],publishers:[],types:[],status:'',dates:'all',collection:'',granularity:'month',order:'oldest',selected:'',limit:30}; }
+export function defaults() { return {mode:'sources',q:'',from:'2023-01-01',to:'',themes:[],publishers:[],types:[],status:'',dates:'all',collection:'',granularity:'month',order:'oldest',selected:'',at:'',limit:30}; }
 export function parseState(search) {
   const p = new URLSearchParams(search), state = defaults();
   for (const k of ['q','collection','selected']) state[k] = (p.get(k) || '').slice(0,k === 'q' ? 300 : 100);
   for (const k of ['from','to']) state[k] = civilDate(p.get(k)) || (k==='from'?'2023-01-01':'');
   if (state.from && state.to && state.from > state.to) [state.from,state.to] = [state.to,state.from];
   if(state.from && state.from<'2023-01-01')state.from='2023-01-01';
+  state.at = civilDate(p.get('at')) || '';
+  if(state.at && state.at<'2023-01-01')state.at='2023-01-01';
   state.mode = p.get('mode') === 'events' ? 'events' : 'sources';
   state.themes = (p.get('themes') || '').split(',').filter(id => THEMES.some(t=>t[0]===id) || id==='unassigned');
   for (const k of ['publishers','types']) state[k] = (p.get(k) || '').split('|').filter(Boolean).slice(0,160);
@@ -74,7 +76,7 @@ export function parseState(search) {
 }
 export function stateURL(state) {
   const p = new URLSearchParams(), base = defaults(); p.set('v','1');
-  for (const k of ['mode','q','from','to','status','dates','collection','selected','order','limit']) if (state[k] !== base[k] && state[k]) p.set(k,state[k]);
+  for (const k of ['mode','q','from','to','status','dates','collection','selected','at','order','limit']) if (state[k] !== base[k] && state[k]) p.set(k,state[k]);
   if (state.granularity !== base.granularity) p.set('group',state.granularity);
   for (const k of ['themes','publishers','types']) if (state[k].length) p.set(k,state[k].join(k==='themes' ? ',' : '|'));
   return '?' + p.toString();
