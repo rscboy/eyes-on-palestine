@@ -492,3 +492,100 @@ html:has(.tw-page) {scrollbar-gutter:stable}
  .tw-reader-sequence button {font-size:.6875rem}
 }
 @media(forced-colors:active) {.tw-reader-dialog {border:1px solid CanvasText}.tw-scroll-progress span {background:Highlight}.tw-month-rail button[aria-pressed=true] {outline:2px solid Highlight}}
+
+/* Quiet reading view: one navigator, compact cards, tools on demand. */
+.tw-main {max-width:1120px}
+.tw-simple-heading {padding:24px 0 16px}
+.tw-simple-heading h1 {font-family:Georgia,'Times New Roman',serif;font-size:1.75rem;font-weight:400;letter-spacing:-.02em;margin:0;display:flex;align-items:baseline;gap:14px}
+.tw-simple-heading h1 span {font-family:Inter,system-ui,sans-serif;font-size:.75rem;letter-spacing:0;color:#a7a898}
+.tw-overview {margin:0;padding:8px 0 0;border:0;border-block-end:1px solid #3a4030;border-radius:0;background:#0d100cf5;box-shadow:none}
+.tw-browse-row {display:flex;align-items:center;gap:8px;padding:0 8px 8px}
+.tw-month-navigation {display:flex;gap:4px;margin-inline-end:auto}
+.tw-nav-word {display:none}
+.tw-month-navigation>button {min-width:44px;min-height:44px;justify-content:center;padding:8px;font-size:1.125rem}
+.tw-date-picker>summary {border:0;min-height:44px;padding:8px 12px;font-size:.875rem;font-weight:400}
+.tw-browse-row>.tw-search-toggle {display:flex;align-items:center;justify-content:center;padding:8px;min-width:44px;min-height:44px;border:0}
+.tw-more-menu {position:relative}
+.tw-more-menu>summary {list-style:none;display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 12px;font-size:.8125rem;color:#e6e4d8}
+.tw-more-menu>summary::-webkit-details-marker {display:none}
+.tw-more-popover {position:absolute;inset-block-start:calc(100% + 8px);inset-inline-end:0;width:220px;padding:6px;border:1px solid #515943;border-radius:8px;background:#151811;box-shadow:0 12px 40px #0008;z-index:120}
+.tw-more-popover button {width:100%;display:flex;justify-content:space-between;align-items:center;border:0;border-radius:5px;text-align:start;min-height:44px;font-size:.8125rem;padding:10px 12px}
+.tw-search-panel {display:flex;gap:8px;padding:4px 8px 12px;align-items:center}
+.tw-search-panel .tw-search {flex:1;min-width:0}
+.tw-page .tw-search-panel input {padding:10px 12px;height:44px;font-size:.8125rem}
+.tw-search-panel>button {border:0;min-width:44px;min-height:44px;font-size:1.25rem}
+.tw-date-popover {inset-inline-start:0;transform:none;width:320px}
+.tw-month-rail button {min-height:44px;justify-content:center;font-size:.8125rem}
+.tw-date-restriction {display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;padding:0 8px 8px;font-size:.75rem;color:#b8b9aa}
+.tw-date-restriction button {font-size:.75rem;border:0;padding:6px 0;min-height:44px;color:#e6cd8e}
+.tw-scroll-progress {margin-inline:0;height:1px}
+.tw-active-filters:not(:empty) {margin:0 0 12px}
+.tw-workspace {margin-top:20px}
+.tw-results-header {padding:0 0 14px}
+.tw-results-header h2 {font-size:.8125rem;color:#b8b9aa;font-weight:400}
+.tw-records {display:flex;flex-direction:column;gap:16px;margin:0;padding:0;border:0}
+.tw-records::before,.tw-records::after {display:none}
+.tw-record {margin:0;display:block}
+.tw-record-card {display:block;background:#12150f;border-color:#303727;border-radius:7px;cursor:pointer}
+.tw-record-card.has-image {display:grid;grid-template-columns:minmax(180px,25%) minmax(0,1fr);align-items:stretch}
+.tw-card-media {aspect-ratio:auto;min-height:180px;height:100%;position:relative}
+.tw-card-media img {width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.tw-photo-note {position:absolute;inset-inline:0;bottom:0;background:linear-gradient(transparent,#000b);padding:22px 8px 6px;text-align:end;font-size:.5rem;color:#eeeade;pointer-events:none}
+.tw-card-copy {padding:20px 24px;align-self:center}
+.tw-record-meta {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 12px;font-size:.6875rem;line-height:1.6;color:#aeb59f}
+.tw-record-meta .tw-source-type {margin:0}
+.tw-page .tw-date-help {display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:0 2px;border:0;font-size:inherit;color:inherit;background:transparent;vertical-align:baseline}
+.tw-date-help:hover {text-decoration:underline}
+.tw-date-help span {font-size:.625rem;color:#a7a898}
+.tw-record h3 {font-size:1.5rem;line-height:1.35;margin:8px 0 0;max-width:850px}
+.tw-record h3 a {text-decoration:none}
+.tw-record-card:hover h3 a,.tw-record h3 a:focus-visible {text-decoration:underline;text-decoration-thickness:1px}
+.tw-modal-open {overflow:hidden}
+.tw-filter-dialog {max-width:min(900px,calc(100vw - 32px))}
+.tw-filter-dialog #tw-refinement {padding:0;border:0;background:transparent;margin:0}
+.tw-filter-dialog .tw-filter-heading {justify-content:end;margin:0}
+.tw-options-dialog {max-width:min(380px,calc(100vw - 32px))}
+.tw-options-dialog .tw-view-controls {display:flex;flex-direction:column;align-items:stretch;gap:16px;width:100%;margin-top:20px}
+.tw-options-dialog .tw-view-controls button {font-size:.8125rem;text-align:start;min-height:44px;border:1px solid #515943;padding:10px 12px;display:flex;justify-content:space-between;color:#eeeade}
+.tw-options-dialog .tw-view-controls button::after {content:'Off';color:#a7a898}
+.tw-options-dialog .tw-view-controls button[aria-pressed=true]::after {content:'On ✓';color:#e6cd8e}
+.tw-options-dialog .tw-view-controls select {min-height:44px;font-size:.8125rem}
+.tw-about-dialog {max-width:min(680px,calc(100vw - 32px))}
+.tw-about-dialog .tw-basis {font-size:.875rem;line-height:1.75;margin:12px 0 20px!important}
+.tw-about-dialog .tw-static-link {font-size:.8125rem;display:inline-block;margin-bottom:20px}
+.tw-about-dialog .tw-snapshot-line {margin:0;font-size:.75rem}
+.tw-about-dialog .tw-method {margin-top:24px;padding-top:24px}
+.tw-about-dialog .tw-method h2 {font-size:1.5rem}
+.tw-about-dialog .tw-method-grid {display:block;margin:20px 0}
+.tw-about-dialog .tw-method-grid>div {margin-bottom:20px}
+.tw-about-dialog .tw-method-grid h3 {font-size:.9375rem}
+.tw-about-dialog .tw-method-grid p {font-size:.8125rem;line-height:1.75}
+@media(max-width:720px) {
+ .tw-main {padding-inline:18px}
+ .tw-simple-heading {padding:18px 0 12px}
+ .tw-simple-heading h1 {font-size:1.5rem;gap:12px}
+ .tw-simple-heading h1 span {font-size:.625rem}
+ .tw-overview {padding-top:4px}
+ .tw-browse-row {gap:0;padding:0 0 4px}
+ .tw-month-navigation {gap:0;min-width:0}
+ .tw-date-picker>summary {font-size:.8125rem;padding-inline:4px;gap:5px}
+ .tw-month-navigation>button {padding:8px;min-width:40px;font-size:1rem}
+ .tw-more-menu>summary {font-size:.75rem;padding:8px;gap:5px}
+ .tw-browse-row>.tw-search-toggle {min-width:40px;padding:8px}
+ .tw-date-popover {inset-inline-start:-40px;width:300px;max-width:calc(100vw - 36px)}
+ .tw-search-panel {padding-inline:0}
+ .tw-date-restriction {padding-inline:0;font-size:.6875rem;gap:4px 12px}
+ .tw-date-restriction button {font-size:.6875rem}
+ .tw-workspace {margin-top:16px}
+ .tw-records {gap:12px}
+ .tw-record {margin:0}
+ .tw-record-card.has-image {display:block}
+ .tw-card-media {height:190px;min-height:0;aspect-ratio:auto}
+ .tw-card-copy {padding:16px 18px}
+ .tw-record-meta {font-size:.625rem;gap:2px 8px}
+ .tw-record h3 {font-size:1.3125rem;margin-top:6px}
+ .tw-filter-dialog .tw-dialog-top h2,.tw-options-dialog .tw-dialog-top h2,.tw-about-dialog .tw-dialog-top h2 {font-size:1.25rem}
+ .tw-simple-heading h1 {flex-wrap:wrap}
+}
+.tw-filter-dialog .tw-dialog-top {position:sticky;top:0;background:#10100e;z-index:2;padding-block-end:12px;border-block-end:1px solid #39362d}
+@media(max-width:360px) {.tw-more-label {display:none}.tw-more-menu>summary {min-width:40px;justify-content:center;font-size:1.25rem;padding:8px}.tw-date-picker>summary {font-size:.75rem}}

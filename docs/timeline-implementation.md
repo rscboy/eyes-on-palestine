@@ -4,16 +4,17 @@ The interactive route is `timeline.html`. It starts in **2023**, opens in chrono
 
 ## Navigation and reading flow
 
-- The compact introduction leads directly to search, Filters, Saved sources, and View options. The first record begins at roughly 542px on a 390px-wide phone, compared with 1,177px before this UX revision.
-- A single sticky navigator shows Previous month, the month being read, and Next month. Arrows skip months without matching records. The year overview, month picker, and current-month label follow the visible feed together.
-- Date navigation **moves within the current results**. It does not create a date filter. The month picker contains a year selector, unavailable-month states, an exact archive-date field, and first/latest actions. A requested date with no record moves to the next available date, or the latest record if none follows it.
-- Search and Filters narrow the collection separately. Active filters are individually removable; Clear all filters restores the collection. Subject collections sit inside Filters under Explore a topic. The empty Reviewed chronology mode is hidden; existing links into it still provide recovery.
-- View options contains grouping, reading order, image visibility, and automatic loading. Preference labels describe their enabled state and show On/Off. Saved sources retains the existing archive's shared citation storage and private notes.
-- Article cards distinguish View details from Open original. Details open in a native modal reading drawer, with a full-screen version on phones. Opening and moving between articles leaves the feed DOM and card widths unchanged. The original article action appears before provenance accordions. Related reporting retains its evidence and uncertainty labels.
-- Previous/next article controls follow the filtered reading order. Escape, the contextual Back button, and browser Back return to the initial article and its exact position, even after opening several related sources. Native dialogs trap focus and keep the background inactive.
-- The URL's `at` parameter records an archive reading date independently of `from`/`to` date filters. Direct shared links start there; reloads restore the existing window and scroll position. Saved notes never enter URL state.
-- Date jumps render a bounded window of records around the destination rather than every earlier article. Load earlier articles prepends a batch while preserving the visible anchor. Manual or automatic loading appends subsequent records.
-- The year-density graphic, scroll-linked thread, once-only card reveals, and drawer entry motion remain. Reduced motion removes animation; wheel and touch scrolling remain native. Images are imported source media with unverified context labels.
+- The initial screen has a small “Timeline · 2023–today” heading, one sticky date navigator, and article cards. The large introduction, illustrations, year rail, duplicate period headings, global result count, summaries, topic buttons, and card action rows are removed. The first card begins within the first 300px at tested phone widths.
+- The month navigator has previous/next arrows, a month picker, Search, and More. Arrows skip months without matching records. The visible month follows scrolling; the picker contains a year selector, month choices, an archive-date field, and first/latest actions.
+- Search expands only when requested or when opening a link with a search query. More contains Filters, Saved sources, View options, and About this timeline. Native dialogs keep secondary tools away from the main feed, trap focus, and return to their opener when closed.
+- Date navigation **moves within current results**. Search and Filters narrow the collection separately. Active non-date filters are individually removable; a count is shown only for filtered/search results. Clear all filters restores the collection.
+- Restricted date links show a brief “January 2024 only” (or “Date range active”) notice with Browse all dates. This action removes only the date restriction and preserves the reading month and other filters. It avoids trapping visitors in a legacy month-filter link.
+- Cards contain an available source photo, title, publisher, and labeled archive date. Missing or failed images produce a text card, without decorative image placeholders. Cards and their keyboard-operable title links open the reading drawer. Original article links, saving, summaries, topics, provenance, and related reporting remain inside that drawer.
+- The Archive date information button opens About this timeline. Collection/build metadata, date methodology, privacy notes, and the complete static edition also live there rather than in the article feed. Image context remains visibly labeled as unverified.
+- The drawer stays separate from the feed layout. Previous/next article controls follow the filtered reading order. Escape, the contextual Back button, and browser Back return to the initial article and exact position, even after reading several sources.
+- The URL's `at` parameter records a reading date independently of `from`/`to` filters. Shared links start there; reload restores the current window and position. Private notes never enter URL state.
+- Date jumps render a bounded window around the destination. Load earlier articles preserves the visible anchor while prepending records. Manual or automatic loading appends subsequent records. View options holds image visibility, automatic loading, and reading order.
+- Once-only card reveals, subtle reading progress, and drawer motion support orientation. Reduced motion removes animation. Wheel and touch scrolling remain native.
 
 ## Research translated into interface decisions
 
@@ -21,14 +22,14 @@ These implement the principles in [the research dossier](timeline-research/echoe
 
 | Research principle | Implementation |
 | --- | --- |
-| Keep time and reading context visible | Synchronized month navigator, year overview, vertical thread, explicit filters |
-| Overview first, detail on demand | Month picker, image-led cards, stable desktop drawer and full mobile reader |
-| Support several routes into a collection | Date jumps, search, topics, publishers, subject collections inside Filters |
+| Keep time and reading context visible | Synchronized month navigator, minimal reading progress, explicit filter recovery |
+| Overview first, detail on demand | Month picker, simple photo/text cards, stable desktop drawer and full mobile reader |
+| Support several routes into a collection | Date navigation and on-demand Search, with topics/publishers/collections under More → Filters |
 | Avoid forcing a chart interaction | Native year/month buttons, date fields, keyboard-operable details menus, ordinary links |
-| Preserve provenance and uncertainty | Separate event/publication/archive/check labels, date-review notes, actual capture URLs only |
+| Preserve provenance and uncertainty | Archive date labels with an accessible explanation, full provenance in the reader, actual capture URLs only |
 | Prevent connected content from implying causality | “Related by subject” / “Related by theme and title” labels; approved relationships are separate |
 | Make research portable | Shared saved packet, citation formats, TXT/JSON export, local notes, shareable public URL state |
-| Make motion support orientation | One-time card reveals, a scroll-linked reading thread, brief panel entry; no autoplay or scroll capture |
+| Make motion support orientation | One-time card reveals, subtle reading progress, brief drawer entry; no autoplay or scroll capture |
 | Provide a durable alternative | Build-generated semantic static source chronology, with a fetch-error recovery link |
 
 ## Files and data responsibilities
@@ -71,13 +72,14 @@ The browser suite can use the Codex bundled Playwright installation. `EOG_TIMELI
 
 The focused data suite passes **26 tests**. It exercises corpus accounting, date separation, invalid civil dates, month/year bounds, facet logic, overview counts, unknown dates, tie ordering, URL state, text escaping, unsafe links, citation uncertainty, packet migration, collision checks, stable source IDs, future exclusions, manual integrity overrides, preservation URL validation, reading routes, and approved-event validation.
 
-The browser suite passes **41 checks**. Its saved result is [timeline-validation.json](timeline-validation.json). It covers:
+The browser suite passes **46 checks**. Its saved result is [timeline-validation.json](timeline-validation.json). It covers:
 
 - 2023 start, bounded reading windows, populated-month arrows, unavailable-month states, date-picker focus, and navigation that preserves filters.
 - Search, shareable reading dates, selected-source links, same-position reload, browser Back, drawer sequencing, and exact scroll/focus return.
 - Filtered-out selected sources, source reading routes, and approved/draft event separation.
 - Save/export/private notes, shared packet compatibility with the existing archive, and cross-tab synchronization.
 - Continuous append loading, earlier-article anchor preservation, View options, image preferences, and scroll reveals.
+- Minimal initial screen, Search/More focus, missing-image text cards, date-restriction recovery, and on-demand methodology/static reading links.
 - 320, 390, 430, 768, 1280, and 1440-pixel layouts without horizontal document overflow; mobile reading and navigation behavior.
 - Reduced motion and 200% root text enlargement.
 - Dataset failure recovery and all 1,342 sources in the no-JavaScript static edition.
@@ -86,7 +88,7 @@ The browser suite passes **41 checks**. Its saved result is [timeline-validation
 
 Browser checks use Chrome. VoiceOver, NVDA, field performance, and a physical slower phone have **not** been certified by these tests. This implementation is not a claim of comprehensive WCAG conformance.
 
-The initial timeline JSON totals **371,093 bytes gzip**, below the prompt's proposed **500 KB gzip** budget. The controller, core, shared packet helper, and site shell total **25,328 bytes gzip**, below **150 KB gzip**. Publisher images load lazily and are separate from those budgets. These measurements do not guarantee field Core Web Vitals.
+The initial timeline JSON totals **371,093 bytes gzip**, below the prompt's proposed **500 KB gzip** budget. The controller, core, shared packet helper, and site shell total **25,151 bytes gzip**, below **150 KB gzip**. Publisher images load lazily and are separate from those budgets. These measurements do not guarantee field Core Web Vitals.
 
 ## Editorial workflow
 
