@@ -1,9 +1,12 @@
-import {THEMES,escapeHTML as h,displayDate,civilDate,today,defaults,parseState,stateURL,filterSources,periodCounts,periodRange,statusLabel,citation,relatedSources,validateEditorial} from './timeline-core.mjs?v=4';
+import {THEMES,escapeHTML as h,displayDate,civilDate,today,defaults,parseState,stateURL,filterSources,periodCounts,periodRange,statusLabel,citation,relatedSources,validateEditorial} from './timeline-core.mjs?v=5';
 const $=id=>document.getElementById(id), packetAPI=globalThis.EogPacket;
 let state=parseState(location.search), snapshot, sources=[], editorial={events:[],relationships:[],collections:[]}, filtered=[], packet=packetAPI.read(), searchTimer, feedbackTimer, loading=true;
 const notesKey='echoes_timeline_private_notes';
 let imagePreference=true, autoLoad=true, revealObserver, moreObserver, scrollFrame=false;
 let readingMonth='', pickerYear='', windowStart=0, restoring=false;
+const mobileLayout=matchMedia('(max-width:720px), (max-height:500px) and (pointer:coarse)');
+const isMobile=()=>mobileLayout.matches;
+const headerBottom=()=>document.querySelector('.site-shell-header')?.getBoundingClientRect().bottom||(isMobile()?54:60);
 const recordDate=r=>r.publicationDate||r.importedDate;
 const availableMonths=()=>periodCounts(filtered,'month').filter(([key])=>key!=='unknown').map(([key])=>key);
 history.scrollRestoration='manual';
@@ -21,11 +24,11 @@ function syncReadingMonth(month) {
  const keys=availableMonths(),index=keys.indexOf(month);
  $('tw-previous').disabled=index<=0;$('tw-next').disabled=index<0||index>=keys.length-1;
  document.querySelectorAll('#tw-months button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.period===month)));
- if(!$('tw-date-picker').open && month){const nextYear=month.slice(0,4);if(pickerYear!==nextYear){pickerYear=nextYear;$('tw-picker-year').value=pickerYear;renderPicker();}}
+ if(!$('tw-date-picker').open && !$('tw-mobile-date-dialog').open && month){const nextYear=month.slice(0,4);if(pickerYear!==nextYear){pickerYear=nextYear;$('tw-picker-year').value=pickerYear;renderPicker();}}
 }
 function updateReadingPosition() {
- if(state.selected||restoring)return;
- const cards=[...$('tw-records').children],edge=$('tw-overview').getBoundingClientRect().bottom+24;
+ if(state.selected||restoring||document.querySelector('dialog[open]'))return;
+ const cards=[...$('tw-records').children],edge=(isMobile()?headerBottom():$('tw-overview').getBoundingClientRect().bottom)+24;
  // Two-column cards can share a row; DOM bottoms are not monotonically increasing.
  const visible=cards.find(card=>card.getBoundingClientRect().bottom>edge);
  if(!visible)return;
@@ -110,10 +113,10 @@ function closeDetail() {
 }
 function scrollToRecord(id,animate=false) {
  const card=$('row-'+id);if(!card)return;
- const offset=$('tw-overview').getBoundingClientRect().height+(innerWidth<=720?54:60)+20;
+ const offset=(isMobile()?0:$('tw-overview').getBoundingClientRect().height)+headerBottom()+20;
  window.scrollTo({top:Math.max(0,card.getBoundingClientRect().top+scrollY-offset),behavior:animate&&!reducedMotion()?'smooth':'instant'});
 }
-function showResults() {requestAnimationFrame(()=>{const top=$('tw-records').getBoundingClientRect().top+scrollY-$('tw-overview').getBoundingClientRect().height-(innerWidth<=720?74:80);if(scrollY>top)window.scrollTo({top:Math.max(0,top),behavior:'instant'});});}
+function showResults() {requestAnimationFrame(()=>{const top=$('tw-records').getBoundingClientRect().top+scrollY-((isMobile()?0:$('tw-overview').getBoundingClientRect().height)+headerBottom()+20);if(scrollY>top)window.scrollTo({top:Math.max(0,top),behavior:'instant'});});}
 function values(name) {return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i=>i.value);}
 function applyForm(replace=false) {
   const from=$('tw-from').value,to=$('tw-to').value;
@@ -122,10 +125,11 @@ function applyForm(replace=false) {
   if(from&&to&&from>to) {$('tw-to').setCustomValidity('The end date must be on or after the start date.');$('tw-to').reportValidity();return;}
   $('tw-to').setCustomValidity('');
   commit({q:$('tw-query').value.trim(),from,to,themes:values('theme'),publishers:values('publisher'),types:values('type'),status:$('tw-status').value,dates:$('tw-dates').value,limit:30},{replace});
-  showResults();
+  $('tw-search-status').textContent=state.q?`${filtered.length.toLocaleString()} matching articles`:'';$('tw-search-status').hidden=!state.q;
+  showResults();return true;
 }
-function syncControls() {
-  for(const k of ['q','from','to','status','dates'])$(k==='q'?'tw-query':'tw-'+k).value=state[k];
+function syncControls(force=false) {
+  for(const k of ['q','from','to','status','dates']){const input=$(k==='q'?'tw-query':'tw-'+k);if(k!=='q'||force||document.activeElement!==input)input.value=state[k];}
   $('tw-order').value=state.order;
   for(const [name,key] of [['theme','themes'],['publisher','publishers'],['type','types']])document.querySelectorAll(`input[name="${name}"]`).forEach(i=>i.checked=state[key].includes(i.value));
   document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode)));
@@ -215,7 +219,7 @@ function renderDetail() {
   const related=[...follow.records].sort((a,b)=>(a.importedDate||'').localeCompare(b.importedDate||'')||a.id.localeCompare(b.id));
   const approvedRelations=editorial.relationships.filter(rel=>rel.status==='approved'&&(rel.from===r.id||rel.to===r.id));
   $('tw-detail').innerHTML=`<div class="tw-detail-top"><p class="tw-kicker">${event?'Reviewed entry':'Source record'}</p><button type="button" data-close-detail>← ${h(backLabel)}</button></div><div class="tw-detail-body">${sequence}${!isVisible?'<p class="tw-notice">This selected record is outside the active filters. Your timeline filters are preserved.</p>':''}<p class="tw-small">${h(event?r.eventTime.label:r.source+' · '+displayDate(r.importedDate))}</p><h2 id="tw-detail-title" tabindex="-1">${h(r.title)}</h2><p>${h(r.summary||'No summary stored. Consult the original source for its account.')}</p>${!event&&r.url?`<a class="tw-source-link" href="${h(r.url)}" target="_blank" rel="noopener noreferrer">Open original article ↗ · ${h(r.source)} <span class="tw-small">(opens a new tab)</span></a>`:''}${event?`<dl><dt>Event date</dt><dd>${h(r.eventTime.label)}</dd><dt>Date precision</dt><dd>${h(r.eventTime.precision)}</dd><dt>Date rationale</dt><dd>${h(r.eventTime.rationale)}</dd><dt>Editorial review</dt><dd>${h(r.review.reviewer)} · ${h(displayDate(r.review.reviewedAt.slice(0,10)))}</dd></dl>`:'<details class="tw-detail-context"><summary>Dates, access and source context</summary>'+sourceDates(r)+'</details>'}${!event&&r.flags.length?`<details><summary>Metadata notes (${r.flags.length})</summary><ul class="tw-small">${r.flags.map(f=>`<li>${h(f)}</li>`).join('')}</ul><p class="tw-small">Original imported fields remain in the archive dataset. No date was corrected from a URL alone.</p></details>`:''}<div class="tw-detail-actions">${event?'<button type="button" data-save-event="'+r.id+'">Save all supporting sources</button>':`<button type="button" class="tw-save" data-save="${r.id}" aria-pressed="${saved(r)}">${saved(r)?'Saved ✓':'Save source'}</button><button type="button" data-copy-source="${r.id}">Copy citation</button>`}<button type="button" data-share>Copy this view’s link</button></div>${!event?`<h3>Suggested threads</h3><p class="tw-small">${h(r.themes.map(id=>THEMES.find(t=>t[0]===id)[1]).join(' · ')||'Unassigned; editorial review needed.')}</p>`:''}<h3>Related reporting</h3><p class="tw-small">${h(follow.label)}<br>${h(follow.kind)}. ${event?'Supporting links retained with their own archive dates.':'These connections do not establish cause, agreement or verified event dates.'}</p><ol class="tw-follow">${related.map(s=>`<li${s.id===r.id?' class="is-current"':''}><p>Archive date · ${h(displayDate(s.importedDate))}</p><a href="${h(recordURL(s.id))}" data-select="${s.id}" ${s.id===r.id?'aria-current="true"':''}>${h(s.title)}</a><small>${h(s.source)}${s.id===r.id?' · You are here':''}</small></li>`).join('')}</ol>${related.length<=1&&!event?'<p class="tw-small">No sufficiently specific related reading suggestion is available in this snapshot.</p>':''}${approvedRelations.length?`<h3>Reviewed connections</h3><ul>${approvedRelations.map(rel=>`<li><a data-select="${h(rel.from===r.id?rel.to:rel.from)}" href="${h(recordURL(rel.from===r.id?rel.to:rel.from))}">${h(rel.type)}</a><p class="tw-small">${h(rel.explanation)}</p></li>`).join('')}</ul>`:''}<p class="tw-small">Permanent record ID<br>${h(r.id)}</p><a href="collab.html" class="tw-small">Suggest a metadata correction ↗</a></div>`;
-  if(!reducedMotion())$('tw-detail').animate([{opacity:.3,transform:'translateX(14px)'},{opacity:1,transform:'translateX(0)'}],{duration:280,easing:'cubic-bezier(.2,.65,.3,1)'});
+  if(!reducedMotion())$(isMobile()?'tw-detail-title':'tw-detail').animate([{opacity:.3,transform:'translateX(14px)'},{opacity:1,transform:'translateX(0)'}],{duration:280,easing:'cubic-bezier(.2,.65,.3,1)'});
 }
 function render() {
   if(loading)return;
@@ -242,7 +246,8 @@ function jumpToDate(date,focus='tw-period-button') {
  const target=dated.find(r=>recordDate(r)>=date)||dated.at(-1);
  if(!target){feedback('No dated articles match these filters. Remove a filter to explore more.');return;}
  const index=filtered.findIndex(r=>r.id===target.id);
- $('tw-date-picker').open=false;
+ $('tw-date-picker').open=false;if($('tw-mobile-date-dialog').open)$('tw-mobile-date-dialog').close();
+ if(isMobile())focus='tw-period-button';
  commit({at:recordDate(target),selected:'',limit:Math.min(filtered.length,index+30)},{start:index,focus});
  syncReadingMonth(recordDate(target).slice(0,7));
  requestAnimationFrame(()=>scrollToRecord(target.id,true));
@@ -254,19 +259,64 @@ function movePeriod(direction) {
  if(next)selectPeriod(next,direction<0?'tw-previous':'tw-next');
 }
 const modalOpeners=new Map();
-function openDialog(id,opener=document.activeElement){modalOpeners.set(id,opener);$('tw-more-menu').open=false;$(id).showModal();document.body.classList.add('tw-modal-open');}
-for(const id of ['tw-filter-dialog','tw-options-dialog','tw-about-dialog','tw-packet-dialog'])$(id).addEventListener('close',()=>{if(!document.querySelector('dialog[open]'))document.body.classList.remove('tw-modal-open');const opener=modalOpeners.get(id);if(opener?.isConnected&&opener.matches('[data-about]'))opener.focus({preventScroll:true});else $('tw-more-button').focus({preventScroll:true});});
-function setSearchOpen(open,focus=true){if(open){$('tw-more-menu').open=false;$('tw-date-picker').open=false;}$('tw-search-panel').hidden=!open;$('tw-search-toggle').setAttribute('aria-expanded',String(open));if(focus)(open?$('tw-query'):$('tw-search-toggle')).focus({preventScroll:true});}
+const toolDialogIds=['tw-filter-dialog','tw-options-dialog','tw-about-dialog','tw-packet-dialog','tw-mobile-date-dialog','tw-mobile-tools-dialog','tw-mobile-search-dialog'];
+function openDialog(id,opener=document.activeElement){
+ // Tool buttons move between native sheets; only the final sheet restores focus.
+ if($('tw-mobile-tools-dialog').open&&id!=='tw-mobile-tools-dialog'){$('tw-mobile-tools-dialog').close();opener=$('tw-more-button');}
+ modalOpeners.set(id,opener);$('tw-more-menu').open=false;$(id).showModal();document.body.classList.add('tw-modal-open');
+}
+for(const id of toolDialogIds)$(id).addEventListener('close',()=>{
+ if(id==='tw-mobile-search-dialog'){$('tw-search-panel').hidden=true;$('tw-search-toggle').setAttribute('aria-expanded','false');}
+ if(document.querySelector('dialog[open]'))return;
+ document.body.classList.remove('tw-modal-open');
+ const opener=modalOpeners.get(id),fallback=id==='tw-mobile-date-dialog'?'tw-period-button':id==='tw-mobile-search-dialog'?'tw-search-toggle':'tw-more-button';
+ if(opener?.isConnected&&opener.getClientRects().length&&!opener.closest('dialog:not([open])')&&(!opener.closest('details:not([open])')||opener.tagName==='SUMMARY'))opener.focus({preventScroll:true});else $(fallback).focus({preventScroll:true});
+});
+function setSearchOpen(open,focus=true){
+ if(open){$('tw-more-menu').open=false;$('tw-date-picker').open=false;$('tw-search-status').textContent=state.q?`${filtered.length.toLocaleString()} matching articles`:'';$('tw-search-status').hidden=!state.q;}
+ $('tw-search-panel').hidden=!open;$('tw-search-toggle').setAttribute('aria-expanded',String(open));
+ if(isMobile()){if(open)openDialog('tw-mobile-search-dialog',$('tw-search-toggle'));else $('tw-mobile-search-dialog').close();}
+ if(focus)(open?$('tw-query'):$('tw-search-toggle')).focus({preventScroll:true});
+}
 $('tw-search-toggle').addEventListener('click',()=>setSearchOpen($('tw-search-panel').hidden));
 $('tw-search-close').addEventListener('click',()=>setSearchOpen(false));
-$('tw-search-panel').addEventListener('submit',e=>{e.preventDefault();clearTimeout(searchTimer);applyForm();});
+$('tw-search-panel').addEventListener('submit',e=>{e.preventDefault();clearTimeout(searchTimer);if(applyForm()&&isMobile()){$('tw-query').blur();setSearchOpen(false);}});
 $('tw-refine-toggle').addEventListener('click',()=>openDialog('tw-filter-dialog'));
 $('tw-options-open').addEventListener('click',()=>openDialog('tw-options-dialog'));
 $('tw-about-open').addEventListener('click',()=>openDialog('tw-about-dialog'));
-$('tw-period-button').addEventListener('click',()=>{if(!$('tw-date-picker').open){pickerYear=readingMonth.slice(0,4)||'2023';$('tw-picker-year').value=pickerYear;renderPicker();}});
+$('tw-period-button').addEventListener('click',e=>{
+ if(!$('tw-date-picker').open){pickerYear=readingMonth.slice(0,4)||'2023';$('tw-picker-year').value=pickerYear;renderPicker();}
+ if(isMobile()){e.preventDefault();openDialog('tw-mobile-date-dialog',$('tw-period-button'));}
+});
+$('tw-more-button').addEventListener('click',e=>{if(isMobile()){e.preventDefault();openDialog('tw-mobile-tools-dialog',$('tw-more-button'));}});
 $('tw-date-picker').addEventListener('toggle',()=>{if($('tw-date-picker').open)$('tw-more-menu').open=false;});
 $('tw-picker-year').addEventListener('change',e=>{pickerYear=e.target.value;renderPicker();});
 $('tw-more-menu').addEventListener('toggle',()=>{if($('tw-more-menu').open)$('tw-date-picker').open=false;});
+// The same controls move between desktop popovers and phone sheets: no duplicate state.
+const dateContent=document.querySelector('.tw-date-popover'),toolsContent=document.querySelector('.tw-more-popover');
+function syncMobileLayout(){
+ const wasSearch=!$('tw-search-panel').hidden;
+ for(const id of ['tw-mobile-date-dialog','tw-mobile-tools-dialog','tw-mobile-search-dialog'])if($(id).open)$(id).close();
+ $('tw-date-picker').open=false;$('tw-more-menu').open=false;
+ if(isMobile()){
+  $('tw-mobile-date-content').append(dateContent);$('tw-mobile-tools-content').append(toolsContent);$('tw-mobile-search-content').append($('tw-search-panel'));
+  $('tw-overview').before($('tw-date-restriction'));
+  $('tw-search-panel').hidden=true;$('tw-search-toggle').setAttribute('aria-expanded','false');
+ }else{
+  $('tw-date-picker').append(dateContent);$('tw-more-menu').append(toolsContent);
+  document.querySelector('.tw-browse-row').after($('tw-search-panel'));
+  $('tw-search-panel').after($('tw-date-restriction'));$('tw-search-panel').hidden=!wasSearch;$('tw-search-toggle').setAttribute('aria-expanded',String(wasSearch));
+ }
+ for(const id of ['tw-period-button','tw-more-button']){if(isMobile())$(id).setAttribute('aria-haspopup','dialog');else $(id).removeAttribute('aria-haspopup');}
+}
+mobileLayout.addEventListener('change',syncMobileLayout);syncMobileLayout();
+function syncVisualViewport(){
+ const viewport=window.visualViewport,height=viewport?.height||innerHeight,top=viewport?.offsetTop||0;
+ document.documentElement.style.setProperty('--tw-visible-height',`${height}px`);
+ document.documentElement.style.setProperty('--tw-visible-top',`${top}px`);
+ document.documentElement.style.setProperty('--tw-keyboard-bottom',`${Math.max(0,innerHeight-height-top)}px`);
+}
+window.visualViewport?.addEventListener('resize',syncVisualViewport);window.visualViewport?.addEventListener('scroll',syncVisualViewport);window.addEventListener('resize',syncVisualViewport);syncVisualViewport();
 $('tw-browse-all').addEventListener('click',()=>{
  const date=state.at||recordDate(filtered[windowStart]||{})||state.from||'2023-01-01';
  const expanded=getRecords(true),dated=expanded.filter(r=>recordDate(r)).sort((a,b)=>recordDate(a).localeCompare(recordDate(b))||a.id.localeCompare(b.id));
@@ -284,7 +334,7 @@ $('tw-image-toggle').addEventListener('click',()=>{imagePreference=!imagePrefere
 $('tw-auto-load').addEventListener('click',()=>{autoLoad=!autoLoad;try{localStorage.setItem('echoes_timeline_auto_load',autoLoad?'on':'off');}catch{}syncPreferences();enhanceCards();});
 document.addEventListener('error',e=>{if(e.target.matches?.('.tw-card-media img')){const card=e.target.closest('.tw-record-card');e.target.closest('.tw-card-media').remove();card?.classList.remove('has-image');}},true);
 window.addEventListener('scroll',()=>{if(!scrollFrame){scrollFrame=true;requestAnimationFrame(()=>{updateReadingPosition();scrollFrame=false;});}},{passive:true});
-$('tw-filter-form').addEventListener('submit',e=>{e.preventDefault();clearTimeout(searchTimer);applyForm();$('tw-filter-dialog').close();});
+$('tw-filter-form').addEventListener('submit',e=>{e.preventDefault();clearTimeout(searchTimer);if(applyForm())$('tw-filter-dialog').close();});
 $('tw-query').addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>applyForm(true),300);});
 $('tw-to').addEventListener('input',()=>$('tw-to').setCustomValidity(''));
 $('tw-from').addEventListener('input',()=>{$('tw-to').setCustomValidity('');$('tw-from').setCustomValidity('');});
@@ -303,10 +353,10 @@ $('tw-copy-packet').addEventListener('click',()=>copy(packetText()));$('tw-downl
 $('tw-download-json').addEventListener('click',()=>download(JSON.stringify({version:1,exportedAt:new Date().toISOString(),privateNotes:$('tw-notes').value,sources:sources.filter(saved)},null,2),'echoes-of-gaza-research-packet.json','application/json'));
 $('tw-clear-packet').addEventListener('click',()=>{if(!packet.length&&!$('tw-notes').value)return;packet=[];$('tw-notes').value='';try{localStorage.removeItem(notesKey);}catch{}persistPacket();syncSaveButtons();renderPacket();$('tw-packet-status').textContent='Packet and private notes cleared.';});
 $('tw-notes').addEventListener('input',()=>{try{localStorage.setItem(notesKey,$('tw-notes').value);$('tw-packet-status').textContent='Notes saved in this browser.';}catch{$('tw-packet-status').textContent='Storage unavailable. Notes last for this visit only.';}});
-for(const dialog of [$('tw-packet-dialog'),$('tw-copy-dialog'),$('tw-filter-dialog'),$('tw-options-dialog'),$('tw-about-dialog')])dialog.addEventListener('click',e=>{if(e.target===dialog){const box=dialog.getBoundingClientRect();if(e.clientX<box.left||e.clientX>box.right||e.clientY<box.top||e.clientY>box.bottom)dialog.close();}});
+for(const dialog of [...toolDialogIds.map($),$('tw-copy-dialog')])dialog.addEventListener('click',e=>{if(e.target===dialog){const box=dialog.getBoundingClientRect();if(e.clientX<box.left||e.clientX>box.right||e.clientY<box.top||e.clientY>box.bottom)dialog.close();}});
 document.addEventListener('click',e=>{
   const b=e.target.closest('button,a');if(!b){const card=e.target.closest('[data-card-select]');if(card&&!window.getSelection()?.toString()&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey&&!e.altKey)openRecord(card.dataset.cardSelect);return;}
-  if(b.dataset.closeDialog){$(b.dataset.closeDialog).close();return;}
+  if(b.dataset.closeDialog){if(b.dataset.closeDialog==='tw-filter-dialog'){if(!applyForm())return;}$(b.dataset.closeDialog).close();return;}
   if(b.hasAttribute('data-about')){openDialog('tw-about-dialog',b);return;}
   if(b.dataset.select){if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();openRecord(b.dataset.select);}
   else if(b.dataset.thread){commit({themes:[b.dataset.thread],limit:30});showResults();}
@@ -327,7 +377,7 @@ document.addEventListener('click',e=>{
 window.addEventListener('popstate',()=>{
  clearTimeout(searchTimer);const previous=state,next=parseState(location.search);
  const sameFeed=windowStart===(history.state?.windowStart??0)&&['mode','q','from','to','themes','publishers','types','status','dates','collection','granularity','order','limit'].every(k=>JSON.stringify(previous[k])===JSON.stringify(next[k]));
- state=next;windowStart=history.state?.windowStart??0;restoring=true;syncControls();
+ state=next;windowStart=history.state?.windowStart??0;restoring=true;syncControls(true);
  if(sameFeed){renderDetail();markSelected();syncSaveButtons();}else render();
  requestAnimationFrame(()=>{const target=$(history.state?.focusId);target?.focus({preventScroll:true});window.scrollTo({top:history.state?.scroll||0,behavior:'instant'});restoring=false;updateReadingPosition();});
 });
@@ -348,7 +398,7 @@ async function load() {
     $('tw-event-count').textContent=eventCount;
     $('tw-mode-toolbar').hidden=!eventCount&&state.mode!=='events';
     $('tw-collection-policy').textContent=`${snapshot.importedCount.toLocaleString()} imported records become ${sources.length.toLocaleString()} unique public sources: ${snapshot.duplicateCount} duplicate imports grouped and ${snapshot.excluded.length} test or future record(s) withheld. The original import remains unchanged. The interactive timeline starts in 2023; earlier records remain in the static reading edition. Draft events are never published automatically.`;
-    renderFacets();loading=false;syncPreferences();syncControls();if(state.q)setSearchOpen(true,false);
+    renderFacets();loading=false;syncPreferences();syncControls(true);if(state.q&&!isMobile())setSearchOpen(true,false);
     filtered=getRecords();
     const savedView=history.state;
     if(savedView?.windowStart!==undefined)windowStart=Math.min(savedView.windowStart,Math.max(0,filtered.length-1));

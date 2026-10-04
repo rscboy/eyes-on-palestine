@@ -4,9 +4,9 @@ The interactive route is `timeline.html`. It starts in **2023**, opens in chrono
 
 ## Navigation and reading flow
 
-- The initial screen has a small “Timeline · 2023–today” heading, one sticky date navigator, and article cards. The large introduction, illustrations, year rail, duplicate period headings, global result count, summaries, topic buttons, and card action rows are removed. The first card begins within the first 300px at tested phone widths.
+- The initial screen has a small “Timeline · 2023–today” heading, one date navigator, and article cards. The navigator sticks below the header on desktop and becomes a thumb-friendly bottom bar on phones. The large introduction, illustrations, year rail, duplicate period headings, global result count, summaries, topic buttons, and card action rows are removed. The first card begins within the first 300px at tested phone widths.
 - The month navigator has previous/next arrows, a month picker, Search, and More. Arrows skip months without matching records. The visible month follows scrolling; the picker contains a year selector, month choices, an archive-date field, and first/latest actions.
-- Search expands only when requested or when opening a link with a search query. More contains Filters, Saved sources, View options, and About this timeline. Native dialogs keep secondary tools away from the main feed, trap focus, and return to their opener when closed.
+- Search expands on request. Desktop search-query links expand the field; phone query links show the filtered feed without opening a sheet. More contains Filters, Saved sources, View options, and About this timeline. Native dialogs keep secondary tools away from the main feed, trap focus, and return to their opener when closed.
 - Date navigation **moves within current results**. Search and Filters narrow the collection separately. Active non-date filters are individually removable; a count is shown only for filtered/search results. Clear all filters restores the collection.
 - Restricted date links show a brief “January 2024 only” (or “Date range active”) notice with Browse all dates. This action removes only the date restriction and preserves the reading month and other filters. It avoids trapping visitors in a legacy month-filter link.
 - Cards contain an available source photo, title, publisher, and labeled archive date. Missing or failed images produce a text card, without decorative image placeholders. Cards and their keyboard-operable title links open the reading drawer. Original article links, saving, summaries, topics, provenance, and related reporting remain inside that drawer.
@@ -15,6 +15,17 @@ The interactive route is `timeline.html`. It starts in **2023**, opens in chrono
 - The URL's `at` parameter records a reading date independently of `from`/`to` filters. Shared links start there; reload restores the current window and position. Private notes never enter URL state.
 - Date jumps render a bounded window around the destination. Load earlier articles preserves the visible anchor while prepending records. Manual or automatic loading appends subsequent records. View options holds image visibility, automatic loading, and reading order.
 - Once-only card reveals, subtle reading progress, and drawer motion support orientation. Reduced motion removes animation. Wheel and touch scrolling remain native.
+
+
+## Phone interaction improvements
+
+- At widths up to 720px, or on short landscape touch screens, navigation sits at the bottom with 44–48px targets. The first article appears within 180px in the touch-enabled phone checks. There is no second top navigation bar.
+- Date choices, More, and Search use native modal sheets. Existing controls move between desktop and mobile containers, preserving IDs, state, and event handlers. Tool transitions avoid focus returning into a hidden sheet; Escape and Close restore a visible trigger.
+- Filter sheets have a persistent Show articles action. Done also applies valid date fields; invalid ranges keep the sheet open for correction. The date-range notice stays in the feed, keeping the bottom bar compact.
+- Inputs use 16px text, native date/select controls, a Search keyboard hint, and unrestricted paste/zoom. Search preserves typed spaces and the caret during debounced updates; Show articles or keyboard Enter closes the sheet. Shared search links keep articles visible.
+- Sheets follow the visual viewport and include safe-area padding. Short viewport and landscape checks verify that controls remain reachable. These are emulated browser checks, not a physical iPhone keyboard certification.
+- Reader text is 16px with generous line spacing. Previous/next article controls remain at the bottom while reading. Content padding keeps the last source action above them, and returning preserves the original feed position.
+- Phone image cards, metadata, and headings have larger text and spacing. Footer and feed padding prevent the dock from covering the final controls. Reduced-motion preferences and native scrolling remain supported.
 
 ## Research translated into interface decisions
 
@@ -64,6 +75,7 @@ For the optional browser suite, with Playwright available:
 
 ```sh
 node tests/timeline.browser.cjs
+node tests/timeline.mobile.browser.cjs
 ```
 
 The browser suite can use the Codex bundled Playwright installation. `EOG_TIMELINE_TEST_URL` overrides the server URL; `EOG_BROWSER_EXECUTABLE` overrides the browser executable. Without a macOS Chrome path it uses Playwright's installed Chromium. Browser screenshots and its result JSON are saved under `/tmp/eog-timeline-*`. Use an isolated browser context; the suite does not modify the user's actual browser packet or notes.
@@ -72,7 +84,7 @@ The browser suite can use the Codex bundled Playwright installation. `EOG_TIMELI
 
 The focused data suite passes **26 tests**. It exercises corpus accounting, date separation, invalid civil dates, month/year bounds, facet logic, overview counts, unknown dates, tie ordering, URL state, text escaping, unsafe links, citation uncertainty, packet migration, collision checks, stable source IDs, future exclusions, manual integrity overrides, preservation URL validation, reading routes, and approved-event validation.
 
-The browser suite passes **46 checks**. Its saved result is [timeline-validation.json](timeline-validation.json). It covers:
+The browser suites pass **69 checks**: 46 desktop/responsive checks and 23 touch-enabled phone checks. Its saved result is [timeline-validation.json](timeline-validation.json). It covers:
 
 - 2023 start, bounded reading windows, populated-month arrows, unavailable-month states, date-picker focus, and navigation that preserves filters.
 - Search, shareable reading dates, selected-source links, same-position reload, browser Back, drawer sequencing, and exact scroll/focus return.
@@ -86,9 +98,11 @@ The browser suite passes **46 checks**. Its saved result is [timeline-validation
 - Synthetic approved-event fixtures for year-level precision and saving source bundles. These fixtures exist only in intercepted browser-test responses and are never published.
 - No timeline JavaScript runtime errors.
 
+A separate touch-enabled browser suite covers 320, 375, 390, and 430px portrait screens, an 844px landscape phone, short search viewports, desktop/mobile resizing, typed spaces, modal focus, date filters, reader controls, and unobstructed final actions.
+
 Browser checks use Chrome. VoiceOver, NVDA, field performance, and a physical slower phone have **not** been certified by these tests. This implementation is not a claim of comprehensive WCAG conformance.
 
-The initial timeline JSON totals **371,093 bytes gzip**, below the prompt's proposed **500 KB gzip** budget. The controller, core, shared packet helper, and site shell total **25,151 bytes gzip**, below **150 KB gzip**. Publisher images load lazily and are separate from those budgets. These measurements do not guarantee field Core Web Vitals.
+The initial timeline JSON totals **371,093 bytes gzip**, below the prompt's proposed **500 KB gzip** budget. The controller, core, shared packet helper, and site shell total **26,171 bytes gzip**, below **150 KB gzip**. Publisher images load lazily and are separate from those budgets. These measurements do not guarantee field Core Web Vitals.
 
 ## Editorial workflow
 

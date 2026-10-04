@@ -589,3 +589,117 @@ html:has(.tw-page) {scrollbar-gutter:stable}
 }
 .tw-filter-dialog .tw-dialog-top {position:sticky;top:0;background:#10100e;z-index:2;padding-block-end:12px;border-block-end:1px solid #39362d}
 @media(max-width:360px) {.tw-more-label {display:none}.tw-more-menu>summary {min-width:40px;justify-content:center;font-size:1.25rem;padding:8px}.tw-date-picker>summary {font-size:.75rem}}
+
+/* Phone navigation stays within thumb reach; secondary controls use native sheets. */
+.tw-mobile-only {display:none}
+.tw-search-label {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (max-width:720px), (max-height:500px) and (pointer:coarse) {
+ .tw-page.site-shell-pad {padding-top:calc(54px + env(safe-area-inset-top,0px))}
+ .tw-page .site-shell-header {height:calc(54px + env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px)}
+ .tw-page :is(button,summary,a,label) {-webkit-tap-highlight-color:#e6cd8e26}
+ .tw-main {padding:0 max(16px,env(safe-area-inset-left,0px)) 104px;max-width:740px}
+ .tw-simple-heading {padding:18px 0 10px}
+ .tw-simple-heading h1 {font-size:1.625rem}
+ .tw-simple-heading h1 span {font-size:.75rem}
+ .tw-active-filters:empty {display:none}
+ .tw-workspace {margin-top:10px}
+ .tw-overview {position:fixed;inset:auto 0 0;width:100%;padding:8px max(12px,env(safe-area-inset-left,0px)) calc(8px + env(safe-area-inset-bottom,0px));border-top:1px solid #515943;border-bottom:0;background:#11160ff5;backdrop-filter:blur(16px);box-shadow:0 -6px 28px #0004;z-index:4900}
+ .tw-browse-row {max-width:620px;margin:auto;padding:0;gap:6px}
+ .tw-month-navigation {flex:1;min-width:0;gap:2px;justify-content:space-between}
+ .tw-month-navigation>button {min-width:44px;min-height:48px;padding:10px;font-size:1.25rem}
+ .tw-date-picker {flex:1;min-width:0}
+ .tw-date-picker>summary {min-height:48px;padding:10px 2px;gap:4px;font-size:.875rem;white-space:nowrap}
+ .tw-browse-row>.tw-search-toggle {min-width:48px;min-height:48px;padding:12px;border-left:1px solid #303727;border-radius:0}
+ .tw-more-menu>summary {min-width:48px;min-height:48px;padding:8px;justify-content:center;font-size:.875rem}
+ .tw-more-label {display:none}
+ .tw-more-menu>summary>span:last-child {font-size:1.5rem;line-height:1}
+ .tw-scroll-progress {position:absolute;inset:0 0 auto;margin:0}
+ .tw-date-restriction {font-size:.8125rem;margin:0 0 10px;padding:0;gap:4px 12px}
+ .tw-date-restriction button {font-size:.8125rem;min-height:44px}
+ .tw-page .site-shell-footer {padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+ .tw-records {gap:16px}
+ .tw-record-card.has-image {display:block}
+ .tw-card-media {height:clamp(170px,49vw,220px);min-height:0;aspect-ratio:auto}
+ .tw-card-copy {padding:12px 16px 20px}
+ .tw-record-meta {font-size:.75rem;gap:0 8px;justify-content:start;align-items:center}
+ .tw-record-meta .tw-source-type {flex-basis:100%;font-size:.75rem}
+ .tw-page .tw-date-help {min-height:44px;min-width:44px;padding:4px 0;font-size:inherit}
+ .tw-date-help span {font-size:.75rem}
+ .tw-record h3 {font-size:1.375rem;line-height:1.4;margin-top:2px}
+ .tw-photo-note {font-size:.625rem;padding:22px 10px 8px}
+ .tw-page input:not([type=checkbox]),.tw-page select,.tw-page textarea,.tw-page .tw-search-panel input,.tw-options-dialog .tw-view-controls select {font-size:1rem;min-width:0;min-height:48px}
+ .tw-page label {font-size:.875rem}
+ .tw-page .tw-packet-dialog {position:fixed;inset:auto 0 var(--tw-keyboard-bottom,0px);margin:0 auto;width:100%;max-width:640px;max-height:calc(var(--tw-visible-height,100dvh) - 12px);padding:0 max(20px,env(safe-area-inset-left,0px)) calc(24px + env(safe-area-inset-bottom,0px));border:1px solid #515943;border-bottom:0;border-radius:18px 18px 0 0;overflow:auto;overscroll-behavior:contain;scroll-padding-block:76px;box-shadow:0 -12px 60px #0006}
+ .tw-packet-dialog .tw-dialog-top {position:sticky;top:0;z-index:3;background:#10100ef5;backdrop-filter:blur(12px);padding:16px 0 12px;border-bottom:1px solid #39362d;gap:12px;margin-bottom:18px}
+ .tw-packet-dialog .tw-dialog-top h2 {font-size:1.25rem}
+ .tw-packet-dialog .tw-dialog-top button {min-width:60px;min-height:44px;font-size:.875rem}
+ .tw-mobile-sheet .tw-date-popover,.tw-mobile-sheet .tw-more-popover {position:static;inset:auto;transform:none;width:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;box-shadow:none;overflow:visible}
+ .tw-mobile-sheet .tw-month-rail {grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:16px 0}
+ .tw-mobile-sheet .tw-month-rail button {min-height:48px;font-size:.9375rem}
+ .tw-mobile-sheet .tw-month-rail button[aria-pressed=true] {border-color:#d7bc79;background:#302b20;text-decoration:underline;text-underline-offset:4px}
+ .tw-mobile-sheet .tw-jump-row {display:flex;align-items:end;gap:12px;margin-top:20px}
+ .tw-mobile-sheet .tw-jump-row label {flex:1;min-width:0}
+ .tw-mobile-sheet .tw-jump-row button {min-height:48px}
+ .tw-mobile-sheet .tw-rail-actions {display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+ .tw-mobile-sheet .tw-rail-actions button {min-height:48px;font-size:.8125rem}
+ .tw-mobile-sheet .tw-more-popover {display:grid;gap:8px}
+ .tw-mobile-sheet .tw-more-popover button {min-height:56px;font-size:1rem;padding:12px;border:1px solid #393f30;border-radius:8px}
+ .tw-mobile-sheet .tw-more-popover button::after {content:'→';color:#d7bc79}
+ .tw-mobile-sheet .tw-more-popover #tw-packet-count {margin-inline-start:auto;margin-inline-end:12px}
+ #tw-mobile-search-dialog {inset:calc(var(--tw-visible-top,0px) + env(safe-area-inset-top,0px) + 8px) 0 auto;border-bottom:1px solid #515943;border-radius:16px;max-width:calc(100vw - 16px);padding-bottom:20px}
+ .tw-mobile-sheet .tw-search-panel {display:flex;flex-direction:column;align-items:stretch;padding:0;gap:12px}
+ .tw-mobile-sheet .tw-search-label {position:static;width:auto;height:auto;margin:0;overflow:visible;clip:auto;white-space:normal;font-size:.875rem}
+ .tw-mobile-sheet .tw-search-panel .tw-search {flex:auto;min-width:0}
+ .tw-mobile-sheet #tw-search-close {display:none}
+ .tw-mobile-only {display:block}
+ .tw-mobile-sheet .tw-search-submit {font-size:.9375rem;min-height:48px;background:#e6e4d8;color:#10100e;border-color:#e6e4d8}
+ .tw-mobile-sheet #tw-search-status {margin:0;font-size:.875rem}
+ .tw-filter-dialog .tw-filters {padding:0;margin:0;border:0;background:none}
+ .tw-filter-range {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+ .tw-filter-range label {min-width:0}
+ .tw-filter-range>button {grid-column:1/-1;font-size:.875rem;min-height:48px}
+ .tw-filter-dialog .tw-theme {min-height:48px;font-size:.875rem;padding:10px 12px}
+ .tw-filter-dialog .tw-themes legend {font-size:.9375rem}
+ .tw-filter-dialog .tw-themes legend .tw-small {font-size:.75rem}
+ .tw-filter-dialog .tw-facet-list label {min-height:48px;font-size:.875rem}
+ .tw-filter-dialog .tw-facet-list {overscroll-behavior:contain;max-height:260px}
+ .tw-filter-dialog .tw-advanced-grid {display:block}
+ .tw-filter-dialog .tw-advanced-selects {display:flex;flex-direction:column}
+ .tw-filter-submit {position:sticky;bottom:calc(-24px - env(safe-area-inset-bottom,0px));padding:14px 0 calc(16px + env(safe-area-inset-bottom,0px));margin-top:20px;background:#10100ef5;border-top:1px solid #39362d;z-index:2}
+ .tw-filter-submit button {width:100%;min-height:48px;font-size:.9375rem}
+ .tw-options-dialog .tw-view-controls button {font-size:.9375rem;min-height:48px}
+ .tw-packet-entry {gap:12px;flex-wrap:wrap}
+ .tw-packet-entry>div {min-width:0;flex:1 1 200px}
+ .tw-packet-entry a {overflow-wrap:anywhere}
+ .tw-about-dialog .tw-method-grid p {font-size:.9375rem}
+ .tw-reader-dialog {inset:var(--tw-visible-top,0px) 0 auto;height:var(--tw-visible-height,100dvh);max-height:var(--tw-visible-height,100dvh);width:100%;box-shadow:none;border:0}
+ .tw-reader-dialog .tw-detail {scrollbar-gutter:auto;scroll-padding-top:84px}
+ .tw-reader-dialog .tw-detail-top {padding:calc(8px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-left,0px)) 8px}
+ .tw-detail-top .tw-kicker {display:none}
+ .tw-detail-top button {font-size:.875rem;min-height:48px}
+ .tw-detail-body {padding:20px max(20px,env(safe-area-inset-left,0px)) calc(108px + env(safe-area-inset-bottom,0px))}
+ .tw-detail-body h2 {font-size:1.8125rem;line-height:1.25}
+ .tw-detail-body>p {font-size:1rem;line-height:1.8}
+ .tw-detail-body .tw-small {font-size:.8125rem}
+ .tw-detail-body .tw-source-link {font-size:.9375rem}
+ .tw-detail-body dd {font-size:.9375rem}
+ .tw-detail-actions {display:grid;grid-template-columns:1fr 1fr}
+ .tw-detail-actions button {font-size:.8125rem;min-height:48px}
+ .tw-detail-actions button:last-child {grid-column:1/-1}
+ .tw-reader-sequence {position:fixed;inset:auto 0 0;margin:0;padding:10px max(16px,env(safe-area-inset-left,0px)) calc(10px + env(safe-area-inset-bottom,0px));z-index:4;background:#14170ff5;backdrop-filter:blur(12px);border-top:1px solid #515943;border-bottom:0;gap:12px}
+ .tw-reader-sequence p {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0)}
+ .tw-reader-sequence button {font-size:.8125rem;min-height:48px}
+ .tw-follow a {display:block;padding:8px 0;min-height:44px;font-size:.9375rem}
+ .tw-feedback {bottom:calc(88px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 32px)}
+}
+@media (prefers-reduced-motion:no-preference) {
+ .tw-mobile-sheet[open] {animation:tw-sheet-enter .22s cubic-bezier(.2,.65,.3,1)}
+ @keyframes tw-sheet-enter {from {opacity:0;translate:0 16px} to {opacity:1;translate:0 0}}
+}
+@media (max-width:720px), (max-height:500px) and (pointer:coarse) {
+ .tw-page .site-shell-inner {padding-inline-start:max(16px,env(safe-area-inset-left,0px));padding-inline-end:max(16px,env(safe-area-inset-right,0px))}
+ .tw-main {padding-inline-end:max(16px,env(safe-area-inset-right,0px))}
+ .tw-overview {padding-inline-end:max(12px,env(safe-area-inset-right,0px))}
+ .tw-page .tw-packet-dialog,.tw-detail-body {padding-inline-end:max(20px,env(safe-area-inset-right,0px))}
+ .tw-reader-dialog .tw-detail-top,.tw-reader-sequence {padding-inline-end:max(16px,env(safe-area-inset-right,0px))}
+}
