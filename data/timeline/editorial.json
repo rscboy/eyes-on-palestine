@@ -33,9 +33,9 @@
     {
       "id": "event-complete-siege",
       "status": "approved",
-      "title": "Israel announces a complete siege of Gaza",
-      "summary": "Israel’s defence minister announces that electricity, food and fuel will be cut off. The restrictions threaten essential services and food supplies.",
-      "context": "",
+      "title": "Gallant announces a complete siege using dehumanizing language",
+      "summary": "Defence minister Yoav Gallant announces a complete siege: no electricity, food or fuel. In the same announcement he uses the phrase “human animals,” alongside measures cutting off essentials to Gaza’s population.",
+      "context": "The wording is attributed to Gallant’s announcement. The siege restricts necessities on which civilian survival depends.",
       "themes": [
         "food-aid"
       ],
@@ -49,14 +49,14 @@
       "review": {
         "reviewer": "Codex source check (AI-assisted)",
         "reviewedAt": "2026-10-04",
-        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
       },
       "eventTime": {
         "start": "2023-10-09",
         "end": null,
         "precision": "day",
         "label": "2023-10-09",
-        "rationale": "9 October announcement; OCHA Flash Update #4, food security and essential-service restrictions.",
+        "rationale": "9 October announcement: siege measures and quoted dehumanizing language; OCHA Flash Update #4 on essential services.",
         "sourceIds": [
           "reference-siege-announcement",
           "reference-ocha-siege"
@@ -122,6 +122,37 @@
       }
     },
     {
+      "id": "event-jabalia-strikes",
+      "status": "approved",
+      "kind": "event",
+      "title": "Repeated airstrikes destroy residential blocks in Jabalia",
+      "summary": "Israeli airstrikes hit Jabalia refugee camp on consecutive days. OCHA reports multiple residential buildings destroyed and dozens of people killed.",
+      "context": "The report describes the second strike on 1 November, within 24 hours of the first. The toll is a contemporaneous report, not a final count.",
+      "themes": [
+        "land-home",
+        "policy-military"
+      ],
+      "sourceIds": [
+        "reference-ocha-jabalia"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2023-10-31",
+        "end": "2023-11-01",
+        "precision": "interval",
+        "label": "31 October–1 November 2023",
+        "rationale": "Gaza overview: 1 November strikes on Jabalia residential buildings, the second consecutive day of such strikes.",
+        "sourceIds": [
+          "reference-ocha-jabalia"
+        ]
+      }
+    },
+    {
       "id": "event-al-shifa-raid",
       "status": "approved",
       "title": "Israeli forces enter Al-Shifa Hospital",
@@ -133,9 +164,7 @@
       "sourceIds": [
         "reference-ocha-shifa"
       ],
-      "archiveSourceIds": [
-        "source-ed4c7738-c2b7-4b5f-a1c4-71e9575be5cd"
-      ],
+      "archiveSourceIds": [],
       "review": {
         "reviewer": "Codex source check (AI-assisted)",
         "reviewedAt": "2026-10-04",
@@ -242,11 +271,47 @@
       }
     },
     {
+      "id": "event-hind-rajab",
+      "status": "approved",
+      "kind": "event",
+      "title": "Hind Rajab’s family and the ambulance sent to rescue her are killed",
+      "summary": "PRCS reports that Israeli fire struck the car carrying Hind Rajab and her family and the ambulance dispatched to rescue her. The young girl, her relatives and two paramedics died.",
+      "context": "UN experts record audio accounts of Hind and her cousin pleading for help. The date marks the attack and rescue attempt; it is not a verified time of death for every person.",
+      "themes": [
+        "health-care",
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-prcs-hind",
+        "reference-ohchr-hind"
+      ],
+      "archiveSourceIds": [
+        "source-f2e52e0b-d5da-45ac-b90a-a67b5e14290d",
+        "source-1a89ceca-3c5f-4d06-8990-7f37a6946e68"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-01-29",
+        "end": null,
+        "precision": "day",
+        "label": "29 January 2024 · attack and rescue attempt",
+        "rationale": "PDF page 28, January incident 30: 29 January attack on Hind’s family and the ambulance dispatched to rescue them.; Communication summary: attack on the fleeing family on 29 January; calls for help and deaths of two responding PRCS paramedics.",
+        "sourceIds": [
+          "reference-prcs-hind",
+          "reference-ohchr-hind"
+        ]
+      }
+    },
+    {
       "id": "event-nasser-hospital",
       "status": "approved",
-      "title": "Israeli forces enter Nasser Hospital",
-      "summary": "OCHA reports Israeli forces entering Nasser Hospital in Khan Younis. Days later, WHO transfers critically ill patients and warns about those remaining inside.",
-      "context": "",
+      "title": "Israeli raid leaves Nasser Hospital without power or running water",
+      "summary": "Israeli forces enter Nasser Hospital after a siege. WHO later finds the hospital non-functional, without electricity or running water, and reports at least five ICU patients died before rescue missions could reach them.",
+      "context": "15 February is OCHA’s date for reported entry by Israeli forces; WHO’s later account dates the raid to 14 February. The five reported ICU deaths preceded patient-transfer missions and are not all assigned to 15 February.",
       "themes": [
         "health-care"
       ],
@@ -266,7 +331,7 @@
       "review": {
         "reviewer": "Codex source check (AI-assisted)",
         "reviewedAt": "2026-10-04",
-        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
       },
       "eventTime": {
         "start": "2024-02-15",
@@ -278,6 +343,14 @@
           "reference-ocha-nasser",
           "reference-who-nasser"
         ]
+      },
+      "humanImpact": {
+        "text": "WHO transferred 32 critical patients on 18–19 February. Two paralyzed patients needed continuous manual ventilation during transport because portable ventilators were unavailable.",
+        "sourceIds": [
+          "reference-who-nasser"
+        ],
+        "asOf": "2024-02-20",
+        "locator": "WHO statement: life-saving transfers, patient conditions and lack of portable ventilators."
       }
     },
     {
@@ -307,6 +380,89 @@
         "sourceIds": [
           "reference-ocha-rashid"
         ]
+      }
+    },
+    {
+      "id": "event-child-starvation",
+      "status": "approved",
+      "kind": "finding",
+      "title": "Children die from malnutrition and dehydration in northern Gaza",
+      "summary": "UNICEF reports that at least ten children have died from dehydration and malnutrition at Kamal Adwan Hospital in recent days. The agency describes these deaths as predictable and preventable.",
+      "context": "This is the statement’s publication date, not a single day on which all the children died. UNICEF calls for food, water and medical supplies to reach children.",
+      "themes": [
+        "food-aid",
+        "health-care"
+      ],
+      "sourceIds": [
+        "reference-unicef-child-starvation"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-03-03",
+        "end": null,
+        "precision": "day",
+        "label": "2024-03-03",
+        "rationale": "3 March statement: at least ten reported child deaths in recent days; January nutrition screenings in northern Gaza.",
+        "sourceIds": [
+          "reference-unicef-child-starvation"
+        ]
+      },
+      "humanImpact": {
+        "text": "January screenings in northern Gaza found acute malnutrition in nearly one in six children under two. This describes screened children, not a census of every child in Gaza.",
+        "sourceIds": [
+          "reference-unicef-child-starvation"
+        ],
+        "asOf": "2024-03-03",
+        "locator": "UNICEF statement: January screening results, northern Gaza."
+      }
+    },
+    {
+      "id": "event-al-shifa-destruction",
+      "status": "approved",
+      "kind": "event",
+      "title": "Al-Shifa is left in ruins after a two-week Israeli raid",
+      "summary": "Gaza’s largest hospital is left non-functional. WHO’s subsequent visit finds most buildings destroyed or damaged, medical equipment burned and bodies partly buried in the grounds.",
+      "context": "The date marks the withdrawal at the end of the raid. WHO inspected the hospital on 5 April and published its account on 6 April.",
+      "themes": [
+        "health-care",
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-who-shifa-ruins",
+        "reference-ocha-shifa-withdrawal"
+      ],
+      "archiveSourceIds": [
+        "source-ed4c7738-c2b7-4b5f-a1c4-71e9575be5cd",
+        "source-e8af546a-df41-429a-b2f7-a17a5137d3ee"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-04-01",
+        "end": null,
+        "precision": "day",
+        "label": "2024-04-01",
+        "rationale": "WHO’s 5 April visit: non-functional hospital, destroyed equipment, reported patient deaths and severely damaged buildings.; Humanitarian developments: Israeli forces withdraw on 1 April after a two-week operation at Al-Shifa.",
+        "sourceIds": [
+          "reference-who-shifa-ruins",
+          "reference-ocha-shifa-withdrawal"
+        ]
+      },
+      "humanImpact": {
+        "text": "WHO found 115 emergency beds burned and 14 neonatal incubators destroyed. The hospital director reported that at least 20 patients died during the siege because care and access were lacking.",
+        "sourceIds": [
+          "reference-who-shifa-ruins"
+        ],
+        "asOf": "2024-04-06",
+        "locator": "WHO statement: emergency department, neonatal equipment and hospital director’s account."
       }
     },
     {
@@ -341,6 +497,37 @@
       }
     },
     {
+      "id": "event-hospital-mass-graves",
+      "status": "approved",
+      "kind": "finding",
+      "title": "Mass graves at hospitals prompt calls for an independent investigation",
+      "summary": "The UN rights office reports hundreds of bodies found at Nasser and Al-Shifa hospitals. It cites accounts of some bodies stripped or with hands bound and calls for independent investigations.",
+      "context": "These are reported discoveries and allegations. The identity of victims and circumstances of their deaths require investigation; the entry does not treat every burial as proof of an execution.",
+      "themes": [
+        "health-care",
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-ohchr-hospital-graves"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-04-24",
+        "end": null,
+        "precision": "day",
+        "label": "2024-04-24",
+        "rationale": "24 April account of the OHCHR briefing: reported graves at Nasser and Al-Shifa, bodies with bound hands and call for investigation.",
+        "sourceIds": [
+          "reference-ohchr-hospital-graves"
+        ]
+      }
+    },
+    {
       "id": "event-rafah-operation",
       "status": "approved",
       "title": "The Rafah operation displaces families and closes the crossing",
@@ -350,13 +537,14 @@
         "land-home"
       ],
       "sourceIds": [
-        "reference-ocha-rafah"
+        "reference-ocha-rafah",
+        "reference-ocha-rafah-displacement"
       ],
       "archiveSourceIds": [],
       "review": {
         "reviewer": "Codex source check (AI-assisted)",
         "reviewedAt": "2026-10-04",
-        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
       },
       "eventTime": {
         "start": "2024-05-06",
@@ -367,6 +555,14 @@
         "sourceIds": [
           "reference-ocha-rafah"
         ]
+      },
+      "humanImpact": {
+        "text": "By 29 May, OCHA reported about one million people displaced from Rafah since 6 May. Many were leaving a place where they had already sought refuge. This is cumulative displacement over several weeks.",
+        "sourceIds": [
+          "reference-ocha-rafah-displacement"
+        ],
+        "asOf": "2024-05-29",
+        "locator": "Key highlights and humanitarian developments: Rafah displacement since 6 May."
       }
     },
     {
@@ -399,10 +595,41 @@
       }
     },
     {
+      "id": "event-rafah-tent-fire",
+      "status": "approved",
+      "kind": "event",
+      "title": "An Israeli strike sets displaced families’ tents ablaze in Rafah",
+      "summary": "An airstrike hits a displacement site in northwestern Rafah. Gaza’s Ministry of Health reports 45 people killed and 249 injured; PRCS says people were trapped in burning tents.",
+      "context": "The reported dead include 23 women, children and older people. The Israeli military said it targeted two senior Hamas officials.",
+      "themes": [
+        "land-home",
+        "policy-military"
+      ],
+      "sourceIds": [
+        "reference-ocha-rafah-tent-fire"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-05-26",
+        "end": null,
+        "precision": "day",
+        "label": "2024-05-26",
+        "rationale": "Humanitarian developments: evening 26 May strike, PRCS account of people trapped in burning tents, Ministry of Health casualty figures.",
+        "sourceIds": [
+          "reference-ocha-rafah-tent-fire"
+        ]
+      }
+    },
+    {
       "id": "event-nuseirat-operation",
       "status": "approved",
-      "title": "The Nuseirat operation causes mass casualties",
-      "summary": "An Israeli operation in Nuseirat rescues four hostages. OCHA reports 274 Palestinians killed, citing Gaza’s Ministry of Health, and describes hospitals overwhelmed by casualties.",
+      "title": "274 Palestinians reported killed in the Nuseirat operation",
+      "summary": "OCHA cites Gaza’s Ministry of Health reporting 274 Palestinians killed during an Israeli operation that rescues four hostages. Hospitals are overwhelmed by the mass casualties.",
       "context": "",
       "themes": [
         "policy-military"
@@ -414,7 +641,7 @@
       "review": {
         "reviewer": "Codex source check (AI-assisted)",
         "reviewedAt": "2026-10-04",
-        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
       },
       "eventTime": {
         "start": "2024-06-08",
@@ -425,6 +652,159 @@
         "sourceIds": [
           "reference-ocha-nuseirat"
         ]
+      }
+    },
+    {
+      "id": "event-mass-displacement-conditions",
+      "status": "approved",
+      "kind": "finding",
+      "title": "Over 1.9 million people displaced, with basic survival conditions collapsing",
+      "summary": "OCHA reports more than 1.9 million people displaced across Gaza. Families face repeated orders to move, overcrowded shelters and severe shortages of water and sanitation.",
+      "context": "The date marks publication of a snapshot of cumulative displacement and living conditions, not a single mass movement on that day.",
+      "themes": [
+        "land-home",
+        "food-aid",
+        "health-care"
+      ],
+      "sourceIds": [
+        "reference-ocha-displacement-scale"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-07-12",
+        "end": null,
+        "precision": "day",
+        "label": "2024-07-12",
+        "rationale": "12 July update: more than 1.9 million displaced; UNRWA’s Deir al-Balah shelter account and WASH water-availability estimates.",
+        "sourceIds": [
+          "reference-ocha-displacement-scale"
+        ]
+      },
+      "humanImpact": {
+        "text": "At one Deir al-Balah school shelter, UNRWA reported about 14,000 people sharing 25 toilets. This example describes that shelter, not every displacement site.",
+        "sourceIds": [
+          "reference-ocha-displacement-scale"
+        ],
+        "asOf": "2024-07-12",
+        "locator": "UNRWA account of conditions at the Deir al-Balah school shelter."
+      }
+    },
+    {
+      "id": "event-al-mawasi-strike",
+      "status": "approved",
+      "kind": "event",
+      "title": "90 reported killed in strikes on Al-Mawasi’s “humanitarian zone”",
+      "summary": "Israeli strikes hit displacement tents, a food kitchen and a water point in an area Israel had designated a humanitarian zone. Gaza’s Ministry of Health reports 90 people killed and 300 injured.",
+      "context": "OCHA reports that Nasser Hospital was overwhelmed, with patients treated on the floor and shortages of medical supplies. The initial toll remains attributed to the Ministry of Health.",
+      "themes": [
+        "land-home",
+        "health-care"
+      ],
+      "sourceIds": [
+        "reference-ocha-mawasi-strike"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-07-13",
+        "end": null,
+        "precision": "day",
+        "label": "2024-07-13",
+        "rationale": "Humanitarian developments: 13 July strikes on tents, a food kitchen and a water point; Ministry of Health toll and overwhelmed Nasser Hospital.",
+        "sourceIds": [
+          "reference-ocha-mawasi-strike"
+        ]
+      }
+    },
+    {
+      "id": "event-detention-torture",
+      "status": "approved",
+      "kind": "finding",
+      "title": "UN report documents torture and humiliation of Palestinian detainees",
+      "summary": "OHCHR describes thousands of Palestinians detained, often without charges or trial. Testimonies describe beatings, electric shocks, forced nudity and sexual violence, including rape, in Israeli custody.",
+      "context": "The report covers October 2023–June 2024 and includes detainees from Gaza and the West Bank. These findings and testimonies are attributed to OHCHR; individual allegations are not recast as criminal convictions.",
+      "themes": [
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-ohchr-detention-abuse"
+      ],
+      "archiveSourceIds": [
+        "source-2fd4accf-7ed5-48e3-9cdc-4e7d4bbb2e0c",
+        "source-669a735c-7854-415b-adc0-212d1489f83c",
+        "source-e5d4d119-e923-4846-92a0-e4de7b7435ce",
+        "source-6abce539-5781-4bb1-ab7a-c3d16047ac2f"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-07-31",
+        "end": null,
+        "precision": "day",
+        "label": "2024-07-31",
+        "rationale": "31 July report covering October 2023–June 2024: arbitrary detention, torture testimonies, sexual violence and at least 53 deaths in Israeli custody.",
+        "sourceIds": [
+          "reference-ohchr-detention-abuse"
+        ]
+      },
+      "humanImpact": {
+        "text": "OHCHR reported at least 53 Palestinian deaths in Israeli detention facilities and prisons since 7 October 2023. This includes people from Gaza and the West Bank; the figure does not establish the cause of every death.",
+        "sourceIds": [
+          "reference-ohchr-detention-abuse"
+        ],
+        "asOf": "2024-07-31",
+        "locator": "Report release: deaths in detention, geographical scope and assessment period."
+      }
+    },
+    {
+      "id": "event-al-tabeen-school",
+      "status": "approved",
+      "kind": "event",
+      "title": "A strike on Al-Tabi’een school kills people sheltering and praying",
+      "summary": "An Israeli strike hits the school’s prayer hall during dawn prayers, where displaced families are sheltering. Palestinian Civil Defense initially reports about 90 killed, including children and women.",
+      "context": "This is an initial reported toll. OCHA situates the attack within a repeated pattern of strikes on schools used as shelters.",
+      "themes": [
+        "land-home",
+        "life-culture"
+      ],
+      "sourceIds": [
+        "reference-ocha-tabeen-school"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-08-10",
+        "end": null,
+        "precision": "day",
+        "label": "2024-08-10",
+        "rationale": "Humanitarian developments: 10 August strike during dawn prayers; Civil Defense initial toll and OHCHR school-shelter strike series since 4 July.",
+        "sourceIds": [
+          "reference-ocha-tabeen-school"
+        ]
+      },
+      "humanImpact": {
+        "text": "By 12 August, OHCHR had recorded 21 strikes on schools serving as shelters since 4 July, with at least 274 reported deaths. That figure covers multiple attacks, not only Al-Tabi’een.",
+        "sourceIds": [
+          "reference-ocha-tabeen-school"
+        ],
+        "asOf": "2024-08-12",
+        "locator": "OHCHR account of the school-shelter strike series."
       }
     },
     {
@@ -517,6 +897,47 @@
       }
     },
     {
+      "id": "event-kamal-adwan-raid",
+      "status": "approved",
+      "kind": "event",
+      "title": "An Israeli raid shuts North Gaza’s last major hospital",
+      "summary": "WHO reports that a raid puts Kamal Adwan Hospital out of service, with key departments burned. Patients and staff are forced to leave; initial reports describe people being stripped and made to walk south.",
+      "context": "WHO says the hospital’s director was reportedly detained. The accounts of stripping and forced movement are identified as initial reports, not direct observations by WHO.",
+      "themes": [
+        "health-care",
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-who-kamal-adwan"
+      ],
+      "archiveSourceIds": [
+        "source-11aa6110-5e41-4941-bac1-0ae8e19cd146"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-12-27",
+        "end": null,
+        "precision": "day",
+        "label": "2024-12-27",
+        "rationale": "28 December statement: previous day’s raid, hospital closure, transferred patients and initial accounts of forced stripping and movement south.",
+        "sourceIds": [
+          "reference-who-kamal-adwan"
+        ]
+      },
+      "humanImpact": {
+        "text": "WHO reported 15 critical patients transferred to the damaged Indonesian Hospital, which lacked equipment and supplies to provide adequate care. The raid removed North Gaza’s last major functioning health facility.",
+        "sourceIds": [
+          "reference-who-kamal-adwan"
+        ],
+        "asOf": "2024-12-28",
+        "locator": "WHO statement: critical patient transfers and remaining hospital capacity."
+      }
+    },
+    {
       "id": "event-january-ceasefire",
       "status": "approved",
       "title": "A ceasefire takes effect",
@@ -542,6 +963,41 @@
         "rationale": "Key highlights and humanitarian developments: ceasefire effective at 11:15 on 19 January; terms of the first phase.",
         "sourceIds": [
           "reference-ocha-january-ceasefire"
+        ]
+      }
+    },
+    {
+      "id": "event-reproductive-violence",
+      "status": "approved",
+      "kind": "finding",
+      "title": "UN commission finds destruction of reproductive healthcare and genocidal acts",
+      "summary": "A UN commission finds that attacks on maternity and reproductive facilities, and restrictions on medical supplies, devastate pregnancy and childbirth care. It concludes that preventing births and imposing destructive conditions amount to genocidal acts.",
+      "context": "The findings are those of the Independent International Commission of Inquiry, not a final court judgment. This entry uses March 2025 because institutional release metadata differs between 12 and 13 March.",
+      "themes": [
+        "health-care",
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-un-reproductive-violence"
+      ],
+      "archiveSourceIds": [
+        "source-642c3d8f-ec6b-45fc-bbde-96055a84af2a",
+        "source-fd66da7f-3718-47cf-aa9b-3e1c0ad4e097",
+        "source-3e952524-125c-4836-a4f8-39af303c5f82"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2025-03-01",
+        "end": "2025-03-31",
+        "precision": "month",
+        "label": "March 2025",
+        "rationale": "March 2025 report: destruction of reproductive healthcare and birth-prevention findings. UN reproduction metadata and release indexes differ by one day (12/13 March); month precision retained.",
+        "sourceIds": [
+          "reference-un-reproductive-violence"
         ]
       }
     },
@@ -606,11 +1062,42 @@
       }
     },
     {
+      "id": "event-rescue-workers-killed",
+      "status": "approved",
+      "kind": "event",
+      "title": "15 Palestinian rescue workers are killed; bodies and vehicles buried",
+      "summary": "OCHA reports emergency crews struck one after another while searching for missing colleagues in Rafah. Available information points to Israeli forces; 15 responders’ bodies are found buried with wrecked emergency vehicles.",
+      "context": "The dead include eight PRCS workers, six Civil Defense members and one UNRWA worker. Most bodies were recovered on 30 March, after responders went missing on 23 March. Five clearly marked ambulances, a fire truck and a UN car were buried with them.",
+      "themes": [
+        "health-care",
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-ocha-rescue-workers"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2025-03-23",
+        "end": null,
+        "precision": "day",
+        "label": "2025-03-23",
+        "rationale": "Humanitarian developments: responders missing since 23 March; 15 bodies recovered by 30 March; available information on Israeli fire and buried emergency vehicles.",
+        "sourceIds": [
+          "reference-ocha-rescue-workers"
+        ]
+      }
+    },
+    {
       "id": "event-ghf-distribution",
       "status": "approved",
-      "title": "A new aid-distribution system begins",
-      "summary": "The Gaza Humanitarian Foundation begins operating distribution sites. The UN declines to join the scheme and warns that its design violates humanitarian principles.",
-      "context": "The UN’s assessment is attributed to the UN. The supporting documents explain the scheme and its risks rather than treating every later aid-site incident as one event.",
+      "title": "Militarized food-distribution sites open amid UN warnings",
+      "summary": "The Gaza Humanitarian Foundation begins operating distribution sites. The UN refuses to participate and warns that the scheme violates humanitarian principles and puts people seeking food at risk.",
+      "context": "The UN’s assessment is attributed to the UN. A later entry documents deaths near distribution sites and along food-convoy routes, with those locations counted separately.",
       "themes": [
         "food-aid"
       ],
@@ -622,7 +1109,7 @@
       "review": {
         "reviewer": "Codex source check (AI-assisted)",
         "reviewedAt": "2026-10-04",
-        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
       },
       "eventTime": {
         "start": "2025-05-27",
@@ -637,11 +1124,55 @@
       }
     },
     {
+      "id": "event-aid-seeker-killings",
+      "status": "approved",
+      "kind": "finding",
+      "title": "More than 1,300 Palestinians reported killed while seeking food",
+      "summary": "OHCHR reports at least 1,373 Palestinians killed while seeking food between 27 May and 31 July. It attributes most killings to the Israeli military and says it has no information that the victims posed a threat or were participating in hostilities.",
+      "context": "The date is OCHA’s publication date for this account of OHCHR’s 31 July findings. It describes repeated killings over two months, not a single incident.",
+      "themes": [
+        "food-aid",
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-ocha-aid-seeker-killings"
+      ],
+      "archiveSourceIds": [
+        "source-8427d57b-4ac4-4e5b-947d-3bd83d88036d",
+        "source-3b444099-2cb6-4cc5-a6b0-ac4ca9b2fe38",
+        "source-c4b8cd76-0aa0-4735-b7cd-3282de7633dc",
+        "source-e78dc768-2266-4269-a1bc-11c47d6bf25f"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2025-08-06",
+        "end": null,
+        "precision": "day",
+        "label": "2025-08-06",
+        "rationale": "6 August update, Impact of Military Activity: OHCHR’s 31 July account of 1,373 deaths seeking food between 27 May and 31 July; separate location totals and attribution.",
+        "sourceIds": [
+          "reference-ocha-aid-seeker-killings"
+        ]
+      },
+      "humanImpact": {
+        "text": "Of those deaths, 859 were near militarized distribution sites and 514 along humanitarian food-convoy routes. The total is not a count solely of deaths at Gaza Humanitarian Foundation sites.",
+        "sourceIds": [
+          "reference-ocha-aid-seeker-killings"
+        ],
+        "asOf": "2025-07-31",
+        "locator": "OHCHR’s separate distribution-site and convoy-route counts, cited by OCHA."
+      }
+    },
+    {
       "id": "event-famine-confirmed",
       "status": "approved",
       "title": "Famine is formally confirmed in Gaza Governorate",
-      "summary": "An IPC assessment confirms famine in Gaza Governorate. UN agencies call for a ceasefire and unrestricted humanitarian access as hunger and malnutrition deepen.",
-      "context": "22 August is the announcement date, not the day famine began. The finding concerns Gaza Governorate; it is not a blanket famine classification for every area of the Gaza Strip.",
+      "summary": "An IPC assessment confirms famine in Gaza Governorate. UN agencies describe widespread starvation and preventable deaths, with more than half a million people trapped in famine.",
+      "context": "22 August is the announcement date; the assessment confirms famine in Gaza Governorate as of 15 August. This is not a blanket classification of every area in the Gaza Strip.",
       "themes": [
         "food-aid"
       ],
@@ -657,7 +1188,7 @@
       "review": {
         "reviewer": "Codex source check (AI-assisted)",
         "reviewedAt": "2026-10-04",
-        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
       },
       "eventTime": {
         "start": "2025-08-22",
@@ -668,6 +1199,45 @@
         "sourceIds": [
           "reference-who-famine",
           "reference-ipc-famine"
+        ]
+      },
+      "kind": "finding",
+      "humanImpact": {
+        "text": "UN agencies report more than 12,000 children identified with acute malnutrition in July, nearly a quarter with its severe form. This is the July figure, not an August or present-day total.",
+        "sourceIds": [
+          "reference-who-famine"
+        ],
+        "asOf": "2025-08-22",
+        "locator": "Joint agency release: July child malnutrition figures and severity."
+      }
+    },
+    {
+      "id": "event-un-genocide-finding",
+      "status": "approved",
+      "kind": "finding",
+      "title": "UN commission finds Israel committed genocide in Gaza",
+      "summary": "The Independent International Commission of Inquiry concludes that Israel committed genocide in Gaza. It finds killings, serious bodily or mental harm, destructive conditions of life and measures intended to prevent births.",
+      "context": "The commission assesses intent through official statements and the pattern of conduct. This is an investigative commission’s finding; the ICJ’s provisional orders are separately documented and are not a final genocide judgment.",
+      "themes": [
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-un-genocide-finding"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2025-09-16",
+        "end": null,
+        "precision": "day",
+        "label": "2025-09-16",
+        "rationale": "16 September release: commission finds four categories of genocidal acts, assessing conduct and statements for intent; distinct from an ICJ judgment.",
+        "sourceIds": [
+          "reference-un-genocide-finding"
         ]
       }
     },
@@ -767,6 +1337,46 @@
       }
     },
     {
+      "id": "event-civilian-infrastructure-devastation",
+      "status": "approved",
+      "kind": "finding",
+      "title": "Gaza’s homes and schools remain devastated",
+      "summary": "OCHA’s snapshot lists 320,622 damaged housing units and about 93% of school buildings needing reconstruction or major rehabilitation. Both damage assessments date to 11 October 2025.",
+      "context": "The March report brings together assessments made at different times. “Damaged” does not mean every housing unit was completely destroyed, and the figures do not represent new damage on publication day.",
+      "themes": [
+        "land-home",
+        "life-culture",
+        "health-care"
+      ],
+      "sourceIds": [
+        "reference-ocha-infrastructure-scale"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2026-03-25",
+        "end": null,
+        "precision": "day",
+        "label": "2026-03-25",
+        "rationale": "25 March snapshot: UNOSAT housing and Education Cluster school assessments as of 11 October 2025; children without sustained in-person education and patients needing evacuation.",
+        "sourceIds": [
+          "reference-ocha-infrastructure-scale"
+        ]
+      },
+      "humanImpact": {
+        "text": "The snapshot reports 637,475 children without sustained formal in-person education and more than 18,500 critical patients needing medical evacuation abroad, including 4,000 children.",
+        "sourceIds": [
+          "reference-ocha-infrastructure-scale"
+        ],
+        "asOf": "2026-03-25",
+        "locator": "Snapshot sections: Education and Health; assessment dates shown separately."
+      }
+    },
+    {
       "id": "event-zikim-closure",
       "status": "approved",
       "title": "Zikim closes, leaving one cargo crossing",
@@ -827,7 +1437,7 @@
       "evidence": [
         {
           "sourceId": "reference-siege-announcement",
-          "locator": "9 October announcement; OCHA Flash Update #4, food security and essential-service restrictions."
+          "locator": "9 October announcement: siege measures and Gallant’s quoted phrase “human animals.”"
         }
       ],
       "review": {
@@ -1424,6 +2034,367 @@
         "reviewedAt": "2026-10-04",
         "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
       }
+    },
+    {
+      "id": "relation-jabalia-strikes-ocha-jabalia",
+      "from": "reference-ocha-jabalia",
+      "to": "event-jabalia-strikes",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-jabalia",
+          "locator": "Gaza overview: 1 November strikes on Jabalia residential buildings, the second consecutive day of such strikes."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-hind-rajab-prcs-hind",
+      "from": "reference-prcs-hind",
+      "to": "event-hind-rajab",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-prcs-hind",
+          "locator": "PDF page 28, January incident 30: 29 January attack on Hind’s family and the ambulance dispatched to rescue them."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-hind-rajab-ohchr-hind",
+      "from": "reference-ohchr-hind",
+      "to": "event-hind-rajab",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ohchr-hind",
+          "locator": "Communication summary: attack on the fleeing family on 29 January; calls for help and deaths of two responding PRCS paramedics."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-child-starvation-unicef-child-starvation",
+      "from": "reference-unicef-child-starvation",
+      "to": "event-child-starvation",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-unicef-child-starvation",
+          "locator": "3 March statement: at least ten reported child deaths in recent days; January nutrition screenings in northern Gaza."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-al-shifa-destruction-who-shifa-ruins",
+      "from": "reference-who-shifa-ruins",
+      "to": "event-al-shifa-destruction",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-who-shifa-ruins",
+          "locator": "WHO’s 5 April visit: non-functional hospital, destroyed equipment, reported patient deaths and severely damaged buildings."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-al-shifa-destruction-ocha-shifa-withdrawal",
+      "from": "reference-ocha-shifa-withdrawal",
+      "to": "event-al-shifa-destruction",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-shifa-withdrawal",
+          "locator": "Humanitarian developments: Israeli forces withdraw on 1 April after a two-week operation at Al-Shifa."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-hospital-mass-graves-ohchr-hospital-graves",
+      "from": "reference-ohchr-hospital-graves",
+      "to": "event-hospital-mass-graves",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ohchr-hospital-graves",
+          "locator": "24 April account of the OHCHR briefing: reported graves at Nasser and Al-Shifa, bodies with bound hands and call for investigation."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-rafah-tent-fire-ocha-rafah-tent-fire",
+      "from": "reference-ocha-rafah-tent-fire",
+      "to": "event-rafah-tent-fire",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-rafah-tent-fire",
+          "locator": "Humanitarian developments: evening 26 May strike, PRCS account of people trapped in burning tents, Ministry of Health casualty figures."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-mass-displacement-conditions-ocha-displacement-scale",
+      "from": "reference-ocha-displacement-scale",
+      "to": "event-mass-displacement-conditions",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-displacement-scale",
+          "locator": "12 July update: more than 1.9 million displaced; UNRWA’s Deir al-Balah shelter account and WASH water-availability estimates."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-al-mawasi-strike-ocha-mawasi-strike",
+      "from": "reference-ocha-mawasi-strike",
+      "to": "event-al-mawasi-strike",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-mawasi-strike",
+          "locator": "Humanitarian developments: 13 July strikes on tents, a food kitchen and a water point; Ministry of Health toll and overwhelmed Nasser Hospital."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-detention-torture-ohchr-detention-abuse",
+      "from": "reference-ohchr-detention-abuse",
+      "to": "event-detention-torture",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ohchr-detention-abuse",
+          "locator": "31 July report covering October 2023–June 2024: arbitrary detention, torture testimonies, sexual violence and at least 53 deaths in Israeli custody."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-al-tabeen-school-ocha-tabeen-school",
+      "from": "reference-ocha-tabeen-school",
+      "to": "event-al-tabeen-school",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-tabeen-school",
+          "locator": "Humanitarian developments: 10 August strike during dawn prayers; Civil Defense initial toll and OHCHR school-shelter strike series since 4 July."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-kamal-adwan-raid-who-kamal-adwan",
+      "from": "reference-who-kamal-adwan",
+      "to": "event-kamal-adwan-raid",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-who-kamal-adwan",
+          "locator": "28 December statement: previous day’s raid, hospital closure, transferred patients and initial accounts of forced stripping and movement south."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-reproductive-violence-un-reproductive-violence",
+      "from": "reference-un-reproductive-violence",
+      "to": "event-reproductive-violence",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-un-reproductive-violence",
+          "locator": "March 2025 report: destruction of reproductive healthcare and birth-prevention findings. UN reproduction metadata and release indexes differ by one day (12/13 March); month precision retained."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-rescue-workers-killed-ocha-rescue-workers",
+      "from": "reference-ocha-rescue-workers",
+      "to": "event-rescue-workers-killed",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-rescue-workers",
+          "locator": "Humanitarian developments: responders missing since 23 March; 15 bodies recovered by 30 March; available information on Israeli fire and buried emergency vehicles."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-aid-seeker-killings-ocha-aid-seeker-killings",
+      "from": "reference-ocha-aid-seeker-killings",
+      "to": "event-aid-seeker-killings",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-aid-seeker-killings",
+          "locator": "6 August update, Impact of Military Activity: OHCHR’s 31 July account of 1,373 deaths seeking food between 27 May and 31 July; separate location totals and attribution."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-un-genocide-finding-un-genocide-finding",
+      "from": "reference-un-genocide-finding",
+      "to": "event-un-genocide-finding",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-un-genocide-finding",
+          "locator": "16 September release: commission finds four categories of genocidal acts, assessing conduct and statements for intent; distinct from an ICJ judgment."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-civilian-infrastructure-devastation-ocha-infrastructure-scale",
+      "from": "reference-ocha-infrastructure-scale",
+      "to": "event-civilian-infrastructure-devastation",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-infrastructure-scale",
+          "locator": "25 March snapshot: UNOSAT housing and Education Cluster school assessments as of 11 October 2025; children without sustained in-person education and patients needing evacuation."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-rafah-operation-ocha-rafah-displacement",
+      "from": "reference-ocha-rafah-displacement",
+      "to": "event-rafah-operation",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Attributed source text supports this entry. Report publication, incident dates and assessment periods are distinguished.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-rafah-displacement",
+          "locator": "29 May update: about one million displaced from Rafah since 6 May."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Dates, attributed figures and summaries checked against cited original-source text. Where direct retrieval was blocked, indexed text from the institutional original was consulted; no independent verification or human editorial approval claimed."
+      }
     }
   ],
   "revisions": [
@@ -1459,6 +2430,36 @@
         "event-rafah-reopening",
         "event-regional-crossing-closure",
         "event-zikim-closure"
+      ]
+    },
+    {
+      "id": "revision-harm-and-dehumanization-20261004",
+      "timestamp": "2026-10-04",
+      "actor": "Codex source check (AI-assisted)",
+      "reason": "Respond to owner feedback: add 16 omitted incidents and pattern findings; make civilian consequences explicit with attribution, dated impact context and publication-date labels. Preserve source archive and simple mobile navigation.",
+      "entityIds": [
+        "event-complete-siege",
+        "event-jabalia-strikes",
+        "event-hind-rajab",
+        "event-nasser-hospital",
+        "event-child-starvation",
+        "event-al-shifa-destruction",
+        "event-hospital-mass-graves",
+        "event-rafah-operation",
+        "event-rafah-tent-fire",
+        "event-nuseirat-operation",
+        "event-mass-displacement-conditions",
+        "event-al-mawasi-strike",
+        "event-detention-torture",
+        "event-al-tabeen-school",
+        "event-kamal-adwan-raid",
+        "event-reproductive-violence",
+        "event-rescue-workers-killed",
+        "event-ghf-distribution",
+        "event-aid-seeker-killings",
+        "event-famine-confirmed",
+        "event-un-genocide-finding",
+        "event-civilian-infrastructure-devastation"
       ]
     }
   ],
@@ -1521,7 +2522,7 @@
       "source": "The Times of Israel",
       "publicationDate": "2023-10-09",
       "checkedAt": "2026-10-04",
-      "method": "Original institutional report consulted for the event date and summary."
+      "method": "Original news report of the minister’s announcement consulted, including the siege measures and quoted language."
     },
     {
       "id": "reference-ocha-evacuation",
@@ -1774,12 +2775,185 @@
       "publicationDate": "2026-06-05",
       "checkedAt": "2026-10-04",
       "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-jabalia",
+      "title": "Flash Update #26 — repeated strikes on Jabalia refugee camp",
+      "url": "https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-26",
+      "source": "UN OCHA",
+      "publicationDate": "2023-11-01",
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-prcs-hind",
+      "title": "PRCS report — attacks on medical missions",
+      "url": "https://www.palestinercs.org/public/files/image/2024/Reports/Violations%20Against%20PRCS%20Medical%20Missions_Gaza.pdf",
+      "source": "Palestine Red Crescent Society",
+      "publicationDate": null,
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-ohchr-hind",
+      "title": "UN experts’ communication on Hind Rajab and her rescuers",
+      "url": "https://spcommreports.ohchr.org/TmSearch/SummaryPrint?id=28818",
+      "source": "UN human rights experts",
+      "publicationDate": null,
+      "checkedAt": "2026-10-04",
+      "method": "Indexed text from the institutional original consulted; direct retrieval was blocked. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-unicef-child-starvation",
+      "title": "UNICEF statement — children dying from malnutrition and dehydration",
+      "url": "https://www.unicef.org/mena/press-releases/statement-adele-khodr-unicef-regional-director-middle-east-and-north-africa-1",
+      "source": "UNICEF",
+      "publicationDate": "2024-03-03",
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-who-shifa-ruins",
+      "title": "WHO mission finds Al-Shifa Hospital in ruins",
+      "url": "https://www.who.int/news/item/06-04-2024-six-months-of-war-leave-al-shifa-hospital-in-ruins--who-mission-reports",
+      "source": "WHO",
+      "publicationDate": "2024-04-06",
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-ocha-shifa-withdrawal",
+      "title": "Flash Update #149 — withdrawal from Al-Shifa",
+      "url": "https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-149",
+      "source": "UN OCHA",
+      "publicationDate": "2024-04-03",
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-ohchr-hospital-graves",
+      "title": "UN rights office reports mass graves at Gaza hospitals",
+      "url": "https://palestine.un.org/en/266849-mass-graves-gaza-show-victims%E2%80%99-hands-were-tied-says-un-rights-office",
+      "source": "United Nations in Palestine / OHCHR",
+      "publicationDate": "2024-04-24",
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-ocha-rafah-tent-fire",
+      "title": "Flash Update #171 — deadly strike and fire at a Rafah displacement site",
+      "url": "https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-171",
+      "source": "UN OCHA",
+      "publicationDate": "2024-05-27",
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-ocha-displacement-scale",
+      "title": "Humanitarian Situation Update #190 — mass displacement and living conditions",
+      "url": "https://www.ochaopt.org/content/humanitarian-situation-update-190-gaza-strip",
+      "source": "UN OCHA",
+      "publicationDate": "2024-07-12",
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-ocha-mawasi-strike",
+      "title": "Humanitarian Situation Update #191 — Al-Mawasi strikes",
+      "url": "https://www.ochaopt.org/content/humanitarian-situation-update-191-gaza-strip",
+      "source": "UN OCHA",
+      "publicationDate": "2024-07-15",
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-ohchr-detention-abuse",
+      "title": "OHCHR report — detention, torture and mistreatment of Palestinians",
+      "url": "https://www.un.org/unispal/document/torture-and-mistreatment-ohchr-pr-31jul24/",
+      "source": "OHCHR",
+      "publicationDate": "2024-07-31",
+      "checkedAt": "2026-10-04",
+      "method": "Indexed text from the institutional original consulted; direct retrieval was blocked. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-ocha-tabeen-school",
+      "title": "Humanitarian Situation Update #203 — Al-Tabi’een school and attacks on shelters",
+      "url": "https://www.ochaopt.org/content/humanitarian-situation-update-203-gaza-strip",
+      "source": "UN OCHA",
+      "publicationDate": "2024-08-12",
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-who-kamal-adwan",
+      "title": "WHO statement — Kamal Adwan out of service after raid",
+      "url": "https://www.who.int/news/item/28-12-2024-kamal-adwan-hospital-out-of-service-following-a-raid-today-and-repeated-attacks-since-october",
+      "source": "WHO",
+      "publicationDate": "2024-12-28",
+      "checkedAt": "2026-10-04",
+      "method": "Indexed text of WHO’s original statement and its official UN reproduction consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-un-reproductive-violence",
+      "title": "UN commission report — sexual, reproductive and gender-based violence",
+      "url": "https://www.un.org/unispal/document/report-of-commisison-of-inquiry-opt-13march2025/",
+      "source": "UN Independent International Commission of Inquiry",
+      "publicationDate": null,
+      "checkedAt": "2026-10-04",
+      "method": "Indexed text from the institutional original consulted; direct retrieval was blocked. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-ocha-rescue-workers",
+      "title": "Humanitarian Situation Update #277 — killing of emergency responders",
+      "url": "https://www.ochaopt.org/content/humanitarian-situation-update-277-gaza-strip",
+      "source": "UN OCHA",
+      "publicationDate": "2025-04-04",
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-ocha-aid-seeker-killings",
+      "title": "Humanitarian Situation Update #311 — Palestinians killed seeking food",
+      "url": "https://www.ochaopt.org/content/humanitarian-situation-update-311-gaza-strip",
+      "source": "UN OCHA / OHCHR",
+      "publicationDate": "2025-08-06",
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-un-genocide-finding",
+      "title": "UN commission finds Israel committed genocide in Gaza",
+      "url": "https://www.un.org/unispal/document/israel-has-committed-genocide-in-the-gaza-strip-un-commission-finds-16sep25/",
+      "source": "UN Independent International Commission of Inquiry",
+      "publicationDate": "2025-09-16",
+      "checkedAt": "2026-10-04",
+      "method": "Indexed text from the institutional original consulted; direct retrieval was blocked. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-ocha-infrastructure-scale",
+      "title": "Reported Impact Snapshot — homes, schools and medical evacuation",
+      "url": "https://www.ochaopt.org/sites/default/files/Gaza_Reported_Impact_Snapshot_25_Mar_2026.pdf",
+      "source": "UN OCHA",
+      "publicationDate": "2026-03-25",
+      "checkedAt": "2026-10-04",
+      "method": "Indexed text from the institutional original consulted; direct retrieval was blocked. Dates, attribution and scope checked; link availability does not verify every claim."
+    },
+    {
+      "id": "reference-ocha-rafah-displacement",
+      "title": "Flash Update #172 — displacement from Rafah",
+      "url": "https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-172",
+      "source": "UN OCHA",
+      "publicationDate": "2024-05-29",
+      "checkedAt": "2026-10-04",
+      "method": "Original report text consulted. Dates, attribution and scope checked; link availability does not verify every claim."
     }
   ],
   "curation": {
     "checkedAt": "2026-10-04",
-    "method": "AI-assisted reading of cited primary reports and court documents. Selected milestones, not a complete chronology or a claim of independent verification of every reported fact.",
+    "method": "AI-assisted source check emphasizing attacks on civilians and documented patterns of deprivation, displacement, dehumanization and abuse. Direct report text was used where accessible; some blocked institutional originals were consulted through indexed text, recorded on each reference. Selected coverage, not independent verification of every allegation.",
     "latestEvent": "2026-05-24",
-    "archiveLinks": "Manually selected related reading, not evidence of event time unless included in sourceIds."
+    "archiveLinks": "Manually selected related reading, not evidence of event time unless included in sourceIds.",
+    "selection": "Include mass civilian harm and treatment of Palestinians alongside major military, aid and legal developments. No ranking of victims or atrocities. Report findings use publication dates, distinct from the period of abuse.",
+    "datePolicy": "Incident dates, report publication dates, assessment dates and uncertain dates are explicitly separated. Month-precision findings do not claim a particular day."
   }
 }

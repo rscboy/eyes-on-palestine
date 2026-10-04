@@ -1,4 +1,4 @@
-import {THEMES,escapeHTML as h,displayDate,civilDate,today,defaults,parseState,stateURL,filterSources,periodCounts,periodRange,statusLabel,citation,relatedSources,validateEditorial} from './timeline-core.mjs?v=6';
+import {THEMES,escapeHTML as h,displayDate,civilDate,today,defaults,parseState,stateURL,filterSources,periodCounts,periodRange,statusLabel,citation,relatedSources,validateEditorial} from './timeline-core.mjs?v=7';
 const $=id=>document.getElementById(id), packetAPI=globalThis.EogPacket;
 let state=parseState(location.search), snapshot, sources=[], editorial={events:[],relationships:[],collections:[]}, filtered=[], packet=packetAPI.read(), searchTimer, feedbackTimer, loading=true;
 const notesKey='echoes_timeline_private_notes';
@@ -8,7 +8,7 @@ const mobileLayout=matchMedia('(max-width:720px), (max-height:500px) and (pointe
 const isMobile=()=>mobileLayout.matches;
 const headerBottom=()=>document.querySelector('.site-shell-header')?.getBoundingClientRect().bottom||(isMobile()?54:60);
 const recordDate=r=>r.publicationDate||r.importedDate||r.eventTime?.start;
-const eventLabel=r=>civilDate(r.eventTime.label)?displayDate(r.eventTime.label):r.eventTime.label;
+const eventLabel=r=>(r.kind==='finding'?'Report published · ':'')+(civilDate(r.eventTime.label)?displayDate(r.eventTime.label):r.eventTime.label);
 const itemWord=()=>state.mode==='events'?'events':'articles';
 const availableMonths=()=>periodCounts(filtered,'month').filter(([key])=>key!=='unknown').map(([key])=>key);
 history.scrollRestoration='manual';
@@ -44,7 +44,8 @@ function updateReadingPosition() {
 function syncLoadStatus() {
  $('tw-before').hidden=windowStart===0;
  $('tw-more').hidden=filtered.length<=state.limit;
- $('tw-shown').textContent=filtered.length?`Showing ${windowStart+1}–${Math.min(state.limit,filtered.length)} of ${filtered.length.toLocaleString()} articles.`:'';
+ $('tw-shown').textContent=filtered.length?`Showing ${windowStart+1}–${Math.min(state.limit,filtered.length)} of ${filtered.length.toLocaleString()} ${itemWord()}.`:'';
+ $('tw-events-tail').hidden=state.mode!=='events'||hasFilters()||!filtered.length||state.limit<filtered.length;
 }
 function loadEarlier() {
  const first=$('tw-records').firstElementChild,oldTop=first?.getBoundingClientRect().top;
@@ -163,7 +164,7 @@ function renderChips() {
   $('tw-active-filters').innerHTML=chips.map(([key,label])=>`<button type="button" data-remove-filter="${h(key)}" aria-label="${h('Remove filter: '+label)}">${h(label)} <span aria-hidden="true">×</span></button>`).join('');
 }
 function eventRecords() {
-  return editorial.events.filter(e=>e.status==='approved').map(e=>({...e,importedDate:e.eventTime.start,publicationDate:null,authors:[],source:'Key events',searchText:[...(e.sourceIds||[]).map(id=>(editorial.references||[]).find(r=>r.id===id)?.source||sources.find(r=>r.id===id)?.title||'')].join(' '),documentType:'Event',flags:e.eventTime.precision==='unknown'?['Archive date unknown']:[],integrity:{status:'unchecked'},dateBasis:'Event date'}));
+  return editorial.events.filter(e=>e.status==='approved').map(e=>({...e,importedDate:e.eventTime.start,publicationDate:null,authors:[],source:'Key events',searchText:[e.context||'',e.humanImpact?.text||'',...(e.sourceIds||[]).map(id=>(editorial.references||[]).find(r=>r.id===id)?.source||sources.find(r=>r.id===id)?.title||'')].join(' '),documentType:'Event',flags:e.eventTime.precision==='unknown'?['Archive date unknown']:[],integrity:{status:'unchecked'},dateBasis:'Event date'}));
 }
 function getRecords(ignoreRange=false) {
   const s={...state,...(ignoreRange?{from:'',to:''}:{})};
@@ -218,10 +219,15 @@ function readerSequence(r){
  const index=filtered.findIndex(s=>s.id===r.id),event=Boolean(r.eventTime),word=event?'event':'article';
  return `<nav class="tw-reader-sequence" aria-label="Browse ${event?'events':'articles'} in your results"><button type="button" data-reader-step="-1" ${index<=0?'disabled':''}>← Previous ${word}</button><p class="tw-small">${index>=0?(index+1)+' of '+filtered.length:'Outside these results'}</p><button type="button" data-reader-step="1" ${index<0||index>=filtered.length-1?'disabled':''}>Next ${word} →</button></nav>`;
 }
+function renderImpact(r,references){
+ if(!r.humanImpact)return '';
+ const impact=r.humanImpact,links=references.filter(s=>impact.sourceIds.includes(s.id));
+ return `<section class="tw-human-impact" aria-labelledby="tw-impact-heading"><h3 id="tw-impact-heading">What this meant for people</h3><p>${h(impact.text)}</p><p class="tw-small">Figures reported as of ${h(displayDate(impact.asOf))}. ${links.map(s=>`<a href="${h(s.url)}" target="_blank" rel="noopener noreferrer">${h(s.source)} <span aria-hidden="true">↗</span><span class="tw-sr-only"> (opens a new tab)</span></a>`).join(' · ')}</p></section>`;
+}
 function renderEventDetail(r){
  const references=(editorial.references||[]).filter(s=>r.sourceIds.includes(s.id)),archive=sources.filter(s=>[...(r.archiveSourceIds||[]),...r.sourceIds].includes(s.id));
  const rows=references.map(s=>`<li class="tw-evidence-source"><p class="tw-small">${h(s.source)}${s.publicationDate?' · Published '+h(displayDate(s.publicationDate)):''}</p><a href="${h(s.url)}" target="_blank" rel="noopener noreferrer">${h(s.title)} <span aria-hidden="true">↗</span><span class="tw-sr-only"> (opens a new tab)</span></a></li>`).join('');
- $('tw-detail').innerHTML=`<div class="tw-detail-top"><p class="tw-kicker">Key event</p><button type="button" data-close-detail>← Back to events</button></div><div class="tw-detail-body tw-event-detail">${readerSequence(r)}<p class="tw-event-date">${h(eventLabel(r))}</p><h2 id="tw-detail-title" tabindex="-1">${h(r.title)}</h2><p>${h(r.summary)}</p>${r.context?'<p>'+h(r.context)+'</p>':''}<section aria-labelledby="tw-evidence-heading"><h3 id="tw-evidence-heading">Supporting sources</h3><p class="tw-small">Reports and documents used for this event’s date and summary.</p><ol class="tw-evidence-list">${rows}</ol></section>${archive.length?`<section aria-labelledby="tw-event-archive-heading"><h3 id="tw-event-archive-heading">${references.length?'Related archive reading':'Supporting archive articles'}</h3>${references.length?'<p class="tw-small">Further reading, including later reporting. Archive dates are not event dates.</p>':''}<ol class="tw-event-archive-list">${archive.map(s=>`<li><p class="tw-small">${h(s.source)} · Archive date ${h(displayDate(s.importedDate))}</p><a href="${h(recordURL(s.id))}" data-select="${s.id}">${h(s.title)} <span aria-hidden="true">→</span></a></li>`).join('')}</ol><button type="button" data-save-event="${r.id}">Save archive articles</button></section>`:''}<div class="tw-detail-actions"><button type="button" data-share>Copy this event’s link</button></div><details class="tw-event-method"><summary>How this event was sourced</summary><p class="tw-small">${h(r.eventTime.rationale)}</p><p class="tw-small">${h(r.eventTime.precision)} date precision · Source check by ${h(r.review.reviewer)} on ${h(displayDate(r.review.reviewedAt))}. Selected milestones, not a complete chronology.</p></details></div>`;
+ $('tw-detail').innerHTML=`<div class="tw-detail-top"><p class="tw-kicker">${r.kind==='finding'?'Documented finding':'Key event'}</p><button type="button" data-close-detail>← Back to events</button></div><div class="tw-detail-body tw-event-detail">${readerSequence(r)}<p class="tw-event-date">${h(eventLabel(r))}</p><h2 id="tw-detail-title" tabindex="-1">${h(r.title)}</h2><p>${h(r.summary)}</p>${r.context?'<p>'+h(r.context)+'</p>':''}${renderImpact(r,references)}<section aria-labelledby="tw-evidence-heading"><h3 id="tw-evidence-heading">Supporting sources</h3><p class="tw-small">Reports and documents behind this entry. Report dates and assessment periods may differ from incident dates.</p><ol class="tw-evidence-list">${rows}</ol></section>${archive.length?`<section aria-labelledby="tw-event-archive-heading"><h3 id="tw-event-archive-heading">${references.length?'Related archive reading':'Supporting archive articles'}</h3>${references.length?'<p class="tw-small">Further reading, including later reporting. Archive dates are not event dates.</p>':''}<ol class="tw-event-archive-list">${archive.map(s=>`<li><p class="tw-small">${h(s.source)} · Archive date ${h(displayDate(s.importedDate))}</p><a href="${h(recordURL(s.id))}" data-select="${s.id}">${h(s.title)} <span aria-hidden="true">→</span></a></li>`).join('')}</ol><button type="button" data-save-event="${r.id}">Save archive articles</button></section>`:''}<div class="tw-detail-actions"><button type="button" data-share>Copy this event’s link</button></div><details class="tw-event-method"><summary>How this event was sourced</summary><p class="tw-small">${h(r.eventTime.rationale)}</p><p class="tw-small">${h(r.review.method||'')}</p><p class="tw-small">${h(r.eventTime.precision)} date precision · Source check by ${h(r.review.reviewer)} on ${h(displayDate(r.review.reviewedAt))}. Selected milestones, not a complete chronology.</p></details></div>`;
  if(!reducedMotion())$('tw-detail-title').animate([{opacity:.3},{opacity:1}],{duration:180});
 }
 function renderDetail() {
@@ -244,7 +250,7 @@ function renderDetail() {
 }
 function render() {
   if(loading)return;
-  $('tw-basis').innerHTML=state.mode==='sources'?'Dates shown are <strong>archive dates</strong>, not verified event or publication dates.':'Key events use <strong>event dates</strong>, with cited evidence and an explicitly labeled AI-assisted source check.';
+  $('tw-basis').innerHTML=state.mode==='sources'?'Dates shown are <strong>archive dates</strong>, not verified event or publication dates.':'Attacks use <strong>incident dates</strong>; findings are labeled <strong>Report published</strong>. Each entry cites its sources and an AI-assisted source check.';
   document.body.classList.toggle('tw-events-view',state.mode==='events');
   $('tw-view-tabs').hidden=!editorial.events.some(e=>e.status==='approved');
   $('tw-events-intro').hidden=state.mode!=='events';

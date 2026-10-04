@@ -152,6 +152,12 @@ export function validateEditorial(editorial, records) {
     if (seen.has(e.id)) errors.push(`Duplicate event ID: ${e.id}`); seen.add(e.id);
     if (!['draft','in_review','approved'].includes(e.status)) errors.push(`Invalid event status: ${e.id}`);
     if (e.status !== 'approved') continue;
+    if(e.kind && !['event','finding'].includes(e.kind))errors.push(`Invalid event kind: ${e.id}`);
+    if(e.humanImpact){
+      const impact=e.humanImpact;
+      if(!impact.text || !impact.locator || !impact.sourceIds?.length || !civilDate(impact.asOf) || impact.asOf>today())errors.push(`Incomplete human impact evidence: ${e.id}`);
+      for(const id of impact.sourceIds||[])if(!ids.has(id) || !e.sourceIds?.includes(id))errors.push(`Unknown impact source: ${e.id}/${id}`);
+    }
     for(const id of e.archiveSourceIds||[])if(!archiveIds.has(id))errors.push(`Unknown archive reading source: ${id}`);
     if (!e.review?.reviewer || !e.review?.reviewedAt || !e.eventTime?.rationale || !e.sourceIds?.length || !e.title || !e.summary) errors.push(`Incomplete approved event: ${e.id}`);
     if (!['day','month','year','interval','approximate','unknown'].includes(e.eventTime?.precision)) errors.push(`Invalid event precision: ${e.id}`);

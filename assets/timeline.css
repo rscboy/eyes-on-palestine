@@ -746,3 +746,9 @@ html:has(.tw-page) {scrollbar-gutter:stable}
  .tw-evidence-list a,.tw-event-archive-list a {font-size:1rem;min-height:48px}
  .tw-event-method summary {font-size:.875rem;min-height:48px}
 }
+
+/* Dated civilian consequences stay inside the reader, keeping the feed concise. */
+.tw-human-impact{border-inline-start:2px solid var(--tw-accent,#d5b46a);padding-inline-start:18px;margin-block:28px}
+.tw-human-impact h3{margin-top:0}
+.tw-human-impact .tw-small{line-height:1.65}
+.tw-human-impact a{text-underline-offset:3px}

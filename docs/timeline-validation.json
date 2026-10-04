@@ -93,7 +93,12 @@
     "phone event month picker jumps without hiding other events",
     "phone event search shows one clear result and dismisses the keyboard sheet",
     "event date, later source publication and AI-assisted source check remain explicit",
+    "continuous loading reveals every event and the final archive route",
     "end of selected milestones leads to latest archive and Back restores events",
+    "pattern findings label publication dates and cite scoped, dated civilian consequences",
+    "aid-seeker deaths retain separate location counts and their assessment date on phones",
+    "search finds harm described inside an event as well as its headline",
+    "uncertain release days show month precision, without implying a March 1 incident",
     "existing shared article URLs preserve their original reading view",
     "no event runtime errors"
   ],
@@ -108,7 +113,7 @@
     1440
   ],
   "errors": [],
-  "imageRequests": 119,
+  "imageRequests": 134,
   "touchEnabledWidths": [
     320,
     375,
@@ -117,12 +122,12 @@
     844
   ],
   "verifiedAt": "2026-10-04",
-  "dataTests": 31,
-  "browserChecks": 95,
+  "dataTests": 33,
+  "browserChecks": 100,
   "desktopAndResponsiveChecks": 46,
   "mobileTouchChecks": 23,
-  "javascriptGzipBytes": 28040,
-  "initialJsonGzipBytes": 380258,
+  "javascriptGzipBytes": 28449,
+  "initialJsonGzipBytes": 455453,
   "deployment": "GitHub Pages: https://echoesofgaza.org/timeline.html",
   "limits": [
     "Chrome desktop and touch-enabled mobile emulation only",
@@ -130,9 +135,9 @@
     "No VoiceOver or NVDA certification",
     "No field Core Web Vitals certification"
   ],
-  "eventBrowserChecks": 26,
-  "curatedEvents": 26,
-  "supportingReferences": 31,
+  "eventBrowserChecks": 31,
+  "curatedEvents": 42,
+  "supportingReferences": 50,
   "latestCuratedEvent": "2026-05-24",
   "latestArchiveDate": "2026-09-30"
 }
