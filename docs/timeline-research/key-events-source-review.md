@@ -4,7 +4,7 @@ Checked 4 October 2026. This is an AI-assisted source check, not a claim of huma
 
 The original archive remains unchanged. Institutional references are stored separately, and related archive links do not determine incident dates. Casualty figures and disputed accounts retain their attribution. Court orders, allegations, commission findings and warrants are not conflated with final court judgments.
 
-The expansion adds 16 entries about civilian harm, deprivation and patterns of abuse. The feed remains concise; dated civilian consequences appear inside selected readers with direct citations. No victims or atrocities are ranked. This selection remains incomplete and should receive ongoing editorial review.
+The expansion adds 16 entries about civilian harm, deprivation and patterns of abuse. One-sentence previews keep the feed concise; full accounts and dated civilian consequences appear in expandable entries with direct citations. All 42 entries remain available. Year navigation and secondary archive links simplify browsing; supporting sources stay visible when an event opens, while further reading and source-check notes are expandable. No victims or atrocities are ranked. This selection remains incomplete and should receive ongoing editorial review.
 
 ## Access and date limitations
 

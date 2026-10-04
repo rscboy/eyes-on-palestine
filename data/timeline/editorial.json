@@ -28,7 +28,8 @@
         "sourceIds": [
           "reference-ocha-oct7"
         ]
-      }
+      },
+      "shortSummary": "Palestinian armed groups kill and capture civilians and soldiers in Israel, and Israel begins airstrikes on Gaza."
     },
     {
       "id": "event-complete-siege",
@@ -61,7 +62,8 @@
           "reference-siege-announcement",
           "reference-ocha-siege"
         ]
-      }
+      },
+      "shortSummary": "Gallant announces cuts to food, electricity and fuel, using the phrase “human animals” in the same announcement."
     },
     {
       "id": "event-northern-evacuation",
@@ -90,7 +92,8 @@
         "sourceIds": [
           "reference-ocha-evacuation"
         ]
-      }
+      },
+      "shortSummary": "Israeli forces order roughly 1.1 million people to leave northern Gaza within 24 hours."
     },
     {
       "id": "event-ground-offensive",
@@ -119,7 +122,8 @@
         "sourceIds": [
           "reference-ocha-blackout"
         ]
-      }
+      },
+      "shortSummary": "A communications blackout and expanding Israeli ground operations severely disrupt aid and emergency rescue."
     },
     {
       "id": "event-jabalia-strikes",
@@ -150,7 +154,8 @@
         "sourceIds": [
           "reference-ocha-jabalia"
         ]
-      }
+      },
+      "shortSummary": "OCHA reports dozens killed and residential buildings destroyed in consecutive Israeli airstrikes on the refugee camp."
     },
     {
       "id": "event-al-shifa-raid",
@@ -179,7 +184,8 @@
         "sourceIds": [
           "reference-ocha-shifa"
         ]
-      }
+      },
+      "shortSummary": "Israeli troops enter Al-Shifa as OCHA reports almost all northern inpatient hospitals have stopped admitting patients."
     },
     {
       "id": "event-humanitarian-pause",
@@ -210,7 +216,8 @@
           "reference-ocha-pause",
           "reference-ocha-pause-aid"
         ]
-      }
+      },
+      "shortSummary": "An agreed pause brings increased food, water and medical deliveries alongside hostage releases."
     },
     {
       "id": "event-south-africa-case",
@@ -239,7 +246,8 @@
         "sourceIds": [
           "reference-icj-january"
         ]
-      }
+      },
+      "shortSummary": "South Africa asks the ICJ for urgent measures under the Genocide Convention."
     },
     {
       "id": "event-icj-provisional-measures",
@@ -268,7 +276,8 @@
         "sourceIds": [
           "reference-icj-january"
         ]
-      }
+      },
+      "shortSummary": "The ICJ orders protection measures for Palestinians and urgently needed humanitarian assistance."
     },
     {
       "id": "event-hind-rajab",
@@ -304,7 +313,8 @@
           "reference-prcs-hind",
           "reference-ohchr-hind"
         ]
-      }
+      },
+      "shortSummary": "PRCS reports Hind, her relatives and two rescuing paramedics killed after Israeli fire hits their vehicles."
     },
     {
       "id": "event-nasser-hospital",
@@ -351,7 +361,8 @@
         ],
         "asOf": "2024-02-20",
         "locator": "WHO statement: life-saving transfers, patient conditions and lack of portable ventilators."
-      }
+      },
+      "shortSummary": "WHO reports Nasser left without power or running water, with at least five ICU patients dead before rescue missions arrived."
     },
     {
       "id": "event-rashid-road-aid",
@@ -380,7 +391,8 @@
         "sourceIds": [
           "reference-ocha-rashid"
         ]
-      }
+      },
+      "shortSummary": "OCHA reports more than 100 Palestinians killed around food trucks, with conflicting accounts of how they died."
     },
     {
       "id": "event-child-starvation",
@@ -419,7 +431,8 @@
         ],
         "asOf": "2024-03-03",
         "locator": "UNICEF statement: January screening results, northern Gaza."
-      }
+      },
+      "shortSummary": "UNICEF reports at least ten children dying from malnutrition and dehydration at Kamal Adwan Hospital in recent days."
     },
     {
       "id": "event-al-shifa-destruction",
@@ -463,7 +476,8 @@
         ],
         "asOf": "2024-04-06",
         "locator": "WHO statement: emergency department, neonatal equipment and hospital director’s account."
-      }
+      },
+      "shortSummary": "WHO finds Gaza’s largest hospital in ruins, with burned medical equipment and bodies in its grounds."
     },
     {
       "id": "event-wck-convoy",
@@ -494,7 +508,8 @@
           "reference-wck-strike",
           "reference-wck-timeline"
         ]
-      }
+      },
+      "shortSummary": "An Israeli strike kills seven World Central Kitchen workers and halts WCK’s regional operations."
     },
     {
       "id": "event-hospital-mass-graves",
@@ -525,7 +540,8 @@
         "sourceIds": [
           "reference-ohchr-hospital-graves"
         ]
-      }
+      },
+      "shortSummary": "OHCHR reports hundreds of bodies at hospitals and calls for investigation into accounts of bound and stripped victims."
     },
     {
       "id": "event-rafah-operation",
@@ -563,7 +579,8 @@
         ],
         "asOf": "2024-05-29",
         "locator": "Key highlights and humanitarian developments: Rafah displacement since 6 May."
-      }
+      },
+      "shortSummary": "Israeli evacuation orders displace families, and the closure of Rafah Crossing cuts off movement of goods and people."
     },
     {
       "id": "event-icj-rafah-order",
@@ -592,7 +609,8 @@
         "sourceIds": [
           "reference-icj-rafah"
         ]
-      }
+      },
+      "shortSummary": "The ICJ orders further measures concerning Rafah, humanitarian access and investigations into genocide allegations."
     },
     {
       "id": "event-rafah-tent-fire",
@@ -623,7 +641,8 @@
         "sourceIds": [
           "reference-ocha-rafah-tent-fire"
         ]
-      }
+      },
+      "shortSummary": "Gaza’s Ministry of Health reports 45 killed and 249 injured after a strike ignites a Rafah displacement site."
     },
     {
       "id": "event-nuseirat-operation",
@@ -652,7 +671,8 @@
         "sourceIds": [
           "reference-ocha-nuseirat"
         ]
-      }
+      },
+      "shortSummary": "OCHA cites Gaza’s Ministry of Health reporting 274 Palestinians killed during the operation that rescues four hostages."
     },
     {
       "id": "event-mass-displacement-conditions",
@@ -692,7 +712,8 @@
         ],
         "asOf": "2024-07-12",
         "locator": "UNRWA account of conditions at the Deir al-Balah school shelter."
-      }
+      },
+      "shortSummary": "OCHA reports more than 1.9 million displaced people facing overcrowded shelters and severe water and sanitation shortages."
     },
     {
       "id": "event-al-mawasi-strike",
@@ -723,7 +744,8 @@
         "sourceIds": [
           "reference-ocha-mawasi-strike"
         ]
-      }
+      },
+      "shortSummary": "Gaza’s Ministry of Health reports 90 killed and 300 injured in strikes on an Israel-designated humanitarian zone."
     },
     {
       "id": "event-detention-torture",
@@ -766,7 +788,8 @@
         ],
         "asOf": "2024-07-31",
         "locator": "Report release: deaths in detention, geographical scope and assessment period."
-      }
+      },
+      "shortSummary": "OHCHR records accounts of beatings, electric shocks, forced nudity and sexual violence in Israeli custody."
     },
     {
       "id": "event-al-tabeen-school",
@@ -805,7 +828,8 @@
         ],
         "asOf": "2024-08-12",
         "locator": "OHCHR account of the school-shelter strike series."
-      }
+      },
+      "shortSummary": "Palestinian Civil Defense initially reports about 90 killed in a strike during dawn prayers at a school shelter."
     },
     {
       "id": "event-polio-campaign",
@@ -834,7 +858,8 @@
         "sourceIds": [
           "reference-who-polio"
         ]
-      }
+      },
+      "shortSummary": "Health teams begin emergency vaccinations after Gaza’s first reported polio case in 25 years."
     },
     {
       "id": "event-north-gaza-siege",
@@ -863,7 +888,8 @@
         "sourceIds": [
           "reference-ocha-north-siege"
         ]
-      }
+      },
+      "shortSummary": "OCHA reports an intensified siege of northern towns and widespread obstruction of humanitarian access."
     },
     {
       "id": "event-icc-warrants",
@@ -894,7 +920,8 @@
         "sourceIds": [
           "reference-icc-warrants"
         ]
-      }
+      },
+      "shortSummary": "The ICC issues warrants for Netanyahu and Gallant concerning alleged war crimes and crimes against humanity."
     },
     {
       "id": "event-kamal-adwan-raid",
@@ -935,7 +962,8 @@
         ],
         "asOf": "2024-12-28",
         "locator": "WHO statement: critical patient transfers and remaining hospital capacity."
-      }
+      },
+      "shortSummary": "WHO reports North Gaza’s last major hospital shut by an Israeli raid, with initial accounts of forced stripping and evacuation."
     },
     {
       "id": "event-january-ceasefire",
@@ -964,7 +992,8 @@
         "sourceIds": [
           "reference-ocha-january-ceasefire"
         ]
-      }
+      },
+      "shortSummary": "A ceasefire increases aid deliveries and begins releases of hostages and Palestinian detainees."
     },
     {
       "id": "event-reproductive-violence",
@@ -999,7 +1028,8 @@
         "sourceIds": [
           "reference-un-reproductive-violence"
         ]
-      }
+      },
+      "shortSummary": "A UN commission finds reproductive healthcare devastated and concludes that birth-prevention measures and destructive conditions amount to genocidal acts."
     },
     {
       "id": "event-march-aid-blockade",
@@ -1030,7 +1060,8 @@
           "reference-ocha-march-closure",
           "reference-ocha-march-briefing"
         ]
-      }
+      },
+      "shortSummary": "Israel stops humanitarian aid and other supplies from entering Gaza, interrupting food, medicine and fuel deliveries."
     },
     {
       "id": "event-march-bombardment",
@@ -1059,7 +1090,8 @@
         "sourceIds": [
           "reference-ocha-march-briefing"
         ]
-      }
+      },
+      "shortSummary": "Intense Israeli airstrikes resume while lifesaving supplies remain cut off."
     },
     {
       "id": "event-rescue-workers-killed",
@@ -1090,7 +1122,8 @@
         "sourceIds": [
           "reference-ocha-rescue-workers"
         ]
-      }
+      },
+      "shortSummary": "OCHA reports 15 responders found buried with emergency vehicles after crews were struck while searching for colleagues."
     },
     {
       "id": "event-ghf-distribution",
@@ -1121,7 +1154,8 @@
           "reference-ghf-communication",
           "reference-ocha-aid-hubs"
         ]
-      }
+      },
+      "shortSummary": "GHF opens food-distribution sites that the UN says violate humanitarian principles and endanger people seeking food."
     },
     {
       "id": "event-aid-seeker-killings",
@@ -1165,7 +1199,8 @@
         ],
         "asOf": "2025-07-31",
         "locator": "OHCHR’s separate distribution-site and convoy-route counts, cited by OCHA."
-      }
+      },
+      "shortSummary": "OHCHR reports at least 1,373 Palestinians killed seeking food between 27 May and 31 July, mostly by the Israeli military."
     },
     {
       "id": "event-famine-confirmed",
@@ -1209,7 +1244,8 @@
         ],
         "asOf": "2025-08-22",
         "locator": "Joint agency release: July child malnutrition figures and severity."
-      }
+      },
+      "shortSummary": "UN agencies describe more than half a million people trapped in famine, with widespread starvation and preventable deaths."
     },
     {
       "id": "event-un-genocide-finding",
@@ -1239,7 +1275,8 @@
         "sourceIds": [
           "reference-un-genocide-finding"
         ]
-      }
+      },
+      "shortSummary": "The UN commission concludes Israel committed genocide through killings, serious harm, destructive living conditions and measures intended to prevent births."
     },
     {
       "id": "event-october-ceasefire",
@@ -1272,7 +1309,8 @@
         "sourceIds": [
           "reference-ocha-october-ceasefire"
         ]
-      }
+      },
+      "shortSummary": "Another ceasefire expands aid deliveries as families face extensive destruction and displacement."
     },
     {
       "id": "event-rafah-reopening",
@@ -1305,7 +1343,8 @@
         "sourceIds": [
           "reference-ocha-rafah-reopening"
         ]
-      }
+      },
+      "shortSummary": "Limited movements through Rafah resume for medical evacuations and Palestinians returning to Gaza."
     },
     {
       "id": "event-regional-crossing-closure",
@@ -1334,7 +1373,8 @@
         "sourceIds": [
           "reference-ocha-february-crossings"
         ]
-      }
+      },
+      "shortSummary": "Israel closes Gaza’s crossings, suspending supplies and medical evacuations until Kerem Shalom partially reopens."
     },
     {
       "id": "event-civilian-infrastructure-devastation",
@@ -1374,7 +1414,8 @@
         ],
         "asOf": "2026-03-25",
         "locator": "Snapshot sections: Education and Health; assessment dates shown separately."
-      }
+      },
+      "shortSummary": "OCHA lists 320,622 damaged housing units and about 93% of schools needing major rebuilding, using October 2025 assessments."
     },
     {
       "id": "event-zikim-closure",
@@ -1403,7 +1444,8 @@
         "sourceIds": [
           "reference-ocha-zikim-closure"
         ]
-      }
+      },
+      "shortSummary": "Zikim’s closure removes a direct northern aid route and pushes deliveries through congested Kerem Shalom."
     }
   ],
   "claims": [],
@@ -2460,6 +2502,56 @@
         "event-famine-confirmed",
         "event-un-genocide-finding",
         "event-civilian-infrastructure-devastation"
+      ]
+    },
+    {
+      "id": "revision-simple-inline-timeline-20261004",
+      "timestamp": "2026-10-04",
+      "actor": "Codex",
+      "reason": "Owner-approved simplification: one-sentence event previews, year navigation and inline evidence, retaining all full accounts and references.",
+      "entityIds": [
+        "event-october-7",
+        "event-complete-siege",
+        "event-northern-evacuation",
+        "event-ground-offensive",
+        "event-jabalia-strikes",
+        "event-al-shifa-raid",
+        "event-humanitarian-pause",
+        "event-south-africa-case",
+        "event-icj-provisional-measures",
+        "event-hind-rajab",
+        "event-nasser-hospital",
+        "event-rashid-road-aid",
+        "event-child-starvation",
+        "event-al-shifa-destruction",
+        "event-wck-convoy",
+        "event-hospital-mass-graves",
+        "event-rafah-operation",
+        "event-icj-rafah-order",
+        "event-rafah-tent-fire",
+        "event-nuseirat-operation",
+        "event-mass-displacement-conditions",
+        "event-al-mawasi-strike",
+        "event-detention-torture",
+        "event-al-tabeen-school",
+        "event-polio-campaign",
+        "event-north-gaza-siege",
+        "event-icc-warrants",
+        "event-kamal-adwan-raid",
+        "event-january-ceasefire",
+        "event-reproductive-violence",
+        "event-march-aid-blockade",
+        "event-march-bombardment",
+        "event-rescue-workers-killed",
+        "event-ghf-distribution",
+        "event-aid-seeker-killings",
+        "event-famine-confirmed",
+        "event-un-genocide-finding",
+        "event-october-ceasefire",
+        "event-rafah-reopening",
+        "event-regional-crossing-closure",
+        "event-civilian-infrastructure-devastation",
+        "event-zikim-closure"
       ]
     }
   ],

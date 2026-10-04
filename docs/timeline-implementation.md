@@ -4,9 +4,9 @@ The interactive route is `timeline.html`. It starts in **2023** and defaults to 
 
 ## Event curation and evidence
 
-Each entry displays an incident date or an explicitly approximate/interval label, a headline, and a short explanation. Findings covering a pattern of abuse carry `kind: "finding"` and show “Report published” before the date. They do not assign all underlying abuses to publication day. Selecting it opens supporting reports/documents and separately labeled related archive reading. Primary links open in a new tab; archive records open in the existing reader with a Back to event action. Previous/next event and exact feed return retain reading context. The final milestone offers a direct route to latest archive reporting.
+Each entry displays an incident date or an explicitly approximate/interval label, a headline, and one original, attributed sentence in `shortSummary`. The complete summary and context remain stored separately and searchable. Findings covering a pattern of abuse carry `kind: "finding"` and show “Report published” before the date. They do not assign all underlying abuses to publication day. Selecting an event expands its full account and supporting sources immediately below its card. Only one event is expanded; it is a non-modal disclosure with an expanded-state title link and a Close details button. Related archive reading and sourcing notes use native disclosures. Primary links open in a new tab; archive records use the existing modal reader, with Back or Escape returning to the same expanded event. Closing the event restores its trigger and reading position. Shared events outside active results retain a fallback reader. The final milestone offers a direct route to latest archive reporting.
 
-Selected entries have a “What this meant for people” section inside the reader. `humanImpact` requires original text, a valid reporting date, supporting source IDs belonging to the entry, and a passage locator. Figures preserve geography, assessment periods and attribution. Search includes this detail, so readers can find documented harms not mentioned in headlines. The expanded list loads in batches of 30; the latest-archive route appears when the last batch loads.
+Selected entries have a “What this meant for people” section inside the expanded event. `humanImpact` requires original text, a valid reporting date, supporting source IDs belonging to the entry, and a passage locator. Figures preserve geography, assessment periods and attribution. Search includes this detail, so readers can find documented harms not mentioned in headlines. All 42 events render in one continuous chronology with visible year headings. Year links move through matching events without filtering or hiding earlier entries. Month/date selection is optional in More. Existing date links preserve their reading anchor. The large source archive continues to use bounded windows and batches of 30.
 
 The source check is explicitly **AI-assisted**, dated 4 October 2026, and claims no human editorial approval. See [the source review record](timeline-research/key-events-source-review.md) for citations and date locators. Some institutional originals blocked direct retrieval; indexed text was consulted and that limitation is recorded per reference. Reported casualties retain attribution; disputed reports remain described as such. ICJ provisional measures are not described as final genocide findings, ICC warrants are not convictions, and the famine announcement is distinguished from the assessment date and geographical scope.
 
@@ -14,9 +14,9 @@ Institutional/original reporting references live in `editorial.references`; they
 
 ## Navigation and reading flow
 
-- The initial screen has a small “Timeline · 2023–today” heading, Key events / All articles controls, one date navigator, and cards. The navigator sticks below the header on desktop and becomes a thumb-friendly bottom bar on phones. The large introduction, illustrations, year rail, duplicate period headings, global result count, topic buttons, and card action rows are removed. The first card begins within the first 300px at tested phone widths.
-- The month navigator has previous/next arrows, a month picker, Search, and More. Arrows skip months without matching records. The visible month follows scrolling; the picker contains a year selector, month choices, an archive-date field, and first/latest actions.
-- Search expands on request. Desktop search-query links expand the field; phone query links show the filtered feed without opening a sheet. More contains Filters, Saved sources, View options, and About this timeline. Native dialogs keep secondary tools away from the main feed, trap focus, and return to their opener when closed.
+- The event screen has a small “Timeline · 2023–today” heading, a secondary Browse all articles link, a short tap hint, visible year headings and compact cards. Its navigator contains 2023–2026 year links, Search and More. The article view has a Back to timeline link and its existing month navigator. The navigator sticks below the header on desktop and becomes a thumb-friendly bottom bar on phones. The large introduction, illustrations, year rail, duplicate period headings, global result count, topic buttons, and card action rows are removed. The first event card begins within the first 300px at tested phone widths, including its year heading.
+- In the article view, the month navigator has previous/next arrows, a month picker, Search, and More. Arrows skip months without matching records. The visible month follows scrolling; the picker contains a year selector, month choices, an archive-date field, and first/latest actions.
+- Search expands on request. Desktop search-query links expand the field; phone query links show the filtered feed without opening a sheet. In the timeline, More contains Choose month or date and About this timeline. In the article view it contains Filters, Saved sources, View options, and About this timeline. Native dialogs keep secondary tools away from the main feed, trap focus, and return to their opener when closed.
 - Date navigation **moves within current results**. Search and Filters narrow the collection separately. Active non-date filters are individually removable; a count is shown only for filtered/search results. Clear all filters restores the collection.
 - Restricted date links show a brief “January 2024 only” (or “Date range active”) notice with Browse all dates. This action removes only the date restriction and preserves the reading month and other filters. It avoids trapping visitors in a legacy month-filter link.
 - In All articles, cards contain an available source photo, title, publisher, and labeled archive date. Missing or failed images produce a text card, without decorative image placeholders. Cards and their keyboard-operable title links open the reading drawer. Original article links, saving, summaries, topics, provenance, and related reporting remain inside that drawer.
@@ -44,7 +44,7 @@ These implement the principles in [the research dossier](timeline-research/echoe
 | Research principle | Implementation |
 | --- | --- |
 | Keep time and reading context visible | Synchronized month navigator, minimal reading progress, explicit filter recovery |
-| Overview first, detail on demand | Month picker, simple photo/text cards, stable desktop drawer and full mobile reader |
+| Overview first, detail on demand | Year links and inline evidence for events; month picker and source reader for archive research |
 | Support several routes into a collection | Date navigation and on-demand Search, with topics/publishers/collections under More → Filters |
 | Avoid forcing a chart interaction | Native year/month buttons, date fields, keyboard-operable details menus, ordinary links |
 | Preserve provenance and uncertainty | Archive date labels with an accessible explanation, full provenance in the reader, actual capture URLs only |
@@ -95,7 +95,7 @@ The browser suite can use the Codex bundled Playwright installation. `EOG_TIMELI
 
 The focused data suite passes **33 tests**. It exercises corpus accounting, date separation, invalid civil dates, month/year bounds, facet logic, overview counts, unknown dates, tie ordering, URL state, text escaping, unsafe links, citation uncertainty, packet migration, collision checks, stable source IDs, future exclusions, manual integrity overrides, preservation URL validation, reading routes, and approved-event validation.
 
-The browser suites pass **100 checks**: 46 desktop/responsive checks, 23 touch-enabled phone checks, and 31 event/evidence navigation checks. Its saved result is [timeline-validation.json](timeline-validation.json). It covers:
+The browser suites pass **111 checks**: 46 desktop/responsive checks, 23 touch-enabled phone checks, and 42 event/evidence navigation checks. Its saved result is [timeline-validation.json](timeline-validation.json). It covers:
 
 - 2023 start, bounded reading windows, populated-month arrows, unavailable-month states, date-picker focus, and navigation that preserves filters.
 - Search, shareable reading dates, selected-source links, same-position reload, browser Back, drawer sequencing, and exact scroll/focus return.
@@ -106,14 +106,14 @@ The browser suites pass **100 checks**: 46 desktop/responsive checks, 23 touch-e
 - 320, 390, 430, 768, 1280, and 1440-pixel layouts without horizontal document overflow; mobile reading and navigation behavior.
 - Reduced motion and 200% root text enlargement.
 - Dataset failure recovery and all 1,342 sources in the no-JavaScript static edition.
-- Synthetic approved-event fixtures for year-level precision and saving source bundles. These fixtures exist only in intercepted browser-test responses and are never published.
+- Synthetic approved-event fixtures for year-level precision and supporting archive articles. These fixtures exist only in intercepted browser-test responses and are never published.
 - No timeline JavaScript runtime errors.
 
 A separate touch-enabled browser suite covers 320, 375, 390, and 430px portrait screens, an 844px landscape phone, short search viewports, desktop/mobile resizing, typed spaces, modal focus, date filters, reader controls, and unobstructed final actions.
 
 Browser checks use Chrome. VoiceOver, NVDA, field performance, and a physical slower phone have **not** been certified by these tests. This implementation is not a claim of comprehensive WCAG conformance.
 
-The initial timeline JSON totals **455,453 bytes gzip**, below the prompt's proposed **500 KB gzip** budget. The controller, core, shared packet helper, and site shell total **28,449 bytes gzip**, below **150 KB gzip**. Publisher images load lazily and are separate from those budgets. These measurements do not guarantee field Core Web Vitals.
+The initial timeline JSON totals **456,586 bytes gzip**, below the prompt's proposed **500 KB gzip** budget. The controller, core, shared packet helper, and site shell total **29,802 bytes gzip**, below **150 KB gzip**. Publisher images load lazily and are separate from those budgets. These measurements do not guarantee field Core Web Vitals.
 
 ## Editorial workflow
 
