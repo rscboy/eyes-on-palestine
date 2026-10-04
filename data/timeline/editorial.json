@@ -1,9 +1,1467 @@
 {
-  "version": 1,
-  "events": [],
+  "version": 2,
+  "events": [
+    {
+      "id": "event-october-7",
+      "status": "approved",
+      "title": "7 October attacks and the start of bombardment",
+      "summary": "Palestinian armed groups attack communities and military sites in Israel, killing and capturing civilians and soldiers. Israel begins airstrikes on Gaza.",
+      "context": "This is the starting point of the selected chronology, not the beginning of Gaza’s history or the occupation.",
+      "themes": [
+        "policy-military"
+      ],
+      "sourceIds": [
+        "reference-ocha-oct7"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2023-10-07",
+        "end": null,
+        "precision": "day",
+        "label": "2023-10-07",
+        "rationale": "Situation overview: attacks, captives and the start of Israeli strikes on 7 October.",
+        "sourceIds": [
+          "reference-ocha-oct7"
+        ]
+      }
+    },
+    {
+      "id": "event-complete-siege",
+      "status": "approved",
+      "title": "Israel announces a complete siege of Gaza",
+      "summary": "Israel’s defence minister announces that electricity, food and fuel will be cut off. The restrictions threaten essential services and food supplies.",
+      "context": "",
+      "themes": [
+        "food-aid"
+      ],
+      "sourceIds": [
+        "reference-siege-announcement",
+        "reference-ocha-siege"
+      ],
+      "archiveSourceIds": [
+        "source-56ed91f7-3e52-443f-b0ee-8f88d34f21a1"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2023-10-09",
+        "end": null,
+        "precision": "day",
+        "label": "2023-10-09",
+        "rationale": "9 October announcement; OCHA Flash Update #4, food security and essential-service restrictions.",
+        "sourceIds": [
+          "reference-siege-announcement",
+          "reference-ocha-siege"
+        ]
+      }
+    },
+    {
+      "id": "event-northern-evacuation",
+      "status": "approved",
+      "title": "Northern Gaza is ordered to evacuate",
+      "summary": "Israeli forces order roughly 1.1 million people in northern Gaza to move south within 24 hours. OCHA reports mass displacement amid continuing bombardment.",
+      "context": "Displacement does not establish that the places people are directed toward are safe.",
+      "themes": [
+        "land-home"
+      ],
+      "sourceIds": [
+        "reference-ocha-evacuation"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2023-10-13",
+        "end": null,
+        "precision": "day",
+        "label": "2023-10-13",
+        "rationale": "Key points: the overnight evacuation order and its 24-hour deadline.",
+        "sourceIds": [
+          "reference-ocha-evacuation"
+        ]
+      }
+    },
+    {
+      "id": "event-ground-offensive",
+      "status": "approved",
+      "title": "Ground operations expand as communications go dark",
+      "summary": "A communications blackout cuts contact with Gaza as Israeli ground forces enter more areas. Aid delivery and emergency responders’ ability to locate people are severely disrupted.",
+      "context": "",
+      "themes": [
+        "policy-military"
+      ],
+      "sourceIds": [
+        "reference-ocha-blackout"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2023-10-27",
+        "end": "2023-10-28",
+        "precision": "interval",
+        "label": "27–28 October 2023",
+        "rationale": "Key points: blackout from 27 October at about 18:00 and ground operations over the following 24 hours.",
+        "sourceIds": [
+          "reference-ocha-blackout"
+        ]
+      }
+    },
+    {
+      "id": "event-al-shifa-raid",
+      "status": "approved",
+      "title": "Israeli forces enter Al-Shifa Hospital",
+      "summary": "Israeli troops and tanks enter Gaza’s Al-Shifa Hospital. OCHA reports that almost all northern hospitals with inpatient capacity are no longer admitting patients.",
+      "context": "A later raid in March 2024 is a separate episode. The archive also includes reporting on that later destruction.",
+      "themes": [
+        "health-care"
+      ],
+      "sourceIds": [
+        "reference-ocha-shifa"
+      ],
+      "archiveSourceIds": [
+        "source-ed4c7738-c2b7-4b5f-a1c4-71e9575be5cd"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2023-11-15",
+        "end": null,
+        "precision": "day",
+        "label": "2023-11-15",
+        "rationale": "Key points: entry into the Shifa compound on 15 November; northern hospital capacity.",
+        "sourceIds": [
+          "reference-ocha-shifa"
+        ]
+      }
+    },
+    {
+      "id": "event-humanitarian-pause",
+      "status": "approved",
+      "title": "A humanitarian pause begins",
+      "summary": "An agreed pause allows aid deliveries to increase and hostages to be released. The UN scales up deliveries of food, water, fuel and medical supplies.",
+      "context": "",
+      "themes": [
+        "policy-military"
+      ],
+      "sourceIds": [
+        "reference-ocha-pause",
+        "reference-ocha-pause-aid"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2023-11-24",
+        "end": null,
+        "precision": "day",
+        "label": "2023-11-24",
+        "rationale": "Flash Update #49, key points: the pause begins at 07:00 on 24 November; first-day aid statement.",
+        "sourceIds": [
+          "reference-ocha-pause",
+          "reference-ocha-pause-aid"
+        ]
+      }
+    },
+    {
+      "id": "event-south-africa-case",
+      "status": "approved",
+      "title": "South Africa brings a genocide case to the ICJ",
+      "summary": "South Africa files proceedings against Israel under the Genocide Convention concerning Gaza and requests urgent provisional measures.",
+      "context": "Filing a case and the Court’s later interim orders are distinct legal steps.",
+      "themes": [
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-icj-january"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2023-12-29",
+        "end": null,
+        "precision": "day",
+        "label": "2023-12-29",
+        "rationale": "Opening procedural history: application filed on 29 December 2023.",
+        "sourceIds": [
+          "reference-icj-january"
+        ]
+      }
+    },
+    {
+      "id": "event-icj-provisional-measures",
+      "status": "approved",
+      "title": "The ICJ orders provisional measures",
+      "summary": "The Court orders measures to protect Palestinians in Gaza, prevent acts prohibited by the Genocide Convention, and enable urgently needed humanitarian assistance.",
+      "context": "The order is an interim measure, not a final judgment on the merits of the genocide case.",
+      "themes": [
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-icj-january"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-01-26",
+        "end": null,
+        "precision": "day",
+        "label": "2024-01-26",
+        "rationale": "Conclusion and operative clause: measures adopted on 26 January 2024.",
+        "sourceIds": [
+          "reference-icj-january"
+        ]
+      }
+    },
+    {
+      "id": "event-nasser-hospital",
+      "status": "approved",
+      "title": "Israeli forces enter Nasser Hospital",
+      "summary": "OCHA reports Israeli forces entering Nasser Hospital in Khan Younis. Days later, WHO transfers critically ill patients and warns about those remaining inside.",
+      "context": "",
+      "themes": [
+        "health-care"
+      ],
+      "sourceIds": [
+        "reference-ocha-nasser",
+        "reference-who-nasser"
+      ],
+      "archiveSourceIds": [
+        "source-5fe5a0df-349b-410a-bff6-75b336c04ef5",
+        "source-2500cd0c-e57f-4903-82be-c2b85e2786ca",
+        "source-ea6424eb-c570-4370-86b9-9668bfb7692f",
+        "source-dfc5b192-8e67-494a-adf3-30aa97e7a973",
+        "source-3a3b077f-1a89-4560-b855-760ce3925450",
+        "source-394ebd82-74e9-48be-93d6-f67127b26dd9",
+        "source-a51bf44b-7095-4dc1-87e0-9d83b192ddbb"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-02-15",
+        "end": null,
+        "precision": "day",
+        "label": "2024-02-15",
+        "rationale": "Flash Update #119: forces reported inside Nasser on 15 February; WHO account of subsequent patient transfers.",
+        "sourceIds": [
+          "reference-ocha-nasser",
+          "reference-who-nasser"
+        ]
+      }
+    },
+    {
+      "id": "event-rashid-road-aid",
+      "status": "approved",
+      "title": "People seeking food are killed on Al Rashid Road",
+      "summary": "More than 100 Palestinians are reported killed as people gather around trucks carrying supplies near Gaza City. OCHA documents the deaths and differing accounts of how they occurred.",
+      "context": "OCHA attributes the initial toll to Gaza’s Ministry of Health and records conflicting initial accounts. The entry does not resolve those accounts into an unsupported finding.",
+      "themes": [
+        "food-aid"
+      ],
+      "sourceIds": [
+        "reference-ocha-rashid"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-02-29",
+        "end": null,
+        "precision": "day",
+        "label": "2024-02-29",
+        "rationale": "Key highlights and Gaza updates: 29 February aid-truck incident, attributed casualty reports and differing accounts.",
+        "sourceIds": [
+          "reference-ocha-rashid"
+        ]
+      }
+    },
+    {
+      "id": "event-wck-convoy",
+      "status": "approved",
+      "title": "An Israeli strike kills seven WCK aid workers",
+      "summary": "An Israeli strike hits a World Central Kitchen convoy, killing seven team members. WCK pauses its regional operations.",
+      "context": "The event took place on 1 April; WCK’s statement was published on 2 April. These dates are kept separate.",
+      "themes": [
+        "food-aid"
+      ],
+      "sourceIds": [
+        "reference-wck-strike",
+        "reference-wck-timeline"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-04-01",
+        "end": null,
+        "precision": "day",
+        "label": "2024-04-01",
+        "rationale": "WCK response timeline: April 1 convoy strike; 2 April statement: seven deaths and immediate operational pause.",
+        "sourceIds": [
+          "reference-wck-strike",
+          "reference-wck-timeline"
+        ]
+      }
+    },
+    {
+      "id": "event-rafah-operation",
+      "status": "approved",
+      "title": "The Rafah operation displaces families and closes the crossing",
+      "summary": "Families leave Rafah after evacuation orders. Israeli forces take control of the Gazan side of Rafah Crossing, which closes to goods and people on 7 May.",
+      "context": "",
+      "themes": [
+        "land-home"
+      ],
+      "sourceIds": [
+        "reference-ocha-rafah"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-05-06",
+        "end": "2024-05-07",
+        "precision": "interval",
+        "label": "6–7 May 2024",
+        "rationale": "Rafah developments: evacuation orders on 6 May and closure of the crossing on 7 May.",
+        "sourceIds": [
+          "reference-ocha-rafah"
+        ]
+      }
+    },
+    {
+      "id": "event-icj-rafah-order",
+      "status": "approved",
+      "title": "The ICJ issues further measures concerning Rafah",
+      "summary": "The Court issues further measures concerning the Rafah offensive, humanitarian access and access for investigations into allegations of genocide.",
+      "context": "The order requires halting the offensive and other action in Rafah that may impose conditions of life capable of destroying the Palestinian group in Gaza, wholly or partly. It also addresses keeping Rafah Crossing open for urgently needed assistance.",
+      "themes": [
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-icj-rafah"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-05-24",
+        "end": null,
+        "precision": "day",
+        "label": "2024-05-24",
+        "rationale": "Conclusion and measures: the Rafah order and its conditions.",
+        "sourceIds": [
+          "reference-icj-rafah"
+        ]
+      }
+    },
+    {
+      "id": "event-nuseirat-operation",
+      "status": "approved",
+      "title": "The Nuseirat operation causes mass casualties",
+      "summary": "An Israeli operation in Nuseirat rescues four hostages. OCHA reports 274 Palestinians killed, citing Gaza’s Ministry of Health, and describes hospitals overwhelmed by casualties.",
+      "context": "",
+      "themes": [
+        "policy-military"
+      ],
+      "sourceIds": [
+        "reference-ocha-nuseirat"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-06-08",
+        "end": null,
+        "precision": "day",
+        "label": "2024-06-08",
+        "rationale": "Gaza updates: 8 June Nuseirat operation, hostage rescue and casualties attributed to the Ministry of Health.",
+        "sourceIds": [
+          "reference-ocha-nuseirat"
+        ]
+      }
+    },
+    {
+      "id": "event-polio-campaign",
+      "status": "approved",
+      "title": "An emergency polio vaccination campaign begins",
+      "summary": "Following Gaza’s first reported polio case in 25 years, health teams begin an emergency campaign to vaccinate children. Humanitarian pauses allow the initial phase to proceed.",
+      "context": "",
+      "themes": [
+        "health-care"
+      ],
+      "sourceIds": [
+        "reference-who-polio"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-09-01",
+        "end": null,
+        "precision": "day",
+        "label": "2024-09-01",
+        "rationale": "Opening and campaign overview: start on 1 September; first phase on 1–3 September.",
+        "sourceIds": [
+          "reference-who-polio"
+        ]
+      }
+    },
+    {
+      "id": "event-north-gaza-siege",
+      "status": "approved",
+      "title": "A renewed siege tightens around northern Gaza",
+      "summary": "Jabalya, Beit Hanoun and Beit Lahiya come under an intensified Israeli siege. OCHA records widespread denial and obstruction of humanitarian access.",
+      "context": "",
+      "themes": [
+        "land-home"
+      ],
+      "sourceIds": [
+        "reference-ocha-north-siege"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-10-06",
+        "end": null,
+        "precision": "approximate",
+        "label": "Early October 2024",
+        "rationale": "October access snapshot: siege since approximately 6 October and the denial of North Gaza missions.",
+        "sourceIds": [
+          "reference-ocha-north-siege"
+        ]
+      }
+    },
+    {
+      "id": "event-icc-warrants",
+      "status": "approved",
+      "title": "The ICC issues warrants for Netanyahu and Gallant",
+      "summary": "The International Criminal Court issues arrest warrants for Benjamin Netanyahu and Yoav Gallant concerning alleged war crimes and crimes against humanity.",
+      "context": "Arrest warrants are not criminal convictions. This entry records the warrants’ issuance on this date, not their current procedural status.",
+      "themes": [
+        "rights-accountability"
+      ],
+      "sourceIds": [
+        "reference-icc-warrants"
+      ],
+      "archiveSourceIds": [
+        "source-db095307-5bf3-46ef-ae21-0300bbf04f72"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2024-11-21",
+        "end": null,
+        "precision": "day",
+        "label": "2024-11-21",
+        "rationale": "21 November press release: warrants and reasonable-grounds findings.",
+        "sourceIds": [
+          "reference-icc-warrants"
+        ]
+      }
+    },
+    {
+      "id": "event-january-ceasefire",
+      "status": "approved",
+      "title": "A ceasefire takes effect",
+      "summary": "A ceasefire begins in Gaza, with an initial 42-day phase. Aid deliveries increase as hostages and Palestinian detainees begin to be released under the agreement.",
+      "context": "",
+      "themes": [
+        "policy-military"
+      ],
+      "sourceIds": [
+        "reference-ocha-january-ceasefire"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2025-01-19",
+        "end": null,
+        "precision": "day",
+        "label": "2025-01-19",
+        "rationale": "Key highlights and humanitarian developments: ceasefire effective at 11:15 on 19 January; terms of the first phase.",
+        "sourceIds": [
+          "reference-ocha-january-ceasefire"
+        ]
+      }
+    },
+    {
+      "id": "event-march-aid-blockade",
+      "status": "approved",
+      "title": "Israel blocks the entry of aid and supplies",
+      "summary": "Israeli authorities stop the entry of humanitarian aid and other supplies into Gaza. The closure interrupts food, medicine and fuel deliveries.",
+      "context": "",
+      "themes": [
+        "food-aid"
+      ],
+      "sourceIds": [
+        "reference-ocha-march-closure",
+        "reference-ocha-march-briefing"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2025-03-02",
+        "end": null,
+        "precision": "day",
+        "label": "2025-03-02",
+        "rationale": "Response update: closure since 2 March; 18 March briefing: entry of lifesaving supplies cut off from that date.",
+        "sourceIds": [
+          "reference-ocha-march-closure",
+          "reference-ocha-march-briefing"
+        ]
+      }
+    },
+    {
+      "id": "event-march-bombardment",
+      "status": "approved",
+      "title": "Large-scale Israeli airstrikes resume",
+      "summary": "Intense Israeli airstrikes resume in Gaza. The UN relief chief reports the renewed bombardment alongside the continuing cutoff of lifesaving supplies.",
+      "context": "",
+      "themes": [
+        "policy-military"
+      ],
+      "sourceIds": [
+        "reference-ocha-march-briefing"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2025-03-18",
+        "end": null,
+        "precision": "day",
+        "label": "2025-03-18",
+        "rationale": "18 March Security Council briefing: renewed intense airstrikes and the continuing supply cutoff.",
+        "sourceIds": [
+          "reference-ocha-march-briefing"
+        ]
+      }
+    },
+    {
+      "id": "event-ghf-distribution",
+      "status": "approved",
+      "title": "A new aid-distribution system begins",
+      "summary": "The Gaza Humanitarian Foundation begins operating distribution sites. The UN declines to join the scheme and warns that its design violates humanitarian principles.",
+      "context": "The UN’s assessment is attributed to the UN. The supporting documents explain the scheme and its risks rather than treating every later aid-site incident as one event.",
+      "themes": [
+        "food-aid"
+      ],
+      "sourceIds": [
+        "reference-ghf-communication",
+        "reference-ocha-aid-hubs"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2025-05-27",
+        "end": null,
+        "precision": "day",
+        "label": "2025-05-27",
+        "rationale": "UN experts’ communication: operations began on 27 May; OCHA briefing on 28 May: distribution hubs and UN non-participation.",
+        "sourceIds": [
+          "reference-ghf-communication",
+          "reference-ocha-aid-hubs"
+        ]
+      }
+    },
+    {
+      "id": "event-famine-confirmed",
+      "status": "approved",
+      "title": "Famine is formally confirmed in Gaza Governorate",
+      "summary": "An IPC assessment confirms famine in Gaza Governorate. UN agencies call for a ceasefire and unrestricted humanitarian access as hunger and malnutrition deepen.",
+      "context": "22 August is the announcement date, not the day famine began. The finding concerns Gaza Governorate; it is not a blanket famine classification for every area of the Gaza Strip.",
+      "themes": [
+        "food-aid"
+      ],
+      "sourceIds": [
+        "reference-who-famine",
+        "reference-ipc-famine"
+      ],
+      "archiveSourceIds": [
+        "source-0c3dd428-2446-4220-9623-b450f6d568dc",
+        "source-1e565cc8-e62a-40e5-84ca-2396d9abf6c3",
+        "source-f0762978-3791-49e4-815e-f6faafdf401d"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2025-08-22",
+        "end": null,
+        "precision": "day",
+        "label": "2025-08-22",
+        "rationale": "22 August announcement and IPC assessment: famine confirmed in Gaza Governorate as of 15 August.",
+        "sourceIds": [
+          "reference-who-famine",
+          "reference-ipc-famine"
+        ]
+      }
+    },
+    {
+      "id": "event-october-ceasefire",
+      "status": "approved",
+      "title": "Another ceasefire takes effect",
+      "summary": "A new ceasefire begins on 10 October. The UN and its partners scale up deliveries and services while families face extensive damage and displacement.",
+      "context": "",
+      "themes": [
+        "policy-military"
+      ],
+      "sourceIds": [
+        "reference-ocha-october-ceasefire"
+      ],
+      "archiveSourceIds": [
+        "source-66d1d54a-4ccf-4f8a-bc19-72a8ca5160d1",
+        "source-3c71161f-abad-4e99-91f2-39678b3e26f7",
+        "source-73e012ee-a6eb-4dc9-85ef-8e4c0ea02c1b"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2025-10-10",
+        "end": null,
+        "precision": "day",
+        "label": "2025-10-10",
+        "rationale": "Report introduction and response overview: ceasefire entered into effect on 10 October 2025.",
+        "sourceIds": [
+          "reference-ocha-october-ceasefire"
+        ]
+      }
+    },
+    {
+      "id": "event-rafah-reopening",
+      "status": "approved",
+      "title": "Rafah reopens for limited movement of people",
+      "summary": "Patients begin leaving through Rafah Crossing, and a limited number of Palestinians are allowed to return to Gaza. UN teams support evacuations and returning families.",
+      "context": "",
+      "themes": [
+        "health-care"
+      ],
+      "sourceIds": [
+        "reference-ocha-rafah-reopening"
+      ],
+      "archiveSourceIds": [
+        "source-dc748298-b6d6-40f5-b093-dff13217ddc6",
+        "source-10b38f5e-70e7-4241-9ad3-3f55c3a5014f",
+        "source-bd44cb60-d44a-4595-8539-f07c1bbd5b9d"
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2026-02-02",
+        "end": null,
+        "precision": "day",
+        "label": "2026-02-02",
+        "rationale": "Gaza updates: patient evacuations and limited returnee movements through Rafah began on 2 February.",
+        "sourceIds": [
+          "reference-ocha-rafah-reopening"
+        ]
+      }
+    },
+    {
+      "id": "event-regional-crossing-closure",
+      "status": "approved",
+      "title": "All Gaza crossings are temporarily closed",
+      "summary": "Israeli authorities close Gaza’s crossings during the regional escalation, suspending supplies and medical evacuations. Kerem Shalom partially reopens on 3 March.",
+      "context": "The February closure and the limited March reopening are recorded separately from the much longer 2025 aid blockade.",
+      "themes": [
+        "food-aid"
+      ],
+      "sourceIds": [
+        "reference-ocha-february-crossings"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2026-02-28",
+        "end": null,
+        "precision": "day",
+        "label": "2026-02-28",
+        "rationale": "Gaza humanitarian developments: all crossings closed on 28 February; Kerem Shalom reopened for specified cargo on 3 March.",
+        "sourceIds": [
+          "reference-ocha-february-crossings"
+        ]
+      }
+    },
+    {
+      "id": "event-zikim-closure",
+      "status": "approved",
+      "title": "Zikim closes, leaving one cargo crossing",
+      "summary": "The closure of Zikim removes a direct aid route into northern Gaza. OCHA reports aid being rerouted through Kerem Shalom, with congestion slowing critical supplies.",
+      "context": "",
+      "themes": [
+        "food-aid"
+      ],
+      "sourceIds": [
+        "reference-ocha-zikim-closure"
+      ],
+      "archiveSourceIds": [],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      },
+      "eventTime": {
+        "start": "2026-05-24",
+        "end": null,
+        "precision": "day",
+        "label": "2026-05-24",
+        "rationale": "Highlights and humanitarian access: Zikim closed since 24 May; aid rerouted through Kerem Shalom.",
+        "sourceIds": [
+          "reference-ocha-zikim-closure"
+        ]
+      }
+    }
+  ],
   "claims": [],
-  "relationships": [],
-  "revisions": [],
+  "relationships": [
+    {
+      "id": "relation-october-7-ocha-oct7",
+      "from": "reference-ocha-oct7",
+      "to": "event-october-7",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-oct7",
+          "locator": "Situation overview: attacks, captives and the start of Israeli strikes on 7 October."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-complete-siege-siege-announcement",
+      "from": "reference-siege-announcement",
+      "to": "event-complete-siege",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-siege-announcement",
+          "locator": "9 October announcement; OCHA Flash Update #4, food security and essential-service restrictions."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-complete-siege-ocha-siege",
+      "from": "reference-ocha-siege",
+      "to": "event-complete-siege",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-siege",
+          "locator": "9 October announcement; OCHA Flash Update #4, food security and essential-service restrictions."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-northern-evacuation-ocha-evacuation",
+      "from": "reference-ocha-evacuation",
+      "to": "event-northern-evacuation",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-evacuation",
+          "locator": "Key points: the overnight evacuation order and its 24-hour deadline."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-ground-offensive-ocha-blackout",
+      "from": "reference-ocha-blackout",
+      "to": "event-ground-offensive",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-blackout",
+          "locator": "Key points: blackout from 27 October at about 18:00 and ground operations over the following 24 hours."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-al-shifa-raid-ocha-shifa",
+      "from": "reference-ocha-shifa",
+      "to": "event-al-shifa-raid",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-shifa",
+          "locator": "Key points: entry into the Shifa compound on 15 November; northern hospital capacity."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-humanitarian-pause-ocha-pause",
+      "from": "reference-ocha-pause",
+      "to": "event-humanitarian-pause",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-pause",
+          "locator": "Flash Update #49, key points: the pause begins at 07:00 on 24 November; first-day aid statement."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-humanitarian-pause-ocha-pause-aid",
+      "from": "reference-ocha-pause-aid",
+      "to": "event-humanitarian-pause",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-pause-aid",
+          "locator": "Flash Update #49, key points: the pause begins at 07:00 on 24 November; first-day aid statement."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-south-africa-case-icj-january",
+      "from": "reference-icj-january",
+      "to": "event-south-africa-case",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-icj-january",
+          "locator": "Opening procedural history: application filed on 29 December 2023."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-icj-provisional-measures-icj-january",
+      "from": "reference-icj-january",
+      "to": "event-icj-provisional-measures",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-icj-january",
+          "locator": "Conclusion and operative clause: measures adopted on 26 January 2024."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-nasser-hospital-ocha-nasser",
+      "from": "reference-ocha-nasser",
+      "to": "event-nasser-hospital",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-nasser",
+          "locator": "Flash Update #119: forces reported inside Nasser on 15 February; WHO account of subsequent patient transfers."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-nasser-hospital-who-nasser",
+      "from": "reference-who-nasser",
+      "to": "event-nasser-hospital",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-who-nasser",
+          "locator": "Flash Update #119: forces reported inside Nasser on 15 February; WHO account of subsequent patient transfers."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-rashid-road-aid-ocha-rashid",
+      "from": "reference-ocha-rashid",
+      "to": "event-rashid-road-aid",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-rashid",
+          "locator": "Key highlights and Gaza updates: 29 February aid-truck incident, attributed casualty reports and differing accounts."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-wck-convoy-wck-strike",
+      "from": "reference-wck-strike",
+      "to": "event-wck-convoy",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-wck-strike",
+          "locator": "WCK response timeline: April 1 convoy strike; 2 April statement: seven deaths and immediate operational pause."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-wck-convoy-wck-timeline",
+      "from": "reference-wck-timeline",
+      "to": "event-wck-convoy",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-wck-timeline",
+          "locator": "WCK response timeline: April 1 convoy strike; 2 April statement: seven deaths and immediate operational pause."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-rafah-operation-ocha-rafah",
+      "from": "reference-ocha-rafah",
+      "to": "event-rafah-operation",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-rafah",
+          "locator": "Rafah developments: evacuation orders on 6 May and closure of the crossing on 7 May."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-icj-rafah-order-icj-rafah",
+      "from": "reference-icj-rafah",
+      "to": "event-icj-rafah-order",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-icj-rafah",
+          "locator": "Conclusion and measures: the Rafah order and its conditions."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-nuseirat-operation-ocha-nuseirat",
+      "from": "reference-ocha-nuseirat",
+      "to": "event-nuseirat-operation",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-nuseirat",
+          "locator": "Gaza updates: 8 June Nuseirat operation, hostage rescue and casualties attributed to the Ministry of Health."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-polio-campaign-who-polio",
+      "from": "reference-who-polio",
+      "to": "event-polio-campaign",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-who-polio",
+          "locator": "Opening and campaign overview: start on 1 September; first phase on 1–3 September."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-north-gaza-siege-ocha-north-siege",
+      "from": "reference-ocha-north-siege",
+      "to": "event-north-gaza-siege",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-north-siege",
+          "locator": "October access snapshot: siege since approximately 6 October and the denial of North Gaza missions."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-icc-warrants-icc-warrants",
+      "from": "reference-icc-warrants",
+      "to": "event-icc-warrants",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-icc-warrants",
+          "locator": "21 November press release: warrants and reasonable-grounds findings."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-january-ceasefire-ocha-january-ceasefire",
+      "from": "reference-ocha-january-ceasefire",
+      "to": "event-january-ceasefire",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-january-ceasefire",
+          "locator": "Key highlights and humanitarian developments: ceasefire effective at 11:15 on 19 January; terms of the first phase."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-march-aid-blockade-ocha-march-closure",
+      "from": "reference-ocha-march-closure",
+      "to": "event-march-aid-blockade",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-march-closure",
+          "locator": "Response update: closure since 2 March; 18 March briefing: entry of lifesaving supplies cut off from that date."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-march-aid-blockade-ocha-march-briefing",
+      "from": "reference-ocha-march-briefing",
+      "to": "event-march-aid-blockade",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-march-briefing",
+          "locator": "Response update: closure since 2 March; 18 March briefing: entry of lifesaving supplies cut off from that date."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-march-bombardment-ocha-march-briefing",
+      "from": "reference-ocha-march-briefing",
+      "to": "event-march-bombardment",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-march-briefing",
+          "locator": "18 March Security Council briefing: renewed intense airstrikes and the continuing supply cutoff."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-ghf-distribution-ghf-communication",
+      "from": "reference-ghf-communication",
+      "to": "event-ghf-distribution",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ghf-communication",
+          "locator": "UN experts’ communication: operations began on 27 May; OCHA briefing on 28 May: distribution hubs and UN non-participation."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-ghf-distribution-ocha-aid-hubs",
+      "from": "reference-ocha-aid-hubs",
+      "to": "event-ghf-distribution",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-aid-hubs",
+          "locator": "UN experts’ communication: operations began on 27 May; OCHA briefing on 28 May: distribution hubs and UN non-participation."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-famine-confirmed-who-famine",
+      "from": "reference-who-famine",
+      "to": "event-famine-confirmed",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-who-famine",
+          "locator": "22 August announcement and IPC assessment: famine confirmed in Gaza Governorate as of 15 August."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-famine-confirmed-ipc-famine",
+      "from": "reference-ipc-famine",
+      "to": "event-famine-confirmed",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ipc-famine",
+          "locator": "22 August announcement and IPC assessment: famine confirmed in Gaza Governorate as of 15 August."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-october-ceasefire-ocha-october-ceasefire",
+      "from": "reference-ocha-october-ceasefire",
+      "to": "event-october-ceasefire",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-october-ceasefire",
+          "locator": "Report introduction and response overview: ceasefire entered into effect on 10 October 2025."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-rafah-reopening-ocha-rafah-reopening",
+      "from": "reference-ocha-rafah-reopening",
+      "to": "event-rafah-reopening",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-rafah-reopening",
+          "locator": "Gaza updates: patient evacuations and limited returnee movements through Rafah began on 2 February."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-regional-crossing-closure-ocha-february-crossings",
+      "from": "reference-ocha-february-crossings",
+      "to": "event-regional-crossing-closure",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-february-crossings",
+          "locator": "Gaza humanitarian developments: all crossings closed on 28 February; Kerem Shalom reopened for specified cargo on 3 March."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    },
+    {
+      "id": "relation-zikim-closure-ocha-zikim-closure",
+      "from": "reference-ocha-zikim-closure",
+      "to": "event-zikim-closure",
+      "type": "reports-on",
+      "status": "approved",
+      "explanation": "Cited primary-source text supports this event entry; the event date is separate from the report publication date.",
+      "evidence": [
+        {
+          "sourceId": "reference-ocha-zikim-closure",
+          "locator": "Highlights and humanitarian access: Zikim closed since 24 May; aid rerouted through Kerem Shalom."
+        }
+      ],
+      "review": {
+        "reviewer": "Codex source check (AI-assisted)",
+        "reviewedAt": "2026-10-04",
+        "method": "Date and summary cross-checked against cited primary-source text; no human editorial approval claimed."
+      }
+    }
+  ],
+  "revisions": [
+    {
+      "id": "revision-key-events-20261004",
+      "timestamp": "2026-10-04",
+      "actor": "Codex source check (AI-assisted)",
+      "reason": "Add cited event chronology requested by the site owner; preserve imported archive dates and dataset.",
+      "entityIds": [
+        "event-october-7",
+        "event-complete-siege",
+        "event-northern-evacuation",
+        "event-ground-offensive",
+        "event-al-shifa-raid",
+        "event-humanitarian-pause",
+        "event-south-africa-case",
+        "event-icj-provisional-measures",
+        "event-nasser-hospital",
+        "event-rashid-road-aid",
+        "event-wck-convoy",
+        "event-rafah-operation",
+        "event-icj-rafah-order",
+        "event-nuseirat-operation",
+        "event-polio-campaign",
+        "event-north-gaza-siege",
+        "event-icc-warrants",
+        "event-january-ceasefire",
+        "event-march-aid-blockade",
+        "event-march-bombardment",
+        "event-ghf-distribution",
+        "event-famine-confirmed",
+        "event-october-ceasefire",
+        "event-rafah-reopening",
+        "event-regional-crossing-closure",
+        "event-zikim-closure"
+      ]
+    }
+  ],
   "collections": [
     {
       "id": "nasser",
@@ -36,5 +1494,292 @@
         "source-aefe7785-de00-4201-9b6a-9179d0d30044"
       ]
     }
-  ]
+  ],
+  "references": [
+    {
+      "id": "reference-ocha-oct7",
+      "title": "Flash Update #1 — 7 October 2023",
+      "url": "https://www.ochaopt.org/content/escalation-gaza-strip-and-israel-flash-update-1",
+      "source": "UN OCHA",
+      "publicationDate": "2023-10-07",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-siege",
+      "title": "Flash Update #4 — siege and essential services",
+      "url": "https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-4",
+      "source": "UN OCHA",
+      "publicationDate": "2023-10-10",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-siege-announcement",
+      "title": "Defense minister announces a complete siege of Gaza",
+      "url": "https://www.timesofisrael.com/liveblog_entry/defense-minister-announces-complete-siege-of-gaza-no-power-food-or-fuel/",
+      "source": "The Times of Israel",
+      "publicationDate": "2023-10-09",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-evacuation",
+      "title": "Flash Update #7 — northern Gaza evacuation order",
+      "url": "https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-7",
+      "source": "UN OCHA",
+      "publicationDate": "2023-10-13",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-blackout",
+      "title": "Flash Update #22 — communications blackout and ground operations",
+      "url": "https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-22",
+      "source": "UN OCHA",
+      "publicationDate": "2023-10-28",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-shifa",
+      "title": "Flash Update #40 — Israeli forces enter Al-Shifa",
+      "url": "https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-40",
+      "source": "UN OCHA",
+      "publicationDate": "2023-11-15",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-pause",
+      "title": "Flash Update #49 — humanitarian pause begins",
+      "url": "https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-49",
+      "source": "UN OCHA",
+      "publicationDate": "2023-11-24",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-pause-aid",
+      "title": "Aid delivered on the first day of the humanitarian pause",
+      "url": "https://www.ochaopt.org/content/more-aid-delivered-gaza-first-day-humanitarian-pause",
+      "source": "UN OCHA",
+      "publicationDate": "2023-11-24",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-icj-january",
+      "title": "ICJ summary of its 26 January 2024 order",
+      "url": "https://www.icj-cij.org/node/203454",
+      "source": "International Court of Justice",
+      "publicationDate": "2024-01-26",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-nasser",
+      "title": "Flash Update #119 — Israeli forces enter Nasser Hospital",
+      "url": "https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-119",
+      "source": "UN OCHA",
+      "publicationDate": "2024-02-15",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-who-nasser",
+      "title": "WHO transfers critical patients from Nasser Medical Complex",
+      "url": "https://www.who.int/news/item/20-02-2024-who-transfers-critical-patients-out-of-nasser-medical-complex--fears-for-safety-of-remaining-patients",
+      "source": "World Health Organization",
+      "publicationDate": "2024-02-20",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-rashid",
+      "title": "Flash Update #129 — deaths around an aid convoy",
+      "url": "https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-129",
+      "source": "UN OCHA",
+      "publicationDate": "2024-02-29",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-wck-strike",
+      "title": "WCK reports seven team members killed in Gaza",
+      "url": "https://wck.org/news/gaza-team-update/",
+      "source": "World Central Kitchen",
+      "publicationDate": "2024-04-02",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-wck-timeline",
+      "title": "WCK’s Middle East response timeline",
+      "url": "https://wck.org/timeline/middleeasttimeline/",
+      "source": "World Central Kitchen",
+      "publicationDate": null,
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-rafah",
+      "title": "Flash Update #163 — Rafah displacement and crossing closure",
+      "url": "https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-163",
+      "source": "UN OCHA",
+      "publicationDate": "2024-05-08",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-icj-rafah",
+      "title": "ICJ summary of its 24 May 2024 order",
+      "url": "https://www.icj-cij.org/node/204100",
+      "source": "International Court of Justice",
+      "publicationDate": "2024-05-24",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-nuseirat",
+      "title": "Humanitarian Situation Update #177 — Nuseirat",
+      "url": "https://www.ochaopt.org/content/humanitarian-situation-update-177-gaza-strip",
+      "source": "UN OCHA",
+      "publicationDate": "2024-06-10",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-who-polio",
+      "title": "WHO reports the first phase of Gaza’s polio campaign",
+      "url": "https://www.who.int/news/item/04-09-2024-first-phase-of-polio-campaign-concludes-successfully-in-gaza",
+      "source": "World Health Organization",
+      "publicationDate": "2024-09-04",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-north-siege",
+      "title": "Humanitarian Access Snapshot — October 2024",
+      "url": "https://www.ochaopt.org/content/humanitarian-access-snapshot-gaza-strip-october-2024",
+      "source": "UN OCHA",
+      "publicationDate": null,
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-icc-warrants",
+      "title": "ICC announcement: arrest warrants for Netanyahu and Gallant",
+      "url": "https://www.icc-cpi.int/news/situation-state-palestine-icc-pre-trial-chamber-i-rejects-state-israels-challenges",
+      "source": "International Criminal Court",
+      "publicationDate": "2024-11-21",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-january-ceasefire",
+      "title": "Humanitarian Situation Update #257 — January ceasefire",
+      "url": "https://www.ochaopt.org/content/humanitarian-situation-update-257-gaza-strip",
+      "source": "UN OCHA",
+      "publicationDate": "2025-01-22",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-march-closure",
+      "title": "Humanitarian Response Update — 2–15 March 2025",
+      "url": "https://www.ochaopt.org/content/gaza-humanitarian-response-update-2-15-march-2025",
+      "source": "UN OCHA",
+      "publicationDate": "2025-03-18",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-march-briefing",
+      "title": "UN relief chief’s 18 March briefing",
+      "url": "https://www.ochaopt.org/content/un-relief-chief-security-council-we-cannot-accept-return-pre-ceasefire-conditions",
+      "source": "UN OCHA",
+      "publicationDate": "2025-03-18",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ghf-communication",
+      "title": "UN experts’ communication on the Gaza aid-distribution scheme",
+      "url": "https://spcommreports.ohchr.org/TMResultsBase/DownLoadPublicCommunicationFile?gId=30629",
+      "source": "UN human rights experts",
+      "publicationDate": null,
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-aid-hubs",
+      "title": "OCHA briefing on the new aid-distribution hubs",
+      "url": "https://www.ochaopt.org/content/briefing-journalists-jonathan-whittall-head-ocha-opt",
+      "source": "UN OCHA",
+      "publicationDate": "2025-05-28",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-who-famine",
+      "title": "UN agencies announce famine confirmed in Gaza Governorate",
+      "url": "https://www.who.int/news/item/22-08-2025-famine-confirmed-for-first-time-in-gaza",
+      "source": "FAO, UNICEF, WFP and WHO",
+      "publicationDate": "2025-08-22",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ipc-famine",
+      "title": "IPC assessment: famine in Gaza Governorate",
+      "url": "https://www.ipcinfo.org/fileadmin/user_upload/ipcinfo/docs/IPC_Gaza_Strip_Acute_Food_Insecurity_Malnutrition_July_Sept2025_Special_Snapshot.pdf",
+      "source": "Integrated Food Security Phase Classification",
+      "publicationDate": "2025-08-22",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-october-ceasefire",
+      "title": "UN response during the first month of the October ceasefire",
+      "url": "https://www.ochaopt.org/content/report-humanitarian-response-un-and-humanitarian-partners-during-first-month-october-2025-ceasefire",
+      "source": "UN OCHA",
+      "publicationDate": null,
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-rafah-reopening",
+      "title": "Humanitarian Situation Update #357 — Rafah movement resumes",
+      "url": "https://www.ochaopt.org/content/humanitarian-situation-update-357-gaza-strip",
+      "source": "UN OCHA",
+      "publicationDate": "2026-02-12",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-february-crossings",
+      "title": "Humanitarian Situation Report — 6 March 2026",
+      "url": "https://www.ochaopt.org/content/humanitarian-situation-report-6-march-2026",
+      "source": "UN OCHA",
+      "publicationDate": "2026-03-06",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    },
+    {
+      "id": "reference-ocha-zikim-closure",
+      "title": "Humanitarian Situation Report — 5 June 2026",
+      "url": "https://www.ochaopt.org/content/humanitarian-situation-report-5-june-2026",
+      "source": "UN OCHA",
+      "publicationDate": "2026-06-05",
+      "checkedAt": "2026-10-04",
+      "method": "Original institutional report consulted for the event date and summary."
+    }
+  ],
+  "curation": {
+    "checkedAt": "2026-10-04",
+    "method": "AI-assisted reading of cited primary reports and court documents. Selected milestones, not a complete chronology or a claim of independent verification of every reported fact.",
+    "latestEvent": "2026-05-24",
+    "archiveLinks": "Manually selected related reading, not evidence of event time unless included in sourceIds."
+  }
 }

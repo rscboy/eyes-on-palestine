@@ -12,11 +12,11 @@ let playwright;try{playwright=require('playwright');}catch{playwright=require(pa
  try{
   for(const width of [320,375,390,430]){
    const context=await browser.newContext({viewport:{width,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:2,reducedMotion:'reduce'}),page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
-   await page.goto(base+'/timeline.html');await ready(page);
+   await page.goto(base+'/timeline.html?mode=sources');await ready(page);
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
    const nav=await page.locator('#tw-overview').boundingBox();assert.ok(Math.abs(nav.y+nav.height-844)<=1);
    for(const id of ['tw-previous','tw-period-button','tw-next','tw-search-toggle','tw-more-button']){const b=await page.locator('#'+id).boundingBox();assert.ok(b.width>=44&&b.height>=44,id+' '+JSON.stringify(b));}
-   assert.ok(await page.locator('#tw-records>li').first().evaluate(el=>el.getBoundingClientRect().top)<180);
+   assert.ok(await page.locator('#tw-records>li').first().evaluate(el=>el.getBoundingClientRect().top)<240);
    check(width+'px: thumb bar, 44px targets, first article visible and no horizontal overflow');
    await page.locator('#tw-period-button').tap();assert.equal(await page.locator('#tw-mobile-date-dialog').evaluate(el=>el.open),true);await within(page,'#tw-mobile-date-dialog');
    assert.equal(await page.locator('#tw-picker-year').evaluate(el=>getComputedStyle(el).fontSize),'16px');await page.locator('#tw-picker-year').selectOption('2025');await page.locator('#period-2025-08').tap();
@@ -32,7 +32,7 @@ let playwright;try{playwright=require('playwright');}catch{playwright=require(pa
    await page.screenshot({path:`/tmp/eog-mobile-${width}.png`});await context.close();
   }
   const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'reduce'}),page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base+'/timeline.html');await ready(page);await page.locator('#tw-search-toggle').tap();await within(page,'#tw-mobile-search-dialog');
+  await page.goto(base+'/timeline.html?mode=sources');await ready(page);await page.locator('#tw-search-toggle').tap();await within(page,'#tw-mobile-search-dialog');
   assert.equal(await page.evaluate(()=>document.activeElement.id),'tw-query');assert.equal(await page.locator('#tw-query').evaluate(el=>getComputedStyle(el).fontSize),'16px');
   await page.locator('#tw-query').pressSequentially('Nasser ',{delay:60});await page.waitForTimeout(450);assert.equal(await page.locator('#tw-query').inputValue(),'Nasser ');await page.locator('#tw-query').pressSequentially('Hospital',{delay:30});await page.waitForTimeout(450);assert.equal(await page.locator('#tw-query').inputValue(),'Nasser Hospital');assert.ok(Number(await page.locator('#tw-results-title').getAttribute('data-count'))>0);
   check('search preserves spaces and the caret across debounced results');
@@ -41,7 +41,7 @@ let playwright;try{playwright=require('playwright');}catch{playwright=require(pa
   check('Show articles dismisses search and shared/reloaded queries keep the feed visible');
   await page.locator('#tw-search-toggle').tap();await page.locator('#tw-query').fill('women');await page.locator('#tw-query').press('Enter');await frames(page);assert.equal(await page.locator('#tw-mobile-search-dialog').evaluate(el=>el.open),false);
   check('keyboard Search/Enter shows results and closes the search sheet');
-  await page.goto(base+'/timeline.html');await ready(page);await page.locator('#tw-more-button').tap();await page.locator('#tw-options-open').tap();await page.locator('#tw-auto-load').tap();await close(page,'tw-options-dialog');
+  await page.goto(base+'/timeline.html?mode=sources');await ready(page);await page.locator('#tw-more-button').tap();await page.locator('#tw-options-open').tap();await page.locator('#tw-auto-load').tap();await close(page,'tw-options-dialog');
   await page.locator('#tw-records h3 a').nth(5).scrollIntoViewIfNeeded();const link=page.locator('#tw-records h3 a').nth(5);await link.tap();await page.waitForFunction(()=>document.getElementById('tw-reader-dialog').open);const origin=await page.evaluate(()=>history.state.readerOrigin.scroll);
   await within(page,'#tw-reader-dialog');const footer=await page.locator('.tw-reader-sequence').boundingBox();assert.ok(Math.abs(footer.y+footer.height-844)<=1);assert.equal(await page.locator('.tw-detail-body>p:not(.tw-small)').first().evaluate(el=>getComputedStyle(el).fontSize),'16px');
   await page.locator('#tw-detail').evaluate(el=>el.scrollTop=el.scrollHeight);const correction=await page.locator('#tw-detail a[href="collab.html"]').boundingBox();assert.ok(correction.y+correction.height<=footer.y);

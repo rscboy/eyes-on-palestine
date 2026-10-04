@@ -55,16 +55,16 @@ export function buildSources(articles, registry, integrity = {results:[]}, overr
   });
   return {sources:[...grouped.values()],excluded};
 }
-export function defaults() { return {mode:'sources',q:'',from:'2023-01-01',to:'',themes:[],publishers:[],types:[],status:'',dates:'all',collection:'',granularity:'month',order:'oldest',selected:'',at:'',limit:30}; }
+export function defaults() { return {mode:'events',q:'',from:'2023-01-01',to:'',themes:[],publishers:[],types:[],status:'',dates:'all',collection:'',granularity:'month',order:'oldest',selected:'',event:'',at:'',limit:30}; }
 export function parseState(search) {
   const p = new URLSearchParams(search), state = defaults();
-  for (const k of ['q','collection','selected']) state[k] = (p.get(k) || '').slice(0,k === 'q' ? 300 : 100);
+  for (const k of ['q','collection','selected','event']) state[k] = (p.get(k) || '').slice(0,k === 'q' ? 300 : 100);
   for (const k of ['from','to']) state[k] = civilDate(p.get(k)) || (k==='from'?'2023-01-01':'');
   if (state.from && state.to && state.from > state.to) [state.from,state.to] = [state.to,state.from];
   if(state.from && state.from<'2023-01-01')state.from='2023-01-01';
   state.at = civilDate(p.get('at')) || '';
   if(state.at && state.at<'2023-01-01')state.at='2023-01-01';
-  state.mode = p.get('mode') === 'events' ? 'events' : 'sources';
+  state.mode = p.has('mode') ? (p.get('mode')==='events'?'events':'sources') : (p.get('v')==='1'||['at','from','to','q','selected','collection','themes','publishers','types'].some(k=>p.has(k))?'sources':'events');
   state.themes = (p.get('themes') || '').split(',').filter(id => THEMES.some(t=>t[0]===id) || id==='unassigned');
   for (const k of ['publishers','types']) state[k] = (p.get(k) || '').split('|').filter(Boolean).slice(0,160);
   state.status = ['unchecked','available','restricted','removed','changed','preserved'].includes(p.get('status')) ? p.get('status') : '';
@@ -75,8 +75,8 @@ export function parseState(search) {
   return state;
 }
 export function stateURL(state) {
-  const p = new URLSearchParams(), base = defaults(); p.set('v','1');
-  for (const k of ['mode','q','from','to','status','dates','collection','selected','at','order','limit']) if (state[k] !== base[k] && state[k]) p.set(k,state[k]);
+  const p = new URLSearchParams(), base = defaults(); p.set('v','2'); p.set('mode',state.mode);
+  for (const k of ['q','from','to','status','dates','collection','selected','event','at','order','limit']) if (state[k] !== base[k] && state[k]) p.set(k,state[k]);
   if (state.granularity !== base.granularity) p.set('group',state.granularity);
   for (const k of ['themes','publishers','types']) if (state[k].length) p.set(k,state[k].join(k==='themes' ? ',' : '|'));
   return '?' + p.toString();
@@ -104,7 +104,7 @@ export function filterSources(records, state, collections = []) {
     if (state.publishers.length && !state.publishers.includes(r.source)) return false;
     if (state.types.length && !state.types.includes(r.documentType)) return false;
     if (state.status && (state.status==='preserved' ? !r.integrity.captureURL : statusGroup(r)!==state.status)) return false;
-    const text = [r.title,r.summary,r.source,...r.authors].join(' ').toLowerCase();
+    const text = [r.title,r.summary,r.source,r.searchText||'',...r.authors].join(' ').toLowerCase();
     return words.every(w=>text.includes(w));
   }).sort((a,b) => {
     const ad=a.publicationDate || a.importedDate, bd=b.publicationDate || b.importedDate;
@@ -139,13 +139,20 @@ export function relatedSources(selected, records, collections) {
   return {label:'Suggested reading connections',kind:'Related by theme and title',records:[selected,...scored]};
 }
 export function validateEditorial(editorial, records) {
-  const errors=[], ids=new Set(records.map(r=>r.id)), approved=new Set((editorial.events || []).filter(e=>e.status==='approved').map(e=>e.id));
+  const errors=[], archiveIds=new Set(records.map(r=>r.id)), ids=new Set([...archiveIds,...(editorial.references||[]).map(r=>r.id)]), approved=new Set((editorial.events || []).filter(e=>e.status==='approved').map(e=>e.id));
   const entityIds=new Set([...ids,...(editorial.events || []).map(e=>e.id)]);
+  const referenceIds=new Set();
+  for(const r of editorial.references||[]){
+    if(referenceIds.has(r.id)||archiveIds.has(r.id))errors.push(`Duplicate reference ID: ${r.id}`);referenceIds.add(r.id);
+    if(!r.id||!r.title||!r.source||!safeURL(r.url)||!civilDate(r.checkedAt)||!r.method)errors.push(`Incomplete reference: ${r.id}`);
+    if(r.publicationDate&&(!civilDate(r.publicationDate)||r.publicationDate>today()))errors.push(`Invalid reference publication date: ${r.id}`);
+  }
   const seen=new Set();
   for (const e of editorial.events || []) {
     if (seen.has(e.id)) errors.push(`Duplicate event ID: ${e.id}`); seen.add(e.id);
     if (!['draft','in_review','approved'].includes(e.status)) errors.push(`Invalid event status: ${e.id}`);
     if (e.status !== 'approved') continue;
+    for(const id of e.archiveSourceIds||[])if(!archiveIds.has(id))errors.push(`Unknown archive reading source: ${id}`);
     if (!e.review?.reviewer || !e.review?.reviewedAt || !e.eventTime?.rationale || !e.sourceIds?.length || !e.title || !e.summary) errors.push(`Incomplete approved event: ${e.id}`);
     if (!['day','month','year','interval','approximate','unknown'].includes(e.eventTime?.precision)) errors.push(`Invalid event precision: ${e.id}`);
     const start=e.eventTime?.start,end=e.eventTime?.end;

@@ -1,15 +1,23 @@
 # Threads of Witness — implementation and editorial handoff
 
-The interactive route is `timeline.html`. It starts in **2023**, opens in chronological order, and contains **1,331** deduplicated source records dated 2023 onward. The complete reading edition at `timeline-sources.html` retains all **1,342** unique public sources, including the 11 older records. The 1,352 original imports remain unchanged: nine duplicate URL imports are grouped, and one test entry is quarantined.
+The interactive route is `timeline.html`. It starts in **2023** and defaults to **Key events**: 26 selected milestones, with 31 supporting institutional reports and original reporting references. **All articles** opens the full collection of **1,331** deduplicated source records dated 2023 onward. Selected milestones currently extend through 24 May 2026; the archive extends through 30 September 2026. This is a selected chronology, not complete historical coverage. The complete reading edition at `timeline-sources.html` retains all **1,342** unique public sources, including the 11 older records. The 1,352 original imports remain unchanged: nine duplicate URL imports are grouped, and one test entry is quarantined.
+
+## Event curation and evidence
+
+Each milestone displays its actual event date or an explicitly approximate/interval label, a headline, and a short explanation. Selecting it opens supporting reports/documents and separately labeled related archive reading. Primary links open in a new tab; archive records open in the existing reader with a Back to event action. Previous/next event and exact feed return retain reading context. The final milestone offers a direct route to latest archive reporting.
+
+The source check is explicitly **AI-assisted**, dated 4 October 2026, and claims no human editorial approval. See [the source review record](timeline-research/key-events-source-review.md) for citations and date locators. Reported casualties retain attribution; disputed reports remain described as such. ICJ provisional measures are not described as final genocide findings, ICC warrants are not convictions, and the famine announcement is distinguished from the assessment date and geographical scope.
+
+Institutional/original reporting references live in `editorial.references`; they are not added to the imported corpus or saved-packet registry. Each event requires date evidence and reviewed relationships to its supporting sources. `archiveSourceIds` is separately validated against original archive IDs. Original source dates remain unchanged. Event summaries are paraphrases, not republished source bodies. Archived articles and institutional source checks should receive ongoing human editorial review when available.
 
 ## Navigation and reading flow
 
-- The initial screen has a small “Timeline · 2023–today” heading, one date navigator, and article cards. The navigator sticks below the header on desktop and becomes a thumb-friendly bottom bar on phones. The large introduction, illustrations, year rail, duplicate period headings, global result count, summaries, topic buttons, and card action rows are removed. The first card begins within the first 300px at tested phone widths.
+- The initial screen has a small “Timeline · 2023–today” heading, Key events / All articles controls, one date navigator, and cards. The navigator sticks below the header on desktop and becomes a thumb-friendly bottom bar on phones. The large introduction, illustrations, year rail, duplicate period headings, global result count, topic buttons, and card action rows are removed. The first card begins within the first 300px at tested phone widths.
 - The month navigator has previous/next arrows, a month picker, Search, and More. Arrows skip months without matching records. The visible month follows scrolling; the picker contains a year selector, month choices, an archive-date field, and first/latest actions.
 - Search expands on request. Desktop search-query links expand the field; phone query links show the filtered feed without opening a sheet. More contains Filters, Saved sources, View options, and About this timeline. Native dialogs keep secondary tools away from the main feed, trap focus, and return to their opener when closed.
 - Date navigation **moves within current results**. Search and Filters narrow the collection separately. Active non-date filters are individually removable; a count is shown only for filtered/search results. Clear all filters restores the collection.
 - Restricted date links show a brief “January 2024 only” (or “Date range active”) notice with Browse all dates. This action removes only the date restriction and preserves the reading month and other filters. It avoids trapping visitors in a legacy month-filter link.
-- Cards contain an available source photo, title, publisher, and labeled archive date. Missing or failed images produce a text card, without decorative image placeholders. Cards and their keyboard-operable title links open the reading drawer. Original article links, saving, summaries, topics, provenance, and related reporting remain inside that drawer.
+- In All articles, cards contain an available source photo, title, publisher, and labeled archive date. Missing or failed images produce a text card, without decorative image placeholders. Cards and their keyboard-operable title links open the reading drawer. Original article links, saving, summaries, topics, provenance, and related reporting remain inside that drawer.
 - The Archive date information button opens About this timeline. Collection/build metadata, date methodology, privacy notes, and the complete static edition also live there rather than in the article feed. Image context remains visibly labeled as unverified.
 - The drawer stays separate from the feed layout. Previous/next article controls follow the filtered reading order. Escape, the contextual Back button, and browser Back return to the initial article and exact position, even after reading several sources.
 - The URL's `at` parameter records a reading date independently of `from`/`to` filters. Shared links start there; reload restores the current window and position. Private notes never enter URL state.
@@ -19,7 +27,7 @@ The interactive route is `timeline.html`. It starts in **2023**, opens in chrono
 
 ## Phone interaction improvements
 
-- At widths up to 720px, or on short landscape touch screens, navigation sits at the bottom with 44–48px targets. The first article appears within 180px in the touch-enabled phone checks. There is no second top navigation bar.
+- At widths up to 720px, or on short landscape touch screens, navigation sits at the bottom with 44–48px targets. The first article appears within 240px in the touch-enabled phone checks; the first event appears within 300px. There is no second top navigation bar.
 - Date choices, More, and Search use native modal sheets. Existing controls move between desktop and mobile containers, preserving IDs, state, and event handlers. Tool transitions avoid focus returning into a hidden sheet; Escape and Close restore a visible trigger.
 - Filter sheets have a persistent Show articles action. Done also applies valid date fields; invalid ranges keep the sheet open for correction. The date-range notice stays in the feed, keeping the bottom bar compact.
 - Inputs use 16px text, native date/select controls, a Search keyboard hint, and unrestricted paste/zoom. Search preserves typed spaces and the caret during debounced updates; Show articles or keyboard Enter closes the sheet. Shared search links keep articles visible.
@@ -52,7 +60,7 @@ These implement the principles in [the research dossier](timeline-research/echoe
 - `data/timeline/source-registry.json`: permanent UUID source IDs, URL aliases, permanent packet identity, and legacy packet aliases. Commit and retain this registry. Never regenerate it from scratch.
 - `data/timeline/packet-identities.json`: generated URL-to-permanent-packet lookup used by the existing archive, so reviewed URL alias changes preserve packet compatibility.
 - `data/timeline/sources.json`: generated public metadata index, with safe URLs, grouped imports, review flags, and dated integrity observations. Original import text remains in `data/articles.json`.
-- `data/timeline/editorial.json`: separate events, claims, relationships, revisions, and subject reading collections. It currently contains **zero approved events**. Its reading routes are metadata-based collections, not verified event sequences.
+- `data/timeline/editorial.json`: separate events, claims, relationships, revisions, and subject reading collections. It contains 26 publishable events following an explicitly attributed AI-assisted source check, 31 separate references, and reviewed source-to-event links. The schema status `approved` is a publication gate, not a claim of human approval. Reading routes remain separate metadata-based collections. Related archive links do not establish an event date.
 - `scripts/build_timeline.mjs`: refreshes the index and complete static reading edition, retains source IDs, validates approved editorial entries, excludes future imports and test records.
 - `assets/site-shell.js`: navigation links to the new timeline, current-page state, improved mobile menu focus/inertness, and no random welcome overlay or automatic translation widget in the timeline workspace.
 - `index.html`: shared packet identity and cross-tab packet synchronization. Existing casualty and other archive tools remain available.
@@ -76,15 +84,16 @@ For the optional browser suite, with Playwright available:
 ```sh
 node tests/timeline.browser.cjs
 node tests/timeline.mobile.browser.cjs
+node tests/timeline.events.browser.cjs
 ```
 
 The browser suite can use the Codex bundled Playwright installation. `EOG_TIMELINE_TEST_URL` overrides the server URL; `EOG_BROWSER_EXECUTABLE` overrides the browser executable. Without a macOS Chrome path it uses Playwright's installed Chromium. Browser screenshots and its result JSON are saved under `/tmp/eog-timeline-*`. Use an isolated browser context; the suite does not modify the user's actual browser packet or notes.
 
 ## Verification completed
 
-The focused data suite passes **26 tests**. It exercises corpus accounting, date separation, invalid civil dates, month/year bounds, facet logic, overview counts, unknown dates, tie ordering, URL state, text escaping, unsafe links, citation uncertainty, packet migration, collision checks, stable source IDs, future exclusions, manual integrity overrides, preservation URL validation, reading routes, and approved-event validation.
+The focused data suite passes **31 tests**. It exercises corpus accounting, date separation, invalid civil dates, month/year bounds, facet logic, overview counts, unknown dates, tie ordering, URL state, text escaping, unsafe links, citation uncertainty, packet migration, collision checks, stable source IDs, future exclusions, manual integrity overrides, preservation URL validation, reading routes, and approved-event validation.
 
-The browser suites pass **69 checks**: 46 desktop/responsive checks and 23 touch-enabled phone checks. Its saved result is [timeline-validation.json](timeline-validation.json). It covers:
+The browser suites pass **95 checks**: 46 desktop/responsive checks, 23 touch-enabled phone checks, and 26 event/evidence navigation checks. Its saved result is [timeline-validation.json](timeline-validation.json). It covers:
 
 - 2023 start, bounded reading windows, populated-month arrows, unavailable-month states, date-picker focus, and navigation that preserves filters.
 - Search, shareable reading dates, selected-source links, same-position reload, browser Back, drawer sequencing, and exact scroll/focus return.
@@ -102,7 +111,7 @@ A separate touch-enabled browser suite covers 320, 375, 390, and 430px portrait 
 
 Browser checks use Chrome. VoiceOver, NVDA, field performance, and a physical slower phone have **not** been certified by these tests. This implementation is not a claim of comprehensive WCAG conformance.
 
-The initial timeline JSON totals **371,093 bytes gzip**, below the prompt's proposed **500 KB gzip** budget. The controller, core, shared packet helper, and site shell total **26,171 bytes gzip**, below **150 KB gzip**. Publisher images load lazily and are separate from those budgets. These measurements do not guarantee field Core Web Vitals.
+The initial timeline JSON totals **380,258 bytes gzip**, below the prompt's proposed **500 KB gzip** budget. The controller, core, shared packet helper, and site shell total **28,040 bytes gzip**, below **150 KB gzip**. Publisher images load lazily and are separate from those budgets. These measurements do not guarantee field Core Web Vitals.
 
 ## Editorial workflow
 
@@ -110,7 +119,7 @@ The initial timeline JSON totals **371,093 bytes gzip**, below the prompt's prop
 2. Review flagged dates, encoding issues, author gaps, exact duplicate groups, and source access observations. A URL year is a review hint, not proof of a corrected date.
 3. When a source URL changes, locate its existing registry UUID and append the new URL to that registry entry's `urls` array **before rebuilding**. Retain the prior URL. This preserves the permanent source identity. Do not merge merely similar headlines.
 4. Retrieve the source body and verify publication time, event time, attributed claims, passages, media context, and rights. Do not infer event dates from imported dates or historical dates mentioned in an article.
-5. Draft an `EventMoment` separately. Supply human-readable date precision, date bounds only for sorting, an explicit label, a source-based date rationale, supporting source IDs, and a reviewer/date/version.
+5. Draft an `EventMoment` separately. Supply human-readable date precision, date bounds only for sorting, an explicit label, a source-based date rationale, supporting source IDs, optional separately labeled archive reading IDs, and a reviewer/date/version. If new institutional references are needed, supply their original URL, title, publisher, checked date/method, and a verified publication date or null in `references`. Make the review method and reviewer type explicit.
 6. Attach reviewed relationships. An approved event requires an approved source-to-event relationship for every attached source, supporting passage locators, an explanation, and reviewer/date. Types are `reports-on`, `investigates`, `revisits`, `responds-to`, `cites`, `updates`, or `corrects`.
 7. Run the build; validation blocks incomplete approved events, unknown source references, unsupported relationship types, invalid intervals, and future event dates. Drafts do not enter public chronology mode.
 8. Record revisions with entity ID, timestamp, actor, reason, and prior version. Rebuild after approved edits. Refresh source checks separately and retain their actual timestamps.
@@ -119,7 +128,7 @@ A working URL or a preserved copy does not verify a claim. A blocked or likely-r
 
 ## Shared state and preferences
 
-URL state version `v=1` represents mode, date bounds, query, themes, publisher/type facets, source status, date review, collection, grouping, order, selected record, and loaded record count. Search edits replace history; explicit navigation adds useful history entries. Private notes, image visibility, continuous loading, and saved IDs are absent from share URLs.
+URL state version `v=2` explicitly represents mode and the parent `event` when reading an archive article from a milestone, alongside date bounds, query, themes, publisher/type facets, source status, date review, collection, grouping, order, selected record, and loaded record count. Existing `v=1` article links preserve source browsing. Fresh visits default to events. Switching modes clears incompatible filters. Search edits replace history; explicit navigation adds useful history entries. Private notes, image visibility, continuous loading, and saved IDs are absent from share URLs.
 
 The shared packet key remains `echoes_research_packet`. Additional local keys are `echoes_timeline_private_notes`, `echoes_timeline_images`, and `echoes_timeline_auto_load`. Storage failures keep reading usable and make persistence limitations explicit.
 
