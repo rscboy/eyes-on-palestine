@@ -1,6 +1,97 @@
 [
   {
     "date": "2026-10-05",
+    "title": "Three years on: Israel is asphyxiating Gaza and dismantling the means of survival | MSF",
+    "summary": "In Gaza, Palestine, Israel continues to systematically destroy the conditions people need to survive.",
+    "link": "https://www.msf.org/three-years-israel-asphyxiating-gaza-and-dismantling-means-survival",
+    "imageUrl": "https://img.msf.org/AssetLink/pi763ai2d6miqfncc5506cteoc228j2x.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Doctors Without Borders",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-07",
+    "title": "Satellite photos show how Israeli forces have erased Gaza towns",
+    "summary": "Satellite imagery three years after the war in Gaza began shows how the Israeli military has systematically razed the territory it controls in the Gaza Strip, erasing towns and districts.",
+    "link": "https://apnews.com/article/gaza-war-israel-demolition-3a187f030deb29d97d547cc363875d0c?__cf_chl_rt_tk=Ouk_9AYrfEUSJY_qNA5v4VOLd3E_l2B7DqXcAR90GJI-1791481800-1.0.1.1-76ro4zmSOYpV7KHirsiwvzBl9PIu8PH0PO3Lq0OaBww",
+    "imageUrl": "https://dims.apnews.com/dims4/default/8f69148/2147483647/strip/true/crop/4867x3243+262+0/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2Ff1%2F31%2Fbb3708f142459d298b7087ed5964%2Fdsob212.jpeg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Associated Press",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-08",
+    "title": "Gaza's lost generation: The students left behind by three years of war",
+    "summary": "",
+    "link": "https://www.972mag.com/gaza-lost-generation-education-school-war/",
+    "imageUrl": "https://placeholder.com/image.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "#ERROR!",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-08",
+    "title": "I left Gaza, but my body is trapped in the horrors of war",
+    "summary": "",
+    "link": "https://www.middleeasteye.net/opinion/i-left-gaza-my-body-trapped-horrors-war",
+    "imageUrl": "https://yt3.googleusercontent.com/ytc/AIdro_lRzIchs74TuzdT7g_vmgeoD_KFN5kmLk_I3GlVmBl8Z_g=s900-c-k-c0x00ffffff-no-rj",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Middle East Eye",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-08",
+    "title": "Israeli settlers beat AFP photographer covering violence in West Bank",
+    "summary": "",
+    "link": "https://www.washingtonpost.com/world/2026/10/06/israeli-settlers-beat-afp-photographer-covering-violence-west-bank/",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7j0eNkVqKnqU-vTMmkAm9yA0BaSqkkmZltw&s",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Settler Violence"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The Washington Post",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-05",
     "title": "Lapid says young Israelis told him 'even babies' in Gaza should be killed",
     "summary": "",
     "link": "https://www.middleeasteye.net/news/lapid-says-young-israelis-told-him-even-babies-gaza-should-be-killed",
