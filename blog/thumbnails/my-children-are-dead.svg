@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="My children are dead">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050505"/>
+      <stop offset="0.52" stop-color="#0c0909"/>
+      <stop offset="1" stop-color="#220707"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="78%" cy="20%" r="70%">
+      <stop offset="0" stop-color="#8b0000" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#8b0000" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="avatarClip">
+      <circle cx="158" cy="154" r="78"/>
+    </clipPath>
+    <style>
+      .brand { font: 700 21px Arial, sans-serif; letter-spacing: 8px; fill: #b91c1c; }
+      .kicker { font: 700 16px Arial, sans-serif; letter-spacing: 5px; fill: #b4b4b4; }
+      .author { font: 700 28px Arial, sans-serif; fill: #f4f4f5; }
+      .role { font: 400 19px Arial, sans-serif; fill: #8c8c94; }
+      .title { font: 700 52px Georgia, serif; fill: #f7f7f7; }
+      .subtitle { font: 400 22px Arial, sans-serif; fill: #9b9ba3; }
+      .initial { font: 700 72px Georgia, serif; fill: #f4f4f5; }
+    </style>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect x="38" y="38" width="1124" height="554" fill="none" stroke="#252525" stroke-width="2"/>
+  <line x1="86" y1="288" x2="1114" y2="288" stroke="#2a2a2e" stroke-width="2"/>
+  <text x="86" y="88" class="brand">ECHOES OF GAZA</text>
+  <circle cx="158" cy="154" r="82" fill="#171717" stroke="#333" stroke-width="2"/>
+       <text x="158" y="182" text-anchor="middle" class="initial">M</text>
+       <image href="https://substack-post-media.s3.amazonaws.com/public/images/4bf81c9d-43eb-4f90-91b3-6f6762034fd9_745x744.jpeg" x="76" y="72" width="164" height="164" preserveAspectRatio="xMidYMid slice" clip-path="url(#avatarClip)"/>
+  <text x="276" y="146" class="kicker">VOICES</text>
+  <text x="276" y="184" class="author">Monique Shanice Wilbert</text>
+  <text x="276" y="218" class="role">Poet | Writer</text>
+  <text x="86" y="346" class="title">My children are dead</text>
+  <text x="88" y="580" class="subtitle">A poem by Monique Shanice Wilbert, written September 14, 2025, mourning</text>
+<text x="88" y="606" class="subtitle">the children of Gaza.</text>
+</svg>
