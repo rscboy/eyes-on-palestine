@@ -10,6 +10,7 @@
     "category": "Poetry or creative writing",
     "author": {
       "name": "Monique Shanice Wilbert",
+      "email": "",
       "role": "Poet | Writer",
       "photoUrl": "https://substack-post-media.s3.amazonaws.com/public/images/4bf81c9d-43eb-4f90-91b3-6f6762034fd9_745x744.jpeg",
       "location": "",
@@ -19,9 +20,11 @@
       "bio": "Monique Shanice Wilbert is a poet and writer. On her Substack, One Who Is Alone, she shares poetry, reflections, and occasional podcasts.",
       "anonymous": false
     },
-    "images": [],
-    "featureImage": "https://echoesofgaza.org/blog/thumbnails/my-children-are-dead.png",
-    "shareImage": "https://echoesofgaza.org/blog/thumbnails/my-children-are-dead.png",
+    "images": [
+      "https://substack-post-media.s3.amazonaws.com/public/images/4bf81c9d-43eb-4f90-91b3-6f6762034fd9_745x744.jpeg"
+    ],
+    "featureImage": "https://substack-post-media.s3.amazonaws.com/public/images/4bf81c9d-43eb-4f90-91b3-6f6762034fd9_745x744.jpeg",
+    "shareImage": "https://substack-post-media.s3.amazonaws.com/public/images/4bf81c9d-43eb-4f90-91b3-6f6762034fd9_745x744.jpeg",
     "date": "2026-10-20",
     "publishedAt": "2026-10-20T17:52:32.092Z",
     "scheduledAt": "",
@@ -29,7 +32,7 @@
     "citations": 0,
     "comments": 0,
     "content": "<p style=\"margin: 0 0 1.4em;\">On the footsteps to the gate of hell<br>Far from the garden<br>Are little bodies wet with blood</p>\n<p style=\"margin: 0 0 1.4em;\">Bloated bellied bodies<br>Behold the gentle face<br>The purchase of war</p>\n<p style=\"margin: 0 0 1.4em;\">Hold them in your hands<br>Smell the sacred stench of tears<br>Tears on their breath</p>\n<p style=\"margin: 0 0 1.4em;\">Bring them milk and make them drink<br>Their mouths filled<br>It is too late</p>\n<p style=\"margin: 0 0 1.4em;\">There is no devil here<br>Only men grinding men into ash<br>To keep their lands clean</p>\n<p style=\"margin: 0 0 1.4em;\">To keep their lands clean<br>Not dirty with the silt of men<br>My children are dead</p>\n<p style=\"margin: 0 0 1.4em;\"><em>Dead, my politicians. Dead, my sisters and brothers.<br>Dead, my pastors and laymen of every kind. Dead,<br>my friends with heavenly compassion on their hearts.<br>Dead and dying all around us.</em></p>\n<p style=\"margin: 2em 0 0;\">-Monique Shanice Wilbert<br>September 14th, 2025</p>",
-    "generatedThumbnail": true
+    "generatedThumbnail": false
   },
   {
     "id": "07230eda-8aad-492c-b88a-e0e4a49c2611",
