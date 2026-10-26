@@ -1,5 +1,250 @@
 [
   {
+    "date": "2026-10-21",
+    "title": "Israeli fire kills four people in Gaza, medics say",
+    "summary": "",
+    "link": "https://www.reuters.com/world/middle-east/israeli-fire-kills-four-people-gaza-medics-say-2026-10-20/",
+    "imageUrl": "https://i0.wp.com/janoberg.me/wp-content/uploads/2023/05/logo-Reuters.jpg?fit=5000%2C2435&ssl=1",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Reuters",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-21",
+    "title": "Israeli strikes kill seven people in Gaza on Tuesday, including two children",
+    "summary": "",
+    "link": "https://www.middleeasteye.net/live-blog/live-blog-update/gaza-rescuers-hospitals-say-israeli-strikes-kill-seven",
+    "imageUrl": "https://yt3.googleusercontent.com/ytc/AIdro_lRzIchs74TuzdT7g_vmgeoD_KFN5kmLk_I3GlVmBl8Z_g=s900-c-k-c0x00ffffff-no-rj",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Children"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Middle East Eye",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-22",
+    "title": "Israeli fire kills four people in Gaza, medics say",
+    "summary": "Reuters reports that Israeli strikes and gunfire killed four Palestinians in separate incidents across Gaza, according to health officials. The Israeli military said it targeted Hamas militants and was unaware of the reported Jabalia incident.",
+    "link": "https://www.reuters.com/world/middle-east/israeli-fire-kills-four-people-gaza-medics-say-2026-10-22/",
+    "imageUrl": "https://i0.wp.com/janoberg.me/wp-content/uploads/2023/05/logo-Reuters.jpg?fit=5000%2C2435&ssl=1",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Reuters",
+    "author": "Nidal al-Mughrabi",
+    "authors": [
+      "Nidal al-Mughrabi"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-26",
+    "title": "Gaza's displaced families are struggling to keep the lights on",
+    "summary": "Displaced families in Gaza describe being unable to afford electricity from private generators. Mondoweiss examines how destruction of the power grid and restrictions on fuel and equipment have raised prices and left households without reliable lighting.",
+    "link": "https://mondoweiss.net/2026/10/gazas-displaced-families-are-struggling-to-keep-the-lights-on/",
+    "imageUrl": "https://mondoweiss.net/wp-content/uploads/2026/10/ASH_00-2.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Displacement"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Mondoweiss",
+    "author": "Hayat Yildiz",
+    "authors": [
+      "Hayat Yildiz"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-26",
+    "title": "UN-commissioned experts say Gaza ceasefire has not stopped Israel from committing genocide",
+    "summary": "AP reports on a UN-commissioned inquiry alleging continuing genocidal acts in Gaza and crimes against humanity in the West Bank. Israel rejected the report; AP says it could not independently corroborate several accounts of sexual assault.",
+    "link": "https://apnews.com/article/israel-gaza-un-war-sexual-crimes-9547f83319b8c5be32ab3ab81534772a",
+    "imageUrl": "https://1000logos.net/wp-content/uploads/2016/10/Associated-Press-logo.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Ceasefire"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Associated Press",
+    "author": "Julia Frankel",
+    "authors": [
+      "Julia Frankel"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-26",
+    "title": "Destruction of truth': UN report finds Israel's mediacide in Gaza seeks to bury evidence of genocide",
+    "summary": "The New Arab covers a UN report alleging that killings of Palestinian journalists and destruction of communications and media infrastructure obstruct reporting and preservation of evidence from Gaza.",
+    "link": "https://www.newarab.com/news/israels-mediacide-gaza-seeks-bury-genocide-evidence-un",
+    "imageUrl": "https://www.newarab.com/sites/default/files/styles/new_arab_overlay_medium_16_9/public/2299964823.jpeg?itok=YkrfrKJD",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The New Arab",
+    "author": "The New Arab Staff",
+    "authors": [
+      "The New Arab Staff"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-26",
+    "title": "Eight Palestinians Killed in Israeli Attacks Across the Gaza Strip",
+    "summary": "Democracy Now! reports that Israeli attacks killed at least eight Palestinians, including three security guards at Islamic University in Gaza City. The headline also discusses damage to higher education campuses and deaths since the ceasefire.",
+    "link": "https://www.democracynow.org/2026/10/26/headlines/eight_palestinians_killed_in_israeli_attacks_across_the_gaza_strip",
+    "imageUrl": "https://www.democracynow.org/images/headlines/60/84060/full_hd/HD6-Gaza-killings-V2.jpg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Democracy Now!",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-26",
+    "title": "IDF Kills Five in Gaza Strip; Displaced Persons Camp Destroyed in Fire",
+    "summary": "Haaretz reports five deaths in Israeli attacks in Gaza, citing Al Jazeera and medical sources. Separately, Gaza authorities said a fire destroyed tents and left roughly 800 displaced people without shelter.",
+    "link": "https://www.haaretz.com/gaza/2026-10-26/ty-article/.premium/idf-kills-five-in-gaza-strip-displaced-persons-camp-destroyed-in-fire/000001a1-7827-db92-abbb-faf7b3990000",
+    "imageUrl": "https://images.seeklogo.com/logo-png/50/1/haaretz-logo-png_seeklogo-507234.png",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Displacement"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Haaretz",
+    "author": "Maysan Madi, Yaniv Kubovich",
+    "authors": [
+      "Maysan Madi",
+      "Yaniv Kubovich"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-25",
+    "title": "Gaza's suffering has become campaign fodder': Palestinians fear the worst from Israel election",
+    "summary": "The Guardian interviews Palestinians in Gaza about the Israeli election and their fears of further violence and displacement. The report examines candidates' focus on Hamas and the limited attention given to humanitarian conditions.",
+    "link": "https://www.theguardian.com/world/2026/oct/25/gaza-suffering-campaign-fodder-palestinians-fear-worst-israel-election",
+    "imageUrl": "https://i.guim.co.uk/img/media/06fe9fcd10ec9a5f068328aac3ae4eacff597b5a/326_0_4141_3313/master/4141.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=66a3fb84549e3e4dd573f2749b8cea1e",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The Guardian",
+    "author": "Seham Tantesh, Lorenzo Tondo",
+    "authors": [
+      "Seham Tantesh",
+      "Lorenzo Tondo"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-26",
+    "title": "Everything destroyed': Hebron businesses count cost of Israeli assault",
+    "summary": "Al Jazeera reports on factories and shops damaged or demolished during Israeli operations in Hebron. Business owners describe lost livelihoods, spoiled goods and road closures that disrupt commerce across the city.",
+    "link": "https://www.aljazeera.com/features/2026/10/26/everything-destroyed-hebron-businesses-count-cost-of-israeli-assault",
+    "imageUrl": "https://d10bt0812qicot.cloudfront.net/img/2a/df897cb5e34467bba62c7c6f85723d/640x360.png",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Al Jazeera",
+    "author": "Fayha Shalash",
+    "authors": [
+      "Fayha Shalash"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-25",
+    "title": "Israeli settler attacks and military lockdown upend Palestinian olive harvest",
+    "summary": "NBC News reports on settler attacks and military restrictions affecting the Palestinian olive harvest in the occupied West Bank, including a farmer's account of being beaten in his home near Nablus.",
+    "link": "https://www.nbcnews.com/world/middle-east/israeli-settler-attacks-military-lockdown-palestinian-olive-harvest-rcna605169",
+    "imageUrl": "https://cdn.worldvectorlogo.com/logos/nbc-news.svg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Settler Violence"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "NBC News",
+    "author": "Chantal Da Silva, Matt Bradley",
+    "authors": [
+      "Chantal Da Silva",
+      "Matt Bradley"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-26",
+    "title": "Netanyahu, Katz Blocked IDF Plan to End Hebron Raids, Allow Locals to Return",
+    "summary": "Haaretz reports that Benjamin Netanyahu and Israel Katz opposed an army plan to end the Hebron operation and allow displaced residents to return, despite the chief of staff's assessment that its goals had been met.",
+    "link": "https://www.haaretz.com/west-bank/2026-10-26/ty-article/.premium/netanyahu-katz-blocked-idf-plan-to-end-hebron-raids-allow-locals-to-return/000001a1-777e-dfb9-a5a9-ff7f15ce0000",
+    "imageUrl": "https://images.seeklogo.com/logo-png/50/1/haaretz-logo-png_seeklogo-507234.png",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Haaretz",
+    "author": "Amos Harel",
+    "authors": [
+      "Amos Harel"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-10-26",
+    "title": "It's collective punishment': nearly 2,000 Palestinians in Hebron displaced as Israeli forces take over homes",
+    "summary": "The Guardian reports that nearly 2,000 Palestinians were displaced in Hebron as Israeli forces occupied homes and imposed closures after a checkpoint attack. Residents describe forced evacuations; the Israeli army said civilians left voluntarily.",
+    "link": "https://www.theguardian.com/world/2026/oct/26/collective-punishment-palestinians-displaced-israeli-forces-take-over-hebron-homes",
+    "imageUrl": "https://assets-legacy.floridarrc.com/2023/01/the-guardian-logo.jpeg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Displacement"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The Guardian",
+    "author": "Julian Borger, Sufian Taha, Quique Kierszenbaum",
+    "authors": [
+      "Julian Borger",
+      "Sufian Taha",
+      "Quique Kierszenbaum"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-10-16",
     "title": "Commercial goods are no longer entering Gaza, raising fears of worsening shortages in the territory",
     "summary": "No commercial goods are entering the Gaza Strip, Israeli authorities said, attributing the suspension to local vendors they said are fed up with Hamas raising taxes on them.",
