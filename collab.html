@@ -19,7 +19,7 @@
     <meta name="twitter:description" content="Submit articles documenting the ongoing genocide, ethnic cleansing, and displacement of the Palestinian people to the Echoes of Gaza collaborative.">
     <meta name="twitter:image" content="https://i.postimg.cc/x1fDcLY5/Eo-G-Divide-Social-Media-Thumbail.png">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./assets/utilities.css?v=perf-1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Fonts: Playfair Display (Headings), Lora (Body/Text), Inter (Fallback) -->
@@ -545,7 +545,7 @@
     </style>
     <link rel="stylesheet" href="./assets/site-shell.css?v=story-1">
 </head>
-<body class="min-h-screen flex flex-col">
+<body data-story-welcome="off" class="min-h-screen flex flex-col">
 
     <!-- Header / Logo Section -->
     <header class="nav-glass fixed w-full top-0 z-50 flex items-center">
@@ -1139,7 +1139,7 @@
             authorsInput.disabled = event.target.checked;
             if (event.target.checked) authorsInput.value = '';
         });
-        fetch('./data/authors.json?v=' + Date.now())
+        fetch('./data/authors.json')
             .then(response => response.ok ? response.json() : [])
             .then(authors => {
                 const authorDatabase = document.getElementById('authorDatabase');
@@ -1297,22 +1297,6 @@
             }
         }
 
-        function learnSourceDomainsFromLibrary(articles) {
-            const counts = {};
-            articles.forEach((article) => {
-                const domain = domainKeyForUrl(article.link);
-                const source = String(article.source || "").trim();
-                if (!domain || !source) return;
-                counts[domain] = counts[domain] || {};
-                counts[domain][source] = (counts[domain][source] || 0) + 1;
-            });
-            Object.entries(counts).forEach(([domain, srcCounts]) => {
-                if (sourceByDomain.has(domain)) return; // curated base map wins
-                const best = Object.entries(srcCounts).sort((a, b) => b[1] - a[1])[0][0];
-                sourceByDomain.set(domain, best);
-            });
-        }
-
         function inferSourceFromUrl(url) {
             const host = domainKeyForUrl(url);
             if (!host) return "";
@@ -1377,12 +1361,14 @@
 
         renderSourceSuggestions([]);
 
-        const sourceCatalogReady = fetch('./data/articles.json?v=' + Date.now())
-            .then(response => response.ok ? response.json() : [])
-            .then(articles => {
-                if (!Array.isArray(articles)) return;
-                renderSourceSuggestions(articles.map(article => article.source));
-                learnSourceDomainsFromLibrary(articles);
+        const sourceCatalogReady = fetch('./data/submission-catalog.json')
+            .then(response => response.ok ? response.json() : null)
+            .then(catalog => {
+                if (!catalog) return;
+                renderSourceSuggestions(catalog.sources || []);
+                Object.entries(catalog.domains || {}).forEach(([domain, source]) => {
+                    if (!sourceByDomain.has(domain)) sourceByDomain.set(domain, source);
+                });
             })
             .catch(() => {});
 
@@ -2523,22 +2509,21 @@
         document.getElementById('addArticleButtonBottom')?.addEventListener('click', createExtraArticleBlock);
         setBatchEntryEvents();
     </script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-        import {
-          getFirestore,
-          collection,
-          addDoc,
-          serverTimestamp,
-          updateDoc,
-          doc
-        } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
-        import {
-          getStorage,
-          ref,
-          uploadBytesResumable
-        } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-storage.js";
-      
+    <script>
+        // File-upload dependencies are needed only when a valid file is submitted.
+        let primaryServicesReady;
+        function loadPrimaryServices() {
+          if (!primaryServicesReady) primaryServicesReady = Promise.all([
+            import('https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js'),
+            import('https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js'),
+            import('https://www.gstatic.com/firebasejs/12.9.0/firebase-storage.js')
+          ]).then(([appModule, firestore, storageModule]) => {
+            const app = appModule.initializeApp(firebaseConfig);
+            return { ...firestore, ...storageModule, db: firestore.getFirestore(app), storage: storageModule.getStorage(app) };
+          }).catch(error => { primaryServicesReady = null; throw error; });
+          return primaryServicesReady;
+        }
+
         // Firebase config (yours)
         const firebaseConfig = {
           apiKey: "AIzaSyDWpXfcX0T3ceI4zSe5hADkcundb3TqqeM",
@@ -2548,11 +2533,7 @@
           messagingSenderId: "592151003023",
           appId: "1:592151003023:web:b3c7db040a0afb87a555fa"
         };
-      
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
-      
+
         // Primary Source form elements
         const primaryForm = document.getElementById("primarySourceForm");
         const submitPrimaryButton = document.getElementById("submitPrimaryButton");
@@ -2617,6 +2598,7 @@
           setPrimaryStatus("Creating record...");
       
           try {
+            const { db, storage, addDoc, collection, serverTimestamp, ref, uploadBytesResumable, updateDoc, doc } = await loadPrimaryServices();
             // 1) Create Firestore doc first to get submissionId
             const docRef = await addDoc(collection(db, "primary_sources"), {
               status: "pending",
@@ -2678,6 +2660,6 @@
           }
         });
       </script>
-    <script src="./assets/site-shell.js?v=story-1" defer></script>
+    <script src="./assets/site-shell.js?v=perf-1" defer></script>
 </body>
 </html>

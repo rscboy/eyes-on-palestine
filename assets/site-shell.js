@@ -235,6 +235,26 @@
     }
   }
 
+  function setupTranslateWhenNeeded() {
+    // Honor an existing language choice immediately; otherwise wait until the
+    // footer's language controls are near the viewport before loading Google.
+    if (/googtrans=\/?en\/(?:ar|iw|he)(?:;|$)/.test(document.cookie)) {
+      setupTranslate();
+      return;
+    }
+    const controls = document.querySelector('.site-shell-language-picker');
+    if (!controls || !('IntersectionObserver' in window)) {
+      setupTranslate();
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      observer.disconnect();
+      setupTranslate();
+    }, { rootMargin: '200px' });
+    observer.observe(controls);
+  }
+
   function setTranslation(language) {
     document.querySelectorAll("[data-translate-language]").forEach((button) => {
       button.setAttribute("aria-pressed", String(button.dataset.translateLanguage === language));
@@ -262,6 +282,7 @@
   }
 
   function setupStoryWelcome() {
+    if (document.body.dataset.storyWelcome === "off") return;
     const sessionKey = "echoes_story_welcome_seen";
     const lastStoryKey = "echoes_story_welcome_last";
 
@@ -383,9 +404,7 @@
 
     window.setTimeout(async () => {
       try {
-        const response = await fetch("/data/articles.json");
-        if (!response.ok) return;
-        const articles = await response.json();
+        const articles = await (window.eogArticleCatalogReady || fetch("/data/articles.json").then(response => response.ok ? response.json() : []));
         if (!Array.isArray(articles)) return;
 
         let lastStory = "";
@@ -428,7 +447,7 @@
       document.querySelector(".site-shell-language-picker")?.remove();
     } else {
       setupLanguageButtons();
-      setupTranslate();
+      setupTranslateWhenNeeded();
       setupStoryWelcome();
     }
   });

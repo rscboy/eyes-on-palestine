@@ -47,6 +47,12 @@ All materials are categorized and searchable by date, source, and keyword.
 
 ---
 
+## Homepage and submission assets
+
+The homepage and Submit Evidence use the checked-in `assets/utilities.css`; they do not run Tailwind in visitors' browsers. After editing utility classes in those pages or their shared scripts, run `npm ci` and `npm run build:styles`, and commit the resulting CSS. No build step is needed on GitHub Pages.
+
+The submission form reads `data/submission-catalog.json`, a compact publication/domain index. Run `npm run build:catalog` after editing `data/articles.json`; the Update submission catalog workflow also refreshes it after archive updates on main. See `docs/loading-performance.md` for the investigation and verification.
+
 ## Open-Source Principles
 
 1. **Transparency:** All source files and datasets are publicly viewable.

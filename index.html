@@ -32,115 +32,12 @@
     <meta name="description" content="A digital historical record documenting the crisis. 680,000+ estimated casualties. Preserving truth, resisting erasure.">
     <link rel="canonical" href="https://echoesofgaza.org/">
     <script>
-        (function keepPlainHomepageAtTop() {
-            const staleMapHashes = new Set(["#gaza-displacement-maps"]);
-            const hasStaleMapHash = staleMapHashes.has(window.location.hash);
-            if (hasStaleMapHash) {
-                history.replaceState(null, "", window.location.pathname + window.location.search);
-            }
-
-            const isPlainHomepage = (!window.location.hash || hasStaleMapHash) && /\/(?:index\.html)?$/i.test(window.location.pathname || "/");
-            if (!isPlainHomepage) return;
-
-            if ("scrollRestoration" in history) {
-                history.scrollRestoration = "manual";
-            }
-
-            document.documentElement.classList.add("eog-home-top-lock", "eog-home-scroll-freeze", "eog-home-map-section-lock");
-            const style = document.createElement("style");
-            style.textContent = `
-                html.eog-home-top-lock,
-                html.eog-home-top-lock body {
-                    scroll-behavior: auto !important;
-                    overflow-anchor: none !important;
-                }
-                html.eog-home-top-lock {
-                    position: fixed !important;
-                    inset: 0 !important;
-                    width: 100% !important;
-                    height: 100% !important;
-                    overflow: hidden !important;
-                }
-                html.eog-home-top-lock body {
-                    opacity: 0 !important;
-                    position: relative !important;
-                    top: 0 !important;
-                    min-height: 100vh !important;
-                }
-                html.eog-home-scroll-freeze,
-                html.eog-home-scroll-freeze body {
-                    overflow: hidden !important;
-                }
-                html.eog-home-navigating-away body {
-                    opacity: 0 !important;
-                }
-                html.eog-home-map-section-lock #gaza-displacement-maps {
-                    visibility: hidden !important;
-                }
-            `;
-            document.head.appendChild(style);
-
-            const forceTop = () => {
-                if (!window.location.hash) window.scrollTo(0, 0);
-            };
-            const stopForUserIntent = () => {
-                window.__echoesStopHomeTopGuard = true;
-                document.documentElement.classList.remove("eog-home-top-lock", "eog-home-scroll-freeze", "eog-home-map-section-lock");
-            };
-            const guardedForceTop = () => {
-                if (!window.__echoesStopHomeTopGuard) forceTop();
-            };
-            const revealAtTop = () => {
-                document.documentElement.classList.remove("eog-home-navigating-away");
-                guardedForceTop();
-                requestAnimationFrame(() => {
-                    document.documentElement.classList.remove("eog-home-navigating-away");
-                    guardedForceTop();
-                    document.documentElement.classList.remove("eog-home-top-lock");
-                    guardedForceTop();
-                });
-            };
-            const unlockScroll = () => {
-                document.documentElement.classList.remove("eog-home-scroll-freeze");
-            };
-            const unlockMapSection = () => {
-                document.documentElement.classList.remove("eog-home-map-section-lock");
-            };
-            const hideAtTopBeforeLeaving = () => {
-                window.__echoesStopHomeTopGuard = false;
-                document.documentElement.classList.add("eog-home-navigating-away", "eog-home-map-section-lock");
-                forceTop();
-            };
-
-            forceTop();
-            ["wheel", "touchstart", "pointerdown", "keydown"].forEach(eventName => {
-                window.addEventListener(eventName, stopForUserIntent, { once: true, passive: true });
-            });
-            window.addEventListener("hashchange", stopForUserIntent, { once: true });
-            window.addEventListener("pageshow", revealAtTop);
-            window.addEventListener("pagehide", hideAtTopBeforeLeaving);
-            window.addEventListener("beforeunload", hideAtTopBeforeLeaving);
-            window.addEventListener("DOMContentLoaded", revealAtTop);
-            window.addEventListener("load", revealAtTop);
-            requestAnimationFrame(revealAtTop);
-            [80, 250, 700, 1400, 2400, 3600, 5200, 7000].forEach(delay => window.setTimeout(guardedForceTop, delay));
-            [1200, 2200].forEach(delay => window.setTimeout(unlockScroll, delay));
-            [900, 1800, 3000].forEach(delay => window.setTimeout(unlockMapSection, delay));
-            const guardStartedAt = Date.now();
-            const guardInterval = window.setInterval(() => {
-                if (window.__echoesStopHomeTopGuard || window.location.hash || Date.now() - guardStartedAt > 8000) {
-                    window.clearInterval(guardInterval);
-                    unlockScroll();
-                    return;
-                }
-                forceTop();
-            }, 200);
-        })();
+        // Preserve clean homepage entry without hiding, freezing or repeatedly
+        // scrolling the document while resources and navigation are loading.
+        if (location.hash === '#gaza-displacement-maps') history.replaceState(null, '', location.pathname + location.search);
+        if (!location.hash && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    
+    <link rel="stylesheet" href="./assets/utilities.css?v=perf-1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Font Links -->
@@ -2783,12 +2680,6 @@
         </div>
     </nav>
 
-    <!-- Google Translate -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() { new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,ar,iw', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element'); }
-    </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
     <!-- Vanilla JS Logic -->
     <script type="module">
         let currentQuizArticle = null;
@@ -4030,8 +3921,8 @@
         async function loadIntegrityReport() {
             try {
                 const [latestResponse, overrideResponse] = await Promise.all([
-                    fetch('./data/integrity/latest.json?v=' + Date.now()),
-                    fetch('./data/integrity/manual_overrides.json?v=' + Date.now())
+                    fetch('./data/integrity/latest.json'),
+                    fetch('./data/integrity/manual_overrides.json')
                 ]);
                 const latest = latestResponse.ok ? await latestResponse.json() : null;
                 const overrides = overrideResponse.ok ? await overrideResponse.json() : { overrides: {} };
@@ -4130,7 +4021,7 @@
 
         async function loadWaybackArchiveStatus() {
             try {
-                const response = await fetch('./data/wayback/archive_status.json?v=' + Date.now());
+                const response = await fetch('./data/wayback/archive_status.json');
                 if (!response.ok) return;
                 const payload = await response.json();
                 const records = payload?.records || {};
@@ -4637,13 +4528,12 @@
 
         async function loadArticles() {
             try {
-                const response = await fetch('./data/articles.json?v=' + Date.now());
-
-                if (!response.ok) {
-                    throw new Error(`Failed to load articles.json: ${response.status}`);
-                }
-
-                const loadedArticles = await response.json();
+                // The welcome story shares this request rather than downloading
+                // and parsing the full archive a second time.
+                const loadedArticles = await (window.eogArticleCatalogReady ||= fetch('./data/articles.json').then(response => {
+                    if (!response.ok) throw new Error(`Failed to load articles.json: ${response.status}`);
+                    return response.json();
+                }));
                 if (!Array.isArray(loadedArticles)) {
                     throw new Error('articles.json must contain an array of articles');
                 }
@@ -4653,14 +4543,21 @@
 
                 console.log(`Loaded ${articles.length} articles`);
 
-                await Promise.all([loadWaybackArchiveStatus(), loadIntegrityReport(), (async () => {
+                // Paint the archive before optional provenance downloads. The
+                // integrity report alone is larger than the article catalog.
+                const enrichment = Promise.all([loadWaybackArchiveStatus(), loadIntegrityReport(), (async () => {
                     try {
                         const identityResponse = await fetch('./data/timeline/packet-identities.json');
                         if (identityResponse.ok) window.EogPacket.configure(await identityResponse.json());
                     } catch (error) {
-                        // Existing URL fingerprints remain usable when this optional map is unavailable.
+                        // URL fingerprints work without this optional map.
                     }
                 })()]);
+                enrichment.then(() => {
+                    loadResearchPacket();
+                    renderResearchPacket();
+                    refreshArticleProvenance();
+                });
                 loadResearchPacket();
                 populateFilters();
                 updateArchiveResultSummary(currentlyDisplayedArticles);
@@ -4677,6 +4574,23 @@
                 }
                 return false;
             }
+        }
+
+        function refreshArticleProvenance() {
+            // Enrich existing elements in place so a late response cannot steal
+            // focus, discard a search, or invalidate an open article's ID.
+            const byUrl = new Map(articles.map(article => [normalizeArchiveLookupUrl(article.link), article]));
+            document.querySelectorAll('#article-grid [data-live-url], #article-table-wrap [data-live-url]').forEach(element => {
+                const article = byUrl.get(element.dataset.liveUrl);
+                if (!article) return;
+                element.dataset.archivedUrl = getArticleOpenUrl(article);
+                if (element.querySelector('img')) {
+                    element.querySelector('.eog-prov-anchor')?.remove();
+                    element.insertAdjacentHTML('beforeend', articleProvenanceBadge(article));
+                }
+                const status = element.closest('tr')?.querySelector('[data-label="Archive"]');
+                if (status) status.textContent = archiveStatusLabel(article);
+            });
         }
 
         // Filter articles by month
@@ -4850,7 +4764,7 @@
                             <button onclick="window.togglePacketByDetailId('${detailId}'); event.stopPropagation();" class="article-save-overlay ${isSaved ? 'is-saved' : ''}" aria-label="${isSaved ? 'Remove saved article' : 'Save article'}" title="${isSaved ? 'Saved' : 'Save article'}">
                                 ${createIcon('save')}
                             </button>
-                            <img src="${escapeDataAttribute(article.imageUrl)}" class="eog-duotone w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
+                            <img loading="lazy" decoding="async" src="${escapeDataAttribute(article.imageUrl)}" class="eog-duotone w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';">
                             ${articleProvenanceBadge(article)}
                         </div>
                         <div class="article-card-body flex flex-col flex-grow p-6">
@@ -4939,7 +4853,7 @@
 
                 return `
                 <div class="card-modern group flex flex-col text-center bg-[#0a0a0a] border border-[#222]">
-                    <div class="relative h-80 overflow-hidden bg-[#111]"><img src="${escapeDataAttribute(b.imageUrl)}" class="eog-duotone w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative h-80 overflow-hidden bg-[#111]"><img loading="lazy" decoding="async" src="${escapeDataAttribute(b.imageUrl)}" class="eog-duotone w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div class="p-6 flex-grow flex flex-col justify-center">
                         <h4 class="font-serif font-bold text-white mb-1 leading-tight">${escapeHtml(b.title)}</h4>
                         <p class="text-gray-500 text-xs mb-4 font-light">${escapeHtml(b.author)}</p>
@@ -4960,7 +4874,7 @@
             grid.innerHTML = newestFirst(videos).map(v => `
             <div class="card-modern group flex flex-col h-full bg-[#0a0a0a] border border-[#222]">
                 <div class="relative aspect-video overflow-hidden bg-[#111]">
-                    <img src="${escapeDataAttribute(v.imageUrl)}" class="eog-duotone w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Thumbnail';">
+                    <img loading="lazy" decoding="async" src="${escapeDataAttribute(v.imageUrl)}" class="eog-duotone w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=No+Thumbnail';">
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <div class="w-9 h-9 md:w-10 md:h-10 rounded-full border border-white/20 flex items-center justify-center backdrop-blur-sm bg-black/20">
                             <svg class="w-3 h-3 md:w-3.5 md:h-3.5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -4988,7 +4902,7 @@
                 return `
                 <div class="card-modern group flex flex-col bg-[#0a0a0a] border border-[#222]">
                     <div class="relative h-64 overflow-hidden bg-[#111]">
-                        <img src="${escapeDataAttribute(f.imageUrl)}" class="eog-duotone w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                        <img loading="lazy" decoding="async" src="${escapeDataAttribute(f.imageUrl)}" class="eog-duotone w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
                         <a href="${escapeDataAttribute(f.link)}" target="_blank" class="absolute inset-0 z-10" aria-label="View Film"></a>
                     </div>
                     <div class="p-6 flex-grow flex flex-col">
@@ -5242,8 +5156,19 @@
         }
 
         // --- CHART LOGIC ---
-        function renderCasualtyChart() {
-            if (typeof Chart === 'undefined') return;
+        let chartLibraryReady;
+        async function renderCasualtyChart() {
+            if (document.getElementById('casualty-graph')?.classList.contains('hidden')) return;
+            if (typeof Chart === 'undefined') {
+                if (!chartLibraryReady) chartLibraryReady = new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js';
+                    script.onload = resolve;
+                    script.onerror = () => { chartLibraryReady = null; script.remove(); reject(new Error('Chart library unavailable')); };
+                    document.head.appendChild(script);
+                });
+                try { await chartLibraryReady; } catch (error) { console.warn(error); return; }
+            }
             
             const labels = ["Oct '23", "Dec '23", "Feb '24", "Apr '24", "Jun '24", "Aug '24", "Oct '24", "Dec '24", "Feb '25", "Apr '25", "Jun '25", "Aug '25", "Oct '25", "Dec '25", "Feb '26"];
             const data = [90000, 220000, 290000, 340000, 380000, 420000, 450000, 490000, 520000, 560000, 600000, 650000, 700000, 705000, 710000];
@@ -5403,8 +5328,7 @@
             renderBooks();
             renderVideos();
             renderFilms();
-            // Integrity data is loaded inside loadArticles() (before the first
-            // article render) so provenance badges paint without a flash.
+            // Optional provenance enriches the already-visible archive in place.
             if (!articlesLoaded) loadIntegrityReport();
             fetchVictimsData();
             if (articlesLoaded && articles.length > 0) initEmbeddedQuiz();
@@ -6001,6 +5925,6 @@
             }
         });
     </script>
-    <script src="./assets/site-shell.js?v=timeline-2" defer></script>
+    <script src="./assets/site-shell.js?v=perf-1" defer></script>
 </body>
 </html>

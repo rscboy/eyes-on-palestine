@@ -1,0 +1,29 @@
+name: Update submission catalog
+on:
+  push:
+    branches: [main]
+    paths: ["data/articles.json", "scripts/build_submission_catalog.mjs"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: submission-catalog
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: node scripts/build_submission_catalog.mjs
+      - name: Save compact catalog
+        run: |
+          if git diff --quiet -- data/submission-catalog.json; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/submission-catalog.json
+          git commit -m "Refresh submission publication catalog"
+          git pull --rebase origin main
+          git push

@@ -1,0 +1,4 @@
+/* Rebuild with npm run build:styles after changing utility classes. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
