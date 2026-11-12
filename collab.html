@@ -19,7 +19,7 @@
     <meta name="twitter:description" content="Submit articles documenting the ongoing genocide, ethnic cleansing, and displacement of the Palestinian people to the Echoes of Gaza collaborative.">
     <meta name="twitter:image" content="https://i.postimg.cc/x1fDcLY5/Eo-G-Divide-Social-Media-Thumbail.png">
 
-    <link rel="stylesheet" href="./assets/utilities.css?v=perf-1">
+    <link rel="stylesheet" href="./assets/utilities.css?v=submission-recovery-1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Fonts: Playfair Display (Headings), Lora (Body/Text), Inter (Fallback) -->
@@ -785,6 +785,12 @@
 
                 <!-- Submit Button & Messages -->
                 <div class="pt-8 border-t border-neutral-900">
+                    <section aria-label="Submission recovery" class="mb-6 border border-neutral-800 p-4">
+                        <p id="submissionDraftStatus" role="status" class="text-sm text-gray-400">Your draft will be saved in this browser.</p>
+                        <div id="submissionReceipts" aria-live="polite" class="mt-3 space-y-2 text-sm text-gray-300"></div>
+                        <button type="button" id="retrySavedSubmissions" class="small-interface-button mt-4" hidden>Retry unsent articles</button>
+                        <button type="button" id="retryUnconfirmedSubmissions" class="small-interface-button mt-4" hidden>Review unconfirmed articles</button>
+                    </section>
                     <!-- Submission Status Messages -->
                     <div id="successMessage" class="alert-message alert-success">
                         RECORD SUBMITTED. THANK YOU FOR YOUR CONTRIBUTION.
@@ -940,6 +946,7 @@
         </div>
     </footer>
 
+    <script src="./assets/submission-outbox.js?v=1"></script>
     <script>
         // --- Tab Switching Logic ---
         function switchTab(tabName) {
@@ -1193,6 +1200,14 @@
         const addArticleButton = document.getElementById('addArticleButton');
         const additionalArticles = document.getElementById('additionalArticles');
         let extraArticleCounter = 0;
+        let submissionOutbox;
+        let submissionDraftReady = false;
+        let restoringSubmissionDraft = false;
+        try {
+            submissionOutbox = new EogSubmissionOutbox.SubmissionOutbox(localStorage);
+        } catch (error) {
+            document.getElementById('submissionDraftStatus').textContent = error.message;
+        }
 
         const googleScriptWebAppUrl = 'https://script.google.com/macros/s/AKfycbyBnG6OCnoSwDea9fad4v6I2nx-7ioDa9uXCOY_0dbc6mmMcL5Nmiee7600fC4iH3Dj/exec';
 
@@ -1805,6 +1820,10 @@
 
             // applyArticleMetadata also recognizes the source from the domain and
             // fills its known image, so even an empty result can make progress.
+            if (fields.link.value.trim() !== url) {
+                button?.removeAttribute('disabled');
+                return { ok: false, changed: [] };
+            }
             const changed = applyArticleMetadata(fields, metadata, url);
             const ok = Boolean(fields.title?.value?.trim());
 
@@ -1818,6 +1837,7 @@
 
             button?.removeAttribute("disabled");
             refreshIntakeChecklist();
+            saveSubmissionDraft();
             return { ok, changed };
         }
 
@@ -1974,7 +1994,7 @@
             const rows = statuses.map((status, index) => {
                 const title = isUsableMetadataValue(status.title) ? status.title : (domainLabel(status.link) || status.label);
                 const badge = status.missing.length === 0
-                    ? `<span class="intake-badge intake-badge-ready">Ready</span>`
+                    ? `<span class="intake-badge intake-badge-ready">Ready to submit</span>`
                     : `<span class="intake-badge intake-badge-needs">Needs: ${status.missing.join(", ")}</span>`;
                 return `<button type="button" class="intake-row" data-intake-index="${index}">
                         <span class="intake-row-title">${escapeHtml(title)}</span>
@@ -1986,7 +2006,7 @@
             const note = submitterMissing
                 ? `<p class="intake-note">Also add <strong>Your Name</strong> in Required Information before submitting.</p>`
                 : "";
-            linkIntakeChecklist.innerHTML = `<div class="intake-checklist-head">Review &amp; complete</div>${rows}${note}`;
+            linkIntakeChecklist.innerHTML = `<div class="intake-checklist-head">Review &amp; complete (not yet submitted)</div>${rows}${note}`;
         }
 
         // Cheap to call from anywhere; only re-renders when the checklist is showing.
@@ -2003,6 +2023,9 @@
                 return;
             }
 
+            if (document.getElementById('title').value.trim() || additionalArticles.children.length) {
+                if (!confirm('Replace the prepared articles with this link list? Your current draft will be replaced.')) return;
+            }
             linkIntakeButton.setAttribute("disabled", "disabled");
             const estimatedSeconds = 12 * Math.ceil(urls.length / 3);
             setMetadataStatus(linkIntakeStatus, `Checking every available source. Usually about ${estimatedSeconds} second${estimatedSeconds === 1 ? "" : "s"}; blocked publishers may need your review.`, "loading");
@@ -2010,6 +2033,7 @@
 
             // The intake defines the batch: first link drives the primary article,
             // the rest get one fresh extra block each.
+            additionalArticles.replaceChildren();
             if (urls.length > 1) {
                 multiArticleMode.checked = true;
                 setMultiArticleMode(true);
@@ -2074,6 +2098,7 @@
                 setMetadataStatus(linkIntakeStatus, "We couldn't build these articles automatically. Please try again or use Fetch Details on an individual link.", "error");
                 setLinkIntakeProgress({ completed: 0, total: urls.length, label: "Lookup needs review", loading: false });
             } finally {
+                saveSubmissionDraft();
                 linkIntakeButton.removeAttribute("disabled");
             }
         }
@@ -2197,20 +2222,25 @@
             if (primaryCategory) primaryCategory.value = defaultCategory;
             // Bring the new article (and the bottom "Add another article" button)
             // into view so multiple articles can be added without scrolling up.
-            requestAnimationFrame(() => {
+            if (!restoringSubmissionDraft && !linkIntakeButton.disabled) requestAnimationFrame(() => {
                 wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 wrapper.querySelector('[data-field="link"]')?.focus({ preventScroll: true });
             });
         }
 
         function setMultiArticleMode(isEnabled) {
+            if (!isEnabled && additionalArticles.children.length) {
+                multiArticleMode.checked = true;
+                isEnabled = true;
+                document.getElementById('submissionDraftStatus').textContent = 'Prepared articles were kept. Use Remove on an individual article to take it out of the batch.';
+            }
             multiArticleSection.classList.toggle('hidden', !isEnabled);
             if (isEnabled && !additionalArticles.querySelector('[data-extra-article]')) {
                 createExtraArticleBlock();
             }
-            if (!isEnabled) {
-                additionalArticles.innerHTML = '';
-            }
+            // Keep prepared entries when the toggle is off. They are still included
+            // at submission, so a checkbox cannot silently discard a batch.
+
         }
 
         function getExtraArticleField(entry, field) {
@@ -2403,6 +2433,7 @@
             setDefaultCategories();
             restoreSubmitterName();
             updateImageUrlPreview('');
+            additionalArticles.replaceChildren();
             setMultiArticleMode(false);
             multiArticleMode.checked = false;
             const dateInput = document.getElementById('date');
@@ -2416,89 +2447,185 @@
         }
 
         async function submitArticlePayload(payload) {
-            const response = await fetch(googleScriptWebAppUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8',
-                },
-                body: JSON.stringify(payload)
-            });
-            const data = await response.json();
-            if (data.result !== 'success') {
-                throw new Error(data.message || `Submission failed for "${payload.title}".`);
-            }
-            return data;
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 45000);
+            try {
+                const response = await fetch(googleScriptWebAppUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload),
+                    signal: controller.signal
+                });
+                if (!response.ok) throw new Error(`No confirmation received (HTTP ${response.status}).`);
+                const data = await response.json();
+                if (data.result !== 'success') {
+                    const error = new Error(data.message || `Submission rejected for "${payload.title}".`);
+                    error.definitiveRejection = true;
+                    throw error;
+                }
+                return data;
+            } finally { clearTimeout(timer); }
         }
 
-        // Handle form submission
-        submitButton.addEventListener('click', async function(event) {
-            // Manually check validity
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-
-            if (selectedCategories.length === 0) {
-                categorySearch.focus();
-                alert("Please select at least one category.");
-                return;
-            }
-
-            if (multiArticleMode.checked && !validateExtraArticles()) {
-                return;
-            }
-
-            // Disable button and show loading text
-            submitButton.disabled = true;
-            submittingText.style.display = 'block';
-            successMessage.style.display = 'none';
-            errorMessage.style.display = 'none';
-            successMessage.textContent = 'RECORD SUBMITTED. THANK YOU FOR YOUR CONTRIBUTION.';
-            errorMessage.textContent = 'SUBMISSION FAILED. PLEASE VERIFY DATA AND RETRY.';
-
-            // Get form data
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-
-            const payloads = [
-                collectFirstArticlePayload(data),
-                ...(multiArticleMode.checked ? collectExtraArticlePayloads(data.submitterName) : [])
-            ];
-
-            submittingText.textContent = payloads.length > 1
-                ? `Processing ${payloads.length} submissions...`
-                : 'Processing Submission...';
-
+        const draftFields = ['submitterName', 'link', 'date', 'title', 'source', 'documentType', 'authors', 'summary', 'imageUrl'];
+        const extraDraftFields = ['link', 'date', 'title', 'source', 'documentType', 'authors', 'summary', 'imageUrl', 'primaryCategory', 'additionalCategories'];
+        function saveSubmissionDraft() {
+            if (!submissionDraftReady || restoringSubmissionDraft || submissionOutbox?.busy) return;
             try {
-                for (let index = 0; index < payloads.length; index += 1) {
-                    submittingText.textContent = payloads.length > 1
-                        ? `Submitting ${index + 1} of ${payloads.length}...`
-                        : 'Processing Submission...';
-                    await submitArticlePayload(payloads[index]);
-                }
-
-                successMessage.textContent = payloads.length > 1
-                    ? `${payloads.length} RECORDS SUBMITTED. THANK YOU FOR YOUR CONTRIBUTION.`
-                    : 'RECORD SUBMITTED. THANK YOU FOR YOUR CONTRIBUTION.';
-                successMessage.style.display = 'block';
-                resetArticleFormAfterSuccess();
+                if (!submissionOutbox) throw new Error('Recovery storage is unavailable. Enable browser storage before submitting.');
+                const draft = {
+                    fields: Object.fromEntries(draftFields.map(id => [id, document.getElementById(id).value])),
+                    categories: [...selectedCategories],
+                    unknownAuthor: document.getElementById('unknownAuthor').checked,
+                    links: linkIntakeInput.value,
+                    batch: multiArticleMode.checked,
+                    extras: Array.from(additionalArticles.querySelectorAll('[data-extra-article]')).map(entry => ({
+                        fields: Object.fromEntries(extraDraftFields.map(field => [field, getExtraArticleField(entry, field).value])),
+                        unknownAuthor: getExtraArticleField(entry, 'unknownAuthor').checked
+                    }))
+                };
+                submissionOutbox.saveDraft(draft);
+                document.getElementById('submissionDraftStatus').textContent = 'Draft saved in this browser. Articles enter review only after a submission receipt appears below.';
+                return true;
             } catch (error) {
-                console.error('Fetch Error:', error);
-                errorMessage.textContent = error.message || 'SUBMISSION FAILED. PLEASE VERIFY DATA AND RETRY.';
+                document.getElementById('submissionDraftStatus').textContent = `Draft not saved: ${error.message}`;
+                return false;
+            }
+        }
+
+        function renderSubmissionReceipts() {
+            if (!submissionOutbox) return;
+            const labels = { queued: 'Not sent', sending: 'Sending', confirmed: 'Saved for review', failed: 'Not saved', unconfirmed: 'Confirmation missing. Check the review queue before retrying.' };
+            document.getElementById('submissionReceipts').replaceChildren(...submissionOutbox.state.entries.map(entry => {
+                const row = document.createElement('div');
+                row.className = 'border-t border-neutral-800 pt-2';
+                const title = document.createElement('strong');
+                title.textContent = entry.payload.title;
+                const status = document.createElement('p');
+                status.textContent = `${labels[entry.status]}${entry.receipt ? ` · Receipt: ${entry.receipt}` : ''}${entry.error ? ` · ${entry.error}` : ''}`;
+                row.append(title, status);
+                return row;
+            }));
+            document.getElementById('retrySavedSubmissions').hidden = !submissionOutbox.state.entries.some(entry => ['queued', 'failed'].includes(entry.status));
+            document.getElementById('retryUnconfirmedSubmissions').hidden = !submissionOutbox.state.entries.some(entry => entry.status === 'unconfirmed');
+        }
+
+        async function sendSavedSubmissions(keys = null) {
+            const controls = Array.from(form.querySelectorAll('input,select,textarea,button')).map(element => ({ element, disabled: element.disabled }));
+            controls.forEach(({ element }) => element.disabled = true);
+            submittingText.style.display = 'block';
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            try {
+                const results = await submissionOutbox.send(submitArticlePayload, (index, total) => {
+                    submittingText.textContent = `Submitting ${index} of ${total}. Keep this page open.`;
+                    renderSubmissionReceipts();
+                }, keys);
+                const confirmed = results.filter(entry => entry.status === 'confirmed').length;
+                if (confirmed === results.length && confirmed) {
+                    successMessage.textContent = `${confirmed} article${confirmed === 1 ? '' : 's'} saved for review. Receipts are listed below.`;
+                    successMessage.style.display = 'block';
+                    // Clear the form only for a completed new-form submission. Retrying
+                    // an older saved batch must never erase a newer draft.
+                    if (keys) {
+                        resetArticleFormAfterSuccess();
+                        additionalArticles.replaceChildren();
+                        linkIntakeInput.value = '';
+                    }
+                } else {
+                    errorMessage.textContent = `${confirmed} of ${results.length} saved for review. The remaining articles and all receipts are retained in this browser. Use the recovery controls below.`;
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                errorMessage.textContent = error.message;
                 errorMessage.style.display = 'block';
             } finally {
-                // Re-enable button and hide loading text
-                submitButton.disabled = false;
+                controls.forEach(({ element, disabled }) => element.disabled = disabled);
+                document.getElementById('authors').disabled = document.getElementById('unknownAuthor').checked;
                 submittingText.style.display = 'none';
-                submittingText.textContent = 'Processing Submission...';
+                renderSubmissionReceipts();
+                saveSubmissionDraft();
             }
+        }
+
+        submitButton.addEventListener('click', async () => {
+            if (submissionOutbox?.busy) return;
+            if (linkIntakeButton.disabled || form.querySelector('.metadata-fetch-button[disabled]')) {
+                errorMessage.textContent = 'Wait for article lookup to finish before submitting.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            // Hidden extra entries remain part of the batch even if its toggle was unchecked.
+            if (additionalArticles.children.length) {
+                multiArticleMode.checked = true;
+                multiArticleSection.classList.remove('hidden');
+            }
+            const safeArticleKey = link => { try { return EogSubmissionOutbox.articleKey({ link }); } catch { return link; } };
+            const preparedLinks = new Set([linkInput.value, ...Array.from(additionalArticles.querySelectorAll('[data-field="link"]')).map(input => input.value)].filter(Boolean).map(safeArticleKey));
+            const missingLinks = parseLinkList(linkIntakeInput.value).filter(link => !preparedLinks.has(safeArticleKey(link)));
+            if (missingLinks.length) {
+                errorMessage.textContent = `${missingLinks.length} pasted link(s) have not been built into articles. Click Fetch & build articles and review every entry before submitting.`;
+                errorMessage.style.display = 'block';
+                return;
+            }
+            if (!form.checkValidity()) { form.reportValidity(); return; }
+            if (!selectedCategories.length) { categorySearch.focus(); alert('Please select at least one category.'); return; }
+            if (!validateExtraArticles() || !saveSubmissionDraft()) return;
+            try {
+                const data = Object.fromEntries(new FormData(form).entries());
+                const keys = submissionOutbox.enqueue([collectFirstArticlePayload(data), ...collectExtraArticlePayloads(data.submitterName)]);
+                renderSubmissionReceipts();
+                await sendSavedSubmissions(keys);
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                errorMessage.style.display = 'block';
+            }
+        });
+        document.getElementById('retrySavedSubmissions').addEventListener('click', () => sendSavedSubmissions());
+        document.getElementById('retryUnconfirmedSubmissions').addEventListener('click', () => {
+            if (!confirm('Some articles may already be in the review queue. Check there first. Retry unconfirmed articles now? This can create duplicates if the original request was saved.')) return;
+            try { submissionOutbox.allowUnconfirmedRetry(); sendSavedSubmissions(); }
+            catch (error) { errorMessage.textContent = error.message; errorMessage.style.display = 'block'; }
+        });
+        form.addEventListener('submit', event => { event.preventDefault(); submitButton.click(); });
+        form.addEventListener('input', saveSubmissionDraft);
+        form.addEventListener('change', saveSubmissionDraft);
+        window.addEventListener('pagehide', saveSubmissionDraft);
+        new MutationObserver(saveSubmissionDraft).observe(additionalArticles, { childList: true });
+        document.addEventListener('DOMContentLoaded', () => {
+            const draft = submissionOutbox?.state.draft;
+            if (draft) {
+                restoringSubmissionDraft = true;
+                draftFields.forEach(id => { if (draft.fields[id] != null) document.getElementById(id).value = draft.fields[id]; });
+                selectedCategories.splice(0, selectedCategories.length, ...(draft.categories || []));
+                syncSelectedCategories();
+                linkIntakeInput.value = draft.links || '';
+                document.getElementById('unknownAuthor').checked = draft.unknownAuthor;
+                document.getElementById('authors').disabled = draft.unknownAuthor;
+                additionalArticles.replaceChildren();
+                (draft.extras || []).forEach(saved => {
+                    createExtraArticleBlock();
+                    const entry = additionalArticles.lastElementChild;
+                    extraDraftFields.forEach(field => { getExtraArticleField(entry, field).value = saved.fields[field] || ''; });
+                    getExtraArticleField(entry, 'unknownAuthor').checked = saved.unknownAuthor;
+                    getExtraArticleField(entry, 'authors').disabled = saved.unknownAuthor;
+                });
+                multiArticleMode.checked = Boolean(draft.batch || draft.extras?.length);
+                multiArticleSection.classList.toggle('hidden', !multiArticleMode.checked);
+                updateImageUrlPreview(document.getElementById('imageUrl').value);
+                renderIntakeChecklist();
+                restoringSubmissionDraft = false;
+            }
+            submissionDraftReady = true;
+            renderSubmissionReceipts();
+            saveSubmissionDraft();
         });
 
         // Set default date to today for both forms
         document.addEventListener('DOMContentLoaded', () => {
             const today = todayIsoDate();
             const dateInput = document.getElementById('date');
-            if (dateInput) dateInput.value = today;
+            if (dateInput && !submissionOutbox?.state.draft?.fields?.date) dateInput.value = today;
             
             const primaryDateInput = document.getElementById('primaryDate');
             if (primaryDateInput) primaryDateInput.value = today;
