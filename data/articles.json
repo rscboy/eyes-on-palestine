@@ -1,5 +1,43 @@
 [
   {
+    "date": "2026-11-11",
+    "title": "Deadly floods sweep Gaza's tents, intensifying pressure on Israel",
+    "summary": "",
+    "link": "https://www.nbcnews.com/world/middle-east/gaza-floods-tents-israel-reconstruction-board-of-peace-hamas-rcna608262",
+    "imageUrl": "https://cdn.worldvectorlogo.com/logos/nbc-news.svg",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "NBC News",
+    "author": "Chantal Da Silva",
+    "authors": [
+      "Chantal Da Silva"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-11-12",
+    "title": "Israeli strike on Gaza hospital kills 6 people, including a doctor and a child, Health Ministry says",
+    "summary": "Gaza's Health Ministry says an Israeli airstrike has hit one of the main hospitals still operating in the Gaza Strip, killing six people, including a surgeon and a 13-year-old boy.",
+    "link": "https://apnews.com/article/gaza-israel-hospital-strike-people-killed-50b547b5a82388b6b415aee4d776fbfb",
+    "imageUrl": "https://dims.apnews.com/dims4/default/5b82ec6/2147483647/strip/true/crop/7489x5231+0+0/resize/1200x838!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F21%2F0f%2F7149d6bcc148f1ac4f14223641b6%2F6f30bdabc7364166b343573caef147b2",
+    "category": "Genocide",
+    "categories": [
+      "Genocide",
+      "Children",
+      "Healthcare Crisis"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Associated Press",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-11-10",
     "title": "Palestinian University President Says He Was Beaten During IDF Raid in West Bank",
     "summary": "",
