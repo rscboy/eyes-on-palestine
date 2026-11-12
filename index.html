@@ -1822,6 +1822,8 @@
         }
     </style>
     <link rel="stylesheet" href="./assets/site-shell.css?v=timeline-1">
+    <link rel="stylesheet" href="./assets/mobile-archive.css?v=1">
+    <script src="./assets/mobile-archive.js?v=1" defer></script>
     <script src="./assets/research-packet.js?v=2"></script>
 </head>
 
@@ -1955,8 +1957,17 @@
                         <span class="hero-title-sub">ARCHIVE</span>
                     </h1>
                     <p class="hero-lead">
-                        Documenting war crimes, crimes against humanity, and systematic aggression committed against Palestinian civilians since October 7, 2023.
+                        <span class="hero-desktop-copy">Documenting war crimes, crimes against humanity, and systematic aggression committed against Palestinian civilians since October 7, 2023.</span>
+                        <span class="mobile-only">Preserving evidence of genocide and Palestinian experiences since October 7, 2023.</span>
                     </p>
+                    <div class="mobile-entry-actions mobile-only">
+                        <a href="#articles" class="mobile-search-entry">Search the archive</a>
+                        <a href="#articles">Browse latest records <span aria-hidden="true">↓</span></a>
+                    </div>
+                    <details class="mobile-statistics mobile-only">
+                        <summary>Key figures &amp; sources</summary>
+                        <div id="mobile-statistics-content"></div>
+                    </details>
                     
                     <div class="hero-stats-grid grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16 w-full">
                         <a href="https://just-international.org/articles/we-are-missing-680000-souls-gaza-the-most-public-hidden-genocide/" target="_blank" class="stat-card block p-6 text-center cursor-pointer group">
@@ -2132,10 +2143,10 @@
                         <button type="button" id="open-archive-guide" class="archive-help-button">Archive guide</button>
                     </div>
                 </div>
-                <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+                <div class="archive-search-toolbar flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
                     <div class="article-search-row flex w-full md:flex-1 space-x-4">
                         <div class="relative flex-1">
-                            <input type="text" id="article-search" class="search-modern w-full pl-10 pr-4 py-2 text-sm outline-none" placeholder="Search titles, summaries, sources, or topics">
+                            <input type="text" id="article-search" aria-label="Search the article archive" class="search-modern w-full pl-10 pr-4 py-2 text-sm outline-none" placeholder="Search titles, summaries, sources, or topics">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </div>
@@ -2145,7 +2156,7 @@
                         </button>
                         <div id="sort-controls" class="flex items-center flex-shrink-0">
                             <button id="toggle-filter-btn" class="filter-chip text-xs uppercase tracking-wider font-medium py-2 px-4" aria-expanded="false" aria-controls="filter-controls">
-                                Filter &amp; sort <span id="filter-count-badge" class="filter-count-badge" hidden>0</span>
+                                <span class="hero-desktop-copy">Filter &amp; sort</span><span class="mobile-only">Filters</span> <span id="filter-count-badge" class="filter-count-badge" hidden>0</span>
                             </button>
                         </div>
                     </div>
@@ -2154,6 +2165,7 @@
                 <div id="active-filter-strip" class="active-filter-strip" aria-live="polite">
                     <span class="active-filter-label">Filtering by</span>
                     <div id="active-filter-chips" class="active-filter-chips"></div>
+                    <button type="button" id="mobile-reset-filters" class="mobile-only">Reset all</button>
                 </div>
                 
                 <div id="filter-controls" class="mb-12 p-8 border border-white/5 bg-[#0a0a0a] hidden">
@@ -2221,11 +2233,10 @@
 
                 <div class="archive-display-toolbar">
                     <div class="mobile-density-control" aria-label="Mobile archive display density">
-                        <span class="mobile-density-label">Density</span>
+                        <span class="mobile-density-label">Feed</span>
                         <div class="mobile-density-options" role="group" aria-label="Archive density">
-                            <button type="button" class="mobile-density-btn" data-density="1x">1x</button>
-                            <button type="button" class="mobile-density-btn" data-density="2x">2x</button>
-                            <button type="button" class="mobile-density-btn" data-density="3x">3x</button>
+                            <button type="button" class="mobile-density-btn" data-density="1x">Comfortable</button>
+                            <button type="button" class="mobile-density-btn" data-density="compact">Compact</button>
                         </div>
                     </div>
 
@@ -2261,6 +2272,8 @@
                 </div>
             </div>
         </section>
+
+        <div id="mobile-featured-story" class="mobile-only"></div>
 
         <!-- Guided research pathways -->
         <section id="research-pathways" class="archive-pathways" aria-labelledby="research-pathways-title">
@@ -3694,8 +3707,8 @@
         }
 
         function setMobileDensity(density) {
-            const allowed = ['1x', '2x', '3x'];
-            const nextDensity = allowed.includes(density) ? density : '1x';
+            const allowed = ['1x', 'compact'];
+            const nextDensity = allowed.includes(density) ? density : 'compact';
             document.documentElement.dataset.mobileDensity = nextDensity;
 
             document.querySelectorAll('.mobile-density-btn').forEach((button) => {
@@ -3710,9 +3723,9 @@
         }
 
         function initMobileDensityControl() {
-            let savedDensity = '1x';
+            let savedDensity = 'compact';
             try {
-                savedDensity = localStorage.getItem(MOBILE_DENSITY_KEY) || '1x';
+                savedDensity = localStorage.getItem(MOBILE_DENSITY_KEY) || 'compact';
             } catch (error) {}
 
             setMobileDensity(savedDensity);
@@ -4759,7 +4772,7 @@
             grid.innerHTML = contexts.map((ctx) => {
                 const { article, archivedArticleLink, safeTitle, safeSummary, cleanLink, liveArticleLink, safeImage, uniqueId, detailId, isSaved, categoryHtml, authorText, displayTitle, displaySummary } = ctx;
                 return `
-                    <div class="group flex flex-col rounded bg-[#0a0a0a] border border-[#222] overflow-hidden transition-colors hover:border-[#333]">
+                    <div class="archive-article-card group flex flex-col rounded bg-[#0a0a0a] border border-[#222] overflow-hidden transition-colors hover:border-[#333]">
                         <div onclick="window.openArticleLinkChoiceFromElement(this)" data-live-url="${liveArticleLink}" data-archived-url="${archivedArticleLink}" class="relative h-56 w-full overflow-hidden bg-[#111] cursor-pointer">
                             <button onclick="window.togglePacketByDetailId('${detailId}'); event.stopPropagation();" class="article-save-overlay ${isSaved ? 'is-saved' : ''}" aria-label="${isSaved ? 'Remove saved article' : 'Save article'}" title="${isSaved ? 'Saved' : 'Save article'}">
                                 ${createIcon('save')}
@@ -5925,6 +5938,6 @@
             }
         });
     </script>
-    <script src="./assets/site-shell.js?v=perf-1" defer></script>
+    <script src="./assets/site-shell.js?v=mobile-1" defer></script>
 </body>
 </html>

@@ -390,7 +390,23 @@
       source.textContent = `Source: ${article.source || "Archive record"}`;
 
       card.append(headingRow, meta, title, happenedLabel, summary, importance, actions, source);
-      document.body.appendChild(card);
+      // The homepage's phone layout reserves an inline slot for this story.
+      // Move the same card on resize so desktop keeps its existing behavior.
+      const mobile = window.matchMedia("(max-width: 640px)");
+      const placeStory = () => {
+        const slot = document.getElementById("mobile-featured-story");
+        const inline = mobile.matches && slot;
+        (inline ? slot : document.body).appendChild(card);
+        card.setAttribute("role", inline ? "complementary" : "dialog");
+        if (inline) card.removeAttribute("aria-modal");
+        else card.setAttribute("aria-modal", "false");
+      };
+      placeStory();
+      const onViewportChange = () => {
+        if (card.isConnected) placeStory();
+        else mobile.removeEventListener("change", onViewportChange);
+      };
+      mobile.addEventListener("change", onViewportChange);
 
       closeButton.addEventListener("click", () => closeStory(card));
       dismissButton.addEventListener("click", () => closeStory(card));
