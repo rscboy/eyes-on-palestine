@@ -2450,8 +2450,15 @@
             const controller = new AbortController();
             const timer = setTimeout(() => controller.abort(), 45000);
             try {
-                const response = await fetch(googleScriptWebAppUrl, {
+                // Apps Script redirects to a one-time JSON response URL. Never
+                // reuse a cached GET redirect when sending a new POST.
+                const requestUrl = new URL(googleScriptWebAppUrl);
+                requestUrl.searchParams.set('submissionRequest', crypto.randomUUID());
+                const response = await fetch(requestUrl.href, {
                     method: 'POST',
+                    cache: 'no-store',
+                    credentials: 'omit',
+                    redirect: 'follow',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(payload),
                     signal: controller.signal
