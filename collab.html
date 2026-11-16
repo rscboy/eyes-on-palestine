@@ -2016,6 +2016,35 @@
             }
         }
 
+        function updateIntakeReviewSummary() {
+            renderIntakeChecklist();
+            const statuses = collectArticleStatuses();
+            const ready = statuses.filter(status => status.missing.length === 0).length;
+            const remaining = statuses.length - ready;
+            const missingSummary = statuses
+                .filter(status => status.missing.length)
+                .map(status => `${status.label}: ${status.missing.join(", ")}`)
+                .join(" · ");
+            setMetadataStatus(
+                linkIntakeStatus,
+                remaining
+                    ? `Review needed — ${missingSummary}.`
+                    : `All ${statuses.length} article${statuses.length > 1 ? "s are" : " is"} ready to review.`,
+                remaining ? "" : "success"
+            );
+            setLinkIntakeProgress({ completed: statuses.length, total: statuses.length, label: remaining ? "Fields still need review" : "All required fields found", loading: false });
+        }
+
+        function safeArticleKey(link) {
+            try { return EogSubmissionOutbox.articleKey({ link }); }
+            catch { return link.trim(); }
+        }
+
+        function getUnbuiltIntakeLinks() {
+            const preparedLinks = new Set(collectArticleStatuses().map(status => status.link).filter(Boolean).map(safeArticleKey));
+            return parseLinkList(linkIntakeInput.value).filter(link => !preparedLinks.has(safeArticleKey(link)));
+        }
+
         async function runLinkIntake() {
             const urls = parseLinkList(linkIntakeInput?.value);
             if (!urls.length) {
@@ -2076,22 +2105,7 @@
                     });
                     if (remaining) setMetadataStatus(linkIntakeStatus, `Checked ${completed} of ${urls.length}. Still looking for any missing title, date, source, author, image, or summary.`, "loading");
                 });
-                renderIntakeChecklist();
-                const statuses = collectArticleStatuses();
-                const ready = statuses.filter(status => status.missing.length === 0).length;
-                const remaining = statuses.length - ready;
-                const missingSummary = statuses
-                    .filter(status => status.missing.length)
-                    .map(status => `${status.label}: ${status.missing.join(", ")}`)
-                    .join(" · ");
-                setMetadataStatus(
-                    linkIntakeStatus,
-                    remaining
-                        ? `Review needed — ${missingSummary}.`
-                        : `All ${urls.length} article${urls.length > 1 ? "s are" : " is"} ready to review.`,
-                    ready === statuses.length ? "success" : ""
-                );
-                setLinkIntakeProgress({ completed: urls.length, total: urls.length, label: remaining ? "Fields still need review" : "All required fields found", loading: false });
+                updateIntakeReviewSummary();
                 linkIntakeChecklist.scrollIntoView({ behavior: "smooth", block: "nearest" });
             } catch (error) {
                 console.error("Bulk metadata fetch failed:", error);
@@ -2142,7 +2156,7 @@
                 <div class="article-batch-entry-header">
                     <div>
                         <p class="text-xs text-gray-500 font-sans uppercase tracking-widest mb-1">Additional Article</p>
-                        <h4 class="editorial-font text-xl text-white">Article ${extraArticleCounter + 1}</h4>
+                        <h4 class="editorial-font text-xl text-white">Article ${additionalArticles.children.length + 2}</h4>
                     </div>
                     <button type="button" class="small-interface-button danger" data-remove-extra-article="${id}">Remove</button>
                 </div>
@@ -2287,13 +2301,32 @@
 
                 const button = event.target.closest('[data-remove-extra-article]');
                 if (!button) return;
-                button.closest('[data-extra-article]')?.remove();
+                const entry = button.closest('[data-extra-article]');
+                if (!entry) return;
+                const removedLink = getExtraArticleField(entry, 'link')?.value.trim();
+                entry.remove();
+                // Remove only this article's pasted link. Keep unrelated links,
+                // including any that the contributor has not built yet.
+                if (removedLink && !collectArticleStatuses().some(status => status.link && safeArticleKey(status.link) === safeArticleKey(removedLink))) {
+                    linkIntakeInput.value = parseLinkList(linkIntakeInput.value)
+                        .filter(link => safeArticleKey(link) !== safeArticleKey(removedLink))
+                        .join('\n');
+                }
                 if (multiArticleMode.checked && !additionalArticles.querySelector('[data-extra-article]')) {
                     // A contributor who removes the final extra article is done
                     // with batch mode; don't immediately replace the item they removed.
                     multiArticleMode.checked = false;
                     setMultiArticleMode(false);
                 }
+                Array.from(additionalArticles.querySelectorAll('[data-extra-article]')).forEach((article, index) => {
+                    article.querySelector('h4').textContent = `Article ${index + 2}`;
+                });
+                updateIntakeReviewSummary();
+                if (errorMessage.textContent.includes('pasted link(s) have not been built into articles') && !getUnbuiltIntakeLinks().length) {
+                    errorMessage.textContent = '';
+                    errorMessage.style.display = 'none';
+                }
+                saveSubmissionDraft();
             });
 
             additionalArticles.addEventListener('change', (event) => {
@@ -2567,9 +2600,7 @@
                 multiArticleMode.checked = true;
                 multiArticleSection.classList.remove('hidden');
             }
-            const safeArticleKey = link => { try { return EogSubmissionOutbox.articleKey({ link }); } catch { return link; } };
-            const preparedLinks = new Set([linkInput.value, ...Array.from(additionalArticles.querySelectorAll('[data-field="link"]')).map(input => input.value)].filter(Boolean).map(safeArticleKey));
-            const missingLinks = parseLinkList(linkIntakeInput.value).filter(link => !preparedLinks.has(safeArticleKey(link)));
+            const missingLinks = getUnbuiltIntakeLinks();
             if (missingLinks.length) {
                 errorMessage.textContent = `${missingLinks.length} pasted link(s) have not been built into articles. Click Fetch & build articles and review every entry before submitting.`;
                 errorMessage.style.display = 'block';
