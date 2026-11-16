@@ -1,5 +1,41 @@
 [
   {
+    "date": "2026-11-12",
+    "title": "Gaza's aid trucks nearing collapse as Israel bars entry of spare parts",
+    "summary": "Gaza's truck drivers warn that shortages of spare parts, tires and engine oil could cripple aid distribution as winter sets in. Israel refuses to allow the entry of supplies and equipment for fear it would be used by Hamas",
+    "link": "https://www.haaretz.com/gaza/2026-11-16/ty-article/.premium/gazas-aid-trucks-nearing-collapse-as-israel-bars-entry-of-spare-parts/000001a1-e333-db14-a5ff-e73bf4130000",
+    "imageUrl": "https://img.haarets.co.il/bs/000001a1-e333-db14-a5ff-e73bf4130000/44/81/d1a2df2440a2b8c617323d7cd8fc/67436475.JPG?precrop=5553,3228,x0,y232&width=1200&height=630&cmsprod",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "Haaretz",
+    "author": "Nir Hasson",
+    "authors": [
+      "Nir Hasson"
+    ],
+    "documentType": "Article"
+  },
+  {
+    "date": "2026-11-16",
+    "title": "IDF used Amazon AI to identify Palestinians in Gaza, NAZA director claims | The Jerusalem Post",
+    "summary": "Alleged IDF documents show that the military used Amazon's AI facial recognition technology to analyze millions of Palestinian photos during the Gaza war.",
+    "link": "https://www.jpost.com/israel-news/defense-news/article-915065",
+    "imageUrl": "https://images.jpost.com/image/upload/f_auto,fl_lossy/q_auto/c_fill,g_faces:center,h_720,w_1280/553057",
+    "category": "Genocide",
+    "categories": [
+      "Genocide"
+    ],
+    "categoryColor": "#98D8C8",
+    "source": "The Jerusalem Post",
+    "author": "Unknown author",
+    "authors": [
+      "Unknown author"
+    ],
+    "documentType": "Article"
+  },
+  {
     "date": "2026-11-11",
     "title": "Deadly floods sweep Gaza's tents, intensifying pressure on Israel",
     "summary": "",
