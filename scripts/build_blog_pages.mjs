@@ -25,6 +25,8 @@ const cleanContent = (content) => String(content || "")
   .replace(/\son\w+\s*=\s*(?:"[^"]*"|'[^']*')/gi, "")
   .replace(/[\t ]+$/gm, "");
 
+const blogTemplate = await fs.readFile("blog.html", "utf8");
+
 const stylesheet = `<style>
   :root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#101010;color:#eee9e3;font:17px/1.7 Georgia,serif}
   a{color:#e7bdae}a:hover{text-decoration-thickness:2px}header,main,footer{max-width:760px;margin:auto;padding:20px}
@@ -48,7 +50,7 @@ for (const post of posts) {
     publisher: { "@type": "Organization", name: "Echoes of Gaza", url: ORIGIN },
     ...(image ? { image } : {})
   };
-  const html = `<!doctype html>
+  const readingPage = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${headline} | Echoes of Gaza</title><meta name="description" content="${description}">
 <link rel="canonical" href="${canonical}"><link rel="icon" href="/assets/favicon.png" type="image/png">
@@ -60,6 +62,18 @@ for (const post of posts) {
 <article><h1>${headline}</h1><p class="summary">${description}</p><p class="byline">By ${escape(author(post))} · <time datetime="${escape(post.date || post.publishedAt || "")}">${escape(post.date || post.publishedAt || "")}</time></p>
 ${cleanContent(post.content)}</article><p class="more"><a href="/blog?post=${post.slug}" rel="nofollow">View responses and join the discussion</a> · <a href="/blog">More voices and testimonies</a></p></main>
 <footer>Echoes of Gaza · <a href="/about">About the archive</a></footer></body></html>\n`;
+  // Reuse the interactive blog shell at the URL used by social shares. Keep
+  // complete article HTML and metadata available before JavaScript runs.
+  const articleHead = readingPage.match(/<head>([\s\S]*?)<\/head>/)[1]
+    .replace(stylesheet, "");
+  const articleBody = readingPage.match(/<main>([\s\S]*?)<\/main>/)[1];
+  const html = blogTemplate
+    .replace(/<title>[\s\S]*?<\/title>/, "")
+    .replace(/<meta\b[^>]*(?:name="(?:description|twitter:[^"]+)"|property="(?:og:|article:)[^"]+")[^>]*>/g, "")
+    .replace(/<link rel="canonical"[^>]*>/, "")
+    .replace("<head>", () => `<head><meta name="eog-article" content="${escape(post.slug)}">${articleHead}`)
+    .replace(/(<main id="app-container"[^>]*>)[\s\S]*?(<\/main>)/,
+      (_, opening, closing) => `${opening}<div class="blog-post-shell mx-auto px-5 py-10 md:py-12">${articleBody}</div>${closing}`);
   const directory = path.join("blog", post.slug);
   await fs.mkdir(directory, { recursive: true });
   await fs.writeFile(path.join(directory, "index.html"), html);

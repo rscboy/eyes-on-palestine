@@ -21,6 +21,7 @@
     <meta name="twitter:image" content="https://i.postimg.cc/fT81SwN0/426559D6-9EF9-49AA-8A0B-84A3FA70B3E2.png">
     <script>
         (function applyPostSpecificHeadMetadata() {
+            if (document.querySelector('meta[name="eog-article"]')) return;
             const postSlug = new URLSearchParams(window.location.search).get("post");
             const metadata = ["incident-at-beth-jacob-my-response", "incident-at-beth-jacob"].includes(postSlug)
                 ? {
@@ -979,7 +980,7 @@
 
         async function loadPublishedBlogPosts() {
             try {
-                const response = await fetch("./data/blog_posts.json?v=" + Date.now());
+                const response = await fetch("/data/blog_posts.json?v=" + Date.now());
                 if (!response.ok) return;
                 const data = await response.json();
                 const published = Array.isArray(data) ? data : (data.posts || []);
@@ -2057,7 +2058,7 @@
 
             if (post) {
                 renderPost(post.slug || post.id, true);
-            } else {
+            } else if (!document.querySelector('meta[name="eog-article"]')) {
                 renderIndex();
             }
         }
